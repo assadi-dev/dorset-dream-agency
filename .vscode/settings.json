@@ -7,16 +7,14 @@
         ".vscode",
         ".vscode-insiders",
         "package.json"
-      ],
-      "cSpell.ignoreRegExpList": ["/import\\s+[^;]*;/"],
-      "cSpell.language": "en,fr",
-      "cSpell.words": [
-      
-      ],
-      "editor.defaultFormatter": "esbenp.prettier-vscode",
-      "editor.formatOnSave": true,
-      "prettier.bracketSameLine": true,
-      "prettier.htmlWhitespaceSensitivity": "strict",
-      "prettier.singleAttributePerLine": true,
-      "cSpell.caseSensitive": false
+    ],
+    "cSpell.ignoreRegExpList": ["/import\\s+[^;]*;/"],
+    "cSpell.language": "en,fr",
+    "cSpell.words": ["employes"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "prettier.bracketSameLine": true,
+    "prettier.htmlWhitespaceSensitivity": "strict",
+    "prettier.singleAttributePerLine": true,
+    "cSpell.caseSensitive": false
 }

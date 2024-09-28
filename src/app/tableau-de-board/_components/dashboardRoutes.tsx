@@ -10,11 +10,11 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         children: [
             {
                 name: "Gestion des biens immobiliers",
-                path: "/tableau-de-board/gestion-des-biens-immobilier",
+                path: "/tableau-de-board/gestion-des-biens-immobiliers",
             },
             {
                 name: "Gestion des employés",
-                path: "/tableau-de-board/gestion-employee",
+                path: "/tableau-de-board/gestion-employes",
             },
         ],
     },
