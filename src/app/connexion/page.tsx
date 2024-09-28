@@ -2,14 +2,16 @@ import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ENV } from "@/config/auth.config";
+import { ENV } from "@/config/global";
+import { setTitlePage } from "@/lib/utils";
 import React from "react";
 
+export const metadata = setTitlePage("Connexion");
 const Connexion = async () => {
-    const onSubmit = async (event) => {
+    const onSubmit = async (formData) => {
         "use server";
-        const email = event.get("email");
-        const password = event.get("password");
+        const email = formData.get("email");
+        const password = formData.get("password");
 
         try {
             await signIn("credentials", {

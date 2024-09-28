@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { setTitlePage } from "@/lib/utils";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -13,10 +13,7 @@ const geistMono = localFont({
     weight: "100 900",
 });
 
-export const metadata: Metadata = {
-    title: "Dorset Dream Agency",
-    description: "Panel d'administration de l'agence immobilier Dorset Dream Agency",
-};
+export const metadata = setTitlePage("Catalogue");
 
 export default function RootLayout({
     children,

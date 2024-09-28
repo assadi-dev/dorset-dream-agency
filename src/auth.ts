@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthConfig, Session, User } from "next-auth";
 import { credentials } from "./app/api/auth/[...nextauth]/providers";
-import { ENV } from "./config/auth.config";
+import { ENV } from "./config/global";
 
 type UserAdapter = User & {
     role: string;
