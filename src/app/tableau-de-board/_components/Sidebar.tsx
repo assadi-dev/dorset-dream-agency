@@ -5,6 +5,7 @@ import styles from "../styles.module.css";
 import { cn } from "@/lib/utils";
 import { dashboardNavigation } from "./dashboardRoutes";
 import NavigationItems from "./NavigationItems";
+import DashboardLogo from "./DasboardLogo";
 
 const Sidebar = async () => {
     const signOutBtn = async () => {
@@ -14,12 +15,13 @@ const Sidebar = async () => {
 
     return (
         <aside className={cn(styles.dashboardSidebar, "bg-primary text-secondary text-pretty")}>
-            <ul>
+            <DashboardLogo />
+            <ul className="py-6 px-2 ">
                 {dashboardNavigation.map((item) => (
                     <NavigationItems key={item.name} route={item} />
                 ))}
             </ul>
-            <form action={signOutBtn}>
+            <form action={signOutBtn} className="text-center">
                 <Button variant="destructive">Déconnexion</Button>
             </form>
         </aside>

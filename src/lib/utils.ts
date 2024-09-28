@@ -20,3 +20,7 @@ export const setTitlePage = (title?: string) => {
 
     return metadata;
 };
+
+export const currentYear = () => {
+    return new Date().getFullYear();
+};

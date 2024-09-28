@@ -4,7 +4,7 @@ import React from "react";
 import BreadcrumbTheme from "./_components/BreadcrumbTheme";
 import styles from "./styles.module.css";
 import Sidebar from "./_components/Sidebar";
-import { cn } from "@/lib/utils";
+import { cn, currentYear } from "@/lib/utils";
 
 const AdminLayout = async ({ children }) => {
     const session = await auth();
@@ -27,7 +27,7 @@ const AdminLayout = async ({ children }) => {
                 {children}
             </main>
             <footer className={styles.dashboardFooter}>
-                <h3>Hello</h3>
+                <p>copyright &copy; {currentYear()} </p>
             </footer>
         </div>
     );
