@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { setTitlePage } from "@/lib/utils";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",

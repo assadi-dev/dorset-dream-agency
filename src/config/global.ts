@@ -7,6 +7,7 @@ const EnvSchema = z.object({
     NEXT_AUTH_SIGN_IN_PAGE: z.coerce.string(),
     NEXT_AUTH_SIGN_IN_SUCCESS: z.coerce.string(),
     NEXT_AUTH_SIGN_OUT_REDIRECT: z.coerce.string(),
+    NEXT_PUBLIC_SIGN_IN_SUCCESS: z.coerce.string(),
 });
 
 export const ENV = EnvSchema.parse(process.env);
