@@ -25,7 +25,7 @@ const BreadcrumbTheme = () => {
     };
 
     return (
-        <Breadcrumb>
+        <Breadcrumb className="bg-primary-foreground rounded w-fit py-1 px-2">
             <BreadcrumbList>
                 {pathNames?.map((item, index) => {
                     let href = `/${pathNames.slice(0, index + 1).join("/")}`;

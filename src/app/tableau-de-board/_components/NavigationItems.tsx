@@ -10,19 +10,23 @@ export type NavigationProps = {
 const NavigationItems = ({ route }: NavigationProps) => {
     return (
         <>
-            {route.children
-                ? route.children?.map((parent) =>
-                      parent.path ? (
-                          <li key={route.path}>
-                              <Link href={parent.path}>{parent.name} </Link>{" "}
-                          </li>
-                      ) : null,
-                  )
-                : route.path && (
-                      <li key={route.path}>
-                          <Link href={route.path}>{route.name} </Link>
-                      </li>
-                  )}
+            {route.children ? (
+                <ul>
+                    {route.children?.map((parent) =>
+                        parent.path ? (
+                            <li key={parent.path}>
+                                <Link href={parent.path}>{parent.name} </Link>{" "}
+                            </li>
+                        ) : null,
+                    )}
+                </ul>
+            ) : (
+                route.path && (
+                    <li>
+                        <Link href={route.path}>{route.name} </Link>
+                    </li>
+                )
+            )}
         </>
     );
 };

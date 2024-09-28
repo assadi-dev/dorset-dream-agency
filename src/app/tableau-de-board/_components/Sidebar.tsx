@@ -16,9 +16,7 @@ const Sidebar = async () => {
         <aside className={cn(styles.dashboardSidebar, "bg-primary text-secondary text-pretty")}>
             <ul>
                 {dashboardNavigation.map((item) => (
-                    <li key={item.path} className="">
-                        <NavigationItems route={item} />
-                    </li>
+                    <NavigationItems key={item.name} route={item} />
                 ))}
             </ul>
             <form action={signOutBtn}>
