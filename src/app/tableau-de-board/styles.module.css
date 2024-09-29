@@ -28,7 +28,7 @@
 
     .dashboardMain {
         grid-area: main;
-        padding: 1rem;
+        padding: 1rem 1.8rem;
     }
     .dashboardFooter {
         grid-area: footer;

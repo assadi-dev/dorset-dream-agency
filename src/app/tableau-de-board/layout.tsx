@@ -18,11 +18,7 @@ const AdminLayout = async ({ children }) => {
             <Sidebar />
             <header className={cn(styles.dashboardHeader, "bg-white shadow")}></header>
             <main className={styles.dashboardMain}>
-                <h1>Admin</h1>
                 <BreadcrumbTheme />
-                <div>
-                    <p>{session.user?.name}</p>
-                </div>
 
                 {children}
             </main>
