@@ -18,14 +18,14 @@ function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValu
     });
 
     return (
-        <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
-            <Table className="relative">
-                <TableHeader className="bg-primary text-white">
+        <ScrollArea className="h-[calc(80vh-220px)] rounded-md border bg-[rgba(6,10,92,0.5)]">
+            <Table className="dataTable relative">
+                <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} className="text-white">
+                                    <TableHead key={header.id}>
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(header.column.columnDef.header, header.getContext())}

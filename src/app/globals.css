@@ -71,4 +71,17 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    .dataTable thead {
+        @apply bg-primary;
+    }
+    .dataTable thead th {
+        @apply text-secondary;
+    }
+    .dataTable thead tr {
+        @apply hover:bg-primary;
+    }
+    .dataTable tbody tr {
+        @apply hover:bg-primary hover:text-secondary text-secondary drop-shadow py-3;
+    }
 }
