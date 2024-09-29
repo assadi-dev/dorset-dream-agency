@@ -33,8 +33,5 @@
     .dashboardFooter {
         grid-area: footer;
         padding: 1rem;
-        min-height: 50px;
-        padding: 1rem;
-        min-height: 50px;
     }
 }
