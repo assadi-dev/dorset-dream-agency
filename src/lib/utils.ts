@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Insertion du titre de la page
+ * Insertion du titre de la page et retourne l'objet metadata
  * @param title titre de la page
- * @returns
+ *
  */
 export const setTitlePage = (title?: string) => {
     const metadata: Metadata = {
@@ -23,4 +23,25 @@ export const setTitlePage = (title?: string) => {
 
 export const currentYear = () => {
     return new Date().getFullYear();
+};
+
+/**
+ * Force la premiere lettre en majuscule
+ * @param word
+ */
+export const firstLetterCapitalize = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+export const wait = (delay: number): Promise<"Ready !"> => {
+    return new Promise((resolve) => setTimeout(() => resolve("Ready !"), delay));
+};
+
+export const execution_delayed = (delay: number, cb: () => void) => {
+    return new Promise((resolve) =>
+        setTimeout(() => {
+            cb();
+            resolve("done !");
+        }, delay),
+    );
 };
