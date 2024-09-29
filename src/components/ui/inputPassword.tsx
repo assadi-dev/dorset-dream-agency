@@ -16,13 +16,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ classNam
 
     return (
         <div className="relative w-full">
-            <Input
-                ref={ref}
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                className={cn("pr-10", className)}
-                {...props}
-            />
+            <Input ref={ref} type={showPassword ? "text" : "password"} className={cn("pr-10", className)} {...props} />
             <Button
                 type="button"
                 variant="ghost"

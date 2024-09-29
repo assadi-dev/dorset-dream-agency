@@ -45,13 +45,17 @@ const LoginForm = () => {
         }
     };
     return (
-        <form onSubmit={handleSubmit(handleSignin)} className="w-full p-10">
+        <form onSubmit={handleSubmit(handleSignin)} className="md:w-[80%] p-10">
             <div className="grid w-full  items-center gap-1.5">
-                <Label htmlFor="email">Email</Label>
-                <Input type="email" {...register("email")} />
+                <Label htmlFor="email" className="mb-1.5">
+                    Email
+                </Label>
+                <Input type="email" {...register("email")} placeholder="" />
             </div>
             <div className="grid w-full items-center gap-1.5 my-6">
-                <Label htmlFor="password">Mot de passe</Label>
+                <Label htmlFor="password" className="mb-1.5">
+                    Mot de passe
+                </Label>
                 <InputPassword {...register("password")} />
             </div>
             <div className="grid w-full items-center gap-1.5 shadow mt-12">
