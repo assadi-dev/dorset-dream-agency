@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import React from "react";
 import DashboardCard from "./DashboardCard";
 import { DollarSign, Hotel, Users } from "lucide-react";
