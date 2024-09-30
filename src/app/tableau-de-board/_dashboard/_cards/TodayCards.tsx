@@ -3,15 +3,14 @@ import React from "react";
 import { getDateToday } from "../helper";
 import { useInterval } from "@/hooks/useInterval";
 import DashboardCard from "../DashboardCard";
+import { TodayDateReducerType } from "./types";
 
-type TodayDateReducerType = { day: string; hours: string; week: number };
 const reducer = (prev: TodayDateReducerType, state: TodayDateReducerType) => ({ ...prev, ...state });
 const TodayCards = () => {
     const [state, setState] = React.useReducer(reducer, { day: "", hours: "", week: 0 });
 
     const updateDate = React.useCallback(() => {
         const { day, hours, week } = getDateToday();
-
         setState({ day: day.toUpperCase(), hours: hours.toUpperCase(), week: week });
     }, []);
 
