@@ -5,7 +5,7 @@ import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import AddButton from "@/components/forms/AddButton";
 
-export const metadata = setTitlePage("Employés");
+export const metadata = setTitlePage("Gestion des employés");
 const GestionEmployeePage = () => {
     return (
         <PageTemplate title="Employés" description="Gestion des employés et creations des comptes">

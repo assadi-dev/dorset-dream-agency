@@ -3,24 +3,19 @@ import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import AddButton from "@/components/forms/AddButton";
-import ListProperties from "./_components/ListProperties";
-import { PAGES } from "@/config/pages";
 
-export const metadata = setTitlePage("Gestion des biens immobiliers");
-const GestionImmobilierPage = () => {
+export const metadata = setTitlePage("Clients");
+const ClientPage = () => {
     return (
-        <PageTemplate title="Immobiliers" description="Gestion des biens et les variants">
+        <PageTemplate title="Clients" description="Gestion des client">
             <section className="my-3">
                 <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                     <SearchInputDataTable />
-                    <AddButton href={PAGES.ADD_PROPERTY} />
+                    <AddButton />
                 </div>
-            </section>
-            <section>
-                <ListProperties />
             </section>
         </PageTemplate>
     );
 };
 
-export default GestionImmobilierPage;
+export default ClientPage;

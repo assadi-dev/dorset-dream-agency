@@ -1,6 +1,7 @@
 import React from "react";
 import DashboardCard from "./DashboardCard";
 import { DollarSign, Hotel, Users } from "lucide-react";
+import TodayCards from "./_cards/TodayCards";
 
 const DashboardHeader = () => {
     return (
@@ -22,13 +23,7 @@ const DashboardHeader = () => {
                     <p className="text-xs text-muted-foreground">+8% depuis le 26/08/2024</p>
                 </div>
             </DashboardCard>
-            <DashboardCard className="bg-primary text-secondary">
-                <div className="text-center grid grid-rows-[auto,1fr,auto] gap-3 justify-content-center">
-                    <p className="font-bold">SAM 27 JANV 2024</p>
-                    <p className="text-3xl font-bold">15:15</p>
-                    <p className="font-bold">Semaine 10</p>
-                </div>
-            </DashboardCard>
+            <TodayCards />
         </section>
     );
 };
