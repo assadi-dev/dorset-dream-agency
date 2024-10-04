@@ -3,6 +3,7 @@ import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import AddButton from "@/components/forms/AddButton";
+import ListLocation from "./_components/Listlocation";
 
 export const metadata = setTitlePage("Ventes");
 const ClientPage = () => {
@@ -13,6 +14,9 @@ const ClientPage = () => {
                     <SearchInputDataTable />
                     <AddButton />
                 </div>
+            </section>
+            <section>
+                <ListLocation />
             </section>
         </PageTemplate>
     );

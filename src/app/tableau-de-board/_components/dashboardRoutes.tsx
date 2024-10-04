@@ -13,8 +13,8 @@ export const dashboardNavigation: DashboardNavigationType[] = [
                 path: "/tableau-de-board/gestion-des-clients",
             },
             {
-                name: "Ventes",
-                path: "/tableau-de-board/gestion-des-ventes",
+                name: "Locations/Ventes",
+                path: "/tableau-de-board/gestion-des-locations-et-ventes",
             },
         ],
     },
