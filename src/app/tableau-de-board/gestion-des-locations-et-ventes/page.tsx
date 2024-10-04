@@ -8,7 +8,7 @@ import ListLocation from "./_components/ListLocation";
 export const metadata = setTitlePage("Ventes");
 const ClientPage = () => {
     return (
-        <PageTemplate title="Ventes" description="Gestion des ventes">
+        <PageTemplate title="Location - Ventes" description="Gestion des locations et ventes">
             <section className="my-3">
                 <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                     <SearchInputDataTable />

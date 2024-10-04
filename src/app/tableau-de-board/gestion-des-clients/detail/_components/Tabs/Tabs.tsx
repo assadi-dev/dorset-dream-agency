@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CLIENT_TABS_DATA, RenderHoc } from "./helper";
+import { CLIENT_TABS_DATA } from "./helper";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import PageTemplate from "@/app/tableau-de-board/_components/PageTemplate";
 

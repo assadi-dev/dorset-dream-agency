@@ -1,14 +1,14 @@
+import { GenderType } from "@/app/types";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 import Image from "next/image";
 import React from "react";
 
-type VariantType = "male" | "female";
 type AvatarProps = {
     src?: string;
-    variant?: VariantType;
+    variant?: GenderType;
 };
 const AvatarClient = ({ src, variant }: AvatarProps) => {
-    const UNKNOWN_IMAGE = variant === "female" ? AVATAR_FEMALE : AVATAR_MALE;
+    const UNKNOWN_IMAGE = variant === "Female" ? AVATAR_FEMALE : AVATAR_MALE;
     return (
         <figure className="p-3 lg:pt-8">
             <Image

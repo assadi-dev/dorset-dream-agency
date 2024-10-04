@@ -12,7 +12,7 @@ export const CLIENT_TABS_DATA: ClientTabsType[] = [
     },
     {
         title: "Ventes",
-        value: "sels",
+        value: "sales",
         component: SelsView,
     },
     {
@@ -26,7 +26,3 @@ export const CLIENT_TABS_DATA: ClientTabsType[] = [
         component: PrestigeView,
     },
 ];
-
-export const RenderHoc = (Component: FC<any>) => (props) => {
-    return <Component {...props} />;
-};

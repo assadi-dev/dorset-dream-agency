@@ -2,6 +2,7 @@ import { ENV } from "@/config/global";
 import { clsx, type ClassValue } from "clsx";
 import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
+import slugify from "slugify";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -44,4 +45,14 @@ export const execution_delayed = (delay: number, cb: () => void) => {
             resolve("done !");
         }, delay),
     );
+};
+
+export const generate_slug = (value: string) => {
+    return slugify(value, {
+        replacement: "_",
+        remove: /[*+~.()'"!:@]/g,
+        trim: true,
+        lower: true,
+        locale: "fr",
+    });
 };

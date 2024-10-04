@@ -1,7 +1,7 @@
 "use client";
 
-import { LocationColumnType } from "@/app/types/locations";
 import { ColumnDef } from "@tanstack/react-table";
+import { LocationColumnType } from "../types";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {

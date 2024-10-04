@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 const ClientDetailCard = () => {
     return (
         <Card className="bg-primary text-secondary lg:grid lg:grid-rows-[auto,1fr,auto] lg:gap-4">
-            <AvatarClient variant="male" />
+            <AvatarClient variant="Male" />
 
             <ul className="p-3 text-muted-foreground w-100 lg:max-w-[80%] mt-2 justify-self-center">
                 <li className="mb-3">
