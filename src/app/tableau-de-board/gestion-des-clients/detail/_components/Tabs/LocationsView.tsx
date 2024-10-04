@@ -13,7 +13,7 @@ const LocationsView = () => {
                     <AddButton />
                 </div>
             </section>
-            <section className="h-[calc(100vh-220px)] self-end">
+            <section className="min-h-[calc(80vh-220px)]">
                 <DataTable columns={LOCATION_COLUMNS} data={[]} />
             </section>
         </div>

@@ -15,15 +15,15 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
         header: "Biens",
     },
     {
-        accessorKey: "Type",
-        header: "type",
+        accessorKey: "type",
+        header: "Type",
     },
     {
-        accessorKey: "¨Prix",
-        header: "sellingPrice",
+        accessorKey: "sellingPrice",
+        header: "Prix",
     },
     {
-        accessorKey: "Date et heure",
-        header: "createdAt",
+        accessorKey: "createdAt",
+        header: "Date et heure",
     },
 ];
