@@ -11,7 +11,7 @@ type DetailClientPageType = {
 };
 
 export const metadata = setTitlePage("Info client");
-const DetailClientPage = ({ searchParams: { client } }: DetailClientPageType) => {
+const DetailClientPage = async ({ searchParams: { client } }: DetailClientPageType) => {
     return (
         <PageTemplate>
             <div className="lg:grid lg:grid-cols-[250px,1fr] gap-5 lg:min-h-[calc(100vh-220px)] ">

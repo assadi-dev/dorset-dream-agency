@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { setTitlePage } from "@/lib/utils";
 import { Toaster } from "sonner";
+import PageTopLoader from "@/components/loader/PageTopLoader";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -24,6 +25,7 @@ export default function RootLayout({
     return (
         <html lang="fr">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-primary-foreground`}>
+                <PageTopLoader />
                 {children}
             </body>
         </html>
