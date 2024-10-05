@@ -17,6 +17,9 @@ export const employees = mysqlTable("employees", {
 });
 
 export const employeesRelations = relations(employees, ({ one, many }) => ({
-    user: one(users, { fields: [employees.userId], references: [users.id] }),
+    user: one(users, {
+        fields: [employees.userId],
+        references: [users.id],
+    }),
     secteurs: many(employeesToSecteurs),
 }));
