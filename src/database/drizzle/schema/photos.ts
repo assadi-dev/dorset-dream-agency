@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, serial, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { updatedAndCreatedAt } from "../utils";
 
 export const photos = mysqlTable("photos", {
