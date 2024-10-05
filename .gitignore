@@ -29,7 +29,7 @@ yarn-error.log*
 .env*.local
 .env
 
-/src/database/drizzle/migrations
+/src/database/drizzle/migrations/*
 
 # vercel
 .vercel
