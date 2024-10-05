@@ -7,7 +7,7 @@ import { photos } from "./photos";
 export const variants = mysqlTable("variants", {
     id: int("id").primaryKey(),
     name: varchar("name", { length: 100 }),
-    description: varchar("name", { length: 255 }),
+    description: varchar("description", { length: 255 }),
     type: mysqlEnum("type", ["Location", "Vente"]).notNull(),
     propertyID: int("property_id").references(() => properties.id),
     photoID: int("photo_id").references(() => photos.id),
