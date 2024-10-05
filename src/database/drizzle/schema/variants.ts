@@ -2,16 +2,19 @@ import { updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { properties } from "./properties";
 import { relations } from "drizzle-orm";
+import { photos } from "./photos";
 
-export const transactions = mysqlTable("transactions", {
+export const variants = mysqlTable("variants", {
     id: int("id").primaryKey(),
     name: varchar("name", { length: 100 }),
     description: varchar("name", { length: 255 }),
     type: mysqlEnum("type", ["Location", "Vente"]).notNull(),
     propertyID: int("property_id").references(() => properties.id),
+    photoID: int("photo_id").references(() => photos.id),
     ...updatedAndCreatedAt,
 });
 
-export const transactionsRelation = relations(transactions, ({ one }) => ({
-    property: one(properties, { fields: [transactions.propertyID], references: [properties.id] }),
+export const variantsRelation = relations(variants, ({ one }) => ({
+    property: one(properties, { fields: [variants.propertyID], references: [properties.id] }),
+    photo: one(photos, { fields: [variants.photoID], references: [photos.id] }),
 }));

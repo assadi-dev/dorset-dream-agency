@@ -1,5 +1,8 @@
+import { relations } from "drizzle-orm";
 import { updatedAndCreatedAt } from "../utils";
 import { boolean, int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { typeProperties } from "./typeProperties";
+import { variants } from "./variants";
 
 export const properties = mysqlTable("properties", {
     id: int("id").primaryKey(),
@@ -15,5 +18,11 @@ export const properties = mysqlTable("properties", {
     isPrestige: boolean("is_prestige").default(false),
     isAvailable: boolean("is_available").default(false),
     isFurnish: boolean("is_furnish").default(false),
+    typePropertyID: int("typeProperty_id").references(() => typeProperties.id),
     ...updatedAndCreatedAt,
 });
+
+export const propertiesRelation = relations(properties, ({ one, many }) => ({
+    typeProperty: one(typeProperties, { fields: [properties.typePropertyID], references: [typeProperties.id] }),
+    variants: many(variants),
+}));
