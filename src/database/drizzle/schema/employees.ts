@@ -2,7 +2,7 @@ import { relations } from "drizzle-orm";
 import { updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { users } from "./users";
-import { employeesToSecteurs } from "./secteurs";
+import { employeesToSecteurs } from "./employeesToSecteurs";
 
 export const employees = mysqlTable("employees", {
     id: int("id").primaryKey(),
@@ -16,11 +16,7 @@ export const employees = mysqlTable("employees", {
     ...updatedAndCreatedAt,
 });
 
-export const employeesRelations = relations(employees, ({ one }) => ({
+export const employeesRelations = relations(employees, ({ one, many }) => ({
     user: one(users, { fields: [employees.userId], references: [users.id] }),
-}));
-/*
-export const employeesRelations = relations(employees, ({ many }) => ({
     secteurs: many(employeesToSecteurs),
 }));
- */
