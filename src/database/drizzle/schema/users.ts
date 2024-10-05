@@ -1,5 +1,7 @@
-import { int, mysqlEnum, mysqlTable, serial, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { updatedAndCreatedAt } from "../utils";
+import { relations } from "drizzle-orm";
+import { employees } from "./employees";
 
 export const users = mysqlTable("users", {
     id: int("id").primaryKey(),
@@ -9,3 +11,7 @@ export const users = mysqlTable("users", {
     role: mysqlEnum("role", ["user", "admin"]).notNull(),
     ...updatedAndCreatedAt,
 });
+
+export const userRelations = relations(users, ({ one }) => ({
+    employees: one(employees),
+}));
