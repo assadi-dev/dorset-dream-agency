@@ -11,6 +11,6 @@ export default defineConfig({
         port: ENV.MYSQL_DB_PORT,
     },
     verbose: true,
-    out: "./src/drizzle/migrations",
-    schema: "./src/drizzle/schema/*",
+    out: "./src/database/drizzle/migrations",
+    schema: "./src/database/drizzle/schema/*.ts",
 });

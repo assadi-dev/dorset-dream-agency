@@ -1,7 +1,7 @@
 import { z } from "zod";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { loadEnvConfig } from "@next/env";
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
 
 const EnvSchema = z.object({
     APP_TITLE: z.coerce.string(),
