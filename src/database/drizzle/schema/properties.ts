@@ -1,7 +1,7 @@
 import { updatedAndCreatedAt } from "../utils";
 import { boolean, int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 
-export const clients = mysqlTable("clients", {
+export const properties = mysqlTable("properties", {
     id: int("id").primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
     address: varchar("address", { length: 255 }).notNull(),
