@@ -17,6 +17,6 @@ export const transactions = mysqlTable("transactions", {
 
 export const transactionsRelation = relations(transactions, ({ one }) => ({
     client: one(clients, { fields: [transactions.clientID], references: [clients.id] }),
-    employee: one(employees),
-    property: one(properties),
+    employee: one(employees, { fields: [transactions.employeeID], references: [employees.id] }),
+    property: one(properties, { fields: [transactions.propertyID], references: [properties.id] }),
 }));

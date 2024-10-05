@@ -6,7 +6,7 @@ import { secteurs } from "./secteurs";
 export const employeesToSecteurs = mysqlTable(
     "employees_to_secteurs",
     {
-        employeeId: int("employee_id")
+        employeeID: int("employee_id")
             .notNull()
             .references(() => employees.id),
         secteurId: int("secteur_id")
@@ -14,12 +14,12 @@ export const employeesToSecteurs = mysqlTable(
             .references(() => secteurs.id),
     },
     (t) => ({
-        pk: primaryKey({ columns: [t.employeeId, t.secteurId] }),
+        pk: primaryKey({ columns: [t.employeeID, t.secteurId] }),
     }),
 );
 export const employeesToSecteursRelations = relations(employeesToSecteurs, ({ one }) => ({
     employee: one(employees, {
-        fields: [employeesToSecteurs.employeeId],
+        fields: [employeesToSecteurs.employeeID],
         references: [employees.id],
     }),
     secteur: one(secteurs, {

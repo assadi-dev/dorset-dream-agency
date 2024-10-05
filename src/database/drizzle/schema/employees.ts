@@ -12,13 +12,13 @@ export const employees = mysqlTable("employees", {
     iban: varchar("iban", { length: 100 }),
     phone: varchar("phone", { length: 15 }),
     gender: mysqlEnum("gender", ["Male", "Female"]),
-    userId: int("user_id").references(() => users.id),
+    userID: int("user_id").references(() => users.id),
     ...updatedAndCreatedAt,
 });
 
 export const employeesRelations = relations(employees, ({ one, many }) => ({
     user: one(users, {
-        fields: [employees.userId],
+        fields: [employees.userID],
         references: [users.id],
     }),
     secteurs: many(employeesToSecteurs),
