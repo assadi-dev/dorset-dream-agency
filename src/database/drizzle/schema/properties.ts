@@ -6,7 +6,7 @@ export const properties = mysqlTable("properties", {
     name: varchar("name", { length: 255 }).notNull(),
     address: varchar("address", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }),
-    type: mysqlEnum("type ", ["Location", "Vente"]).notNull(),
+    type: mysqlEnum("type", ["Location", "Vente"]).notNull(),
     factoryPrice: int("factory_price"),
     sellingPrice: int("selling_price"),
     rentalPrice: int("rentalPrice"),
