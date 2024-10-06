@@ -7,18 +7,16 @@ import FormFieldCustom from "@/components/forms/FormFieldCustom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clientFormSchema, ClientFormType } from "./schema";
 import { DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { wait } from "@/lib/utils";
 import useModalState from "@/hooks/useModalState";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GenderType } from "@/app/types";
-import { ToastError, ToastSuccess } from "@/components/notify/Toast";
+import { ToastError } from "@/components/notify/Toast";
 import { ToastSuccessSonner } from "@/components/notify/Sonner";
 import SubmitButton from "@/components/forms/SubmitButton";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
-    save: (value: ClientFormType) => void;
+    save: (value: ClientFormType) => Promise<any>;
 };
 const ClientForm = ({ save, ...props }: FormType) => {
     const [isPending, startTransition] = React.useTransition();
@@ -35,11 +33,9 @@ const ClientForm = ({ save, ...props }: FormType) => {
         },
     });
 
-    const traitement = async (values) => {
+    const traitement = async (values: ClientFormType) => {
         try {
-            await wait(3000);
-            save(values);
-
+            await save(values);
             ToastSuccessSonner("Le client à bien été créer avec success");
             modalState.closeModal();
         } catch (error: any) {
