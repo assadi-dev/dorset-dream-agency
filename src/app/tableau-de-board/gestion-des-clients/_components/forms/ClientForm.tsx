@@ -15,10 +15,10 @@ import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner
 import SubmitButton from "@/components/forms/SubmitButton";
 import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
 
-type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
+type ClientFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: ClientFormType) => Promise<any>;
 };
-const ClientForm = ({ save, ...props }: FormType) => {
+const ClientForm = ({ save, ...props }: ClientFormProps) => {
     const [isPending, startTransition] = React.useTransition();
 
     const modalState = useModalState();

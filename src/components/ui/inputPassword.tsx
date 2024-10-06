@@ -6,8 +6,11 @@ import { cn } from "@/lib/utils";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React, { useState } from "react";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
-const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ className, ...props }, ref) => {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    className?: string;
+    classNamButton?: string;
+}
+const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ className, classNamButton, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const toggleShowPassword = () => {
@@ -21,7 +24,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ classNam
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:text-secondary"
+                className={cn("absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent", classNamButton)}
                 onClick={toggleShowPassword}
                 aria-label={showPassword ? "Hide password" : "Show password"}
             >

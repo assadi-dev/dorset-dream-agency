@@ -56,7 +56,7 @@ const LoginForm = () => {
                 <Label htmlFor="password" className="mb-1.5">
                     Mot de passe
                 </Label>
-                <InputPassword {...register("password")} />
+                <InputPassword {...register("password")} classNamButton="hover:text-secondary" />
             </div>
             <div className="grid w-full items-center gap-1.5 shadow mt-12">
                 <Button className="bg-blue-500" variant="primary" type="submit">
