@@ -3,7 +3,6 @@
 import React from "react";
 import { Form, FormControl } from "@/components/ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
-import InputLabelWithErrorMessage from "@/components/forms/InputLabelWithErrorMessage";
 import FormFieldCustom from "@/components/forms/FormFieldCustom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clientFormSchema, ClientFormType } from "./schema";
@@ -11,10 +10,10 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { wait } from "@/lib/utils";
 import useModalState from "@/hooks/useModalState";
-import withFormField from "@/HOC/withFormField";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GenderType } from "@/app/types";
+import { ToastError, ToastSuccess } from "@/components/notify/Toast";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: ClientFormType) => void;
@@ -34,16 +33,26 @@ const ClientForm = ({ save, ...props }: FormType) => {
         },
     });
 
-    const submitData: SubmitHandler<ClientFormType> = async (values) => {
+    const traitement = async (values) => {
         try {
-            startTransition(async () => {
-                await wait(3000);
-                save(values);
-                modalState.closeModal();
+            await wait(3000);
+            save(values);
+            ToastSuccess({
+                message: "Le client à bien été créer avec success",
             });
-        } catch (error) {
-            console.warn("Une erreur est survenu: ${error.message");
+            modalState.closeModal();
+        } catch (error: any) {
+            const message = `Raison: ${error.message}`;
+            ToastError({
+                message,
+            });
         }
+    };
+
+    const submitData: SubmitHandler<ClientFormType> = async (values) => {
+        startTransition(async () => {
+            await traitement(values);
+        });
     };
 
     const SUBMIT_LABEL = isPending ? "traitement en cours..." : "Enregistrer";

@@ -5,6 +5,7 @@ import BreadcrumbTheme from "./_components/BreadcrumbTheme";
 import styles from "./styles.module.css";
 import Sidebar from "./_components/Sidebar";
 import { cn, currentYear } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const AdminLayout = async ({ children }) => {
     const session = await auth();
@@ -14,7 +15,7 @@ const AdminLayout = async ({ children }) => {
     }
 
     return (
-        <div className={styles.dashboardLayout}>
+        <body className={styles.dashboardLayout}>
             <Sidebar />
             <header className={cn(styles.dashboardHeader, "bg-white shadow")}></header>
             <main className={styles.dashboardMain}>
@@ -25,7 +26,8 @@ const AdminLayout = async ({ children }) => {
             <footer className={styles.dashboardFooter}>
                 <p>copyright &copy; {currentYear()} </p>
             </footer>
-        </div>
+            <Toaster />
+        </body>
     );
 };
 
