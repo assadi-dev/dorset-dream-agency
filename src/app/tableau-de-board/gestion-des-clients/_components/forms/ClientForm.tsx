@@ -85,8 +85,10 @@ const ClientForm = ({ save, ...props }: FormType) => {
                         </Select>
                     </FormFieldCustom>
                 </div>
-                <DialogFooter>
-                    <Button type="submit">{SUBMIT_LABEL}</Button>
+                <DialogFooter className="pt-3">
+                    <Button className="mx-auto w-full" type="submit">
+                        {SUBMIT_LABEL}
+                    </Button>
                 </DialogFooter>
             </form>
         </Form>

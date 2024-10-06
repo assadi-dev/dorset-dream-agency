@@ -7,7 +7,7 @@ const AddForm = () => {
         console.log(values);
     };
 
-    return <ClientForm save={submitForm} className="w-full lg:w-[25vw]" />;
+    return <ClientForm save={submitForm} className="w-full lg:w-[28vw] min-h-[420px]" />;
 };
 
 export default AddForm;
