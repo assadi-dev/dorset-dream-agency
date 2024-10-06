@@ -1,16 +1,15 @@
 "use client";
 import React, { useReducer } from "react";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+
 import ModalContent from "./ModalContent";
 import { ModalContextProvider } from "@/context/ModalContext";
-import ElementView from "@/HOC/renderElementView";
 
 type ModalProviderProps = {
     children: React.ReactNode;
 };
 
-const modalReducer = (prev, state) => {
+const modalReducer = (prev: any, state: any) => {
     return { ...prev, ...state };
 };
 
