@@ -31,7 +31,11 @@ export const dashboardNavigation: DashboardNavigationType[] = [
             },
             {
                 name: "Employés",
-                path: "/tableau-de-board/gestion-employes",
+                path: "/tableau-de-board/gestion-des-employes",
+            },
+            {
+                name: "Comptes",
+                path: "/tableau-de-board/gestion-des-comptes",
             },
         ],
     },
