@@ -5,7 +5,6 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import AddButton from "@/components/forms/AddButton";
 import ListeClients from "./_components/ListeClients";
 import ModalProvider from "@/components/Modals/ModalProvider";
-import { DialogTrigger } from "@/components/ui/dialog";
 
 export const metadata = setTitlePage("Clients");
 const ClientPage = () => {
