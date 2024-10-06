@@ -8,11 +8,13 @@ type InputLabelWithErrorMessageType = InputProps & {
 };
 const InputLabelWithErrorMessage = React.forwardRef(({ label, ...props }: InputLabelWithErrorMessageType, ref) => {
     return (
-        <div>
-            <Label>{label}</Label>
-            <Input {...props} />
-            <div className="rounded bg-red-300 text-red-950 font-semibold">erreur</div>
-        </div>
+        <>
+            <div className="mb-1">
+                <Label>{label}</Label>
+                <Input {...props} />
+            </div>
+            <div className="rounded bg-red-300 font-semibold text-red-900 px-1.5">erreur</div>
+        </>
     );
 });
 

@@ -1,14 +1,13 @@
 import React from "react";
-import Form from "./form";
+import ClientForm from "./ClientForm";
+import { ClientFormType } from "./schema";
 
 const AddForm = () => {
-    const submitForm = (values) => {};
+    const submitForm = (values: ClientFormType) => {
+        console.log(values);
+    };
 
-    return (
-        <div>
-            <Form />
-        </div>
-    );
+    return <ClientForm save={submitForm} className="w-full lg:w-[25vw]" />;
 };
 
 export default AddForm;
