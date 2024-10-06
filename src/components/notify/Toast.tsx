@@ -1,4 +1,4 @@
-import { ERROR_TITLE_NOTIFY, SUCCESS_TITLE_NOTIFY } from "@/config/Messages";
+import { ERROR_TITLE_NOTIFY, SUCCESS_TITLE_NOTIFY } from "@/config/messages";
 import { toast } from "@/hooks/use-toast";
 
 type ToastSuccessProps = {

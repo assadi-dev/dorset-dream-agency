@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GenderType } from "@/app/types";
 import { ToastError, ToastSuccess } from "@/components/notify/Toast";
+import { ToastSuccessSonner } from "@/components/notify/Sonner";
+import SubmitButton from "@/components/forms/SubmitButton";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: ClientFormType) => void;
@@ -37,9 +39,8 @@ const ClientForm = ({ save, ...props }: FormType) => {
         try {
             await wait(3000);
             save(values);
-            ToastSuccess({
-                message: "Le client à bien été créer avec success",
-            });
+
+            ToastSuccessSonner("Le client à bien été créer avec success");
             modalState.closeModal();
         } catch (error: any) {
             const message = `Raison: ${error.message}`;
@@ -95,9 +96,9 @@ const ClientForm = ({ save, ...props }: FormType) => {
                     </FormFieldCustom>
                 </div>
                 <DialogFooter className="pt-3">
-                    <Button className="mx-auto w-full" type="submit">
+                    <SubmitButton isLoading={isPending} className="mx-auto w-full" type="submit">
                         {SUBMIT_LABEL}
-                    </Button>
+                    </SubmitButton>
                 </DialogFooter>
             </form>
         </Form>
