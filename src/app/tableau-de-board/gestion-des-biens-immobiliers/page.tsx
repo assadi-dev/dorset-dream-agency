@@ -5,21 +5,25 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import AddButton from "@/components/forms/AddButton";
 import ListProperties from "./_components/ListProperties";
 import { PAGES } from "@/config/pages";
+import ModalProvider from "@/components/Modals/ModalProvider";
+import GestionImmobilierRightActions from "./_components/GestionImmobilierRightActions";
 
 export const metadata = setTitlePage("Gestion des biens immobiliers");
 const GestionImmobilierPage = () => {
     return (
-        <PageTemplate title="Immobiliers" description="Gestion des biens et les variants">
-            <section className="my-3">
-                <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
-                    <SearchInputDataTable />
-                    <AddButton href={PAGES.ADD_PROPERTY} />
-                </div>
-            </section>
-            <section>
-                <ListProperties />
-            </section>
-        </PageTemplate>
+        <ModalProvider>
+            <PageTemplate title="Immobiliers" description="Gestion des biens et les variants">
+                <section className="my-3">
+                    <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
+                        <SearchInputDataTable />
+                        <GestionImmobilierRightActions />
+                    </div>
+                </section>
+                <section>
+                    <ListProperties />
+                </section>
+            </PageTemplate>
+        </ModalProvider>
     );
 };
 

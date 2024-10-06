@@ -1,12 +1,12 @@
 import { updatedAndCreatedAt } from "../utils";
-import { int, mysqlEnum, mysqlTable } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, serial } from "drizzle-orm/mysql-core";
 import { clients } from "./client";
 import { employees } from "./employees";
 import { properties } from "./properties";
 import { relations } from "drizzle-orm";
 
 export const transactions = mysqlTable("transactions", {
-    id: int("id").primaryKey(),
+    id: serial("id").primaryKey(),
     clientID: int("client_id").references(() => clients.id),
     employeeID: int("employee_id").references(() => employees.id),
     propertyID: int("property_id").references(() => properties.id),

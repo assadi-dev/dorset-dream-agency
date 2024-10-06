@@ -1,11 +1,11 @@
 import { relations } from "drizzle-orm";
 import { updatedAndCreatedAt } from "../utils";
-import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { serial, int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { users } from "./users";
 import { employeesToSecteurs } from "./employeesToSecteurs";
 
 export const employees = mysqlTable("employees", {
-    id: int("id").primaryKey(),
+    id: serial("id").primaryKey(),
     lastName: varchar("last_name", { length: 100 }).notNull(),
     firstName: varchar("first_name", { length: 100 }).notNull(),
     post: mysqlEnum("post", ["Employée", "Manageuse", "Patron", "Employé San Andreas", "Employé îles Galapagos"]),

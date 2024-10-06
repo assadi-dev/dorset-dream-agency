@@ -6,7 +6,7 @@ import DataTable from "@/components/Datatable/Datatable";
 import employeMock from "../employee-mock";
 
 const ListEmployee = () => {
-    return <DataTable columns={columns} data={employeMock} />;
+    return <DataTable columns={columns} data={[]} />;
 };
 
 export default ListEmployee;

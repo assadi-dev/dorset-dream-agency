@@ -1,11 +1,11 @@
 import { updatedAndCreatedAt } from "../utils";
-import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, serial, varchar } from "drizzle-orm/mysql-core";
 import { properties } from "./properties";
 import { relations } from "drizzle-orm";
 import { photos } from "./photos";
 
 export const variants = mysqlTable("variants", {
-    id: int("id").primaryKey(),
+    id: serial("id").primaryKey(),
     name: varchar("name", { length: 100 }),
     description: varchar("description", { length: 255 }),
     type: mysqlEnum("type", ["Location", "Vente"]).notNull(),
