@@ -1,5 +1,5 @@
 import { updatedAndCreatedAt } from "../utils";
-import { int, mysqlTable } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable } from "drizzle-orm/mysql-core";
 import { clients } from "./client";
 import { employees } from "./employees";
 import { properties } from "./properties";
@@ -12,6 +12,7 @@ export const transactions = mysqlTable("transactions", {
     propertyID: int("property_id").references(() => properties.id),
     sellingPrice: int("selling_price"),
     marginPrice: int("margin_price"),
+    purchaseType: mysqlEnum("purchase_type", ["Location", "Vente"]),
     ...updatedAndCreatedAt,
 });
 

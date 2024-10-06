@@ -21,6 +21,7 @@ export const LocationVentesSchema = z.object({
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     address: z.string(),
     typeProperty: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    propertyService: z.enum(["Location LS", "Location Iles", "Ventes LS", "Vente Iles"]),
     rentalPrice: z
         .string()
         .min(1, { message: REQUIRE_MESSAGE_ERROR })

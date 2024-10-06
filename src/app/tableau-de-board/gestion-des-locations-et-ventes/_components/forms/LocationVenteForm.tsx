@@ -41,8 +41,23 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Genre" name="client">
+                    <FormFieldCustom control={form.control} label="Client" name="client">
                         <Input {...form.register("client")} />
+                    </FormFieldCustom>
+                </div>
+                <div className="mb-4">
+                    <FormFieldCustom control={form.control} label="N° Telephone" name="phone">
+                        <Input {...form.register("phone")} />
+                    </FormFieldCustom>
+                </div>
+                <div className="mb-4">
+                    <FormFieldCustom control={form.control} label="Type de bien" name="typeProperty">
+                        <Input {...form.register("typeProperty")} />
+                    </FormFieldCustom>
+                </div>
+                <div className="mb-4">
+                    <FormFieldCustom control={form.control} label="Type de service" name="propertyService ">
+                        <Input {...form.register("propertyService ")} />
                     </FormFieldCustom>
                 </div>
                 <DialogFooter className="pt-3">

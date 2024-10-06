@@ -2,7 +2,6 @@ import { setTitlePage } from "@/lib/utils";
 import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
-import AddButton from "@/components/forms/AddButton";
 import ListLocation from "./_components/ListLocation";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionLocationRightAction from "./_components/GestionLocationRightAction";
