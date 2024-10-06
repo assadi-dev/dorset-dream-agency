@@ -5,6 +5,7 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import AddButton from "@/components/forms/AddButton";
 import ListeClients from "./_components/ListeClients";
 import ModalProvider from "@/components/Modals/ModalProvider";
+import ClientPageRightAction from "./_components/ClientPageRightAction";
 
 export const metadata = setTitlePage("Clients");
 const ClientPage = () => {
@@ -14,7 +15,8 @@ const ClientPage = () => {
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                         <SearchInputDataTable />
-                        <AddButton />
+
+                        <ClientPageRightAction />
                     </div>
                 </section>
                 <section>

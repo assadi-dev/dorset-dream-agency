@@ -12,8 +12,8 @@ const ModalContent = ({ title, description, children }: ModalContentProps) => {
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{description}</DialogDescription>
-                {children}
             </DialogHeader>
+            {children}
         </>
     );
 };

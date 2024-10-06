@@ -11,9 +11,9 @@ import useModalState from "@/hooks/useModalState";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GenderType } from "@/app/types";
-import { ToastError } from "@/components/notify/Toast";
-import { ToastSuccessSonner } from "@/components/notify/Sonner";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import SubmitButton from "@/components/forms/SubmitButton";
+import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: ClientFormType) => Promise<any>;
@@ -40,9 +40,7 @@ const ClientForm = ({ save, ...props }: FormType) => {
             modalState.closeModal();
         } catch (error: any) {
             const message = `Raison: ${error.message}`;
-            ToastError({
-                message,
-            });
+            ToastErrorSonner(message);
         }
     };
 
@@ -52,11 +50,11 @@ const ClientForm = ({ save, ...props }: FormType) => {
         });
     };
 
-    const SUBMIT_LABEL = isPending ? "traitement en cours..." : "Enregistrer";
+    const SUBMIT_LABEL = isPending ? SUBMIT_PROCESS_MESSAGE : SUBMIT_IDLE_MESSAGE;
 
     return (
         <Form {...form}>
-            <form {...props} onSubmit={form.handleSubmit((values) => submitData(values))}>
+            <form {...props} onSubmit={form.handleSubmit(submitData)}>
                 <div className="mb-4">
                     <FormFieldCustom control={form.control} name="lastName" label="Nom">
                         <Input {...form.register("lastName")} />

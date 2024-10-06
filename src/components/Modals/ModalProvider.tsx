@@ -34,7 +34,7 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
             {children}
             <Dialog open={modalState.open} onOpenChange={() => setModalState({ ...modalState, open: false })}>
                 <DialogContent className="w-[95vw] sm:max-w-fit">
-                    <ModalContent>
+                    <ModalContent title={modalState.title} description={modalState.description}>
                         <Render />
                     </ModalContent>
                 </DialogContent>
