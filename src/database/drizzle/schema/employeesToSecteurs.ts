@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
+import { index, int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
 import { employees } from "./employees";
 import { secteurs } from "./secteurs";
 
@@ -15,6 +15,8 @@ export const employeesToSecteurs = mysqlTable(
     },
     (t) => ({
         pk: primaryKey({ columns: [t.employeeID, t.secteurId] }),
+        employeesIdx: index("employee_idx").on(t.employeeID),
+        secteursIdx: index("secteur_idx").on(t.secteurId),
     }),
 );
 export const employeesToSecteursRelations = relations(employeesToSecteurs, ({ one }) => ({
