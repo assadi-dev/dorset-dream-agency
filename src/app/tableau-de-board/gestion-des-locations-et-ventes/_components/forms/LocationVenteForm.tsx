@@ -51,13 +51,28 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
                     </FormFieldCustom>
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Type de bien" name="typeProperty">
-                        <Input {...form.register("typeProperty")} />
+                    <FormFieldCustom control={form.control} label="Type de bien" name="property">
+                        <Input {...form.register("property")} />
                     </FormFieldCustom>
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Type de service" name="propertyService ">
-                        <Input {...form.register("propertyService ")} />
+                    <FormFieldCustom control={form.control} label="Type de service" name="propertyService">
+                        <Input {...form.register("propertyService")} />
+                    </FormFieldCustom>
+                </div>
+                <div className="mb-4">
+                    <FormFieldCustom control={form.control} label="Prix de la location - Vente" name="price">
+                        <Input {...form.register("price")} />
+                    </FormFieldCustom>
+                </div>
+                <div className="mb-4">
+                    <FormFieldCustom control={form.control} label="Nombre de clé(s)" name="keyQuantity">
+                        <Input {...form.register("keyQuantity")} />
+                    </FormFieldCustom>
+                </div>
+                <div className="mb-4">
+                    <FormFieldCustom control={form.control} label="Numéro de la clé" name="keyNumber">
+                        <Input {...form.register("keyNumber")} />
                     </FormFieldCustom>
                 </div>
                 <DialogFooter className="pt-3">

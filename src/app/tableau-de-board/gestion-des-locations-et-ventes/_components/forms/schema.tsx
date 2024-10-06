@@ -20,7 +20,15 @@ export const LocationVentesSchema = z.object({
     ),
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     address: z.string(),
-    typeProperty: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    property: z.object(
+        {
+            id: z.string().transform((value) => parseInt(value)),
+            variantID: z.string().transform((value) => parseInt(value)),
+            label: z.string(),
+            value: z.string(),
+        },
+        { message: REQUIRE_MESSAGE_ERROR },
+    ),
     propertyService: z.enum(["Location LS", "Location Iles", "Ventes LS", "Vente Iles"]),
     rentalPrice: z
         .string()
@@ -30,11 +38,15 @@ export const LocationVentesSchema = z.object({
         .string()
         .min(1, { message: REQUIRE_MESSAGE_ERROR })
         .transform((val) => parseInt(val)),
-    numberOfKey: z
+    price: z
         .string()
         .min(1, { message: REQUIRE_MESSAGE_ERROR })
         .transform((val) => parseInt(val)),
-    propertyKey: z
+    keyQuantity: z
+        .string()
+        .min(1, { message: REQUIRE_MESSAGE_ERROR })
+        .transform((val) => parseInt(val)),
+    keyNumber: z
         .string()
         .min(1, { message: REQUIRE_MESSAGE_ERROR })
         .transform((val) => parseInt(val)),

@@ -13,6 +13,7 @@ export const transactions = mysqlTable("transactions", {
     sellingPrice: int("selling_price"),
     marginPrice: int("margin_price"),
     purchaseType: mysqlEnum("purchase_type", ["Location", "Vente"]),
+    propertyService: mysqlEnum("property_service", ["Location LS", "Location Iles", "Ventes LS", "Vente Iles"]),
     ...updatedAndCreatedAt,
 });
 
