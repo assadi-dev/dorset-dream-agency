@@ -2,6 +2,13 @@ import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET() {
+    type Client = typeof clients.$inferSelect;
+    const clientsList: Client[] = await db.select().from(clients);
+
+    return NextResponse.json(clientsList);
+}
+
 export async function POST(req: Request) {
     const body = await req.json();
 

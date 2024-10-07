@@ -23,7 +23,7 @@ export const properties = mysqlTable("properties", {
 });
 
 export const propertiesRelation = relations(properties, ({ one, many }) => ({
-    categoryProperties: one(categoryProperties, {
+    category: one(categoryProperties, {
         fields: [properties.categoryID],
         references: [categoryProperties.id],
     }),
