@@ -25,6 +25,7 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
     const processing = async (values: GestionEmployeeFormType) => {
         try {
             await save(values);
+            form.reset();
             ToastSuccessSonner("Le compte ainsi que ses renseignement ont bien été enregistré");
             modalState.closeModal();
         } catch (error: any) {

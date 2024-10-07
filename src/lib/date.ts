@@ -37,13 +37,26 @@ export const datetimeFormatWithoutSecISO8601 = (date = "") => {
 };
 
 /**
- * Retourne la date et l'heure au format suivant DD-MM-YYYY HH:MM:SS
+ * Retourne la date et l'heure au format suivant DD-MM-YYYY à HH:MM:SS
  * @param {*} date
  */
 export const datetimeFormatFr = (date = "") => {
     try {
         const dt = new Date(date);
         return format(dt, "dd-MM-yyyy à HH:mm");
+    } catch (error) {
+        return "Format de la date incorrect";
+    }
+};
+
+/**
+ * Retourne la date et l'heure au format suivant DD-MM-YYYY à HH:MM:SS
+ * @param {*} date
+ */
+export const datetimeFormatFr2 = (date = "") => {
+    try {
+        const dt = new Date(date);
+        return format(dt, "dd / MM / yyyy à HH:mm");
     } catch (error) {
         return "Format de la date incorrect";
     }

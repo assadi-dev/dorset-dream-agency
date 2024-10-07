@@ -1,4 +1,5 @@
 export const REQUIRE_MESSAGE_ERROR = "Champs obligatoire";
+export const EMAIL_INVALID = "Format email invalide !";
 
 export const SUCCESS_TITLE_NOTIFY = "Opération réussie !";
 export const ERROR_TITLE_NOTIFY = "Oops! une erreur est survenue";

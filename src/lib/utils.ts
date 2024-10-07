@@ -3,6 +3,7 @@ import { clsx, type ClassValue } from "clsx";
 import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
 import slugify from "slugify";
+import { Role } from "@/app/types/user";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -55,4 +56,15 @@ export const generate_slug = (value: string) => {
         lower: true,
         locale: "fr",
     });
+};
+
+export const showRole = (role: Role) => {
+    switch (role) {
+        case "user":
+            return "Utilisateur";
+        case "admin":
+            return "Administrateur";
+        default:
+            return "Inconnu";
+    }
 };

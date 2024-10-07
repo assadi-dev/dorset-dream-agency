@@ -1,13 +1,19 @@
-import { setTitlePage } from "@/lib/utils";
+import { setTitlePage, wait } from "@/lib/utils";
 import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import GestionCompteRightAction from "./_components/GestionCompteRightAction";
 import ListAccounts from "./_components/ListAccounts";
 import ModalProvider from "@/components/Modals/ModalProvider";
+import { accountCollections } from "./action";
 
 export const metadata = setTitlePage("Gestion des comptes");
 const GestionEmployeePage = async () => {
+    const AccountsCollections = async () => {
+        const result = await accountCollections();
+        return <ListAccounts accounts={result} />;
+    };
+
     return (
         <ModalProvider>
             <PageTemplate title="Comptes" description="Gestion des comptes employées">
@@ -16,7 +22,9 @@ const GestionEmployeePage = async () => {
                         <SearchInputDataTable />
                         <GestionCompteRightAction />
                     </div>
-                    <ListAccounts />
+                    <React.Suspense fallback={"loading"}>
+                        <AccountsCollections />
+                    </React.Suspense>
                 </section>
             </PageTemplate>
         </ModalProvider>
