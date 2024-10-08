@@ -10,6 +10,8 @@ import { Form } from "@/components/ui/form";
 import { gestionAccountEmployeeSchema, GestionEmployeeFormType } from "./schema";
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
+import FormFieldSelect from "@/components/forms/FormFieldSelect";
+import { GENRE_OPTIONS, GRADE_OPTIONS, ROLE_OPTIONS } from "@/config/enums";
 
 type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (values: GestionEmployeeFormType) => Promise<any>;
@@ -19,6 +21,11 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<GestionEmployeeFormType>({
         resolver: zodResolver(gestionAccountEmployeeSchema),
+        defaultValues: {
+            gender: "Male",
+            post: "Employée",
+            role: "user",
+        },
     });
 
     const processing = async (values: GestionEmployeeFormType) => {
@@ -42,7 +49,12 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} name="username" label="Identifiant de connexion" />
+                    <FormFieldInput
+                        control={form.control}
+                        name="username"
+                        label="Identifiant de connexion"
+                        autoComplete="username"
+                    />
                 </div>
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
                     <FormFieldInputPassword
@@ -50,12 +62,18 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
                         name="password"
                         label="Mot de passe"
                         description="minimum 6 caractères"
+                        autoComplete="new-password"
                     />
 
-                    <FormFieldInputPassword control={form.control} name="confirmPassword" label="Confirmation" />
+                    <FormFieldInputPassword
+                        control={form.control}
+                        name="confirmPassword"
+                        label="Confirmation"
+                        autoComplete="new-password"
+                    />
                 </div>
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} name="role" label="Role" />
+                    <FormFieldSelect control={form.control} name="role" label="Role" options={ROLE_OPTIONS} />
                 </div>
 
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
@@ -63,9 +81,8 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
                     <FormFieldInput control={form.control} name="firstName" label="Prénom" />
                 </div>
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
-                    <FormFieldInput control={form.control} name="post" label="Grade" />
-
-                    <FormFieldInput control={form.control} name="gender" label="Genre" />
+                    <FormFieldSelect control={form.control} name="post" label="Grade" options={GRADE_OPTIONS} />
+                    <FormFieldSelect control={form.control} label="Genre" name="gender" options={GENRE_OPTIONS} />
                 </div>
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
                     <FormFieldInput control={form.control} name="phone" label="N° Téléphone" />

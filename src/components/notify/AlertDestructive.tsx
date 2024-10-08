@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 type AlertDestructiveProps = {
     title: string;
-    description: string;
+    description?: string;
 };
 export function AlertDestructive({ title, description }: AlertDestructiveProps) {
     return (

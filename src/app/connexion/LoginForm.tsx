@@ -1,73 +1,84 @@
 "use client";
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { ENV } from "@/config/global";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { LoginFormSchema, LoginFormType } from "./schema";
 import { Label } from "@/components/ui/label";
 import InputPassword from "@/components/ui/inputPassword";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-import { ToastWithAction } from "@/components/notify/Toast";
+
 import AlertDestructive from "@/components/notify/AlertDestructive";
+import SubmitButton from "@/components/forms/SubmitButton";
+import FormFieldInput from "@/components/forms/FormFieldInput";
+import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
+import { Form } from "@/components/ui/form";
 
 const LoginForm = () => {
-    const {
-        register,
-        handleSubmit,
-        setError,
-        formState: { errors },
-    } = useForm({
+    const [isPending, startTransition] = React.useTransition();
+
+    const form = useForm<LoginFormType>({
         resolver: zodResolver(LoginFormSchema),
     });
 
     const router = useRouter();
 
-    const handleSignin = async (data: LoginFormType) => {
+    const handleSignIn: SubmitHandler<LoginFormType> = async (data) => {
         const email = data.email;
         const password = data.password;
+        startTransition(async () => {
+            try {
+                await signIn("credentials", {
+                    email,
+                    password,
+                    redirect: false,
+                });
 
-        try {
-            await signIn("credentials", {
-                email,
-                password,
-                redirect: false,
-            });
-
-            router.push("/tableau-de-board");
-            router.refresh();
-        } catch (error: any) {
-            setError("root", { message: "Identifiant ou mot de passe incorrect" });
-        }
+                router.push("/tableau-de-board");
+                router.refresh();
+            } catch (error: any) {
+                form.setError("root", { message: "Identifiant ou mot de passe incorrect" });
+                throw error;
+            }
+        });
     };
-    return (
-        <form onSubmit={handleSubmit(handleSignin)} className="md:w-[80%] p-10">
-            <div className="grid w-full  items-center gap-1.5">
-                <Label htmlFor="email" className="mb-1.5">
-                    Email
-                </Label>
-                <Input type="email" {...register("email")} placeholder="" />
-            </div>
-            <div className="grid w-full items-center gap-1.5 my-6">
-                <Label htmlFor="password" className="mb-1.5">
-                    Mot de passe
-                </Label>
-                <InputPassword {...register("password")} classNamButton="hover:text-secondary" />
-            </div>
-            <div className="grid w-full items-center gap-1.5 shadow mt-12">
-                <Button className="bg-blue-500" variant="primary" type="submit">
-                    Connexion
-                </Button>
-            </div>
 
-            <div className="my-6">
-                {errors.root && <AlertDestructive title="Erreur" description={errors.root.message} />}
-            </div>
-        </form>
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSignIn)} className="md:w-[80%] p-10">
+                <div className="mb-4">
+                    <FormFieldInput
+                        control={form.control}
+                        name="email"
+                        placeholder="Email"
+                        label="Email"
+                        autoComplete="username"
+                    />
+                </div>
+                <div className="my-6 gap-3">
+                    <FormFieldInputPassword
+                        control={form.control}
+                        name="password"
+                        label="Mot de passe"
+                        autoComplete="current-password"
+                        classNamButton="hover:text-secondary"
+                        placeholder="Mot de passe"
+                    />
+                </div>
+                <div className="grid w-full items-center gap-1.5 shadow mt-12">
+                    <SubmitButton isLoading={isPending} className="bg-blue-500" type="submit">
+                        Connexion
+                    </SubmitButton>
+                </div>
+
+                <div className="my-6">
+                    {form.formState.errors.root && (
+                        <AlertDestructive title="Erreur" description={form.formState.errors.root.message} />
+                    )}
+                </div>
+            </form>
+        </Form>
     );
 };
 
