@@ -67,7 +67,7 @@ const LoginForm = () => {
                     />
                 </div>
                 <div className="grid w-full items-center gap-1.5 shadow mt-12">
-                    <SubmitButton isLoading={isPending} className="bg-blue-500" type="submit">
+                    <SubmitButton isLoading={isPending} variant="primary" className="bg-blue-500" type="submit">
                         Connexion
                     </SubmitButton>
                 </div>
