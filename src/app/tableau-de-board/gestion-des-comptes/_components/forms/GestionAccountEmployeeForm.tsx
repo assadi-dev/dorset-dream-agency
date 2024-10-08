@@ -11,6 +11,7 @@ import { gestionAccountEmployeeSchema, GestionEmployeeFormType } from "./schema"
 import FormFieldCustom from "@/components/forms/FormFieldCustom";
 import { Input } from "@/components/ui/input";
 import InputPassword from "@/components/ui/inputPassword";
+import FormFieldInput from "@/components/forms/FormFieldInput";
 
 type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (values: GestionEmployeeFormType) => Promise<any>;
@@ -43,17 +44,12 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} name="username" label="Identifiant de connexion">
-                        <Input {...form.register("username")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} name="username" label="Identifiant de connexion" />
                 </div>
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
-                    <FormFieldCustom control={form.control} name="password" label="Mot de passe">
-                        <InputPassword {...form.register("password")} cl />
-                    </FormFieldCustom>
-                    <FormFieldCustom control={form.control} name="confirmPassword" label="Confirmation">
-                        <InputPassword {...form.register("confirmPassword")} />
-                    </FormFieldCustom>
+                    <FormFieldInputPass control={form.control} name="password" label="Mot de passe" />
+
+                    <FormFieldInput control={form.control} name="confirmPassword" label="Confirmation" />
                 </div>
                 <div className="mb-4">
                     <FormFieldCustom control={form.control} name="role" label="Role">

@@ -1,8 +1,7 @@
 import React from "react";
-import { Control, FieldValues, Path } from "react-hook-form";
-
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import InputPassword from "../ui/inputPassword";
 
 type FormFieldInputProps<T extends FieldValues> = {
     control: Control<T>;
@@ -12,7 +11,7 @@ type FormFieldInputProps<T extends FieldValues> = {
     placeholder?: string;
 };
 
-const FormFieldInput = <T extends FieldValues>({
+const FormFieldInputPassword = <T extends FieldValues>({
     control,
     name,
     label,
@@ -27,7 +26,7 @@ const FormFieldInput = <T extends FieldValues>({
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
-                        <Input placeholder={placeholder} {...field} />
+                        <InputPassword placeholder={placeholder} {...field} />
                     </FormControl>
                     {description && <FormDescription>{description}</FormDescription>}
                     <FormMessage />
@@ -37,4 +36,4 @@ const FormFieldInput = <T extends FieldValues>({
     );
 };
 
-export default FormFieldInput;
+export default FormFieldInputPassword;
