@@ -9,8 +9,8 @@ import GestionLocationRightAction from "./_components/GestionLocationRightAction
 export const metadata = setTitlePage("Ventes");
 const ClientPage = () => {
     return (
-        <PageTemplate title="Location - Ventes" description="Gestion des locations et ventes">
-            <ModalProvider>
+        <ModalProvider>
+            <PageTemplate title="Location - Ventes" description="Gestion des locations et ventes">
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                         <SearchInputDataTable />
@@ -20,8 +20,8 @@ const ClientPage = () => {
                 <section>
                     <ListLocation />
                 </section>
-            </ModalProvider>
-        </PageTemplate>
+            </PageTemplate>
+        </ModalProvider>
     );
 };
 
