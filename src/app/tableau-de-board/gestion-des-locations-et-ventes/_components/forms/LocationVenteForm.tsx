@@ -10,6 +10,7 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import { Form } from "@/components/ui/form";
 import FormFieldCustom from "@/components/forms/FormFieldCustom";
 import { Input } from "@/components/ui/input";
+import FormFieldInput from "@/components/forms/FormFieldInput";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: LocationVentesFormType) => Promise<any>;
@@ -41,39 +42,25 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Client" name="client">
-                        <Input {...form.register("client")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="Client" name="client" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="N° Telephone" name="phone">
-                        <Input {...form.register("phone")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="N° Telephone" name="phone" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Type de bien" name="property">
-                        <Input {...form.register("property")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="Type de bien" name="property" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Type de service" name="propertyService">
-                        <Input {...form.register("propertyService")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="Type de service" name="propertyService" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Prix de la location - Vente" name="price">
-                        <Input {...form.register("price")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="Prix de la location - Vente" name="price" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Nombre de clé(s)" name="keyQuantity">
-                        <Input {...form.register("keyQuantity")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="Nombre de clé(s)" name="keyQuantity" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Numéro de la clé" name="keyNumber">
-                        <Input {...form.register("keyNumber")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} label="Numéro de la clé" name="keyNumber" />
                 </div>
                 <DialogFooter className="pt-3">
                     <SubmitButton isLoading={isPending} className="mx-auto w-full" type="submit">
