@@ -69,7 +69,7 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
     }
 };
 
-export const accountCollections = async () => {
+export const getAccountCollections = async () => {
     try {
         const request = await db
             .select({

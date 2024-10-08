@@ -6,9 +6,16 @@ import AddButton from "@/components/forms/AddButton";
 import ListeClients from "./_components/ListeClients";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import ClientPageRightAction from "./_components/ClientPageRightAction";
+import { getClientsCollections } from "./actions";
 
 export const metadata = setTitlePage("Clients");
-const ClientPage = () => {
+const ClientPage = async () => {
+    const ClientCollections = async () => {
+        const clients = await getClientsCollections();
+
+        return <ListeClients clients={clients} />;
+    };
+
     return (
         <PageTemplate title="Clients" description="Gestion des client">
             <ModalProvider>
@@ -20,7 +27,9 @@ const ClientPage = () => {
                     </div>
                 </section>
                 <section>
-                    <ListeClients />
+                    <React.Suspense>
+                        <ClientCollections />
+                    </React.Suspense>
                 </section>
             </ModalProvider>
         </PageTemplate>

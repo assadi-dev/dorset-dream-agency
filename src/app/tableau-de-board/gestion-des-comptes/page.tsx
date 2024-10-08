@@ -5,12 +5,12 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import GestionCompteRightAction from "./_components/GestionCompteRightAction";
 import ListAccounts from "./_components/ListAccounts";
 import ModalProvider from "@/components/Modals/ModalProvider";
-import { accountCollections } from "./action";
+import { getAccountCollections } from "./action";
 
 export const metadata = setTitlePage("Gestion des comptes");
 const GestionEmployeePage = async () => {
     const AccountsCollections = async () => {
-        const result = await accountCollections();
+        const result = await getAccountCollections();
         return <ListAccounts accounts={result} />;
     };
 
