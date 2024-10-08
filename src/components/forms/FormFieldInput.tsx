@@ -11,6 +11,7 @@ type FormFieldInputProps<T extends FieldValues> = {
     label?: string;
     description?: string;
     placeholder?: string;
+    classNameFormItem?: string;
 } & InputFieldProps;
 
 const FormFieldInput = <T extends FieldValues>({
@@ -19,6 +20,7 @@ const FormFieldInput = <T extends FieldValues>({
     label,
     description,
     placeholder,
+    classNameFormItem,
     ...props
 }: FormFieldInputProps<T>) => {
     return (
@@ -26,7 +28,7 @@ const FormFieldInput = <T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className={classNameFormItem}>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <Input placeholder={placeholder} {...field} {...props} />

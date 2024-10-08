@@ -11,6 +11,7 @@ type FormFieldInputProps<T extends FieldValues> = {
     description?: string;
     placeholder?: string;
     classNamButton?: string;
+    classNameFormItem?: string;
 };
 
 type InputFieldProps = InputProps & React.InputHTMLAttributes<HTMLInputElement>;
@@ -22,6 +23,7 @@ const FormFieldInputPassword = <T extends FieldValues>({
     description,
     placeholder,
     classNamButton,
+    classNameFormItem,
     ...props
 }: FormFieldInputProps<T> & InputFieldProps) => {
     return (
@@ -29,7 +31,7 @@ const FormFieldInputPassword = <T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className={classNameFormItem}>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <InputPassword

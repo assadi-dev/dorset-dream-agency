@@ -16,6 +16,7 @@ type FormFieldInputProps<T extends FieldValues> = {
     label?: string;
     description?: string;
     placeholder?: string;
+    classNameFormItem?: string;
     options: SelectOptionsType[];
 };
 
@@ -26,13 +27,14 @@ const FormFieldSelect = <T extends FieldValues>({
     description,
     placeholder,
     options,
+    classNameFormItem,
 }: FormFieldInputProps<T>) => {
     return (
         <FormField
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className={classNameFormItem}>
                     <FormLabel>{label}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
