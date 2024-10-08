@@ -4,6 +4,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 import ModalContent from "./ModalContent";
 import { ModalContextProvider } from "@/context/ModalContext";
+import { createPortal } from "react-dom";
 
 type ModalProviderProps = {
     children: React.ReactNode;
@@ -32,13 +33,16 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
             }}
         >
             {children}
-            <Dialog open={modalState.open} onOpenChange={() => setModalState({ ...modalState, open: false })}>
-                <DialogContent className="w-[95vw] sm:max-w-fit">
-                    <ModalContent title={modalState.title} description={modalState.description}>
-                        <Render />
-                    </ModalContent>
-                </DialogContent>
-            </Dialog>
+            {createPortal(
+                <Dialog open={modalState.open} onOpenChange={() => setModalState({ ...modalState, open: false })}>
+                    <DialogContent className="w-[95vw] sm:max-w-fit">
+                        <ModalContent title={modalState.title} description={modalState.description}>
+                            <Render />
+                        </ModalContent>
+                    </DialogContent>
+                </Dialog>,
+                document.body,
+            )}
         </ModalContextProvider>
     );
 };
