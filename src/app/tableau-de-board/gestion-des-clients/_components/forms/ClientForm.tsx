@@ -14,6 +14,9 @@ import { GenderType } from "@/app/types";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
+import FormFieldInput from "@/components/forms/FormFieldInput";
+import FormFieldSelect from "@/components/forms/FormFieldSelect";
+import { GENRE_OPTIONS } from "@/config/enums";
 
 type ClientFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: ClientFormType) => Promise<any>;
@@ -56,38 +59,16 @@ const ClientForm = ({ save, ...props }: ClientFormProps) => {
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} name="lastName" label="Nom">
-                        <Input {...form.register("lastName")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} name="lastName" label="Nom" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} name="firstName" label="Prénom">
-                        <Input {...form.register("firstName")} />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} name="firstName" label="Prénom" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} name="phone" label="N° Téléphone">
-                        <Input {...form.register("phone")} placeholder="555-123456" />
-                    </FormFieldCustom>
+                    <FormFieldInput control={form.control} name="phone" label="N° Téléphone" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldCustom control={form.control} label="Genre" name="gender">
-                        <Select
-                            onValueChange={(value: GenderType) => form.setValue("gender", value)}
-                            name="gender"
-                            defaultValue={form.getValues("gender")}
-                        >
-                            <FormControl>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Sélectionnez le genre" />
-                                </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                                <SelectItem value="Male">Homme</SelectItem>
-                                <SelectItem value="Female">Femme</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </FormFieldCustom>
+                    <FormFieldSelect control={form.control} label="Genre" name="gender" options={GENRE_OPTIONS} />
                 </div>
                 <DialogFooter className="pt-3">
                     <SubmitButton isLoading={isPending} className="mx-auto w-full" type="submit">

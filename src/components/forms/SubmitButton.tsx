@@ -1,18 +1,20 @@
-import withLoader from "@/HOC/withLoader";
 import React from "react";
 import { Button, ButtonProps } from "../ui/button";
+import { Loader } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type SubmitButtonProps = React.RefAttributes<HTMLButtonElement> &
     ButtonProps & {
         isLoading: boolean;
         children: React.ReactNode;
+        iconClassName?: string;
     };
-const SubmitButton = ({ isLoading, children, ...props }: SubmitButtonProps) => {
-    const ButtonWithLoader = withLoader(Button, { children });
+const SubmitButton = ({ isLoading, children, iconClassName, ...props }: SubmitButtonProps) => {
     return (
-        <ButtonWithLoader isLoading={isLoading} iconClassName="animate-spin mr-2" {...props}>
+        <Button {...props} disabled={isLoading}>
+            {isLoading && <Loader className={cn("mr-1 h-4 w-4 animate-spin", iconClassName)} />}
             {children}
-        </ButtonWithLoader>
+        </Button>
     );
 };
 
