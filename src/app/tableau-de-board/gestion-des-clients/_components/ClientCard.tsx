@@ -10,7 +10,7 @@ const ClientCard = ({ client }: { client: ClientType }) => {
     const UNKNOWN_IMAGE = client.gender === "Female" ? AVATAR_FEMALE : AVATAR_MALE;
     const CLEAN_DATE = datetimeFormatFr(client.createdAt);
     return (
-        <Link href={{ pathname: "gestion-des-clients/detail", query: { client: client.slug } }}>
+        <Link href={{ pathname: "gestion-des-clients/detail", query: { id: client.id } }}>
             <figure className="w-full shadow rounded  bg-white h-[150px] relative grid">
                 <Image
                     width={100}

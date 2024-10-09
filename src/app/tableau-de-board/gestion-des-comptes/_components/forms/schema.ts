@@ -13,6 +13,7 @@ export const gestionAccountEmployeeSchema = z
         iban: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
         phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
         gender: z.enum(["Male", "Female"]),
+        secteur: z.array(z.string().transform((value) => parseInt(value))),
     })
     .superRefine(({ password, confirmPassword }, ctx) => {
         if (password !== confirmPassword) {

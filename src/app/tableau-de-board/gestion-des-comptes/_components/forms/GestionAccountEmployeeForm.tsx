@@ -12,6 +12,8 @@ import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { GENRE_OPTIONS, GRADE_OPTIONS, ROLE_OPTIONS } from "@/config/enums";
+import FormFieldMultiSelect from "@/components/forms/FormFieldMultiSelect";
+import { Option } from "@/components/ui/MultipleSelector";
 
 type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (values: GestionEmployeeFormType) => Promise<any>;
@@ -45,6 +47,17 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
         startTransition(async () => processing(values));
     };
 
+    const SECTEURS_OPTIONS = [
+        {
+            label: "Iles San Andreas",
+            value: "1",
+        },
+        {
+            label: "Iles Galapagos",
+            value: "2",
+        },
+    ];
+
     return (
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
@@ -74,6 +87,15 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
                 </div>
                 <div className="mb-4">
                     <FormFieldSelect control={form.control} name="role" label="Role" options={ROLE_OPTIONS} />
+                </div>
+                <div className="mb-4">
+                    <FormFieldMultiSelect
+                        control={form.control}
+                        name="secteur"
+                        options={SECTEURS_OPTIONS}
+                        label="Secteur"
+                        className=""
+                    />
                 </div>
 
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
