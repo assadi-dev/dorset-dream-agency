@@ -12,6 +12,7 @@ import bcrypt from "bcrypt";
 import { db } from "@/database";
 import { users } from "@/database/drizzle/schema/users";
 import { employees } from "@/database/drizzle/schema/employees";
+import { secteurs } from "@/database/drizzle/schema/secteurs";
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -83,5 +84,22 @@ export const getAccountCollections = async () => {
         return request;
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
+    }
+};
+
+export const getSecteurs = async () => {
+    try {
+        const request = await db
+            .select({
+                id: secteurs.id,
+                name: secteurs.name,
+            })
+            .from(secteurs);
+        return request.map((it) => ({
+            label: it.name,
+            value: it.id,
+        }));
+    } catch (error) {
+        return [];
     }
 };

@@ -96,6 +96,7 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
                         defaultOptions={SECTEURS_OPTIONS}
                         label="Secteur"
                         iconBadgeClearButtonClassName="text-white hover:text-white"
+                        loadingIndicator={true}
                     />
                 </div>
 

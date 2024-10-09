@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const gestionAccountEmployeeSchema = z
     .object({
-        username: z.string().email("Format email invalide !").min(1, { message: REQUIRE_MESSAGE_ERROR }),
+        username: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }).email(EMAIL_INVALID),
         password: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
         confirmPassword: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
         role: z.enum(["user", "admin"]),
@@ -13,12 +13,14 @@ export const gestionAccountEmployeeSchema = z
         iban: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
         phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
         gender: z.enum(["Male", "Female"]),
-        secteur: z.array(
-            z.object({
-                label: z.string(),
-                value: z.string(),
-            }),
-        ),
+        secteur: z
+            .array(
+                z.object({
+                    label: z.string(),
+                    value: z.string(),
+                }),
+            )
+            .min(1, { message: REQUIRE_MESSAGE_ERROR }),
     })
     .superRefine(({ password, confirmPassword }, ctx) => {
         if (password !== confirmPassword) {
