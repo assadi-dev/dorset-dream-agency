@@ -61,6 +61,7 @@ export interface MultipleSelectorProps {
     badgeClassName?: string;
     iconClearClassName?: string;
     clearButtonClassName?: string;
+    iconBadgeClearButtonClassName?: string;
     /**
      * First item selected is a default behavior by cmdk. That is why the default is true.
      * This is a workaround solution by add a dummy item.
@@ -195,6 +196,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             hideClearAllButton = false,
             clearButtonClassName,
             iconClearClassName,
+            iconBadgeClearButtonClassName,
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>,
     ) => {
@@ -481,7 +483,12 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                         }}
                                         onClick={() => handleUnselect(option)}
                                     >
-                                        <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                                        <X
+                                            className={cn(
+                                                "h-3 w-3 text-muted-foreground hover:text-foreground",
+                                                iconBadgeClearButtonClassName,
+                                            )}
+                                        />
                                     </button>
                                 </Badge>
                             );

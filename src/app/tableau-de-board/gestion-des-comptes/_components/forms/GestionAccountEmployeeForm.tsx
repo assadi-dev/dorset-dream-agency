@@ -93,8 +93,9 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
                         control={form.control}
                         name="secteur"
                         options={SECTEURS_OPTIONS}
+                        defaultOptions={SECTEURS_OPTIONS}
                         label="Secteur"
-                        className=""
+                        iconBadgeClearButtonClassName="text-white hover:text-white"
                     />
                 </div>
 
