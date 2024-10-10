@@ -15,7 +15,13 @@ type FormFieldSwitchProps<T extends FieldValues> = InputProps & {
     className?: string;
 };
 
-const FormFieldSwitch = ({ control, label, description, name, className }: FormFieldSwitchProps) => {
+const FormFieldSwitch = <T extends FieldValues>({
+    control,
+    label,
+    description,
+    name,
+    className,
+}: FormFieldSwitchProps<T>) => {
     return (
         <FormField
             control={control}
