@@ -1,10 +1,21 @@
 import React from "react";
 
 import { FormItem, FormLabel, FormControl, FormDescription, FormField } from "@/components/ui/form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
+import { InputProps } from "../ui/input";
 
-const FormFieldSwitch = ({ control, label, description, className }) => {
+type FormFieldSwitchProps<T extends FieldValues> = InputProps & {
+    control: Control<T>;
+    name: Path<T>;
+    label?: string;
+    description?: string;
+    placeholder?: string;
+    className?: string;
+};
+
+const FormFieldSwitch = ({ control, label, description, name, className }: FormFieldSwitchProps) => {
     return (
         <FormField
             control={control}
