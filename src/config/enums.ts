@@ -41,3 +41,14 @@ export const GENRE_OPTIONS: Record<"label" | "value", string>[] = [
         value: "Female",
     },
 ];
+
+export const PURCHASE_TYPE = [
+    {
+        label: "Location",
+        value: "Location",
+    },
+    {
+        label: "Vente",
+        value: "Vente",
+    },
+];
