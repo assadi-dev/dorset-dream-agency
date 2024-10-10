@@ -13,7 +13,7 @@ const AddForm = ({ form }) => {
                     name="purchaseType"
                     label="Type"
                     options={PURCHASE_TYPE}
-                    placeholder="Sélectionnez le type de vente"
+                    placeholder="Sélectionnez le type d'acquisition"
                 />
             </div>
             <div className="mb-3">
