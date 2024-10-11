@@ -25,7 +25,7 @@ const AdminLayout = async ({ children }: AdminLayoutType) => {
 
                 {children}
             </main>
-            <footer className={styles.dashboardFooter}>
+            <footer className={cn(styles.dashboardFooter, "bg-white")}>
                 <p>copyright &copy; {currentYear()} </p>
             </footer>
         </div>

@@ -6,7 +6,7 @@ import { PURCHASE_TYPE } from "@/config/enums";
 
 const AddForm = ({ form }) => {
     return (
-        <div>
+        <>
             <div className="mb-3">
                 <FormFieldSelect
                     control={form.control}
@@ -79,7 +79,7 @@ const AddForm = ({ form }) => {
                     description={"Renseigner le numéro de la clé"}
                 />
             </div>
-        </div>
+        </>
     );
 };
 
