@@ -3,12 +3,28 @@ import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import FormFieldSwitch from "@/components/forms/FormFieldSwitch";
 import { PURCHASE_TYPE } from "@/config/enums";
+import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 const PropertyForm = ({ form, ...props }) => {
+    const categoryQuery = useCategoryPropertiesOptions();
+
+    const ENUM_PROPERTY_CATEGORIES = React.useMemo(() => {
+        if (categoryQuery.data) return categoryQuery.data;
+        return [];
+    }, [categoryQuery.data]);
+
     return (
         <div {...props}>
-            <div className="mb-3">
+            <div className="mb-3 lg:grid lg:grid-cols-2 gap-8">
+                <FormFieldSelect
+                    control={form.control}
+                    name="categoryProperty"
+                    label="Type de propriété"
+                    options={ENUM_PROPERTY_CATEGORIES}
+                    placeholder="Sélectionnez le type du bien immobilier"
+                />
                 <FormFieldSelect
                     control={form.control}
                     name="purchaseType"

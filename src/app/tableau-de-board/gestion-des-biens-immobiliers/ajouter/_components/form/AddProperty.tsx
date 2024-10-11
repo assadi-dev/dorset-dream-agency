@@ -10,6 +10,7 @@ import { wait } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PropertyForm from "./PropertyForm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { insertProperty } from "../../actions/addProperty";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -28,7 +29,8 @@ const AddProperty = () => {
     const processing: SubmitHandler<propertyFormType> = (values) => {
         startTransition(async () => {
             try {
-                await wait(3000);
+                await wait(1000);
+                await insertProperty(values);
                 ToastSuccessSonner("Le bien immobilier à été créer avec success !");
             } catch (error) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
@@ -41,8 +43,8 @@ const AddProperty = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(processing)}>
-                <div className="lg:grid lg:grid-cols-[0.78fr,1fr] h-[calc(95vh-200px)] pt-3 gap-3">
-                    <ScrollArea className="w-fit">
+                <div className="lg:grid lg:grid-cols-[0.82fr,1fr] h-[calc(95vh-200px)] pt-3 gap-3">
+                    <ScrollArea className="w-full">
                         <PropertyForm form={form} className="px-8" />
                     </ScrollArea>
                     <div>

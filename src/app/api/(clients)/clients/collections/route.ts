@@ -22,12 +22,7 @@ export async function GET(req: NextRequest, context: any) {
 
     const condition = search ? and(like(clients.firstName, `%${search}%`)) : null;
 
-    const clientResult = await db
-        .select()
-        .from(clients)
-        .where(and(like(clients.firstName, `%${search}%`)))
-        .limit(limit)
-        .offset(pageMetadata.offset);
+    const clientResult = await db.select().from(clients).where(condition).limit(limit).offset(pageMetadata.offset);
 
     const result = {
         data: clientResult,
