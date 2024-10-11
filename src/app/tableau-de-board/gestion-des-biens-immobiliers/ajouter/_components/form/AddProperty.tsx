@@ -38,8 +38,8 @@ const AddProperty = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(processing)}>
-                <div className="lg:grid lg:grid-cols-[1fr,0.65fr] h-[calc(95vh-200px)] pt-3 gap-3">
-                    <ScrollArea className=" w-full  lg:w-[75%] p-3 lg:p-8">
+                <div className="lg:grid lg:grid-cols-[0.75fr,1fr] h-[calc(95vh-200px)] pt-3 gap-3">
+                    <ScrollArea className=" w-full p-3 lg:p-8">
                         <AddForm form={form} />
                     </ScrollArea>
                     <div>
