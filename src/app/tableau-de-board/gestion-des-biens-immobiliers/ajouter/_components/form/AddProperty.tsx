@@ -17,12 +17,16 @@ const AddProperty = () => {
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
         defaultValues: {
+            name: "",
+            address: "",
             description: "",
             isAvailable: false,
             isFurnish: true,
             keyQuantity: 1,
             factoryPrice: 0,
             keyNumber: "",
+            sellingPrice: 0,
+            rentalPrice: 0,
         },
     });
 
@@ -32,6 +36,7 @@ const AddProperty = () => {
                 await wait(1000);
                 await insertProperty(values);
                 ToastSuccessSonner("Le bien immobilier à été créer avec success !");
+                form.reset();
             } catch (error) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
             }
