@@ -10,7 +10,7 @@ const LocationsView = () => {
             <section>
                 <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                     <SearchInputDataTable />
-                    <AddButton />
+                    {/*   <AddButton /> */}
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">

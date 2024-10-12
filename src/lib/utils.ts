@@ -27,14 +27,6 @@ export const currentYear = () => {
     return new Date().getFullYear();
 };
 
-/**
- * Force la premiere lettre en majuscule
- * @param word
- */
-export const firstLetterCapitalize = (word: string) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-};
-
 export const wait = (delay: number): Promise<"Ready !"> => {
     return new Promise((resolve) => setTimeout(() => resolve("Ready !"), delay));
 };
