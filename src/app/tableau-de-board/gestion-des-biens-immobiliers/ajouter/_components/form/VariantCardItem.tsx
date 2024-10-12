@@ -5,7 +5,27 @@ import { cn } from "@/lib/utils";
 import { CircleX } from "lucide-react";
 import styles from "./styles.module.css";
 
-const VariantCardItem = ({ ...props }) => {
+type VariantCardItem = {
+    variant: {
+        id: number | string;
+        name: string;
+        files: Array<File>;
+    };
+};
+const VariantCardItem = ({ variant, ...props }: VariantCardItem) => {
+    const [previewUrl, setPreviewUrl] = React.useState<string>("");
+
+    React.useEffect(() => {
+        if (!variant) return;
+        const link = URL.createObjectURL(variant.files[0]);
+        console.log(link);
+
+        setPreviewUrl(link);
+        return () => {
+            URL.revokeObjectURL(link);
+        };
+    }, [variant]);
+
     const RemoveButton = () => {
         return (
             <button
@@ -18,20 +38,30 @@ const VariantCardItem = ({ ...props }) => {
     };
 
     return (
-        <figure
-            className={cn(
-                styles["card-variant"],
-                "card-variant h-[130px] relative w-fit overflow-hidden rounded-xl",
-                props.className,
+        <>
+            {variant && (
+                <figure
+                    className={cn(
+                        styles["card-variant"],
+                        "card-variant h-[130px] relative w-fit overflow-hidden rounded-xl",
+                        props.className,
+                    )}
+                    {...props}
+                >
+                    <Image
+                        width={800}
+                        height={800}
+                        src={previewUrl}
+                        alt={`picture of ${variant.name}`}
+                        className="rounded-xl"
+                    />
+                    <figcaption className={cn(styles["card-variant-legend"], "p-3")}>
+                        <RemoveButton />
+                        <p className="text-xs font-bold truncate max-w-full">{variant.name}</p>
+                    </figcaption>
+                </figure>
             )}
-            {...props}
-        >
-            <Image src={appartement} alt="image appartement" placeholder="blur" className="rounded-xl" />
-            <figcaption className={cn(styles["card-variant-legend"], "p-3")}>
-                <RemoveButton />
-                <p className="text-xs font-bold truncate max-w-full">Appartement Appartement Appartement Appartement</p>
-            </figcaption>
-        </figure>
+        </>
     );
 };
 

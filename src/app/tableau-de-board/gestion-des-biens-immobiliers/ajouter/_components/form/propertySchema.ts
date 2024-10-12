@@ -7,15 +7,14 @@ export const propertySchema = z.object({
     address: z.string().nullable(),
     factoryPrice: z.number(),
     sellingPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
-
     rentalPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
-
     purchaseType: z.enum(["Location", "Vente"], { message: REQUIRE_MESSAGE_ERROR }),
     isFurnish: z.boolean(),
     categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
     keyQuantity: z.coerce.number(),
     keyNumber: z.string().nullable(),
     isAvailable: z.boolean(),
+    variants: z.array(z.object({ name: z.string(), files: z.array(z.object()) })),
 });
 
 export type propertyFormType = z.infer<typeof propertySchema>;

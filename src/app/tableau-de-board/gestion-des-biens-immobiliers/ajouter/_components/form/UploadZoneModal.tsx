@@ -8,10 +8,17 @@ import useModalState from "@/hooks/useModalState";
 import { arrayFill } from "@/lib/utils";
 import { ImagePlus } from "lucide-react";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
+import { useDropzone } from "react-dropzone";
+import uniqid from "uniqid";
+import PreviewVarianteUpload from "./PreviewVarianteUpload";
 
+type UploadZoneForm = {
+    name: string;
+    files: Array<File>;
+};
 const UploadZoneModal = () => {
-    const form = useForm({
+    const form = useForm<UploadZoneForm>({
         defaultValues: {
             name: "",
             files: [],
@@ -19,13 +26,31 @@ const UploadZoneModal = () => {
     });
 
     const { closeModal } = useModalState();
+    const propertyForm = useFormContext();
 
-    const submitVariant = async () => {
+    const submitVariant: SubmitHandler<UploadZoneForm> = async (values) => {
         // TODO: implement the logic to upload the file
+
+        const currentVariant = propertyForm.getValues("variants");
+
+        const variant = {
+            id: uniqid(),
+            name: values.name,
+            files: values.files,
+        };
+
+        const addVariant = [variant, ...currentVariant];
+
+        propertyForm.setValue("variants", addVariant);
         closeModal();
     };
 
-    const array = arrayFill(15);
+    const onDrop = React.useCallback((acceptedFiles) => {
+        // Do something with the files
+        form.setValue("files", acceptedFiles);
+        console.log(acceptedFiles);
+    }, []);
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
     return (
         <Form {...form}>
@@ -39,13 +64,17 @@ const UploadZoneModal = () => {
                     label="Nom"
                     placeholder="Ex: Aqua Turquoise,Aqua Violet"
                 />
-                <div className="border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center mb-3 hover:cursor-pointer">
+                <div
+                    {...getRootProps()}
+                    className="border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center mb-3 hover:cursor-pointer"
+                >
                     <ImagePlus />
+                    <input {...getInputProps()} />
                 </div>
                 <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                     <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
-                        {array.map((v) => (
-                            <div key={v} className="bg-red-500 w-full h-[80px] rounded"></div>
+                        {form.getValues("files").map((file) => (
+                            <PreviewVarianteUpload key={file.name} file={file} />
                         ))}
                     </div>
                 </ScrollArea>

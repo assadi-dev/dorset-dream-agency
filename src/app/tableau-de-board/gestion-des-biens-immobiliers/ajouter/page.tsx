@@ -7,14 +7,12 @@ import { setTitlePage } from "@/lib/utils";
 export const metadata = setTitlePage("Création de biens immobiliers");
 const Ajouter = async () => {
     return (
-        <ModalProvider>
-            <PageTemplate
-                title="Ajouter un bien immobilier"
-                description="Ajouter un bien ainsi que les couleurs des intérieurs"
-            >
-                <AddProperty />
-            </PageTemplate>
-        </ModalProvider>
+        <PageTemplate
+            title="Ajouter un bien immobilier"
+            description="Ajouter un bien ainsi que les couleurs des intérieurs"
+        >
+            <AddProperty />
+        </PageTemplate>
     );
 };
 export default Ajouter;

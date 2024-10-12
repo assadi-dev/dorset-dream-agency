@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { propertyFormType, propertySchema } from "./propertySchema";
@@ -12,6 +12,7 @@ import PropertyForm from "./PropertyForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertProperty } from "../../actions/addProperty";
 import AddVariantProperty from "./AddVariantProperty";
+import ModalProvider from "@/components/Modals/ModalProvider";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -28,6 +29,7 @@ const AddProperty = () => {
             keyNumber: "",
             sellingPrice: 0,
             rentalPrice: 0,
+            variants: [],
         },
     });
 
@@ -47,23 +49,25 @@ const AddProperty = () => {
     const SUBMIT_BUTTON = isPending ? "Enregistrement en cours..." : "Enregistrer";
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(processing)}>
-                <div className="lg:grid lg:grid-cols-[0.82fr,1fr] h-[calc(95vh-200px)] pt-3 gap-3">
-                    <ScrollArea className="w-full">
-                        <PropertyForm form={form} className="px-8" />
-                    </ScrollArea>
-                    <div>
-                        <div className="flex justify-end">
-                            <SubmitButton isLoading={isPending}>{SUBMIT_BUTTON}</SubmitButton>
-                        </div>
-                        <div className="p-3 max-h-[calc(90vh-200px)] overflow-hidden ">
-                            <AddVariantProperty />
+        <FormProvider {...form}>
+            <ModalProvider>
+                <form onSubmit={form.handleSubmit(processing)}>
+                    <div className="lg:grid lg:grid-cols-[0.82fr,1fr] h-[calc(95vh-200px)] pt-3 gap-3">
+                        <ScrollArea className="w-full">
+                            <PropertyForm form={form} className="px-8" />
+                        </ScrollArea>
+                        <div>
+                            <div className="flex justify-end">
+                                <SubmitButton isLoading={isPending}>{SUBMIT_BUTTON}</SubmitButton>
+                            </div>
+                            <div className="p-3 max-h-[calc(90vh-200px)] overflow-hidden ">
+                                <AddVariantProperty />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </Form>
+                </form>
+            </ModalProvider>
+        </FormProvider>
     );
 };
 
