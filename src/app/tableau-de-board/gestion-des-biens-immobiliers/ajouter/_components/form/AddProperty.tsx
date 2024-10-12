@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import PropertyForm from "./PropertyForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertProperty } from "../../actions/addProperty";
+import AddVariantProperty from "./AddVariantProperty";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -56,9 +57,9 @@ const AddProperty = () => {
                         <div className="flex justify-end">
                             <SubmitButton isLoading={isPending}>{SUBMIT_BUTTON}</SubmitButton>
                         </div>
-                        <ScrollArea className="p-3 h-[calc(90vh-200px)] overflow-y-auto overflow-x-hidden ">
-                            <div className="h-full  bg-foreground rounded-xl "></div>
-                        </ScrollArea>
+                        <div className="p-3 max-h-[calc(90vh-200px)] overflow-hidden ">
+                            <AddVariantProperty />
+                        </div>
                     </div>
                 </div>
             </form>
