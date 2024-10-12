@@ -18,15 +18,16 @@ const AddVariantProperty = () => {
 
     const AddVariantCard = () => {
         return (
-            <div
-                className="bg-[rgba(0,0,0,0.25)] hover:bg-[rgba(0,0,0,0.55)] hover:text-white transition-all h-[130px] relative overflow-hidden rounded-xl  border border-slate-500 w-full active:opacity-50 grid place-items-center text-primary"
+            <button
+                type="button"
+                className="bg-[rgba(0,0,0,0.25)] hover:bg-[rgba(0,0,0,0.55)] hover:text-white transition-all h-[130px] relative overflow-hidden rounded-xl  border border-slate-500 w-full active:opacity-50 grid place-items-center text-primary hover:cursor-pointer"
                 onClick={handleClickAddVariant}
             >
                 <div className="flex flex-col items-center space-y-1">
                     <PlusCircleIcon />
                     <p className="text-xs font-bold">Ajouter une variante</p>
                 </div>
-            </div>
+            </button>
         );
     };
 
