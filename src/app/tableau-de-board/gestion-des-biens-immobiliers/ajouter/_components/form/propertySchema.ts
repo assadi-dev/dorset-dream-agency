@@ -4,7 +4,7 @@ import { z } from "zod";
 export const propertySchema = z.object({
     name: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     description: z.string().nullable(),
-    address: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    address: z.string().nullable(),
     factoryPrice: z.number(),
     sellingPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
 
