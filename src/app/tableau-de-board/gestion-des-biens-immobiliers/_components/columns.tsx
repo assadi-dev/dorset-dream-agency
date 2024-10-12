@@ -17,11 +17,13 @@ export const columns: ColumnDef<PropertiesColumn>[] = [
         header: "Prix de vente",
     },
     {
-        accessorKey: "isFurnished",
+        accessorKey: "isFurnish",
         header: "Meublé",
+        cell: ({ cell }) => (cell.getValue() ? "Oui" : "Non"),
     },
     {
         accessorKey: "isAvailable",
         header: "Disponibilité",
+        cell: ({ cell }) => (cell.getValue() ? "Oui" : "Non"), // TODO: add a color to indicate availability
     },
 ];
