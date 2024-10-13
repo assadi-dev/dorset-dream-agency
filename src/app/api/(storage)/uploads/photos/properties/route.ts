@@ -8,15 +8,9 @@ import { db } from "@/database";
 import { photos } from "@/database/drizzle/schema/photos";
 import { sql } from "drizzle-orm";
 
-type Params = {
-    params: {
-        folder: string;
-    };
-};
-
-export async function POST(req: Request, { params: { folder } }: Params) {
+export async function POST(req: Request) {
     try {
-        const UPLOAD_DIR = path.join(ENV.STORAGE_DIR, "images", folder);
+        const UPLOAD_DIR = path.join(ENV.STORAGE_DIR, "images", "properties");
         await fs.promises.mkdir(UPLOAD_DIR, { recursive: true });
         await fs.promises.chmod(UPLOAD_DIR, fs.constants.O_RDWR);
         const formData = await req.formData();
@@ -55,8 +49,6 @@ export async function POST(req: Request, { params: { folder } }: Params) {
             const photo = result[0].insertId;
             PHOTOS.push(photo);
         }
-
-        console.log("upload to image folder: " + folder);
 
         const FILE_WORD = plural(files.length, "File", "Files");
         const success = {
