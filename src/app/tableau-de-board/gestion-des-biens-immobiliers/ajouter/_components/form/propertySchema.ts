@@ -18,3 +18,10 @@ export const propertySchema = z.object({
 });
 
 export type propertyFormType = z.infer<typeof propertySchema>;
+
+export const variantSchema = z.object({
+    name: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    files: z.array(z.any()).min(1, { message: REQUIRE_MESSAGE_ERROR }),
+});
+
+export type VariantFormType = z.infer<typeof variantSchema>;

@@ -6,12 +6,14 @@ import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
 import { arrayFill, cn } from "@/lib/utils";
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, Trash2 } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { variantSchema } from "./propertySchema";
 
 type UploadZoneForm = {
     name: string;
@@ -19,6 +21,7 @@ type UploadZoneForm = {
 };
 const UploadZoneModal = () => {
     const form = useForm<UploadZoneForm>({
+        resolver: zodResolver(variantSchema),
         defaultValues: {
             name: "",
             files: [],
@@ -71,6 +74,10 @@ const UploadZoneModal = () => {
         form.setValue("files", acceptedFiles);
     };
 
+    const clearAllFile = () => {
+        form.setValue("files", []);
+    };
+
     return (
         <Form {...form}>
             <form
@@ -84,29 +91,42 @@ const UploadZoneModal = () => {
                     label="Nom"
                     placeholder="Ex: Aqua Turquoise,Aqua Violet"
                 />
-                <div
-                    {...getRootProps()}
-                    className={cn(
-                        "border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center mb-3 hover:cursor-pointer text-[rgba(0,0,0,0.6)]",
-                        CLASS_DRAG_ACTIVE,
-                    )}
-                >
-                    <div className="grid place-items-center gap-1">
-                        <ImagePlus />
-                        <p>{DROPZONE_TEXT}</p>
-                        {!isDragActive && (
-                            <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+
+                <div>
+                    <div
+                        {...getRootProps()}
+                        className={cn(
+                            "border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center  hover:cursor-pointer text-[rgba(0,0,0,0.6)]",
+                            CLASS_DRAG_ACTIVE,
                         )}
+                    >
+                        <div className="grid place-items-center gap-1">
+                            <ImagePlus />
+                            <p>{DROPZONE_TEXT}</p>
+                            {!isDragActive && (
+                                <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+                            )}
+                        </div>
+                        <input {...getInputProps()} />
                     </div>
-                    <input {...getInputProps()} />
+
+                    <div className="p-2 text-red-500">{form.formState.errors.files?.message}</div>
                 </div>
-                <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
-                    <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
-                        {form.watch("files").map((file) => (
-                            <PreviewVarianteUpload key={file.name} file={file} />
-                        ))}
+
+                <div>
+                    <div>
+                        <Button type="button" variant="link" className="text-xs" onClick={clearAllFile}>
+                            <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
+                        </Button>
                     </div>
-                </ScrollArea>
+                    <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
+                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
+                            {form.watch("files").map((file) => (
+                                <PreviewVarianteUpload key={file.name} file={file} />
+                            ))}
+                        </div>
+                    </ScrollArea>
+                </div>
 
                 <div className="mt-8 flex justify-center">
                     <Button>Ajouter</Button>

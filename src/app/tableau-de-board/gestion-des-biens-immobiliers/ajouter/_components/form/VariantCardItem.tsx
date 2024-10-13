@@ -21,7 +21,9 @@ const VariantCardItem = ({ variant, ...props }: VariantCardItem) => {
 
     React.useEffect(() => {
         if (!variant) return;
-        const link = URL.createObjectURL(variant.files[0]);
+        const file = variant.files[0];
+        if (!file) return;
+        const link = URL.createObjectURL(file);
 
         setPreviewUrl(link);
         return () => {
