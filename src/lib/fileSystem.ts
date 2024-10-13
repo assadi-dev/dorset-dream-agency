@@ -51,4 +51,4 @@ export const saveBuffer = ({ destination, file }: saveBufferArgs) => {
     });
 };
 
-export const createGallery;
+//export const createGallery;

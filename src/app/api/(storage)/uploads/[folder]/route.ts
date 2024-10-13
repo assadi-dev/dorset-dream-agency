@@ -36,16 +36,24 @@ export async function POST(req: Request, { params: { folder } }: Params) {
             });
 
             //Save to database
-            const result = await db
+            const prepare = db
                 .insert(photos)
                 .values({
-                    originalName: originaleFileName,
-                    size: size,
-                    mimeType: mimetype,
-                    url: `${ENV.DOMAIN}/photo/property/${fileName}`,
+                    originalName: sql.placeholder("originaleName"),
+                    size: sql.placeholder("size"),
+                    mimeType: sql.placeholder("mimeType"),
+                    url: sql.placeholder("url"),
                 })
-                .$returningId();
-            PHOTOS.push(result[0].id);
+                .prepare();
+
+            const result = await prepare.execute({
+                originaleName: originaleFileName,
+                size: size,
+                mimeType: mimetype,
+                url: `${ENV.DOMAIN}/photo/property/${fileName}`,
+            });
+            const photo = result[0].insertId;
+            PHOTOS.push(photo);
         }
 
         console.log("upload to image folder: " + folder);
