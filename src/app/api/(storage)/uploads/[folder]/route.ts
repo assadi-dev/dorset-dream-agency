@@ -50,7 +50,7 @@ export async function POST(req: Request, { params: { folder } }: Params) {
                 originaleName: originaleFileName,
                 size: size,
                 mimeType: mimetype,
-                url: `${ENV.DOMAIN}/photo/property/${fileName}`,
+                url: `${ENV.DOMAIN}/api/photo/property/${fileName}`,
             });
             const photo = result[0].insertId;
             PHOTOS.push(photo);
