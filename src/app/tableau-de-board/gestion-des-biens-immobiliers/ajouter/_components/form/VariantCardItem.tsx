@@ -32,11 +32,9 @@ const VariantCardItem = ({ variant, ...props }: VariantCardItem) => {
     }, [variant]);
 
     const handleClickRemove = () => {
-        // TODO: remove file
         const currentVariants = form.getValues("variants");
         const variantsRemoved = removeVariants(currentVariants, [variant.id]);
         form.setValue("variants", variantsRemoved);
-        console.log(form.getValues("variants"));
     };
 
     const RemoveButton = () => {

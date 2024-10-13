@@ -51,7 +51,6 @@ const UploadZoneModal = () => {
     const onDrop = React.useCallback((acceptedFiles) => {
         // Do something with the files
         form.setValue("files", acceptedFiles);
-        console.log(acceptedFiles);
     }, []);
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -68,8 +67,6 @@ const UploadZoneModal = () => {
             const fileObject = await file;
             acceptedFiles.push(fileObject);
         }
-
-        console.log(acceptedFiles);
 
         form.setValue("files", acceptedFiles);
     };

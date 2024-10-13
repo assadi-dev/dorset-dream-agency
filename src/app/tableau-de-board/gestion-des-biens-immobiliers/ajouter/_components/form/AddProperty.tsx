@@ -2,7 +2,6 @@
 
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Form } from "@/components/ui/form";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { propertyFormType, propertySchema } from "./propertySchema";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
@@ -10,7 +9,7 @@ import { wait } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PropertyForm from "./PropertyForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertProperty } from "../../actions/addProperty";
+import { createVariantGallery, insertProperty } from "../../actions/actions";
 import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
 
@@ -37,7 +36,26 @@ const AddProperty = () => {
         startTransition(async () => {
             try {
                 await wait(1000);
-                await insertProperty(values);
+                const insertPropertyValues = { ...values };
+                delete insertPropertyValues?.variants;
+                const property = await insertProperty(insertPropertyValues);
+                const propertyID = String(property.id);
+
+                if (values.variants.length > 0) {
+                    for (const variant of values.variants) {
+                        const formData = new FormData();
+                        formData.append("name", variant.name);
+                        formData.append("propertyID", propertyID);
+
+                        if (variant.files.length > 0) {
+                            for (const file of variant.files) {
+                                formData.append("files", file);
+                            }
+                            await createVariantGallery(formData);
+                        }
+                    }
+                }
+
                 ToastSuccessSonner("Le bien immobilier à été créer avec success !");
                 form.reset();
             } catch (error) {

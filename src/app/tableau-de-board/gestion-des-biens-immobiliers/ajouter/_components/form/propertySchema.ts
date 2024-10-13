@@ -14,7 +14,7 @@ export const propertySchema = z.object({
     keyQuantity: z.coerce.number(),
     keyNumber: z.string().nullable(),
     isAvailable: z.boolean(),
-    variants: z.array(z.object({ name: z.string(), files: z.array(z.object()) })),
+    variants: z.array(z.object({ name: z.string(), files: z.array(z.any()) })),
 });
 
 export type propertyFormType = z.infer<typeof propertySchema>;
