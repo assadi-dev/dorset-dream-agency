@@ -3,7 +3,7 @@ export type PluralArg = {
     singular: string;
     plural: string;
 };
-export const plural = ({ size = 1, singular, plural }: PluralArg) => {
+export const plural = (size = 1, singular: string, plural: string) => {
     if (size < 1) throw new Error("size must be equal or gretter than 1");
     if (size === 1) return singular;
     else return plural;

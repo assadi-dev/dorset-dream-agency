@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import path from "path";
 import * as fs from "fs";
 import { ENV } from "@/config/global";
+import { fileNameChange, saveBuffer } from "@/lib/fileSystem";
+import { plural } from "@/lib/format";
+import { db } from "@/database";
+import { photos } from "@/database/drizzle/schema/photos";
+import { sql } from "drizzle-orm";
 
 type Params = {
     params: {
@@ -20,10 +25,37 @@ export async function POST(req: Request, { params: { folder } }: Params) {
             return NextResponse.json({ message: "No files received." }, { status: 400 });
         }
 
-        console.log("upload to image folder");
-        console.log("files", files);
+        const PHOTOS = [];
 
-        return NextResponse.json("coucou");
+        for (const file of files) {
+            const { fileName, originaleFileName, mimetype, size } = fileNameChange(file);
+            const destination = path.join(UPLOAD_DIR, fileName);
+            await saveBuffer({
+                destination,
+                file,
+            });
+
+            //Save to database
+            const result = await db
+                .insert(photos)
+                .values({
+                    originalName: originaleFileName,
+                    size: size,
+                    mimeType: mimetype,
+                    url: `${ENV.DOMAIN}/photo/property/${fileName}`,
+                })
+                .$returningId();
+            PHOTOS.push(result[0].id);
+        }
+
+        console.log("upload to image folder: " + folder);
+
+        const FILE_WORD = plural(files.length, "File", "Files");
+        const success = {
+            message: `${FILE_WORD} uploaded successfully.`,
+            photos: PHOTOS,
+        };
+        return NextResponse.json(success);
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(
