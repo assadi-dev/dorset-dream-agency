@@ -76,6 +76,7 @@ const UploadZoneModal = () => {
 
     const clearAllFile = () => {
         form.setValue("files", []);
+        form.clearErrors();
     };
 
     return (
@@ -92,7 +93,7 @@ const UploadZoneModal = () => {
                     placeholder="Ex: Aqua Turquoise,Aqua Violet"
                 />
 
-                <div>
+                <div className="Dropzone-presentation">
                     <div
                         {...getRootProps()}
                         className={cn(
@@ -113,9 +114,14 @@ const UploadZoneModal = () => {
                     <div className="p-2 text-red-500">{form.formState.errors.files?.message}</div>
                 </div>
 
-                <div>
-                    <div>
-                        <Button type="button" variant="link" className="text-xs" onClick={clearAllFile}>
+                <div className="Dropzone-preview">
+                    <div className="flex justify-end">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="text-xs active:scale-90 transition-all duration-75"
+                            onClick={clearAllFile}
+                        >
                             <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
                         </Button>
                     </div>
