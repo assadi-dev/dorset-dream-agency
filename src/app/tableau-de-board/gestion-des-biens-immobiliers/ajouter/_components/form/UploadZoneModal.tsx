@@ -5,7 +5,7 @@ import { CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
-import { arrayFill } from "@/lib/utils";
+import { arrayFill, cn } from "@/lib/utils";
 import { ImagePlus } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
@@ -52,11 +52,31 @@ const UploadZoneModal = () => {
     }, []);
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+    const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
+    const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
+
+    const handlePast = async (event: React.ClipboardEvent) => {
+        event.preventDefault();
+        if (!event.clipboardData.files.length) {
+            return;
+        }
+        const acceptedFiles: Array<File> = [];
+        for (const file of event.clipboardData.files) {
+            const fileObject = await file;
+            acceptedFiles.push(fileObject);
+        }
+
+        console.log(acceptedFiles);
+
+        form.setValue("files", acceptedFiles);
+    };
+
     return (
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(submitVariant)}
                 className="w-[32vw] p-3 min-h-[25vh] flex flex-col justify-between gap-3"
+                onPaste={handlePast}
             >
                 <FormFieldInput
                     control={form.control}
@@ -66,14 +86,23 @@ const UploadZoneModal = () => {
                 />
                 <div
                     {...getRootProps()}
-                    className="border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center mb-3 hover:cursor-pointer"
+                    className={cn(
+                        "border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center mb-3 hover:cursor-pointer text-[rgba(0,0,0,0.6)]",
+                        CLASS_DRAG_ACTIVE,
+                    )}
                 >
-                    <ImagePlus />
+                    <div className="grid place-items-center gap-1">
+                        <ImagePlus />
+                        <p>{DROPZONE_TEXT}</p>
+                        {!isDragActive && (
+                            <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+                        )}
+                    </div>
                     <input {...getInputProps()} />
                 </div>
                 <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                     <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
-                        {form.getValues("files").map((file) => (
+                        {form.watch("files").map((file) => (
                             <PreviewVarianteUpload key={file.name} file={file} />
                         ))}
                     </div>

@@ -1,12 +1,14 @@
 import React from "react";
-import FormVariantProperty from "./FormVariantProperty";
-import AddButton from "@/components/forms/AddButton";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import VariantCardItem from "./VariantCardItem";
 import { PlusCircleIcon } from "lucide-react";
 import useModalState from "@/hooks/useModalState";
 import UploadZoneModal from "./UploadZoneModal";
+import { useFormContext } from "react-hook-form";
 
 const AddVariantProperty = () => {
     const { openModal } = useModalState();
+    const form = useFormContext();
 
     const handleClickAddVariant = () => {
         console.log("open add variant clicked !");
@@ -34,7 +36,14 @@ const AddVariantProperty = () => {
     return (
         <div className="h-full  rounded-xl p-3 bg-slate-300 text-secondary">
             <AddVariantCard />
-            <FormVariantProperty />
+            <ScrollArea className="p-3 lg:h-[calc(55vh-50px)]">
+                <div className="w-full  grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(150px,250px))] gap-3">
+                    {form.watch("variants").map((variant) => (
+                        <VariantCardItem variant={variant} key={variant.id} />
+                    ))}
+                </div>
+                <div></div>
+            </ScrollArea>
         </div>
     );
 };
