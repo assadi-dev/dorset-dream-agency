@@ -4,6 +4,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { CircleX } from "lucide-react";
 import styles from "./styles.module.css";
+import { useFormContext } from "react-hook-form";
+import { removeVariants } from "./helpers";
 
 type VariantCardItem = {
     variant: {
@@ -15,10 +17,11 @@ type VariantCardItem = {
 const VariantCardItem = ({ variant, ...props }: VariantCardItem) => {
     const [previewUrl, setPreviewUrl] = React.useState<string>("");
 
+    const form = useFormContext();
+
     React.useEffect(() => {
         if (!variant) return;
         const link = URL.createObjectURL(variant.files[0]);
-        console.log(link);
 
         setPreviewUrl(link);
         return () => {
@@ -26,11 +29,20 @@ const VariantCardItem = ({ variant, ...props }: VariantCardItem) => {
         };
     }, [variant]);
 
+    const handleClickRemove = () => {
+        // TODO: remove file
+        const currentVariants = form.getValues("variants");
+        const variantsRemoved = removeVariants(currentVariants, [variant.id]);
+        form.setValue("variants", variantsRemoved);
+        console.log(form.getValues("variants"));
+    };
+
     const RemoveButton = () => {
         return (
             <button
                 type="button"
                 className="flex top-2 right-2 absolute  rounded-full text-white  hover:text-white transition-all active:scale-90"
+                onClick={handleClickRemove}
             >
                 <CircleX className="w-4 h-4 " />
             </button>
