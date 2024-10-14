@@ -5,6 +5,7 @@ import ClientDetailCard from "./_components/ClientDetailCard";
 import TabsTest from "./_components/Tabs/Tabs";
 import { getClientDetails } from "./actions/actions";
 import { LoaderCardContainer } from "./_components/loaders/LoaderCards";
+import ModalProvider from "@/components/Modals/ModalProvider";
 
 type DetailClientPageType = {
     searchParams: {
@@ -20,15 +21,17 @@ const DetailClientPage = async ({ searchParams: { id } }: DetailClientPageType) 
     };
 
     return (
-        <PageTemplate>
-            <div className="lg:grid lg:grid-cols-[250px,1fr] gap-5 lg:min-h-[calc(100vh-220px)] ">
-                <ClientDetailCardAsync />
+        <ModalProvider>
+            <PageTemplate>
+                <div className="lg:grid lg:grid-cols-[250px,1fr] gap-5 lg:min-h-[calc(100vh-220px)] ">
+                    <ClientDetailCardAsync />
 
-                <div>
-                    <TabsTest />
+                    <div>
+                        <TabsTest />
+                    </div>
                 </div>
-            </div>
-        </PageTemplate>
+            </PageTemplate>
+        </ModalProvider>
     );
 };
 

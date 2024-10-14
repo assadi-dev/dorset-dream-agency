@@ -55,7 +55,9 @@ export async function POST(req: Request) {
             message: `${FILE_WORD} uploaded successfully.`,
             photos: PHOTOS,
         };
-        return NextResponse.json(success);
+        return NextResponse.json(success, {
+            status: 201,
+        });
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(

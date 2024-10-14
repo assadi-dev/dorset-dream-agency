@@ -1,16 +1,12 @@
 "use client";
 
 import React from "react";
-import { Form, FormControl } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
-import FormFieldCustom from "@/components/forms/FormFieldCustom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clientFormSchema, ClientFormType } from "./schema";
 import { DialogFooter } from "@/components/ui/dialog";
 import useModalState from "@/hooks/useModalState";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { GenderType } from "@/app/types";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
@@ -19,11 +15,11 @@ import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { GENRE_OPTIONS } from "@/config/enums";
 
 type ClientFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
+    defaultValues?: ClientFormType;
     save: (value: ClientFormType) => Promise<any>;
 };
-const ClientForm = ({ save, ...props }: ClientFormProps) => {
+const ClientForm = ({ defaultValues, save, ...props }: ClientFormProps) => {
     const [isPending, startTransition] = React.useTransition();
-
     const modalState = useModalState();
 
     const form = useForm<ClientFormType>({
@@ -33,6 +29,7 @@ const ClientForm = ({ save, ...props }: ClientFormProps) => {
             firstName: "",
             phone: "",
             gender: "Male",
+            ...defaultValues,
         },
     });
 

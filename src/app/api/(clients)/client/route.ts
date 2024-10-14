@@ -22,5 +22,5 @@ export async function POST(req: Request) {
 
     await db.insert(clients).values(newClient);
 
-    return NextResponse.json({ message: "ok" });
+    return NextResponse.json({ message: "ok" }, { status: 200 });
 }
