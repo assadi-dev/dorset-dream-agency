@@ -24,7 +24,7 @@ const EditForm = () => {
 
         await fetch("http://localhost:3000/api/client/" + payload.id, {
             method: "PUT",
-            body: JSON.stringify(payload),
+            body: JSON.stringify(values),
         });
 
         const url = new URLSearchParams(searchParams.toString());
