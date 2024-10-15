@@ -73,6 +73,15 @@ export const formatFullDateShortText = (date) => {
 };
 
 /**
+ * Retourne la date au format suivant mar 29 juil 2024 à 10h35
+ * @param {*} date
+ */
+export const formatFullDateShortTextWitHours = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "eee dd MMM yyyy à HH'h'mm", { locale: fr });
+};
+
+/**
  * Retourne la date au format suivant mar 29 juil 2024
  * @param {*} date
  * @returns

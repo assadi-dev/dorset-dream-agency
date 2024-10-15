@@ -32,6 +32,7 @@ export const gestionAccountEmployeeSchema = z
         }
     });
 
+export type GestionAccountEmployeeFormType = z.infer<typeof gestionAccountEmployeeSchema>;
 export type GestionEmployeeFormType = z.infer<typeof gestionAccountEmployeeSchema>;
 
 const passwordSchema = z
