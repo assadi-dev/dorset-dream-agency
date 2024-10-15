@@ -7,9 +7,6 @@ import DropdownActions from "@/components/Datatable/DropdownActions";
 import AccountAction from "./AccountAction";
 
 const ListAccounts = ({ accounts }) => {
-    const handleEditAction = () => {};
-    const handleDeleeteAction = () => {};
-
     const actions = {
         id: "actions",
         enableHiding: false,

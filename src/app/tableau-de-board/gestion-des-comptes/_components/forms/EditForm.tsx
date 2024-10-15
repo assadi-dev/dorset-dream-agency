@@ -2,7 +2,7 @@
 import useModalState from "@/hooks/useModalState";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
-import { UserCreateInputDto } from "./schema";
+import { UserCreateInputDto, userEditFormType } from "./schema";
 import AccountForm from "./AccountForm";
 
 const EditForm = () => {
@@ -12,27 +12,19 @@ const EditForm = () => {
 
     const router = useRouter();
 
-    const defaultValues: UserCreateInputDto = {
+    const defaultValues: userEditFormType = {
         username: payload?.username || "",
-        password: payload?.password || "",
-        confirmPassword: payload?.password || "",
         role: payload?.role,
     };
 
-    const saveUpdateAccount = async (values: UserCreateInputDto) => {
+    const saveUpdateAccount = async (values: userEditFormType) => {
         try {
         } catch (error) {
             throw error;
         }
     };
 
-    return (
-        <AccountForm
-            className="w-full lg:w-[32vw] min-h-[420px]"
-            defaultValues={defaultValues}
-            save={saveUpdateAccount}
-        />
-    );
+    return <AccountForm className="w-full lg:w-[32vw] " defaultValues={defaultValues} save={saveUpdateAccount} />;
 };
 
 export default EditForm;

@@ -6,12 +6,25 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPropertiesCollections } from "../helpers";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import ActionsImmobilier from "./ActionsImmobilier";
+import DropdownActions from "@/components/Datatable/DropdownActions";
 
 const ListProperties = () => {
     const { data, isFetching, error } = useQuery({
         queryKey: ["LIST_IMMOBILIER_GESTION"],
         queryFn: fetchPropertiesCollections,
     });
+
+    const actions = {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => (
+            <DropdownActions>
+                <ActionsImmobilier payload={row.original} />
+            </DropdownActions>
+        ),
+    };
+    const ImmobilierColumns = [...columns, actions];
 
     return (
         <div>
@@ -25,7 +38,7 @@ const ListProperties = () => {
                 </Alert>
             )}
 
-            {!error && data ? <DataTable columns={columns} data={data} /> : null}
+            {!error && data ? <DataTable columns={ImmobilierColumns} data={data} /> : null}
         </div>
     );
 };

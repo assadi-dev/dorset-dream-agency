@@ -1,29 +1,24 @@
-import ActionColumnButton from "@/components/Datatable/ActionColumnButton";
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import useModalState from "@/hooks/useModalState";
 import React from "react";
-import EditForm from "./forms/EditForm";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
-import NewPassword from "./forms/NewPassword";
-import { Pen, Trash, LockKeyhole } from "lucide-react";
+import { Pen, Trash, ImagePlus } from "lucide-react";
 
-const AccountAction = ({ payload }) => {
+const ActionsImmobilier = ({ payload }) => {
     const { openModal } = useModalState();
 
     const handleClickEdit = () => {
         openModal({
-            title: `Modifier un compte`,
-            description: `Compte crée le ${formatFullDateShortTextWitHours(payload.createdAt)}`,
+            title: `Modifier un biens Immobilier`,
+            description: `Crée le ${formatFullDateShortTextWitHours(payload.createdAt)}`,
             payload: payload,
-            component: EditForm,
         });
     };
-    const handleClickNewPassword = () => {
+    const handleClickNewVariant = () => {
         openModal({
-            title: `Nouveau mot de passe`,
-            description: `Nouveau mot de passee pour le compte ${payload.username}`,
+            title: `Ajouter une variante`,
+            description: `Ajouté un ou plusieurs variante pour `,
             payload: payload,
-            component: NewPassword,
         });
     };
     const handleClickDelete = () => {};
@@ -32,8 +27,8 @@ const AccountAction = ({ payload }) => {
         <>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleClickNewPassword} className="text-primary">
-                <LockKeyhole className="mr-2 h-4 w-4" /> Nouveau mot de passe
+            <DropdownMenuItem onClick={handleClickNewVariant} className="text-primary">
+                <ImagePlus className="mr-2 h-4 w-4" /> Ajouter une variante
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
                 <Pen className="mr-2 h-4 w-4" />
@@ -47,4 +42,4 @@ const AccountAction = ({ payload }) => {
     );
 };
 
-export default AccountAction;
+export default ActionsImmobilier;
