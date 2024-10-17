@@ -45,7 +45,8 @@ export const getClientsOptions = async () => {
             .select({
                 id: clients.id,
                 label: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`,
-                value: sql<string>`${clients.id}`,
+                value: clients.id,
+                phone: clients.phone,
             })
             .from(clients)
             .orderBy(desc(clients.createdAt));

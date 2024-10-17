@@ -1,9 +1,10 @@
+import { API_INSTANCE } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 
 const useClientOptions = () => {
-    const fetchClient = () => {
-        return fetch("/api/clients/options");
+    const fetchClient = async () => {
+        const res = await API_INSTANCE.get("/clients/options");
+        return res.data;
     };
 
     const query = useQuery({ queryKey: ["clients-options"], queryFn: fetchClient });

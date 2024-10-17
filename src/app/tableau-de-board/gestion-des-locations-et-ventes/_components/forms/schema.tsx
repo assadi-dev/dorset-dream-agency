@@ -2,39 +2,17 @@ import { REQUIRE_MESSAGE_ERROR } from "@/config/messages";
 import { z } from "zod";
 
 export const LocationVentesSchema = z.object({
-    client: z.object(
-        {
-            id: z.string().transform((value) => parseInt(value)),
-            label: z.string(),
-            value: z.string(),
-        },
-        { message: REQUIRE_MESSAGE_ERROR },
-    ),
-    employee: z.object(
-        {
-            id: z.string().transform((value) => parseInt(value)),
-            label: z.string(),
-            value: z.string(),
-        },
-        { message: REQUIRE_MESSAGE_ERROR },
-    ),
+    client: z.string({ message: REQUIRE_MESSAGE_ERROR }),
+    employee: z.string({ message: REQUIRE_MESSAGE_ERROR }),
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     address: z.string(),
-    property: z.object(
-        {
-            id: z.string().transform((value) => parseInt(value)),
-            variantID: z.string().transform((value) => parseInt(value)),
-            label: z.string(),
-            value: z.string(),
-        },
-        { message: REQUIRE_MESSAGE_ERROR },
-    ),
+    property: z.string({ message: REQUIRE_MESSAGE_ERROR }),
     propertyService: z.enum(["Location LS", "Location Iles", "Ventes LS", "Vente Iles"]),
     rentalPrice: z
         .string()
         .min(1, { message: REQUIRE_MESSAGE_ERROR })
         .transform((val) => parseInt(val)),
-    seelingPrice: z
+    sellingPrice: z
         .string()
         .min(1, { message: REQUIRE_MESSAGE_ERROR })
         .transform((val) => parseInt(val)),
