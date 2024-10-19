@@ -22,7 +22,7 @@ export const columns: ColumnDef<LocationColumnType>[] = [
         header: "Type",
     },
     {
-        accessorKey: "sellingPrice",
+        accessorKey: "price",
         header: "Prix",
     },
     {
