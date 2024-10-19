@@ -9,4 +9,7 @@ export const gestionEmployeeSchema = z.object({
     iban: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     gender: z.enum(["Male", "Female"]),
+    secteur: z.array(z.object({ label: z.string().optional(), value: z.string().optional() })),
 });
+
+export type gestionEmployeeSchemaType = z.infer<typeof gestionEmployeeSchema>;

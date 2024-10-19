@@ -2,6 +2,8 @@
 import { db } from "@/database";
 import { employees } from "@/database/drizzle/schema/employees";
 import { sql } from "drizzle-orm";
+import { gestionEmployeeSchemaType } from "./_components/forms/schema";
+import { updateEmployee } from "@/database/drizzle/repositories/employee";
 
 export const getEmployeeCollections = async () => {
     try {
@@ -19,4 +21,9 @@ export const getEmployeeCollections = async () => {
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
     }
+};
+
+export const editEmployeeData = async (id: number, values: gestionEmployeeSchemaType) => {
+    await updateEmployee(id, values);
+    return;
 };
