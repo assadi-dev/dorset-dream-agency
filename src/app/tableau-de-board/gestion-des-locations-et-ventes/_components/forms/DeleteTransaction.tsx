@@ -1,6 +1,5 @@
 import AlertModalContent from "@/components/Modals/AlertModalContent";
 import useModalState from "@/hooks/useModalState";
-import { wait } from "@/lib/utils";
 import React from "react";
 import { removeTransaction } from "../../actions";
 import { usePathname, useRouter } from "next/navigation";

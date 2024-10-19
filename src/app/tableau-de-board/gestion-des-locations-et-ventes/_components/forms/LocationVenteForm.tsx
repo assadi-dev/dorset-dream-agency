@@ -15,10 +15,10 @@ import usePropertyWithVariantOptions from "@/hooks/usePropertyWithVariantOption"
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
-    defaultValues?: LocationVentesFormType;
+    defaultFormValues?: Partial<LocationVentesFormType>;
     save: (value: LocationVentesFormType) => Promise<any>;
 };
-const LocationVenteForm = ({ defaultValues, save, ...props }: FormType) => {
+const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
     const modalState = useModalState();
     const [isPending, startTransition] = React.useTransition();
 
@@ -35,7 +35,7 @@ const LocationVenteForm = ({ defaultValues, save, ...props }: FormType) => {
 
     const form = useForm<LocationVentesFormType>({
         resolver: zodResolver(LocationVentesSchema),
-        defaultValues,
+        defaultValues: { ...defaultFormValues },
     });
 
     React.useEffect(() => {
@@ -133,7 +133,13 @@ const LocationVenteForm = ({ defaultValues, save, ...props }: FormType) => {
                     />
                 </div>
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} label="Prix de la location - Vente" name="price" />
+                    <FormFieldInput
+                        control={form.control}
+                        label="Prix de la location - Vente"
+                        name="price"
+                        disabled
+                        className="text-black opacity-100 font-semibold"
+                    />
                 </div>
                 <div className="mb-4">
                     <FormFieldInput control={form.control} label="Nombre de clé(s)" name="keyQuantity" type="number" />

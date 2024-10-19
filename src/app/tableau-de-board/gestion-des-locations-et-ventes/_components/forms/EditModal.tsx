@@ -3,9 +3,14 @@ import LocationVenteForm from "./LocationVenteForm";
 import { LocationVentesFormType } from "./schema";
 import { wait } from "@/lib/utils";
 import useModalState from "@/hooks/useModalState";
+import { updateTransaction } from "@/database/drizzle/repositories/transactions";
+import { ediTransaction } from "../../actions";
+import { usePathname, useRouter } from "next/navigation";
 
 const EditModal = () => {
-    const { payload } = useModalState();
+    const { payload, closeModal } = useModalState();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const transactionID = payload.id;
 
@@ -22,9 +27,9 @@ const EditModal = () => {
     };
 
     const saveUpdateLocationVente = async (values: LocationVentesFormType) => {
-        await wait(1000);
-        // await createTransaction(values);
-        console.log(values);
+        await ediTransaction(transactionID, values);
+        closeModal();
+        router.push(pathname);
     };
 
     return (
@@ -33,7 +38,7 @@ const EditModal = () => {
                 <LocationVenteForm
                     className="w-full lg:w-[32vw] min-h-[420px]"
                     save={saveUpdateLocationVente}
-                    defaultValues={defaultValues}
+                    defaultFormValues={defaultValues}
                 />
             )}
         </>

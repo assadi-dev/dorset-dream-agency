@@ -5,6 +5,7 @@ import {
     getTransactionCollection,
     insertTransaction,
     insertTransactionType,
+    updateTransaction,
 } from "@/database/drizzle/repositories/transactions";
 import { LocationVentesFormType } from "./_components/forms/schema";
 
@@ -28,4 +29,18 @@ export const getTransactions = async () => {
 
 export const removeTransaction = async (listIds: Array<number>) => {
     await deleteTransactions(listIds);
+};
+
+export const ediTransaction = async (id: number, values: Partial<insertTransactionType>) => {
+    const cleanValues: insertTransactionType = {
+        employeeID: values.employee,
+        clientID: values.client,
+        variantID: values.property,
+        propertyService: values.propertyService,
+        sellingPrice: values.price,
+        keyQuantity: values.keyQuantity,
+        keyNumber: values.keyNumber,
+    };
+
+    await updateTransaction(id, cleanValues);
 };

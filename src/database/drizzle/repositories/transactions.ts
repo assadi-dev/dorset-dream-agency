@@ -64,3 +64,29 @@ export const deleteTransactions = async (ids: Array<number>) => {
         throw error;
     }
 };
+
+export const findOneTransaction = async () => {
+    try {
+        const transaction = await db.select().from(transactions);
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateTransaction = async (id: number, values: Partial<insertTransactionType>) => {
+    try {
+        const transaction = await db.select().from(transactions).where(eq(transactions.id, id));
+        if (!transaction) throw new Error("Transaction no found");
+
+        const cloneTransaction = { ...transaction, ...values };
+
+        const request = db
+            .update(transactions)
+            .set(cloneTransaction)
+            .where(eq(transactions.id, sql.placeholder("id")))
+            .prepare();
+        await request.execute({ id });
+    } catch (error) {
+        throw error;
+    }
+};
