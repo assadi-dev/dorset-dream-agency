@@ -4,6 +4,7 @@ import useModalState from "@/hooks/useModalState";
 import React from "react";
 import EditForm from "../../_components/forms/EditForm";
 import { clientDetailType } from "../actions/actions";
+import DeleteClient from "../../_components/forms/DeleteClient";
 
 type ActionButtonType = {
     client: clientDetailType;
@@ -19,12 +20,24 @@ const ActionDetailClient = ({ client }: ActionButtonType) => {
             payload: client,
         });
     };
+
+    const handleClickDelete = () => {
+        openModal({
+            title: "Supprimer",
+            component: () => <DeleteClient />,
+            description:
+                "Supprimer ce client entraînera la suppression des informations le concernant ainsi que les transaction qui lui son associé",
+            payload: client,
+        });
+    };
     return (
         <div className="lg:grid lg:grid-rows-2 self-end mb-8 p-3 gap-3">
             <Button variant="outline" className="bg-primary" onClick={handleClickEdit}>
                 Modifier
             </Button>
-            <Button variant="destructive">Supprimer</Button>
+            <Button variant="destructive" onClick={handleClickDelete}>
+                Supprimer
+            </Button>
         </div>
     );
 };

@@ -77,3 +77,17 @@ export const updateClient = async (id: string | number, values: any) => {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
+
+export const deleteClients = async (ids: Array<number>) => {
+    try {
+        for (const id of ids) {
+            const req = db
+                .delete(clients)
+                .where(eq(clients.id, sql.placeholder("id")))
+                .prepare();
+            await req.execute({ id });
+        }
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
+};

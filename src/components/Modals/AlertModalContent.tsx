@@ -2,13 +2,13 @@ import React from "react";
 import { Button } from "../ui/button";
 import { ToastErrorSonner, ToastSuccessSonner } from "../notify/Sonner";
 
-type AlertModalContentProps = {
+type AlertModalContentProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
     onCancel?: () => any;
     onConfirm?: () => any;
     onOpenChange?: () => any;
     children?: React.ReactNode;
 };
-const AlertModalContent = ({ onCancel, onConfirm }: AlertModalContentProps) => {
+const AlertModalContent = ({ onCancel, onConfirm, ...props }: AlertModalContentProps) => {
     const handleConfirm = () =>
         new Promise(async (resolve) => {
             try {
@@ -24,12 +24,14 @@ const AlertModalContent = ({ onCancel, onConfirm }: AlertModalContentProps) => {
         });
     const handleCancel = () =>
         new Promise((resolve) => {
-            onCancel && onCancel();
+            if (onCancel) {
+                onCancel();
+            }
             resolve("action canceled !");
         });
 
     return (
-        <div className="flex justify-end gap-3 lg:w-[25vw]">
+        <div {...props}>
             <Button type="button" onClick={handleCancel} variant="ghost">
                 Annuler
             </Button>

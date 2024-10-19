@@ -4,6 +4,7 @@ import { db } from "@/database";
 import { ClientFormType } from "./_components/forms/schema";
 import { clients } from "@/database/drizzle/schema/client";
 import { desc, eq, sql } from "drizzle-orm";
+import { deleteClients } from "@/database/drizzle/repositories/clients";
 
 type NewClient = typeof clients.$inferInsert;
 export const insertClient = async (values: ClientFormType) => {
@@ -57,6 +58,14 @@ export const updateClient = async (id: string | number, values: ClientFormType) 
             .prepare();
         const result = await prepare.execute({ id });
         return result;
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
+};
+
+export const removeClient = async (ids: Array<number>) => {
+    try {
+        await deleteClients(ids);
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
     }

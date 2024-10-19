@@ -1,31 +1,31 @@
 import AlertModalContent from "@/components/Modals/AlertModalContent";
 import useModalState from "@/hooks/useModalState";
-import React from "react";
-import { removeTransaction } from "../../actions";
 import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+import { removeClient } from "../../actions";
 
-const DeleteTransaction = () => {
+const DeleteClient = () => {
     const { closeModal, payload } = useModalState();
 
-    const transactionID = payload.id || null;
+    const clientID = payload.id || null;
     const router = useRouter();
     const pathname = usePathname();
 
-    const confirmDeleteTransaction = async () => {
-        transactionID && removeTransaction([transactionID]);
+    const confirmDeleteClient = async () => {
+        if (clientID) await removeClient([clientID]);
         closeModal();
-        router.push(pathname);
+        router.push("/tableau-de-board/gestion-des-clients");
     };
 
     return (
         <div>
             <AlertModalContent
                 onCancel={closeModal}
-                onConfirm={confirmDeleteTransaction}
+                onConfirm={confirmDeleteClient}
                 className="flex justify-end gap-3 lg:w-[25vw]"
             />
         </div>
     );
 };
 
-export default DeleteTransaction;
+export default DeleteClient;
