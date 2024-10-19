@@ -35,7 +35,7 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
     const form = useForm<LocationVentesFormType>({
         resolver: zodResolver(LocationVentesSchema),
         defaultValues: {
-            employee: 10,
+            employee: 8,
         },
     });
     React.useEffect(() => {
