@@ -34,8 +34,6 @@ export const getPropertiesWithVariantsOptions = async () => {
             value: variants.id,
             rentalPrice: properties.rentalPrice,
             sellingPrice: properties.sellingPrice,
-            keyQuantity: properties.keyQuantity,
-            keyNumber: properties.keyNumber,
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID));
