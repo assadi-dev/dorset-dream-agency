@@ -18,13 +18,11 @@ const DeleteClient = () => {
     };
 
     return (
-        <div>
-            <AlertModalContent
-                onCancel={closeModal}
-                onConfirm={confirmDeleteClient}
-                className="flex justify-end gap-3 lg:w-[25vw]"
-            />
-        </div>
+        <AlertModalContent
+            onCancel={closeModal}
+            onConfirm={confirmDeleteClient}
+            className="flex justify-end gap-3 lg:w-[25vw]"
+        />
     );
 };
 

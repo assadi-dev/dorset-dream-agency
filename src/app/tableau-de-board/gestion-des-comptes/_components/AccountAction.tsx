@@ -6,6 +6,7 @@ import EditForm from "./forms/EditForm";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
 import NewPassword from "./forms/NewPassword";
 import { Pen, Trash, LockKeyhole } from "lucide-react";
+import DeleteAccount from "./forms/DeleteAccount";
 
 const AccountAction = ({ payload }) => {
     const { openModal } = useModalState();
@@ -26,7 +27,14 @@ const AccountAction = ({ payload }) => {
             component: NewPassword,
         });
     };
-    const handleClickDelete = () => {};
+    const handleClickDelete = () => {
+        openModal({
+            title: `Supprimer un compte`,
+            description: `Supprimer le compte ${payload.username}`,
+            payload: payload,
+            component: DeleteAccount,
+        });
+    };
 
     return (
         <>

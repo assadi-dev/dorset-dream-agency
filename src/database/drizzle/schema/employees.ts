@@ -12,7 +12,7 @@ export const employees = mysqlTable("employees", {
     iban: varchar("iban", { length: 100 }),
     phone: varchar("phone", { length: 15 }),
     gender: mysqlEnum("gender", ["Male", "Female"]),
-    userID: int("user_id").references(() => users.id),
+    userID: int("user_id").references(() => users.id, { onDelete: "set null" }),
     ...updatedAndCreatedAt,
 });
 

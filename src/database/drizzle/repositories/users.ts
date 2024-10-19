@@ -1,18 +1,12 @@
 "use server";
 
 import { SALT_ROUNDS } from "@/config/security";
-import {
-    EmployeeCreateInputDto,
-    employeeValidator,
-    passwordValidator,
-    UserCreateInputDto,
-    userValidator,
-} from "./_components/forms/schema";
+
 import bcrypt from "bcrypt";
 import { db } from "@/database";
 import { users } from "@/database/drizzle/schema/users";
-import { employees } from "@/database/drizzle/schema/employees";
-import { secteurs } from "@/database/drizzle/schema/secteurs";
+import { passwordValidator, UserCreateInputDto, userValidator } from "./dto/usersDTO";
+import { eq, sql } from "drizzle-orm";
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -52,24 +46,6 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
     }
 };
 
-/**
- * Insertion des donné de l'employé
- */
-export const insertEmployee = async (values: EmployeeCreateInputDto) => {
-    try {
-        const employeeValidation = employeeValidator(values);
-        if (employeeValidation.error) throw employeeValidation.error;
-
-        if (values.userID) employeeValidation.data.userID = values.userID;
-
-        const request = await db.insert(employees).values(employeeValidation.data).$returningId();
-        const employeeId = request[0].id;
-        return employeeId;
-    } catch (error) {
-        if (error instanceof Error) throw new Error(error.message);
-    }
-};
-
 export const getAccountCollections = async () => {
     try {
         const request = await db
@@ -84,5 +60,18 @@ export const getAccountCollections = async () => {
         return request;
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
+    }
+};
+
+export const deleteAccounts = async (ids: Array<number>) => {
+    try {
+        for (const id of ids) {
+            const request = db.delete(users).where(eq(users.id, sql.placeholder("id")));
+            await request.execute({
+                id,
+            });
+        }
+    } catch (error) {
+        throw error;
     }
 };
