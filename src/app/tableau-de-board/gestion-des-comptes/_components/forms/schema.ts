@@ -96,6 +96,7 @@ export type userEditFormType = z.infer<typeof userEditSchema>;
 
 export const newPasswordSchema = z
     .object({
+        username: z.string(),
         password: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
         confirmPassword: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     })
@@ -120,3 +121,5 @@ export const userUpdateSchema = z.object({
 });
 
 export type UserUpdateInputDto = z.infer<typeof userUpdateSchema>;
+
+export type PasswordFormTypeWithoutUsername = Omit<NewPasswordFormType, "username">;

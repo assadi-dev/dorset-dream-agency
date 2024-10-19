@@ -11,9 +11,10 @@ import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
 import { Form } from "@/components/ui/form";
 
 type AccountNewPasswordProps = {
-    save: (values: NewPasswordFormType) => Promise<any>;
+    defaultFormValues: Partial<NewPasswordFormType>;
+    save: (values: Omit<NewPasswordFormType, "username">) => Promise<any>;
 };
-const AccountNewPasswordForm = ({ save, ...props }: AccountNewPasswordProps) => {
+const AccountNewPasswordForm = ({ save, defaultFormValues, ...props }: AccountNewPasswordProps) => {
     const [isPending, startTransition] = React.useTransition();
     const SUBMIT_LABEL = isPending ? SUBMIT_PROCESS_MESSAGE : SUBMIT_IDLE_MESSAGE;
 
@@ -22,6 +23,7 @@ const AccountNewPasswordForm = ({ save, ...props }: AccountNewPasswordProps) => 
         defaultValues: {
             password: "",
             confirmPassword: "",
+            ...defaultFormValues,
         },
     });
 
@@ -29,7 +31,7 @@ const AccountNewPasswordForm = ({ save, ...props }: AccountNewPasswordProps) => 
         startTransition(async () => {
             try {
                 await save(values);
-                ToastSuccessSonner(`Le mot de passe à été mise à jours`);
+                ToastSuccessSonner(`Le mot de passe du compte ${defaultFormValues.username} à été mise à jours`);
             } catch (error: any) {
                 const message = `Raison: ${error.message}`;
                 ToastErrorSonner(message);

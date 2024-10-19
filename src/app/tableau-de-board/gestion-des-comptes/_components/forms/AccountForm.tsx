@@ -29,7 +29,7 @@ const AccountForm = ({ defaultValues, save, ...props }: AccountFormProps) => {
         startTransition(async () => {
             try {
                 await save(values);
-                ToastSuccessSonner(`Le compte de l'utilisateur ${defaultValues.username} à été mise à jours`);
+                ToastSuccessSonner(`Le compte de l'utilisateur ${defaultValues.username} à été mis à jours`);
             } catch (error: any) {
                 const message = `Raison: ${error.message}`;
                 ToastErrorSonner(message);

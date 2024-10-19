@@ -83,7 +83,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
     }
 };
 
-export const changePassword = async (id: string, values: passwordValidatorType) => {
+export const changePassword = async (id: number, values: passwordValidatorType) => {
     try {
         const findUserReq = db
             .select()
