@@ -17,20 +17,13 @@ const PropertyForm = ({ form, ...props }) => {
 
     return (
         <div {...props}>
-            <div className="mb-3 lg:grid lg:grid-cols-2 gap-8">
+            <div className="mb-3">
                 <FormFieldSelect
                     control={form.control}
                     name="categoryProperty"
                     label="Type de propriété"
                     options={ENUM_PROPERTY_CATEGORIES}
                     placeholder="Sélectionnez le type du bien immobilier"
-                />
-                <FormFieldSelect
-                    control={form.control}
-                    name="purchaseType"
-                    label="Type"
-                    options={PURCHASE_TYPE}
-                    placeholder="Sélectionnez le type d'acquisition"
                 />
             </div>
             <div className="mb-3">
@@ -81,22 +74,6 @@ const PropertyForm = ({ form, ...props }) => {
                     label="Disponibilité"
                     description={"Rendre l'appartement disponible"}
                     className={"mb-3"}
-                />
-            </div>
-            <div className="mb-3 grid grid-cols-2 gap-3">
-                <FormFieldInput
-                    control={form.control}
-                    name="keyQuantity"
-                    label="Nombre de clé"
-                    description={"Renseigner la quantité de clé"}
-                    type="number"
-                    min={0}
-                />
-                <FormFieldInput
-                    control={form.control}
-                    name="keyNumber"
-                    label="Numéro de laclé"
-                    description={"Renseigner le numéro de la clé"}
                 />
             </div>
         </div>

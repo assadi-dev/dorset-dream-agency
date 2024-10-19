@@ -12,8 +12,6 @@ export const properties = mysqlTable("properties", {
     factoryPrice: int("factory_price"),
     sellingPrice: int("selling_price"),
     rentalPrice: int("rental_price"),
-    keyQuantity: int("key_quantity").default(0),
-    keyNumber: varchar("key_number", { length: 50 }),
     isPrestige: boolean("is_prestige").default(false),
     isAvailable: boolean("is_available").default(false),
     isFurnish: boolean("is_furnish").default(false),
