@@ -1,5 +1,5 @@
 import React from "react";
-import { LocationVentesFormType, LocationVentesSchema } from "./schema";
+import { LocationVentesFormType, LocationVentesSchema, PROPERTY_TYPE_ENUM } from "./schema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
@@ -12,6 +12,7 @@ import FormFieldInput from "@/components/forms/FormFieldInput";
 import useClientOptions from "@/hooks/useClientOptions";
 import FormFieldComboBox from "@/components/forms/FormFieldComboBox";
 import usePropertyWithVariantOptions from "@/hooks/usePropertyWithVariantOption";
+import FormFieldSelect from "@/components/forms/FormFieldSelect";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (value: LocationVentesFormType) => Promise<any>;
@@ -33,11 +34,14 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
 
     const form = useForm<LocationVentesFormType>({
         resolver: zodResolver(LocationVentesSchema),
+        defaultValues: {
+            employee: 10,
+        },
     });
     React.useEffect(() => {
         if (!form.getValues("client")) return;
         const findClient = CLIENT_OPTIONS.find((client: any) => client.value === form.getValues("client"));
-        console.log(findClient);
+
         if (findClient) {
             form.setValue("phone", findClient.phone);
         }
@@ -46,16 +50,28 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
     React.useEffect(() => {
         if (!form.getValues("property")) return;
         const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
-        console.log(findProperty);
         if (findProperty) {
             form.setValue("rentalPrice", findProperty.rentalPrice);
             form.setValue("sellingPrice", findProperty.sellingPrice);
-            const price = findProperty.purchaseType == "Vente" ? findProperty.sellingPrice : findProperty.rentalPrice;
-            form.setValue("price", price);
             form.setValue("keyQuantity", findProperty.keyQuantity);
             form.setValue("keyNumber", findProperty.keyNumber);
         }
     }, [form.watch("property")]);
+
+    React.useEffect(() => {
+        if (!form.getValues("propertyService") && !form.getValues("property")) return;
+        const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
+
+        const typeService = form.getValues("propertyService").toLowerCase();
+        let vente = 0;
+
+        if (typeService.includes("vente")) {
+            vente = findProperty.sellingPrice;
+        } else if (typeService.includes("location")) {
+            vente = findProperty.rentalPrice;
+        }
+        form.setValue("price", vente);
+    }, [form.watch("propertyService")]);
 
     const processing = async (values: LocationVentesFormType) => {
         try {
@@ -72,6 +88,8 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
     const submitData: SubmitHandler<LocationVentesFormType> = async (values) => {
         startTransition(async () => processing(values));
     };
+
+    console.log(form.formState.errors);
 
     return (
         <Form {...form}>
@@ -99,7 +117,7 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
                             options={PROPERTY_OPTIONS}
                             placeholder="Sélectionnez un Biens immobilier"
                             classNameButton="w-full"
-                            emptyMessage="Pas de clients enregistré"
+                            emptyMessage="Pas de biens enregistré"
                         />
                     </div>
                 </div>
@@ -108,7 +126,12 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
                 </div>
 
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} label="Type de service" name="propertyService" />
+                    <FormFieldSelect
+                        control={form.control}
+                        label="Type de service"
+                        name="propertyService"
+                        options={PROPERTY_TYPE_ENUM}
+                    />
                 </div>
                 <div className="mb-4">
                     <FormFieldInput control={form.control} label="Prix de la location - Vente" name="price" />

@@ -6,7 +6,6 @@ export const propertyOptionSchema = z.object({
     value: z.coerce.string(),
     rentalPrice: z.number(),
     sellingPrice: z.number(),
-    purchaseType: z.string(),
     keyQuantity: z.number(),
     keyNumber: z.string(),
 });

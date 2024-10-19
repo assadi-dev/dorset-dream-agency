@@ -34,7 +34,6 @@ export const getPropertiesWithVariantsOptions = async () => {
             value: variants.id,
             rentalPrice: properties.rentalPrice,
             sellingPrice: properties.sellingPrice,
-            purchaseType: properties.purchaseType,
             keyQuantity: properties.keyQuantity,
             keyNumber: properties.keyNumber,
         })
