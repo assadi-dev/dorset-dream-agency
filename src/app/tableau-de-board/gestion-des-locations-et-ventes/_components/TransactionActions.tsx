@@ -2,6 +2,7 @@ import ActionColumnButton from "@/components/Datatable/ActionColumnButton";
 import useModalState from "@/hooks/useModalState";
 import React from "react";
 import EditModal from "./forms/EditModal";
+import DeleteTransaction from "./forms/DeleteTransaction";
 
 const TransactionActions = ({ payload }) => {
     const { openModal } = useModalState();
@@ -17,7 +18,7 @@ const TransactionActions = ({ payload }) => {
         openModal({
             title: "Suppression",
             description: "Voulez-vous supprimez cette la transaction ?",
-            component: EditModal,
+            component: DeleteTransaction,
             payload: payload,
         });
     };

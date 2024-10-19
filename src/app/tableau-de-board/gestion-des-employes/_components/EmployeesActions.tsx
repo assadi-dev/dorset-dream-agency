@@ -16,7 +16,11 @@ const EmployeesActions = ({ payload }) => {
         });
     };
 
-    const handleClickDelete = () => {};
+    const handleClickDelete = () => {
+        console.log(payload);
+
+        // removeTransaction
+    };
 
     return (
         <>

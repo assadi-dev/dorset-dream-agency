@@ -1,6 +1,7 @@
 "use server";
 
 import {
+    deleteTransactions,
     getTransactionCollection,
     insertTransaction,
     insertTransactionType,
@@ -23,4 +24,8 @@ export const createTransaction = async (values: LocationVentesFormType) => {
 export const getTransactions = async () => {
     const transactions = await getTransactionCollection();
     return transactions;
+};
+
+export const removeTransaction = async (listIds: Array<number>) => {
+    await deleteTransactions(listIds);
 };

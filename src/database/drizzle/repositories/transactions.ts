@@ -18,27 +18,49 @@ export const insertTransaction = async (values: insertTransactionType) => {
 };
 
 export const getTransactionCollection = async () => {
-    const result = db
-        .select({
-            id: transactions.id,
-            property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
-            variantID: variants.id,
-            seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
-            employeeID: employees.id,
-            client: sql<string>`CONCAT(${clients.lastName}, " ",${clients.firstName})`,
-            clientID: clients.id,
-            phone: clients.phone,
-            price: transactions.sellingPrice,
-            propertyService: transactions.propertyService,
-            keyQuantity: transactions.keyQuantity,
-            keyNumber: transactions.keyNumber,
-            transactionDate: transactions.createdAt,
-        })
-        .from(transactions)
-        .leftJoin(clients, eq(clients.id, transactions.clientID))
-        .leftJoin(employees, eq(employees.id, transactions.employeeID))
-        .leftJoin(variants, eq(variants.id, transactions.variantID))
-        .leftJoin(properties, eq(properties.id, variants.propertyID));
+    try {
+        const result = db
+            .select({
+                id: transactions.id,
+                property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
+                variantID: variants.id,
+                seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
+                employeeID: employees.id,
+                client: sql<string>`CONCAT(${clients.lastName}, " ",${clients.firstName})`,
+                clientID: clients.id,
+                phone: clients.phone,
+                price: transactions.sellingPrice,
+                propertyService: transactions.propertyService,
+                keyQuantity: transactions.keyQuantity,
+                keyNumber: transactions.keyNumber,
+                transactionDate: transactions.createdAt,
+            })
+            .from(transactions)
+            .leftJoin(clients, eq(clients.id, transactions.clientID))
+            .leftJoin(employees, eq(employees.id, transactions.employeeID))
+            .leftJoin(variants, eq(variants.id, transactions.variantID))
+            .leftJoin(properties, eq(properties.id, variants.propertyID));
 
-    return await result;
+        return await result;
+    } catch (error) {
+        throw error;
+    }
+};
+
+/**
+ *
+ * Suppression multiple des transaction
+ */
+export const deleteTransactions = async (ids: Array<number>) => {
+    try {
+        for (const id of ids) {
+            const request = db
+                .delete(transactions)
+                .where(eq(transactions.id, sql.placeholder("id")))
+                .prepare();
+            await request.execute({ id });
+        }
+    } catch (error) {
+        throw error;
+    }
 };
