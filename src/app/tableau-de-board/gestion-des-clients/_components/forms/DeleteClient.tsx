@@ -15,6 +15,7 @@ const DeleteClient = () => {
         if (clientID) await removeClient([clientID]);
         closeModal();
         router.push("/tableau-de-board/gestion-des-clients");
+        router.refresh();
     };
 
     return (
