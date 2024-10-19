@@ -33,3 +33,15 @@ export const passwordValidator = (params: passwordValidatorType) => passwordSche
 export type UserCreateInputDto = z.infer<typeof userSchema>;
 
 export const userValidator = (values: UserCreateInputDto) => userSchema.safeParse(values);
+
+export const userUpdateSchema = z.object({
+    username: z
+        .string({ message: REQUIRE_MESSAGE_ERROR })
+        .email(EMAIL_INVALID)
+        .min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    role: z.enum(["user", "admin"]),
+});
+
+export type UserUpdateInputDto = z.infer<typeof userUpdateSchema>;
+
+export const userUpdateValidator = (values: UserUpdateInputDto) => userUpdateSchema.safeParse(values);

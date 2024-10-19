@@ -13,7 +13,8 @@ import { db } from "@/database";
 import { users } from "@/database/drizzle/schema/users";
 import { employees } from "@/database/drizzle/schema/employees";
 import { secteurs } from "@/database/drizzle/schema/secteurs";
-import { deleteAccounts } from "@/database/drizzle/repositories/users";
+import { deleteAccounts, updateUser } from "@/database/drizzle/repositories/users";
+import { UserUpdateInputDto } from "@/database/drizzle/repositories/dto/usersDTO";
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -90,4 +91,12 @@ export const getAccountCollections = async () => {
 
 export const removeUsersAccounts = (usersIds: Array<number>) => {
     return deleteAccounts(usersIds);
+};
+
+export const editUserData = async (id: number, values: UserUpdateInputDto) => {
+    try {
+        await updateUser(id, values);
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
 };

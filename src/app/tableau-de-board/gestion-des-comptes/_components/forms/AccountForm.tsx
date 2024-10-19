@@ -1,7 +1,7 @@
 import { Form } from "@/components/ui/form";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { UserCreateInputDto, userEditFormType, userSchema } from "./schema";
+import { UserCreateInputDto, userEditFormType, userSchema, userUpdateSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
@@ -21,7 +21,7 @@ const AccountForm = ({ defaultValues, save, ...props }: AccountFormProps) => {
     const SUBMIT_LABEL = isPending ? SUBMIT_PROCESS_MESSAGE : SUBMIT_IDLE_MESSAGE;
 
     const form = useForm<userEditFormType>({
-        resolver: zodResolver(userSchema),
+        resolver: zodResolver(userUpdateSchema),
         defaultValues: { ...defaultValues },
     });
 

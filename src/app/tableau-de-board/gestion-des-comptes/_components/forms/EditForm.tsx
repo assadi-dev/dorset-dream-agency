@@ -4,11 +4,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { UserCreateInputDto, userEditFormType } from "./schema";
 import AccountForm from "./AccountForm";
+import { editUserData } from "../../action";
 
 const EditForm = () => {
-    const { payload } = useModalState();
+    const { payload, closeModal } = useModalState();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const userID = payload.id;
 
     const router = useRouter();
 
@@ -19,6 +21,12 @@ const EditForm = () => {
 
     const saveUpdateAccount = async (values: userEditFormType) => {
         try {
+            if (userID) {
+                await editUserData(userID, values);
+                closeModal();
+                router.push(pathname);
+                router.refresh();
+            }
         } catch (error) {
             throw error;
         }

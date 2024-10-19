@@ -110,3 +110,13 @@ export const newPasswordSchema = z
     });
 
 export type NewPasswordFormType = z.infer<typeof newPasswordSchema>;
+
+export const userUpdateSchema = z.object({
+    username: z
+        .string({ message: REQUIRE_MESSAGE_ERROR })
+        .email(EMAIL_INVALID)
+        .min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    role: z.enum(["user", "admin"]),
+});
+
+export type UserUpdateInputDto = z.infer<typeof userUpdateSchema>;

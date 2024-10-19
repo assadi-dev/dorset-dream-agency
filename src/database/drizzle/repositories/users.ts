@@ -5,7 +5,14 @@ import { SALT_ROUNDS } from "@/config/security";
 import bcrypt from "bcrypt";
 import { db } from "@/database";
 import { users } from "@/database/drizzle/schema/users";
-import { passwordValidator, UserCreateInputDto, userValidator } from "./dto/usersDTO";
+import {
+    passwordValidator,
+    passwordValidatorType,
+    UserCreateInputDto,
+    UserUpdateInputDto,
+    userUpdateValidator,
+    userValidator,
+} from "./dto/usersDTO";
 import { eq, sql } from "drizzle-orm";
 
 /**
@@ -71,6 +78,66 @@ export const deleteAccounts = async (ids: Array<number>) => {
                 id,
             });
         }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const changePassword = async (id: string, values: passwordValidatorType) => {
+    try {
+        const findUserReq = db
+            .select()
+            .from(users)
+            .where(eq(users.id, sql.placeholder("id")))
+            .prepare();
+        const user = await findUserReq.execute({ id });
+
+        if (!user) throw new Error("User not found !");
+        const passwordValidate = passwordValidator(values);
+        if (passwordValidate.error) {
+            throw new Error(passwordValidate.error.message);
+        }
+        const newPassword = passwordValidate.data.password;
+        const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+        const result = db
+            .update(users)
+            .set({
+                ...findUserReq,
+                password: hashedPassword,
+            })
+            .where(eq(users.id, sql.placeholder("id")))
+            .prepare();
+        await result.execute({ id });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateUser = async (id: number, values: UserUpdateInputDto) => {
+    try {
+        const findUserReq = db
+            .select()
+            .from(users)
+            .where(eq(users.id, sql.placeholder("id")))
+            .prepare();
+        const user = await findUserReq.execute({ id });
+
+        if (!user) throw new Error("User not found !");
+        const userInputValidate = userUpdateValidator(values);
+        if (userInputValidate.error) {
+            throw new Error(userInputValidate.error.message);
+        }
+        const validateData = userInputValidate.data;
+
+        const result = db
+            .update(users)
+            .set({
+                ...user,
+                ...validateData,
+            })
+            .where(eq(users.id, sql.placeholder("id")))
+            .prepare();
+        await result.execute({ id });
     } catch (error) {
         throw error;
     }
