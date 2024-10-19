@@ -22,7 +22,7 @@ const DeleteClient = () => {
         <AlertModalContent
             onCancel={closeModal}
             onConfirm={confirmDeleteClient}
-            className="flex justify-end gap-3 lg:w-[25vw]"
+            className="flex justify-end lg:w-[25vw]"
         />
     );
 };
