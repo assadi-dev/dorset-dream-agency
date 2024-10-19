@@ -7,8 +7,8 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionLocationRightAction from "./_components/GestionLocationRightAction";
 import { getTransactions } from "./actions";
 
-export const metadata = setTitlePage("Ventes");
-const ClientPage = async () => {
+export const metadata = setTitlePage("Location & Ventes");
+const TransactionPage = async () => {
     const transactionsCollections = await getTransactions();
     return (
         <ModalProvider>
@@ -20,11 +20,11 @@ const ClientPage = async () => {
                     </div>
                 </section>
                 <section>
-                    <ListLocation data={transactionsCollections} />
+                    <ListLocation transactions={transactionsCollections} />
                 </section>
             </PageTemplate>
         </ModalProvider>
     );
 };
 
-export default ClientPage;
+export default TransactionPage;

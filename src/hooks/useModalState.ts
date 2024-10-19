@@ -18,7 +18,7 @@ const useModalState = () => {
     }: {
         title?: string;
         description?: string;
-        payload?: any;
+        payload?: unknown;
         component?: React.ComponentType<unknown>;
     }) => {
         modal.openModal({ open: true, title, description, payload, component });

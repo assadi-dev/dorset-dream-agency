@@ -20,12 +20,18 @@ export const insertTransaction = async (values: insertTransactionType) => {
 export const getTransactionCollection = async () => {
     const result = db
         .select({
+            id: transactions.id,
             property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
+            variantID: variants.id,
             seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
+            employeeID: employees.id,
             client: sql<string>`CONCAT(${clients.lastName}, " ",${clients.firstName})`,
+            clientID: clients.id,
             phone: clients.phone,
-            sellingPrice: transactions.sellingPrice,
+            price: transactions.sellingPrice,
             propertyService: transactions.propertyService,
+            keyQuantity: transactions.keyQuantity,
+            keyNumber: transactions.keyNumber,
             transactionDate: transactions.createdAt,
         })
         .from(transactions)

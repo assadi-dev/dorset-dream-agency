@@ -15,9 +15,10 @@ import usePropertyWithVariantOptions from "@/hooks/usePropertyWithVariantOption"
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
+    defaultValues?: LocationVentesFormType;
     save: (value: LocationVentesFormType) => Promise<any>;
 };
-const LocationVenteForm = ({ save, ...props }: FormType) => {
+const LocationVenteForm = ({ defaultValues, save, ...props }: FormType) => {
     const modalState = useModalState();
     const [isPending, startTransition] = React.useTransition();
 
@@ -34,21 +35,20 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
 
     const form = useForm<LocationVentesFormType>({
         resolver: zodResolver(LocationVentesSchema),
-        defaultValues: {
-            employee: 8,
-        },
+        defaultValues,
     });
+
     React.useEffect(() => {
-        if (!form.getValues("client")) return;
+        if (!form.getValues("client") && !CLIENT_OPTIONS) return;
         const findClient = CLIENT_OPTIONS.find((client: any) => client.value === form.getValues("client"));
 
         if (findClient) {
             form.setValue("phone", findClient.phone);
         }
-    }, [form.watch("client")]);
+    }, [form.watch("client"), CLIENT_OPTIONS]);
 
     React.useEffect(() => {
-        if (!form.getValues("property")) return;
+        if (!form.getValues("property") && !PROPERTY_OPTIONS) return;
         const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
         if (findProperty) {
             form.setValue("rentalPrice", findProperty.rentalPrice);
@@ -56,11 +56,12 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
             form.setValue("keyQuantity", findProperty.keyQuantity);
             form.setValue("keyNumber", findProperty.keyNumber);
         }
-    }, [form.watch("property")]);
+    }, [form.watch("property"), PROPERTY_OPTIONS]);
 
     React.useEffect(() => {
         if (!form.getValues("propertyService") && !form.getValues("property")) return;
         const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
+        if (!findProperty) return;
 
         const typeService = form.getValues("propertyService").toLowerCase();
         let vente = 0;

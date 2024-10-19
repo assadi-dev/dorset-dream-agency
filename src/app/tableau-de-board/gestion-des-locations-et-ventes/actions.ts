@@ -13,7 +13,7 @@ export const createTransaction = async (values: LocationVentesFormType) => {
         clientID: values.client,
         variantID: values.property,
         propertyService: values.propertyService,
-        sellingPrice: values.sellingPrice,
+        sellingPrice: values.price,
         keyQuantity: values.keyQuantity,
         keyNumber: values.keyNumber,
     };

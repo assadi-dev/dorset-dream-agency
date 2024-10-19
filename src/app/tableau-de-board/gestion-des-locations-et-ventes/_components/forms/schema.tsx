@@ -12,7 +12,7 @@ export const LocationVentesSchema = z.object({
     rentalPrice: z.coerce.number().optional(),
     sellingPrice: z.coerce.number().optional(),
     price: z.coerce.number().min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    keyQuantity: z.coerce.number().min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    keyQuantity: z.coerce.number(),
     keyNumber: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
 });
 
