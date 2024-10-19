@@ -89,8 +89,6 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
         startTransition(async () => processing(values));
     };
 
-    console.log(form.formState.errors);
-
     return (
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
