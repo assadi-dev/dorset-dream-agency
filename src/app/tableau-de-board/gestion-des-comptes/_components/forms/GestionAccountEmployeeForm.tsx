@@ -14,6 +14,7 @@ import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { GENRE_OPTIONS, GRADE_OPTIONS, ROLE_OPTIONS } from "@/config/enums";
 import FormFieldMultiSelect from "@/components/forms/FormFieldMultiSelect";
 import { Option } from "@/components/ui/MultipleSelector";
+import useFetchSecteursOptions from "@/hooks/useFetchSecteurOptions";
 
 type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (values: GestionEmployeeFormType) => Promise<any>;
@@ -21,6 +22,9 @@ type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
 const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps) => {
     const modalState = useModalState();
     const [isPending, startTransition] = React.useTransition();
+
+    const { data, isFetching } = useFetchSecteursOptions();
+
     const form = useForm<GestionEmployeeFormType>({
         resolver: zodResolver(gestionAccountEmployeeSchema),
         defaultValues: {
@@ -47,16 +51,13 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
         startTransition(async () => processing(values));
     };
 
-    const SECTEURS_OPTIONS = [
-        {
-            label: "Iles San Andreas",
-            value: "1",
-        },
-        {
-            label: "Iles Galapagos",
-            value: "2",
-        },
-    ];
+    const SECTEURS_OPTIONS = React.useMemo(() => {
+        if (!data && isFetching) return [];
+        return data.map((secteur) => {
+            secteur.value = secteur.value.toString();
+            return secteur;
+        });
+    }, [data, isFetching]);
 
     return (
         <Form {...form}>
@@ -89,15 +90,17 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
                     <FormFieldSelect control={form.control} name="role" label="Role" options={ROLE_OPTIONS} />
                 </div>
                 <div className="mb-4">
-                    <FormFieldMultiSelect
-                        control={form.control}
-                        name="secteur"
-                        options={SECTEURS_OPTIONS}
-                        defaultOptions={SECTEURS_OPTIONS}
-                        label="Secteur"
-                        iconBadgeClearButtonClassName="text-white hover:text-white"
-                        loadingIndicator={true}
-                    />
+                    {SECTEURS_OPTIONS.length ? (
+                        <FormFieldMultiSelect
+                            control={form.control}
+                            name="secteur"
+                            options={SECTEURS_OPTIONS}
+                            defaultOptions={SECTEURS_OPTIONS}
+                            label="Secteur"
+                            iconBadgeClearButtonClassName="text-white hover:text-white"
+                            loadingIndicator={true}
+                        />
+                    ) : null}
                 </div>
 
                 <div className="mb-4 grid lg:grid-cols-2 gap-3">
