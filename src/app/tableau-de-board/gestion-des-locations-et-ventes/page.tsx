@@ -5,9 +5,11 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import ListLocation from "./_components/ListLocation";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionLocationRightAction from "./_components/GestionLocationRightAction";
+import { getTransactions } from "./actions";
 
 export const metadata = setTitlePage("Ventes");
-const ClientPage = () => {
+const ClientPage = async () => {
+    const transactionsCollections = await getTransactions();
     return (
         <ModalProvider>
             <PageTemplate title="Location - Ventes" description="Gestion des locations et ventes">
@@ -18,7 +20,7 @@ const ClientPage = () => {
                     </div>
                 </section>
                 <section>
-                    <ListLocation />
+                    <ListLocation data={transactionsCollections} />
                 </section>
             </PageTemplate>
         </ModalProvider>

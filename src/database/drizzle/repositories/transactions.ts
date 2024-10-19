@@ -1,0 +1,38 @@
+import { db } from "@/database";
+import { transactions } from "../schema/transactions";
+import { clients } from "../schema/client";
+import { eq, sql } from "drizzle-orm";
+import { employees } from "../schema/employees";
+import { properties } from "../schema/properties";
+import { variants } from "../schema/variants";
+
+export type insertTransactionType = typeof transactions.$inferInsert;
+
+export const insertTransaction = async (values: insertTransactionType) => {
+    try {
+        const transaction = await db.insert(transactions).values(values);
+        return transaction;
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
+};
+
+export const getTransactionCollection = async () => {
+    const result = db
+        .select({
+            property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
+            seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
+            client: sql<string>`CONCAT(${clients.lastName}, " ",${clients.firstName})`,
+            phone: clients.phone,
+            sellingPrice: transactions.sellingPrice,
+            propertyService: transactions.propertyService,
+            transactionDate: transactions.createdAt,
+        })
+        .from(transactions)
+        .leftJoin(clients, eq(clients.id, transactions.clientID))
+        .leftJoin(employees, eq(employees.id, transactions.employeeID))
+        .leftJoin(variants, eq(variants.id, transactions.variantID))
+        .leftJoin(properties, eq(properties.id, variants.propertyID));
+
+    return await result;
+};

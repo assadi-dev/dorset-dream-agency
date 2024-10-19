@@ -2,13 +2,12 @@ import { setTitlePage } from "@/lib/utils";
 import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
-import AddButton from "@/components/forms/AddButton";
 import ListProperties from "./_components/ListProperties";
-import { PAGES } from "@/config/pages";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionImmobilierRightActions from "./_components/GestionImmobilierRightActions";
 
 export const metadata = setTitlePage("Gestion des biens immobiliers");
+
 const GestionImmobilierPage = () => {
     return (
         <ModalProvider>

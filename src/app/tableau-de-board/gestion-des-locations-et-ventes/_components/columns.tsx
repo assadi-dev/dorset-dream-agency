@@ -9,15 +9,15 @@ export const columns: ColumnDef<LocationColumnType>[] = [
         header: "Vendeur",
     },
     {
-        accessorKey: "customer",
+        accessorKey: "client",
         header: "Client",
     },
     {
-        accessorKey: "telephone",
+        accessorKey: "phone",
         header: "Telephone",
     },
     {
-        accessorKey: "type",
+        accessorKey: "propertyService",
         header: "Type",
     },
     {
@@ -25,7 +25,7 @@ export const columns: ColumnDef<LocationColumnType>[] = [
         header: "Prix",
     },
     {
-        accessorKey: "createdAt",
+        accessorKey: "transactionDate",
         header: "Date",
     },
 ];

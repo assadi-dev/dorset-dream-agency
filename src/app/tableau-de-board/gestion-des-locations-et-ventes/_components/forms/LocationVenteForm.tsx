@@ -135,7 +135,7 @@ const LocationVenteForm = ({ save, ...props }: FormType) => {
                     <FormFieldInput control={form.control} label="Prix de la location - Vente" name="price" />
                 </div>
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} label="Nombre de clé(s)" name="keyQuantity" />
+                    <FormFieldInput control={form.control} label="Nombre de clé(s)" name="keyQuantity" type="number" />
                 </div>
                 <div className="mb-4">
                     <FormFieldInput control={form.control} label="Numéro de la clé" name="keyNumber" />
