@@ -7,8 +7,6 @@ import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } 
 const EmployeesActions = ({ payload }) => {
     const { openModal } = useModalState();
 
-    console.log(payload);
-
     const handleClickEdit = () => {
         openModal({
             title: `Modifier un Employé`,
