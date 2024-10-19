@@ -48,17 +48,6 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
     }, [form.watch("client"), CLIENT_OPTIONS]);
 
     React.useEffect(() => {
-        if (!form.getValues("property") && !PROPERTY_OPTIONS) return;
-        const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
-        if (findProperty) {
-            form.setValue("rentalPrice", findProperty.rentalPrice);
-            form.setValue("sellingPrice", findProperty.sellingPrice);
-            form.setValue("keyQuantity", findProperty.keyQuantity);
-            form.setValue("keyNumber", findProperty.keyNumber);
-        }
-    }, [form.watch("property"), PROPERTY_OPTIONS]);
-
-    React.useEffect(() => {
         if (!form.getValues("propertyService") && !form.getValues("property")) return;
         const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
         if (!findProperty) return;
