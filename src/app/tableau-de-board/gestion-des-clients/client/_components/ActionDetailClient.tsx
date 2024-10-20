@@ -7,7 +7,7 @@ import { clientDetailType } from "../actions/actions";
 import DeleteClient from "../../_components/forms/DeleteClient";
 
 type ActionButtonType = {
-    client: clientDetailType;
+    client?: clientDetailType | null;
 };
 const ActionDetailClient = ({ client }: ActionButtonType) => {
     const { openModal } = useModalState();

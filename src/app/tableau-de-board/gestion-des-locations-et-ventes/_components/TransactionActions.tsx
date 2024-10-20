@@ -4,7 +4,10 @@ import React from "react";
 import EditModal from "./forms/EditModal";
 import DeleteTransaction from "./forms/DeleteTransaction";
 
-const TransactionActions = ({ payload }) => {
+type TransactionActionsProps = {
+    payload: any;
+};
+const TransactionActions = ({ payload }: TransactionActionsProps) => {
     const { openModal } = useModalState();
 
     const handleEdit = () => {

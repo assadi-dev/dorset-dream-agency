@@ -6,6 +6,7 @@ import TabsTest from "./_components/Tabs/Tabs";
 import { getClientDetails } from "./actions/actions";
 import { LoaderCardContainer } from "./_components/loaders/LoaderCards";
 import ModalProvider from "@/components/Modals/ModalProvider";
+import { notFound } from "next/navigation";
 
 type DetailClientPageType = {
     searchParams: {
@@ -16,7 +17,9 @@ type DetailClientPageType = {
 export const metadata = setTitlePage("Info client");
 const DetailClientPage = async ({ searchParams: { id } }: DetailClientPageType) => {
     const ClientDetailCardAsync = async () => {
-        const client = id ? await getClientDetails(id) : {};
+        if (!id) return notFound();
+        const client = await getClientDetails(id);
+        if (!client) return notFound();
         return <ClientDetailCard client={client} />;
     };
 

@@ -8,7 +8,10 @@ import NewPassword from "./forms/NewPassword";
 import { Pen, Trash, LockKeyhole } from "lucide-react";
 import DeleteAccount from "./forms/DeleteAccount";
 
-const AccountAction = ({ payload }) => {
+type AccountActionProps = {
+    payload: any;
+};
+const AccountAction = ({ payload }: AccountActionProps) => {
     const { openModal } = useModalState();
 
     const handleClickEdit = () => {

@@ -18,14 +18,14 @@ export const columns: ColumnDef<AccountColumn>[] = [
     {
         accessorKey: "role",
         header: "Role",
-        cell(props) {
-            return showRole(props.getValue());
+        cell(props: any) {
+            return props.getValue() ? showRole(props.getValue()) : "Role non défini";
         },
     },
     {
         accessorKey: "createdAt",
         header: "Crée le",
-        cell(props) {
+        cell(props: any) {
             return datetimeFormatFr(props.getValue());
         },
     },

@@ -12,7 +12,7 @@ export const plural = (size = 1, singular: string, plural: string) => {
  * Force la premiere lettre en majuscule
  * @param word
  */
-export const firstLetterCapitalize = (word: string) => {
+export const firstLetterCapitalize = (word?: string) => {
     if (!word) return;
     return word.charAt(0).toUpperCase() + word.slice(1);
 };

@@ -7,7 +7,7 @@ import React from "react";
 type AvatarProps = {
     src?: string;
     variant?: GenderType;
-    fullName: string;
+    fullName?: string | null;
     lastName?: string;
     firstName?: string;
 };

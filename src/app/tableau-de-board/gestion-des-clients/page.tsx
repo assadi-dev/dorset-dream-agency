@@ -7,11 +7,13 @@ import ListeClients from "./_components/ListeClients";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import ClientPageRightAction from "./_components/ClientPageRightAction";
 import { getClientsCollections } from "./actions";
+import { notFound } from "next/navigation";
 
 export const metadata = setTitlePage("Clients");
 const ClientPage = async () => {
     const ClientCollections = async () => {
         const clients = await getClientsCollections();
+        if (!clients) return notFound();
 
         return <ListeClients clients={clients} />;
     };

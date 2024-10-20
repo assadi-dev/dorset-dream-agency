@@ -6,7 +6,10 @@ import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } 
 import EditForm from "./forms/EditForm";
 import DeleteForm from "./forms/DeleteForm";
 
-const EmployeesActions = ({ payload }) => {
+type EmployeesActionsProps = {
+    payload: any;
+};
+const EmployeesActions = ({ payload }: EmployeesActionsProps) => {
     const { openModal } = useModalState();
 
     const handleClickEdit = () => {
@@ -19,8 +22,6 @@ const EmployeesActions = ({ payload }) => {
     };
 
     const handleClickDelete = () => {
-        console.log(payload);
-
         openModal({
             title: `Supprimer un Employé`,
             description: `Supprimer les informations de ${payload.name}`,

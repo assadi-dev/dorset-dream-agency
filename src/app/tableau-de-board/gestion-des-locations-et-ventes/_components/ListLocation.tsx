@@ -5,7 +5,10 @@ import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import TransactionActions from "./TransactionActions";
 
-const ListLocation = ({ transactions }) => {
+type ListLocationProps = {
+    transactions: any;
+};
+const ListLocation = ({ transactions }: ListLocationProps) => {
     const actions = {
         id: "actions",
         enableHiding: false,
