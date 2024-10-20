@@ -5,6 +5,7 @@ import BreadcrumbTheme from "./_components/BreadcrumbTheme";
 import styles from "./styles.module.css";
 import Sidebar from "./_components/Sidebar";
 import { cn, currentYear } from "@/lib/utils";
+import DashboardNavbar from "./_components/DashboardNavbar";
 
 type AdminLayoutType = {
     children: React.ReactNode;
@@ -19,7 +20,7 @@ const AdminLayout = async ({ children }: AdminLayoutType) => {
     return (
         <div className={styles.dashboardLayout}>
             <Sidebar />
-            <header className={cn(styles.dashboardHeader, "bg-white shadow")}></header>
+            <DashboardNavbar />
             <main className={styles.dashboardMain}>
                 <BreadcrumbTheme />
 
