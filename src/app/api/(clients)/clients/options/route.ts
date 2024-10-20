@@ -7,7 +7,7 @@ export const GET = async () => {
         const result = await getClientsOptions();
         const data = result?.map((item) => clientOptionSchema.parse(item));
         return NextResponse.json(data);
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 };

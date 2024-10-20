@@ -8,7 +8,7 @@ export const GET = async () => {
         const data = properties.map((it) => propertyOptionSchema.parse(it));
 
         return NextResponse.json(data);
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 };

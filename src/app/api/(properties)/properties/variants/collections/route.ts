@@ -6,7 +6,7 @@ export async function GET() {
         const response = await getPropertiesWithVariantsCollections();
 
         return NextResponse.json(response);
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json("");
     }
 }

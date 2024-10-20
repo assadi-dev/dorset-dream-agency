@@ -27,7 +27,7 @@ export const datetimeFormatFr = (date = "") => {
     try {
         const dt = new Date(date);
         return format(dt, "dd-MM-yyyy à HH:mm");
-    } catch (error) {
+    } catch (error: any) {
         return "Format de la date incorrect";
     }
 };
@@ -40,7 +40,7 @@ export const datetimeFormatFr2 = (date = "") => {
     try {
         const dt = new Date(date);
         return format(dt, "dd / MM / yyyy à HH:mm");
-    } catch (error) {
+    } catch (error: any) {
         return "Format de la date incorrect";
     }
 };

@@ -51,7 +51,7 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
             .$returningId();
         const userId = request[0].id;
         return userId;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -68,7 +68,7 @@ export const getAccountCollections = async () => {
             .from(users);
 
         return request;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -81,7 +81,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
                 id,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -111,7 +111,7 @@ export const changePassword = async (id: number, values: passwordValidatorType) 
             .where(eq(users.id, sql.placeholder("id")))
             .prepare();
         await result.execute({ id });
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -141,7 +141,7 @@ export const updateUser = async (id: number, values: UserUpdateInputDto) => {
             .where(eq(users.id, sql.placeholder("id")))
             .prepare();
         await result.execute({ id });
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -194,7 +194,7 @@ export const authenticate = async (values: userCredentialType): Promise<UserSess
             name: user.name,
             grade: user.grade,
         };
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };

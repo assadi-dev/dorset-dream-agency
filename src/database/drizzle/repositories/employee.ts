@@ -25,7 +25,7 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
         }
 
         return employeeId;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -50,7 +50,7 @@ export const getEmployeeCollections = async () => {
             .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId));
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -75,7 +75,7 @@ export const updateEmployee = async (id: number, values) => {
             .where(eq(employees.id, sql.placeholder("id")))
             .prepare();
         return await request.execute({ id });
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -89,7 +89,7 @@ export const deleteEmployee = async (ids: Array<number>) => {
                 .prepare();
             await req.execute({ id });
         }
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -113,7 +113,7 @@ export const addSecteurToSecteurToEmployee = async (employeeID: number, secteurI
                 secteurId,
             });
         }
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -139,7 +139,7 @@ export const clearSecteurToEmployee = async (employeeID: number) => {
                 .prepare();
             await req.execute({ secteurID: secteur.secteurID, employeeID });
         }
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };

@@ -45,7 +45,7 @@ export const saveBuffer = ({ destination, file }: saveBufferArgs) => {
             writeStream.on("error", (err) => {
                 reject({ message: "Error writing the file", error: err });
             });
-        } catch (error) {
+        } catch (error: any) {
             reject({ message: "Error processing the file", error });
         }
     });

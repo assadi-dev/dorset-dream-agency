@@ -7,7 +7,7 @@ const useFetchSecteursOptions = () => {
         try {
             const { data } = await API_INSTANCE.get("/secteurs/options");
             return data;
-        } catch (error) {
+        } catch (error: any) {
             throw error;
         }
     }, []);

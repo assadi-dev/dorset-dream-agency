@@ -58,7 +58,7 @@ export async function POST(req: Request) {
         return NextResponse.json(success, {
             status: 201,
         });
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json(
                 { message: error.message },

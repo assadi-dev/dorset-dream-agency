@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         // console.log("files", files);
 
         return NextResponse.json("coucou");
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json(
                 { message: error.message },

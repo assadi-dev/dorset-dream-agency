@@ -12,7 +12,7 @@ export const insertTransaction = async (values: insertTransactionType) => {
     try {
         const transaction = await db.insert(transactions).values(values);
         return transaction;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -42,7 +42,7 @@ export const getTransactionCollection = async () => {
             .leftJoin(properties, eq(properties.id, variants.propertyID));
 
         return await result;
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -60,7 +60,7 @@ export const deleteTransactions = async (ids: Array<number>) => {
                 .prepare();
             await request.execute({ id });
         }
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -68,7 +68,7 @@ export const deleteTransactions = async (ids: Array<number>) => {
 export const findOneTransaction = async () => {
     try {
         const transaction = await db.select().from(transactions);
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -86,7 +86,7 @@ export const updateTransaction = async (id: number, values: Partial<insertTransa
             .where(eq(transactions.id, sql.placeholder("id")))
             .prepare();
         await request.execute({ id });
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };

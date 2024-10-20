@@ -6,7 +6,7 @@ export const GET = async () => {
         const response = await getEmployeeCollections();
 
         return NextResponse.json(response);
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json(
             {
                 error: error.message,

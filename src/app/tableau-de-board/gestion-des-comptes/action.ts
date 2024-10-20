@@ -50,7 +50,7 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
             .$returningId();
         const userId = request[0].id;
         return userId;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -68,7 +68,7 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
         const request = await db.insert(employees).values(employeeValidation.data).$returningId();
         const employeeId = request[0].id;
         return employeeId;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -85,7 +85,7 @@ export const getAccountCollections = async () => {
             .from(users);
 
         return request;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -97,14 +97,14 @@ export const removeUsersAccounts = (usersIds: Array<number>) => {
 export const editUserData = async (id: number, values: UserUpdateInputDto) => {
     try {
         await updateUser(id, values);
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
 export const updateUserPassword = async (id: number, values: PasswordFormTypeWithoutUsername) => {
     try {
         await changePassword(id, values);
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };

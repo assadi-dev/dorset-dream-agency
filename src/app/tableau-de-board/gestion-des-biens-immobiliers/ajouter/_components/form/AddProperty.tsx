@@ -56,7 +56,7 @@ const AddProperty = () => {
 
                 ToastSuccessSonner("Le bien immobilier à été créer avec success !");
                 form.reset();
-            } catch (error) {
+            } catch (error: any) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
             }
         });

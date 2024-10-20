@@ -5,7 +5,7 @@ export const GET = async () => {
     try {
         const secteurs = await getSecteursOptions();
         return NextResponse.json(secteurs);
-    } catch (error) {
+    } catch (error: any) {
         const message = error.message;
         return NextResponse.json(
             {

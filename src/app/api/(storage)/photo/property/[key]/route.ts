@@ -27,7 +27,7 @@ export async function GET(req: Request, { params: { key } }: Params) {
             headers,
         });
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json(
                 { message: error.message },

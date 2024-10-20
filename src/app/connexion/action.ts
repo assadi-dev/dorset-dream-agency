@@ -10,7 +10,7 @@ export const getUserData = async (values: LoginFormType) => {
             ...user,
             id: String(user.id),
         };
-    } catch (error) {
+    } catch (error: any) {
         return null;
     }
 };

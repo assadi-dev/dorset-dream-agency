@@ -12,7 +12,7 @@ export const getSecteursOptions = async () => {
             })
             .from(secteurs);
         return await request;
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };

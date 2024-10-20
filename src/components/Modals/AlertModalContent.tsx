@@ -18,7 +18,7 @@ const AlertModalContent = ({ onCancel, onConfirm, ...props }: AlertModalContentP
                 }
 
                 resolve("action confirmed");
-            } catch (error) {
+            } catch (error: any) {
                 ToastErrorSonner("Une erreur est survenue lors de l'operation");
             }
         });

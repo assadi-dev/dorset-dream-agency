@@ -14,7 +14,7 @@ const LogoutButton = () => {
             try {
                 await signOut();
                 ToastSuccessSonner("Vous êtes déconnecté");
-            } catch (error) {
+            } catch (error: any) {
                 ToastErrorSonner(`Impossible  de vous déconnecter raison: ${error.message}`);
             }
         });

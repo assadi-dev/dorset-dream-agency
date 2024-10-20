@@ -7,7 +7,7 @@ export const useCategoryPropertiesOptions = () => {
         try {
             const { data } = await API_INSTANCE.get("/enumCategoryProperty");
             return data;
-        } catch (error) {
+        } catch (error: any) {
             throw error;
         }
     }, []);

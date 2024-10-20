@@ -30,7 +30,7 @@ export const insertProperty = async (values: InsertProperty) => {
             .from(properties)
             .where(sql<string>`id=${id}`);
         return newProperty[0];
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -51,7 +51,7 @@ export const insertVariant = async (name: string, propertyID: number) => {
         });
 
         return { id: result[0].insertId };
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -71,7 +71,7 @@ export const createVariantGallery = async (formData: FormData) => {
             const photoID = photo;
             await insertGallery(variantID, photoID);
         }
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };
@@ -102,7 +102,7 @@ export const insertGallery = (variantID: number, photoID: number) => {
             variantID,
             photoID,
         });
-    } catch (error) {
+    } catch (error: any) {
         throw error;
     }
 };

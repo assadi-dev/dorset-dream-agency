@@ -6,7 +6,7 @@ export async function GET() {
         const response = await getPropertiesCollections();
 
         return NextResponse.json(response);
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json("");
     }
 }

@@ -15,7 +15,7 @@ export async function GET() {
             .orderBy(desc(categoryProperties.createdAt));
 
         return NextResponse.json(result);
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error)
             return NextResponse.json({
                 error: error.message,

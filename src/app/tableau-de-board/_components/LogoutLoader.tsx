@@ -9,7 +9,7 @@ const LogoutLoader = () => {
             //await signOut();
             await wait(3000);
             ToastSuccessSonner("Vous êtes déconnecté");
-        } catch (error) {
+        } catch (error:any)  {
             ToastErrorSonner(`Impossible  de vous déconnecter raison: ${error.message}`);
         }
     }); */

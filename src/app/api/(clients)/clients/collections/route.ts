@@ -20,9 +20,9 @@ export async function GET(req: NextRequest) {
 
     const pageMetadata = paginateMetadata({ page, count: countResult.count, limit });
 
-    const condition = search ? and(like(clients.firstName, `%${search}%`)) : null;
+    const condition = search ? and(like(clients.firstName, `%${search}%`)) : {};
 
-    const clientResult = await db.select().from(clients).where(condition).limit(limit).offset(pageMetadata.offset);
+    const clientResult = await db.select().from(clients).limit(limit).offset(pageMetadata.offset);
 
     const result = {
         data: clientResult,

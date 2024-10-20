@@ -61,7 +61,7 @@ const EditForm = () => {
             closeModal();
             router.push(pathname);
             router.refresh();
-        } catch (error) {
+        } catch (error: any) {
             throw error;
         }
     };

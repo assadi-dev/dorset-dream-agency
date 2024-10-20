@@ -18,7 +18,7 @@ export const getEmployeeCollections = async () => {
             .from(employees);
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };

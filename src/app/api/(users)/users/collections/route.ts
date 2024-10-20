@@ -7,7 +7,7 @@ export async function GET() {
         console.log(response);
 
         return NextResponse.json(response);
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json("");
     }
 }

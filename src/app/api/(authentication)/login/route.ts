@@ -7,7 +7,7 @@ export const POST = async (req: Request) => {
 
         const user = await authenticate(body);
         return NextResponse.json(user);
-    } catch (error) {
+    } catch (error: any) {
         let code = 500;
         if (error instanceof Error) {
             if (error.cause === "authentication") code = 401;

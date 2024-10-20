@@ -16,7 +16,7 @@ export const insertClient = async (values: any) => {
 
         await db.insert(clients).values(newClient);
         return newClient;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -35,7 +35,7 @@ export const getClientsCollections = async () => {
             .orderBy(desc(clients.createdAt));
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -52,7 +52,7 @@ export const getClientsOptions = async () => {
             .orderBy(desc(clients.createdAt));
 
         return response;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -73,7 +73,7 @@ export const updateClient = async (id: string | number, values: any) => {
             .prepare();
         const result = await prepare.execute({ id });
         return result;
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -87,7 +87,7 @@ export const deleteClients = async (ids: Array<number>) => {
                 .prepare();
             await req.execute({ id });
         }
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
