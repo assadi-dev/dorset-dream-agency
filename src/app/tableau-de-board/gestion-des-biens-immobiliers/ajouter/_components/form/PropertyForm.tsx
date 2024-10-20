@@ -6,8 +6,13 @@ import { PURCHASE_TYPE } from "@/config/enums";
 import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import { propertyFormType } from "./propertySchema";
 
-const PropertyForm = ({ form, ...props }) => {
+type PropertyFormProps = React.HTMLAttributes<HTMLDivElement> & {
+    form: UseFormReturn<propertyFormType>;
+};
+const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
     const categoryQuery = useCategoryPropertiesOptions();
 
     const ENUM_PROPERTY_CATEGORIES = React.useMemo(() => {

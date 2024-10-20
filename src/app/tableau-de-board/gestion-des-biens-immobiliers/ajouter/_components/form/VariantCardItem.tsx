@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
 import { useFormContext } from "react-hook-form";
 import { removeVariants } from "./helpers";
 
-type VariantCardItem = {
+type VariantCardItem = React.HTMLAttributes<HTMLElement> & {
     variant: {
         id: number | string;
         name: string;

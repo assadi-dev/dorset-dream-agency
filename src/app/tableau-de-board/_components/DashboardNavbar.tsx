@@ -11,7 +11,7 @@ const DashboardNavbar = async () => {
         <>
             {session && (
                 <header className={cn(styles.dashboardHeader, "bg-white shadow flex justify-end items-center")}>
-                    <AvatarDropdown user={session.user} />
+                    {session.user && <AvatarDropdown user={session.user || null} />}
                 </header>
             )}
         </>

@@ -151,11 +151,11 @@ type UserSession = {
     email: string;
     name: string;
     role: string;
-    image: string | null;
-    employeeID: number | null;
-    grade: string | null;
+    image: string;
+    employeeID: number;
+    grade: string;
 };
-export const authenticate = async (values: userCredentialType): Promise<UserSession> => {
+export const authenticate = async (values: Partial<userCredentialType> | unknown): Promise<UserSession> => {
     try {
         const userInputValidate = userCredentialValidator(values);
         if (userInputValidate.error) {
@@ -188,7 +188,7 @@ export const authenticate = async (values: userCredentialType): Promise<UserSess
         return {
             id: user.userID,
             email: user.username,
-            image: null,
+            image: "",
             role: user.role,
             employeeID: user.employeeID,
             name: user.name,

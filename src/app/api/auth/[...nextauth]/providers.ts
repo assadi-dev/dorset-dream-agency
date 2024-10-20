@@ -3,11 +3,13 @@ import { authenticate } from "@/database/drizzle/repositories/users";
 import { User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-export type UserCredential = User & {
-    role: string;
-    employeeID: number;
-    grade?: string;
-};
+export type UserCredential =
+    | (User & {
+          role: string;
+          employeeID: number;
+          grade?: string;
+      })
+    | null;
 
 export const credentials = Credentials({
     credentials: {
@@ -22,8 +24,15 @@ export const credentials = Credentials({
             type: "password",
         },
     },
-    authorize: async (credentials: Record<"username" | "password", string>, req: any): Promise<UserCredential> => {
-        const user = await getUserData(credentials);
-        return user;
+    authorize: async (
+        credentials: Partial<Record<"username" | "password", unknown>>,
+        req: Request,
+    ): Promise<UserCredential> => {
+        try {
+            const user = await getUserData(credentials);
+            return user;
+        } catch (error) {
+            return null;
+        }
     },
 });

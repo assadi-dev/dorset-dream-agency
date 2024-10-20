@@ -35,11 +35,11 @@ const AddProperty = () => {
             try {
                 await wait(1000);
                 const insertPropertyValues = { ...values };
-                delete insertPropertyValues?.variants;
+
                 const property = await insertProperty(insertPropertyValues);
                 const propertyID = String(property.id);
 
-                if (values.variants.length > 0) {
+                if (values.variants && values.variants.length > 0) {
                     for (const variant of values.variants) {
                         const formData = new FormData();
                         formData.append("name", variant.name);

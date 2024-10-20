@@ -4,13 +4,16 @@ import React from "react";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
 import { Pen, Trash, ImagePlus } from "lucide-react";
 
-const ActionsImmobilier = ({ payload }) => {
+type ActionsImmobilierProps = {
+    payload: any;
+};
+const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
     const { openModal } = useModalState();
 
     const handleClickEdit = () => {
         openModal({
             title: `Modifier un biens Immobilier`,
-            description: `Crée le ${formatFullDateShortTextWitHours(payload.createdAt)}`,
+            description: `Crée le ${payload ? formatFullDateShortTextWitHours(payload?.createdAt) : "Date non résigné"}`,
             payload: payload,
         });
     };

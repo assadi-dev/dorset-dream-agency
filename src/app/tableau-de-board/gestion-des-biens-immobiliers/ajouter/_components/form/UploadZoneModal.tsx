@@ -32,8 +32,6 @@ const UploadZoneModal = () => {
     const propertyForm = useFormContext();
 
     const submitVariant: SubmitHandler<UploadZoneForm> = async (values) => {
-        // TODO: implement the logic to upload the file
-
         const currentVariant = propertyForm.getValues("variants");
 
         const variant = {
@@ -48,7 +46,7 @@ const UploadZoneModal = () => {
         closeModal();
     };
 
-    const onDrop = React.useCallback((acceptedFiles) => {
+    const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
         // Do something with the files
         form.setValue("files", acceptedFiles);
     }, []);
@@ -57,7 +55,7 @@ const UploadZoneModal = () => {
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
 
-    const handlePast = async (event: React.ClipboardEvent) => {
+    /*     const handlePast = async (event: React.ClipboardEvent) => {
         event.preventDefault();
         if (!event.clipboardData.files.length) {
             return;
@@ -69,7 +67,7 @@ const UploadZoneModal = () => {
         }
 
         form.setValue("files", acceptedFiles);
-    };
+    }; */
 
     const clearAllFile = () => {
         form.setValue("files", []);
@@ -81,7 +79,7 @@ const UploadZoneModal = () => {
             <form
                 onSubmit={form.handleSubmit(submitVariant)}
                 className="w-[32vw] p-3 min-h-[25vh] flex flex-col justify-between gap-3"
-                onPaste={handlePast}
+                /*  onPaste={handlePast} */
             >
                 <FormFieldInput
                     control={form.control}

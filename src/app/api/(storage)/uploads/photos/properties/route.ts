@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
         const PHOTOS = [];
 
-        for (const file of files) {
+        for (const file of files as Array<File>) {
             const { fileName, originaleFileName, mimetype, size } = fileNameChange(file);
             const destination = path.join(UPLOAD_DIR, fileName);
             await saveBuffer({

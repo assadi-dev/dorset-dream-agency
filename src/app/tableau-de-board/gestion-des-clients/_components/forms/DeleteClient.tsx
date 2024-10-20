@@ -7,7 +7,7 @@ import { removeClient } from "../../actions";
 const DeleteClient = () => {
     const { closeModal, payload } = useModalState();
 
-    const clientID = payload.id || null;
+    const clientID = payload?.id || null;
     const router = useRouter();
     const pathname = usePathname();
 

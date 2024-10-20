@@ -4,14 +4,14 @@ export type openModalArgs = {
     open: boolean;
     title?: string;
     description?: string;
-    payload?: unknown;
+    payload?: any;
     component?: React.ComponentType<unknown>;
 };
 type ModalContextType = {
     open: boolean;
     title?: string;
     description?: string;
-    payload?: unknown;
+    payload?: any;
     component?: React.ComponentType<unknown>;
     openModal: (args: openModalArgs) => void;
 };

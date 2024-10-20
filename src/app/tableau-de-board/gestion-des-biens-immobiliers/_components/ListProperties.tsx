@@ -18,7 +18,7 @@ const ListProperties = () => {
     const actions = {
         id: "actions",
         enableHiding: false,
-        cell: ({ row }) => (
+        cell: ({ row }: { row: any }) => (
             <DropdownActions>
                 <ActionsImmobilier payload={row.original} />
             </DropdownActions>
