@@ -23,11 +23,7 @@ export const credentials = Credentials({
         },
     },
     authorize: async (credentials: Record<"username" | "password", string>, req: any): Promise<UserCredential> => {
-        try {
-            const user = await getUserData(credentials);
-            return user;
-        } catch (error: any) {
-            return null;
-        }
+        const user = await getUserData(credentials);
+        return user;
     },
 });

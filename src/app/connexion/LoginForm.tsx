@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginFormSchema, LoginFormType } from "./schema";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import AlertDestructive from "@/components/notify/AlertDestructive";
 import SubmitButton from "@/components/forms/SubmitButton";
@@ -14,12 +14,19 @@ import { Form } from "@/components/ui/form";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
+    const searchParams = useSearchParams();
 
     const form = useForm<LoginFormType>({
         resolver: zodResolver(LoginFormSchema),
     });
 
     const router = useRouter();
+
+    React.useEffect(() => {
+        if (searchParams.get("error")) {
+            form.setError("root", { message: "Identifiant ou mot de passe incorrect" });
+        }
+    }, [searchParams, form]);
 
     const handleSignIn: SubmitHandler<LoginFormType> = async (data) => {
         const username = data.username;
@@ -29,11 +36,11 @@ const LoginForm = () => {
                 await signIn("credentials", {
                     username,
                     password,
-                    redirect: false,
+                    redirectTo: "/tableau-de-board",
                 });
 
-                router.push("/tableau-de-board");
-                router.refresh();
+                /*       router.push("/tableau-de-board");
+                router.refresh(); */
             } catch (error: any) {
                 form.setError("root", { message: "Identifiant ou mot de passe incorrect" });
                 throw error;
