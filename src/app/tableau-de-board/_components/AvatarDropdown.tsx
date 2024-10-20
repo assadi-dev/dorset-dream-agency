@@ -11,7 +11,7 @@ import {
 import { LogOut, PowerOff } from "lucide-react";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 import Image from "next/image";
-import LogoutButton from "./logoutButton";
+import LogoutButton from "./LogoutButton";
 
 type AvatarDropdownProps = {
     user: {
