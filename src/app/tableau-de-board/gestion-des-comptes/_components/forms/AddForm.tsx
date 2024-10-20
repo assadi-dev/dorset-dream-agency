@@ -1,8 +1,10 @@
 import React from "react";
 import GestionAccountEmployeeForm from "./GestionAccountEmployeeForm";
 import { GestionEmployeeFormType } from "./schema";
-import { insertEmployee, insertUserAccount } from "../../action";
+
 import { usePathname, useRouter } from "next/navigation";
+import { insertUserAccount } from "@/database/drizzle/repositories/users";
+import { insertEmployee } from "@/database/drizzle/repositories/employee";
 
 const AddForm = () => {
     const pathname = usePathname();
@@ -11,8 +13,8 @@ const AddForm = () => {
     const createAccount = async (values: GestionEmployeeFormType) => {
         const newUserId = await insertUserAccount(values);
         values.userID = newUserId;
-
-        await insertEmployee(values);
+        const secteursIds = values.secteur.map((secteur) => Number(secteur.value));
+        await insertEmployee({ ...values, secteursIds });
 
         router.push(pathname);
         router.refresh();

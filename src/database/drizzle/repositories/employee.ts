@@ -5,6 +5,30 @@ import { and, eq, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
+import { EmployeeCreateInputDto, employeeValidator } from "./dto/employeeDTO";
+
+/**
+ * Insertion des donné de l'employé
+ */
+export const insertEmployee = async (values: EmployeeCreateInputDto) => {
+    try {
+        const employeeValidation = employeeValidator(values);
+        if (employeeValidation.error) throw employeeValidation.error;
+
+        if (values.userID) employeeValidation.data.userID = values.userID;
+
+        const request = await db.insert(employees).values(employeeValidation.data).$returningId();
+        const employeeId = request[0].id;
+
+        if (values.secteursIds) {
+            await addSecteurToSecteurToEmployee(employeeId, values.secteursIds);
+        }
+
+        return employeeId;
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
+};
 
 export const getEmployeeCollections = async () => {
     try {

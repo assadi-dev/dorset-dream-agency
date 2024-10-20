@@ -9,6 +9,7 @@ export const employeeSchema = z.object({
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     gender: z.enum(["Male", "Female"]),
     userID: z.number({ message: REQUIRE_MESSAGE_ERROR }).optional(),
+    secteursIds: z.array(z.number()).optional().nullable(),
 });
 
 export type EmployeeCreateInputDto = z.infer<typeof employeeSchema>;
