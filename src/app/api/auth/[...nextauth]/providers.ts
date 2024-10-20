@@ -1,15 +1,19 @@
+import { getUserData } from "@/app/connexion/action";
+import { authenticate } from "@/database/drizzle/repositories/users";
 import { User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-type UserCredential = User & {
+export type UserCredential = User & {
     role: string;
+    employeeID: number;
+    grade?: string;
 };
 
 export const credentials = Credentials({
     credentials: {
-        email: {
+        username: {
             label: "Email",
-            name: "email",
+            name: "username",
             type: "email",
         },
         password: {
@@ -18,19 +22,9 @@ export const credentials = Credentials({
             type: "password",
         },
     },
-    authorize: async (
-        credentials: Partial<Record<"email" | "password", unknown>>,
-        req: any,
-    ): Promise<UserCredential> => {
+    authorize: async (credentials: Record<"username" | "password", string>, req: any): Promise<UserCredential> => {
         try {
-            const user = {
-                id: "1",
-                name: "John Doe",
-                email: String(credentials.email),
-                image: "https://i.pravatar.cc/300",
-                role: "admin",
-            } satisfies UserCredential;
-
+            const user = await getUserData(credentials);
             return user;
         } catch (error: any) {
             return null;

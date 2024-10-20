@@ -2,10 +2,7 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { LoginFormSchema, LoginFormType } from "./schema";
-import { Label } from "@/components/ui/label";
-import InputPassword from "@/components/ui/inputPassword";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -25,12 +22,12 @@ const LoginForm = () => {
     const router = useRouter();
 
     const handleSignIn: SubmitHandler<LoginFormType> = async (data) => {
-        const email = data.email;
+        const username = data.username;
         const password = data.password;
         startTransition(async () => {
             try {
                 await signIn("credentials", {
-                    email,
+                    username,
                     password,
                     redirect: false,
                 });
@@ -50,7 +47,7 @@ const LoginForm = () => {
                 <div className="mb-4">
                     <FormFieldInput
                         control={form.control}
-                        name="email"
+                        name="username"
                         placeholder="Email"
                         label="Email"
                         autoComplete="username"

@@ -45,3 +45,15 @@ export const userUpdateSchema = z.object({
 export type UserUpdateInputDto = z.infer<typeof userUpdateSchema>;
 
 export const userUpdateValidator = (values: UserUpdateInputDto) => userUpdateSchema.safeParse(values);
+
+const userCredentialSchema = z.object({
+    username: z
+        .string({ message: REQUIRE_MESSAGE_ERROR })
+        .email(EMAIL_INVALID)
+        .min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    password: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
+});
+
+export type userCredentialType = z.infer<typeof userCredentialSchema>;
+
+export const userCredentialValidator = (values: unknown) => userCredentialSchema.safeParse(values);

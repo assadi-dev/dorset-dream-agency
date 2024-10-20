@@ -4,6 +4,8 @@ import { ENV } from "./config/global";
 
 type UserAdapter = User & {
     role: string;
+    employeeID?: number | null;
+    grade?: string | null;
 };
 export type UserSession = Session & {
     user: UserAdapter;
@@ -38,6 +40,8 @@ const authOptions = {
                     ...params.session.user,
                     id: String(params.token.id),
                     role: String(params.token.role),
+                    employeeID: Number(params.token.employeeID) || null,
+                    grade: String(params.token.grade),
                 },
             };
 

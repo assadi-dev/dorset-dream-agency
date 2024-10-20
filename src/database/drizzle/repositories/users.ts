@@ -9,11 +9,14 @@ import {
     passwordValidator,
     passwordValidatorType,
     UserCreateInputDto,
+    userCredentialType,
+    userCredentialValidator,
     UserUpdateInputDto,
     userUpdateValidator,
     userValidator,
 } from "./dto/usersDTO";
 import { eq, sql } from "drizzle-orm";
+import { employees } from "../schema/employees";
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -138,6 +141,59 @@ export const updateUser = async (id: number, values: UserUpdateInputDto) => {
             .where(eq(users.id, sql.placeholder("id")))
             .prepare();
         await result.execute({ id });
+    } catch (error) {
+        throw error;
+    }
+};
+
+type UserSession = {
+    id: number;
+    email: string;
+    name: string;
+    role: string;
+    image: string | null;
+    employeeID: number | null;
+    grade: string | null;
+};
+export const authenticate = async (values: userCredentialType): Promise<UserSession> => {
+    try {
+        const userInputValidate = userCredentialValidator(values);
+        if (userInputValidate.error) {
+            throw new Error(userInputValidate.error.message);
+        }
+
+        const validateInput = userInputValidate.data;
+
+        const findUserReq = db
+            .select({
+                userID: users.id,
+                username: users.username,
+                password: users.password,
+                role: users.role,
+                employeeID: employees.id,
+                name: sql<string>`CONCAT(${employees.lastName}," ",${employees.firstName})`,
+                grade: employees.post,
+            })
+            .from(users)
+            .leftJoin(employees, eq(users.id, employees.userID))
+            .where(eq(users.username, sql.placeholder("username")))
+            .prepare();
+        const user = (await findUserReq.execute({ username: validateInput.username }))[0];
+        if (!user) throw new Error("Unauthorized !", { cause: "authentication" });
+
+        const match = await bcrypt.compare(validateInput.password, user.password);
+
+        if (!match) throw new Error("Invalid credential !", { cause: "authentication" });
+
+        return {
+            id: user.userID,
+            email: user.username,
+            image: null,
+            role: user.role,
+            employeeID: user.employeeID,
+            name: user.name,
+            grade: user.grade,
+        };
     } catch (error) {
         throw error;
     }
