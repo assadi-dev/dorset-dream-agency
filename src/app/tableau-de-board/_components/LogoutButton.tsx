@@ -1,25 +1,37 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import useModalState from "@/hooks/useModalState";
 import { PowerOff } from "lucide-react";
 import React from "react";
-import LogoutLoader from "./LogoutLoader";
+import ModalProvider from "@/components/Modals/ModalProvider";
+import { Button } from "@/components/ui/button";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
+import { signOut } from "next-auth/react";
 
 const LogoutButton = () => {
-    const { openModal } = useModalState();
+    const [isPending, startTransition] = React.useTransition();
 
     const logout = () => {
-        console.log("click");
-        openModal({
-            component: LogoutLoader,
+        startTransition(async () => {
+            try {
+                await signOut();
+                ToastSuccessSonner("Vous êtes déconnecté");
+            } catch (error) {
+                ToastErrorSonner(`Impossible  de vous déconnecter raison: ${error.message}`);
+            }
         });
     };
     return (
-        <DropdownMenuItem
-            className="font-semibold text-red-900 bg-destructive/30 hover:bg-destructive hover:text-white w-full"
-            onClick={logout}
-        >
-            <PowerOff className="h-4 w-4 mr-1" /> Déconnexion
-        </DropdownMenuItem>
+        <ModalProvider>
+            <DropdownMenuItem asChild>
+                <Button
+                    type="button"
+                    onClick={logout}
+                    className="font-semibold text-red-900 bg-destructive/30 hover:bg-destructive hover:text-white w-full"
+                    disabled={isPending}
+                >
+                    <PowerOff className="h-4 w-4 mr-1" /> Déconnexion
+                </Button>
+            </DropdownMenuItem>
+        </ModalProvider>
     );
 };
 

@@ -21,9 +21,6 @@ const Sidebar = async () => {
                     <NavigationItems key={item.name} route={item} />
                 ))}
             </ul>
-            <form action={signOutBtn} className="text-center">
-                <Button variant="destructive">Déconnexion</Button>
-            </form>
         </aside>
     );
 };

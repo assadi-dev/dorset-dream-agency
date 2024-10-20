@@ -6,6 +6,7 @@ import styles from "./styles.module.css";
 import Sidebar from "./_components/Sidebar";
 import { cn, currentYear } from "@/lib/utils";
 import DashboardNavbar from "./_components/DashboardNavbar";
+import ModalProvider from "@/components/Modals/ModalProvider";
 
 type AdminLayoutType = {
     children: React.ReactNode;
