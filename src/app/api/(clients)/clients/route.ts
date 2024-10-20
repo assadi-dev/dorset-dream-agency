@@ -1,8 +1,8 @@
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: Request, context: any) {
+export async function GET(req: Request) {
     type Client = typeof clients.$inferSelect;
     const clientsList: Client[] = await db.select().from(clients);
 

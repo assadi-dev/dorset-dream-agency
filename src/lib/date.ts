@@ -1,24 +1,7 @@
-import {
-    addSeconds,
-    format,
-    formatDistanceToNow,
-    formatDistanceToNowStrict,
-    formatDuration,
-    formatISO,
-    getISOWeek,
-    hoursToSeconds,
-    intervalToDuration,
-    minutesToSeconds,
-    secondsToHours,
-    secondsToMinutes,
-    getWeek,
-    formatDistanceStrict,
-} from "date-fns";
+import { format, getISOWeek } from "date-fns";
 import { fr } from "date-fns/locale";
-import sf from "seconds-formater";
-import { weekNumber, weekNumberYear } from "weeknumber";
 
-const timeZone = "Europe/Paris";
+//const timeZone = "Europe/Paris";
 
 /**
  * Retourne la date au format suivant YYYY-MM-DD

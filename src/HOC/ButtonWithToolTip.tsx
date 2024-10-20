@@ -17,8 +17,11 @@ const ButtonWithToolTip = (Component, tooltipContent, tooltipClassName) => {
             </>
         );
     };
+    NewComponent.displayName = "displayName";
 
     return (props) => <NewComponent {...props} />;
 };
+
+ButtonWithToolTip.displayName = "ButtonWithToolTip";
 
 export default ButtonWithToolTip;

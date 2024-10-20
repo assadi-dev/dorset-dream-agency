@@ -6,7 +6,6 @@ import styles from "./styles.module.css";
 import Sidebar from "./_components/Sidebar";
 import { cn, currentYear } from "@/lib/utils";
 import DashboardNavbar from "./_components/DashboardNavbar";
-import ModalProvider from "@/components/Modals/ModalProvider";
 import { AuthSessionProvider } from "@/components/providers/AuthSessionProvider";
 
 type AdminLayoutType = {

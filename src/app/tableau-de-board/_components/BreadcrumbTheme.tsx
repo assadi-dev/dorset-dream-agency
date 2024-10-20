@@ -28,7 +28,7 @@ const BreadcrumbTheme = () => {
         <Breadcrumb className="bg-primary-foreground rounded w-fit py-1  my-3">
             <BreadcrumbList>
                 {pathNames?.map((item, index) => {
-                    let href = `/${pathNames.slice(0, index + 1).join("/")}`;
+                    const href = `/${pathNames.slice(0, index + 1).join("/")}`;
                     return (
                         <React.Fragment key={item}>
                             <BreadcrumbItem>

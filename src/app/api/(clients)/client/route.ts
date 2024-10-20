@@ -1,6 +1,6 @@
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET() {
     type Client = typeof clients.$inferSelect;

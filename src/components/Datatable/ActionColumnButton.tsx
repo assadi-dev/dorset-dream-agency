@@ -1,7 +1,7 @@
 import React from "react";
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Trash } from "lucide-react";
-import { Pencil, Pen, SquarePen } from "lucide-react";
+import { Pen } from "lucide-react";
 
 type ActionColumnButtonProps = {
     onEdit?: () => void;
