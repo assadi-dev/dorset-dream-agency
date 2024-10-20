@@ -11,11 +11,11 @@ const AddForm = () => {
     const createAccount = async (values: GestionEmployeeFormType) => {
         const newUserId = await insertUserAccount(values);
         values.userID = newUserId;
-        console.log(values);
 
-        // await insertEmployee(values);
-        // router.refresh();
-        //  router.push(pathname);
+        await insertEmployee(values);
+
+        router.push(pathname);
+        router.refresh();
     };
 
     return <GestionAccountEmployeeForm className="w-full lg:w-[32vw] min-h-[420px]" save={createAccount} />;

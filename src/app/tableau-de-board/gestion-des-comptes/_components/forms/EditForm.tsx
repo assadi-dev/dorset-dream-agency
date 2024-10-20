@@ -22,7 +22,9 @@ const EditForm = () => {
     const saveUpdateAccount = async (values: userEditFormType) => {
         try {
             if (userID) {
-                await editUserData(userID, values);
+                console.log(values);
+
+                //await editUserData(userID, values);
                 closeModal();
                 router.push(pathname);
                 router.refresh();

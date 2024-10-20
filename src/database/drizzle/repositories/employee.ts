@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/database";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
@@ -39,6 +39,11 @@ export const updateEmployee = async (id: number, values) => {
             .where(eq(employees.id, sql.placeholder("id")))
             .prepare();
         const employee = await employeeReq.execute({ id });
+        if (!employee) throw new Error("Employee not found");
+
+        if (values.secteursIds.length) {
+            await addSecteurToSecteurToEmployee(id, values.secteursIds);
+        } else if (values.secteursIds.length === 0) clearSecteurToEmployee(id);
 
         const request = db
             .update(employees)
@@ -46,6 +51,56 @@ export const updateEmployee = async (id: number, values) => {
             .where(eq(employees.id, sql.placeholder("id")))
             .prepare();
         return await request.execute({ id });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const addSecteurToSecteurToEmployee = async (employeeID: number, secteurIds: Array<number>) => {
+    try {
+        const secteurEmployee = await db
+            .select({
+                secteurID: employeesToSecteurs.secteurId,
+            })
+            .from(employeesToSecteurs)
+            .where(eq(employeesToSecteurs.employeeID, employeeID));
+
+        if (secteurEmployee.length > 0) {
+            clearSecteurToEmployee(employeeID);
+        }
+
+        for (const secteurId of secteurIds) {
+            await db.insert(employeesToSecteurs).values({
+                employeeID,
+                secteurId,
+            });
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const clearSecteurToEmployee = async (employeeID: number) => {
+    try {
+        const secteurEmployee = await db
+            .select({
+                secteurID: employeesToSecteurs.secteurId,
+            })
+            .from(employeesToSecteurs)
+            .where(eq(employeesToSecteurs.employeeID, employeeID));
+
+        for (const secteur of secteurEmployee) {
+            const req = db
+                .delete(employeesToSecteurs)
+                .where(
+                    and(
+                        eq(employeesToSecteurs.secteurId, sql.placeholder("secteurID")),
+                        eq(employeesToSecteurs.employeeID, sql.placeholder("employeeID")),
+                    ),
+                )
+                .prepare();
+            await req.execute({ secteurID: secteur.secteurID, employeeID });
+        }
     } catch (error) {
         throw error;
     }

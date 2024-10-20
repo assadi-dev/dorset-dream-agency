@@ -54,7 +54,10 @@ const EditForm = () => {
 
     const handleSaveUpdateEmployee = async (values: gestionEmployeeSchemaType) => {
         try {
-            await editEmployeeData(employeeID, values);
+            const secteursIds = values.secteur.map((v) => Number(v.value));
+            const copy = { ...values, secteursIds };
+
+            await editEmployeeData(employeeID, copy);
             closeModal();
             router.push(pathname);
             router.refresh();
