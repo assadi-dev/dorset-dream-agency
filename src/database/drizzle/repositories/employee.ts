@@ -66,7 +66,7 @@ export const addSecteurToSecteurToEmployee = async (employeeID: number, secteurI
             .where(eq(employeesToSecteurs.employeeID, employeeID));
 
         if (secteurEmployee.length > 0) {
-            clearSecteurToEmployee(employeeID);
+            await clearSecteurToEmployee(employeeID);
         }
 
         for (const secteurId of secteurIds) {
