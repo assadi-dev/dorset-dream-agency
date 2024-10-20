@@ -1,9 +1,9 @@
-import { accountCollections } from "@/app/tableau-de-board/gestion-des-comptes/action";
+import { getAccountCollections } from "@/database/drizzle/repositories/users";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const response = await accountCollections();
+        const response = await getAccountCollections();
         console.log(response);
 
         return NextResponse.json(response);

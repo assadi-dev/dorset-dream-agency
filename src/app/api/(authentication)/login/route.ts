@@ -1,7 +1,7 @@
 import { authenticate } from "@/database/drizzle/repositories/users";
 import { NextResponse } from "next/server";
 
-export const POST = async (req: Response) => {
+export const POST = async (req: Request) => {
     try {
         const body = await req.json();
 
