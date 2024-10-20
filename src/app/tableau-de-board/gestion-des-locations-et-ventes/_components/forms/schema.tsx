@@ -5,7 +5,7 @@ const PROPERTY_TYPE = ["Location LS", "Location Iles", "Ventes LS", "Vente Iles"
 
 export const LocationVentesSchema = z.object({
     client: z.coerce.number(),
-    employee: z.coerce.number(),
+    employee: z.coerce.number().optional(),
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     property: z.coerce.number(),
     propertyService: z.enum(PROPERTY_TYPE),

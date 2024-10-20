@@ -5,12 +5,16 @@ import { auth } from "@/auth";
 import AvatarDropdown from "./AvatarDropdown";
 
 const DashboardNavbar = async () => {
-    const { user } = await auth();
+    const session = await auth();
 
     return (
-        <header className={cn(styles.dashboardHeader, "bg-white shadow flex justify-end items-center")}>
-            <AvatarDropdown user={user} />
-        </header>
+        <>
+            {session && (
+                <header className={cn(styles.dashboardHeader, "bg-white shadow flex justify-end items-center")}>
+                    <AvatarDropdown user={session.user} />
+                </header>
+            )}
+        </>
     );
 };
 

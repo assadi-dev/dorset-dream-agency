@@ -7,6 +7,7 @@ import Sidebar from "./_components/Sidebar";
 import { cn, currentYear } from "@/lib/utils";
 import DashboardNavbar from "./_components/DashboardNavbar";
 import ModalProvider from "@/components/Modals/ModalProvider";
+import { AuthSessionProvider } from "@/components/providers/AuthSessionProvider";
 
 type AdminLayoutType = {
     children: React.ReactNode;
@@ -19,18 +20,20 @@ const AdminLayout = async ({ children }: AdminLayoutType) => {
     }
 
     return (
-        <div className={styles.dashboardLayout}>
-            <Sidebar />
-            <DashboardNavbar />
-            <main className={styles.dashboardMain}>
-                <BreadcrumbTheme />
+        <AuthSessionProvider session={session}>
+            <div className={styles.dashboardLayout}>
+                <Sidebar />
+                <DashboardNavbar />
+                <main className={styles.dashboardMain}>
+                    <BreadcrumbTheme />
 
-                {children}
-            </main>
-            <footer className={cn(styles.dashboardFooter, "bg-white")}>
-                <p>copyright &copy; {currentYear()} </p>
-            </footer>
-        </div>
+                    {children}
+                </main>
+                <footer className={cn(styles.dashboardFooter, "bg-white")}>
+                    <p>copyright &copy; {currentYear()} </p>
+                </footer>
+            </div>
+        </AuthSessionProvider>
     );
 };
 

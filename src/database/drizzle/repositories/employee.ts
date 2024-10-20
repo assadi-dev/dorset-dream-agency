@@ -80,6 +80,20 @@ export const updateEmployee = async (id: number, values) => {
     }
 };
 
+export const deleteEmployee = async (ids: Array<number>) => {
+    try {
+        for (const id of ids) {
+            const req = db
+                .delete(employees)
+                .where(eq(employees.id, sql.placeholder("id")))
+                .prepare();
+            await req.execute({ id });
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const addSecteurToSecteurToEmployee = async (employeeID: number, secteurIds: Array<number>) => {
     try {
         const secteurEmployee = await db

@@ -4,6 +4,7 @@ import ActionColumnButton from "@/components/Datatable/ActionColumnButton";
 import useModalState from "@/hooks/useModalState";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
 import EditForm from "./forms/EditForm";
+import DeleteForm from "./forms/DeleteForm";
 
 const EmployeesActions = ({ payload }) => {
     const { openModal } = useModalState();
@@ -20,7 +21,12 @@ const EmployeesActions = ({ payload }) => {
     const handleClickDelete = () => {
         console.log(payload);
 
-        // removeTransaction
+        openModal({
+            title: `Supprimer un Employé`,
+            description: `Supprimer les informations de ${payload.name}`,
+            component: DeleteForm,
+            payload: payload,
+        });
     };
 
     return (

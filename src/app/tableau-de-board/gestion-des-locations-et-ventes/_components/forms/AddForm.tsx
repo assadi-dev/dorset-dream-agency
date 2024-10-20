@@ -4,21 +4,28 @@ import { LocationVentesFormType } from "./schema";
 import { wait } from "@/lib/utils";
 import { createTransaction } from "../../actions";
 import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const AddForm = () => {
+    const { data } = useSession();
     const router = useRouter();
     const pathname = usePathname();
     const creteLocationVente = async (values: LocationVentesFormType) => {
         await createTransaction(values);
         router.push(pathname);
     };
+    const employee = data?.user?.employeeID;
 
     return (
-        <LocationVenteForm
-            className="w-full lg:w-[32vw] min-h-[420px]"
-            defaultFormValues={{ employee: 8 }}
-            save={creteLocationVente}
-        />
+        <>
+            {employee && (
+                <LocationVenteForm
+                    className="w-full lg:w-[32vw] min-h-[420px]"
+                    defaultFormValues={{ employee }}
+                    save={creteLocationVente}
+                />
+            )}
+        </>
     );
 };
 

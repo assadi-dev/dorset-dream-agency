@@ -6,17 +6,20 @@ import useModalState from "@/hooks/useModalState";
 import { updateTransaction } from "@/database/drizzle/repositories/transactions";
 import { ediTransaction } from "../../actions";
 import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const EditModal = () => {
     const { payload, closeModal } = useModalState();
     const router = useRouter();
     const pathname = usePathname();
+    const { data } = useSession();
 
     const transactionID = payload.id;
+    const employee = data?.user?.employeeID;
 
     const defaultValues: unknown = {
         client: String(payload.clientID),
-        employee: 8,
+        employee,
         property: String(payload.variantID),
         price: payload.price,
         keyQuantity: Number(payload.keyQuantity),
