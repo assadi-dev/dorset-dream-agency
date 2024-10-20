@@ -1,6 +1,6 @@
+import React from "react";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { wait } from "@/lib/utils";
-import React from "react";
 
 const LogoutLoader = () => {
     const [isPending, startTransition] = React.useTransition();
