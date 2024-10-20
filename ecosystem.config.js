@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: "dorset-dream-agency",
+            name: "dorset-dream-agency-web",
             script: "npm",
             args: "start",
             watch: true,
