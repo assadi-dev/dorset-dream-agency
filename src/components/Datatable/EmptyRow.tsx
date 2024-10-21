@@ -3,7 +3,7 @@ import { TableCell, TableRow } from "../ui/table";
 import { ColumnDef } from "@tanstack/react-table";
 
 type EmptyProps = {
-    columns: ColumnDef<TData, TValue>[];
+    columns: ColumnDef<any, any>[];
 };
 const EmptyRow = ({ columns }: EmptyProps) => {
     return (

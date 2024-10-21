@@ -53,7 +53,7 @@ const GestionAccountEmployeeForm = ({ save, ...props }: GestionAccountFormProps)
 
     const SECTEURS_OPTIONS = React.useMemo(() => {
         if (!data && isFetching) return [];
-        return data.map((secteur) => {
+        return data.map((secteur: any) => {
             secteur.value = secteur.value.toString();
             return secteur;
         });

@@ -5,12 +5,19 @@ import { eq, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
+import { decodeTransactionInput } from "./dto/transactionsDTO";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 
-export const insertTransaction = async (values: insertTransactionType) => {
+export const insertTransaction = async (values: unknown) => {
     try {
-        const transaction = await db.insert(transactions).values(values);
+        const inputParsed = decodeTransactionInput(values);
+
+        if (inputParsed.error) {
+            throw new Error(inputParsed.error.message);
+        }
+
+        const transaction = await db.insert(transactions).values(inputParsed.data);
         return transaction;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);

@@ -16,6 +16,15 @@ const EditForm = () => {
 
     const employeeID = payload.id;
 
+    type defaultFormValues = {
+        post: string;
+        iban: string;
+        firstName: string;
+        lastName: string;
+        secteur: Array<any>;
+        gender: string;
+        phone: string;
+    };
     const [defaultFormValues, setDefaultFormValues] = React.useState({
         post: payload.grade,
         iban: payload.iban,
@@ -30,7 +39,7 @@ const EditForm = () => {
 
     const SECTEURS_OPTIONS = React.useMemo(() => {
         if (!data && isFetching) return [];
-        return data.map((secteur) => {
+        return data.map((secteur: any) => {
             secteur.value = secteur.value.toString();
             return secteur;
         });
@@ -40,9 +49,9 @@ const EditForm = () => {
         if (payload?.secteur && SECTEURS_OPTIONS.length) {
             const toArray: Array<string> = payload?.secteur?.split(",") || [];
             const cleanArraySecteur = toArray.map((v) => {
-                const secteur = SECTEURS_OPTIONS.find((option) => option.label === v);
+                const secteur = SECTEURS_OPTIONS.find((option: any) => option.label === v);
                 return secteur;
-            });
+            }) as Array<never>;
 
             if (cleanArraySecteur.length)
                 setDefaultFormValues({

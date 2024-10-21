@@ -5,6 +5,8 @@ import useModalState from "@/hooks/useModalState";
 import { ediTransaction } from "../../actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { User } from "next-auth";
+import { UserCredential } from "@/app/types";
 
 const EditModal = () => {
     const { payload, closeModal } = useModalState();
@@ -13,9 +15,12 @@ const EditModal = () => {
     const { data } = useSession();
 
     const transactionID = payload.id;
-    const employee = data?.user?.employeeID;
 
-    const defaultValues: unknown = {
+    const userData = data?.user as UserCredential;
+
+    const employee = userData?.employeeID;
+
+    const defaultValues = {
         client: String(payload.clientID),
         employee,
         property: String(payload.variantID),
@@ -23,14 +28,14 @@ const EditModal = () => {
         keyQuantity: Number(payload.keyQuantity),
         keyNumber: String(payload.keyNumber),
         phone: payload.phone,
-        price: payload.price,
         propertyService: payload.propertyService,
-    };
+    } satisfies LocationVentesFormType;
 
     const saveUpdateLocationVente = async (values: LocationVentesFormType) => {
         await ediTransaction(transactionID, values);
         closeModal();
         router.push(pathname);
+        router.refresh();
     };
 
     return (

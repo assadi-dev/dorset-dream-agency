@@ -10,7 +10,7 @@ import { getAccountCollections } from "./action";
 export const metadata = setTitlePage("Gestion des comptes");
 const GestionEmployeePage = async () => {
     const AccountsCollections = async () => {
-        const result = await getAccountCollections();
+        const result = (await getAccountCollections()) as Array<any>;
         return <ListAccounts accounts={result} />;
     };
 

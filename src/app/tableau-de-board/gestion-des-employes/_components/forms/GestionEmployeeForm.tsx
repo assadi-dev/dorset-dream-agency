@@ -15,8 +15,8 @@ import useFetchSecteursOptions from "@/hooks/useFetchSecteurOptions";
 import { GENRE_OPTIONS, GRADE_OPTIONS } from "@/config/enums";
 
 type GestionEmployeeFormProps = React.HTMLAttributes<HTMLFormElement> & {
-    defaultFormValues: Partial<gestionEmployeeSchemaType>;
-    save: (values: gestionEmployeeSchemaType) => void;
+    defaultFormValues?: Partial<gestionEmployeeSchemaType>;
+    save?: (values: gestionEmployeeSchemaType) => void;
 };
 const GestionEmployeeForm = ({ defaultFormValues, save, ...props }: GestionEmployeeFormProps) => {
     const modalState = useModalState();
@@ -30,7 +30,7 @@ const GestionEmployeeForm = ({ defaultFormValues, save, ...props }: GestionEmplo
 
     const SECTEURS_OPTIONS = React.useMemo(() => {
         if (!data && isFetching) return [];
-        return data.map((secteur) => {
+        return data.map((secteur: any) => {
             secteur.value = secteur.value.toString();
             return secteur;
         });
@@ -44,10 +44,15 @@ const GestionEmployeeForm = ({ defaultFormValues, save, ...props }: GestionEmplo
 
     const processing = async (values: gestionEmployeeSchemaType) => {
         try {
-            await save(values);
-            ToastSuccessSonner(
-                `Les Information de l'employé ${defaultFormValues.lastName} ${defaultFormValues.firstName} à été mis à jour avec succès.`,
-            );
+            if (save) {
+                await save(values);
+            }
+            let successMessage = "Les information de l'employé à  été mis à jour avec succès";
+            if (defaultFormValues) {
+                successMessage = `Les Information de l'employé ${defaultFormValues.lastName} ${defaultFormValues.firstName} à été mis à jour avec succès.`;
+            }
+
+            ToastSuccessSonner(successMessage);
             modalState.closeModal();
         } catch (error: any) {
             const message = `Raison: ${error.message}`;

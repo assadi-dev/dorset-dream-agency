@@ -23,7 +23,7 @@ export const getEmployeeCollections = async () => {
     }
 };
 
-export const editEmployeeData = async (id: number, values) => {
+export const editEmployeeData = async (id: number, values: any) => {
     await updateEmployee(id, values);
     return;
 };

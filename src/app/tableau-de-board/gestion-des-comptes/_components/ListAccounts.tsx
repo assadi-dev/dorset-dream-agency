@@ -5,7 +5,7 @@ import { columns } from "./columns";
 import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import AccountAction from "./AccountAction";
-import { ActionsColumnType } from "@/app/types";
+import { CellColumn } from "@/app/types/ReactTable";
 
 type ListAccountsProps = {
     accounts: Array<any>;
@@ -14,7 +14,7 @@ const ListAccounts = ({ accounts }: ListAccountsProps) => {
     const actions = {
         id: "actions",
         enableHiding: false,
-        cell({ row }: ActionsColumnType) {
+        cell({ row }: CellColumn) {
             return (
                 <DropdownActions>
                     <AccountAction payload={row.original} />

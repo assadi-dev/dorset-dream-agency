@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement>;
+//type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement>;
 type FormFieldComboBoxProps<T extends FieldValues> = {
     form: UseFormReturn<T>;
     control: Control<T>;
@@ -20,7 +20,7 @@ type FormFieldComboBoxProps<T extends FieldValues> = {
     emptyMessage?: string;
     classNameButton?: string;
     classNameListOptions?: string;
-} & InputFieldProps;
+};
 const FormFieldComboBox = <T extends FieldValues>({
     form,
     control,

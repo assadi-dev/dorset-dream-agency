@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import ActionsImmobilier from "./ActionsImmobilier";
 import DropdownActions from "@/components/Datatable/DropdownActions";
+import { CellColumn } from "@/app/types/ReactTable";
 
 const ListProperties = () => {
     const { data, isFetching, error } = useQuery({
@@ -18,7 +19,7 @@ const ListProperties = () => {
     const actions = {
         id: "actions",
         enableHiding: false,
-        cell: ({ row }: { row: any }) => (
+        cell: ({ row }: CellColumn) => (
             <DropdownActions>
                 <ActionsImmobilier payload={row.original} />
             </DropdownActions>

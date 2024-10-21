@@ -10,7 +10,11 @@ const AddForm = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    const createAccount = async (values: GestionEmployeeFormType) => {
+    const createAccount = async (
+        values: GestionEmployeeFormType & {
+            userID?: any;
+        },
+    ) => {
         const newUserId = await insertUserAccount(values);
         values.userID = newUserId;
         const secteursIds = values.secteur.map((secteur) => Number(secteur.value));

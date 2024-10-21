@@ -10,7 +10,7 @@ import {
 import { LocationVentesFormType } from "./_components/forms/schema";
 
 export const createTransaction = async (values: LocationVentesFormType) => {
-    const cleanValues: insertTransactionType = {
+    const cleanValues = {
         employeeID: values.employee,
         clientID: values.client,
         variantID: values.property,
@@ -31,11 +31,11 @@ export const removeTransaction = async (listIds: Array<number>) => {
     await deleteTransactions(listIds);
 };
 
-export const ediTransaction = async (id: number, values: Partial<insertTransactionType>) => {
+export const ediTransaction = async (id: number, values: Partial<LocationVentesFormType>) => {
     const cleanValues: insertTransactionType = {
         employeeID: values.employee,
-        clientID: values.client,
-        variantID: values.property,
+        clientID: Number(values.client),
+        variantID: Number(values.property),
         propertyService: values.propertyService,
         sellingPrice: values.price,
         keyQuantity: values.keyQuantity,

@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { LocationColumnType } from "../types";
 import { datetimeFormatFr } from "@/lib/date";
+import { CellColumn } from "@/app/types/ReactTable";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
@@ -28,6 +29,6 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     {
         accessorKey: "transactionDate",
         header: "Date",
-        cell: ({ row }) => datetimeFormatFr(row.getValue("transactionDate")),
+        cell: ({ row }: CellColumn) => datetimeFormatFr(row.getValue("transactionDate")),
     },
 ];
