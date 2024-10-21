@@ -9,7 +9,7 @@ export type ActionsColumnType = {
 export type UserCredential =
     | (User & {
           role: string;
-          employeeID: number;
+          employeeID?: number;
           grade?: string;
       })
     | null;

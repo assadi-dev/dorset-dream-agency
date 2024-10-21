@@ -55,7 +55,7 @@ export const getEmployeeCollections = async () => {
     }
 };
 
-export const updateEmployee = async (id: number, values) => {
+export const updateEmployee = async (id: number, values: any) => {
     try {
         const employeeReq = db
             .select()

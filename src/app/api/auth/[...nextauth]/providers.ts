@@ -17,10 +17,7 @@ export const credentials = Credentials({
             type: "password",
         },
     },
-    authorize: async (
-        credentials: Partial<Record<"username" | "password", unknown>>,
-        req: Request,
-    ): Promise<UserCredential> => {
+    authorize: async (credentials: Partial<Record<"username" | "password", unknown>>, req: Request) => {
         try {
             const user = await getUserData(credentials);
             return user;

@@ -9,6 +9,7 @@ export const getUserData = async (values: Partial<LoginFormType> | unknown) => {
         return {
             ...user,
             id: String(user.id),
+            role: user.role || "user",
         };
     } catch (error: any) {
         return null;

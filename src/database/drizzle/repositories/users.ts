@@ -152,7 +152,7 @@ type UserSession = {
     name: string;
     role: string;
     image: string;
-    employeeID: number;
+    employeeID?: number | null;
     grade: string;
 };
 export const authenticate = async (values: Partial<userCredentialType> | unknown): Promise<UserSession> => {
@@ -190,9 +190,9 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
             email: user.username,
             image: "",
             role: user.role,
-            employeeID: user.employeeID,
+            employeeID: user.employeeID || null,
             name: user.name,
-            grade: user.grade,
+            grade: String(user.grade),
         };
     } catch (error: any) {
         throw error;
