@@ -16,7 +16,6 @@ export async function PUT(req: Request, ctx: any) {
         const id = ctx.params.id;
 
         await updateClient(id, body);
-        console.log(body);
 
         const success = { message: "client has been update" };
         return NextResponse.json({

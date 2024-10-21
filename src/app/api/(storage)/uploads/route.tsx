@@ -14,10 +14,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "No files received." }, { status: 400 });
         }
 
-        console.log("UPLOAD_DIR", UPLOAD_DIR);
-        console.log("upload storage");
-        // console.log("files", files);
-
         return NextResponse.json("coucou");
     } catch (error: any) {
         if (error instanceof Error) {

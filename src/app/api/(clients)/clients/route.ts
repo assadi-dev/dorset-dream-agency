@@ -6,7 +6,7 @@ export async function GET(req: Request) {
     type Client = typeof clients.$inferSelect;
     const clientsList: Client[] = await db.select().from(clients);
 
-    console.log(req.headers.get("page"));
+    //console.log(req.headers.get("page"));
 
     //const offset = page - 1 * per_page
 

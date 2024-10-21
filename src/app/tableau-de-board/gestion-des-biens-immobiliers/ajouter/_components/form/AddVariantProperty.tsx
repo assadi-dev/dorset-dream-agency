@@ -11,7 +11,6 @@ const AddVariantProperty = () => {
     const form = useFormContext();
 
     const handleClickAddVariant = () => {
-        console.log("open add variant clicked !");
         openModal({
             title: "Ajouter une variante",
             component: UploadZoneModal,
