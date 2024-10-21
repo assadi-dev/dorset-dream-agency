@@ -65,3 +65,6 @@ const terminal = {
 };
 
 main();
+
+//INSERT INTO `users` (`id`, `username`, `password`, `avatar`, `role`, `created_at`, `updated_at`) VALUES (NULL, 'admin@dorsetdreamagency.com', '$2b$10$c.YmxSMgZTumDHmb.rIWGO5DBylL9Tz/jkw13Ik28dWVa02Es5s2q', NULL, 'admin', NULL, NULL);
+//INSERT INTO `employees` (`id`, `last_name`, `first_name`, `post`, `iban`, `phone`, `gender`, `user_id`, `created_at`, `updated_at`) VALUES (NULL, 'Jack', 'Celer', 'Patron', '123456', '555-1234', 'Male', '2', CURRENT_DATE(), CURRENT_DATE());
