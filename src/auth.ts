@@ -12,7 +12,6 @@ export type UserSession = Session & {
 };
 
 const authOptions = {
-    trustHost: true,
     providers: [credentials],
     callbacks: {
         jwt: async ({ trigger, token, user, account, session }) => {
