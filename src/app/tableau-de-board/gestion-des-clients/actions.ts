@@ -28,7 +28,7 @@ export const getClientsCollections = async () => {
         const response = await db
             .select({
                 id: clients.id,
-                fullName: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`,
+                fullName: sql<string>`CONCAT(${clients.firstName}," ",${clients.lastName})`,
                 phone: clients.phone,
                 gender: clients.gender,
                 createdAt: clients.createdAt,
