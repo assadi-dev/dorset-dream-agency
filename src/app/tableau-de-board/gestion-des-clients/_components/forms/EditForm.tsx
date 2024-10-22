@@ -5,6 +5,7 @@ import { ClientFormType } from "./schema";
 import useModalState from "@/hooks/useModalState";
 import { updateClient } from "../../actions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { API_INSTANCE } from "@/lib/api";
 
 const EditForm = () => {
     const { payload } = useModalState();
@@ -22,10 +23,7 @@ const EditForm = () => {
     const saveClient = async (values: ClientFormType) => {
         if (!payload?.id) throw new Error("id client undefined");
 
-        await fetch("http://localhost:3000/api/client/" + payload.id, {
-            method: "PUT",
-            body: JSON.stringify(values),
-        });
+        await API_INSTANCE.put(`client/${payload.id}`, values);
 
         const url = new URLSearchParams(searchParams.toString());
         url.set("id", payload.id);
