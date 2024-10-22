@@ -23,3 +23,7 @@ export const insertVariant = async (name: string, propertyID: number) => {
         throw error;
     }
 };
+
+export const getVariantsCollections = async () => {
+    return db.select().from(variants);
+};
