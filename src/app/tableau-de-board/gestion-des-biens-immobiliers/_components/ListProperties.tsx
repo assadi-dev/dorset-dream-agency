@@ -14,6 +14,7 @@ const ListProperties = () => {
     const { data, isFetching, error } = useQuery({
         queryKey: ["LIST_IMMOBILIER_GESTION"],
         queryFn: fetchPropertiesCollections,
+        refetchOnMount: true,
     });
 
     const actions = {
