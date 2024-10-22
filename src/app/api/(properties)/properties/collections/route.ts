@@ -1,4 +1,4 @@
-import { getPropertiesCollections } from "@/app/tableau-de-board/gestion-des-biens-immobiliers/actions";
+import { getPropertiesCollections } from "@/database/drizzle/repositories/properties";
 import { NextResponse } from "next/server";
 
 export async function GET() {
