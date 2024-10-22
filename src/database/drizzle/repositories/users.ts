@@ -171,7 +171,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
                 password: users.password,
                 role: users.role,
                 employeeID: employees.id,
-                name: sql<string>`CONCAT(${employees.lastName}," ",${employees.firstName})`,
+                name: sql<string>`CONCAT(${employees.firstName}," ",${employees.lastName})`,
                 grade: employees.post,
             })
             .from(users)
