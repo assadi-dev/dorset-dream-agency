@@ -45,9 +45,11 @@ export const getPropertiesWithVariantsCollections = async () => {
             sellingPrice: properties.sellingPrice,
             isAvailable: properties.isAvailable,
             isFurnish: properties.isFurnish,
+            createdAt: variants.createdAt,
         })
         .from(variants)
-        .leftJoin(properties, eq(properties.id, variants.propertyID));
+        .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .orderBy(sql`${variants.createdAt} desc`);
     return await result;
 };
 
