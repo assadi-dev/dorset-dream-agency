@@ -14,8 +14,11 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { insertProperty } from "@/database/drizzle/repositories/properties";
 import { createVariantGalleryApi } from "./helpers";
+import { usePathname, useRouter } from "next/navigation";
 
 const AddProperty = () => {
+    const pathname = usePathname();
+    const router = useRouter();
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
@@ -60,6 +63,8 @@ const AddProperty = () => {
 
                 ToastSuccessSonner("Le bien immobilier à été créer avec success !");
                 form.reset();
+                router.push(pathname);
+                router.refresh();
             } catch (error: any) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
             }
