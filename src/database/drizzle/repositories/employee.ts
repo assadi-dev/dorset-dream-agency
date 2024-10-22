@@ -55,6 +55,21 @@ export const getEmployeeCollections = async () => {
     }
 };
 
+const getOneEmployee = async (id: number) => {
+    try {
+        const employeeReq = db
+            .select()
+            .from(employees)
+            .where(eq(employees.id, sql.placeholder("id")))
+            .prepare();
+        const employee = await employeeReq.execute({ id });
+        if (!employee) throw new Error("Employee not found");
+        return employee[0];
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const updateEmployee = async (id: number, values: any) => {
     try {
         const employeeReq = db
@@ -65,7 +80,7 @@ export const updateEmployee = async (id: number, values: any) => {
         const employee = await employeeReq.execute({ id });
         if (!employee) throw new Error("Employee not found");
 
-        if (values.secteursIds.length) {
+        if (values?.secteursIds.length > 0) {
             await addSecteurToSecteurToEmployee(id, values.secteursIds);
         } else if (values.secteursIds.length === 0) clearSecteurToEmployee(id);
 
@@ -83,6 +98,12 @@ export const updateEmployee = async (id: number, values: any) => {
 export const deleteEmployee = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
+            const employee = await getOneEmployee(id);
+            if (employee) {
+                await clearSecteurToEmployee(id);
+                await updateEmployee(employee.id, { ...employee, secteursIds: [], userId: null });
+            }
+
             const req = db
                 .delete(employees)
                 .where(eq(employees.id, sql.placeholder("id")))

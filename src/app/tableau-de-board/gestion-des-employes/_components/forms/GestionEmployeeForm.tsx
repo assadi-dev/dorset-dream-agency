@@ -40,7 +40,7 @@ const GestionEmployeeForm = ({ defaultFormValues, save, ...props }: GestionEmplo
         if (defaultFormValues?.secteur && SECTEURS_OPTIONS.length) {
             if (defaultFormValues.secteur.length) form.setValue("secteur", defaultFormValues.secteur);
         }
-    }, [defaultFormValues]);
+    }, [defaultFormValues, SECTEURS_OPTIONS.length, form]);
 
     const processing = async (values: gestionEmployeeSchemaType) => {
         try {
@@ -72,15 +72,17 @@ const GestionEmployeeForm = ({ defaultFormValues, save, ...props }: GestionEmplo
                 <FormFieldInput control={form.control} name="firstName" label="Prénom" />
             </div>
             <div className="mb-4">
-                <FormFieldMultiSelect
-                    control={form.control}
-                    name="secteur"
-                    options={SECTEURS_OPTIONS}
-                    defaultOptions={SECTEURS_OPTIONS}
-                    label="Secteur"
-                    iconBadgeClearButtonClassName="text-white hover:text-white"
-                    loadingIndicator={true}
-                />
+                {SECTEURS_OPTIONS.length && (
+                    <FormFieldMultiSelect
+                        control={form.control}
+                        name="secteur"
+                        options={SECTEURS_OPTIONS}
+                        defaultOptions={SECTEURS_OPTIONS}
+                        label="Secteur"
+                        iconBadgeClearButtonClassName="text-white hover:text-white"
+                        loadingIndicator={true}
+                    />
+                )}
             </div>
 
             <div className="mb-4 grid lg:grid-cols-2 gap-3">
