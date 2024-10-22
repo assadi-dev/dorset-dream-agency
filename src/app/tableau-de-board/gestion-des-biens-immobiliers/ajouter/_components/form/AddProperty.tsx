@@ -9,10 +9,11 @@ import { wait } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PropertyForm from "./PropertyForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createVariantGallery, insertProperty } from "../../actions/actions";
 import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
+import { insertProperty } from "@/database/drizzle/repositories/properties";
+import { createVariantGalleryApi } from "./helpers";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -34,14 +35,15 @@ const AddProperty = () => {
     const processing: SubmitHandler<propertyFormType> = (values) => {
         startTransition(async () => {
             try {
+                if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
                 await wait(1000);
-                const validateInputs = await createPropertyDto(values);
-                if (validateInputs.error) throw validateInputs.error;
-
-                const property = await insertProperty(validateInputs.data);
-                const propertyID = String(property.id);
 
                 if (values.variants && values.variants.length > 0) {
+                    const validateInputs = await createPropertyDto(values);
+                    if (validateInputs.error) throw validateInputs.error;
+
+                    const property = await insertProperty(validateInputs.data);
+                    const propertyID = String(property.id);
                     for (const variant of values.variants) {
                         const formData = new FormData();
                         formData.append("name", variant.name);
@@ -51,7 +53,7 @@ const AddProperty = () => {
                             for (const file of variant.files) {
                                 formData.append("files", file);
                             }
-                            await createVariantGallery(formData);
+                            await createVariantGalleryApi(formData);
                         }
                     }
                 }

@@ -8,3 +8,5 @@ export const fetchPropertiesCollections = async () => {
         throw error;
     }
 };
+
+export const createVarianteApi = (formData: FormData) => {};
