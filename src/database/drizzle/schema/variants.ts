@@ -8,7 +8,7 @@ export const variants = mysqlTable("variants", {
     id: int("id").autoincrement().primaryKey(),
     name: varchar("name", { length: 100 }),
     description: text("description"),
-    propertyID: int("property_id").references(() => properties.id),
+    propertyID: int("property_id").references(() => properties.id, { onDelete: "cascade" }),
     ...updatedAndCreatedAt,
 });
 

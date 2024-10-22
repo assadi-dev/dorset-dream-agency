@@ -6,8 +6,8 @@ import { relations } from "drizzle-orm";
 export const galleryVariants = mysqlTable(
     "gallery_variants",
     {
-        photoID: int("photo_id").references(() => photos.id),
-        variantID: int("variant_id").references(() => variants.id),
+        photoID: int("photo_id").references(() => photos.id, { onDelete: "cascade" }),
+        variantID: int("variant_id").references(() => variants.id, { onDelete: "cascade" }),
     },
     (t) => ({
         pk: primaryKey({ columns: [t.photoID, t.variantID] }),

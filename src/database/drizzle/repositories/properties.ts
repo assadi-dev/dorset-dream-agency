@@ -36,6 +36,9 @@ export const getPropertiesCollections = async () => {
     return await result;
 };
 
+/**
+ * Récupérations des bien immobilier et ses variantes  index utiliser  dans cette requête et l'id de la variantes
+ */
 export const getPropertiesWithVariantsCollections = async () => {
     const result = db
         .select({

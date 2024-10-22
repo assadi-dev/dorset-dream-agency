@@ -15,7 +15,7 @@ export const properties = mysqlTable("properties", {
     isPrestige: boolean("is_prestige").default(false),
     isAvailable: boolean("is_available").default(false),
     isFurnish: boolean("is_furnish").default(false),
-    categoryID: int("category_id").references(() => categoryProperties.id),
+    categoryID: int("category_id").references(() => categoryProperties.id, { onDelete: "set null" }),
     ...updatedAndCreatedAt,
 });
 

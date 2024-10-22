@@ -3,6 +3,7 @@ import useModalState from "@/hooks/useModalState";
 import React from "react";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
 import { Pen, Trash, ImagePlus } from "lucide-react";
+import DeleteProperty from "./forms/DeleteProperty";
 
 type ActionsImmobilierProps = {
     payload: any;
@@ -24,7 +25,14 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             payload: payload,
         });
     };
-    const handleClickDelete = () => {};
+    const handleClickDelete = () => {
+        openModal({
+            title: `Supprimer un biens Immobilier`,
+            description: `${payload.name}`,
+            payload,
+            component: DeleteProperty,
+        });
+    };
 
     return (
         <>

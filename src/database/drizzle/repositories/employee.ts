@@ -98,12 +98,6 @@ export const updateEmployee = async (id: number, values: any) => {
 export const deleteEmployee = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
-            const employee = await getOneEmployee(id);
-            if (employee) {
-                await clearSecteurToEmployee(id);
-                await updateEmployee(employee.id, { ...employee, secteursIds: [], userId: null });
-            }
-
             const req = db
                 .delete(employees)
                 .where(eq(employees.id, sql.placeholder("id")))

@@ -8,10 +8,10 @@ export const employeesToSecteurs = mysqlTable(
     {
         employeeID: int("employee_id")
             .notNull()
-            .references(() => employees.id),
+            .references(() => employees.id, { onDelete: "cascade" }),
         secteurId: int("secteur_id")
             .notNull()
-            .references(() => secteurs.id),
+            .references(() => secteurs.id, { onDelete: "cascade" }),
     },
     (t) => ({
         pk: primaryKey({ columns: [t.employeeID, t.secteurId] }),
