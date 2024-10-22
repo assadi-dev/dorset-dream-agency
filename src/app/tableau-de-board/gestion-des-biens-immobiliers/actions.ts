@@ -19,6 +19,7 @@ export const getPropertiesWithVariantsCollections = async () => {
             sellingPrice: properties.sellingPrice,
             isAvailable: properties.isAvailable,
             isFurnish: properties.isFurnish,
+            createdAt: properties.createdAt,
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID));
