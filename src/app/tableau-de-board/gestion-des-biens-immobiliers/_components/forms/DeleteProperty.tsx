@@ -19,7 +19,7 @@ const DeleteProperty = () => {
             queryClient.invalidateQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
             closeModal();
         } catch (error: any) {
-            ToastErrorSonner(`La suppression n'a pas pu être effectué raison: ${error.message}`);
+            throw error;
         }
     };
 
