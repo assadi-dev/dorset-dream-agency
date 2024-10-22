@@ -25,5 +25,5 @@ export const insertVariant = async (name: string, propertyID: number) => {
 };
 
 export const getVariantsCollections = async () => {
-    return db.select().from(variants);
+    return await db.select().from(variants);
 };
