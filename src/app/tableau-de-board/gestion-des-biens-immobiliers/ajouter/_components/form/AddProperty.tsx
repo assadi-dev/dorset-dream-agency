@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createVariantGallery, insertProperty } from "../../actions/actions";
 import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
+import { createPropertyDto } from "../../actions/dto/propertyDTO";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -34,9 +35,10 @@ const AddProperty = () => {
         startTransition(async () => {
             try {
                 await wait(1000);
-                const insertPropertyValues = { ...values };
+                const validateInputs = await createPropertyDto(values);
+                if (validateInputs.error) throw validateInputs.error;
 
-                const property = await insertProperty(insertPropertyValues);
+                const property = await insertProperty(validateInputs.data);
                 const propertyID = String(property.id);
 
                 if (values.variants && values.variants.length > 0) {
