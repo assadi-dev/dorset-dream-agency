@@ -1,7 +1,7 @@
 import { getClientsOptions } from "@/database/drizzle/repositories/clients";
 import { NextResponse } from "next/server";
 import { clientOptionSchema } from "./schema";
-
+export const dynamic = "force-dynamic";
 export const GET = async () => {
     try {
         const result = await getClientsOptions();

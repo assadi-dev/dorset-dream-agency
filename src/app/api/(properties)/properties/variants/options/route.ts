@@ -1,6 +1,7 @@
 import { getPropertiesWithVariantsOptions } from "@/database/drizzle/repositories/properties";
 import { NextResponse } from "next/server";
 import { propertyOptionSchema } from "./schema";
+export const dynamic = "force-dynamic";
 
 export const GET = async () => {
     try {

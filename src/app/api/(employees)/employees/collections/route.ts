@@ -1,6 +1,6 @@
 import { getEmployeeCollections } from "@/database/drizzle/repositories/employee";
 import { NextResponse } from "next/server";
-
+export const dynamic = "force-dynamic";
 export const GET = async () => {
     try {
         const response = await getEmployeeCollections();
