@@ -1,3 +1,4 @@
+"use server";
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";

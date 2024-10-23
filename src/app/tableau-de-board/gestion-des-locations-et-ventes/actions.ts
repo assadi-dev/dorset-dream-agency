@@ -1,5 +1,4 @@
 "use server";
-
 import {
     deleteTransactions,
     getTransactionCollection,
@@ -9,16 +8,17 @@ import {
 } from "@/database/drizzle/repositories/transactions";
 import { LocationVentesFormType } from "./_components/forms/schema";
 
-export const createTransaction = async (values: LocationVentesFormType) => {
+export const createTransaction = async (formData: FormData) => {
     const cleanValues = {
-        employeeID: values.employee,
-        clientID: values.client,
-        variantID: values.property,
-        propertyService: values.propertyService,
-        sellingPrice: values.price,
-        keyQuantity: values.keyQuantity,
-        keyNumber: values.keyNumber,
+        employeeID: formData.get("employee"),
+        clientID: formData.get("client"),
+        variantID: formData.get("property"),
+        propertyService: formData.get("propertyService"),
+        sellingPrice: formData.get("price"),
+        keyQuantity: formData.get("keyQuantity"),
+        keyNumber: formData.get("keyQuantity"),
     };
+
     await insertTransaction(cleanValues);
 };
 

@@ -12,8 +12,15 @@ const AddForm = () => {
     const router = useRouter();
     const pathname = usePathname();
     const creteLocationVente = async (values: LocationVentesFormType) => {
-        await createTransaction(values);
+        const formData = new FormData();
+
+        for (const [key, value] of Object.entries(values)) {
+            if (value) formData.append(key, value as any);
+        }
+
+        await createTransaction(formData);
         router.push(pathname);
+        router.refresh();
     };
 
     const userData = data?.user as UserCredential | undefined;
