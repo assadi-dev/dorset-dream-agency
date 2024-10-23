@@ -110,7 +110,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                     </div>
                 </div>
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} label="N° Telephone" name="phone" />
+                    <FormFieldInput control={form.control} label="N° Téléphone" name="phone" />
                 </div>
 
                 <div className="mb-4">
