@@ -15,7 +15,6 @@ const DeleteProperty = () => {
     const handleConfirm = async () => {
         try {
             await deleteVariant([Number(payload.id)]);
-            ToastSuccessSonner(`la propriété ${payload.name} a été supprimé avec succès`);
             queryClient.invalidateQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
             closeModal();
         } catch (error: any) {
@@ -32,6 +31,7 @@ const DeleteProperty = () => {
             <AlertModalContent
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
+                successMessage={`la propriété ${payload.name} a été supprimé avec succès`}
                 className="flex justify-end gap-3 lg:w-[25vw]"
             />
         </div>

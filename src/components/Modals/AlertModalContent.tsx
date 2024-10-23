@@ -6,20 +6,25 @@ type AlertModalContentProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
     onCancel?: () => any;
     onConfirm?: () => any;
     onOpenChange?: () => any;
+    successMessage?: string | null;
+    errorMessage?: string | null;
     children?: React.ReactNode;
 };
-const AlertModalContent = ({ onCancel, onConfirm, ...props }: AlertModalContentProps) => {
+const AlertModalContent = ({ onCancel, onConfirm, successMessage, errorMessage, ...props }: AlertModalContentProps) => {
+    const SUCCESS_MESSAGE = successMessage || "Opération réussie avec success";
+    const ERROR_MESSAGE = errorMessage || "Une erreur est survenue lors de l'operation";
+
     const handleConfirm = () =>
         new Promise(async (resolve) => {
             try {
                 if (onConfirm) {
                     await onConfirm();
-                    ToastSuccessSonner("Opération réussie avec success");
+                    ToastSuccessSonner(SUCCESS_MESSAGE);
                 }
 
                 resolve("action confirmed");
             } catch (error: any) {
-                ToastErrorSonner("Une erreur est survenue lors de l'operation");
+                ToastErrorSonner(ERROR_MESSAGE);
             }
         });
     const handleCancel = () =>
