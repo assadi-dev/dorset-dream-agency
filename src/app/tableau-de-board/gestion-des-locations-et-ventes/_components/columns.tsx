@@ -7,6 +7,10 @@ import { CellColumn } from "@/app/types/ReactTable";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
+        accessorKey: "property",
+        header: "Bien",
+    },
+    {
         accessorKey: "seller",
         header: "Vendeur",
     },
