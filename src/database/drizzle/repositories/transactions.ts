@@ -7,6 +7,7 @@ import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
 import { decodeTransactionInput } from "./dto/transactionsDTO";
+import { categoryProperties } from "../schema/categoryProperties";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 
@@ -42,12 +43,14 @@ export const getTransactionCollection = async () => {
                 keyQuantity: transactions.keyQuantity,
                 keyNumber: transactions.keyNumber,
                 transactionDate: transactions.createdAt,
+                category: categoryProperties.name,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))
             .leftJoin(employees, eq(employees.id, transactions.employeeID))
             .leftJoin(variants, eq(variants.id, transactions.variantID))
-            .leftJoin(properties, eq(properties.id, variants.propertyID));
+            .leftJoin(properties, eq(properties.id, variants.propertyID))
+            .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
 
         return await result;
     } catch (error: any) {
