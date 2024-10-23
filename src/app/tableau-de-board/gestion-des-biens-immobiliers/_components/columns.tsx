@@ -26,4 +26,8 @@ export const columns: ColumnDef<PropertiesColumn>[] = [
         header: "Disponibilité",
         cell: ({ cell }) => (cell.getValue() ? "Oui" : "Non"), // TODO: add a color to indicate availability
     },
+    {
+        accessorKey: "category",
+        header: "Catégorie",
+    },
 ];

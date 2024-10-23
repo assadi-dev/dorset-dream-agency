@@ -5,6 +5,7 @@ import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
 import { eq, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
+import { categoryProperties } from "../schema/categoryProperties";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -48,10 +49,12 @@ export const getPropertiesWithVariantsCollections = async () => {
             sellingPrice: properties.sellingPrice,
             isAvailable: properties.isAvailable,
             isFurnish: properties.isFurnish,
+            category: categoryProperties.name,
             createdAt: variants.createdAt,
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .orderBy(sql`${variants.createdAt} desc`);
     return await result;
 };

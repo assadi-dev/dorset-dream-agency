@@ -26,4 +26,8 @@ export const columns: ColumnDef<Employee>[] = [
         accessorKey: "iban",
         header: "IBAN",
     },
+    {
+        accessorKey: "phone",
+        header: "Téléphone",
+    },
 ];
