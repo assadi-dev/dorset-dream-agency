@@ -3,6 +3,16 @@
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { desc, eq, sql } from "drizzle-orm";
+/* 
+class Client {
+    getAll() {}
+    getOne() {}
+    create() {}
+    update() {}
+    delete() {}
+    getTransactions() { }
+    
+} */
 
 type NewClient = typeof clients.$inferInsert;
 export const insertClient = async (values: any) => {

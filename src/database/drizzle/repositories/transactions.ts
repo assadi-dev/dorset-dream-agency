@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
@@ -100,4 +100,81 @@ export const updateTransaction = async (id: number, values: Partial<insertTransa
     } catch (error: any) {
         throw error;
     }
+};
+
+type getLocationByPropertyArgs = {
+    id?: number | string;
+    type?: string;
+};
+
+/**
+ * Obtenir les transaction lié aux clients
+ */
+export const getLocationByPropertyType = async ({ id, type }: getLocationByPropertyArgs) => {
+    try {
+        if (!id) throw new Error("id client missing");
+
+        const prepare = db
+            .select({
+                id: transactions.id,
+                property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
+                variantID: variants.id,
+                seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
+                employeeID: employees.id,
+                client: sql<string>`CONCAT(${clients.lastName}, " ",${clients.firstName})`,
+                clientID: clients.id,
+                phone: clients.phone,
+                price: transactions.sellingPrice,
+                propertyService: transactions.propertyService,
+                keyQuantity: transactions.keyQuantity,
+                keyNumber: transactions.keyNumber,
+                transactionDate: transactions.createdAt,
+                category: categoryProperties.name,
+            })
+            .from(transactions)
+            .leftJoin(clients, eq(clients.id, transactions.clientID))
+            .leftJoin(employees, eq(employees.id, transactions.employeeID))
+            .leftJoin(variants, eq(variants.id, transactions.variantID))
+            .leftJoin(properties, eq(properties.id, variants.propertyID))
+            .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
+
+        switch (type?.toLocaleLowerCase()) {
+            case "location":
+                prepare.where(
+                    and(
+                        eq(clients.id, sql.placeholder("id")),
+                        or(
+                            eq(transactions.propertyService, "Location LS"),
+                            eq(transactions.propertyService, "Location Iles"),
+                        ),
+                    ),
+                );
+                break;
+
+            case "vente":
+                prepare.where(
+                    and(
+                        eq(clients.id, sql.placeholder("id")),
+                        or(
+                            eq(transactions.propertyService, "Ventes LS"),
+                            eq(transactions.propertyService, "Vente Iles"),
+                        ),
+                    ),
+                );
+
+                break;
+            case "prestige":
+                prepare.where(and(eq(clients.id, sql.placeholder("id")), eq(categoryProperties.name, "Prestige")));
+
+                break;
+
+            default:
+                break;
+        }
+
+        const result = await prepare.execute({
+            id,
+        });
+        return await result;
+    } catch (error) {}
 };
