@@ -19,7 +19,6 @@ export async function GET(req: NextRequest, { params: { id } }: Params) {
     const filter: Record<string, string | PurchaseType | null> = { id } satisfies filterArg;
     const params = req.nextUrl.searchParams;
     if (params.get("type")) filter.type = params.get("type");
-    console.log(filter);
 
     const clientsList = await getLocationByPropertyType(filter);
 
