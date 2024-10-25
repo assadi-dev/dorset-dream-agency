@@ -20,9 +20,8 @@ const GestionEmployeePage = async () => {
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                         <SearchInputDataTable />
                     </div>
-                    <React.Suspense fallback="Chargement en cours">
-                        <EmployeeCollection />
-                    </React.Suspense>
+
+                    <EmployeeCollection />
                 </section>
             </PageTemplate>
         </ModalProvider>

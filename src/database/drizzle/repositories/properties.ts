@@ -37,10 +37,13 @@ export const getPropertiesCollections = async () => {
     return await result;
 };
 
+type getPropertiesWithVariantsArgs = {
+    type?: string | null;
+};
 /**
  * Récupérations des bien immobilier et ses variantes  index utiliser  dans cette requête et l'id de la variantes
  */
-export const getPropertiesWithVariantsCollections = async () => {
+export const getPropertiesWithVariantsCollections = async ({ type }: getPropertiesWithVariantsArgs) => {
     const result = db
         .select({
             id: variants.id,
@@ -56,6 +59,9 @@ export const getPropertiesWithVariantsCollections = async () => {
         .leftJoin(properties, eq(properties.id, variants.propertyID))
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .orderBy(sql`${variants.createdAt} desc`);
+    if (type !== "all" && type) {
+        result.where(sql<string>`${categoryProperties.name}=${type}`);
+    }
     return await result;
 };
 
