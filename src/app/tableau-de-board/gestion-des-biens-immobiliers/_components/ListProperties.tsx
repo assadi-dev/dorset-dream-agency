@@ -3,7 +3,7 @@ import DataTable from "@/components/Datatable/Datatable";
 import React from "react";
 import { columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPropertiesCollections } from "../helpers";
+import { PROPERTY_QUERY_KEY, fetchPropertiesCollections } from "../helpers";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import ActionsImmobilier from "./ActionsImmobilier";
@@ -12,7 +12,7 @@ import { CellColumn } from "@/app/types/ReactTable";
 
 const ListProperties = () => {
     const { data, isFetching, error } = useQuery({
-        queryKey: ["LIST_IMMOBILIER_GESTION"],
+        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION],
         queryFn: fetchPropertiesCollections,
         refetchOnMount: true,
     });

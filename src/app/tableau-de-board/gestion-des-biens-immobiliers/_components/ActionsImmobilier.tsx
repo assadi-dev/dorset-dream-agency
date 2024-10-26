@@ -4,6 +4,8 @@ import React from "react";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
 import { Pen, Trash, ImagePlus } from "lucide-react";
 import DeleteProperty from "./forms/DeleteProperty";
+import AddVariantProperty from "./forms/AddVariantProperty";
+import EditFormProperty from "./forms/EditFormProperty";
 
 type ActionsImmobilierProps = {
     payload: any;
@@ -16,6 +18,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             title: `Modifier un biens Immobilier`,
             description: `Crée le ${payload ? formatFullDateShortTextWitHours(payload?.createdAt) : "Date non résigné"}`,
             payload: payload,
+            component: EditFormProperty,
         });
     };
     const handleClickNewVariant = () => {
@@ -23,6 +26,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             title: `Ajouter une variante`,
             description: `Ajouté un ou plusieurs variante pour `,
             payload: payload,
+            component: AddVariantProperty,
         });
     };
     const handleClickDelete = () => {

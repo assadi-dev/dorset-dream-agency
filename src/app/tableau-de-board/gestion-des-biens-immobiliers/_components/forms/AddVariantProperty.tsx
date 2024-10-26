@@ -1,49 +1,38 @@
 "use client";
-import FormFieldInput from "@/components/forms/FormFieldInput";
-import { Button } from "@/components/ui/button";
-import { CardFooter } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
-import { arrayFill, cn } from "@/lib/utils";
-import { ImagePlus, Trash2 } from "lucide-react";
-import React from "react";
-import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
-import { useDropzone } from "react-dropzone";
-import uniqid from "uniqid";
-import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { variantSchema } from "./propertySchema";
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { AddVariantSchema, AddVariantSchemaType } from "./schema";
+import FormFieldInput from "@/components/forms/FormFieldInput";
+import { useDropzone } from "react-dropzone";
+import { ImagePlus, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import PreviewVarianteUpload from "../../ajouter/_components/form/PreviewVarianteUpload";
+import { cn } from "@/lib/utils";
+import { Form } from "@/components/ui/form";
+import { createVariantGalleryApi } from "../../ajouter/_components/form/helpers";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { PROPERTY_QUERY_KEY } from "../../helpers";
 
-type UploadZoneForm = {
-    name: string;
-    files: Array<File>;
-};
-const UploadZoneModal = () => {
-    const form = useForm<UploadZoneForm>({
-        resolver: zodResolver(variantSchema),
+const AddVariantProperty = () => {
+    const { payload, closeModal } = useModalState();
+    const queryClient = useQueryClient();
+
+    const form = useForm<AddVariantSchemaType>({
+        resolver: zodResolver(AddVariantSchema),
         defaultValues: {
+            propertyID: payload.propertyID,
             name: "",
             files: [],
         },
     });
 
-    const { closeModal } = useModalState();
-    const propertyForm = useFormContext();
-
-    const submitVariant: SubmitHandler<UploadZoneForm> = async (values) => {
-        const currentVariant = propertyForm.getValues("variants");
-
-        const variant = {
-            id: uniqid(),
-            name: values.name,
-            files: values.files,
-        };
-
-        const addVariant = [variant, ...currentVariant];
-
-        propertyForm.setValue("variants", addVariant);
-        closeModal();
+    const clearAllFile = () => {
+        form.setValue("files", []);
+        form.clearErrors();
     };
 
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
@@ -55,23 +44,24 @@ const UploadZoneModal = () => {
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
 
-    /*     const handlePast = async (event: React.ClipboardEvent) => {
-        event.preventDefault();
-        if (!event.clipboardData.files.length) {
-            return;
-        }
-        const acceptedFiles: Array<File> = [];
-        for (const file of event.clipboardData.files) {
-            const fileObject = await file;
-            acceptedFiles.push(fileObject);
-        }
+    const submitVariant: SubmitHandler<AddVariantSchemaType> = async (values) => {
+        try {
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("propertyID", values.propertyID as string);
 
-        form.setValue("files", acceptedFiles);
-    }; */
-
-    const clearAllFile = () => {
-        form.setValue("files", []);
-        form.clearErrors();
+            if (values.files.length > 0) {
+                for (const file of values.files) {
+                    formData.append("files", file);
+                }
+            }
+            await createVariantGalleryApi(formData);
+            ToastSuccessSonner(`La variante ${values.name} vient d’être ajouté`);
+            queryClient.refetchQueries({ queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION] });
+            closeModal();
+        } catch (error: any) {
+            ToastErrorSonner(`l'ajout de la variant à été interrompu cause:${error.message}`);
+        }
     };
 
     return (
@@ -137,4 +127,4 @@ const UploadZoneModal = () => {
     );
 };
 
-export default UploadZoneModal;
+export default AddVariantProperty;

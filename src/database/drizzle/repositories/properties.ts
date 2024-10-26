@@ -47,6 +47,7 @@ export const getPropertiesWithVariantsCollections = async ({ type }: getProperti
     const result = db
         .select({
             id: variants.id,
+            propertyID: properties.id,
             name: sql<string>`CONCAT(${properties.name}, " - " ,${variants.name})`,
             rentalPrice: properties.rentalPrice,
             sellingPrice: properties.sellingPrice,
@@ -69,6 +70,7 @@ export const getPropertiesWithVariantsOptions = async () => {
     const result = db
         .select({
             id: variants.id,
+            propertyID: properties.id,
             name: sql<string>`CONCAT(${properties.name}, " - " ,${variants.name})`,
             label: sql<string>`CONCAT(${properties.name}, " - " ,${variants.name})`,
             value: variants.id,

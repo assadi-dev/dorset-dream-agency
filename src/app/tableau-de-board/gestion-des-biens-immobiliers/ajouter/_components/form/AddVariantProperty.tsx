@@ -3,8 +3,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import VariantCardItem from "./VariantCardItem";
 import { PlusCircleIcon } from "lucide-react";
 import useModalState from "@/hooks/useModalState";
-import UploadZoneModal from "./UploadZoneModal";
 import { useFormContext } from "react-hook-form";
+import UploadZoneVariant from "./UploadZoneVariant";
 
 const AddVariantProperty = () => {
     const { openModal } = useModalState();
@@ -13,7 +13,7 @@ const AddVariantProperty = () => {
     const handleClickAddVariant = () => {
         openModal({
             title: "Ajouter une variante",
-            component: UploadZoneModal,
+            component: UploadZoneVariant,
         });
     };
 
