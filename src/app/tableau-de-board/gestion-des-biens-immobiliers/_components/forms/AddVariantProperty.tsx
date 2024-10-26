@@ -128,7 +128,9 @@ const AddVariantProperty = () => {
                 </div>
 
                 <div className="mt-8 flex justify-center">
-                    <SubmitButton isLoading={mutation.isPending}>{LABEL_SUBMIT}</SubmitButton>
+                    <SubmitButton className="w-full p-5" isLoading={mutation.isPending}>
+                        {LABEL_SUBMIT}
+                    </SubmitButton>
                 </div>
             </form>
         </Form>

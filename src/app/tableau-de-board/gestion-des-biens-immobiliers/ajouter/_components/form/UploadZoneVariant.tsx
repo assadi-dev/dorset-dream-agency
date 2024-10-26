@@ -130,8 +130,8 @@ const UploadZoneVariant = () => {
                     </ScrollArea>
                 </div>
 
-                <div className="mt-8 flex justify-center">
-                    <Button>Ajouter</Button>
+                <div className="mt-8 w-full">
+                    <Button className="w-full p-5">Ajouter</Button>
                 </div>
             </form>
         </Form>
