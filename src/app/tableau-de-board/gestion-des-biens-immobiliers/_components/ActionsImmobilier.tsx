@@ -45,7 +45,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             <DropdownMenuItem onClick={handleClickNewVariant} className="text-primary">
                 <ImagePlus className="mr-2 h-4 w-4" /> Ajouter une variante
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
+            <DropdownMenuItem onClick={handleClickEdit} className="text-primary" disabled>
                 <Pen className="mr-2 h-4 w-4" />
                 Modifier
             </DropdownMenuItem>
