@@ -10,16 +10,18 @@ import { ImagePlus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PreviewVarianteUpload from "../../ajouter/_components/form/PreviewVarianteUpload";
-import { cn } from "@/lib/utils";
+import { cn, wait } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { createVariantGalleryApi } from "../../ajouter/_components/form/helpers";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PROPERTY_QUERY_KEY } from "../../helpers";
+import SubmitButton from "@/components/forms/SubmitButton";
 
 const AddVariantProperty = () => {
     const { payload, closeModal } = useModalState();
     const queryClient = useQueryClient();
+    const mutation = useMutation({ mutationFn: createVariantGalleryApi });
 
     const form = useForm<AddVariantSchemaType>({
         resolver: zodResolver(AddVariantSchema),
@@ -55,14 +57,20 @@ const AddVariantProperty = () => {
                     formData.append("files", file);
                 }
             }
-            await createVariantGalleryApi(formData);
-            ToastSuccessSonner(`La variante ${values.name} vient d’être ajouté`);
-            queryClient.refetchQueries({ queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION] });
-            closeModal();
+            await wait(1000);
+            await mutation.mutateAsync(formData, {
+                onSuccess: () => {
+                    queryClient.refetchQueries({ queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION] });
+                    ToastSuccessSonner(`La variante ${values.name} vient d’être ajouté`);
+                    closeModal();
+                },
+            });
         } catch (error: any) {
             ToastErrorSonner(`l'ajout de la variant à été interrompu cause:${error.message}`);
         }
     };
+
+    const LABEL_SUBMIT = mutation.isPending ? "Traitement en cours" : "Ajouter";
 
     return (
         <Form {...form}>
@@ -120,7 +128,7 @@ const AddVariantProperty = () => {
                 </div>
 
                 <div className="mt-8 flex justify-center">
-                    <Button>Ajouter</Button>
+                    <SubmitButton isLoading={mutation.isPending}>{LABEL_SUBMIT}</SubmitButton>
                 </div>
             </form>
         </Form>
