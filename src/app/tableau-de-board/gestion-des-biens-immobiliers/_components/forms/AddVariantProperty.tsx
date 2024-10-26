@@ -57,7 +57,7 @@ const AddVariantProperty = () => {
                     formData.append("files", file);
                 }
             }
-            await wait(1000);
+
             await mutation.mutateAsync(formData, {
                 onSuccess: () => {
                     queryClient.refetchQueries({ queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION] });
