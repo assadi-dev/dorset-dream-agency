@@ -18,11 +18,12 @@ export const insertGallery = (variantID: number, photoID: number) => {
 export const createVariantGallery = async (formData: FormData) => {
     try {
         const propertyID = Number(formData.get("propertyID"));
-        const name = String(formData.get("name"));
+        const name = (formData.get("name") as string) || null;
         const files = formData.getAll("files");
         if (!files) return;
 
         const response = await uploadPhotoProperty(formData);
+
         const variant = await insertVariant(name, propertyID);
 
         for (const photo of response.photos) {
