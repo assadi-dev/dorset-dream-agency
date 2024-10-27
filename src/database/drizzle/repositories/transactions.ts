@@ -31,7 +31,7 @@ export const getTransactionCollection = async () => {
         const result = db
             .select({
                 id: transactions.id,
-                property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
+                property: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
                 variantID: variants.id,
                 seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
                 employeeID: employees.id,
@@ -117,7 +117,7 @@ export const getLocationByPropertyType = async ({ id, type }: getLocationByPrope
         const prepare = db
             .select({
                 id: transactions.id,
-                property: sql<string>`CONCAT(${properties.name}, " - ",${variants.name})`,
+                property: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
                 variantID: variants.id,
                 seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
                 employeeID: employees.id,
