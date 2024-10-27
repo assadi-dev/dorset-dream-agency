@@ -1,22 +1,20 @@
-import { createVariantGallery } from "@/database/drizzle/repositories/galleries";
 import { insertProperty } from "@/database/drizzle/repositories/properties";
-import { insertVariant } from "@/database/drizzle/repositories/variants";
 import { NextResponse } from "next/server";
 
-type variantType = {
-    name: string;
-    files: Array<string>;
-};
 type BodyType = {
     name: string;
-    rentalPrice: string;
-    sellingPrice: string;
+    address: string;
+    description: string;
+    factoryPrice: number;
+    sellingPrice: number;
+    rentalPrice: number;
+    categoryID: number;
     isFurnish: boolean;
-    variants: Array<variantType>;
+    isAvailable: boolean;
 };
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: Request) => {
     try {
-        const body: BodyType = await req.json();
+        const body: Partial<BodyType> = await req.json();
         const newProperty = await insertProperty(body);
 
         return NextResponse.json(newProperty);
