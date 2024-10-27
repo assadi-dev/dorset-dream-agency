@@ -48,7 +48,7 @@ export const getPropertiesWithVariantsCollections = async ({ type }: getProperti
         .select({
             id: variants.id,
             propertyID: properties.id,
-            name: sql<string>`CONCAT(${properties.name}, " - " ,${variants.name})`,
+            name: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
             rentalPrice: properties.rentalPrice,
             sellingPrice: properties.sellingPrice,
             isAvailable: properties.isAvailable,
