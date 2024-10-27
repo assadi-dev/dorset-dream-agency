@@ -1,18 +1,9 @@
-import { db } from "@/database";
-import { categoryProperties } from "@/database/drizzle/schema/categoryProperties";
-import { desc, sql } from "drizzle-orm";
+import { getCategoriesForOptions } from "@/database/drizzle/repositories/categories";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const result = await db
-            .select({
-                id: categoryProperties.id,
-                label: categoryProperties.name,
-                value: sql`lower(${categoryProperties.id})`,
-            })
-            .from(categoryProperties)
-            .orderBy(desc(categoryProperties.createdAt));
+        const result = await getCategoriesForOptions();
 
         return NextResponse.json(result);
     } catch (error: any) {
