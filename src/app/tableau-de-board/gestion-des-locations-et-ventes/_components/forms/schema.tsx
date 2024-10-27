@@ -9,7 +9,7 @@ export const LocationVentesSchema = z.object({
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     property: z.coerce.number().or(z.string()),
     propertyService: z.enum(PROPERTY_TYPE),
-    price: z.coerce.number().min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    price: z.coerce.number(),
     keyQuantity: z.coerce.number(),
     keyNumber: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
 });
