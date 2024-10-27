@@ -3,7 +3,7 @@ import { db } from "@/database";
 import { eq, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
 
-export const insertVariant = async (name: string, propertyID: number) => {
+export const insertVariant = async (name?: string | null, propertyID?: number | null) => {
     try {
         const prepare = db
             .insert(variants)
