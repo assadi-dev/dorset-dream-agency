@@ -12,6 +12,10 @@ export const columns: ColumnDef<LocationColumnType>[] = [
         header: "Nom du bien",
     },
     {
+        accessorKey: "address",
+        header: "Adresse",
+    },
+    {
         accessorKey: "rentalPrice",
         header: "Prix location",
     },
