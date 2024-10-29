@@ -5,6 +5,7 @@ import { columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import { fetch_prestige } from "../helper";
 import AlertDestructive from "@/components/notify/AlertDestructive";
+import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
 
 const ListsPrestige = () => {
     const { data, error, isFetching } = useQuery({
@@ -21,6 +22,10 @@ const ListsPrestige = () => {
     return (
         <div>
             <div className="my-3">{error ? <AlertDestructive title="Erreur" description={error.message} /> : null}</div>
+            <div className="flex justify-end my-3">
+                {" "}
+                <PaginationDataTable />
+            </div>
             <DataTable columns={columns} data={PRESTIGE_DATA} />
         </div>
     );

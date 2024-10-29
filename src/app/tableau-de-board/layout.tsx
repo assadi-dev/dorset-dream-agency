@@ -28,9 +28,9 @@ const AdminLayout = async ({ children }: AdminLayoutType) => {
 
                     {children}
                 </main>
-                <footer className={cn(styles.dashboardFooter, "bg-white")}>
+                {/*       <footer className={cn(styles.dashboardFooter, "bg-white")}>
                     <p>copyright &copy; {currentYear()} </p>
-                </footer>
+                </footer> */}
             </div>
         </AuthSessionProvider>
     );

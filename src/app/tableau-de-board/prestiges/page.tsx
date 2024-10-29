@@ -2,6 +2,7 @@ import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import ListsPrestige from "./_components/ListsPrestige";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
+import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
 
 const PrestigePage = () => {
     return (
