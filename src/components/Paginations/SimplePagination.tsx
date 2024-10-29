@@ -77,15 +77,25 @@ const SimplePagination = ({
         updateRouteParams(String(newPage));
     };
 
+    const handleSelectLimit = (value: any) => {
+        const currentPage = Number(page);
+        const newTotalPage = Math.ceil(totalItem / value);
+
+        if (currentPage > newTotalPage) {
+            setPaginationState({ limit: value, page: newTotalPage });
+            updateRouteParams(String(newTotalPage));
+            return;
+        }
+
+        setPaginationState({ limit: value });
+    };
+
     return (
         <div className="flex items-center  px-2 my-3">
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
                     <p className="text-sm font-medium">{rowLabel}</p>
-                    <Select
-                        value={String(paginationState.limit)}
-                        onValueChange={(value) => setPaginationState({ limit: value })}
-                    >
+                    <Select value={String(paginationState.limit)} onValueChange={handleSelectLimit}>
                         <SelectTrigger className="h-8 w-[70px]">
                             <SelectValue placeholder={paginationState.limit} />
                         </SelectTrigger>
