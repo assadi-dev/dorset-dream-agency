@@ -2,26 +2,39 @@
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 type SearchInputDataTable = {
-    value: string | null;
-    onSearch: (search: string) => void;
+    value?: string | null;
+    onSearch?: (value: string) => void;
 };
-const SearchInputDataTable = ({ value }: SearchInputDataTable) => {
-    const [searchTerm, setSearchTerm] = React.useState<string | null>(value);
-    const { debouncedValue } = useDebounce(searchTerm, 500);
+const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTable) => {
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
 
-    /*     const debouncedSearch = useDebouncedCallback((value) => {
-        // Perform your search logic here
-        console.log("Searching for:", value);
-    }, 300); // 300ms delay */
+    const updateRouteParams = React.useCallback(
+        (value: string) => {
+            const updatedSearchParams = new URLSearchParams(searchParams.toString());
+            updatedSearchParams.set("search", value);
+            const updatePathName = pathname + "?" + updatedSearchParams.toString();
+            router.push(updatePathName);
+        },
+        [pathname, router, searchParams],
+    );
+
+    const searchTermInParam = searchParams.get("search") || "";
+
+    const [searchTerm, setSearchTerm] = React.useState<string | null>(value || searchTermInParam);
+    const { debouncedValue } = useDebounce(searchTerm, 500);
 
     React.useEffect(() => {
         if (debouncedValue) {
-            console.log("Searching for: ", debouncedValue);
+            updateRouteParams(debouncedValue);
+            if (onSearch) onSearch(debouncedValue);
         }
-    }, [debouncedValue]);
+    }, [debouncedValue, onSearch]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;

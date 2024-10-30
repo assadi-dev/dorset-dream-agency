@@ -64,3 +64,16 @@ export const showRole = (role: Role) => {
 export const arrayFill = (length: number) => {
     return Array.from({ length }, (_, i) => i + 1);
 };
+
+export const debounce = <T extends (...args: any[]) => void>(
+    func: T,
+    delay: number,
+): ((...args: Parameters<T>) => void) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: Parameters<T>) => {
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    };
+};

@@ -11,18 +11,18 @@ type paginationStateType = {
     limit: number;
     canNextPage: boolean;
     canPreviousPage: boolean;
-    totalItem: number;
+    totalItems: number;
 };
 type SimplePaginationProps = {
     rowLabel?: string;
     rowSizeSelect?: Array<number>;
-    totalItem: number;
+    totalItems: number;
     limit: number;
 };
 const SimplePagination = ({
     rowLabel = "Éléments par page",
     rowSizeSelect = [5, 15, 25, 50],
-    totalItem = 50,
+    totalItems = 0,
     limit = 5,
 }: SimplePaginationProps) => {
     const searchParams = useSearchParams();
@@ -47,11 +47,11 @@ const SimplePagination = ({
             limit,
             canNextPage: true,
             canPreviousPage: false,
-            totalItem,
+            totalItems,
         },
     );
 
-    const TOTAL_PAGE = totalItem === 0 ? 1 : Math.ceil(totalItem / paginationState.limit);
+    const TOTAL_PAGE = totalItems === 0 ? 1 : Math.ceil(totalItems / paginationState.limit);
     const gotToLastPage = () => {
         setPaginationState({
             page: TOTAL_PAGE,
@@ -107,7 +107,7 @@ const SimplePagination = ({
             }
             setPaginationState(obj);
         }
-    }, [page, paginationState.limit, totalItem]);
+    }, [page, paginationState.limit, totalItems]);
 
     return (
         <div className="flex items-center  px-2 my-3">
