@@ -7,22 +7,12 @@ import React from "react";
 
 type SearchInputDataTable = {
     value?: string | null;
-    onSearch?: (value: string) => void;
+    onSearch?: (value: string | null) => void;
 };
 const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTable) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
-
-    const updateRouteParams = React.useCallback(
-        (value: string) => {
-            const updatedSearchParams = new URLSearchParams(searchParams.toString());
-            updatedSearchParams.set("search", value);
-            const updatePathName = pathname + "?" + updatedSearchParams.toString();
-            router.push(updatePathName);
-        },
-        [pathname, router, searchParams],
-    );
 
     const searchTermInParam = searchParams.get("search") || "";
 
@@ -30,11 +20,28 @@ const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTable) => {
     const { debouncedValue } = useDebounce(searchTerm, 500);
 
     React.useEffect(() => {
+        const updateRouteParams = (value: string) => {
+            const updatedSearchParams = new URLSearchParams(searchParams.toString());
+            updatedSearchParams.set("search", value);
+            const updatePathName = pathname + "?" + updatedSearchParams.toString();
+            router.push(updatePathName);
+        };
+
+        const removeRouteParams = () => {
+            const updatedSearchParams = new URLSearchParams(searchParams.toString());
+            updatedSearchParams.delete("search");
+            const updatePathName = pathname + "?" + updatedSearchParams.toString();
+            router.push(updatePathName);
+        };
+
         if (debouncedValue) {
             updateRouteParams(debouncedValue);
             if (onSearch) onSearch(debouncedValue);
+        } else {
+            removeRouteParams();
+            if (onSearch) onSearch(null);
         }
-    }, [debouncedValue, onSearch]);
+    }, [debouncedValue]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;

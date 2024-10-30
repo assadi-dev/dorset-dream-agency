@@ -9,6 +9,7 @@ import { Terminal } from "lucide-react";
 import ActionsImmobilier from "./ActionsImmobilier";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import { CellColumn } from "@/app/types/ReactTable";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 const ListProperties = () => {
     const { data, isFetching, error } = useQuery({
@@ -39,7 +40,10 @@ const ListProperties = () => {
                     </AlertDescription>
                 </Alert>
             )}
-
+            <div className="mb-3 flex items-center justify-between">
+                <div></div>
+                <SimplePagination totalItems={0} limit={15} />
+            </div>
             {!error && data ? <DataTable columns={ImmobilierColumns} data={data} /> : null}
         </div>
     );
