@@ -6,37 +6,52 @@ import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+type paginationStateType = {
+    page: number;
+    limit: number;
+    canNextPage: boolean;
+    canPreviousPage: boolean;
+    totalItem: number;
+};
 type SimplePaginationProps = {
     rowLabel?: string;
     rowSizeSelect?: Array<number>;
+    totalItem: number;
+    limit: number;
 };
 const SimplePagination = ({
     rowLabel = "Éléments par page",
     rowSizeSelect = [5, 15, 25, 50],
-    totalItem = 35,
-    nextPage,
+    totalItem = 50,
     limit = 5,
 }: SimplePaginationProps) => {
     const searchParams = useSearchParams();
-    const page = searchParams.get("page");
+    const page = searchParams.get("page") || "1";
     const pathname = usePathname();
     const router = useRouter();
 
-    const updateRouteParams = (value: string) => {
-        const updatedSearchParams = new URLSearchParams(searchParams.toString());
-        updatedSearchParams.set("page", value);
-        const updatePathName = pathname + "?" + updatedSearchParams.toString();
-        router.push(updatePathName);
-    };
+    const updateRouteParams = React.useCallback(
+        (value: string) => {
+            const updatedSearchParams = new URLSearchParams(searchParams.toString());
+            updatedSearchParams.set("page", value);
+            const updatePathName = pathname + "?" + updatedSearchParams.toString();
+            router.push(updatePathName);
+        },
+        [pathname, router, searchParams],
+    );
 
-    const [paginationState, setPaginationState] = React.useReducer((prev, next) => ({ ...prev, ...next }), {
-        page: page || 1,
-        limit,
-        canNextPage: true,
-        canPreviousPage: false,
-    });
+    const [paginationState, setPaginationState] = React.useReducer(
+        (prev: paginationStateType, next: any) => ({ ...prev, ...next }),
+        {
+            page: page || 1,
+            limit,
+            canNextPage: true,
+            canPreviousPage: false,
+            totalItem,
+        },
+    );
 
-    const TOTAL_PAGE = Math.ceil(totalItem / paginationState.limit);
+    const TOTAL_PAGE = totalItem === 0 ? 1 : Math.ceil(totalItem / paginationState.limit);
     const gotToLastPage = () => {
         setPaginationState({
             page: TOTAL_PAGE,
@@ -49,46 +64,50 @@ const SimplePagination = ({
         setPaginationState({
             page: 1,
             canPreviousPage: false,
-            canNextPage: true,
+            canNextPage: false,
         });
         updateRouteParams("1");
     };
 
     const goPreviousPage = () => {
-        const newPage = Number(paginationState.page) - 1;
-        if (newPage === 1) {
-            setPaginationState({ page: newPage, canNextPage: true, canPreviousPage: false });
-            updateRouteParams(String(newPage));
-            return;
-        }
-
-        setPaginationState({ page: newPage, canNextPage: true, canPreviousPage: true });
+        const newPage = Number(page) - 1;
+        setPaginationState({ page: newPage });
         updateRouteParams(String(newPage));
     };
     const goNextPage = () => {
-        const newPage = Number(paginationState.page) + 1;
-        if (newPage >= TOTAL_PAGE) {
-            setPaginationState({ page: newPage, canNextPage: false, canPreviousPage: true });
-            updateRouteParams(String(newPage));
-            return;
-        }
-
-        setPaginationState({ page: newPage, canNextPage: true, canPreviousPage: false });
+        const newPage = Number(page) + 1;
+        setPaginationState({ page: newPage });
         updateRouteParams(String(newPage));
     };
 
     const handleSelectLimit = (value: any) => {
-        const currentPage = Number(page);
-        const newTotalPage = Math.ceil(totalItem / value);
-
-        if (currentPage > newTotalPage) {
-            setPaginationState({ limit: value, page: newTotalPage });
-            updateRouteParams(String(newTotalPage));
-            return;
-        }
-
-        setPaginationState({ limit: value });
+        setPaginationState({ limit: Number(value) });
     };
+
+    React.useEffect(() => {
+        if (page) {
+            const currentPage = Number(page);
+
+            const obj = { page: currentPage, canNextPage: true, canPreviousPage: true };
+            if (TOTAL_PAGE === 1) {
+                obj.canPreviousPage = false;
+                obj.canNextPage = false;
+                updateRouteParams(String(obj.page));
+            } else if (currentPage <= 1) {
+                obj.page = 1;
+                obj.canPreviousPage = false;
+                updateRouteParams(String(obj.page));
+            } else if (currentPage > 1 && currentPage < TOTAL_PAGE) {
+                obj.canPreviousPage = true;
+                obj.canNextPage = true;
+            } else if (currentPage >= TOTAL_PAGE) {
+                updateRouteParams(String(TOTAL_PAGE));
+                obj.page = TOTAL_PAGE;
+                obj.canNextPage = false;
+            }
+            setPaginationState(obj);
+        }
+    }, [page, paginationState.limit, totalItem]);
 
     return (
         <div className="flex items-center  px-2 my-3">
@@ -109,7 +128,7 @@ const SimplePagination = ({
                     </Select>
                 </div>
                 <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                    Page {paginationState.page} sur {TOTAL_PAGE}
+                    Page {page} sur {TOTAL_PAGE}
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
