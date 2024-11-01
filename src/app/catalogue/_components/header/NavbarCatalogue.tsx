@@ -27,16 +27,16 @@ const NavbarCatalogue = async () => {
     return (
         <nav className="w-full  min-h-10 ">
             <div className="shadow bg-secondary/50 backdrop-blur-lg transition-all grid grid-cols-[1fr,0.5fr] rounded-lg p-3 items-center">
-                <div className="h-[50px]">
+                <div className="h-[50px] flex items-center">
                     <Link href="/">
-                        {/*  <strong>DORSET DREAM</strong> */}
-                        <Image
+                        <strong>DORSET DREAM</strong>
+                        {/*        <Image
                             src={logo}
                             alt="logo du site catalogue Dorset dream agency"
                             height={500}
                             width={500}
                             className="h-[50px] w-[100px] object-contain"
-                        />
+                        /> */}
                     </Link>
                 </div>
                 <div className="flex justify-end items-center">

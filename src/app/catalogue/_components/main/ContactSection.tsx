@@ -1,6 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
+import logo from "@assets/images/logo.jpg";
+import Image from "next/image";
 
 const ContactSection = () => {
     return (
@@ -38,11 +40,15 @@ const ContactSection = () => {
                 <Separator orientation="vertical" />
 
                 <div className="flex flex-col gap-3 items-center justify-center h-full">
-                    <h2 className="font-bold text-xl">NOS HORAIRES</h2>
-
-                    <div className="text-slate-500">
-                        <p className="text-lg"> Du lundi au jeudi : de 21h00 à 00h00</p>
-                        <p className="text-lg"> Le vendredi et le samedi : de 21h00 à 01h30</p>
+                    <div className="w-[25rem]">
+                        <Image
+                            src={logo}
+                            width={500}
+                            height={500}
+                            layout="responsive"
+                            alt="logo dorset dream"
+                            className="rounded-xl shadow-lg"
+                        />
                     </div>
                 </div>
             </div>

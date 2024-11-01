@@ -13,10 +13,37 @@ export type PropertiesCardSectionType = {
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const array = new Array(10).fill({ name: "sdsdd" });
 
+    const PropertyBadges = ({ isAvailable, isFurnish }) => {
+        const FurnishBadge = ({ isFurnish }) => {
+            const FURNISH_LABEL_ = isFurnish ? "Meublé" : "Vide";
+
+            return (
+                <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-400">
+                    {FURNISH_LABEL_}
+                </span>
+            );
+        };
+        const AvailableBadge = ({ isAvailable }) => {
+            const AVAILABLE_LABEL = isAvailable ? "Disponible" : "Indisponible";
+
+            const CLASS_BADGE = isAvailable
+                ? `bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400`
+                : "bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400";
+            return <span className={CLASS_BADGE}>{AVAILABLE_LABEL}</span>;
+        };
+
+        return (
+            <div className="flex items-center gap-1">
+                <FurnishBadge isFurnish={isAvailable} />
+                <AvailableBadge isAvailable={isFurnish} />
+            </div>
+        );
+    };
+
     const PropertyItem = () => {
         return (
             <Card className="w-full p-1 h-full transition-shadow hover:shadow-lg relative">
-                <div className="overflow-hidden rounded-lg">
+                <div className="overflow-hidden rounded-lg relative">
                     <Image
                         src={"https://images.pexels.com/photos/2343465/pexels-photo-2343465.jpeg"}
                         alt={`photo`}
@@ -26,9 +53,9 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                     />
                 </div>
 
-                <div className="p-2 flex flex-col justify-between gap-3">
+                <div className="p-2 flex flex-col justify-between gap-3 relative">
                     <p className="font-bold text-lg">Titre </p>
-
+                    <PropertyBadges isAvailable={true} isFurnish={true} />
                     <div className="flex items-center justify-between  p-2 rounded-sm backdrop-blur-md">
                         <div>
                             <p className="text-xs text-slate-600">location/Vente</p>
