@@ -87,10 +87,6 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
             slidesPerView: 4,
             spaceBetween: 5,
         },
-        1536: {
-            slidesPerView: 5,
-            spaceBetween: 5,
-        },
     };
 
     return (
