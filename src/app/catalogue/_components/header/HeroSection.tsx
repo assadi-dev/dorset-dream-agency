@@ -1,9 +1,13 @@
 "use client";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y, Parallax } from "swiper/modules";
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/parallax";
+import "swiper/css/effect-fade";
 
-import styles from "../../style.module.css";
 import clsx from "clsx";
 
 const HeroSection = () => {
@@ -27,10 +31,10 @@ const HeroSection = () => {
                 <div className="h-full w-full rounded-xl" style={slideStyle}></div>
 
                 <div className={clsx("absolute left-10 top-[25%] text-white  p-3 slide-in-text")}>
-                    <p className="text-4xl font-bold text-white  p-8 drop-shadow-2xl ">
+                    <p className="text-lg pb-3 sm:text-2xl lg:text-4xl font-bold text-white  sm:p-8 drop-shadow-2xl ">
                         {String("Villa Franklin").toUpperCase()}
                     </p>
-                    <small className="block max-w-[50vw] drop-shadow-xl pl-8  slide-in-text">
+                    <small className="block max-w-[95vw] lg:max-w-[50vw] drop-shadow-xl sm:pl-8  slide-in-text text-xs lg:text-sm">
                         <strong>Déscription:</strong> <br />
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero fugit quod qui nobis autem
                         perspiciatis atque vel, dignissimos totam error, quaerat nesciunt, vitae earum. Iste tempora
@@ -42,8 +46,16 @@ const HeroSection = () => {
     };
 
     return (
-        <div className="relative rounded-lg shadow-lg w-full max-w-screen h-[200px] lg:h-[480px] overflow-hidden">
-            <Swiper spaceBetween={10} modules={[Parallax]} slidesPerView={1} className="h-full w-full">
+        <div className="relative rounded-lg shadow-lg w-full h-[280px]  sm:h-[380px] lg:h-[480px] overflow-hidden">
+            <Swiper
+                loop={true}
+                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                spaceBetween={10}
+                modules={[Autoplay, EffectFade]}
+                slidesPerView={1}
+                effect="fade"
+                className="h-full w-full"
+            >
                 {listPhotos.map((photo, index) => (
                     <SwiperSlide key={index}>
                         <SliderItem src={photo} />

@@ -54,17 +54,17 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                 </div>
 
                 <div className="p-2 flex flex-col justify-between gap-3 relative">
-                    <p className="font-bold text-lg">Titre </p>
+                    <p className="font-bold sm:text-sm lg:text-lg">Titre </p>
                     <PropertyBadges isAvailable={true} isFurnish={true} />
                     <div className="flex items-center justify-between  p-2 rounded-sm backdrop-blur-md">
                         <div>
                             <p className="text-xs text-slate-600">location/Vente</p>
-                            <p className="font-bold">400 / 12000 </p>
+                            <p className="font-bold text-xs lg:text:sm">400 / 12000 </p>
                         </div>
                         <Button
                             asChild
                             type="button"
-                            className="bg-background border hover:border-none hover:shadow-lg hover:shadow-blue-950/50 border-input text-black hover:bg-gradient-to-br from-sky-600 to-primary   duration-300   transition-colors  hover:text-white "
+                            className="bg-background border hover:border-none hover:shadow-lg hover:shadow-blue-950/50 border-input text-black hover:bg-gradient-to-br from-sky-600 to-primary   duration-300   transition-colors  hover:text-white text-xs lg:text-sm"
                         >
                             <Link href={`#`}>Plus d'info</Link>
                         </Button>
@@ -74,9 +74,28 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         );
     };
 
+    const breakTest = {
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 3,
+        },
+        1024: {
+            slidesPerView: 3,
+            spaceBetween: 5,
+        },
+        1280: {
+            slidesPerView: 4,
+            spaceBetween: 5,
+        },
+        1536: {
+            slidesPerView: 5,
+            spaceBetween: 5,
+        },
+    };
+
     return (
-        <div className="relative rounded-lg   w-full max-w-[calc(100vw-80px)] overflow-hidden">
-            <Swiper spaceBetween={5} slidesPerView={4} className="h-full w-full">
+        <div className="relative rounded-lg   w-full    overflow-hidden">
+            <Swiper spaceBetween={0} slidesPerView={1} breakpoints={breakTest} className="h-full w-full">
                 {array.map((item, index) => (
                     <SwiperSlide key={index} className="px-1 py-5">
                         <PropertyItem />

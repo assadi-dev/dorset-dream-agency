@@ -25,7 +25,7 @@ const NavbarCatalogue = async () => {
     };
 
     return (
-        <nav className="w-full  min-h-10 ">
+        <nav className="w-full  min-h-10 mb-12">
             <div className="shadow bg-secondary/50 backdrop-blur-lg transition-all grid grid-cols-[1fr,0.5fr] rounded-lg p-3 items-center">
                 <div className="h-[50px] flex items-center">
                     <Link href="/">
