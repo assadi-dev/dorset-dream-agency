@@ -1,0 +1,15 @@
+.slide-in-text {
+    opacity: 0;
+    transform: translateX(-25px); /* Départ légèrement en dehors de la vue */
+    transition: all 0.5s ease-in-out 0.5s;
+    -webkit-transition: all 0.5s ease-in-out 0.5s;
+    -moz-transition: all 0.5s ease-in-out 0.5s;
+    -ms-transition: all 0.5s ease-in-out 0.5s;
+    -o-transition: all 0.5s ease-in-out 0.5s;
+}
+
+/* When the parent slide becomes active, animate the text inside */
+.swiper-slide-active .slide-in-text {
+    transform: translateX(0); /* Glisse le texte vers sa position normale */
+    opacity: 1; /* Le texte devient visible */
+}

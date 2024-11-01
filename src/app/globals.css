@@ -85,3 +85,22 @@
         @apply hover:bg-primary hover:text-secondary text-secondary drop-shadow py-3;
     }
 }
+
+.slide-in-text {
+    opacity: 0;
+    transform: translateX(-25px);
+    -webkit-transform: translateX(-25px);
+    -moz-transform: translateX(-25px);
+    -ms-transform: translateX(-25px);
+    -o-transform: translateX(-25px);
+}
+
+.swiper-slide-active .slide-in-text {
+    transform: translateX(0);
+    opacity: 1;
+    transition: all 0.5s ease-in-out 0.5s;
+    -webkit-transition: all 0.5s ease-in-out 0.5s;
+    -moz-transition: all 0.5s ease-in-out 0.5s;
+    -ms-transition: all 0.5s ease-in-out 0.5s;
+    -o-transition: all 0.5s ease-in-out 0.5s;
+}

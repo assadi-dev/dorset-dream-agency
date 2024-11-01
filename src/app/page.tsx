@@ -1,34 +1,18 @@
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ENV } from "@/config/global";
-import { PAGES } from "@/config/pages";
-import Link from "next/link";
+import NavbarCatalogue from "./catalogue/_components/header/NavbarCatalogue";
+import HeroSection from "./catalogue/_components/header/HeroSection";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import PropertiesSection from "./catalogue/_components/main/PropertiesSection";
 
-export default async function Home() {
-    const session = await auth();
+export default async function CataloguePage() {
     return (
-        <div className="grid grid-rows-[auto_1fr_auto] items-center justify-items-center min-h-screen  pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
-            <nav className="bg-secondary shadow w-full p-3 min-h-10 grid grid-cols-[1fr,0.5fr]">
-                <div></div>
-                <div className="flex justify-end items-center">
-                    {session ? (
-                        <Button asChild>
-                            <Link href={PAGES.DASHBOARD}>Tableau de board</Link>
-                        </Button>
-                    ) : (
-                        <Button asChild>
-                            <Link href={ENV.NEXT_AUTH_SIGN_IN_PAGE}>Connexion</Link>
-                        </Button>
-                    )}
-                </div>
-            </nav>
-            <Card>
-                <CardHeader>
-                    <h1 className="font-bold text-3xl">Catalogue</h1>
-                </CardHeader>
-                <CardContent></CardContent>
-            </Card>
+        <div className="relative grid grid-rows-[auto_auto_1fr_auto] items-center justify-items-center min-h-screen  pb-20 gap-5 font-[family-name:var(--font-geist-sans)] pt-3 p-5 lg:px-12">
+            <NavbarCatalogue />
+
+            <HeroSection />
+
+            <main className=" w-full p-5 lg:p-8">
+                <PropertiesSection />
+            </main>
         </div>
     );
 }
