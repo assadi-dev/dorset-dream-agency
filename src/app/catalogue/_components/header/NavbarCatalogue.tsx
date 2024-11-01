@@ -4,6 +4,8 @@ import { ENV } from "@/config/global";
 import { PAGES } from "@/config/pages";
 import Link from "next/link";
 import React from "react";
+import logo from "@assets/images/logo-catalog.png";
+import Image from "next/image";
 
 const NavbarCatalogue = async () => {
     const session = await auth();
@@ -25,9 +27,16 @@ const NavbarCatalogue = async () => {
     return (
         <nav className="w-full  min-h-10 ">
             <div className="shadow bg-secondary/50 backdrop-blur-lg transition-all grid grid-cols-[1fr,0.5fr] rounded-lg p-3 items-center">
-                <div>
+                <div className="h-[50px]">
                     <Link href="/">
-                        <strong>DORSET DREAM</strong>
+                        {/*  <strong>DORSET DREAM</strong> */}
+                        <Image
+                            src={logo}
+                            alt="logo du site catalogue Dorset dream agency"
+                            height={500}
+                            width={500}
+                            className="h-[50px] w-[100px] object-contain"
+                        />
                     </Link>
                 </div>
                 <div className="flex justify-end items-center">

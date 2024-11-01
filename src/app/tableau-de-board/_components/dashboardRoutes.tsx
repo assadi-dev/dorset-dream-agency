@@ -39,4 +39,8 @@ export const dashboardNavigation: DashboardNavigationType[] = [
             },
         ],
     },
+    {
+        name: "Site du catalogue",
+        path: "/",
+    },
 ];
