@@ -4,15 +4,15 @@ import React from "react";
 import logo from "@assets/images/logo.jpg";
 import Image from "next/image";
 
-const ContactSection = () => {
+const AboutSection = () => {
     return (
         <section className="my-5">
             <h2 id="a-propos" className="text-center font-bold text-3xl mb-8">
                 A Propos
             </h2>
 
-            <div className="flex flex-col-reverse sm:grid sm:grid-cols-[1fr_auto_0.5fr] gap-6 sm:gap-3 p-3 lg:p-8 min-h-[12vh]  bg-background rounded-lg shadow-lg">
-                <div className="text-slate-600 sm:max-w-[48vw] text-justify sm:text-left p-3">
+            <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_auto_0.5fr] gap-6 lg:gap-3 p-3 lg:p-8 min-h-[12vh]  bg-background rounded-lg shadow-lg">
+                <div className="text-slate-600 lg:max-w-[48vw] text-justify lg:text-left p-3">
                     <p className="block  mb-8">
                         Nous souhaitons vous informer qu'à partir d'aujourd'hui, de nouveaux horaires d'ouverture et de
                         fermeture seront instaurés pour l'agence. Afin de mieux structurer nos activités et de faciliter
@@ -40,7 +40,7 @@ const ContactSection = () => {
                 <Separator orientation="vertical" />
 
                 <div className="flex flex-col  gap-3 items-center justify-center h-full">
-                    <div className="w-full sm:w-[25rem]">
+                    <div className="w-full sm:w-[25rem] sm:pt-5 lg:pt-0">
                         <Image
                             src={logo}
                             width={500}
@@ -56,4 +56,4 @@ const ContactSection = () => {
     );
 };
 
-export default ContactSection;
+export default AboutSection;
