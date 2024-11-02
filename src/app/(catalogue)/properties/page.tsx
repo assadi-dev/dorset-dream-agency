@@ -5,6 +5,7 @@ type SearchParams = {
         id: string;
         category: string;
         search: string;
+        order: "DESC" | "ASC";
     };
 };
 const PropertiesCategoryPage = ({ searchParams }: SearchParams) => {

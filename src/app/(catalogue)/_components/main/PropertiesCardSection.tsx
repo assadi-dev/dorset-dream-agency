@@ -8,6 +8,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export type PropertiesCardSectionType = {
+    id: number;
     category: string;
 };
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
