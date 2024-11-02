@@ -7,7 +7,7 @@ import Image from "next/image";
 const AboutSection = () => {
     return (
         <section className="my-5">
-            <h2 id="a-propos" className="text-center font-bold text-3xl mb-8">
+            <h2 id="a-propos" className="text-center font-semibold text-3xl mb-8">
                 A Propos
             </h2>
 

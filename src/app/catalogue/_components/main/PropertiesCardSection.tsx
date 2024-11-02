@@ -66,7 +66,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                             type="button"
                             className="bg-background border hover:border-none hover:shadow-lg hover:shadow-blue-950/50 border-input text-black hover:bg-gradient-to-br from-sky-600 to-primary   duration-300   transition-colors  hover:text-white text-xs lg:text-sm"
                         >
-                            <Link href={`#`}>Plus d'info</Link>
+                            <Link href={`property?id=15&name=title`}>Plus d'info</Link>
                         </Button>
                     </div>
                 </div>
