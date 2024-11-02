@@ -12,9 +12,9 @@ import FooterSection from "./catalogue/_components/main/FooterSection";
 
 export default async function CataloguePage() {
     return (
-        <body className="antialiased bg-primary-foreground mx-auto">
+        <>
+            <NavbarCatalogue />
             <header className="p-3 sm:p-8 2xl:max-w-[1800px] mx-auto">
-                <NavbarCatalogue />
                 <HeroSection />
             </header>
 
@@ -24,6 +24,6 @@ export default async function CataloguePage() {
             </main>
 
             <FooterSection />
-        </body>
+        </>
     );
 }

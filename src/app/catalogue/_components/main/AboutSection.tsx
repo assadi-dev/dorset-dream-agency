@@ -18,10 +18,11 @@ const AboutSection = () => {
                         fermeture seront instaurés pour l'agence. Afin de mieux structurer nos activités et de faciliter
                         l'organisation de chacun, voici les plages horaires que nous avons définies
                     </p>
-                    <p className="text-center font-bold">
-                        Du lundi au jeudi : de 21h00 à 00h00 <br />
-                        Le vendredi et le samedi : de 21h00 à 01h30
-                    </p>
+                    <div className="w-fit mx-auto flex flex-col gap-3   text-left ">
+                        <p className="font-bold">Du lundi au jeudi : de 21h00 à 00h00</p>
+                        <p className="font-bold">Le vendredi et le samedi : de 21h00 à 01h30</p>
+                    </div>
+
                     <p className="my-8">
                         Ces horaires nous permettront de gérer plus efficacement nos tâches quotidiennes tout en offrant
                         un meilleur service à nos clients. Cependant, nous tenons à préciser que vous restez entièrement
