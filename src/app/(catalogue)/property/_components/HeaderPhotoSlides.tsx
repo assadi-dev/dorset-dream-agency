@@ -45,7 +45,8 @@ const ThumbItemProperty = ({ src }: ItemSlideProperty) => {
 };
 
 const HeaderPhotoSlides = () => {
-    const [thumbsSwiper, setThumbsSwiper] = React.useState(0);
+    const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
+    const handleClickThumbs = (value: any) => setThumbsSwiper(value);
 
     return (
         <div className=" xl:max-w-[72vw] 2xl:max-w-[65vw] ">
@@ -71,7 +72,7 @@ const HeaderPhotoSlides = () => {
                     slidesPerView={5}
                     modules={[Thumbs]}
                     watchSlidesProgress
-                    onSwiper={setThumbsSwiper}
+                    onSwiper={handleClickThumbs}
                 >
                     {listPhotos.map((v, i) => (
                         <SwiperSlide key={i}>
