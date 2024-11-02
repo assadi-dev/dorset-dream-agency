@@ -40,6 +40,9 @@ const config: Config = {
                     DEFAULT: "hsl(var(--destructive))",
                     foreground: "hsl(var(--destructive-foreground))",
                 },
+                other: {
+                    DEFAULT: "bg-gradient-to-br from-sky-500 via-blue-900 to-primary",
+                },
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",

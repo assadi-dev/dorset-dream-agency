@@ -1,4 +1,5 @@
 import React from "react";
+import HeaderSection from "./_components/HeaderSection";
 
 type SearchParams = {
     searchParams: {
@@ -11,9 +12,11 @@ const PropertyCatalog = ({ searchParams }: SearchParams) => {
     console.log(searchParams);
 
     return (
-        <div className="min-h-screen">
+        <>
+            <HeaderSection />
             <h1 className="text-lg lg:text-2xl font-semibold">Property Info</h1>
-        </div>
+            <div className="min-h-screen"></div>
+        </>
     );
 };
 
