@@ -1,6 +1,13 @@
 import React from "react";
 
-const PropertyCatalog = ({ searchParams }) => {
+type SearchParams = {
+    searchParams: {
+        id: string;
+        category: string;
+        search: string;
+    };
+};
+const PropertyCatalog = ({ searchParams }: SearchParams) => {
     console.log(searchParams);
 
     return (
