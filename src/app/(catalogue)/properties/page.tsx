@@ -8,7 +8,7 @@ type SearchParams = {
         order: "DESC" | "ASC";
     };
 };
-const PropertiesCategoryPage = ({ searchParams }: SearchParams) => {
+const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
     console.log(searchParams);
 
     return (
@@ -19,4 +19,4 @@ const PropertiesCategoryPage = ({ searchParams }: SearchParams) => {
     );
 };
 
-export default PropertiesCategoryPage;
+export default PropertiesSearchPage;
