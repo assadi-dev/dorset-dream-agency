@@ -3,7 +3,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CLIENT_TABS_DATA } from "./helper";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import PageTemplate from "@/app/tableau-de-board/_components/PageTemplate";
+import PageTemplate from "@/app/(private)/tableau-de-board/_components/PageTemplate";
 
 const TabsTest = () => {
     const searchParams = useSearchParams();

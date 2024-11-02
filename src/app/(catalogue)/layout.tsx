@@ -1,11 +1,11 @@
 import React from "react";
-import NavbarCatalogue from "../catalogue/_components/header/NavbarCatalogue";
-import FooterSection from "../catalogue/_components/main/FooterSection";
+import NavbarCatalogue from "./_components/header/NavbarCatalogue";
+import FooterSection from "./_components/main/FooterSection";
 
 type CatalogueTemplateProps = {
     children: React.ReactElement;
 };
-const CatalogueTemplate = async ({ children }: CatalogueTemplateProps) => {
+const CatalogueLayout = async ({ children }: CatalogueTemplateProps) => {
     return (
         <>
             <NavbarCatalogue />
@@ -17,4 +17,4 @@ const CatalogueTemplate = async ({ children }: CatalogueTemplateProps) => {
     );
 };
 
-export default CatalogueTemplate;
+export default CatalogueLayout;

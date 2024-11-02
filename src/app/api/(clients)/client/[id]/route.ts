@@ -1,4 +1,4 @@
-import { updateClient } from "@/app/tableau-de-board/gestion-des-clients/actions";
+import { updateClient } from "@/app/(private)/tableau-de-board/gestion-des-clients/actions";
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { NextRequest, NextResponse } from "next/server";
