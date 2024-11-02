@@ -10,7 +10,7 @@ type ListeClientsProps = {
     clients: Array<any>;
 };
 const ListeClients = ({ clients }: ListeClientsProps) => {
-    const handleSearch = (v: string) => console.log(v);
+    const handleSearch = (v: string | null) => console.log(v);
 
     return (
         <div>
