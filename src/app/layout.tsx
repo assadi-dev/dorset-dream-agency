@@ -4,6 +4,16 @@ import { setTitlePage } from "@/lib/utils";
 import PageTopLoader from "@/components/loader/PageTopLoader";
 import { Toaster } from "@/components/ui/sonner";
 import QueryClientProvider from "@/components/providers/QueryClientProvider";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/parallax";
+import "swiper/css/effect-fade";
+import "swiper/css/thumbs";
+import "swiper/css/a11y";
+import "swiper/css/controller";
+import "swiper/css/autoplay";
+import "swiper/css/zoom";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
