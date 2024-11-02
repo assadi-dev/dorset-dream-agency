@@ -13,8 +13,12 @@ export type PropertiesCardSectionType = {
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const array = new Array(10).fill({ name: "sdsdd" });
 
-    const PropertyBadges = ({ isAvailable, isFurnish }) => {
-        const FurnishBadge = ({ isFurnish }) => {
+    type PropertyBadgesProps = {
+        isAvailable: boolean;
+        isFurnish: boolean;
+    };
+    const PropertyBadges = ({ isAvailable, isFurnish }: PropertyBadgesProps) => {
+        const FurnishBadge = ({ isFurnish }: { isFurnish: boolean }) => {
             const FURNISH_LABEL_ = isFurnish ? "Meublé" : "Vide";
 
             return (
@@ -23,7 +27,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                 </span>
             );
         };
-        const AvailableBadge = ({ isAvailable }) => {
+        const AvailableBadge = ({ isAvailable }: { isAvailable: boolean }) => {
             const AVAILABLE_LABEL = isAvailable ? "Disponible" : "Indisponible";
 
             const CLASS_BADGE = isAvailable
