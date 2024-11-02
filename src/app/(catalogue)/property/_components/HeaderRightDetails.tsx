@@ -1,7 +1,7 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 
-const AsidePropertyDetails = () => {
+const HeaderRightDetails = () => {
     return (
         <div className="w-full h-full lg:grid lg:grid-rows-[50px,1fr] gap-5 p-1 flex-1 bg-slate-100/50  rounded-xl border border-slate-400 ">
             <div className="w-full p-3 bg-slate-200/50 border border-slate-300  text-zinc-900 rounded-lg  text-center">
@@ -34,4 +34,4 @@ const AsidePropertyDetails = () => {
     );
 };
 
-export default AsidePropertyDetails;
+export default HeaderRightDetails;
