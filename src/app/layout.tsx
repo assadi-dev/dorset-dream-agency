@@ -26,8 +26,6 @@ const geistMono = localFont({
     weight: "100 900",
 });
 
-export const metadata = setTitlePage("Catalogue");
-
 export default function RootLayout({
     children,
 }: Readonly<{
