@@ -17,8 +17,8 @@ const HeroSection = () => {
         "https://images.pexels.com/photos/2343465/pexels-photo-2343465.jpeg",
         "https://images.pexels.com/photos/3935350/pexels-photo-3935350.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ];
-
-    const SliderItem = ({ src }) => {
+    type SliderItem = { src: string };
+    const SliderItem = ({ src }: SliderItem) => {
         const slideStyle: React.CSSProperties = {
             backgroundPosition: "center",
             backgroundSize: "cover",
