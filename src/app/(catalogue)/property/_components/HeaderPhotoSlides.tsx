@@ -31,7 +31,7 @@ const SlideItemProperty = ({ src }: ItemSlideProperty) => {
 
 const HeaderPhotoSlides = () => {
     return (
-        <div className="h-[280px] lg:h-[430px]  xl:max-w-[72vw] 2xl:max-w-[62vw] overflow-hidden rounded-lg bg-slate-100 shadow-lg">
+        <div className="h-[280px] lg:h-[430px] xl:h-[480px]  xl:max-w-[72vw] 2xl:max-w-[65vw] overflow-hidden rounded-lg bg-slate-100 shadow-lg">
             <Swiper loop={true} spaceBetween={0} slidesPerView={1} className="h-full w-full">
                 {listPhotos.map((v, index) => (
                     <SwiperSlide key={index}>
