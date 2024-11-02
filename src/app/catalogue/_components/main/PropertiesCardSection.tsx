@@ -58,8 +58,8 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                     <PropertyBadges isAvailable={true} isFurnish={true} />
                     <div className="flex items-center justify-between  p-2 rounded-sm backdrop-blur-md">
                         <div>
-                            <p className="text-xs text-slate-600">location/Vente</p>
-                            <p className="font-bold text-xs lg:text:sm">400 / 12000 </p>
+                            <p className="text-xs text-slate-600">Location - Vente</p>
+                            <p className="font-bold text-xs lg:text-lg">400$ - 12000$ </p>
                         </div>
                         <Button
                             asChild
