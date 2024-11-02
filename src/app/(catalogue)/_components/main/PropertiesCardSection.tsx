@@ -53,7 +53,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                         alt={`photo`}
                         width={1200}
                         height={720}
-                        className="h-auto w-full object-cover rounded-lg transition-all duration-700 ease-in-out transform hover:scale-[1.2] hover:brightness-75"
+                        className="h-auto w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform hover:scale-[1.2] hover:brightness-75"
                     />
                 </div>
 
