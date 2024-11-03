@@ -53,9 +53,8 @@ const SliderItem = ({ property }: SliderItemProps) => {
 const HeroSection = () => {
     const { data, isFetching, error } = useQuery({
         queryKey: ["propertyPresentation"],
-        queryFn: () => getPropertiesPerCategoryApi("prestige"),
+        queryFn: () => getPropertiesPerCategoryApi("prestige", 5),
         refetchInterval: 60 * 5 * 1000,
-        refetchOnMount: true,
     });
 
     const PROPERTIES = React.useMemo(() => {
@@ -74,7 +73,7 @@ const HeroSection = () => {
                 effect="fade"
                 className="h-full w-full"
             >
-                {PROPERTIES.map((item) => (
+                {PROPERTIES.map((item: any) => (
                     <SwiperSlide key={item.id}>
                         <SliderItem property={item} />
                     </SwiperSlide>

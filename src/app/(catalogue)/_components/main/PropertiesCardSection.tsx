@@ -31,7 +31,7 @@ type PropertyMemoType = {
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({
         queryKey: [`${category}-slides-section`],
-        queryFn: () => getPropertiesPerCategoryApi(category),
+        queryFn: () => getPropertiesPerCategoryApi(category, 10),
         refetchInterval: 10 * 60 * 1000,
     });
 

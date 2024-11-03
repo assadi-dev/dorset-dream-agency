@@ -26,10 +26,10 @@ export const getPropertiesForCarouselApi = async (): Promise<PropertyCarouselRes
     return result.data;
 };
 
-export const getPropertiesPerCategoryApi = async (category: string) => {
+export const getPropertiesPerCategoryApi = async (category: string, limit = 25) => {
     const result = await API_INSTANCE.get(`/properties/presentations`, {
         params: {
-            limit: 10,
+            limit,
             category: category,
             order: "desc",
         },
@@ -39,8 +39,6 @@ export const getPropertiesPerCategoryApi = async (category: string) => {
 };
 
 export const cleanDataForCarousel = (inputs: PropertyCarouselResponse | any) => {
-    console.log(inputs);
-
     return {
         id: inputs.id,
         name: inputs.name,

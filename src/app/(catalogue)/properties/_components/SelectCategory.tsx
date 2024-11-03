@@ -3,16 +3,17 @@ import React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export type OptionsType = { label: string; value: any };
+
 const SelectCategory = () => {
     const categoryQuery = useCategoryPropertiesOptions();
     const searchParams = useSearchParams();
-    const category = searchParams.get("category") || "1";
+    const category = searchParams.get("category") || "";
     const pathname = usePathname();
     const router = useRouter();
 
@@ -50,7 +51,9 @@ const SelectCategory = () => {
                         className="sm:w-[15vw] justify-between"
                     >
                         {value
-                            ? ENUM_PROPERTY_CATEGORIES.find((category: OptionsType) => category.value === value)?.label
+                            ? ENUM_PROPERTY_CATEGORIES.find(
+                                  (category: OptionsType) => category.value === value || category.label === value,
+                              )?.label
                             : "Choisissez une catégorie"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
