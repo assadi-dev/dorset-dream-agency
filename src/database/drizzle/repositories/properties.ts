@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { eq, sql } from "drizzle-orm";
+import { asc, desc, eq, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 
@@ -42,6 +42,8 @@ type getPropertiesWithVariantsArgs = {
 };
 /**
  * Récupérations des bien immobilier et ses variantes  index utiliser  dans cette requête et l'id de la variantes
+ *
+ * **Attention:**  l'id variant est utilisé en tant que id unique
  */
 export const getPropertiesWithVariantsCollections = async ({ type }: getPropertiesWithVariantsArgs) => {
     const result = db
@@ -67,6 +69,12 @@ export const getPropertiesWithVariantsCollections = async ({ type }: getProperti
     return await result;
 };
 
+/**
+ * Récupérations des propriétés pour les liste sélectionnables
+ *
+ * **Attention:**  l'id variant est utilisé en tant que id unique
+ *
+ */
 export const getPropertiesWithVariantsOptions = async () => {
     const result = db
         .select({
@@ -82,4 +90,54 @@ export const getPropertiesWithVariantsOptions = async () => {
         .leftJoin(properties, eq(properties.id, variants.propertyID));
 
     return await result;
+};
+
+type getPropertyPresentationArgs = {
+    limit?: number;
+    category?: number | string;
+    order?: "desc" | "asc";
+};
+/**
+ * Récupérations des propriétés pour le carousel de presentation du catalogues
+ *
+ * **Attention:**  l'id variant est utilisé en tant que id unique
+ *
+ */
+export const getPropertyPresentation = async ({ limit, category, order }: getPropertyPresentationArgs) => {
+    const result = db
+        .select({
+            id: variants.id,
+            propertyID: properties.id,
+            name: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
+            label: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
+            description: properties.description,
+            rentalPrice: properties.rentalPrice,
+            sellingPrice: properties.sellingPrice,
+            isFurnish: properties.isFurnish,
+            isAvailable: properties.isAvailable,
+            category: categoryProperties.name,
+            categoryID: sql<string>`${categoryProperties.id}`,
+        })
+        .from(variants)
+        .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
+
+    switch (order) {
+        case "desc":
+            result.orderBy(desc(properties.createdAt));
+            break;
+        case "asc":
+            result.orderBy(asc(properties.createdAt));
+            break;
+    }
+
+    if (limit) result.limit(limit);
+
+    if (category) result.where(eq(categoryProperties.id, sql.placeholder("categoryID")));
+
+    result.prepare();
+
+    return await result.execute({
+        categoryID: category,
+    });
 };
