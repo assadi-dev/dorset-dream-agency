@@ -19,6 +19,9 @@ const nextConfig = {
             {
                 hostname: "swiperjs.com",
             },
+            {
+                hostname: "localhost",
+            },
         ],
     },
 };

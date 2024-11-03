@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { asc, desc, eq, sql } from "drizzle-orm";
+import { asc, desc, eq, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 
@@ -133,11 +133,18 @@ export const getPropertyPresentation = async ({ limit, category, order }: getPro
 
     if (limit) result.limit(limit);
 
-    if (category) result.where(eq(categoryProperties.id, sql.placeholder("categoryID")));
+    if (category)
+        result.where(
+            or(
+                eq(categoryProperties.id, sql.placeholder("category")),
+                eq(categoryProperties.name, sql.placeholder("category")),
+            ),
+        );
 
     result.prepare();
 
     return await result.execute({
         categoryID: category,
+        category,
     });
 };
