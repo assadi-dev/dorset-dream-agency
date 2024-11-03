@@ -15,7 +15,7 @@ type PropertyCarouselResponse = {
     photo: string;
 };
 export const getPropertiesForCarouselApi = async (): Promise<PropertyCarouselResponse[]> => {
-    const result = await API_INSTANCE.get(`/properties/presentations`, {
+    const result = await API_INSTANCE.get(`/properties/catalog`, {
         params: {
             limit: 5,
             category: "prestige",
@@ -27,7 +27,7 @@ export const getPropertiesForCarouselApi = async (): Promise<PropertyCarouselRes
 };
 
 export const getPropertiesPerCategoryApi = async (category: string, limit = 25) => {
-    const result = await API_INSTANCE.get(`/properties/presentations`, {
+    const result = await API_INSTANCE.get(`/properties/catalog`, {
         params: {
             limit,
             category: category,
