@@ -14,12 +14,14 @@ const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
     console.log(searchParams);
 
     return (
-        <div className="min-h-screen w-full">
-            <p className="font-semibold text-2xl mb-1">Recherche de : </p>
-            <p className="text-sm text-slate-500">Résultat trouvé 0</p>
-            <SearchSection />
-            <ListPropertiesResultsSection />
-        </div>
+        <React.Suspense>
+            <div className="min-h-screen w-full">
+                <p className="font-semibold text-2xl mb-1">Recherche de : </p>
+                <p className="text-sm text-slate-500">Résultat trouvé 0</p>
+                <SearchSection />
+                <ListPropertiesResultsSection />
+            </div>
+        </React.Suspense>
     );
 };
 
