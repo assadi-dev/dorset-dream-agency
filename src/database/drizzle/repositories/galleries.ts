@@ -3,6 +3,9 @@ import { db } from "@/database";
 import { ENV } from "@/config/global";
 import { galleryVariants } from "@/database/drizzle/schema/galleryVariant";
 import { insertVariant } from "./variants";
+import { variants } from "../schema/variants";
+import { asc, eq, sql } from "drizzle-orm";
+import { photos } from "../schema/photos";
 
 export const insertGallery = (variantID: number, photoID: number) => {
     try {
@@ -54,4 +57,51 @@ export const uploadPhotoProperty = async (formData: FormData): Promise<{ message
         console.error("Error occurred:", error.message || error);
         throw error;
     }
+};
+
+type GetFirstPictureFromGalleryArgs = {
+    variantID: number;
+};
+/**
+ *
+ * Retourne la premiere photo associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
+ *
+ */
+export const getFirstPictureFromGallery = async (variantID: GetFirstPictureFromGalleryArgs) => {
+    const req = db
+        .select({
+            id: photos.id,
+            url: photos.url,
+        })
+        .from(galleryVariants)
+        .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
+        .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
+        .orderBy(asc(photos.originalName))
+        .where(eq(variants.id, sql.placeholder("variantID")))
+        .limit(1)
+        .prepare();
+
+    return await req.execute({
+        variantID,
+    });
+};
+
+/**
+ *
+ * Retourne la collection de photos associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
+ *
+ */
+export const getGalleryCollectionForVariants = async (variantID: GetFirstPictureFromGalleryArgs) => {
+    const req = db
+        .select({
+            id: photos.id,
+            url: photos.url,
+        })
+        .from(galleryVariants)
+        .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
+        .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
+        .orderBy(asc(photos.originalName))
+        .prepare();
+
+    return await req.execute();
 };
