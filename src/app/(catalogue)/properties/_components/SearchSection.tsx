@@ -26,9 +26,8 @@ const SearchSection = () => {
     return (
         <section className="my-3">
             <div className="bg-background p-5 flex items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
-                <div>
-                    <SelectCategory />
-                </div>
+                <SelectCategory />
+
                 <form onSubmit={onSearch} className="flex w-full max-w-sm items-center space-x-1">
                     <Input type="search" placeholder="Rechercher" name="search" />
                     <Button

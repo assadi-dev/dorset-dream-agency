@@ -41,7 +41,7 @@ const SelectCategory = () => {
     };
 
     return (
-        <div>
+        <React.Suspense>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
@@ -78,7 +78,7 @@ const SelectCategory = () => {
                     </Command>
                 </PopoverContent>
             </Popover>
-        </div>
+        </React.Suspense>
     );
 };
 

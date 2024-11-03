@@ -40,7 +40,7 @@ const OrderSelect = () => {
     };
 
     return (
-        <div>
+        <React.Suspense>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button className="h-8 w-8 p-0">
@@ -66,7 +66,7 @@ const OrderSelect = () => {
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-        </div>
+        </React.Suspense>
     );
 };
 
