@@ -2,8 +2,13 @@ import { API_INSTANCE } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
+type CategoryResponse = {
+    id: number;
+    label: string;
+    value: string;
+};
 export const useCategoryPropertiesOptions = () => {
-    const fetcher = React.useCallback(async () => {
+    const fetcher = React.useCallback(async (): Promise<CategoryResponse[]> => {
         try {
             const { data } = await API_INSTANCE.get("/enumCategoryProperty");
             return data;
