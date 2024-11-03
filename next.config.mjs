@@ -22,6 +22,9 @@ const nextConfig = {
             {
                 hostname: "localhost",
             },
+            {
+                hostname: "dorsetdreamagencyflashback.com",
+            },
         ],
     },
 };
