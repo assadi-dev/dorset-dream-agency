@@ -26,7 +26,7 @@ export const AvailableBadge = ({ isAvailable }: { isAvailable: boolean }) => {
 export const PropertyBadges = ({ isAvailable, isFurnish }: PropertyBadgesProps) => {
     return (
         <div className="flex items-center gap-1">
-            <FurnishBadge isFurnish={isAvailable} />
+            <FurnishBadge isFurnish={isFurnish} />
             <AvailableBadge isAvailable={isAvailable} />
         </div>
     );

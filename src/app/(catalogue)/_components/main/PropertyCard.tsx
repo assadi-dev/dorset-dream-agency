@@ -17,6 +17,7 @@ type PropertyItemType = {
     rentalPrice: number;
     sellingPrice: number;
     isFurnish: boolean;
+    isAvailable: boolean;
 };
 type PropertyCardProps = {
     property: PropertyItemType;
@@ -36,7 +37,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
 
             <div className="p-2 flex flex-col justify-between gap-3 relative">
                 <p className="font-bold sm:text-sm lg:text-lg">{property.name} </p>
-                <PropertyBadges isAvailable={false} isFurnish={property.isFurnish} />
+                <PropertyBadges isAvailable={property.isAvailable} isFurnish={property.isFurnish} />
                 <div className="flex items-center justify-between  p-2 rounded-sm backdrop-blur-md">
                     <div>
                         <p className="text-xs text-slate-600">Location - Vente</p>

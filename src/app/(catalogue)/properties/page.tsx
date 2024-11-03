@@ -1,6 +1,8 @@
 import React from "react";
 import SearchSection from "./_components/SearchSection";
 import ListPropertiesResultsSection from "./ListPropertiesResults";
+import { getPropertiesWithCover } from "@/database/drizzle/repositories/properties";
+import { cleanDataForCarousel } from "../helper";
 
 type SearchParams = {
     searchParams: {
@@ -11,9 +13,10 @@ type SearchParams = {
     };
 };
 const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
-    console.log(searchParams);
     const ListPropertyResultAsync = async () => {
-        return <ListPropertiesResultsSection propertiesCollections={[]} />;
+        const propertiesResultCollection = await getPropertiesWithCover(searchParams);
+        const cleanPropertiesData = propertiesResultCollection.map((item) => cleanDataForCarousel(item));
+        return <ListPropertiesResultsSection propertiesCollections={cleanPropertiesData} />;
     };
 
     return (

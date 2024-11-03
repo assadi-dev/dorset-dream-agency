@@ -26,6 +26,7 @@ type PropertyMemoType = {
     rentalPrice: number;
     sellingPrice: number;
     isFurnish: boolean;
+    isAvailable: boolean;
 };
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({

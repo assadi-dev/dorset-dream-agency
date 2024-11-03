@@ -1,6 +1,5 @@
 import React from "react";
 import PropertyCard from "../_components/main/PropertyCard";
-import { getPropertiesPerCategoryApi } from "../helper";
 
 type PropertyItemType = {
     id: number;
@@ -14,6 +13,7 @@ type PropertyItemType = {
     rentalPrice: number;
     sellingPrice: number;
     isFurnish: boolean;
+    isAvailable: boolean;
 };
 type ListPropertiesResultsSectionProps = {
     propertiesCollections: PropertyItemType[];

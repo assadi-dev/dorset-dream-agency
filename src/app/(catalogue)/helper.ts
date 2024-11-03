@@ -38,7 +38,9 @@ export const getPropertiesPerCategoryApi = async (category: string) => {
     return result.data;
 };
 
-export const cleanDataForCarousel = (inputs: PropertyCarouselResponse) => {
+export const cleanDataForCarousel = (inputs: PropertyCarouselResponse | any) => {
+    console.log(inputs);
+
     return {
         id: inputs.id,
         name: inputs.name,
