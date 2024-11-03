@@ -81,9 +81,10 @@ export const getFirstPictureFromGallery = async (variantID: GetFirstPictureFromG
         .limit(1)
         .prepare();
 
-    return await req.execute({
+    const result = await req.execute({
         variantID,
     });
+    return result[0];
 };
 
 /**
