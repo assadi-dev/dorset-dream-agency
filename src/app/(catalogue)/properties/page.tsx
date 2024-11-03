@@ -12,14 +12,17 @@ type SearchParams = {
 };
 const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
     console.log(searchParams);
+    const ListPropertyResultAsync = async () => {
+        return <ListPropertiesResultsSection propertiesCollections={[]} />;
+    };
 
     return (
         <div className="min-h-screen w-full">
             <p className="font-semibold text-2xl mb-1">Recherche de : </p>
             <p className="text-sm text-slate-500">Résultat trouvé 0</p>
+            <SearchSection />
             <React.Suspense>
-                <SearchSection />
-                <ListPropertiesResultsSection />
+                <ListPropertyResultAsync />
             </React.Suspense>
         </div>
     );

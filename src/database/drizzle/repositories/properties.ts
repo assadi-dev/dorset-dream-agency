@@ -6,6 +6,7 @@ import { variants } from "@/database/drizzle/schema/variants";
 import { asc, desc, eq, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
+import { getFirstPictureFromGallery } from "./galleries";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -98,12 +99,12 @@ type getPropertyPresentationArgs = {
     order?: "desc" | "asc";
 };
 /**
- * Récupérations des propriétés pour le carousel de presentation du catalogues
+ * Récupérations des propriétés avec filtre
  *
  * **Attention:**  l'id variant est utilisé en tant que id unique
  *
  */
-export const getPropertyPresentation = async ({ limit, category, order }: getPropertyPresentationArgs) => {
+export const getPropertyCollections = async ({ limit, category, order }: getPropertyPresentationArgs) => {
     const result = db
         .select({
             id: variants.id,
@@ -147,4 +148,19 @@ export const getPropertyPresentation = async ({ limit, category, order }: getPro
         categoryID: category,
         category,
     });
+};
+/**
+ * Récupérations des propriétés pour accompagné de l'image de couverture
+ * **Attention:**  l'id variant est utilisé en tant que id unique
+ */
+export const getPropertiesWithCover = async ({ limit, category, order }: getPropertyPresentationArgs) => {
+    const properties = await getPropertyCollections({ limit, category, order });
+
+    const propertiesWithCover = [];
+    for (const property of properties) {
+        const photo = await getFirstPictureFromGallery(property.id);
+        const update = { ...property, photo: photo.url || null };
+        propertiesWithCover.push(update);
+    }
+    return propertiesWithCover;
 };
