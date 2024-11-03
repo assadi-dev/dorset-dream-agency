@@ -1,5 +1,6 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
+import { PropertyInfoType } from "../../schema";
 
 type CardRightDetailProps = {
     title: string;
@@ -15,19 +16,24 @@ const CardRightDetail = ({ title, children }: CardRightDetailProps) => {
         </div>
     );
 };
-const HeaderRightDetails = () => {
+type HeaderRightDetails = {
+    propertyInfo: PropertyInfoType;
+};
+const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
+    const isAvailable = propertyInfo.isAvailable ? "OUI" : "NON";
+    const isFurnish = propertyInfo.isFurnish ? "OUI" : "NON";
     return (
         <div className="w-full h-full  p-1 xl:flex xl:flex-col xl:justify-between bg-slate-100/50  rounded-xl border border-slate-400 ">
             <CardRightDetail title="TARIFS">
                 <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
                     <div className="pl-5">
                         <p className="font-semibold">Prix de location</p>
-                        <p className="font-bold">450$</p>
+                        <p className="font-bold">{propertyInfo.rentalPrice || 0} $</p>
                     </div>
                     <Separator />
                     <div className="pl-5">
                         <p className="font-semibold">Prix de Vente</p>
-                        <p className="font-bold">45000$</p>
+                        <p className="font-bold">{propertyInfo.sellingPrice || 0}$</p>
                     </div>
                 </div>
             </CardRightDetail>
@@ -35,10 +41,10 @@ const HeaderRightDetails = () => {
             <CardRightDetail title="INFORMATIONS">
                 <div className="p-5 text-sm lg:text-md text-slate-500 flex flex-wrap items-center justify-center gap-3">
                     <span>
-                        Disponible: <strong>OUI</strong>{" "}
+                        Disponible: <strong>{isAvailable || "Non renseigné"}</strong>{" "}
                     </span>
                     <span>
-                        Meublé: <strong>OUI</strong>
+                        Meublé: <strong>{isFurnish || "Non renseigné"}</strong>
                     </span>
                 </div>
             </CardRightDetail>

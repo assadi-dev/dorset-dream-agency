@@ -4,24 +4,19 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/thumbs";
 import { Thumbs } from "swiper/modules";
-
-const listPhotos = [
-    "https://plus.unsplash.com/premium_photo-1661954372617-15780178eb2e?q=80&w=2060&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/2343465/pexels-photo-2343465.jpeg",
-    "https://images.pexels.com/photos/3935350/pexels-photo-3935350.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-];
+import { GalleryObjectType } from "../../schema";
 
 type ItemSlideProperty = {
-    src: string;
+    propertyName: string;
+    photo: GalleryObjectType;
 };
 
-const SlideItemProperty = ({ src }: ItemSlideProperty) => {
+const SlideItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
     return (
         <>
             <Image
-                src={src}
-                alt="photo of "
+                src={photo.url}
+                alt={`photo  ${photo.originalName} of property ${propertyName || "???"}`}
                 width={1200}
                 height={853}
                 className="h-full w-full object-cover object-center"
@@ -30,12 +25,12 @@ const SlideItemProperty = ({ src }: ItemSlideProperty) => {
     );
 };
 
-const ThumbItemProperty = ({ src }: ItemSlideProperty) => {
+const ThumbItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
     return (
         <div className="rounded-lg overflow-hidden relative h-[100px]">
             <Image
-                src={src}
-                alt="photo of "
+                src={photo.url}
+                alt={`thumb  ${photo.originalName} of property ${propertyName || "???"}`}
                 width={1200}
                 height={853}
                 className="h-full w-full object-cover object-center"
@@ -44,7 +39,11 @@ const ThumbItemProperty = ({ src }: ItemSlideProperty) => {
     );
 };
 
-const HeaderPhotoSlides = () => {
+type HeaderPhotoSlidesProps = {
+    propertyName?: string;
+    gallery: Array<GalleryObjectType>;
+};
+const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) => {
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     const handleClickThumbs = (value: any) => setThumbsSwiper(value);
 
@@ -59,9 +58,9 @@ const HeaderPhotoSlides = () => {
                     thumbs={{ swiper: thumbsSwiper }}
                     className="h-full w-full"
                 >
-                    {listPhotos.map((v, index) => (
-                        <SwiperSlide key={index}>
-                            <SlideItemProperty src={v} />
+                    {gallery.map((photo) => (
+                        <SwiperSlide key={photo.id}>
+                            <SlideItemProperty propertyName={propertyName || "???"} photo={photo} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -74,9 +73,9 @@ const HeaderPhotoSlides = () => {
                     watchSlidesProgress
                     onSwiper={handleClickThumbs}
                 >
-                    {listPhotos.map((v, i) => (
-                        <SwiperSlide key={i}>
-                            <ThumbItemProperty src={v} />
+                    {gallery.map((thumb) => (
+                        <SwiperSlide key={thumb.id}>
+                            <ThumbItemProperty propertyName={propertyName || "???"} photo={thumb} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
