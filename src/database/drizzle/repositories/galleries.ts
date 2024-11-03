@@ -67,7 +67,7 @@ type GetFirstPictureFromGalleryArgs = {
  * Retourne la premiere photo associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
  *
  */
-export const getFirstPictureFromGallery = async (variantID: GetFirstPictureFromGalleryArgs) => {
+export const getFirstPictureFromGallery = async (variantID: number) => {
     const req = db
         .select({
             id: photos.id,
@@ -92,7 +92,7 @@ export const getFirstPictureFromGallery = async (variantID: GetFirstPictureFromG
  * Retourne la collection de photos associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
  *
  */
-export const getGalleryCollectionForVariants = async (variantID: GetFirstPictureFromGalleryArgs) => {
+export const getGalleryCollectionForVariants = async (variantID: number) => {
     const req = db
         .select({
             id: photos.id,
