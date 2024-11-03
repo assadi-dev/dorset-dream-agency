@@ -72,6 +72,9 @@ export const getFirstPictureFromGallery = async (variantID: number) => {
         .select({
             id: photos.id,
             url: photos.url,
+            originalName: photos.originalName,
+            size: photos.size,
+            type: photos.mimeType,
         })
         .from(galleryVariants)
         .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
@@ -97,12 +100,18 @@ export const getGalleryCollectionForVariants = async (variantID: number) => {
         .select({
             id: photos.id,
             url: photos.url,
+            originalName: photos.originalName,
+            size: photos.size,
+            type: photos.mimeType,
         })
         .from(galleryVariants)
         .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
         .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
+        .where(eq(variants.id, sql.placeholder("variantID")))
         .orderBy(asc(photos.originalName))
         .prepare();
 
-    return await req.execute();
+    return await req.execute({
+        variantID,
+    });
 };

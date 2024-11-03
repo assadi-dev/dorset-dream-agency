@@ -9,6 +9,10 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+export const formatTitlePage = (title: string) => {
+    return title ? `${title} - ${ENV.APP_TITLE}` : ENV.APP_TITLE;
+};
+
 /**
  * Insertion du titre de la page et retourne l'objet metadata
  * @param title titre de la page

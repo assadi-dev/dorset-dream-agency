@@ -2,7 +2,7 @@ import React from "react";
 import HeaderRightDetails from "./HeaderRightDetails";
 import HeaderPhotoSlides from "./HeaderPhotoSlides";
 
-const HeaderSection = () => {
+const HeaderSection = async () => {
     return (
         <section className="flex flex-col xl:grid xl:grid-cols-[1fr,auto] gap-8 xl:items-center w-full min-h-[10vh]">
             <div className="w-full">

@@ -6,7 +6,7 @@ import { variants } from "@/database/drizzle/schema/variants";
 import { asc, desc, eq, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { getFirstPictureFromGallery } from "./galleries";
+import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -99,7 +99,7 @@ type getPropertyPresentationArgs = {
     order?: "desc" | "asc";
 };
 /**
- * Récupérations des propriétés avec filtre
+ * Récupérations des propriétés avec filtre pour catalogue
  *
  * **Attention:**  l'id variant est utilisé en tant que id unique
  *
@@ -163,4 +163,41 @@ export const getPropertiesWithCover = async ({ limit, category, order }: getProp
         propertiesWithCover.push(update);
     }
     return propertiesWithCover;
+};
+
+export const getOnePropertyByVariantID = async (variantID: number) => {
+    const request = db
+        .select({
+            id: variants.id,
+            propertyID: properties.id,
+            name: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
+            address: properties.address,
+            description: properties.description,
+            rentalPrice: properties.rentalPrice,
+            sellingPrice: properties.sellingPrice,
+            isFurnish: properties.isFurnish,
+            isAvailable: properties.isAvailable,
+            category: categoryProperties.name,
+            categoryID: sql<string>`${categoryProperties.id}`,
+        })
+        .from(variants)
+        .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .where(eq(variants.id, sql.placeholder("variantID")))
+        .prepare();
+    return request.execute({
+        variantID,
+    });
+};
+
+/**
+ *
+ * Récupération d'une propriété avec sa gallery de photos à partir de sa variante
+ *
+ */
+
+export const getPropertyDetailForCatalogueWithGallery = async (variantID: number) => {
+    const property = await getOnePropertyByVariantID(variantID);
+    const gallery = await getGalleryCollectionForVariants(Number(variantID));
+    return { ...property[0], gallery };
 };
