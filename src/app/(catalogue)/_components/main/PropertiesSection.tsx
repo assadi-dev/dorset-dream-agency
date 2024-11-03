@@ -8,7 +8,7 @@ const PropertiesSection = () => {
     const GoToListPropertiesByCategories = ({ label, id }: GoToListPropertiesByCategoriesProps) => {
         return (
             <h2 className="font-semibold  sm:text-lg lg:text-2xl px-5 py-2 rounded-xl bg-background border transition-colors duration-200 hover:text-black/60 w-fit ">
-                <Link className="flex items-center gap-3" href={`/properties?category=${id}&order=DESC&search="Test`}>
+                <Link className="flex items-center gap-3" href={`/properties?category=${id}&order=desc`}>
                     <Link2 /> {label}
                 </Link>
             </h2>

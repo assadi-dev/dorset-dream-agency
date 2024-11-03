@@ -20,7 +20,7 @@ const AboutSection = () => {
                     </p>
                     <div className="w-fit mx-auto flex flex-col gap-3   text-left ">
                         <p className="font-bold">Du lundi au jeudi : de 21h00 à 00h00</p>
-                        <p className="font-bold">Le vendredi et le samedi : de 21h00 à 01h30</p>
+                        <p className="font-bold">Le vendredi et le samedi : de 21h00 à 00h30</p>
                     </div>
 
                     <p className="my-8">

@@ -9,7 +9,7 @@ type SelectOptionsType = {
     value: string;
 };
 type FormFieldInputProps<T extends FieldValues> = {
-    control: Control<T>;
+    control?: Control<T>;
     name: Path<T>;
     label?: string;
     description?: string;
