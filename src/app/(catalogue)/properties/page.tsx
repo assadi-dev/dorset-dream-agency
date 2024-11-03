@@ -1,5 +1,6 @@
 import React from "react";
 import SearchSection from "./_components/SearchSection";
+import ListPropertiesResultsSection from "./ListPropertiesResults";
 
 type SearchParams = {
     searchParams: {
@@ -17,6 +18,7 @@ const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
             <p className="font-semibold text-2xl mb-1">Recherche de : </p>
             <p className="text-sm text-slate-500">Résultat trouvé 0</p>
             <SearchSection />
+            <ListPropertiesResultsSection />
         </div>
     );
 };
