@@ -6,7 +6,7 @@ import { Autoplay, EffectFade } from "swiper/modules";
 import clsx from "clsx";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { cleanDataForCarousel, getPropertiesForCarouselApi } from "./helper";
+import { cleanDataForCarousel, getPropertiesForCarouselApi, getPropertiesPerCategoryApi } from "../../helper";
 
 type SliderItemProps = {
     property: {
@@ -53,7 +53,7 @@ const SliderItem = ({ property }: SliderItemProps) => {
 const HeroSection = () => {
     const { data, isFetching, error } = useQuery({
         queryKey: ["propertyPresentation"],
-        queryFn: getPropertiesForCarouselApi,
+        queryFn: () => getPropertiesPerCategoryApi("prestige"),
         refetchInterval: 60 * 5 * 1000,
         refetchOnMount: true,
     });

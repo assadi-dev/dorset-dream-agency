@@ -27,7 +27,7 @@ export const PropertyBadges = ({ isAvailable, isFurnish }: PropertyBadgesProps) 
     return (
         <div className="flex items-center gap-1">
             <FurnishBadge isFurnish={isAvailable} />
-            <AvailableBadge isAvailable={isFurnish} />
+            <AvailableBadge isAvailable={isAvailable} />
         </div>
     );
 };
