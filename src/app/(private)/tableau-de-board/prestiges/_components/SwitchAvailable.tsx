@@ -5,12 +5,14 @@ import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner
 import { setAvailableProperty } from "../helper";
 
 type SwitchAvailableProps = {
-    property: {
-        id: number;
-        isAvailable: boolean;
-        name: string;
-        propertyID: number;
-    } | null;
+    property?:
+        | {
+              id: number;
+              isAvailable: boolean;
+              name: string;
+              propertyID: number;
+          }
+        | any;
 };
 const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
     const [checked, setChecked] = React.useState(property?.isAvailable);
