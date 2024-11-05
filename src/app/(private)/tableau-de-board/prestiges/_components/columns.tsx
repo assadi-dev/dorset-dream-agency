@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { datetimeFormatFr } from "@/lib/date";
 import { CellColumn } from "@/app/types/ReactTable";
 import { LocationColumnType } from "../../gestion-des-locations-et-ventes/types";
+import SwitchAvailable from "./SwitchAvailable";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
@@ -30,8 +31,8 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     },
     {
         accessorKey: "isAvailable",
-        header: "Disponibilité",
-        cell: ({ cell }) => (cell.getValue() ? "Oui" : "Non"), // TODO: add a color to indicate availability
+        header: () => <div className="text-center">Disponibilité</div>,
+        cell: ({ cell }) => <SwitchAvailable property={cell.row.original} />,
     },
     {
         accessorKey: "category",

@@ -37,6 +37,33 @@ export const getPropertiesCollections = async () => {
     const result = db.select().from(properties);
     return await result;
 };
+export const getOnePropertyByID = async (id: number | string) => {
+    const request = db
+        .select()
+        .from(properties)
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    const result = await request.execute({
+        id,
+    });
+    return result[0];
+};
+
+export const updateProperty = async (id: number | string, data: any) => {
+    const property = await getOnePropertyByID(id);
+    const request = db
+        .update(properties)
+        .set({
+            ...property,
+            ...data,
+        })
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    const result = await request.execute({
+        id,
+    });
+    return result[0];
+};
 
 type getPropertiesWithVariantsArgs = {
     type?: string | null;

@@ -8,3 +8,10 @@ export const fetch_prestige = async () => {
         throw error;
     }
 };
+
+export const setAvailableProperty = async (id: number, checked: boolean) => {
+    const res = await API_INSTANCE.put(`/property/available/${id}`, {
+        isAvailable: checked,
+    });
+    return res.data;
+};

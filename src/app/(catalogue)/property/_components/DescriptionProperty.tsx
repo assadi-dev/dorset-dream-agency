@@ -7,7 +7,7 @@ const DescriptionProperty = ({ description }: DescriptionPropertyProps) => {
     return (
         <>
             <h2 className=" lg:text-2xl font-bold">Description</h2>
-            <p className="text-slate-500 my-3 break-words text-sm text-justify sm:text-left">
+            <p className="text-slate-500 my-3 break-words text-sm text-justify sm:text-left whitespace-pre-line">
                 {description || "Aucune description"}
             </p>
         </>
