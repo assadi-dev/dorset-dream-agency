@@ -16,11 +16,41 @@ import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import SelectCategory from "./SelectCategory";
 import OrderSelect from "./OrderSelect";
+import SwitchFilter from "./SwitchFilter";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const SearchSection = () => {
-    const onSearch = (event: any) => {
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const searchTermInParam = searchParams.get("search") || "";
+
+    const updateRouteParams = (value: string) => {
+        const updatedSearchParams = new URLSearchParams(searchParams.toString());
+        updatedSearchParams.set("search", value);
+        const updatePathName = pathname + "?" + updatedSearchParams.toString();
+        router.push(updatePathName);
+    };
+
+    const removeRouteParams = () => {
+        const updatedSearchParams = new URLSearchParams(searchParams.toString());
+        updatedSearchParams.delete("search");
+        const updatePathName = pathname + "?" + updatedSearchParams.toString();
+        router.push(updatePathName);
+    };
+
+    const submitSearch = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const values = event.target.search;
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const searchTerm = formData.get("search") as string;
+
+        if (searchTerm) {
+            updateRouteParams(searchTerm);
+        } else {
+            removeRouteParams();
+        }
     };
 
     return (
@@ -28,8 +58,8 @@ const SearchSection = () => {
             <div className="bg-background p-5 flex items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
                 <SelectCategory />
 
-                <form onSubmit={onSearch} className="flex w-full max-w-sm items-center space-x-1">
-                    <Input type="search" placeholder="Rechercher" name="search" />
+                <form onSubmit={submitSearch} className="flex w-full max-w-sm items-center space-x-1">
+                    <Input type="search" placeholder="Rechercher" name="search" defaultValue={searchTermInParam} />
                     <Button
                         type="submit"
                         className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-sky-500 via-blue-950 to-primary"
