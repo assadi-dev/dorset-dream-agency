@@ -2,21 +2,10 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowDownUp, MoreHorizontal, Search } from "lucide-react";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
-import FormFieldSelect from "@/components/forms/FormFieldSelect";
+import { Search } from "lucide-react";
 import SelectCategory from "./SelectCategory";
 import OrderSelect from "./OrderSelect";
-import SwitchFilter from "./SwitchFilter";
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const SearchSection = () => {
