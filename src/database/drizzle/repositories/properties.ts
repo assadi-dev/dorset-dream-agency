@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { and, asc, desc, eq, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, like, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
@@ -133,7 +133,13 @@ type getPropertyPresentationArgs = {
  * **Attention:**  l'id variant est utilisé en tant que id unique
  *
  */
-export const getPropertyCollections = async ({ limit, category, order, isAvailable }: getPropertyPresentationArgs) => {
+export const getPropertyCollections = async ({
+    limit,
+    category,
+    order,
+    isAvailable,
+    search,
+}: getPropertyPresentationArgs) => {
     const result = db
         .select({
             id: variants.id,
@@ -162,7 +168,10 @@ export const getPropertyCollections = async ({ limit, category, order, isAvailab
     }
 
     if (limit) result.limit(limit);
-    console.log(isAvailable);
+
+    const searchCondition = search
+        ? or(like(properties.name, sql.placeholder("search")), like(variants.name, sql.placeholder("search")))
+        : undefined;
 
     const isAvailableCondition =
         isAvailable !== null ? eq(properties.isAvailable, sql.placeholder("isAvailable")) : undefined;
@@ -176,20 +185,28 @@ export const getPropertyCollections = async ({ limit, category, order, isAvailab
 
     result.where(and(categoryCondition, isAvailableCondition));
 
+    result.where(searchCondition);
     result.prepare();
 
     return await result.execute({
         categoryID: category,
         category,
         isAvailable,
+        search: `%${search}%`,
     });
 };
 /**
  * Récupérations des propriétés pour accompagné de l'image de couverture
  * **Attention:**  l'id variant est utilisé en tant que id unique
  */
-export const getPropertiesWithCover = async ({ limit, category, order, isAvailable }: getPropertyPresentationArgs) => {
-    const properties = await getPropertyCollections({ limit, category, order, isAvailable });
+export const getPropertiesWithCover = async ({
+    limit,
+    category,
+    order,
+    isAvailable,
+    search,
+}: getPropertyPresentationArgs) => {
+    const properties = await getPropertyCollections({ limit, category, order, isAvailable, search });
 
     const propertiesWithCover = [];
     for (const property of properties) {

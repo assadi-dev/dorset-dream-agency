@@ -9,15 +9,17 @@ export const GET = async (request: NextRequest) => {
             nextUrl: { searchParams },
         } = request;
         const limit = Number(searchParams.get("limit")) || 5;
-        const isAvailable = searchParams.get("isAvailable") || null;
-        const category = searchParams.get("category") || null;
+        const isAvailable = searchParams.get("isAvailable");
+        const category = searchParams.get("category");
         const order = searchParams.get("order")?.toLowerCase() || "desc";
+        const search = searchParams.get("search");
 
         const propertiesWithCover = await getPropertiesWithCover({
             limit,
             category,
             order: order as "desc" | "asc",
-            isAvailable: isAvailable ? Boolean(String(isAvailable) === "true") : null,
+            isAvailable: isAvailable ? Boolean(String(isAvailable) === "true") : undefined,
+            search,
         });
         return NextResponse.json(propertiesWithCover);
     } catch (error: any) {
