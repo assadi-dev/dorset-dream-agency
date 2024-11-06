@@ -15,11 +15,12 @@ type PropertyCarouselResponse = {
     photo: string;
 };
 export const getPropertiesForCarouselApi = async (): Promise<PropertyCarouselResponse[]> => {
-    const result = await API_INSTANCE.get(`/properties/catalog`, {
+    const result = await API_INSTANCE.get(`/properties/carousel`, {
         params: {
             limit: 5,
             category: "prestige",
             order: "desc",
+            isAvailable: true,
         },
     });
 

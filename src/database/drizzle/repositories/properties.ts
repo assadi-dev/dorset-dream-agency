@@ -169,8 +169,6 @@ export const getPropertyCollections = async ({
 
     if (limit) result.limit(limit);
 
-    const filterCondition: any[] = [];
-
     const searchCondition = search
         ? or(like(properties.name, sql.placeholder("search")), like(variants.name, sql.placeholder("search")))
         : undefined;

@@ -52,8 +52,8 @@ const SliderItem = ({ property }: SliderItemProps) => {
 
 const HeroSection = () => {
     const { data, isFetching, error } = useQuery({
-        queryKey: ["propertyPresentation"],
-        queryFn: () => getPropertiesPerCategoryApi("prestige", 5),
+        queryKey: ["propertyCarouselPresentation"],
+        queryFn: getPropertiesForCarouselApi,
         refetchInterval: 60 * 5 * 1000,
     });
 
