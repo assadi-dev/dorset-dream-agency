@@ -169,12 +169,16 @@ export const getPropertyCollections = async ({
 
     if (limit) result.limit(limit);
 
+    const filterCondition: any[] = [];
+
     const searchCondition = search
         ? or(like(properties.name, sql.placeholder("search")), like(variants.name, sql.placeholder("search")))
         : undefined;
 
     const isAvailableCondition =
-        isAvailable !== null ? eq(properties.isAvailable, sql.placeholder("isAvailable")) : undefined;
+        isAvailable !== null && isAvailable !== undefined
+            ? eq(properties.isAvailable, sql.placeholder("isAvailable"))
+            : undefined;
     const categoryCondition =
         category && category !== "all"
             ? or(
@@ -183,9 +187,8 @@ export const getPropertyCollections = async ({
               )
             : undefined;
 
-    result.where(and(categoryCondition, isAvailableCondition));
+    result.where(and(searchCondition, categoryCondition, isAvailableCondition));
 
-    result.where(searchCondition);
     result.prepare();
 
     return await result.execute({
