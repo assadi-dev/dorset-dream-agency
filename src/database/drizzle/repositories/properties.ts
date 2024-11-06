@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { asc, desc, eq, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
@@ -122,8 +122,10 @@ export const getPropertiesWithVariantsOptions = async () => {
 
 type getPropertyPresentationArgs = {
     limit?: number;
-    category?: number | string;
+    category?: number | string | null;
     order?: "desc" | "asc";
+    isAvailable?: boolean | null;
+    search?: string | null;
 };
 /**
  * Récupérations des propriétés avec filtre pour catalogue
@@ -131,7 +133,7 @@ type getPropertyPresentationArgs = {
  * **Attention:**  l'id variant est utilisé en tant que id unique
  *
  */
-export const getPropertyCollections = async ({ limit, category, order }: getPropertyPresentationArgs) => {
+export const getPropertyCollections = async ({ limit, category, order, isAvailable }: getPropertyPresentationArgs) => {
     const result = db
         .select({
             id: variants.id,
@@ -160,28 +162,34 @@ export const getPropertyCollections = async ({ limit, category, order }: getProp
     }
 
     if (limit) result.limit(limit);
+    console.log(isAvailable);
 
-    if (category)
-        result.where(
-            or(
-                eq(categoryProperties.id, sql.placeholder("category")),
-                eq(categoryProperties.name, sql.placeholder("category")),
-            ),
-        );
+    const isAvailableCondition =
+        isAvailable !== null ? eq(properties.isAvailable, sql.placeholder("isAvailable")) : undefined;
+    const categoryCondition =
+        category && category !== "all"
+            ? or(
+                  eq(categoryProperties.id, sql.placeholder("category")),
+                  eq(categoryProperties.name, sql.placeholder("category")),
+              )
+            : undefined;
+
+    result.where(and(categoryCondition, isAvailableCondition));
 
     result.prepare();
 
     return await result.execute({
         categoryID: category,
         category,
+        isAvailable,
     });
 };
 /**
  * Récupérations des propriétés pour accompagné de l'image de couverture
  * **Attention:**  l'id variant est utilisé en tant que id unique
  */
-export const getPropertiesWithCover = async ({ limit, category, order }: getPropertyPresentationArgs) => {
-    const properties = await getPropertyCollections({ limit, category, order });
+export const getPropertiesWithCover = async ({ limit, category, order, isAvailable }: getPropertyPresentationArgs) => {
+    const properties = await getPropertyCollections({ limit, category, order, isAvailable });
 
     const propertiesWithCover = [];
     for (const property of properties) {
