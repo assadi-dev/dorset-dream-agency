@@ -44,7 +44,7 @@ const SearchSection = () => {
 
     return (
         <section className="my-3">
-            <div className="bg-background p-5 flex items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
+            <div className=" bg-background p-5 flex flex-col gap-3 sm:flex-row items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
                 <SelectCategory />
 
                 <form onSubmit={submitSearch} className="flex w-full max-w-sm items-center space-x-1">
