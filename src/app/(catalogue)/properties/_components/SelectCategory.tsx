@@ -48,7 +48,7 @@ const SelectCategory = () => {
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="w-full sm:w-[15vw] justify-between"
+                        className="w-full lg:w-[15vw] justify-between"
                     >
                         {value
                             ? ENUM_PROPERTY_CATEGORIES.find(
