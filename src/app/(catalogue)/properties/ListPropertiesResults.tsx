@@ -21,7 +21,7 @@ type ListPropertiesResultsSectionProps = {
 const ListPropertiesResultsSection = ({ propertiesCollections }: ListPropertiesResultsSectionProps) => {
     return (
         <section className="py-6">
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(23rem,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(25rem,1fr))] grid-rows-[repeat(14rem)] gap-5">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(25rem,1fr))] grid-rows-[repeat(18rem)] gap-5">
                 {propertiesCollections.map((item) => (
                     <PropertyCard property={item} key={item.id} />
                 ))}

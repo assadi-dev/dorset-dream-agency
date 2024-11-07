@@ -24,19 +24,21 @@ type PropertyCardProps = {
 };
 const PropertyCard = ({ property }: PropertyCardProps) => {
     return (
-        <Card className="w-full p-1 h-full transition-shadow hover:shadow-lg relative">
-            <div className="overflow-hidden rounded-lg relative">
+        <Card className="w-full p-1 h-full transition-shadow hover:shadow-lg relative ">
+            <div className="overflow-hidden rounded-lg relative h-[180px] lg:h-[250px]">
                 <Image
                     src={property.cover}
                     alt={`cover of property ${property.name}`}
                     width={1200}
                     height={720}
-                    className="h-auto w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform hover:scale-[1.2] hover:brightness-75"
+                    className="h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform hover:scale-[1.2] hover:brightness-75"
                 />
             </div>
 
             <div className="p-2 flex flex-col justify-between gap-3 relative">
-                <p className="font-bold sm:text-sm lg:text-lg">{property.name} </p>
+                <p className="font-bold sm:text-sm lg:text-lg text-nowrap text-ellipsis max-w-[80%] overflow-hidden">
+                    {property.name}{" "}
+                </p>
                 <PropertyBadges isAvailable={property.isAvailable} isFurnish={property.isFurnish} />
                 <div className="flex items-center justify-between  p-2 rounded-sm backdrop-blur-md">
                     <div>
