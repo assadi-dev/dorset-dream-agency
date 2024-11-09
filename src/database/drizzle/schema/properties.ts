@@ -8,6 +8,7 @@ export const properties = mysqlTable("properties", {
     id: int("id").autoincrement().primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
     address: text("address"),
+    resume: varchar("resume", { length: 255 }),
     description: text("description"),
     factoryPrice: int("factory_price"),
     sellingPrice: int("selling_price"),

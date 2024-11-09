@@ -5,6 +5,7 @@ export const propertyInfoSchema = z.object({
     sellingPrice: z.number().optional(),
     isAvailable: z.boolean().optional(),
     isFurnish: z.boolean().optional(),
+    stock: z.number().nullable().optional(),
 });
 
 export const galleryObjectSchema = z.object({

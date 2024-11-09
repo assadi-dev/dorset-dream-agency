@@ -4,6 +4,7 @@ import { z } from "zod";
 export const propertySchemaInsert = z.object({
     name: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     description: z.string().nullable(),
+    resume: z.string().nullable().optional(),
     address: z.string().nullable(),
     factoryPrice: z.number(),
     sellingPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
@@ -11,6 +12,7 @@ export const propertySchemaInsert = z.object({
     isFurnish: z.boolean(),
     categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
     isAvailable: z.boolean(),
+    stock: z.number().nullable().optional(),
 });
 
 export const createPropertyDto = (values: unknown) => propertySchemaInsert.safeParseAsync(values);

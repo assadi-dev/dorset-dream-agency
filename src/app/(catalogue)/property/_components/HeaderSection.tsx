@@ -12,6 +12,7 @@ type HeaderSectionProps = {
 };
 const HeaderSection = async ({ property }: HeaderSectionProps) => {
     const propertyInfo = extractDataForInfo.propertyInfo(property);
+
     return (
         <section className="flex flex-col xl:grid xl:grid-cols-[1fr,auto] gap-8 xl:items-center w-full min-h-[10vh]">
             <div className="w-full">
