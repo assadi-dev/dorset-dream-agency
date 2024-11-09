@@ -24,7 +24,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
     const isFurnish = propertyInfo.isFurnish ? "OUI" : "NON";
     const Stock = () => {
         if (typeof propertyInfo.stock === "number") {
-            if (propertyInfo.stock === -1) return "Sur demande au sénat.";
+            if (propertyInfo.stock === -1) return "Sur demande au sénat";
             if (propertyInfo.stock > 0) return `${propertyInfo.stock} kg`;
         } else {
             return "Pas de coffre";
@@ -45,12 +45,13 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                         <p className="font-bold">{propertyInfo.sellingPrice || 0}$</p>
                     </div>
                     <Separator />
-                    <div className="pl-5">
-                        <p className="font-semibold">Coffre</p>
-                        <p className="font-bold">
-                            <Stock />
-                        </p>
-                    </div>
+                </div>
+            </CardRightDetail>
+            <CardRightDetail title="Coffre">
+                <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
+                    <p className=" text-sm lg:text-lg font-semibold text-center">
+                        <Stock />
+                    </p>
                 </div>
             </CardRightDetail>
 
