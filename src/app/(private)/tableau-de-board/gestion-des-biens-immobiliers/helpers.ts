@@ -6,7 +6,7 @@ export enum PROPERTY_QUERY_KEY {
 
 export const fetchPropertiesCollections = async () => {
     try {
-        const result = (await API_INSTANCE.get("/properties/variants/collections")).data;
+        const result = (await API_INSTANCE.get("/properties/collections")).data;
         return result || [];
     } catch (error: any) {
         throw error;

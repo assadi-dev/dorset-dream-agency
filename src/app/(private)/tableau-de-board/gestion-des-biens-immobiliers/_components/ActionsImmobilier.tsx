@@ -48,7 +48,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="text-primary">
                 <Link
-                    href={`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${payload.propertyID}&name=${payload.name}`}
+                    href={`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${payload.id}&name=${payload.name}&createdAt=${payload.createdAt}&categoryProperty=${payload.categoryID}`}
                 >
                     <Pen className="mr-2 h-4 w-4" />
                     Modifier

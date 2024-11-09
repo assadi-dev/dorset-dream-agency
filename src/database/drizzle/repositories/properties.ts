@@ -34,7 +34,21 @@ export const insertProperty = async (values: any) => {
 };
 
 export const getPropertiesCollections = async () => {
-    const result = db.select().from(properties);
+    const result = db
+        .select({
+            id: properties.id,
+            name: properties.name,
+            categoryID: properties.categoryID,
+            category: categoryProperties.name,
+            sellingPrice: properties.sellingPrice,
+            rentalPrice: properties.rentalPrice,
+            stock: properties.stock,
+            variantID: variants.id,
+            createdAt: properties.createdAt,
+        })
+        .from(properties)
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .leftJoin(variants, eq(variants.propertyID, properties.id));
     return await result;
 };
 export const getOnePropertyByID = async (id: number | string) => {
