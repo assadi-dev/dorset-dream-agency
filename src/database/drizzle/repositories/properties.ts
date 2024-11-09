@@ -153,6 +153,7 @@ export const getPropertyCollections = async ({
             isAvailable: properties.isAvailable,
             category: categoryProperties.name,
             categoryID: sql<string>`${categoryProperties.id}`,
+            stock: properties.stock,
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID))
@@ -232,6 +233,7 @@ export const getOnePropertyByVariantID = async (variantID: number) => {
             isAvailable: properties.isAvailable,
             category: categoryProperties.name,
             categoryID: sql<string>`${categoryProperties.id}`,
+            stock: properties.stock,
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID))
