@@ -43,12 +43,13 @@ export const getPropertiesCollections = async () => {
             sellingPrice: properties.sellingPrice,
             rentalPrice: properties.rentalPrice,
             stock: properties.stock,
-            variantID: variants.id,
+            isFurnish: properties.isFurnish,
+            isAvailable: properties.isAvailable,
             createdAt: properties.createdAt,
         })
         .from(properties)
-        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .leftJoin(variants, eq(variants.propertyID, properties.id));
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
+
     return await result;
 };
 export const getOnePropertyByID = async (id: number | string) => {
@@ -60,6 +61,37 @@ export const getOnePropertyByID = async (id: number | string) => {
     const result = await request.execute({
         id,
     });
+    return result[0];
+};
+export const getOnePropertyWithVariant = async (id: number | string) => {
+    const request = db
+        .select({
+            id: properties.id,
+            name: properties.name,
+            resume: properties.resume,
+            description: properties.description,
+            address: properties.address,
+            categoryID: properties.categoryID,
+            category: categoryProperties.name,
+            sellingPrice: properties.sellingPrice,
+            rentalPrice: properties.rentalPrice,
+            stock: properties.stock,
+            isFurnish: properties.isFurnish,
+            isAvailable: properties.isAvailable,
+            variantID: sql<string>`GROUP_CONCAT(${variants.id})`,
+            createdAt: properties.createdAt,
+        })
+        .from(properties)
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .leftJoin(variants, eq(variants.propertyID, properties.id))
+        .groupBy(properties.id)
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+
+    const result = await request.execute({
+        id,
+    });
+
     return result[0];
 };
 
@@ -272,4 +304,42 @@ export const getPropertyDetailForCatalogueWithGallery = async (variantID: number
     const property = await getOnePropertyByVariantID(variantID);
     const gallery = await getGalleryCollectionForVariants(Number(variantID));
     return { ...property[0], gallery };
+};
+
+type PropertyParser = {
+    id: number;
+    name: string;
+    category: {
+        id: number;
+        name: string;
+    };
+    address: string;
+    description: string;
+    rentalPrice: number;
+    sellingPrice: number;
+    stock: number;
+    isFurnish: boolean;
+    isAvailable: boolean;
+    createdAt: string;
+};
+
+export const propertyParser = (property: any): Promise<PropertyParser> => {
+    const propertyParser = {
+        id: property.id,
+        name: property.name,
+        category: {
+            id: property.categoryID,
+            name: property.category,
+        },
+        address: property.address,
+        description: property.description,
+        rentalPrice: property.rentalPrice,
+        sellingPrice: property.sellingPrice,
+        stock: property.stock,
+        isFurnish: property.isFurnish,
+        isAvailable: property.isAvailable,
+        createdAt: property.createdAt,
+    };
+
+    return propertyParser;
 };

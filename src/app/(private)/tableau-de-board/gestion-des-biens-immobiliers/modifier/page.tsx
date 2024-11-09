@@ -3,6 +3,8 @@ import React from "react";
 import PageTemplate from "../../_components/PageTemplate";
 import EditProperty from "../ajouter/_components/form/EditProperty";
 import { formatFullDateShortTextWitHours } from "@/lib/date";
+import { getOnePropertyWithVariant, propertyParser } from "@/database/drizzle/repositories/properties";
+import { propertyFormType } from "../ajouter/_components/form/propertySchema";
 
 type Params = {
     searchParams: {
@@ -17,11 +19,23 @@ const EditPropertyPage = async ({ searchParams }: Params) => {
     const { property, name, createdAt, categoryProperty } = searchParams;
 
     const EditPropertyAsync = async () => {
+        if (!property) throw "Property not found";
+
+        const propertyFound = await getOnePropertyWithVariant(property);
+        const propertyClean = await propertyParser(propertyFound);
         const propertyDefaultValue = {
-            name: name || "",
-            categoryProperty,
-        };
-        await wait(3000);
+            name: propertyClean.name,
+            categoryProperty: String(propertyClean.category.id),
+            description: propertyClean.description,
+            address: propertyClean.address,
+            sellingPrice: propertyClean.sellingPrice,
+            rentalPrice: propertyClean.rentalPrice,
+            isAvailable: propertyClean.isAvailable,
+            isFurnish: propertyClean.isFurnish,
+            stock: propertyClean.stock,
+            variants: [],
+        } satisfies propertyFormType;
+
         return <EditProperty defaultValues={propertyDefaultValue} />;
     };
 
