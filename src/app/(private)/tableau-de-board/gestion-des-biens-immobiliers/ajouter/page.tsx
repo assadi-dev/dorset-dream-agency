@@ -5,7 +5,7 @@ import AddProperty from "./_components/form/AddProperty";
 import { setTitlePage } from "@/lib/utils";
 
 export const metadata = setTitlePage("Création de biens immobiliers");
-const Ajouter = async () => {
+const AddPropertyPage = async () => {
     return (
         <PageTemplate
             title="Ajouter un bien immobilier"
@@ -15,4 +15,4 @@ const Ajouter = async () => {
         </PageTemplate>
     );
 };
-export default Ajouter;
+export default AddPropertyPage;

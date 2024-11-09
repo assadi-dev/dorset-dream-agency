@@ -6,6 +6,7 @@ import { Pen, Trash, ImagePlus } from "lucide-react";
 import DeleteProperty from "./forms/DeleteProperty";
 import AddVariantProperty from "./forms/AddVariantProperty";
 import EditFormProperty from "./forms/EditFormProperty";
+import Link from "next/link";
 
 type ActionsImmobilierProps = {
     payload: any;
@@ -45,9 +46,13 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             <DropdownMenuItem onClick={handleClickNewVariant} className="text-primary">
                 <ImagePlus className="mr-2 h-4 w-4" /> Ajouter une variante
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClickEdit} className="text-primary" disabled>
-                <Pen className="mr-2 h-4 w-4" />
-                Modifier
+            <DropdownMenuItem asChild className="text-primary">
+                <Link
+                    href={`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${payload.propertyID}&name=${payload.name}`}
+                >
+                    <Pen className="mr-2 h-4 w-4" />
+                    Modifier
+                </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
                 <Trash className="mr-2 h-4 w-4" />

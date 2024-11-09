@@ -15,7 +15,10 @@ import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { insertProperty } from "@/database/drizzle/repositories/properties";
 import { createVariantGalleryApi } from "./helpers";
 
-const AddProperty = () => {
+type EditPropertyProps = {
+    defaultValues?: propertyFormType | null;
+};
+const EditProperty = ({ defaultValues }: EditPropertyProps) => {
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
@@ -30,6 +33,7 @@ const AddProperty = () => {
             rentalPrice: 0,
             variants: [],
             stock: 0,
+            ...defaultValues,
         },
     });
 
@@ -92,4 +96,4 @@ const AddProperty = () => {
     );
 };
 
-export default AddProperty;
+export default EditProperty;

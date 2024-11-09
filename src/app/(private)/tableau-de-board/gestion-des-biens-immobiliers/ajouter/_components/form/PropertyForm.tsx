@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import { propertyFormType } from "./propertySchema";
+import FormFieldTextarea from "@/components/forms/FormFieldTextarea";
 
 type PropertyFormProps = React.HTMLAttributes<HTMLDivElement> & {
     form: UseFormReturn<propertyFormType>;
@@ -35,7 +36,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                 <FormFieldInput control={form.control} name="name" label="Nom" placeholder="Nom du bien immobilier" />
             </div>
             <div className="mb-3">
-                <FormFieldInput control={form.control} name="description" label="Description" />
+                <FormFieldTextarea control={form.control} name="description" label="Description" />
             </div>
             <div className="mb-3">
                 <FormFieldInput
@@ -79,6 +80,15 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                     label="Disponibilité"
                     description={"Rendre l'appartement disponible"}
                     className={"mb-3"}
+                />
+            </div>
+            <div className="mb-3">
+                <FormFieldInput
+                    control={form.control}
+                    name="stock"
+                    label="Stockage en kg"
+                    description="Entrer la valeur en nombre 0 pour pas de coffre -1 sur demande"
+                    type="number"
                 />
             </div>
         </div>
