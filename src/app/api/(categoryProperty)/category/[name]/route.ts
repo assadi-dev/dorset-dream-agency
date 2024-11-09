@@ -1,5 +1,6 @@
 import { getCategoryByName } from "@/database/drizzle/repositories/categories";
 import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
 
 type Params = {
     params: {

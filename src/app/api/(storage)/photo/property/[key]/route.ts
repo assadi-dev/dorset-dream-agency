@@ -3,6 +3,8 @@ import path from "path";
 import * as fs from "fs";
 import { PROPERTIES_DIR } from "@/config/dir";
 
+export const dynamic = "force-dynamic";
+
 type Params = {
     params: {
         key: string;
