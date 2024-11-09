@@ -8,7 +8,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PropertyCard from "./PropertyCard";
 import { useQuery } from "@tanstack/react-query";
-import { cleanDataForCarousel, getPropertiesPerCategoryApi } from "../../helper";
+import { cleanDataForCarousel, cleanDataForSlides, getPropertiesPerCategoryApi } from "../../helper";
 
 export type PropertiesCardSectionType = {
     id: number;
@@ -27,6 +27,7 @@ type PropertyMemoType = {
     sellingPrice: number;
     isFurnish: boolean;
     isAvailable: boolean;
+    stock?: number | null;
 };
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({
@@ -37,7 +38,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
 
     const PROPERTIES = React.useMemo<PropertyMemoType[]>(() => {
         if (!data) return [];
-        return data.map((item: any) => cleanDataForCarousel(item));
+        return data.map((item: any) => cleanDataForSlides(item));
     }, [data]);
 
     const breakTest = {

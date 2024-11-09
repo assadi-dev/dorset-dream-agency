@@ -13,6 +13,8 @@ type PropertyCarouselResponse = {
     category: string;
     categoryID: number;
     photo: string;
+    stock?: number | null;
+    resume?: number | null;
 };
 export const getPropertiesForCarouselApi = async (): Promise<PropertyCarouselResponse[]> => {
     const result = await API_INSTANCE.get(`/properties/carousel`, {
@@ -56,6 +58,24 @@ export const cleanDataForCarousel = (inputs: PropertyCarouselResponse | any) => 
     };
 };
 
+export const cleanDataForSlides = (inputs: PropertyCarouselResponse | any) => {
+    return {
+        id: inputs.id,
+        name: inputs.name,
+        cover: inputs.photo,
+        photo: inputs.photo,
+        category: {
+            id: inputs.categoryID,
+            name: inputs.category,
+        },
+        rentalPrice: inputs.rentalPrice,
+        sellingPrice: inputs.sellingPrice,
+        isFurnish: inputs.isFurnish,
+        isAvailable: inputs.isAvailable,
+        stock: inputs.stock,
+    };
+};
+
 export const cleanPropertyWithGallery = (
     inputs: PropertyCarouselResponse & {
         gallery: any[];
@@ -74,5 +94,6 @@ export const cleanPropertyWithGallery = (
         sellingPrice: inputs.sellingPrice,
         isFurnish: inputs.isFurnish,
         isAvailable: inputs.isAvailable,
+        stock: inputs.stock,
     };
 };

@@ -2,6 +2,7 @@ import React from "react";
 type PropertyBadgesProps = {
     isAvailable: boolean;
     isFurnish: boolean;
+    stock?: number | null;
 };
 
 export const FurnishBadge = ({ isFurnish }: { isFurnish: boolean }) => {
@@ -23,11 +24,21 @@ export const AvailableBadge = ({ isAvailable }: { isAvailable: boolean }) => {
     return <span className={CLASS_BADGE}>{AVAILABLE_LABEL}</span>;
 };
 
-export const PropertyBadges = ({ isAvailable, isFurnish }: PropertyBadgesProps) => {
+export const StockageBadges = ({ stock }: { stock: number | null }) => {
+    const STOCK_LABEL = (stock && stock > 0 && `${stock} kg`) || "Pas de coffre";
     return (
-        <div className="flex items-center gap-1">
+        <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-400">
+            {STOCK_LABEL}
+        </span>
+    );
+};
+
+export const PropertyBadges = ({ isAvailable, isFurnish, stock }: PropertyBadgesProps) => {
+    return (
+        <div className="flex items-center gap-1 flex-wrap justify-center lg:justify-start">
             <FurnishBadge isFurnish={isFurnish} />
             <AvailableBadge isAvailable={isAvailable} />
+            {stock && stock > 0 && <StockageBadges stock={stock} />}
         </div>
     );
 };

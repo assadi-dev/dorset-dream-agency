@@ -86,6 +86,8 @@ export const getPropertiesWithVariantsCollections = async ({ type }: getProperti
             isFurnish: properties.isFurnish,
             category: categoryProperties.name,
             createdAt: variants.createdAt,
+            resume: properties.resume,
+            stock: properties.stock,
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID))
@@ -153,6 +155,7 @@ export const getPropertyCollections = async ({
             isAvailable: properties.isAvailable,
             category: categoryProperties.name,
             categoryID: sql<string>`${categoryProperties.id}`,
+            resume: properties.resume,
             stock: properties.stock,
         })
         .from(variants)

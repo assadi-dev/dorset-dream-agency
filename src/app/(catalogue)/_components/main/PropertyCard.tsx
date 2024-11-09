@@ -18,6 +18,7 @@ type PropertyItemType = {
     sellingPrice: number;
     isFurnish: boolean;
     isAvailable: boolean;
+    stock?: number | null;
 };
 type PropertyCardProps = {
     property: PropertyItemType;
@@ -48,7 +49,11 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 <p className="font-bold sm:text-sm lg:text-lg text-nowrap text-ellipsis max-w-[80%] overflow-hidden">
                     {property.name}{" "}
                 </p>
-                <PropertyBadges isAvailable={property.isAvailable} isFurnish={property.isFurnish} />
+                <PropertyBadges
+                    isAvailable={property.isAvailable}
+                    isFurnish={property.isFurnish}
+                    stock={property.stock}
+                />
                 <div className="flex flex-col lg:flex-row items-center justify-between  p-2 rounded-sm backdrop-blur-md w-full gap-3">
                     <div className="flex flex-col gap-1">
                         <p className="text-xs text-slate-600">Location - Vente</p>
