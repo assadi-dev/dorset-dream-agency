@@ -323,7 +323,7 @@ type PropertyParser = {
     createdAt: string;
 };
 
-export const propertyParser = (property: any): Promise<PropertyParser> => {
+export const propertyParser = async (property: any): Promise<PropertyParser> => {
     const propertyParser = {
         id: property.id,
         name: property.name,
