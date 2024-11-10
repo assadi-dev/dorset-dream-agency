@@ -21,7 +21,11 @@ const ModalProvider = ({ children }: ModalProviderProps) => {
         component: () => null,
     });
 
-    const Render = modalState.component;
+    const RenderHook = (Component: any) => {
+        return ({ ...props }) => <Component {...props} />;
+    };
+
+    const Render = RenderHook(modalState.component);
 
     return (
         <ModalContextProvider
