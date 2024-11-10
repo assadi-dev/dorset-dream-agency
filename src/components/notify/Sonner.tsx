@@ -7,8 +7,9 @@ export function ToastSuccessSonner(message: string) {
     });
 }
 
-export function ToastErrorSonner(message: string) {
+export function ToastErrorSonner(message: string, duration?: number) {
     toast.error(ERROR_TITLE_NOTIFY, {
         description: message,
+        duration: duration || 8000,
     });
 }

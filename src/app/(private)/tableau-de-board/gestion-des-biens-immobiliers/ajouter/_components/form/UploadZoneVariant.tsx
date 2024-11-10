@@ -15,6 +15,7 @@ import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
 import { GalleryResponse } from "../../../types";
+import { ToastErrorSonner } from "@/components/notify/Sonner";
 
 export type UploadZoneForm = {
     name: string;
@@ -58,11 +59,28 @@ const UploadZoneVariant = () => {
         closeModal();
     };
 
+    const sizeValidator = (file: File) => {
+        if (file.size > 500 * 1024) {
+            return {
+                code: "file-size-too-large",
+                message: `la taille du fichier doit être inférieure à 500 KB`,
+            };
+        }
+        return null;
+    };
+
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
         // Do something with the files
         form.setValue("files", acceptedFiles);
     }, []);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+    const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+        onDrop,
+        accept: {
+            "image/jpeg": [".jpeg", ".jpg"],
+            "image/webp": [],
+        },
+        validator: sizeValidator,
+    });
 
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
@@ -87,6 +105,20 @@ const UploadZoneVariant = () => {
         form.setValue("files", []);
         form.clearErrors();
     };
+
+    React.useEffect(() => {
+        if (fileRejections.length) {
+            {
+                fileRejections.map(({ file, errors }) => {
+                    errors.length &&
+                        errors.map((err) => {
+                            const ERROR_FILE = `Erreur d'upload sur le fichier ${file.name} pour la raison suivante : ${err.message}`;
+                            ToastErrorSonner(ERROR_FILE);
+                        });
+                });
+            }
+        }
+    }, [fileRejections]);
 
     return (
         <Form {...form}>
