@@ -15,7 +15,7 @@ import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
 
-type UploadZoneForm = {
+export type UploadZoneForm = {
     name: string;
     files: Array<File>;
 };

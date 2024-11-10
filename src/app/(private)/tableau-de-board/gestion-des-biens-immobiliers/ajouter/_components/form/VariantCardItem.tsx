@@ -2,10 +2,14 @@ import React from "react";
 import appartement from "@assets/images/appartement.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { CircleX } from "lucide-react";
+import { CircleX, Pen, PenLine, Trash, Trash2 } from "lucide-react";
 import styles from "./styles.module.css";
 import { useFormContext } from "react-hook-form";
 import { removeVariants } from "./helpers";
+import { Button } from "@/components/ui/button";
+import TooltipCustomProvider from "@/components/providers/TooltipCustomProvider";
+import useModalState from "@/hooks/useModalState";
+import { EditButton, RemoveButton } from "./VaraintCarAction";
 
 type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     previewLink?: string | null;
@@ -24,7 +28,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
         if (!variant) return;
         if (variant.files) {
             const file = variant.files[0];
-            if (file instanceof File) {
+            if (file instanceof File && !previewUrl) {
                 const link = URL.createObjectURL(file);
                 setPreviewUrl(link);
             }
@@ -50,39 +54,36 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
         }
     }, [previewLink, variant.id, form]);
 
-    const RemoveButton = () => {
-        return (
-            <button
-                type="button"
-                className="flex top-2 right-2 absolute  rounded-full text-white  hover:text-white transition-all active:scale-90"
-                onClick={handleClickRemove}
-            >
-                <CircleX className="w-4 h-4 " />
-            </button>
-        );
-    };
-
     return (
         <>
             {variant && (
                 <figure
                     className={cn(
                         styles["card-variant"],
-                        "card-variant h-[130px] relative w-fit overflow-hidden rounded-xl",
+                        "flex flex-col justify-evenly gap-1 p-1 h-[180px] relative w-[255px] overflow-hidden rounded-xl",
                         props.className,
                     )}
                     {...props}
                 >
-                    <Image
-                        width={800}
-                        height={800}
-                        src={previewUrl}
-                        alt={`picture of ${variant.name}`}
-                        className="rounded-xl"
-                    />
-                    <figcaption className={cn(styles["card-variant-legend"], "p-3")}>
-                        <RemoveButton />
-                        <p className="text-xs font-bold truncate max-w-full">{variant.name}</p>
+                    <div className="relative rounded-xl h-[132px] overflow-hidden">
+                        <Image
+                            width={800}
+                            height={800}
+                            src={previewUrl}
+                            alt={`picture of ${variant.name}`}
+                            className=" w-full h-full object-cover"
+                        />
+                    </div>
+                    <figcaption
+                        className={cn(
+                            "flex justify-between  items-center text-black px-3 py-2 ring-1 ring-slate-300 bg-slate-200 rounded-xl",
+                        )}
+                    >
+                        <p className="text-xs font-bold truncate w-[95%]">{variant.name}</p>
+                        <div className="flex justify-end items-center gap-1.5">
+                            <EditButton payload={variant} />
+                            <RemoveButton onRemoveAction={handleClickRemove} />
+                        </div>
                     </figcaption>
                 </figure>
             )}
