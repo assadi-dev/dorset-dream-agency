@@ -37,9 +37,10 @@ const AddVariantProperty = () => {
             <AddVariantCard />
             <ScrollArea className="p-3 lg:h-[calc(55vh-50px)]">
                 <div className="w-full  grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(150px,250px))] gap-3">
-                    {form.watch("variants").map((variant: any) => (
-                        <VariantCardItem variant={variant} key={variant?.id} previewLink={variant?.gallery[0]?.url} />
-                    ))}
+                    {form.watch("variants").map((variant: any) => {
+                        const defaultLink = variant && variant.gallery ? variant.gallery[0].url : null;
+                        return <VariantCardItem variant={variant} key={variant?.id} previewLink={defaultLink} />;
+                    })}
                 </div>
                 <div></div>
             </ScrollArea>
