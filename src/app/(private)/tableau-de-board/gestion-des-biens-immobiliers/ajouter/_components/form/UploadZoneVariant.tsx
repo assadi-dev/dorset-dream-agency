@@ -14,11 +14,14 @@ import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
+import { GalleryResponse } from "../../../types";
 
 export type UploadZoneForm = {
     name: string;
-    files: Array<File>;
+    files: Array<File> | Array<GalleryResponse>;
 };
+
+export type VariantPayload = { name: string; gallery: GalleryResponse[] };
 
 const UploadZoneVariant = () => {
     const form = useForm<UploadZoneForm>({
@@ -28,6 +31,16 @@ const UploadZoneVariant = () => {
             files: [],
         },
     });
+
+    const { payload } = useModalState();
+
+    React.useEffect(() => {
+        if (payload && form) {
+            const defaultValues = payload as VariantPayload;
+            form.setValue("name", defaultValues?.name);
+            form.setValue("files", defaultValues?.gallery);
+        }
+    }, [payload, form]);
 
     const { closeModal } = useModalState();
     const propertyForm = useFormContext();
@@ -124,7 +137,7 @@ const UploadZoneVariant = () => {
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
                             {form.watch("files").map((file) => (
-                                <PreviewVarianteUpload key={file.name} file={file} />
+                                <PreviewVarianteUpload key={uniqid()} file={file} />
                             ))}
                         </div>
                     </ScrollArea>

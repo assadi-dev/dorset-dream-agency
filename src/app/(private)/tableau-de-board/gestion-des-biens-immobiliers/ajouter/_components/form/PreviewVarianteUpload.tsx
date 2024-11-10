@@ -1,7 +1,9 @@
 import React from "react";
+import { GalleryResponse } from "../../../types";
+import Image from "next/image";
 
 type PreviewVarianteUploadType = {
-    file: File;
+    file?: File | GalleryResponse;
     onRemove?: () => void;
 };
 
@@ -13,31 +15,40 @@ type stylesVariantImage = {
 };
 
 const PreviewVarianteUpload = ({ file, onRemove }: PreviewVarianteUploadType) => {
-    const blobToUrl = React.useCallback(() => {
-        return file && URL.createObjectURL(file);
-    }, [file]);
-
     const reducer = (prev: stylesVariantImage, next: any) => ({ ...prev, ...next });
 
-    const [styles, setStyles] = React.useReducer(reducer, {
-        backgroundImage: "",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+    const [state, setState] = React.useReducer(reducer, {
+        url: "",
+        name: "",
+        size: 0,
     });
 
     React.useEffect(() => {
         if (!file) return;
-        const imageObject = blobToUrl();
+        if (file instanceof File) {
+            const urlObject = URL.createObjectURL(file);
+            setState({ url: urlObject, name: file.name, size: file.size });
+        } else {
+            const defaultFile = file as GalleryResponse;
+            if (defaultFile) {
+                setState({ url: defaultFile.url, name: defaultFile.originalName, size: defaultFile.size });
+            }
+        }
 
-        setStyles({ backgroundImage: `url(${imageObject})` });
-
-        return () => {
-            URL.revokeObjectURL(imageObject);
-        };
+        state.url && file instanceof File && URL.revokeObjectURL(state.url);
     }, [file]);
 
-    return <div style={styles} className=" w-full h-[80px] rounded" onClick={() => onRemove && onRemove()}></div>;
+    return (
+        <div className=" w-full h-[80px] rounded overflow-hidden" onClick={() => onRemove && onRemove()}>
+            <Image
+                src={state.url}
+                width={100}
+                height={100}
+                alt={`preview of ${state.name}`}
+                className="w-full h-full object-cover object-center"
+            />
+        </div>
+    );
 };
 
 export default PreviewVarianteUpload;
