@@ -87,7 +87,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                     control={form.control}
                     name="stock"
                     label="Stockage en kg"
-                    description="Entrer la valeur en nombre 0 pour pas de coffre -1 sur demande"
+                    description="Entrer la valeur en nombre. Entrez 0 pour pas de coffre ou -1 pour sur demande"
                     type="number"
                 />
             </div>
