@@ -69,10 +69,15 @@ const UploadZoneVariant = () => {
         return null;
     };
 
-    const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
-        // Do something with the files
-        form.setValue("files", acceptedFiles);
-    }, []);
+    const onDrop = React.useCallback(
+        (acceptedFiles: Array<File>) => {
+            // Do something with the files
+            const currentFiles = form.getValues("files");
+            const updated = [...acceptedFiles, ...currentFiles] as File[] | GalleryResponse[];
+            form.setValue("files", updated);
+        },
+        [form],
+    );
     const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
         onDrop,
         accept: {
