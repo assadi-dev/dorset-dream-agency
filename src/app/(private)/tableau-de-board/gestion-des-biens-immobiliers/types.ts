@@ -13,3 +13,12 @@ export type GalleryResponse = {
     type: string;
     url: string;
 };
+
+export type FileObj = {
+    id: number | string;
+    name: string;
+    size: number;
+    type: string;
+    url?: string | null;
+    file: File;
+};

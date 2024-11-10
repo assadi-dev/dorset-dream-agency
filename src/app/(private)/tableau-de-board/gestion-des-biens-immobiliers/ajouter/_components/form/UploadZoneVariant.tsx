@@ -14,12 +14,12 @@ import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
-import { GalleryResponse } from "../../../types";
+import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
 
 export type UploadZoneForm = {
     name: string;
-    files: Array<File> | Array<GalleryResponse>;
+    files: Array<FileObj> | Array<GalleryResponse>;
 };
 
 export type VariantPayload = { name: string; gallery: GalleryResponse[] };
@@ -73,7 +73,17 @@ const UploadZoneVariant = () => {
         (acceptedFiles: Array<File>) => {
             // Do something with the files
             const currentFiles = form.getValues("files");
-            const updated = [...acceptedFiles, ...currentFiles] as File[] | GalleryResponse[];
+            const fileObj = acceptedFiles.map((file: File) => {
+                const id = uniqid();
+                return {
+                    id,
+                    name: file.name,
+                    url: URL.createObjectURL(file),
+                    file,
+                    size: file.size,
+                };
+            }) as FileObj[];
+            const updated = [...fileObj, ...currentFiles] as FileObj[] | GalleryResponse[];
             form.setValue("files", updated);
         },
         [form],
@@ -173,9 +183,10 @@ const UploadZoneVariant = () => {
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
-                            {form.watch("files").map((file) => (
-                                <PreviewVarianteUpload key={uniqid()} file={file} />
-                            ))}
+                            {form.watch("files").length > 0 &&
+                                form
+                                    .getValues("files")
+                                    .map((file) => <PreviewVarianteUpload key={file?.id} file={file as FileObj} />)}
                         </div>
                     </ScrollArea>
                 </div>
