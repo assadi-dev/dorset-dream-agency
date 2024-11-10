@@ -7,6 +7,7 @@ import { and, asc, desc, eq, ilike, like, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
+import { getVariantsProperty } from "./variants";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -78,12 +79,10 @@ export const getOnePropertyWithVariant = async (id: number | string) => {
             stock: properties.stock,
             isFurnish: properties.isFurnish,
             isAvailable: properties.isAvailable,
-            variantID: sql<string>`GROUP_CONCAT(${variants.id})`,
             createdAt: properties.createdAt,
         })
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .leftJoin(variants, eq(variants.propertyID, properties.id))
         .groupBy(properties.id)
         .where(eq(properties.id, sql.placeholder("id")))
         .prepare();
@@ -92,7 +91,12 @@ export const getOnePropertyWithVariant = async (id: number | string) => {
         id,
     });
 
-    return result[0];
+    const propertyResult = await propertyParser(result[0]);
+    const retrieveVariants = await getVariantsProperty(id);
+
+    const propertyFinalResult = { ...propertyResult, variants: retrieveVariants };
+
+    return propertyFinalResult;
 };
 
 export const updateProperty = async (id: number | string, data: any) => {

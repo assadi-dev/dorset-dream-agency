@@ -22,17 +22,17 @@ const EditPropertyPage = async ({ searchParams }: Params) => {
         if (!property) throw "Property not found";
 
         const propertyFound = await getOnePropertyWithVariant(property);
-        const propertyClean = await propertyParser(propertyFound);
+
         const propertyDefaultValue = {
-            name: propertyClean.name,
-            categoryProperty: String(propertyClean.category.id),
-            description: propertyClean.description,
-            address: propertyClean.address,
-            sellingPrice: propertyClean.sellingPrice,
-            rentalPrice: propertyClean.rentalPrice,
-            isAvailable: propertyClean.isAvailable,
-            isFurnish: propertyClean.isFurnish,
-            stock: propertyClean.stock,
+            name: propertyFound.name,
+            categoryProperty: String(propertyFound.category.id),
+            description: propertyFound.description,
+            address: propertyFound.address,
+            sellingPrice: propertyFound.sellingPrice,
+            rentalPrice: propertyFound.rentalPrice,
+            isAvailable: propertyFound.isAvailable,
+            isFurnish: propertyFound.isFurnish,
+            stock: propertyFound.stock,
             variants: [],
         } satisfies propertyFormType;
 

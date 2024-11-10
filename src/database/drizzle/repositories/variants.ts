@@ -2,6 +2,8 @@
 import { db } from "@/database";
 import { eq, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
+import { getGalleryCollectionForVariants } from "./galleries";
+import { properties } from "../schema/properties";
 
 export const insertVariant = async (name?: string | null, propertyID?: number | null) => {
     try {
@@ -26,6 +28,33 @@ export const insertVariant = async (name?: string | null, propertyID?: number | 
 
 export const getVariantsCollections = async () => {
     return await db.select().from(variants);
+};
+
+/**
+ * Retourne les variants d'une propriété à partir de l'id de l'entité property
+ */
+export const getVariantsProperty = async (id: number | string) => {
+    const request = db
+        .select({ id: variants.id, name: variants.name })
+        .from(variants)
+        .leftJoin(properties, eq(variants.propertyID, properties.id))
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    const result = await request.execute({ id });
+    return result;
+};
+
+export const getOneVariantWithGallery = async (id: number | string) => {
+    const request = db
+        .select({ id: variants.id, name: variants.name })
+        .from(variants)
+        .where(eq(variants.id, sql.placeholder("id")))
+        .prepare();
+    const result = await request.execute({ id });
+
+    const gallery = await getGalleryCollectionForVariants(id);
+
+    return { ...result[0], gallery };
 };
 
 export const deleteVariant = async (ids: Array<number>) => {

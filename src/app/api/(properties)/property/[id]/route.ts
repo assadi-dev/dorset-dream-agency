@@ -1,10 +1,6 @@
-import {
-    getOnePropertyWithVariant,
-    getPropertiesCollections,
-    propertyParser,
-} from "@/database/drizzle/repositories/properties";
+import { getOnePropertyWithVariant, propertyParser } from "@/database/drizzle/repositories/properties";
+import { getOneVariantWithGallery } from "@/database/drizzle/repositories/variants";
 import { NextResponse } from "next/server";
-import { propertyResponseSchema } from "./dto";
 
 export const dynamic = "force-dynamic";
 
@@ -16,12 +12,16 @@ type Params = {
 export const GET = async (req: Request, { params: { id } }: Params) => {
     try {
         const propertyFound = await getOnePropertyWithVariant(id);
-        const ids = propertyFound.variantID.split(",");
-        const variantsIDs = ids.map((id: string) => Number(id));
+        const retrieveGallery: any[] = [];
 
-        const propertyClean = await propertyParser(propertyFound);
+        for (const variant of propertyFound.variants) {
+            const result = await getOneVariantWithGallery(variant.id);
+            retrieveGallery.push(result);
+        }
+
         const response = {
-            ...propertyClean,
+            ...propertyFound,
+            variants: retrieveGallery,
         };
 
         return NextResponse.json(response);
