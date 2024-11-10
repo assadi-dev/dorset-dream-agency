@@ -1,10 +1,4 @@
-import { updatePropertyDto } from "@/database/drizzle/repositories/dto/propertiesDTO";
-import {
-    getOnePropertyWithVariant,
-    propertyParser,
-    removeProperty,
-    updateProperty,
-} from "@/database/drizzle/repositories/properties";
+import { getOnePropertyWithVariant, removeProperty, updateProperty } from "@/database/drizzle/repositories/properties";
 import { getOneVariantWithGallery } from "@/database/drizzle/repositories/variants";
 import { NextRequest, NextResponse } from "next/server";
 
