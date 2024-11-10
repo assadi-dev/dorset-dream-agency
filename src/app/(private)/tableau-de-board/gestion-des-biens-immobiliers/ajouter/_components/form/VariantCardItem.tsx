@@ -7,29 +7,37 @@ import styles from "./styles.module.css";
 import { useFormContext } from "react-hook-form";
 import { removeVariants } from "./helpers";
 
-type VariantCardItem = React.HTMLAttributes<HTMLElement> & {
+type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
+    previewLink?: string | null;
     variant: {
         id: number | string;
         name: string;
         files: Array<File>;
     };
 };
-const VariantCardItem = ({ variant, ...props }: VariantCardItem) => {
+const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProps) => {
     const [previewUrl, setPreviewUrl] = React.useState<string>("");
 
     const form = useFormContext();
 
     React.useEffect(() => {
         if (!variant) return;
-        const file = variant.files[0];
-        if (!file) return;
-        const link = URL.createObjectURL(file);
+        if (variant.files) {
+            const file = variant.files[0];
+            if (file instanceof File) {
+                const link = URL.createObjectURL(file);
+                setPreviewUrl(link);
+            }
+        }
 
-        setPreviewUrl(link);
         return () => {
-            URL.revokeObjectURL(link);
+            previewUrl && URL.revokeObjectURL(previewUrl);
         };
     }, [variant]);
+
+    React.useEffect(() => {
+        if (previewLink) setPreviewUrl(previewLink);
+    }, [previewLink]);
 
     const handleClickRemove = () => {
         const currentVariants = form.getValues("variants");

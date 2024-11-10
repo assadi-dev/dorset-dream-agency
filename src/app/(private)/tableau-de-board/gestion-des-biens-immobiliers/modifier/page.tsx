@@ -5,6 +5,7 @@ import EditProperty from "../ajouter/_components/form/EditProperty";
 import { formatFullDateShortTextWitHours } from "@/lib/date";
 import { getOnePropertyWithVariant, propertyParser } from "@/database/drizzle/repositories/properties";
 import { propertyFormType } from "../ajouter/_components/form/propertySchema";
+import { getOneVariantWithGallery } from "@/database/drizzle/repositories/variants";
 
 type Params = {
     searchParams: {
@@ -21,7 +22,12 @@ const EditPropertyPage = async ({ searchParams }: Params) => {
     const EditPropertyAsync = async () => {
         if (!property) throw "Property not found";
 
+        const retrieveVariants = [];
         const propertyFound = await getOnePropertyWithVariant(property);
+        for (const variant of propertyFound.variants) {
+            const result = await getOneVariantWithGallery(variant.id);
+            retrieveVariants.push(result);
+        }
 
         const propertyDefaultValue = {
             name: propertyFound.name,
@@ -33,10 +39,10 @@ const EditPropertyPage = async ({ searchParams }: Params) => {
             isAvailable: propertyFound.isAvailable,
             isFurnish: propertyFound.isFurnish,
             stock: propertyFound.stock,
-            variants: [],
+            variants: retrieveVariants,
         } satisfies propertyFormType;
 
-        return <EditProperty defaultValues={propertyDefaultValue} />;
+        return <EditProperty propertyID={Number(property)} defaultValues={propertyDefaultValue} />;
     };
 
     return (

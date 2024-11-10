@@ -13,7 +13,14 @@ export const propertySchema = z.object({
     categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }).or(z.string()),
     isAvailable: z.boolean(),
     stock: z.coerce.number().optional(),
-    variants: z.array(z.object({ name: z.string(), files: z.array(z.any()) })),
+    variants: z.array(
+        z.object({
+            id: z.coerce.number().or(z.string()).optional().nullable(),
+            name: z.string().nullable().optional(),
+            files: z.array(z.any()).nullable().optional(),
+            url: z.string().nullable().optional(),
+        }),
+    ),
 });
 
 export type propertyFormType = z.infer<typeof propertySchema>;

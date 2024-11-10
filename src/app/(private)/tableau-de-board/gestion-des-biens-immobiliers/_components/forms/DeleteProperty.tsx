@@ -1,7 +1,6 @@
 "use client";
 import AlertModalContent from "@/components/Modals/AlertModalContent";
-import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { deleteVariant } from "@/database/drizzle/repositories/variants";
+import { removeProperty } from "@/database/drizzle/repositories/properties";
 import useModalState from "@/hooks/useModalState";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -14,8 +13,8 @@ const DeleteProperty = () => {
 
     const handleConfirm = async () => {
         try {
-            await deleteVariant([Number(payload.id)]);
-            queryClient.invalidateQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
+            await removeProperty([Number(payload.id)]);
+            queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
             closeModal();
         } catch (error: any) {
             throw error;

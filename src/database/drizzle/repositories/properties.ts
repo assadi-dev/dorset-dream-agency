@@ -4,7 +4,7 @@ import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
 import { and, asc, desc, eq, ilike, like, or, sql } from "drizzle-orm";
-import { createPropertyDto } from "./dto/propertiesDTO";
+import { createPropertyDto, updatePropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty } from "./variants";
@@ -101,6 +101,7 @@ export const getOnePropertyWithVariant = async (id: number | string) => {
 
 export const updateProperty = async (id: number | string, data: any) => {
     const property = await getOnePropertyByID(id);
+
     const request = db
         .update(properties)
         .set({
@@ -109,10 +110,30 @@ export const updateProperty = async (id: number | string, data: any) => {
         })
         .where(eq(properties.id, sql.placeholder("id")))
         .prepare();
-    const result = await request.execute({
+    await request.execute({
         id,
     });
-    return result[0];
+
+    const propertyUpdated = await getOnePropertyByID(id);
+
+    return propertyUpdated;
+};
+
+export const removeProperty = async (ids: number[] | string[]) => {
+    if (ids && ids.length > 0) {
+        for (const id of ids) {
+            const property = await getOnePropertyByID(id);
+            if (!property) throw new Error("property not found");
+            const request = db
+                .delete(properties)
+                .where(eq(properties.id, sql.placeholder("id")))
+                .prepare();
+
+            await request.execute({
+                id,
+            });
+        }
+    }
 };
 
 type getPropertiesWithVariantsArgs = {

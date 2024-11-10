@@ -47,12 +47,14 @@ const AddProperty = () => {
                     const propertyID = String(property.id);
                     for (const variant of values.variants) {
                         const formData = new FormData();
-                        formData.append("name", variant.name);
+                        variant.name && formData.append("name", variant.name);
                         formData.append("propertyID", propertyID);
 
-                        if (variant.files.length > 0) {
+                        if (variant.files && variant.files.length > 0) {
                             for (const file of variant.files) {
-                                formData.append("files", file);
+                                if (file instanceof File) {
+                                    formData.append("files", file);
+                                }
                             }
                             await createVariantGalleryApi(formData);
                         }

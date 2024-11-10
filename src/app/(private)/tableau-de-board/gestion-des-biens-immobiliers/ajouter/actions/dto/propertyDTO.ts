@@ -11,6 +11,7 @@ export const propertySchemaInsert = z.object({
     isFurnish: z.boolean(),
     categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
     isAvailable: z.boolean(),
+    stock: z.coerce.number().nullable().optional(),
 });
 
 export const createPropertyDto = (values: unknown) => propertySchemaInsert.safeParseAsync(values);

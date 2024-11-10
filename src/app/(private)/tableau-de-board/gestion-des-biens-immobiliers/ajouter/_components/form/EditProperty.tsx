@@ -12,13 +12,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
-import { insertProperty } from "@/database/drizzle/repositories/properties";
-import { createVariantGalleryApi } from "./helpers";
+import { insertProperty, updateProperty } from "@/database/drizzle/repositories/properties";
+import { createVariantGalleryApi, updatePropertyApi } from "./helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type EditPropertyProps = {
+    propertyID: number | string;
     defaultValues?: propertyFormType | null;
 };
-const EditProperty = ({ defaultValues }: EditPropertyProps) => {
+const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
+    const queryClient = useQueryClient();
+
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
@@ -37,7 +41,7 @@ const EditProperty = ({ defaultValues }: EditPropertyProps) => {
         },
     });
 
-    const processing: SubmitHandler<propertyFormType> = (values) => {
+    const processing: SubmitHandler<propertyFormType> = async (values) => {
         startTransition(async () => {
             try {
                 if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
@@ -47,24 +51,11 @@ const EditProperty = ({ defaultValues }: EditPropertyProps) => {
                     const validateInputs = await createPropertyDto(values);
                     if (validateInputs.error) throw validateInputs.error;
 
-                    const property = await insertProperty(validateInputs.data);
-                    const propertyID = String(property.id);
-                    for (const variant of values.variants) {
-                        const formData = new FormData();
-                        formData.append("name", variant.name);
-                        formData.append("propertyID", propertyID);
-
-                        if (variant.files.length > 0) {
-                            for (const file of variant.files) {
-                                formData.append("files", file);
-                            }
-                            await createVariantGalleryApi(formData);
-                        }
-                    }
+                    await updatePropertyApi(propertyID, validateInputs.data);
+                    queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
                 }
 
-                ToastSuccessSonner("Le bien immobilier à été créer avec success !");
-                form.reset();
+                ToastSuccessSonner("Le bien immobilier à été mis à jours avec success !");
             } catch (error: any) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
             }
