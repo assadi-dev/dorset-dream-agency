@@ -33,17 +33,22 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
         return () => {
             previewUrl && URL.revokeObjectURL(previewUrl);
         };
-    }, [variant]);
+    }, [variant, previewUrl]);
 
     React.useEffect(() => {
         if (previewLink) setPreviewUrl(previewLink);
     }, [previewLink]);
 
-    const handleClickRemove = () => {
-        const currentVariants = form.getValues("variants");
-        const variantsRemoved = removeVariants(currentVariants, [variant.id]);
-        form.setValue("variants", variantsRemoved);
-    };
+    const handleClickRemove = React.useCallback(() => {
+        //TODO Faire l'appel api ici pour supprimer la variant du serveur
+        if (previewLink && typeof variant.id === "number") console.log("delete variante api");
+
+        if (form) {
+            const currentVariants = form.getValues("variants");
+            const variantsRemoved = removeVariants(currentVariants, [variant.id]);
+            form.setValue("variants", variantsRemoved);
+        }
+    }, [previewLink, variant.id, form]);
 
     const RemoveButton = () => {
         return (
