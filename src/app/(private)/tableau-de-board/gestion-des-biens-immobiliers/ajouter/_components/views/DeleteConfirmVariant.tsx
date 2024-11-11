@@ -17,7 +17,6 @@ const DeleteConfirmVariant = () => {
         try {
             //TODO Faire l'appel api ici pour supprimer la variant du serveur
             if (payload && typeof payload.id === "number") {
-                console.log("delete variante id:", payload.id);
                 await wait(1000);
                 const formData = new FormData();
                 formData.append("ids", payload.id);
