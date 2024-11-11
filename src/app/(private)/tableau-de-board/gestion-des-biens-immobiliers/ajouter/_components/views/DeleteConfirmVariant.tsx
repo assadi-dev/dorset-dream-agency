@@ -3,6 +3,7 @@ import useModalState from "@/hooks/useModalState";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { removeVariants } from "../form/helpers";
+import { wait } from "@/lib/utils";
 
 const DeleteConfirmVariant = () => {
     const { payload, closeModal } = useModalState();
@@ -11,7 +12,8 @@ const DeleteConfirmVariant = () => {
     const handleConfirm = async () => {
         try {
             //TODO Faire l'appel api ici pour supprimer la variant du serveur
-            if (payload && typeof payload.id === "number") console.log("delete variante api");
+            if (payload && typeof payload.id === "number") console.log("delete variante api id:", payload.id);
+            await wait(3000);
 
             if (form) {
                 const currentVariants = form.getValues("variants");
@@ -19,9 +21,11 @@ const DeleteConfirmVariant = () => {
                 form.setValue("variants", variantsRemoved);
             }
 
-            /* await removeProperty([Number(payload.id)]);
-            queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
-            closeModal(); */
+            /* 
+                await removeProperty([Number(payload.id)]);
+                queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
+                closeModal();
+            */
             closeModal();
         } catch (error: any) {
             throw error;

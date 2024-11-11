@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { ToastErrorSonner, ToastSuccessSonner } from "../notify/Sonner";
+import ButtonWithLoader from "../forms/ButtonWithLoader";
 
 type AlertModalContentProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
     onCancel?: () => any;
@@ -13,16 +14,16 @@ type AlertModalContentProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
 const AlertModalContent = ({ onCancel, onConfirm, successMessage, errorMessage, ...props }: AlertModalContentProps) => {
     const SUCCESS_MESSAGE = successMessage || "Opération réussie avec success";
     const ERROR_MESSAGE = errorMessage || "Une erreur est survenue lors de l'operation";
+    const [isPending, startTransition] = React.useTransition();
 
     const handleConfirm = () =>
         new Promise(async (resolve) => {
             try {
                 if (onConfirm) {
-                    await onConfirm();
+                    startTransition(async () => await onConfirm());
+                    resolve("action confirmed");
                     ToastSuccessSonner(SUCCESS_MESSAGE);
                 }
-
-                resolve("action confirmed");
             } catch (error: any) {
                 ToastErrorSonner(ERROR_MESSAGE);
             }
@@ -35,14 +36,17 @@ const AlertModalContent = ({ onCancel, onConfirm, successMessage, errorMessage, 
             resolve("action canceled !");
         });
 
+    const CONFIRM_LABEL = isPending ? "Confirmer" : "Confirmer";
+
     return (
         <div {...props}>
             <Button type="button" onClick={handleCancel} variant="ghost">
                 Annuler
             </Button>
-            <Button type="button" variant="default" onClick={handleConfirm}>
-                Confirmer
-            </Button>
+
+            <ButtonWithLoader type="button" variant="default" onClick={handleConfirm} isLoading={isPending}>
+                {CONFIRM_LABEL}
+            </ButtonWithLoader>
         </div>
     );
 };
