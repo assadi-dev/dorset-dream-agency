@@ -1,6 +1,5 @@
 "use client";
 import AlertModalContent from "@/components/Modals/AlertModalContent";
-import { removeProperty, removePropertyWithFiles } from "@/database/drizzle/repositories/properties";
 import useModalState from "@/hooks/useModalState";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -29,14 +28,12 @@ const DeleteProperty = () => {
     };
 
     return (
-        <div>
-            <AlertModalContent
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
-                successMessage={`la propriété ${payload.name} a été supprimé avec succès`}
-                className="flex justify-end gap-3 lg:w-[25vw]"
-            />
-        </div>
+        <AlertModalContent
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            successMessage={`la propriété ${payload.name} a été supprimé avec succès`}
+            className="flex justify-end gap-3 lg:w-[25vw]"
+        />
     );
 };
 

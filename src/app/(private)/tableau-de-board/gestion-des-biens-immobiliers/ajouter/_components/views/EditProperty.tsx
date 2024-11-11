@@ -14,14 +14,13 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { updatePropertyApi, updateVariantGalleryApi } from "../form/helpers";
 import { useQueryClient } from "@tanstack/react-query";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 type EditPropertyProps = {
     propertyID: number | string;
     defaultValues?: propertyFormType | null;
 };
 const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
-    const queryClient = useQueryClient();
-
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
@@ -68,8 +67,6 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
 
                         await updateVariantGalleryApi(formData);
                     }
-
-                    queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
                 }
 
                 ToastSuccessSonner("Le bien immobilier à été mis à jours avec success !");
