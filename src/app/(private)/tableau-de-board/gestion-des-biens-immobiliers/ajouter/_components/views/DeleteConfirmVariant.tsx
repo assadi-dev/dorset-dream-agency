@@ -1,7 +1,45 @@
+import AlertModalContent from "@/components/Modals/AlertModalContent";
+import useModalState from "@/hooks/useModalState";
 import React from "react";
+import { useFormContext } from "react-hook-form";
+import { removeVariants } from "../form/helpers";
 
 const DeleteConfirmVariant = () => {
-    return <div>DeleteConfirmVariant</div>;
+    const { payload, closeModal } = useModalState();
+
+    const form = useFormContext();
+    const handleConfirm = async () => {
+        try {
+            //TODO Faire l'appel api ici pour supprimer la variant du serveur
+            if (payload && typeof payload.id === "number") console.log("delete variante api");
+
+            if (form) {
+                const currentVariants = form.getValues("variants");
+                const variantsRemoved = removeVariants(currentVariants, [payload.id]);
+                form.setValue("variants", variantsRemoved);
+            }
+
+            /* await removeProperty([Number(payload.id)]);
+            queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
+            closeModal(); */
+            closeModal();
+        } catch (error: any) {
+            throw error;
+        }
+    };
+
+    const handleCancel = async () => {
+        closeModal();
+    };
+
+    return (
+        <AlertModalContent
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            successMessage={`la variante ${payload.name} à été supprimé avec succès`}
+            className="flex justify-end gap-3 lg:w-[25vw]"
+        />
+    );
 };
 
 export default DeleteConfirmVariant;

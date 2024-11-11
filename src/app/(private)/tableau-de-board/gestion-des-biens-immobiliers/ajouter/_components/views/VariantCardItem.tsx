@@ -7,6 +7,7 @@ import { removeVariants } from "../form/helpers";
 import useModalState from "@/hooks/useModalState";
 import { EditButton, RemoveButton } from "./VaraintCarAction";
 import { FileObj } from "../../../types";
+import DeleteConfirmVariant from "./DeleteConfirmVariant";
 
 type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     previewLink?: string | null;
@@ -18,6 +19,8 @@ type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
 };
 const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProps) => {
     const [previewUrl, setPreviewUrl] = React.useState<string>("");
+
+    const { openModal } = useModalState();
 
     const form = useFormContext();
 
@@ -38,19 +41,18 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
 
     React.useEffect(() => {
         if (previewLink) setPreviewUrl(previewLink);
-        //TODO Penser a revoke les url avant la mort du composant
     }, [previewLink]);
 
     const handleClickRemove = React.useCallback(() => {
-        //TODO Faire l'appel api ici pour supprimer la variant du serveur
-        if (previewLink && typeof variant.id === "number") console.log("delete variante api");
+        if (!variant && !openModal) return;
 
-        if (form) {
-            const currentVariants = form.getValues("variants");
-            const variantsRemoved = removeVariants(currentVariants, [variant.id]);
-            form.setValue("variants", variantsRemoved);
-        }
-    }, [previewLink, variant.id, form]);
+        openModal({
+            title: "Supprimer une variante",
+            description: `${variant.name}`,
+            component: DeleteConfirmVariant,
+            payload: variant,
+        });
+    }, [variant, openModal]);
 
     return (
         <>
