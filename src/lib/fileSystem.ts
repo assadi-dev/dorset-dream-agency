@@ -62,7 +62,7 @@ export const UPLOAD_DIR_PROPERTIES = path.join(ENV.STORAGE_DIR, "images", "prope
  * Extraction de l'identifiant généré lors de l'upload du fichier à partir de l'url
  */
 export const extractIdFromUrl = (url: string) => {
-    const key = url.split("/")[-1];
+    const key = url.split("/").slice(-1)[0];
     return key;
 };
 

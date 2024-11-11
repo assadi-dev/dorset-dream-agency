@@ -61,8 +61,9 @@ export const removePhotosByID = async (ids: number[] | string[]) => {
             const photo = await getOnePhotosByID(id);
             if (photo) {
                 const key = extractIdFromUrl(photo.url);
+
                 remove(key);
-                await deletePhotoByID(photo.id);
+                // await deletePhotoByID(photo.id);
             }
         }
     }
