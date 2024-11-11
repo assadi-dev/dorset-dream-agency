@@ -39,7 +39,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
             ...defaultValues,
         },
     });
-    console.log(form.watch("variants"));
+
     const processing: SubmitHandler<propertyFormType> = async (values) => {
         startTransition(async () => {
             try {
