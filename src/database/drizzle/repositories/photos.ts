@@ -16,9 +16,9 @@ export const insertPhoto = async (data: any) => {
         .prepare();
 
     const result = await prepare.execute({
-        originaleName: data.originaleFileName,
+        originaleName: data.originaleName,
         size: data.size,
-        mimeType: data.mimetype,
+        mimeType: data.mimeType,
         url: data.url,
     });
     const photo = await getOnePhotosByID(result[0].insertId);
