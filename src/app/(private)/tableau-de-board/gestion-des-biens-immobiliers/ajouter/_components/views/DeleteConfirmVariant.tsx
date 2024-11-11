@@ -6,9 +6,11 @@ import { removeVariants } from "../form/helpers";
 import { wait } from "@/lib/utils";
 import { removeVariantsWithGallery } from "@/database/drizzle/repositories/variants";
 import { clearVariantsWithGallery } from "../../../modifier/action";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 const DeleteConfirmVariant = () => {
     const { payload, closeModal } = useModalState();
+    const router = useRouteRefresh();
 
     const form = useFormContext();
     const handleConfirm = async () => {
@@ -19,7 +21,7 @@ const DeleteConfirmVariant = () => {
                 await wait(1000);
                 const formData = new FormData();
                 formData.append("ids", payload.id);
-                clearVariantsWithGallery(formData);
+                await clearVariantsWithGallery(formData);
             }
 
             if (form) {
