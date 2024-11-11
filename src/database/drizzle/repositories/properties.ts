@@ -6,8 +6,8 @@ import { variants } from "@/database/drizzle/schema/variants";
 import { and, asc, desc, eq, ilike, like, or, sql } from "drizzle-orm";
 import { createPropertyDto, updatePropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
-import { getVariantsProperty } from "./variants";
+import { clearGalleryFromVariantID, getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
+import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -119,19 +119,28 @@ export const updateProperty = async (id: number | string, data: any) => {
     return propertyUpdated;
 };
 
-export const removeProperty = async (ids: number[] | string[]) => {
+export const deleteProperty = async (id: number | string) => {
+    const property = await getOnePropertyByID(id);
+    if (!property) throw new Error("property not found");
+    const request = db
+        .delete(properties)
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    await request.execute({
+        id,
+    });
+};
+
+/**
+ *
+ * Suppression multiples des properties
+ */
+export const removeProperties = async (ids: number[] | string[]) => {
     if (ids && ids.length > 0) {
         for (const id of ids) {
             const property = await getOnePropertyByID(id);
             if (!property) throw new Error("property not found");
-            const request = db
-                .delete(properties)
-                .where(eq(properties.id, sql.placeholder("id")))
-                .prepare();
-
-            await request.execute({
-                id,
-            });
+            deleteProperty(id);
         }
     }
 };
@@ -141,19 +150,14 @@ export const removeProperty = async (ids: number[] | string[]) => {
  * @param id id du property
  *
  **/
-export const removePropertyWithVariant = async (ids: number[] | string[]) => {
+export const removeVariantOfProperties = async (ids: number[] | string[]) => {
     if (ids && ids.length > 0) {
         for (const id of ids) {
             const property = await getOnePropertyByID(id);
             if (!property) throw new Error("property not found");
-            const request = db
-                .delete(properties)
-                .where(eq(properties.id, sql.placeholder("id")))
-                .prepare();
-
-            await request.execute({
-                id,
-            });
+            const variants = await getVariantsProperty(property.id);
+            const variantsIDs = variants.map((v) => v.id);
+            await removeVariantsWithGallery(variantsIDs);
         }
     }
 };
@@ -164,7 +168,8 @@ export const removePropertyWithVariant = async (ids: number[] | string[]) => {
  */
 export const removePropertyWithFiles = async (ids: number[] | string[]) => {
     if (ids && ids.length > 0) {
-        removePropertyWithVariant(ids);
+        await removeVariantOfProperties(ids);
+        await removeProperties(ids);
     }
 };
 

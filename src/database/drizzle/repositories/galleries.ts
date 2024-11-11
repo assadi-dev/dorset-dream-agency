@@ -115,7 +115,8 @@ export const getFirstPictureFromGallery = async (variantID: number) => {
 
 /**
  *
- * Retourne la collection des photos associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
+ * Retourne la collection des photos associer à la variant en passant l id de la variant en argument.
+ * Résultat trier par ordre ascendant par le nom du fichier
  *
  */
 export const getGalleryCollectionForVariants = async (variantID: number | string) => {
