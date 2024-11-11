@@ -52,6 +52,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
 
                     await updatePropertyApi(propertyID, validateInputs.data);
 
+                    //Mise à jours des variants
                     for (const variant of values.variants) {
                         const formData = new FormData();
 
@@ -65,7 +66,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
                             }
                         }
 
-                        const variantGallery = await updateVariantGalleryApi(formData);
+                        await updateVariantGalleryApi(formData);
                     }
 
                     queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });

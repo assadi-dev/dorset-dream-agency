@@ -62,12 +62,12 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
                 <figure
                     className={cn(
                         styles["card-variant"],
-                        "flex flex-col justify-evenly gap-1 p-1 h-[180px] relative w-[255px] overflow-hidden rounded-xl",
+                        "flex flex-col justify-between gap-1 p-1 h-[182px] relative w-[255px] overflow-hidden rounded-md",
                         props.className,
                     )}
                     {...props}
                 >
-                    <div className="relative rounded-xl h-[132px] overflow-hidden">
+                    <div className="relative rounded-md h-[132px] overflow-hidden">
                         <Image
                             width={800}
                             height={800}
@@ -78,7 +78,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
                     </div>
                     <figcaption
                         className={cn(
-                            "flex justify-between  items-center text-black px-3 py-2 ring-1 ring-slate-300 bg-slate-200 rounded-xl",
+                            "flex justify-between  items-center text-black px-3 py-2 ring-1 ring-slate-300 bg-slate-200 rounded-md",
                         )}
                     >
                         <p className="text-xs font-bold truncate w-[95%]">{variant.name}</p>
