@@ -4,6 +4,8 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { removeVariants } from "../form/helpers";
 import { wait } from "@/lib/utils";
+import { removeVariantsWithGallery } from "@/database/drizzle/repositories/variants";
+import { clearVariantsWithGallery } from "../../../modifier/action";
 
 const DeleteConfirmVariant = () => {
     const { payload, closeModal } = useModalState();
@@ -13,8 +15,11 @@ const DeleteConfirmVariant = () => {
         try {
             //TODO Faire l'appel api ici pour supprimer la variant du serveur
             if (payload && typeof payload.id === "number") {
-                console.log("delete variante api id:", payload.id);
+                console.log("delete variante id:", payload.id);
                 await wait(1000);
+                const formData = new FormData();
+                formData.append("ids", payload.id);
+                clearVariantsWithGallery(formData);
             }
 
             if (form) {

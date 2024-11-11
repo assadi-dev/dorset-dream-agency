@@ -6,6 +6,7 @@ import { insertVariant, updateVariant } from "./variants";
 import { variants } from "../schema/variants";
 import { asc, eq, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
+import { removePhotosByID } from "./photos";
 
 export const insertGallery = (variantID: number, photoID: number) => {
     try {
@@ -114,7 +115,7 @@ export const getFirstPictureFromGallery = async (variantID: number) => {
 
 /**
  *
- * Retourne la collection de photos associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
+ * Retourne la collection des photos associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
  *
  */
 export const getGalleryCollectionForVariants = async (variantID: number | string) => {
@@ -136,4 +137,15 @@ export const getGalleryCollectionForVariants = async (variantID: number | string
     return await req.execute({
         variantID,
     });
+};
+
+/**
+ *
+ * Nettoyage de la table galleryVariants + suppression des fichiers uploadé
+ * @param id id de la variante
+ */
+export const clearGalleryFromVariantID = async (id: number) => {
+    const galleries = await getGalleryCollectionForVariants(id);
+    const photosIDs = galleries.map((photo) => photo.id);
+    await removePhotosByID(photosIDs);
 };

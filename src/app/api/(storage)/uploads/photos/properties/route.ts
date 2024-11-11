@@ -4,9 +4,7 @@ import * as fs from "fs";
 import { ENV } from "@/config/global";
 import { fileNameChange, saveBuffer } from "@/lib/fileSystem";
 import { plural } from "@/lib/format";
-import { db } from "@/database";
-import { photos } from "@/database/drizzle/schema/photos";
-import { sql } from "drizzle-orm";
+import { insertPhoto } from "@/database/drizzle/repositories/photos";
 
 export async function POST(req: Request) {
     try {
@@ -30,23 +28,13 @@ export async function POST(req: Request) {
             });
 
             //Save to database
-            const prepare = db
-                .insert(photos)
-                .values({
-                    originalName: sql.placeholder("originaleName"),
-                    size: sql.placeholder("size"),
-                    mimeType: sql.placeholder("mimeType"),
-                    url: sql.placeholder("url"),
-                })
-                .prepare();
-
-            const result = await prepare.execute({
+            const photo = await insertPhoto({
                 originaleName: originaleFileName,
                 size: size,
                 mimeType: mimetype,
                 url: `${ENV.DOMAIN}/api/photo/property/${fileName}`,
             });
-            const photo = result[0].insertId;
+
             PHOTOS.push(photo);
         }
 

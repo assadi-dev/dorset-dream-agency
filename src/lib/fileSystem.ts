@@ -1,4 +1,6 @@
+import { ENV } from "@/config/global";
 import * as fs from "fs";
+import path from "path";
 import { Readable } from "stream";
 
 /**
@@ -49,6 +51,25 @@ export const saveBuffer = ({ destination, file }: saveBufferArgs) => {
             reject({ message: "Error processing the file", error });
         }
     });
+};
+
+/**
+ * Emplacement du dossier de stockage pour les photos de type properties
+ */
+export const UPLOAD_DIR_PROPERTIES = path.join(ENV.STORAGE_DIR, "images", "properties");
+
+/**
+ * Extraction de l'identifiant généré lors de l'upload du fichier à partir de l'url
+ */
+export const extractIdFromUrl = (url: string) => {
+    const key = url.split("/")[-1];
+    return key;
+};
+
+export const removeFile = async (filepath: string) => {
+    if (fs.existsSync(filepath)) {
+        fs.rmSync(filepath);
+    }
 };
 
 //export const createGallery;

@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { eq, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
-import { getGalleryCollectionForVariants } from "./galleries";
+import { clearGalleryFromVariantID, getGalleryCollectionForVariants } from "./galleries";
 import { properties } from "../schema/properties";
 
 export const insertVariant = async (name?: string | null, propertyID?: number | null) => {
@@ -103,5 +103,18 @@ export const deleteVariant = async (ids: Array<number>) => {
                 id: id,
             });
         }
+    }
+};
+
+/**
+ * Suppression multiples des variantes avec gallery
+ * @param ids
+ */
+export const removeVariantsWithGallery = async (ids: Array<number>) => {
+    if (ids.length) {
+        for (const id of ids) {
+            await clearGalleryFromVariantID(id);
+        }
+        await deleteVariant(ids);
     }
 };
