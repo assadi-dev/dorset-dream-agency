@@ -22,8 +22,6 @@ const OrderSelect = () => {
 
     const [state, setState] = React.useState<OrderType>(order);
 
-    console.log(order);
-
     const updateRouteParams = React.useCallback(
         (value: string) => {
             const updatedSearchParams = new URLSearchParams(searchParams.toString());
