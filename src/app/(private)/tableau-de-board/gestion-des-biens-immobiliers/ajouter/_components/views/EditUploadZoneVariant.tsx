@@ -13,7 +13,7 @@ import { useDropzone } from "react-dropzone";
 import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { variantSchema } from "./propertySchema";
+import { variantSchema } from "../form/propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
 

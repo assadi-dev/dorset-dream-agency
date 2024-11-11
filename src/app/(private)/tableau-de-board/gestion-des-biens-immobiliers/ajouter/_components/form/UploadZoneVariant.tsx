@@ -11,7 +11,7 @@ import React from "react";
 import { FieldValues, SubmitHandler, useForm, useFormContext, UseFormReturn } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import uniqid from "uniqid";
-import PreviewVarianteUpload from "./PreviewVarianteUpload";
+import PreviewVarianteUpload from "../views/PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";

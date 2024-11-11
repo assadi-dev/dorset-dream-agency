@@ -9,7 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { ImagePlus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import PreviewVarianteUpload from "../../ajouter/_components/form/PreviewVarianteUpload";
+import PreviewVarianteUpload from "../../ajouter/_components/views/PreviewVarianteUpload";
 import { cn, wait } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { createVariantGalleryApi } from "../../ajouter/_components/form/helpers";

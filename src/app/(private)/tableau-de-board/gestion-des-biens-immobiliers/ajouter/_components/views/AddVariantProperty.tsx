@@ -4,7 +4,7 @@ import VariantCardItem from "./VariantCardItem";
 import { PlusCircleIcon } from "lucide-react";
 import useModalState from "@/hooks/useModalState";
 import { useFormContext } from "react-hook-form";
-import UploadZoneVariant from "./UploadZoneVariant";
+import UploadZoneVariant from "../form/UploadZoneVariant";
 
 const AddVariantProperty = () => {
     const { openModal } = useModalState();

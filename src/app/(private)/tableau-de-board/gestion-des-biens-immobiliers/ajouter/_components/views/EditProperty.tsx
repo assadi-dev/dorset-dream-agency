@@ -3,16 +3,16 @@
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import SubmitButton from "@/components/forms/SubmitButton";
-import { propertyFormType, propertySchema } from "./propertySchema";
+import { propertyFormType, propertySchema } from "../form/propertySchema";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { wait } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import PropertyForm from "./PropertyForm";
+import PropertyForm from "../form/PropertyForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
-import { updatePropertyApi, updateVariantGalleryApi } from "./helpers";
+import { updatePropertyApi, updateVariantGalleryApi } from "../form/helpers";
 import { useQueryClient } from "@tanstack/react-query";
 
 type EditPropertyProps = {

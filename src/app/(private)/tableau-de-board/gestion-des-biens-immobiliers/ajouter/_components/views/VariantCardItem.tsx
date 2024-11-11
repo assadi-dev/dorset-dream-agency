@@ -1,13 +1,9 @@
 import React from "react";
-import appartement from "@assets/images/appartement.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { CircleX, Pen, PenLine, Trash, Trash2 } from "lucide-react";
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 import { useFormContext } from "react-hook-form";
-import { removeVariants } from "./helpers";
-import { Button } from "@/components/ui/button";
-import TooltipCustomProvider from "@/components/providers/TooltipCustomProvider";
+import { removeVariants } from "../form/helpers";
 import useModalState from "@/hooks/useModalState";
 import { EditButton, RemoveButton } from "./VaraintCarAction";
 import { FileObj } from "../../../types";

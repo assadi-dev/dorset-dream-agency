@@ -1,7 +1,7 @@
 import { setTitlePage, wait } from "@/lib/utils";
 import React from "react";
 import PageTemplate from "../../_components/PageTemplate";
-import EditProperty from "../ajouter/_components/form/EditProperty";
+import EditProperty from "../ajouter/_components/views/EditProperty";
 import { formatFullDateShortTextWitHours } from "@/lib/date";
 import { getOnePropertyWithVariant, propertyParser } from "@/database/drizzle/repositories/properties";
 import { propertyFormType } from "../ajouter/_components/form/propertySchema";

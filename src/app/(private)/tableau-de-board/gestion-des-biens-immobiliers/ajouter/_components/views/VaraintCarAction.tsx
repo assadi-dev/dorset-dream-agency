@@ -2,7 +2,7 @@ import React from "react";
 import useModalState from "@/hooks/useModalState";
 import { Pen, Trash } from "lucide-react";
 
-import UploadZoneVariant, { UploadZoneForm } from "./UploadZoneVariant";
+import UploadZoneVariant, { UploadZoneForm } from "../form/UploadZoneVariant";
 import EditUploadZoneVariant from "./EditUploadZoneVariant";
 
 type RemoveButtonProps = {
