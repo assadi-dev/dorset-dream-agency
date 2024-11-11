@@ -23,4 +23,6 @@ export const updateVariantGalleryApi = async (formData: FormData) => {
     return API_INSTANCE.post("/variants/gallery/update", formData);
 };
 
-export const removeProperty = () => {};
+export const removeVariantWithGalleryApi = (ids: number[]) => {
+    return API_INSTANCE.delete("/variants/gallery");
+};
