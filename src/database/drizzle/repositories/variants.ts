@@ -30,13 +30,17 @@ export const getVariantsCollections = async () => {
     return await db.select().from(variants);
 };
 export const getOneVariant = async (id: number | string) => {
-    const request = db
-        .select()
-        .from(variants)
-        .where(eq(variants.id, sql.placeholder("id")))
-        .prepare();
-    const result = await request.execute({ id });
-    return result[0];
+    try {
+        const request = db
+            .select()
+            .from(variants)
+            .where(eq(variants.id, sql.placeholder("id")))
+            .prepare();
+        const result = await request.execute({ id });
+        return result[0];
+    } catch (error) {
+        return null;
+    }
 };
 
 /**
@@ -69,31 +73,35 @@ export const getOneVariantWithGallery = async (id: number | string) => {
 export const updateVariant = async (id: number | string, data: any) => {
     const findVariant = await getOneVariant(id);
 
-    const request = db
-        .update(variants)
-        .set({
-            ...findVariant,
-            ...data,
-        })
-        .where(eq(variants.id, sql.placeholder("id")))
-        .prepare();
+    if (findVariant) {
+        const request = db
+            .update(variants)
+            .set({
+                ...findVariant,
+                ...data,
+            })
+            .where(eq(variants.id, sql.placeholder("id")))
+            .prepare();
 
-    await request.execute({ id });
-    return await getOneVariant(id);
+        await request.execute({ id: findVariant.id });
+        return await getOneVariant(findVariant.id);
+    } else {
+        if (!data.propertyID) throw new Error("propertyID missing!");
+        const newVariant = await insertVariant(data.name, data.propertyID);
+        return await getOneVariant(newVariant.id);
+    }
 };
 
 export const deleteVariant = async (ids: Array<number>) => {
-    try {
-        if (ids.length) {
-            for (const id of ids) {
-                const prepare = db
-                    .delete(variants)
-                    .where(eq(variants.id, sql.placeholder("id")))
-                    .prepare();
-                await prepare.execute({
-                    id: id,
-                });
-            }
+    if (ids.length) {
+        for (const id of ids) {
+            const prepare = db
+                .delete(variants)
+                .where(eq(variants.id, sql.placeholder("id")))
+                .prepare();
+            await prepare.execute({
+                id: id,
+            });
         }
-    } catch (error) {}
+    }
 };

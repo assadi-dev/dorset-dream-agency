@@ -30,6 +30,7 @@ const EditPropertyPage = async ({ searchParams }: Params) => {
         }
 
         const propertyDefaultValue = {
+            id: propertyFound.id,
             name: propertyFound.name,
             categoryProperty: String(propertyFound.category.id),
             description: propertyFound.description,

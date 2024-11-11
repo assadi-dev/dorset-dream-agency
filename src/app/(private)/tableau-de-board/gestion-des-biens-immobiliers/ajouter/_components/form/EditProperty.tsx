@@ -57,6 +57,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
 
                         variant.name && formData.append("name", variant.name as string);
                         formData.append("variantID", variant.id as string);
+                        values.id && formData.append("propertyID", String(values.id));
 
                         if (variant.files) {
                             for (const fileObj of variant.files) {

@@ -42,16 +42,16 @@ export const createVariantGallery = async (formData: FormData) => {
 export const updateVariantGallery = async (formData: FormData) => {
     try {
         const variantID = Number(formData.get("variantID"));
+        const propertyID = Number(formData.get("propertyID"));
         const name = (formData.get("name") as string) || null;
         const files = formData.getAll("files");
-        console.log(files);
 
-        const variant = await updateVariant(variantID, { name });
+        const variant = await updateVariant(variantID, { name, propertyID });
         if (files.length > 0) {
             const response = await uploadPhotoProperty(formData);
             for (const photo of response.photos) {
                 const photoID = photo;
-                await insertGallery(variantID, photoID);
+                if (variant) await insertGallery(variant.id, photoID);
             }
         }
 

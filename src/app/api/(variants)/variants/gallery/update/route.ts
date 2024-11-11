@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export const POST = async (request: Request) => {
     try {
         const formData = await request.formData();
-        console.log(formData);
 
         await updateVariantGallery(formData);
 
