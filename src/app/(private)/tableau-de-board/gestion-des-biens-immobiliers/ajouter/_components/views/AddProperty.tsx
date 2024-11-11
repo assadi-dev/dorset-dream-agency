@@ -14,13 +14,16 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { insertProperty } from "@/database/drizzle/repositories/properties";
 import { createVariantGalleryApi } from "../form/helpers";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
+
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
         defaultValues: {
             name: "",
+            categoryProperty: null,
             address: "",
             description: "",
             isAvailable: false,

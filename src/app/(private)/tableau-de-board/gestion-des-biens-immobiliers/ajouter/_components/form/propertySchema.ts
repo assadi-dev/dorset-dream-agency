@@ -11,7 +11,7 @@ export const propertySchema = z.object({
     sellingPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
     rentalPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
     isFurnish: z.boolean(),
-    categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }).or(z.string()),
+    categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }).or(z.string()).optional().nullable(),
     isAvailable: z.boolean(),
     stock: z.coerce.number().optional(),
     variants: z.array(

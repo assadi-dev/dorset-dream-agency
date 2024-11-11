@@ -13,7 +13,6 @@ import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { updatePropertyApi, updateVariantGalleryApi } from "../form/helpers";
-import { useQueryClient } from "@tanstack/react-query";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 type EditPropertyProps = {
@@ -21,7 +20,9 @@ type EditPropertyProps = {
     defaultValues?: propertyFormType | null;
 };
 const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
+    const router = useRouteRefresh();
     const [isPending, startTransition] = React.useTransition();
+
     const form = useForm<propertyFormType>({
         resolver: zodResolver(propertySchema),
         defaultValues: {
@@ -38,7 +39,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
             ...defaultValues,
         },
     });
-
+    console.log(form.watch("variants"));
     const processing: SubmitHandler<propertyFormType> = async (values) => {
         startTransition(async () => {
             try {
@@ -65,11 +66,24 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
                             }
                         }
 
-                        await updateVariantGalleryApi(formData);
+                        const response = await updateVariantGalleryApi(formData);
+                        if (response.data) {
+                            //Mise à jour des id des variants stockées dans le state du formulaire
+                            const variantsCollections = form.getValues("variants");
+                            const variantsUpdated = variantsCollections.map((v: any) => {
+                                if (v.id == variant.id) {
+                                    v.id = response.data.variant.id;
+                                }
+                                return v;
+                            });
+
+                            form.setValue("variants", variantsUpdated);
+                        }
                     }
                 }
 
                 ToastSuccessSonner("Le bien immobilier à été mis à jours avec success !");
+                router.refreshWithParams();
             } catch (error: any) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
             }
