@@ -19,4 +19,8 @@ export const updatePropertyApi = async (id: number | string, data: any) => {
     return res.data;
 };
 
+export const updateVariantGalleryApi = async (formData: FormData) => {
+    return API_INSTANCE.post("/variants/gallery/update", formData);
+};
+
 export const removeProperty = () => {};

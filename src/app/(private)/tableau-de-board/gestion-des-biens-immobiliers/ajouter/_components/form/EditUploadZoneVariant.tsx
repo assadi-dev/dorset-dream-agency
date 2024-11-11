@@ -18,16 +18,18 @@ import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
 
 export type UploadZoneForm = {
+    id?: number | string | null;
     name: string;
     files: Array<FileObj> | Array<GalleryResponse>;
 };
 
-export type VariantPayload = { name: string; gallery: GalleryResponse[] };
+export type VariantPayload = { id?: number | string | null; name: string; gallery: GalleryResponse[] };
 
-const UploadZoneVariant = () => {
+const EditUploadZoneVariant = () => {
     const form = useForm<UploadZoneForm>({
         resolver: zodResolver(variantSchema),
         defaultValues: {
+            id: null,
             name: "",
             files: [],
         },
@@ -39,11 +41,13 @@ const UploadZoneVariant = () => {
         if (payload && form) {
             if (payload?.gallery) {
                 const defaultValues = payload as VariantPayload;
+                form.setValue("id", defaultValues?.id);
                 form.setValue("files", defaultValues?.gallery);
                 form.setValue("name", defaultValues?.name);
             }
             if (payload?.files) {
                 const defaultValues = payload as UploadZoneForm;
+                form.setValue("id", defaultValues?.id);
                 form.setValue("files", defaultValues?.files);
                 form.setValue("name", defaultValues?.name);
             }
@@ -54,15 +58,16 @@ const UploadZoneVariant = () => {
     const propertyForm = useFormContext();
 
     const submitVariant: SubmitHandler<UploadZoneForm> = async (values) => {
-        const currentVariant = propertyForm.getValues("variants") || [];
-        const variant = {
-            id: uniqid(),
-            name: values.name,
-            files: values.files,
-        };
+        const variantsCollections = propertyForm.getValues("variants");
+        const variantsUpdated = variantsCollections.map((v: any) => {
+            if (v.id == values.id) {
+                v.name = values.name;
+                v.files = values.files;
+            }
+            return v;
+        });
 
-        const addVariant = [variant, ...currentVariant];
-        propertyForm.setValue("variants", addVariant);
+        propertyForm.setValue("variants", variantsUpdated);
         closeModal();
     };
 
@@ -200,7 +205,7 @@ const UploadZoneVariant = () => {
 
                 <div className="mt-8 w-full">
                     <Button className="w-full p-5" type="submit">
-                        Ajouter
+                        Modifier
                     </Button>
                 </div>
             </form>
@@ -208,4 +213,4 @@ const UploadZoneVariant = () => {
     );
 };
 
-export default UploadZoneVariant;
+export default EditUploadZoneVariant;

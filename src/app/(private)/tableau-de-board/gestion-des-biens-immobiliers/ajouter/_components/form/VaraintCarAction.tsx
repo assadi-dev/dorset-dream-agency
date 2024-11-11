@@ -3,6 +3,7 @@ import useModalState from "@/hooks/useModalState";
 import { Pen, Trash } from "lucide-react";
 
 import UploadZoneVariant, { UploadZoneForm } from "./UploadZoneVariant";
+import EditUploadZoneVariant from "./EditUploadZoneVariant";
 
 type RemoveButtonProps = {
     onRemoveAction?: () => void;
@@ -28,7 +29,7 @@ export const EditButton = ({ payload }: EditButtonProps) => {
         openModal({
             title: `Modifier la variante ${payload?.name}`,
             payload,
-            component: UploadZoneVariant,
+            component: EditUploadZoneVariant,
         });
     };
 

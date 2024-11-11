@@ -12,9 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AddVariantProperty from "./AddVariantProperty";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
-import { insertProperty, updateProperty } from "@/database/drizzle/repositories/properties";
-import { createVariantGalleryApi, updatePropertyApi } from "./helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updatePropertyApi, updateVariantGalleryApi } from "./helpers";
+import { useQueryClient } from "@tanstack/react-query";
 
 type EditPropertyProps = {
     propertyID: number | string;
@@ -52,6 +51,22 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
                     if (validateInputs.error) throw validateInputs.error;
 
                     await updatePropertyApi(propertyID, validateInputs.data);
+
+                    for (const variant of values.variants) {
+                        const formData = new FormData();
+
+                        variant.name && formData.append("name", variant.name as string);
+                        formData.append("variantID", variant.id as string);
+
+                        if (variant.files) {
+                            for (const fileObj of variant.files) {
+                                if (fileObj.file instanceof File) formData.append("files", fileObj.file);
+                            }
+                        }
+
+                        const variantGallery = await updateVariantGalleryApi(formData);
+                    }
+
                     queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
                 }
 

@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { ENV } from "@/config/global";
 import { galleryVariants } from "@/database/drizzle/schema/galleryVariant";
-import { insertVariant } from "./variants";
+import { insertVariant, updateVariant } from "./variants";
 import { variants } from "../schema/variants";
 import { asc, eq, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
@@ -34,6 +34,28 @@ export const createVariantGallery = async (formData: FormData) => {
             const photoID = photo;
             await insertGallery(variantID, photoID);
         }
+    } catch (error: any) {
+        throw error;
+    }
+};
+
+export const updateVariantGallery = async (formData: FormData) => {
+    try {
+        const variantID = Number(formData.get("variantID"));
+        const name = (formData.get("name") as string) || null;
+        const files = formData.getAll("files");
+        console.log(files);
+
+        const variant = await updateVariant(variantID, { name });
+        if (files.length > 0) {
+            const response = await uploadPhotoProperty(formData);
+            for (const photo of response.photos) {
+                const photoID = photo;
+                await insertGallery(variantID, photoID);
+            }
+        }
+
+        return variant;
     } catch (error: any) {
         throw error;
     }

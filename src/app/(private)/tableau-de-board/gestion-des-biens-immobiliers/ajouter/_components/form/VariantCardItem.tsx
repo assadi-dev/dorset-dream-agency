@@ -10,13 +10,14 @@ import { Button } from "@/components/ui/button";
 import TooltipCustomProvider from "@/components/providers/TooltipCustomProvider";
 import useModalState from "@/hooks/useModalState";
 import { EditButton, RemoveButton } from "./VaraintCarAction";
+import { FileObj } from "../../../types";
 
 type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     previewLink?: string | null;
     variant: {
         id: number | string;
         name: string;
-        files: Array<File>;
+        files: Array<FileObj>;
     };
 };
 const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProps) => {
@@ -27,7 +28,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
     React.useEffect(() => {
         if (!variant) return;
         if (variant.files) {
-            const file = variant.files[0];
+            const file = variant.files[0].file;
             if (file instanceof File && !previewUrl) {
                 const link = URL.createObjectURL(file);
                 setPreviewUrl(link);
@@ -41,6 +42,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
 
     React.useEffect(() => {
         if (previewLink) setPreviewUrl(previewLink);
+        //TODO Penser a revoke les url avant la mort du composant
     }, [previewLink]);
 
     const handleClickRemove = React.useCallback(() => {

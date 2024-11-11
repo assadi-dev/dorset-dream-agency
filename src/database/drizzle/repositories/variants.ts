@@ -29,6 +29,15 @@ export const insertVariant = async (name?: string | null, propertyID?: number | 
 export const getVariantsCollections = async () => {
     return await db.select().from(variants);
 };
+export const getOneVariant = async (id: number | string) => {
+    const request = db
+        .select()
+        .from(variants)
+        .where(eq(variants.id, sql.placeholder("id")))
+        .prepare();
+    const result = await request.execute({ id });
+    return result[0];
+};
 
 /**
  * Retourne les variants d'une propriété à partir de l'id de l'entité property
@@ -55,6 +64,22 @@ export const getOneVariantWithGallery = async (id: number | string) => {
     const gallery = await getGalleryCollectionForVariants(id);
 
     return { ...result[0], gallery };
+};
+
+export const updateVariant = async (id: number | string, data: any) => {
+    const findVariant = await getOneVariant(id);
+
+    const request = db
+        .update(variants)
+        .set({
+            ...findVariant,
+            ...data,
+        })
+        .where(eq(variants.id, sql.placeholder("id")))
+        .prepare();
+
+    await request.execute({ id });
+    return await getOneVariant(id);
 };
 
 export const deleteVariant = async (ids: Array<number>) => {

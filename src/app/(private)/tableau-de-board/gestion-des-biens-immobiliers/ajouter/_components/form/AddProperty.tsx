@@ -52,8 +52,8 @@ const AddProperty = () => {
 
                         if (variant.files && variant.files.length > 0) {
                             for (const file of variant.files) {
-                                if (file instanceof File) {
-                                    formData.append("files", file);
+                                if (file.file instanceof File) {
+                                    formData.append("files", file.file);
                                 }
                             }
                             await createVariantGalleryApi(formData);

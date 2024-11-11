@@ -26,6 +26,7 @@ export const propertySchema = z.object({
 export type propertyFormType = z.infer<typeof propertySchema>;
 
 export const variantSchema = z.object({
+    id: z.number().or(z.string()).optional().nullable(),
     name: z.string().nullable().optional(),
     files: z.array(z.any()).min(1, { message: REQUIRE_MESSAGE_ERROR }),
 });
