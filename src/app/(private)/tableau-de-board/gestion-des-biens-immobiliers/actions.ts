@@ -1,5 +1,8 @@
-import { deleteVariant } from "@/database/drizzle/repositories/variants";
+import { removePropertyWithVariant } from "@/database/drizzle/repositories/properties";
 
-const removeVariantProperty = async (ids: Array<number>) => {
-    await deleteVariant(ids);
+export const removePropertiesAction = async (formData: FormData) => {
+    if (formData.getAll("ids")) {
+        const propertiesIds = formData.getAll("ids").map((id) => Number(id));
+        await removePropertyWithVariant(propertiesIds);
+    }
 };

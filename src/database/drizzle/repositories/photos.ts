@@ -55,7 +55,11 @@ export const deletePhotoByID = async (id: number | string) => {
     }
 };
 
-export const removePhotosByID = async (ids: number[] | string[]) => {
+/**
+ * Suppression des photos + fichiers
+ * @param ids list des id des photos
+ */
+export const removePhotosByAndFile = async (ids: number[] | string[]) => {
     if (ids) {
         for (const id of ids) {
             const photo = await getOnePhotosByID(id);
@@ -63,7 +67,7 @@ export const removePhotosByID = async (ids: number[] | string[]) => {
                 const key = extractIdFromUrl(photo.url);
 
                 remove(key);
-                // await deletePhotoByID(photo.id);
+                await deletePhotoByID(photo.id);
             }
         }
     }

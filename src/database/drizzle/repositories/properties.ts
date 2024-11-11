@@ -136,6 +136,38 @@ export const removeProperty = async (ids: number[] | string[]) => {
     }
 };
 
+/**
+ * Suppression d'un property suivie de ses variants
+ * @param id id du property
+ *
+ **/
+export const removePropertyWithVariant = async (ids: number[] | string[]) => {
+    if (ids && ids.length > 0) {
+        for (const id of ids) {
+            const property = await getOnePropertyByID(id);
+            if (!property) throw new Error("property not found");
+            const request = db
+                .delete(properties)
+                .where(eq(properties.id, sql.placeholder("id")))
+                .prepare();
+
+            await request.execute({
+                id,
+            });
+        }
+    }
+};
+
+/**
+ * Suppression completes des properties + variants + files
+ * @param ids listes d'id des properties
+ */
+export const removePropertyWithFiles = async (ids: number[] | string[]) => {
+    if (ids && ids.length > 0) {
+        removePropertyWithVariant(ids);
+    }
+};
+
 type getPropertiesWithVariantsArgs = {
     type?: string | null;
 };

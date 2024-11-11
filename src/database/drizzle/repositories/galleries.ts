@@ -6,7 +6,7 @@ import { insertVariant, updateVariant } from "./variants";
 import { variants } from "../schema/variants";
 import { asc, eq, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
-import { removePhotosByID } from "./photos";
+import { removePhotosByAndFile } from "./photos";
 
 export const insertGallery = (variantID: number, photoID: number) => {
     try {
@@ -147,5 +147,5 @@ export const getGalleryCollectionForVariants = async (variantID: number | string
 export const clearGalleryFromVariantID = async (id: number) => {
     const galleries = await getGalleryCollectionForVariants(id);
     const photosIDs = galleries.map((photo) => photo.id);
-    await removePhotosByID(photosIDs);
+    await removePhotosByAndFile(photosIDs);
 };
