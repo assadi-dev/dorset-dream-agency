@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
         description: `Consulter le catalogue des biens immobilier proposer par l'agence ${ENV.APP_TITLE}`,
         start_url: "/",
         id: "/",
-        display: "standalone",
+        display: "minimal-ui",
         background_color: "#060a5b",
         theme_color: "#060a5b",
         icons: [
