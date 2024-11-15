@@ -5,6 +5,7 @@ import PerquisitionWarrantView from "./PerquisitionWarrantView";
 import PrestigeView from "./PrestigeView";
 import SelsView from "./SelsView";
 import { PurchaseType } from "@/app/types/properties";
+import { wait } from "@/lib/utils";
 
 export const CLIENT_TABS_DATA: ClientTabsType[] = [
     {
@@ -37,6 +38,18 @@ export const fetchClientLocations = async ({ id, type }: fetchClientLocationsArg
     try {
         const res = await API_INSTANCE.get(`/client/${id}/transactions?type=${type}`);
         return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export type fetchClientPerquisitionWarrantArgs = {
+    id?: string | number;
+};
+export const fetchClientPerquisitionWarrant = async ({ id }: fetchClientPerquisitionWarrantArgs) => {
+    try {
+        await wait(1000);
+        return [{ id: 1, agent: "Eden Myers", createdAt: new Date().toISOString() }];
     } catch (error) {
         throw error;
     }

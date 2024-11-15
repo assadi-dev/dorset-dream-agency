@@ -40,3 +40,16 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
         cell: ({ getValue }: CellColumn) => datetimeFormatFr(getValue()),
     },
 ];
+
+export const WARRANT_COLUMNS: ColumnDef<LocationType>[] = [
+    {
+        accessorKey: "agent",
+        header: "Agent",
+    },
+
+    {
+        accessorKey: "createdAt",
+        header: "Date et heure",
+        cell: ({ getValue }: CellColumn) => datetimeFormatFr(getValue()),
+    },
+];
