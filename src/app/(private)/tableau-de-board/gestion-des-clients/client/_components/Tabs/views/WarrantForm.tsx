@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, SubmitHandler, useForm } from "react-hook-form";
+import { Form, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { WarrantFileType, WarrantFormType, warrantSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "@/components/forms/SubmitButton";
@@ -62,52 +62,54 @@ const WarrantForm = ({ onSubmitValues, submitLabel = "Ajouter" }: WarrantFormPro
     };
 
     return (
-        <form onSubmit={form.handleSubmit(handleSubmitValue)} className="w-[85vw] lg:w-[42vw] ">
-            <div className="Dropzone-presentation">
-                <div
-                    {...getRootProps()}
-                    className={cn(
-                        "border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center  hover:cursor-pointer text-[rgba(0,0,0,0.6)]",
-                        CLASS_DRAG_ACTIVE,
-                    )}
-                >
-                    <div className="grid place-items-center gap-1">
-                        <ImagePlus />
-                        <p>{DROPZONE_TEXT}</p>
-                        {!isDragActive && (
-                            <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmitValue)} className="w-[85vw] lg:w-[42vw] ">
+                <div className="Dropzone-presentation">
+                    <div
+                        {...getRootProps()}
+                        className={cn(
+                            "border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center  hover:cursor-pointer text-[rgba(0,0,0,0.6)]",
+                            CLASS_DRAG_ACTIVE,
                         )}
+                    >
+                        <div className="grid place-items-center gap-1">
+                            <ImagePlus />
+                            <p>{DROPZONE_TEXT}</p>
+                            {!isDragActive && (
+                                <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+                            )}
+                        </div>
+                        <input {...getInputProps()} />
                     </div>
-                    <input {...getInputProps()} />
-                </div>
 
-                <div className="p-2 text-red-500">{form.formState.errors.warrantFiles?.message}</div>
-            </div>
-            <div className="flex justify-end">
-                <Button
-                    type="button"
-                    variant="ghost"
-                    className="text-xs active:scale-90 transition-all duration-75"
-                    onClick={clearAllFile}
-                >
-                    <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
-                </Button>
-            </div>
-            <ScrollArea className="mt-4 h-[36vh] bg-slate-100 rounded-xl pb-3">
-                <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(160px,250px))] gap-2 justify-center">
-                    {form.watch("warrantFiles").map((warrantFile) => (
-                        <PreviewMandata key={warrantFile.id} file={warrantFile.file} name={warrantFile.name} />
-                    ))}
+                    <div className="p-2 text-red-500">{form.formState.errors.warrantFiles?.message}</div>
                 </div>
-            </ScrollArea>
-            <div className="mt-8 flex justify-center">
-                {
-                    <SubmitButton className="w-full p-5" isLoading={isPending}>
-                        {LABEL_SUBMIT}
-                    </SubmitButton>
-                }
-            </div>
-        </form>
+                <div className="flex justify-end">
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        className="text-xs active:scale-90 transition-all duration-75"
+                        onClick={clearAllFile}
+                    >
+                        <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
+                    </Button>
+                </div>
+                <ScrollArea className="mt-4 h-[36vh] bg-slate-100 rounded-xl pb-3">
+                    <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(160px,250px))] gap-2 justify-center">
+                        {form.watch("warrantFiles").map((warrantFile) => (
+                            <PreviewMandata key={warrantFile.id} warrantFile={warrantFile} />
+                        ))}
+                    </div>
+                </ScrollArea>
+                <div className="mt-8 flex justify-center">
+                    {
+                        <SubmitButton className="w-full p-5" isLoading={isPending}>
+                            {LABEL_SUBMIT}
+                        </SubmitButton>
+                    }
+                </div>
+            </form>
+        </FormProvider>
     );
 };
 

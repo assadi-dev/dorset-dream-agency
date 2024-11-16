@@ -14,7 +14,6 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { insertProperty } from "@/database/drizzle/repositories/properties";
 import { createVariantGalleryApi } from "../form/helpers";
-import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
