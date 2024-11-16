@@ -57,6 +57,10 @@ export const saveBuffer = ({ destination, file }: saveBufferArgs) => {
  * Emplacement du dossier de stockage pour les photos de type properties
  */
 export const UPLOAD_DIR_PROPERTIES = path.join(ENV.STORAGE_DIR, "images", "properties");
+/**
+ * Emplacement du dossier de stockage pour les photos de type perquisitions
+ */
+export const UPLOAD_DIR_PERQUISITION = path.join(ENV.STORAGE_DIR, "images", "perquisitions");
 
 /**
  * Extraction de l'identifiant généré lors de l'upload du fichier à partir de l'url

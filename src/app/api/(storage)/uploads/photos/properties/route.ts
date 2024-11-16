@@ -9,8 +9,10 @@ import { insertPhoto } from "@/database/drizzle/repositories/photos";
 export async function POST(req: Request) {
     try {
         const UPLOAD_DIR = path.join(ENV.STORAGE_DIR, "images", "properties");
-        await fs.promises.mkdir(UPLOAD_DIR, { recursive: true });
-        await fs.promises.chmod(UPLOAD_DIR, fs.constants.O_RDWR);
+        if (!fs.existsSync(UPLOAD_DIR)) {
+            await fs.promises.mkdir(UPLOAD_DIR, { recursive: true });
+            await fs.promises.chmod(UPLOAD_DIR, fs.constants.O_RDWR);
+        }
         const formData = await req.formData();
         const files = formData.getAll("files");
         if (!files.length) {
