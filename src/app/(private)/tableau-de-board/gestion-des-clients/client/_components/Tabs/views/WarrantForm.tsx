@@ -27,28 +27,63 @@ const WarrantForm = ({ onSubmitValues, submitLabel = "Ajouter" }: WarrantFormPro
     });
 
     const LABEL_SUBMIT = isPending ? "Traitement en cours" : submitLabel;
+
+    const sizeValidator = (file: File) => {
+        if (file.size > 500 * 1024) {
+            return {
+                code: "file-size-too-large",
+                message: `la taille du fichier doit être inférieure à 500 KB`,
+            };
+        }
+        return null;
+    };
+
     const clearAllFile = () => {
         form.setValue("warrantFiles", []);
         form.clearErrors();
     };
 
-    const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
-        // Do something with the files
-        const warrantFilesCollections = form.getValues("warrantFiles");
-        const newWarrantFilesCollection: WarrantFileType[] = acceptedFiles.map((file) => {
-            return {
-                id: unique(),
-                name: file.name,
-                file: file,
-            };
-        });
+    const onDrop = React.useCallback(
+        (acceptedFiles: Array<File>) => {
+            // Do something with the files
+            const warrantFilesCollections = form.getValues("warrantFiles");
+            const newWarrantFilesCollection: WarrantFileType[] = acceptedFiles.map((file) => {
+                return {
+                    id: unique(),
+                    name: file.name,
+                    file: file,
+                };
+            });
 
-        form.setValue("warrantFiles", [...warrantFilesCollections, ...newWarrantFilesCollection]);
-    }, []);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+            form.setValue("warrantFiles", [...warrantFilesCollections, ...newWarrantFilesCollection]);
+        },
+        [form],
+    );
+    const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+        onDrop,
+        validator: sizeValidator,
+        accept: {
+            "image/jpeg": [".jpeg", ".jpg"],
+            "image/webp": [],
+        },
+    });
 
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
+
+    React.useEffect(() => {
+        if (fileRejections.length) {
+            {
+                fileRejections.map(({ file, errors }) => {
+                    errors.length &&
+                        errors.map((err) => {
+                            const ERROR_FILE = `Erreur d'upload sur le fichier ${file.name} pour la raison suivante : ${err.message}`;
+                            ToastErrorSonner(ERROR_FILE);
+                        });
+                });
+            }
+        }
+    }, [fileRejections]);
 
     const handleSubmitValue: SubmitHandler<WarrantFormType> = async (values) => {
         if (onSubmitValues)
