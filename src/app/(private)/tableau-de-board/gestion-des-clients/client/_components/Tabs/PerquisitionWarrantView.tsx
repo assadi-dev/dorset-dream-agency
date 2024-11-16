@@ -9,6 +9,8 @@ import AddButton from "@/components/forms/AddButton";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import { CellColumn } from "@/app/types/ReactTable";
 import WarrantActions from "./columns/WarrantActions";
+import useModalState from "@/hooks/useModalState";
+import AddWarrant from "./views/AddWarrant";
 
 const PerquisitionWarrantView = () => {
     const searchParams = useSearchParams();
@@ -33,12 +35,23 @@ const PerquisitionWarrantView = () => {
     };
     const WARRANT_COLUMNS_ID = [...WARRANT_COLUMNS, actions];
 
+    const { openModal } = useModalState();
+
+    const handleClickAddWarrant = () => {
+        openModal({
+            title: "Ajouter vos mandats",
+            component: AddWarrant,
+        });
+    };
+
     return (
         <div className="grid grid-rows-[auto,1fr] mt-3">
             <section>
                 <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                     <SearchInputDataTable />
-                    <div className="self-end w-full flex justify-end">{<AddButton title="Ajouter" />}</div>
+                    <div className="self-end w-full flex justify-end">
+                        {<AddButton title="Ajouter" onClick={handleClickAddWarrant} />}
+                    </div>
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">

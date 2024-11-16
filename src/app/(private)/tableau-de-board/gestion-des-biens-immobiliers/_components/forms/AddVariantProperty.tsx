@@ -3,7 +3,7 @@ import useModalState from "@/hooks/useModalState";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AddVariantSchema, AddVariantSchemaType } from "./schema";
+import { AddVariantSchema, AddVariantSchemaType, FileObjType } from "./schema";
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import { useDropzone } from "react-dropzone";
 import { ImagePlus, Trash2 } from "lucide-react";
@@ -17,6 +17,7 @@ import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PROPERTY_QUERY_KEY } from "../../helpers";
 import SubmitButton from "@/components/forms/SubmitButton";
+import uniqid from "uniqid";
 
 const AddVariantProperty = () => {
     const { payload, closeModal } = useModalState();
@@ -26,7 +27,7 @@ const AddVariantProperty = () => {
     const form = useForm<AddVariantSchemaType>({
         resolver: zodResolver(AddVariantSchema),
         defaultValues: {
-            propertyID: payload.propertyID,
+            propertyID: payload.id,
             name: "",
             files: [],
         },
@@ -36,12 +37,44 @@ const AddVariantProperty = () => {
         form.setValue("files", []);
         form.clearErrors();
     };
+    const sizeValidator = (file: File) => {
+        if (file.size > 500 * 1024) {
+            form.setError("files", { message: "la taille du fichier doit être inférieure à 500 KB" });
+            return {
+                code: "file-size-too-large",
+                message: `la taille du fichier doit être inférieure à 500 KB`,
+            };
+        }
+        if (form.formState.errors.files) form.clearErrors("files");
+        return null;
+    };
 
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
         // Do something with the files
-        form.setValue("files", acceptedFiles);
+        const currentFiles = form.getValues("files");
+        const fileObj = acceptedFiles.map((file: File) => {
+            const id = uniqid();
+            return {
+                id,
+                name: file.name,
+                url: URL.createObjectURL(file),
+                file,
+                size: file.size,
+                type: file.type,
+            };
+        }) as FileObjType[];
+
+        const updated = [...currentFiles, ...fileObj];
+        form.setValue("files", updated);
     }, []);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            "image/jpeg": [".jpeg", ".jpg"],
+            "image/webp": [],
+        },
+        validator: sizeValidator,
+    });
 
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
@@ -54,7 +87,7 @@ const AddVariantProperty = () => {
 
             if (values.files.length > 0) {
                 for (const file of values.files) {
-                    formData.append("files", file);
+                    formData.append("files", file.file);
                 }
             }
 
@@ -76,7 +109,7 @@ const AddVariantProperty = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(submitVariant)}
-                className="w-[32vw] p-3 min-h-[25vh] flex flex-col justify-between gap-3"
+                className="w-[42vw] p-3 min-h-[38vh] flex flex-col justify-between gap-3"
                 /*  onPaste={handlePast} */
             >
                 <FormFieldInput
@@ -120,8 +153,8 @@ const AddVariantProperty = () => {
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
-                            {form.watch("files").map((file) => (
-                                <PreviewVarianteUpload key={file.name} file={file} />
+                            {form.watch("files").map((file: any) => (
+                                <PreviewVarianteUpload key={file.id} file={file} />
                             ))}
                         </div>
                     </ScrollArea>

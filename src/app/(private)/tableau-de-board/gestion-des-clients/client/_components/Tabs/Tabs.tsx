@@ -17,6 +17,7 @@ const TabsTest = () => {
         updatedSearchParams.set("tab", value);
         const updatePathName = pathname + "?" + updatedSearchParams.toString();
         router.push(updatePathName);
+        router.refresh();
     };
 
     return (

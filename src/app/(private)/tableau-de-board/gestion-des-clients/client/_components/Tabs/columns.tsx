@@ -41,7 +41,12 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
     },
 ];
 
-export const WARRANT_COLUMNS: ColumnDef<LocationType>[] = [
+type WarrantType = {
+    id: number;
+    agent: string;
+    category: string;
+};
+export const WARRANT_COLUMNS: ColumnDef<WarrantType>[] = [
     {
         accessorKey: "agent",
         header: "Agent",

@@ -146,7 +146,7 @@ const UploadZoneVariant = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(submitVariant)}
-                className="w-[32vw] p-3 min-h-[25vh] flex flex-col justify-between gap-3"
+                className="w-[42vw] p-3 min-h-[38vh] flex flex-col justify-between gap-3"
                 /*  onPaste={handlePast} */
             >
                 <FormFieldInput

@@ -49,7 +49,7 @@ export type fetchClientPerquisitionWarrantArgs = {
 export const fetchClientPerquisitionWarrant = async ({ id }: fetchClientPerquisitionWarrantArgs) => {
     try {
         await wait(1000);
-        return [{ id: 1, agent: "Eden Myers", createdAt: new Date().toISOString() }];
+        return [{ id: 1, client: "Caldwell Neve", agent: "Eden Myers", createdAt: new Date().toISOString() }];
     } catch (error) {
         throw error;
     }
