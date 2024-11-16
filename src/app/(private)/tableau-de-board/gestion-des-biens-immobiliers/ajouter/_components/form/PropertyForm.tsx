@@ -23,7 +23,8 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
 
     return (
         <div {...props}>
-            <div className="mb-3">
+            <div className="mb-3 lg:grid lg:grid-cols-2 gap-3">
+                <FormFieldInput control={form.control} name="name" label="Nom" placeholder="Nom du bien immobilier" />
                 <FormFieldSelect
                     control={form.control}
                     name="categoryProperty"
@@ -32,11 +33,15 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                     placeholder="Sélectionnez le type du bien immobilier"
                 />
             </div>
+
             <div className="mb-3">
-                <FormFieldInput control={form.control} name="name" label="Nom" placeholder="Nom du bien immobilier" />
-            </div>
-            <div className="mb-3">
-                <FormFieldTextarea control={form.control} name="description" label="Description" />
+                <FormFieldTextarea
+                    control={form.control}
+                    name="description"
+                    label="Description"
+                    className="resize-y "
+                    rows={5}
+                />
             </div>
             <div className="mb-3">
                 <FormFieldInput
