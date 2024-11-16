@@ -21,6 +21,7 @@ const WarrantActions = ({ payload }: WarrantActionsProps) => {
     const handleClickDelete = () => {
         openModal({
             title: "Supprimer les mandats",
+            description: `Mandat ID: ${payload.id}`,
             component: DeleteWarrant,
             payload,
         });

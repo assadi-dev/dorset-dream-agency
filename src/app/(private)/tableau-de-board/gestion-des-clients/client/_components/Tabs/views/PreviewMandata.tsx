@@ -40,7 +40,6 @@ const PreviewMandata = ({ warrantFile }: PreviewMandatProps) => {
                     "flex justify-between  items-center text-black px-3 py-2 ring-1 ring-slate-300 bg-slate-200 rounded-md",
                 )}
             >
-                {" "}
                 <p className="text-xs font-bold truncate w-[95%]">{warrantFile?.name}</p>
                 <div className="flex justify-end items-center gap-1.5">
                     <button

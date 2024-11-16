@@ -48,6 +48,10 @@ type WarrantType = {
 };
 export const WARRANT_COLUMNS: ColumnDef<WarrantType>[] = [
     {
+        accessorKey: "id",
+        header: "ID",
+    },
+    {
         accessorKey: "agent",
         header: "Agent",
     },
