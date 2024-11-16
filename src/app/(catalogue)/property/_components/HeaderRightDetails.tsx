@@ -20,15 +20,25 @@ type HeaderRightDetails = {
     propertyInfo: PropertyInfoType;
 };
 const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
+    console.log(propertyInfo.stock);
+
     const isAvailable = propertyInfo.isAvailable ? "OUI" : "NON";
     const isFurnish = propertyInfo.isFurnish ? "OUI" : "NON";
     const Stock = () => {
         if (typeof propertyInfo.stock === "number") {
             if (propertyInfo.stock === -1) return "Sur demande au sénat";
             if (propertyInfo.stock > 0) return `${propertyInfo.stock} kg`;
+            else return "Pas de coffre";
         } else {
             return "Pas de coffre";
         }
+    };
+
+    const Price = ({ price, mode }: { price?: number; mode: "location" | "vente" }) => {
+        const NEGATIVE_MESSAGE = mode === "vente" ? "Non achetable" : "non louable";
+        if (!price) return "Prix non définis";
+        if (price === -1) return NEGATIVE_MESSAGE;
+        if (price > 0) return `${price}$`;
     };
 
     return (
@@ -37,21 +47,23 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                 <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
                     <div className="pl-5">
                         <p className="font-semibold">Prix de location</p>
-                        <p className="font-bold">{propertyInfo.rentalPrice || 0} $</p>
+                        <p className="font-bold">
+                            <Price price={propertyInfo.rentalPrice} mode="location" />
+                        </p>
                     </div>
                     <Separator />
                     <div className="pl-5">
                         <p className="font-semibold">Prix de Vente</p>
-                        <p className="font-bold">{propertyInfo.sellingPrice || 0}$</p>
+                        <p className="font-bold">
+                            <Price price={propertyInfo.sellingPrice} mode="vente" />
+                        </p>
                     </div>
                     <Separator />
                 </div>
             </CardRightDetail>
             <CardRightDetail title="Coffre">
                 <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
-                    <p className=" text-sm lg:text-lg font-semibold text-center">
-                        <Stock />
-                    </p>
+                    <p className=" text-sm lg:text-lg font-semibold text-center">{<Stock />}</p>
                 </div>
             </CardRightDetail>
 

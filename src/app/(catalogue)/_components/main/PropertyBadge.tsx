@@ -38,7 +38,7 @@ export const PropertyBadges = ({ isAvailable, isFurnish, stock }: PropertyBadges
         <div className="flex items-center gap-1 flex-wrap justify-center lg:justify-start">
             <FurnishBadge isFurnish={isFurnish} />
             <AvailableBadge isAvailable={isAvailable} />
-            {stock && stock > 0 && <StockageBadges stock={stock} />}
+            {typeof stock == "number" ? <StockageBadges stock={stock} /> : null}
         </div>
     );
 };

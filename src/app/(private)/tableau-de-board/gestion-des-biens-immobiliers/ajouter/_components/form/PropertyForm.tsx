@@ -59,7 +59,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                     placeholder="Ex: 250"
                     description="Entrer la valeur en nombre"
                     type="number"
-                    min={0}
+                    min={-1}
                 />
                 <FormFieldInput
                     control={form.control}
@@ -68,7 +68,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                     placeholder="Ex: 30000"
                     description="Entrer la valeur en nombre"
                     type="number"
-                    min={0}
+                    min={-1}
                 />
             </div>
             <div className="lg:grid lg:grid-cols-2 gap-3">
