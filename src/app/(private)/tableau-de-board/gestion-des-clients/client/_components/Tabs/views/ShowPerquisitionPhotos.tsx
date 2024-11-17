@@ -25,12 +25,12 @@ const SlideItemProperty = ({ photo }: SlideItemPropertyProps) => {
 
 const ThumbItemPerquisitions = ({ photo }: SlideItemPropertyProps) => {
     return (
-        <div className="rounded-lg overflow-hidden relative h-[62px]">
+        <div className="rounded-lg overflow-hidden relative h-[62px] lg:h-[92px] flex items-center justify-center">
             <Image
                 src={photo.url}
                 alt={`thumb  ${photo.originalName}`}
-                width={1200}
-                height={853}
+                width={853}
+                height={400}
                 className="h-full w-full object-cover object-center"
             />
         </div>
