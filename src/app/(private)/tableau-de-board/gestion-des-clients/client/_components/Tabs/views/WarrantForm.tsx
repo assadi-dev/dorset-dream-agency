@@ -14,15 +14,17 @@ import PreviewMandata from "./PreviewMandata";
 import { Button } from "@/components/ui/button";
 
 type WarrantFormProps = {
+    defaultValues?: Partial<WarrantFormType>;
     onSubmitValues: (values: WarrantFormType) => Promise<void>;
     submitLabel?: string;
 };
-const WarrantForm = ({ onSubmitValues, submitLabel = "Ajouter" }: WarrantFormProps) => {
+const WarrantForm = ({ defaultValues, onSubmitValues, submitLabel = "Ajouter" }: WarrantFormProps) => {
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<WarrantFormType>({
         resolver: zodResolver(warrantSchema),
         defaultValues: {
             warrantFiles: [],
+            ...defaultValues,
         },
     });
 
@@ -131,7 +133,7 @@ const WarrantForm = ({ onSubmitValues, submitLabel = "Ajouter" }: WarrantFormPro
                 </div>
                 <ScrollArea className="mt-4 h-[36vh] bg-slate-100 rounded-xl pb-3">
                     <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(160px,250px))] gap-2 justify-center">
-                        {form.watch("warrantFiles").map((warrantFile) => (
+                        {form.watch("warrantFiles").map((warrantFile: any) => (
                             <PreviewMandata key={warrantFile.id} warrantFile={warrantFile} />
                         ))}
                     </div>

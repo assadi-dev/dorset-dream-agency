@@ -19,7 +19,7 @@ const PerquisitionWarrantView = () => {
     if (id) filter.id = id as string;
 
     const { data, isFetching } = useQuery({
-        queryKey: ["USER_PERQUISITIONS_WARRANT", id],
+        queryKey: ["USER_PERQUISITIONS_WARRANT"],
         queryFn: async () => fetchClientPerquisitionWarrant(filter),
     });
     const actions = {
@@ -55,7 +55,7 @@ const PerquisitionWarrantView = () => {
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">
-                {!isFetching && data ? <DataTable columns={WARRANT_COLUMNS_ID} data={data} /> : null}
+                {data ? <DataTable columns={WARRANT_COLUMNS_ID} data={data} /> : null}
             </section>
         </div>
     );

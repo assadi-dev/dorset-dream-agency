@@ -55,3 +55,8 @@ export const fetchClientPerquisitionWarrant = async ({ id }: fetchClientPerquisi
         throw error;
     }
 };
+
+export const createPerquisition = async (formData: FormData) => {
+    const res = await API_INSTANCE.post("uploads/photos/perquisitions", formData);
+    return res.data;
+};
