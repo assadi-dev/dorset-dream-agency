@@ -25,7 +25,7 @@ const SlideItemProperty = ({ photo }: SlideItemPropertyProps) => {
 
 const ThumbItemPerquisitions = ({ photo }: SlideItemPropertyProps) => {
     return (
-        <div className="rounded-lg overflow-hidden relative ">
+        <div className="rounded-lg overflow-hidden relative h-[62px]">
             <Image
                 src={photo.url}
                 alt={`thumb  ${photo.originalName}`}

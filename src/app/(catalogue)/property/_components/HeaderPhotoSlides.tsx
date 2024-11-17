@@ -27,7 +27,7 @@ const SlideItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
 
 const ThumbItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
     return (
-        <div className="rounded-lg overflow-hidden relative h-[100px]">
+        <div className="rounded-lg overflow-hidden relative h-[62px] sm:h-[100px]">
             <Image
                 src={photo.url}
                 alt={`thumb  ${photo.originalName} of property ${propertyName || "???"}`}

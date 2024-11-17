@@ -9,8 +9,8 @@ import { ImagePlus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
-import PreviewMandat from "./PreviewMandata";
-import PreviewMandata from "./PreviewMandata";
+import PreviewMandat from "./PreviewPerquisitions";
+import PreviewMandata from "./PreviewPerquisitions";
 import { Button } from "@/components/ui/button";
 
 type WarrantFormProps = {
