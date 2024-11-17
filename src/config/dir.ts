@@ -10,3 +10,12 @@ export const PROPERTIES_DIR = path.join(ENV.STORAGE_DIR, "images", "properties")
  * Dossier de l'Emplacement des images concernant les avatars
  */
 export const AVATARS_DIR = path.join(ENV.STORAGE_DIR, "images", "avatars");
+
+/**
+ * Emplacement du dossier de stockage pour les photos de type properties
+ */
+export const UPLOAD_DIR_PROPERTIES = path.join(ENV.STORAGE_DIR, "images", "properties");
+/**
+ * Emplacement du dossier de stockage pour les photos de type perquisitions
+ */
+export const UPLOAD_DIR_PERQUISITION = path.join(ENV.STORAGE_DIR, "images", "perquisitions");
