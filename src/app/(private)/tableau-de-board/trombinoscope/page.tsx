@@ -9,7 +9,10 @@ import { EmployeeBasic } from "@/app/types/employee";
 
 export const metadata = setTitlePage("Prestige");
 const TrombinoscopePage = async () => {
-    const employees = await getEmployeeCollections();
+    const ListEmployeeAsync = async () => {
+        const employees = await getEmployeeCollections();
+        return <ListEmployees employees={employees as EmployeeBasic[]} />;
+    };
 
     return (
         <PageTemplate title="Trombinoscope">
@@ -17,7 +20,7 @@ const TrombinoscopePage = async () => {
                 <SearchInputDataTable />
             </section>
             <React.Suspense fallback={<LoadingSkeleton />}>
-                <ListEmployees employees={employees as EmployeeBasic[]} />
+                <ListEmployeeAsync />
             </React.Suspense>
         </PageTemplate>
     );
