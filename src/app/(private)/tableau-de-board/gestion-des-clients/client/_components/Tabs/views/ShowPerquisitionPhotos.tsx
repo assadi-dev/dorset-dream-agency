@@ -6,8 +6,12 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/thumbs";
 import { Thumbs } from "swiper/modules";
+import { PhotoType } from "@/app/types/photos";
 
-const SlideItemProperty = ({ photo }) => {
+type SlideItemPropertyProps = {
+    photo: PhotoType;
+};
+const SlideItemProperty = ({ photo }: SlideItemPropertyProps) => {
     return (
         <Image
             src={photo.url}
@@ -19,7 +23,7 @@ const SlideItemProperty = ({ photo }) => {
     );
 };
 
-const ThumbItemPerquisitions = ({ photo }) => {
+const ThumbItemPerquisitions = ({ photo }: SlideItemPropertyProps) => {
     return (
         <div className="rounded-lg overflow-hidden relative ">
             <Image
@@ -35,7 +39,7 @@ const ThumbItemPerquisitions = ({ photo }) => {
 
 const ShowPerquisitionPhotos = () => {
     const { payload } = useModalState();
-    const [photos, setPhotos] = React.useState([]);
+    const [photos, setPhotos] = React.useState<PhotoType[]>([]);
 
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     const handleClickThumbs = (value: any) => setThumbsSwiper(value);
@@ -46,7 +50,7 @@ const ShowPerquisitionPhotos = () => {
         }
     }, [payload.photos]);
 
-    const breakTest = {
+    const breakPoint = {
         1280: {
             slidesPerView: 4,
             spaceBetween: 5,
@@ -68,7 +72,7 @@ const ShowPerquisitionPhotos = () => {
                     thumbs={{ swiper: thumbsSwiper }}
                     className="h-full w-full"
                 >
-                    {photos.map((photo: any) => (
+                    {photos.map((photo) => (
                         <SwiperSlide key={photo.id}>
                             <SlideItemProperty photo={photo} />
                         </SwiperSlide>
@@ -82,7 +86,7 @@ const ShowPerquisitionPhotos = () => {
                     modules={[Thumbs]}
                     watchSlidesProgress
                     onSwiper={handleClickThumbs}
-                    breakpoints={breakTest}
+                    breakpoints={breakPoint}
                 >
                     {photos.map((thumb) => (
                         <SwiperSlide key={thumb.id}>

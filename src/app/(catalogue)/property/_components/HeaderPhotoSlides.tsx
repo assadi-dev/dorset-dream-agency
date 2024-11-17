@@ -27,7 +27,7 @@ const SlideItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
 
 const ThumbItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
     return (
-        <div className="rounded-lg overflow-hidden relative h-[100px]">
+        <div className="rounded-lg overflow-hidden relative sm:h-[100px]">
             <Image
                 src={photo.url}
                 alt={`thumb  ${photo.originalName} of property ${propertyName || "???"}`}
@@ -46,6 +46,21 @@ type HeaderPhotoSlidesProps = {
 const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) => {
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     const handleClickThumbs = (value: any) => setThumbsSwiper(value);
+
+    const breakPoint = {
+        1536: {
+            slidesPerView: 5,
+            spaceBetween: 5,
+        },
+        1024: {
+            slidesPerView: 4,
+            spaceBetween: 5,
+        },
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 5,
+        },
+    };
 
     return (
         <div className=" xl:max-w-[72vw] 2xl:max-w-[65vw] ">
@@ -68,7 +83,8 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
             <div className="w-full p-1 overflow-hidden bg-blue-950 backdrop-blur-sm   z-50 rounded-lg mt-1">
                 <Swiper
                     spaceBetween={5}
-                    slidesPerView={5}
+                    slidesPerView={3}
+                    breakpoints={breakPoint}
                     modules={[Thumbs]}
                     watchSlidesProgress
                     onSwiper={handleClickThumbs}
