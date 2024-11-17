@@ -5,11 +5,11 @@ import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-type SearchInputDataTable = {
+type SearchInputDataTableType = {
     value?: string | null;
     onSearch?: (value: string | null) => void;
 };
-const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTable) => {
+const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTableType) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();

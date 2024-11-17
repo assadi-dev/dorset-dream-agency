@@ -3,7 +3,9 @@ import PageTemplate from "../_components/PageTemplate";
 import ListsPrestige from "./_components/ListsPrestige";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
+import { setTitlePage } from "@/lib/utils";
 
+export const metadata = setTitlePage("Prestige");
 const PrestigePage = () => {
     return (
         <PageTemplate title="Prestiges">
