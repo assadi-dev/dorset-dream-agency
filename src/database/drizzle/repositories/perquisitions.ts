@@ -1,15 +1,13 @@
 "use server";
 
 import { db } from "@/database";
-
 import { desc, eq, sql } from "drizzle-orm";
 import { perquisitions } from "../schema/perquisitions";
 import { perquisitionDecode } from "./dto/perquisitionsPhotosDTO";
 import { employees } from "../schema/employees";
 import { clients } from "../schema/client";
-import { clearsPerquisitionFiles, getWarrantPerquisitionPhotos } from "./perquisitionsToPhotos";
+import { clearPerquisitionFiles, getWarrantPerquisitionPhotos } from "./perquisitionsToPhotos";
 import { photos } from "../schema/photos";
-import { removePhotosByAndFile } from "./photos";
 
 export const insertPerquisition = async (values: any) => {
     const validateInput = perquisitionDecode.perquisitionInput(values);
@@ -75,7 +73,7 @@ export const getClientPerquisitionWithPhotos = async (id: number): Promise<getPe
 };
 
 export const deletePerquisition = async (id: number) => {
-    await clearsPerquisitionFiles(id);
+    await clearPerquisitionFiles(id);
     const request = db
         .delete(perquisitions)
         .where(eq(perquisitions.id, sql.placeholder("id")))

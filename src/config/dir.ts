@@ -19,3 +19,7 @@ export const UPLOAD_DIR_PROPERTIES = path.join(ENV.STORAGE_DIR, "images", "prope
  * Emplacement du dossier de stockage pour les photos de type perquisitions
  */
 export const UPLOAD_DIR_PERQUISITION = path.join(ENV.STORAGE_DIR, "images", "perquisitions");
+/**
+ * Emplacement du dossier de stockage pour les images
+ */
+export const UPLOAD_DIR_IMAGES = path.join(ENV.STORAGE_DIR, "images");

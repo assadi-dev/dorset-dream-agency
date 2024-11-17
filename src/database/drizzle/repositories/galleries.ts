@@ -148,5 +148,5 @@ export const getGalleryCollectionForVariants = async (variantID: number | string
 export const clearGalleryFromVariantID = async (id: number) => {
     const galleries = await getGalleryCollectionForVariants(id);
     const photosIDs = galleries.map((photo) => photo.id);
-    await removePhotosByAndFile(photosIDs);
+    await removePhotosByAndFile(photosIDs, "properties");
 };

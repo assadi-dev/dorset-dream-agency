@@ -108,8 +108,8 @@ export const uploadPhotoPerquisition = async (formData: FormData) => {
     return success;
 };
 
-export const clearsPerquisitionFiles = async (id: number) => {
+export const clearPerquisitionFiles = async (id: number) => {
     const photos = await getWarrantPerquisitionPhotos(id);
     const photosIds = photos.map((v) => v.id) as number[];
-    await removePhotosByAndFile(photosIds);
+    await removePhotosByAndFile(photosIds, "perquisitions");
 };
