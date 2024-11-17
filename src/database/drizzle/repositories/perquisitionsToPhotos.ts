@@ -1,9 +1,9 @@
 "use server";
 
 import { db } from "@/database";
-import { warrantPerquisitions } from "../schema/warrantPerquisitions";
+import { perquisitions } from "../schema/perquisitions";
 import { asc, eq, sql } from "drizzle-orm";
-import { warrantPerquisitionToPhotos } from "../schema/warrantPerquisitionToPhotos";
+import { perquisitionToPhotos } from "../schema/perquisitionPhotos";
 import { clients } from "../schema/client";
 import { photos } from "../schema/photos";
 import { fileNameChange, saveBuffer, UPLOAD_DIR_PERQUISITION } from "@/lib/fileSystem";
@@ -11,19 +11,26 @@ import fs from "fs";
 import path from "path";
 import { insertPhoto } from "./photos";
 import { ENV } from "@/config/global";
-import { WarrantsPerquisitionsPhotosInputs } from "./dto/warrantsPerquisitionsPhotosDTO";
+import { PerquisitionsPhotosInputs } from "./dto/perquisitionsPhotosDTO";
 import { plural } from "@/lib/format";
 
-export const insertWarrantPerquisitionPhoto = async (values: WarrantsPerquisitionsPhotosInputs) => {
-    const request = db.insert(warrantPerquisitionToPhotos).values({
-        warrantPerquisitionID: values.warrantPerquisitionID,
+export const insertWarrantPerquisitionPhoto = async (values: PerquisitionsPhotosInputs) => {
+    const request = db.insert(perquisitionToPhotos).values({
+        perquisitionID: values.perquisitionID,
         photoID: values.photoID,
     });
 
     await request;
 };
 
-export const getWarrantPerquisitionPhotosForClient = async (id: number) => {
+type PhotoResult = Omit<typeof photos.$inferSelect, "createdAt" | "updatedAt">;
+
+/**
+ * Retourne la collections de photos des perquisitions
+ * @param id id de la perquisition
+ * @returns
+ */
+export const getWarrantPerquisitionPhotos = async (id: number) => {
     const request = db
         .select({
             id: photos.id,
@@ -32,10 +39,10 @@ export const getWarrantPerquisitionPhotosForClient = async (id: number) => {
             size: photos.size,
             type: photos.mimeType,
         })
-        .from(warrantPerquisitionToPhotos)
-        .leftJoin(warrantPerquisitions, eq(clients.id, warrantPerquisitions.clientID))
-        .leftJoin(warrantPerquisitionToPhotos, eq(photos.id, warrantPerquisitionToPhotos.photoID))
-        .where(eq(warrantPerquisitions.clientID, sql.placeholder("id")))
+        .from(perquisitionToPhotos)
+        .leftJoin(perquisitions, eq(perquisitions.id, perquisitionToPhotos.perquisitionID))
+        .leftJoin(photos, eq(photos.id, perquisitionToPhotos.photoID))
+        .where(eq(perquisitions.id, sql.placeholder("id")))
         .orderBy(asc(photos.originalName))
         .prepare();
     const result = await request.execute({
@@ -62,8 +69,9 @@ export const uploadPhotoPerquisition = async (formData: FormData) => {
         await fs.promises.mkdir(UPLOAD_DIR_PERQUISITION, { recursive: true });
         await fs.promises.chmod(UPLOAD_DIR_PERQUISITION, fs.constants.O_RDWR);
     }
-    const warrantPerquisitionID = Number(formData.get("warrantPerquisitionID"));
-    const files = formData.getAll("files");
+
+    const perquisitionID = Number(formData.get("perquisitionID"));
+    const files = formData.getAll("files") as File[];
     if (!files.length) {
         throw new Error("No files received.");
     }
@@ -87,7 +95,7 @@ export const uploadPhotoPerquisition = async (formData: FormData) => {
 
         if (photo) {
             //Insertion des photo à la gallery
-            await insertWarrantPerquisitionPhoto({ warrantPerquisitionID, photoID: photo?.id });
+            await insertWarrantPerquisitionPhoto({ perquisitionID, photoID: photo?.id });
         }
 
         PHOTOS.push(photo?.id);

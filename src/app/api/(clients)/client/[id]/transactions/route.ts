@@ -26,17 +26,21 @@ export async function GET(req: NextRequest, { params: { id } }: Params) {
 }
 
 export async function POST(req: Request) {
-    const body = await req.json();
+    try {
+        const body = await req.json();
 
-    type NewClient = typeof clients.$inferInsert;
-    const newClient: NewClient = {
-        lastName: body.lastName,
-        firstName: body.firstName,
-        gender: body.gender,
-        phone: body.phone,
-    };
+        type NewClient = typeof clients.$inferInsert;
+        const newClient: NewClient = {
+            lastName: body.lastName,
+            firstName: body.firstName,
+            gender: body.gender,
+            phone: body.phone,
+        };
 
-    await db.insert(clients).values(newClient);
+        await db.insert(clients).values(newClient);
 
-    return NextResponse.json({ message: "ok" }, { status: 200 });
+        return NextResponse.json({ message: "ok" }, { status: 200 });
+    } catch (error: any) {
+        return NextResponse.json({ message: error.message }, { status: 500 });
+    }
 }

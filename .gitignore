@@ -41,3 +41,4 @@ package-lock.json
 
 /src/storage/images/avatars/*
 /src/storage/images/properties/*
+/src/storage/images/perquisitions/*
