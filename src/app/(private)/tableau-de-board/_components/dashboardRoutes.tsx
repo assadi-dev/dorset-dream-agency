@@ -23,6 +23,10 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         path: "/tableau-de-board/prestiges",
     },
     {
+        name: "Trombinoscope",
+        path: "/tableau-de-board/trombinoscope",
+    },
+    {
         name: "Gestion de l'entreprise",
         children: [
             {
