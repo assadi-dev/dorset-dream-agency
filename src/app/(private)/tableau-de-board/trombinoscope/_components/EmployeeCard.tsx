@@ -12,8 +12,7 @@ type EmployeeCardProps = {
 };
 
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
-    const image =
-        "https://images.pexels.com/photos/14344801/pexels-photo-14344801.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"; /* avatarByGender(employee.gender) */
+    const image = avatarByGender(employee.gender);
 
     return (
         <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white">
