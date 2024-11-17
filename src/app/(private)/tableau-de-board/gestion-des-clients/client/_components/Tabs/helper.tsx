@@ -48,7 +48,6 @@ export type fetchClientPerquisitionWarrantArgs = {
 };
 export const fetchClientPerquisitionWarrant = async ({ id }: fetchClientPerquisitionWarrantArgs) => {
     try {
-        await wait(1000);
         const res = await API_INSTANCE.get(`/client/${id}/perquisitions`);
         return res.data;
     } catch (error) {
