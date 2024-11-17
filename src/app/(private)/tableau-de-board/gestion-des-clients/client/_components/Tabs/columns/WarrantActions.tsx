@@ -1,9 +1,9 @@
 import React from "react";
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { Pen, Trash, LockKeyhole, Eye, GalleryThumbnails, Images } from "lucide-react";
+import { Trash, Images } from "lucide-react";
 import useModalState from "@/hooks/useModalState";
-import EditWarrant from "../views/EditWarrant";
 import DeleteWarrant from "../views/DeleteWarrant";
+import ShowPerquisitionPhotos from "../views/ShowPerquisitionPhotos";
 
 type WarrantActionsProps = {
     payload: any;
@@ -11,10 +11,10 @@ type WarrantActionsProps = {
 const WarrantActions = ({ payload }: WarrantActionsProps) => {
     const { openModal } = useModalState();
 
-    const handleClickEdit = () => {
+    const handleClickShowPerquisition = () => {
         openModal({
-            title: `Modifier les mandats de ${payload.client}`,
-            component: EditWarrant,
+            title: `Voir les mandats de ${payload.client}`,
+            component: ShowPerquisitionPhotos,
             payload,
         });
     };
@@ -31,7 +31,7 @@ const WarrantActions = ({ payload }: WarrantActionsProps) => {
         <>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
+            <DropdownMenuItem onClick={handleClickShowPerquisition} className="text-primary">
                 <Images className="mr-2 h-4 w-4" />
                 Voir les mandats
             </DropdownMenuItem>
