@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
 import slugify from "slugify";
 import { Role } from "@/app/types/user";
+import { GenderType } from "@/app/types";
+import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -80,4 +82,15 @@ export const debounce = <T extends (...args: any[]) => void>(
             func(...args);
         }, delay);
     };
+};
+
+export const avatarByGender = (gender: GenderType) => {
+    switch (gender) {
+        case "Male":
+            return AVATAR_MALE;
+        case "Female":
+            return AVATAR_FEMALE;
+        default:
+            return AVATAR_MALE;
+    }
 };

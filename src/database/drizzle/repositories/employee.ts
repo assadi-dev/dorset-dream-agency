@@ -6,6 +6,7 @@ import { employees } from "../schema/employees";
 import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
 import { EmployeeCreateInputDto, employeeValidator } from "./dto/employeeDTO";
+import { wait } from "@/lib/utils";
 
 /**
  * Insertion des donné de l'employé
