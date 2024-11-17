@@ -52,7 +52,7 @@ export const WARRANT_COLUMNS: ColumnDef<WarrantType>[] = [
         header: "ID",
     },
     {
-        accessorKey: "agent",
+        accessorKey: "employee",
         header: "Agent",
     },
 
