@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const GET = async () => {
     try {
-        const response = await getEmployeeCollections();
+        const search = "test";
+        const response = await getEmployeeCollections({ search });
 
         return NextResponse.json(response);
     } catch (error: any) {

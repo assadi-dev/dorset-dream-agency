@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/database";
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
@@ -31,9 +31,12 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
     }
 };
 
-export const getEmployeeCollections = async () => {
+type getEmployeeCollectionsArgs = {
+    search?: string;
+};
+export const getEmployeeCollections = async ({ search }: getEmployeeCollectionsArgs) => {
     try {
-        const response = await db
+        const request = db
             .select({
                 id: employees.id,
                 name: sql<string>`CONCAT(${employees.lastName}," ",${employees.firstName})`,
@@ -48,7 +51,22 @@ export const getEmployeeCollections = async () => {
             .from(employees)
             .groupBy(employees.id)
             .leftJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
-            .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId));
+            .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId))
+            .orderBy(desc(employees.createdAt));
+
+        const searchCondition = search
+            ? or(
+                  like(employees.lastName, sql.placeholder("search")),
+                  like(employees.firstName, sql.placeholder("search")),
+                  like(employees.post, sql.placeholder("search")),
+                  like(secteurs.name, sql.placeholder("search")),
+              )
+            : undefined;
+        request.where(and(searchCondition));
+
+        const response = await request.execute({
+            search: `%${search}%`,
+        });
 
         return response;
     } catch (error: any) {

@@ -8,9 +8,13 @@ import { getEmployeeCollections } from "@/database/drizzle/repositories/employee
 import { EmployeeBasic } from "@/app/types/employee";
 
 export const metadata = setTitlePage("Prestige");
-const TrombinoscopePage = async () => {
+type TrombinoscopePageProps = {
+    searchParams: { search: string };
+};
+const TrombinoscopePage = async ({ searchParams: { search } }: TrombinoscopePageProps) => {
     const ListEmployeeAsync = async () => {
-        const employees = await getEmployeeCollections();
+        const filter = { search };
+        const employees = await getEmployeeCollections(filter);
         return <ListEmployees employees={employees as EmployeeBasic[]} />;
     };
 
