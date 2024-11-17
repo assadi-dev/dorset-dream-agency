@@ -9,7 +9,7 @@ import { photos } from "../schema/photos";
 import { fileNameChange, saveBuffer, UPLOAD_DIR_PERQUISITION } from "@/lib/fileSystem";
 import fs from "fs";
 import path from "path";
-import { insertPhoto } from "./photos";
+import { insertPhoto, removePhotosByAndFile } from "./photos";
 import { ENV } from "@/config/global";
 import { PerquisitionsPhotosInputs } from "./dto/perquisitionsPhotosDTO";
 import { plural } from "@/lib/format";
@@ -106,4 +106,10 @@ export const uploadPhotoPerquisition = async (formData: FormData) => {
         photos: PHOTOS,
     };
     return success;
+};
+
+export const clearsPerquisitionFiles = async (id: number) => {
+    const photos = await getWarrantPerquisitionPhotos(id);
+    const photosIds = photos.map((v) => v.id) as number[];
+    await removePhotosByAndFile(photosIds);
 };

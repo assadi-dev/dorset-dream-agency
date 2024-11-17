@@ -7,8 +7,9 @@ import { perquisitions } from "../schema/perquisitions";
 import { perquisitionDecode } from "./dto/perquisitionsPhotosDTO";
 import { employees } from "../schema/employees";
 import { clients } from "../schema/client";
-import { getWarrantPerquisitionPhotos } from "./perquisitionsToPhotos";
+import { clearsPerquisitionFiles, getWarrantPerquisitionPhotos } from "./perquisitionsToPhotos";
 import { photos } from "../schema/photos";
+import { removePhotosByAndFile } from "./photos";
 
 export const insertPerquisition = async (values: any) => {
     const validateInput = perquisitionDecode.perquisitionInput(values);
@@ -73,7 +74,8 @@ export const getClientPerquisitionWithPhotos = async (id: number): Promise<getPe
     return perquisitionsWithPhotos;
 };
 
-export const removeOne = async (id: number) => {
+export const deletePerquisition = async (id: number) => {
+    await clearsPerquisitionFiles(id);
     const request = db
         .delete(perquisitions)
         .where(eq(perquisitions.id, sql.placeholder("id")))
@@ -83,10 +85,10 @@ export const removeOne = async (id: number) => {
     });
 };
 
-export const removes = async (ids: number[]) => {
+export const deletesPerquisitions = async (ids: number[]) => {
     if (ids.length) {
         for (const id of ids) {
-            await removeOne(id);
+            await deletePerquisition(id);
         }
     }
 };
