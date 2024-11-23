@@ -8,6 +8,8 @@ import { createPropertyDto, updatePropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { clearGalleryFromVariantID, getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
+import { FilterPaginationType, OrderType } from "@/database/types";
+import { withPagination } from "./utils/entity";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -34,7 +36,10 @@ export const insertProperty = async (values: any) => {
     }
 };
 
-export const getPropertiesCollections = async () => {
+export const getPropertiesCollections = async (filter: FilterPaginationType) => {
+    console.log(filter);
+
+    const { page, order, limit } = filter;
     const result = db
         .select({
             id: properties.id,
@@ -51,7 +56,8 @@ export const getPropertiesCollections = async () => {
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
 
-    return await result;
+    const columnOrder = order === "asc" ? asc(properties.createdAt) : desc(properties.createdAt);
+    return await withPagination(result.$dynamic(), columnOrder, page, limit);
 };
 export const getOnePropertyByID = async (id: number | string) => {
     const request = db
@@ -233,7 +239,7 @@ export const getPropertiesWithVariantsOptions = async () => {
 type getPropertyPresentationArgs = {
     limit?: number;
     category?: number | string | null;
-    order?: "desc" | "asc";
+    order?: OrderType;
     isAvailable?: boolean | null;
     search?: string | null;
 };
