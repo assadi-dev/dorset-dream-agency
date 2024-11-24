@@ -37,7 +37,7 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     },
     {
         accessorKey: "keyNumber",
-        header: "N° Clé",
+        header: "N° clé",
     },
     {
         accessorKey: "transactionDate",
