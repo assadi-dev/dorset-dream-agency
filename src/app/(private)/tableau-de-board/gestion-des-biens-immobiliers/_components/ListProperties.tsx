@@ -16,11 +16,11 @@ const ListProperties = () => {
     const searchParams = useSearchParams();
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 5;
-    console.log(searchParams.get("limit"));
+    const search = searchParams.get("search") || "";
 
     const { data, isFetching, error } = useQuery({
-        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION, page, limit],
-        queryFn: () => fetchPropertiesCollections({ page, limit }),
+        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION, page, limit, search],
+        queryFn: () => fetchPropertiesCollections({ page, limit, search }),
         refetchOnMount: true,
         placeholderData: keepPreviousData,
     });
