@@ -136,16 +136,51 @@ export const updateTransaction = async (id: number, values: Partial<insertTransa
 type getLocationByPropertyArgs = {
     id?: number | string;
     type?: string;
+    filters?: FilterPaginationType;
 };
 
 /**
  * Obtenir les transaction lié aux clients
  */
-export const getLocationByPropertyType = async ({ id, type }: getLocationByPropertyArgs) => {
+export const getLocationByPropertyType = async ({ id, type, filters }: getLocationByPropertyArgs) => {
     try {
         if (!id) throw new Error("id client missing");
 
-        const prepare = db
+        const { page, limit, order, search } = filters as FilterPaginationType;
+        const clientCondition = id ? eq(clients.id, sql.placeholder("id")) : undefined;
+        const searchCondition = search
+            ? or(
+                  like(variants.name, sql.placeholder("search")),
+                  like(properties.name, sql.placeholder("search")),
+                  like(employees.firstName, sql.placeholder("search")),
+                  like(employees.lastName, sql.placeholder("search")),
+                  like(categoryProperties.name, sql.placeholder("search")),
+              )
+            : undefined;
+
+        let locationTypeCondition: any;
+        switch (type?.toLowerCase()) {
+            case "vente":
+                locationTypeCondition = or(
+                    eq(transactions.propertyService, "Ventes LS"),
+                    eq(transactions.propertyService, "Vente Iles"),
+                );
+                break;
+            case "location":
+                locationTypeCondition = or(
+                    eq(transactions.propertyService, "Location LS"),
+                    eq(transactions.propertyService, "Location Iles"),
+                );
+                break;
+            case "prestige":
+                locationTypeCondition = eq(categoryProperties.name, "Prestige");
+                break;
+
+            default:
+                return undefined;
+        }
+
+        const query = db
             .select({
                 id: transactions.id,
                 property: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
@@ -167,45 +202,31 @@ export const getLocationByPropertyType = async ({ id, type }: getLocationByPrope
             .leftJoin(employees, eq(employees.id, transactions.employeeID))
             .leftJoin(variants, eq(variants.id, transactions.variantID))
             .leftJoin(properties, eq(properties.id, variants.propertyID))
-            .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
-
-        switch (type?.toLocaleLowerCase()) {
-            case "location":
-                prepare.where(
-                    and(
-                        eq(clients.id, sql.placeholder("id")),
-                        or(
-                            eq(transactions.propertyService, "Location LS"),
-                            eq(transactions.propertyService, "Location Iles"),
-                        ),
-                    ),
-                );
-                break;
-
-            case "vente":
-                prepare.where(
-                    and(
-                        eq(clients.id, sql.placeholder("id")),
-                        or(
-                            eq(transactions.propertyService, "Ventes LS"),
-                            eq(transactions.propertyService, "Vente Iles"),
-                        ),
-                    ),
-                );
-
-                break;
-            case "prestige":
-                prepare.where(and(eq(clients.id, sql.placeholder("id")), eq(categoryProperties.name, "Prestige")));
-
-                break;
-
-            default:
-                break;
-        }
-
-        const result = await prepare.execute({
+            .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+            .where(and(clientCondition, locationTypeCondition, searchCondition))
+            .$dynamic();
+        const parameters: BindParameters = {
             id,
+            search: `%${search}%`,
+        };
+
+        const rowsCount = await query.execute({
+            ...parameters,
         });
-        return await result;
-    } catch (error) {}
+
+        const totalItems = rowsCount.length || 0;
+        const orderColumn = "createdAt";
+        const orderBy = order === "asc" ? asc(transactions[orderColumn]) : desc(transactions[orderColumn]);
+
+        const data = await withPagination(query, orderBy, page, limit, parameters);
+
+        return {
+            page,
+            totalItems,
+            limit,
+            data,
+        };
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
 };

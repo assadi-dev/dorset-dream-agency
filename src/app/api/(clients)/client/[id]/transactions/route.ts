@@ -2,6 +2,7 @@ import { PurchaseType } from "@/app/types/properties";
 import { db } from "@/database";
 import { getLocationByPropertyType } from "@/database/drizzle/repositories/transactions";
 import { clients } from "@/database/drizzle/schema/client";
+import { ExtractFilterParams } from "@/database/drizzle/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -16,11 +17,12 @@ type filterArg = {
     type?: PurchaseType | null;
 };
 export async function GET(req: NextRequest, { params: { id } }: Params) {
-    const filter: Record<string, string | PurchaseType | null> = { id } satisfies filterArg;
-    const params = req.nextUrl.searchParams;
-    if (params.get("type")) filter.type = params.get("type");
+    const searchParams = req.nextUrl.searchParams;
 
-    const clientsList = await getLocationByPropertyType(filter);
+    const filters = ExtractFilterParams(searchParams);
+    const type = searchParams.get("type") as string;
+
+    const clientsList = await getLocationByPropertyType({ id, type, filters });
 
     return NextResponse.json(clientsList);
 }

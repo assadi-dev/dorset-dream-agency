@@ -1,22 +1,29 @@
 import { useSearchParams } from "next/navigation";
 import React from "react";
-import { fetchClientLocations, fetchClientLocationsArgs } from "./helper";
-import { useQuery } from "@tanstack/react-query";
+import { fetchClientLocations, fetchClientLocationsArgs, filterClientTransaction } from "./helper";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import DataTable from "@/components/Datatable/Datatable";
 import { LOCATION_COLUMNS } from "./columns";
+import { USER_QUERY_KEY } from "@/app/types/QueryKeys";
+import useDataCollections from "@/hooks/useDataCollections";
 
 const PrestigeView = () => {
     const searchParams = useSearchParams();
-    const id = searchParams.get("id");
+    const id = searchParams.get("id") as string;
+    const search = searchParams.get("search") || "";
+    const limit = Number(searchParams.get("limit")) || 5;
+    const page = Number(searchParams.get("page")) || 1;
+    const type = "prestige";
 
-    const filter = { id: "", type: "prestige" } satisfies fetchClientLocationsArgs;
-    if (id) filter.id = id as string;
+    const filters = { type, search, page, limit } satisfies filterClientTransaction;
 
-    const { data, isFetching } = useQuery({
-        queryKey: ["USER_LOCATION_VENTES"],
-        queryFn: async () => fetchClientLocations(filter),
+    const { data, isFetching, error } = useQuery({
+        queryKey: [USER_QUERY_KEY.USER_LOCATION_VENTES, type, id, page, limit, search],
+        queryFn: () => fetchClientLocations({ id, filters }),
+        placeholderData: keepPreviousData,
     });
+    const PRESTIGE_DATA = useDataCollections(data);
 
     return (
         <div className="grid grid-rows-[auto,1fr] mt-3">
@@ -27,7 +34,7 @@ const PrestigeView = () => {
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">
-                {!isFetching && data ? <DataTable columns={LOCATION_COLUMNS} data={data} /> : null}
+                {!error ? <DataTable columns={LOCATION_COLUMNS} data={PRESTIGE_DATA.data} /> : null}
             </section>
         </div>
     );

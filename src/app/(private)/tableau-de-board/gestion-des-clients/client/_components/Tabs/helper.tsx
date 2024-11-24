@@ -30,13 +30,23 @@ export const CLIENT_TABS_DATA: ClientTabsType[] = [
     },
 ];
 
+export type filterClientTransaction = {
+    type?: "location" | "vente" | "prestige";
+    search?: string;
+    limit?: number;
+    page?: number;
+};
 export type fetchClientLocationsArgs = {
     id?: string | number;
-    type?: "location" | "vente" | "prestige";
+    filters: filterClientTransaction;
 };
-export const fetchClientLocations = async ({ id, type }: fetchClientLocationsArgs) => {
+export const fetchClientLocations = async ({ id, filters }: fetchClientLocationsArgs) => {
     try {
-        const res = await API_INSTANCE.get(`/client/${id}/transactions?type=${type}`);
+        const res = await API_INSTANCE.get(`/client/${id}/transactions`, {
+            params: {
+                ...filters,
+            },
+        });
         return res.data;
     } catch (error) {
         throw error;
