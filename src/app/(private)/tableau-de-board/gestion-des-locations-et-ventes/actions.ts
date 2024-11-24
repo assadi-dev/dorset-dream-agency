@@ -16,7 +16,7 @@ export const createTransaction = async (formData: FormData) => {
         propertyService: formData.get("propertyService"),
         sellingPrice: formData.get("price"),
         keyQuantity: formData.get("keyQuantity"),
-        keyNumber: formData.get("keyQuantity"),
+        keyNumber: formData.get("keyNumber"),
     };
 
     await insertTransaction(cleanValues);
