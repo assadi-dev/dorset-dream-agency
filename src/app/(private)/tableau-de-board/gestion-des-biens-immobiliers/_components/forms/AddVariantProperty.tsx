@@ -15,9 +15,9 @@ import { Form } from "@/components/ui/form";
 import { createVariantGalleryApi } from "../../ajouter/_components/form/helpers";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { PROPERTY_QUERY_KEY } from "../../helpers";
 import SubmitButton from "@/components/forms/SubmitButton";
 import uniqid from "uniqid";
+import { PROPERTY_QUERY_KEY } from "@/app/types/QueryKeys";
 
 const AddVariantProperty = () => {
     const { payload, closeModal } = useModalState();
