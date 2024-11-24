@@ -6,11 +6,14 @@ import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import AccountAction from "./AccountAction";
 import { CellColumn } from "@/app/types/ReactTable";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 type ListAccountsProps = {
     accounts: Array<any>;
+    limit: number;
+    totalItems: number;
 };
-const ListAccounts = ({ accounts }: ListAccountsProps) => {
+const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -24,7 +27,16 @@ const ListAccounts = ({ accounts }: ListAccountsProps) => {
     };
     const accountColumns = [...columns, actions];
 
-    return <DataTable columns={accountColumns} data={accounts} />;
+    return (
+        <>
+            <div className="flex justify-between">
+                <div></div>
+                <SimplePagination limit={limit} totalItems={totalItems} />
+            </div>
+
+            <DataTable columns={accountColumns} data={accounts} />
+        </>
+    );
 };
 
 export default ListAccounts;

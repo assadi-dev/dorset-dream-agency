@@ -5,13 +5,24 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import GestionCompteRightAction from "./_components/GestionCompteRightAction";
 import ListAccounts from "./_components/ListAccounts";
 import ModalProvider from "@/components/Modals/ModalProvider";
-import { getAccountCollections } from "./action";
+import { PaginationSearchParams } from "@/app/types";
+import { getAccountCollections } from "@/database/drizzle/repositories/users";
 
 export const metadata = setTitlePage("Gestion des comptes");
-const GestionEmployeePage = async () => {
+type GestionEmployeeParams = {
+    searchParams: PaginationSearchParams;
+};
+const GestionEmployeePage = async ({ searchParams }: GestionEmployeeParams) => {
+    const search = searchParams.search;
+    const limit = Number(searchParams.limit) || 5;
+    const page = Number(searchParams.page) || 1;
+
     const AccountsCollections = async () => {
-        const result = (await getAccountCollections()) as Array<any>;
-        return <ListAccounts accounts={result} />;
+        const filter = { page, limit, search };
+        const accounts = await getAccountCollections(filter);
+        return (
+            accounts && <ListAccounts accounts={accounts.data || []} limit={limit} totalItems={accounts.totalItems} />
+        );
     };
 
     return (

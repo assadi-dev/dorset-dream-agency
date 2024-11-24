@@ -15,8 +15,10 @@ import {
     userUpdateValidator,
     userValidator,
 } from "./dto/usersDTO";
-import { eq, sql } from "drizzle-orm";
+import { asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
+import { BindParameters, FilterPaginationType } from "@/database/types";
+import { withPagination } from "./utils/entity";
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -56,18 +58,40 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
     }
 };
 
-export const getAccountCollections = async () => {
+export const getAccountCollections = async (filter: FilterPaginationType) => {
     try {
-        const request = await db
+        const { search, order, limit, page } = filter;
+        const searchCondition = search
+            ? or(like(users.username, sql.placeholder("search")), like(users.role, sql.placeholder("search")))
+            : undefined;
+        const query = db
             .select({
                 id: users.id,
                 username: users.username,
                 role: users.role,
                 createdAt: users.createdAt,
             })
-            .from(users);
+            .from(users)
+            .where(searchCondition)
+            .$dynamic();
 
-        return request;
+        const orderByColumn = order === "asc" ? asc(users.createdAt) : desc(users.createdAt);
+        const parameters: BindParameters = {
+            search: `%${search}%`,
+        };
+
+        const rowsCount = await query.execute({
+            ...parameters,
+        });
+
+        const totalItems = rowsCount.length || 0;
+        const data = await withPagination(query, orderByColumn, page, limit, parameters);
+        return {
+            page,
+            totalItems,
+            limit,
+            data,
+        };
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }

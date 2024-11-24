@@ -73,23 +73,6 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
     }
 };
 
-export const getAccountCollections = async () => {
-    try {
-        const request = await db
-            .select({
-                id: users.id,
-                username: users.username,
-                role: users.role,
-                createdAt: users.createdAt,
-            })
-            .from(users);
-
-        return request;
-    } catch (error: any) {
-        if (error instanceof Error) throw new Error(error.message);
-    }
-};
-
 export const removeUsersAccounts = (usersIds: Array<number>) => {
     return deleteAccounts(usersIds);
 };
