@@ -36,6 +36,10 @@ export const columns: ColumnDef<LocationColumnType>[] = [
         header: "Catégorie",
     },
     {
+        accessorKey: "keyNumber",
+        header: "N° Clé",
+    },
+    {
         accessorKey: "transactionDate",
         header: "Date",
         cell: ({ row }: CellColumn) => datetimeFormatFr(row.getValue("transactionDate")),
