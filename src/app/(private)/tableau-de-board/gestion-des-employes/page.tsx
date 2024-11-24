@@ -5,18 +5,22 @@ import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { getEmployeeCollections } from "@/database/drizzle/repositories/employee";
+import { PaginationSearchParams } from "@/app/types";
 
 const EmployeeCollection = async ({ filter }: any) => {
     const employee = await getEmployeeCollections(filter);
-    return <ListEmployee employees={employee} />;
+    return <ListEmployee employees={employee?.data} />;
 };
 
 export const metadata = setTitlePage("Gestion des employés");
 type GestionEmployeePageProps = {
-    searchParams: { search: string };
+    searchParams: PaginationSearchParams;
 };
-const GestionEmployeePage = async ({ searchParams: { search } }: GestionEmployeePageProps) => {
-    const filter = { search };
+const GestionEmployeePage = async ({ searchParams }: GestionEmployeePageProps) => {
+    const page = Number(searchParams.page) || 1;
+    const limit = Number(searchParams.limit) || 15;
+    const search = searchParams.search || "";
+    const filter = { search, page, limit };
     return (
         <ModalProvider>
             <PageTemplate title="Employés" description="Gestion des employés et creations des comptes">

@@ -1,10 +1,15 @@
 import { getEmployeeCollections } from "@/database/drizzle/repositories/employee";
-import { NextResponse } from "next/server";
+import { ExtractFilterParams } from "@/database/drizzle/utils";
+import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
     try {
-        const search = "test";
-        const response = await getEmployeeCollections({ search });
+        const {
+            nextUrl: { searchParams },
+        } = request;
+
+        const filter = ExtractFilterParams(searchParams);
+        const response = await getEmployeeCollections(filter);
 
         return NextResponse.json(response);
     } catch (error: any) {

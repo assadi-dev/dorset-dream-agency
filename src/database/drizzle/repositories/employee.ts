@@ -1,12 +1,14 @@
 "use server";
 
 import { db } from "@/database";
-import { and, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
 import { EmployeeCreateInputDto, employeeValidator } from "./dto/employeeDTO";
 import { wait } from "@/lib/utils";
+import { withPagination } from "./utils/entity";
+import { BindParameters, FilterPaginationType } from "@/database/types";
 
 /**
  * Insertion des donné de l'employé
@@ -31,12 +33,11 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
     }
 };
 
-type getEmployeeCollectionsArgs = {
-    search?: string;
-};
-export const getEmployeeCollections = async ({ search }: getEmployeeCollectionsArgs) => {
+type getEmployeeCollectionsArgs = FilterPaginationType;
+export const getEmployeeCollections = async (filter: getEmployeeCollectionsArgs) => {
     try {
-        const request = db
+        const { page, limit, order, search } = filter;
+        const query = db
             .select({
                 id: employees.id,
                 name: sql<string>`CONCAT(${employees.lastName}," ",${employees.firstName})`,
@@ -50,7 +51,7 @@ export const getEmployeeCollections = async ({ search }: getEmployeeCollectionsA
             })
             .from(employees)
             .groupBy(employees.id)
-            .leftJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
+            .innerJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
             .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId))
             .orderBy(desc(employees.createdAt));
 
@@ -59,16 +60,31 @@ export const getEmployeeCollections = async ({ search }: getEmployeeCollectionsA
                   like(employees.lastName, sql.placeholder("search")),
                   like(employees.firstName, sql.placeholder("search")),
                   like(employees.post, sql.placeholder("search")),
+                  like(employees.iban, sql.placeholder("search")),
                   like(secteurs.name, sql.placeholder("search")),
               )
             : undefined;
-        request.where(and(searchCondition));
 
-        const response = await request.execute({
+        const parameters: BindParameters = {
             search: `%${search}%`,
+        };
+
+        query.where(and(searchCondition));
+        const orderbyColumn = order === "asc" ? asc(employees.createdAt) : desc(employees.createdAt);
+
+        const rowsCount = await query.execute({
+            ...parameters,
         });
 
-        return response;
+        const totalItems = rowsCount.length || 0;
+        const data = await withPagination(query.$dynamic(), orderbyColumn, page, limit, parameters);
+
+        return {
+            page,
+            totalItems,
+            limit,
+            data,
+        };
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }

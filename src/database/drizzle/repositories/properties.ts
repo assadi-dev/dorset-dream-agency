@@ -79,6 +79,7 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
     const data = await withPagination(query.$dynamic(), orderby, page, limit, parameters);
 
     return {
+        page,
         totalItems,
         limit,
         order,
@@ -262,6 +263,7 @@ export const getPropertiesWithVariantsCollections = async (
     const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
     const data = await withPagination(query.$dynamic(), orderby, page, limit, parameters);
     return {
+        page,
         totalItems,
         limit,
         order,

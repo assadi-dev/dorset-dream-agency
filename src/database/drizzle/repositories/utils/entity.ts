@@ -1,3 +1,4 @@
+import { BindParameters } from "@/database/types";
 import { SQL } from "drizzle-orm";
 import { MySqlColumn, MySqlSelect } from "drizzle-orm/mysql-core";
 
@@ -6,7 +7,7 @@ export function withPagination<T extends MySqlSelect>(
     orderByColumn: MySqlColumn | SQL | SQL.Aliased,
     page = 1,
     limit = 5,
-    bindParams?: Record<string, string>,
+    bindParams?: BindParameters,
 ) {
     const query = qb
         .orderBy(orderByColumn)
