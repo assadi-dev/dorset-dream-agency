@@ -32,12 +32,9 @@ const SimplePagination = ({
 
     const updateRouteParams = React.useCallback(
         (key: string, value: string) => {
-            console.log(key, value);
-
             const updatedSearchParams = new URLSearchParams(searchParams.toString());
             updatedSearchParams.set(key, value);
             const updatePathName = pathname + "?" + updatedSearchParams.toString();
-            console.log(updatePathName);
 
             router.push(updatePathName);
         },

@@ -12,12 +12,10 @@ type ListeClientsProps = {
     limit: number;
 };
 const ListeClients = ({ clients, totalItems, limit }: ListeClientsProps) => {
-    const handleSearch = (v: string | null) => console.log(v);
-
     return (
         <div>
             <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr]  items-center">
-                <SearchInputDataTable onSearch={handleSearch} />
+                <SearchInputDataTable />
 
                 <ClientPageRightAction />
             </div>
