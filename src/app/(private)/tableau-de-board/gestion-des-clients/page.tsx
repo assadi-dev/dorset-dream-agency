@@ -11,18 +11,14 @@ import { notFound } from "next/navigation";
 import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import { getClientsCollections } from "@/database/drizzle/repositories/clients";
+import { PaginationSearchParams } from "@/app/types";
 
 export const metadata = setTitlePage("Clients");
 
 type ClientPageParams = {
-    searchParams: {
-        search: string;
-        limit: string;
-        page: string;
-    };
+    searchParams: PaginationSearchParams;
 };
 const ClientPage = async ({ searchParams }: ClientPageParams) => {
-    console.log(searchParams);
     const page = Number(searchParams.page) || 1;
     const limit = Number(searchParams.limit) || 15;
     const search = searchParams.search || "";

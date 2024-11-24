@@ -13,3 +13,9 @@ export type UserCredential =
           grade?: string;
       })
     | null;
+
+export type PaginationSearchParams = {
+    search: string;
+    limit: string;
+    page: string;
+};

@@ -6,10 +6,20 @@ import ListLocation from "./_components/ListLocation";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionLocationRightAction from "./_components/GestionLocationRightAction";
 import { getTransactions } from "./actions";
+import { PaginationSearchParams } from "@/app/types";
 
 export const metadata = setTitlePage("Location & Ventes");
-const TransactionPage = async () => {
-    const transactionsCollections = await getTransactions();
+
+type TransactionPageParams = {
+    searchParams: PaginationSearchParams;
+};
+
+const TransactionPage = async ({ searchParams }: TransactionPageParams) => {
+    const page = Number(searchParams.page) || 1;
+    const limit = Number(searchParams.limit) || 5;
+    const search = searchParams.search || "";
+    const transactionsCollections = await getTransactions({ page, limit, search });
+
     return (
         <ModalProvider>
             <PageTemplate title="Location - Ventes" description="Gestion des locations et ventes">
@@ -20,7 +30,11 @@ const TransactionPage = async () => {
                     </div>
                 </section>
                 <section>
-                    <ListLocation transactions={transactionsCollections} />
+                    <ListLocation
+                        transactions={transactionsCollections.data}
+                        limit={limit}
+                        totalItems={transactionsCollections.totalItems}
+                    />
                 </section>
             </PageTemplate>
         </ModalProvider>

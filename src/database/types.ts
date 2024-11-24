@@ -7,3 +7,5 @@ export type FilterPaginationType = {
     orderColumn?: string;
     search?: string | null;
 };
+
+export type BindParameters = Record<string, any> | undefined;

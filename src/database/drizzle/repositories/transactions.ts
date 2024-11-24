@@ -2,12 +2,14 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { and, eq, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
 import { decodeTransactionInput } from "./dto/transactionsDTO";
 import { categoryProperties } from "../schema/categoryProperties";
+import { BindParameters, FilterPaginationType } from "@/database/types";
+import { withPagination } from "./utils/entity";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 
@@ -26,9 +28,11 @@ export const insertTransaction = async (values: unknown) => {
     }
 };
 
-export const getTransactionCollection = async () => {
+export const getTransactionCollection = async (filter: FilterPaginationType) => {
     try {
-        const result = db
+        const { page, limit, order, search } = filter;
+
+        const query = db
             .select({
                 id: transactions.id,
                 property: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
@@ -52,7 +56,24 @@ export const getTransactionCollection = async () => {
             .leftJoin(properties, eq(properties.id, variants.propertyID))
             .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
 
-        return await result;
+        const parameters: BindParameters = {
+            search: `%${search}%`,
+        };
+
+        const rowsCount = await query.execute({
+            ...parameters,
+        });
+
+        const totalItems = rowsCount.length || 0;
+        const orderByColumn = order === "asc" ? asc(transactions.createdAt) : desc(transactions.createdAt);
+
+        const data = await withPagination(query.$dynamic(), orderByColumn, page, limit, parameters);
+        return {
+            totalItems,
+            limit,
+            order,
+            data,
+        };
     } catch (error: any) {
         throw error;
     }

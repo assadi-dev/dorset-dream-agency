@@ -5,11 +5,14 @@ import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import TransactionActions from "./TransactionActions";
 import { CellColumn } from "@/app/types/ReactTable";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 type ListLocationProps = {
-    transactions: any;
+    transactions: any[];
+    totalItems: number;
+    limit: number;
 };
-const ListLocation = ({ transactions }: ListLocationProps) => {
+const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) => {
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -21,9 +24,17 @@ const ListLocation = ({ transactions }: ListLocationProps) => {
             );
         },
     };
-    const transactionssColumn = [...columns, actions];
+    const transactionsColumn = [...columns, actions];
 
-    return <DataTable columns={transactionssColumn} data={transactions} />;
+    return (
+        <>
+            <div className="my-5 flex justify-between items-center">
+                <div></div>
+                <SimplePagination limit={limit} totalItems={totalItems} />
+            </div>
+            <DataTable columns={transactionsColumn} data={transactions} />
+        </>
+    );
 };
 
 export default ListLocation;

@@ -7,6 +7,7 @@ import {
     updateTransaction,
 } from "@/database/drizzle/repositories/transactions";
 import { LocationVentesFormType } from "./_components/forms/schema";
+import { FilterPaginationType } from "@/database/types";
 
 export const createTransaction = async (formData: FormData) => {
     const cleanValues = {
@@ -22,8 +23,8 @@ export const createTransaction = async (formData: FormData) => {
     await insertTransaction(cleanValues);
 };
 
-export const getTransactions = async () => {
-    const transactions = await getTransactionCollection();
+export const getTransactions = async (filter: FilterPaginationType) => {
+    const transactions = await getTransactionCollection(filter);
     return transactions;
 };
 
