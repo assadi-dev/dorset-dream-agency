@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
         const limit = Number(searchParams.get("limit")) || 5;
         const page = Number(searchParams.get("page")) || 1;
         const order = searchParams.get("order")?.toLowerCase() || "desc";
-        const filter = { page, limit, order: order as OrderType };
+        const search = searchParams.get("search")?.toLowerCase() || null;
+        const filter = { search, page, limit, order: order as OrderType };
 
         const properties = await getPropertiesCollections(filter);
 

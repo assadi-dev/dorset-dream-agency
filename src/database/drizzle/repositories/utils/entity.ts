@@ -6,9 +6,17 @@ export function withPagination<T extends MySqlSelect>(
     orderByColumn: MySqlColumn | SQL | SQL.Aliased,
     page = 1,
     limit = 5,
+    bindParams?: Record<string, string>,
 ) {
-    return qb
+    const query = qb
         .orderBy(orderByColumn)
         .limit(limit)
         .offset((page - 1) * limit);
+    if (bindParams) {
+        return query.prepare().execute({
+            ...bindParams,
+        });
+    }
+
+    return query;
 }

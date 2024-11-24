@@ -38,8 +38,8 @@ export const insertProperty = async (values: any) => {
 };
 
 export const getPropertiesCollections = async (filter: FilterPaginationType) => {
-    const { page, order, limit, orderColumn } = filter;
-    const result = db
+    const { page, order, limit, search } = filter;
+    const query = db
         .select({
             id: properties.id,
             name: properties.name,
@@ -60,8 +60,21 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
 
     const rowsCount = await db.select({ count: count() }).from(properties);
     const totalItems = rowsCount[0].count;
+    const queryWithCondition = search
+        ? query
+              .$dynamic()
+              .where(
+                  or(
+                      like(properties.name, sql.placeholder("search")),
+                      like(categoryProperties.name, sql.placeholder("search")),
+                  ),
+              )
+        : query.$dynamic();
+    const parameters = {
+        search: `%${search}%`,
+    };
+    const data = await withPagination(queryWithCondition, orderby, page, limit, parameters);
 
-    const data = await withPagination(result.$dynamic(), orderby, page, limit);
     return {
         totalItems,
         limit,
