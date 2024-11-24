@@ -8,6 +8,8 @@ import AlertDestructive from "@/components/notify/AlertDestructive";
 import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
 import { PROPERTY_QUERY_KEY } from "@/app/types/QueryKeys";
 import { useSearchParams } from "next/navigation";
+import useDataCollections from "@/hooks/useDataCollections";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 const ListsPrestige = () => {
     const searchParams = useSearchParams();
@@ -21,20 +23,15 @@ const ListsPrestige = () => {
         refetchOnMount: true,
     });
 
-    const PRESTIGE_DATA = React.useMemo(() => {
-        if (!data) return [];
-        return data;
-    }, [data]);
+    const PRESTIGE_COLLECTION = useDataCollections(data);
 
-    const totalPagination = data ? data.totalItems : 0;
     return (
         <div>
             <div className="my-3">{error ? <AlertDestructive title="Erreur" description={error.message} /> : null}</div>
             <div className="flex justify-end my-3">
-                {" "}
-                <PaginationDataTable />
+                {!error && <SimplePagination totalItems={PRESTIGE_COLLECTION.totalItems} limit={limit} />}
             </div>
-            <DataTable columns={columns} data={PRESTIGE_DATA} />
+            {!error && <DataTable columns={columns} data={PRESTIGE_COLLECTION.data} />}
         </div>
     );
 };

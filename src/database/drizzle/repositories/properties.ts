@@ -39,7 +39,11 @@ export const insertProperty = async (values: any) => {
 export const getPropertiesCollections = async (filter: FilterPaginationType) => {
     const { page, order, limit, search } = filter;
     const searchCondition = search
-        ? or(like(properties.name, sql.placeholder("search")), like(categoryProperties.name, sql.placeholder("search")))
+        ? or(
+              like(properties.name, sql.placeholder("search")),
+              like(properties.address, sql.placeholder("search")),
+              like(categoryProperties.name, sql.placeholder("search")),
+          )
         : undefined;
 
     const query = db
@@ -206,15 +210,32 @@ export const removePropertyWithFiles = async (ids: number[] | string[]) => {
 };
 
 type getPropertiesWithVariantsArgs = {
-    type?: string | null;
+    categoryName?: string | null;
 };
 /**
  * Récupérations des bien immobilier et ses variantes  index utiliser  dans cette requête et l'id de la variantes
  *
  * **Attention:**  l'id variant est utilisé en tant que id unique
  */
-export const getPropertiesWithVariantsCollections = async ({ type }: getPropertiesWithVariantsArgs) => {
-    const result = db
+export const getPropertiesWithVariantsCollections = async (
+    filter: FilterPaginationType & getPropertiesWithVariantsArgs,
+) => {
+    const { categoryName, search, page, limit, order } = filter;
+    const searchCondition = search
+        ? or(
+              like(properties.name, sql.placeholder("search")),
+              like(properties.address, sql.placeholder("search")),
+              like(categoryProperties.name, sql.placeholder("search")),
+          )
+        : undefined;
+    const categoryCondition = categoryName ? eq(categoryProperties.name, sql.placeholder("categoryName")) : undefined;
+
+    const parameters = {
+        search: `%${search}%`,
+        categoryName: categoryName,
+    };
+
+    const query = db
         .select({
             id: variants.id,
             propertyID: properties.id,
@@ -233,10 +254,26 @@ export const getPropertiesWithVariantsCollections = async ({ type }: getProperti
         .leftJoin(properties, eq(properties.id, variants.propertyID))
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .orderBy(sql`${variants.createdAt} desc`);
-    if (type !== "all" && type) {
-        result.where(sql<string>`${categoryProperties.name}=${type}`);
+    if (categoryName !== "all" && categoryName) {
+        query.where(and(searchCondition, categoryCondition));
     }
-    return await result;
+    const rowsCount = await db
+        .select({ count: count() })
+        .from(properties)
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .where(and(searchCondition, categoryCondition))
+        .prepare()
+        .execute({ ...parameters });
+    const totalItems = rowsCount[0].count;
+    const columnToOrder = "createdAt";
+    const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
+    const data = await withPagination(query.$dynamic(), orderby, page, limit, parameters);
+    return {
+        totalItems,
+        limit,
+        order,
+        data,
+    };
 };
 
 /**

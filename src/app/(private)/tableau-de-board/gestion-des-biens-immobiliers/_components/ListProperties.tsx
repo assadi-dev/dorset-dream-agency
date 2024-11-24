@@ -12,6 +12,7 @@ import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import { useSearchParams } from "next/navigation";
 import { PROPERTY_QUERY_KEY } from "@/app/types/QueryKeys";
+import useDataCollections from "@/hooks/useDataCollections";
 
 const ListProperties = () => {
     const searchParams = useSearchParams();
@@ -26,16 +27,7 @@ const ListProperties = () => {
         placeholderData: keepPreviousData,
     });
 
-    const PROPERTIES_COLLECTIONS = React.useMemo<{
-        data: any[];
-        totalItems: number;
-    }>(() => {
-        if (!data) return { data: [], totalItems: 0 };
-        return {
-            data: data.data,
-            totalItems: data.totalItems,
-        };
-    }, [data]);
+    const PROPERTIES_COLLECTIONS = useDataCollections(data);
 
     const actions = {
         id: "actions",
