@@ -2,7 +2,7 @@
 import DataTable from "@/components/Datatable/Datatable";
 import React from "react";
 import { columns } from "./columns";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { PROPERTY_QUERY_KEY, fetchPropertiesCollections } from "../helpers";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
@@ -10,13 +10,22 @@ import ActionsImmobilier from "./ActionsImmobilier";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
+import { useSearchParams } from "next/navigation";
 
 const ListProperties = () => {
+    const searchParams = useSearchParams();
+    const page = Number(searchParams.get("page")) || 1;
+    const limit = Number(searchParams.get("limit")) || 5;
+    console.log(searchParams.get("limit"));
+
     const { data, isFetching, error } = useQuery({
-        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION],
-        queryFn: fetchPropertiesCollections,
+        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION, page, limit],
+        queryFn: () => fetchPropertiesCollections({ page, limit }),
         refetchOnMount: true,
+        placeholderData: keepPreviousData,
     });
+
+    const totalPagination = data ? data.totalItems : 0;
 
     const actions = {
         id: "actions",
@@ -42,9 +51,9 @@ const ListProperties = () => {
             )}
             <div className="mb-3 flex items-center justify-between">
                 <div></div>
-                <SimplePagination totalItems={0} limit={15} />
+                {!error && data && <SimplePagination totalItems={totalPagination} limit={limit} />}
             </div>
-            {!error && data ? <DataTable columns={ImmobilierColumns} data={data} /> : null}
+            {!error && data ? <DataTable columns={ImmobilierColumns} data={data.data} /> : null}
         </div>
     );
 };

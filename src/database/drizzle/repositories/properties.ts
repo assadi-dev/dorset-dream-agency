@@ -3,13 +3,14 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { and, asc, desc, eq, ilike, like, or, sql } from "drizzle-orm";
+import { and, AnyColumn, asc, count, desc, eq, ilike, like, or, sql } from "drizzle-orm";
 import { createPropertyDto, updatePropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { clearGalleryFromVariantID, getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
 import { withPagination } from "./utils/entity";
+import { MySqlColumn, MySqlTableWithColumns } from "drizzle-orm/mysql-core";
 
 export const insertProperty = async (values: any) => {
     try {
@@ -37,9 +38,7 @@ export const insertProperty = async (values: any) => {
 };
 
 export const getPropertiesCollections = async (filter: FilterPaginationType) => {
-    console.log(filter);
-
-    const { page, order, limit } = filter;
+    const { page, order, limit, orderColumn } = filter;
     const result = db
         .select({
             id: properties.id,
@@ -56,8 +55,19 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
 
-    const columnOrder = order === "asc" ? asc(properties.createdAt) : desc(properties.createdAt);
-    return await withPagination(result.$dynamic(), columnOrder, page, limit);
+    const columnToOrder = "createdAt";
+    const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
+
+    const rowsCount = await db.select({ count: count() }).from(properties);
+    const totalItems = rowsCount[0].count;
+
+    const data = await withPagination(result.$dynamic(), orderby, page, limit);
+    return {
+        totalItems,
+        limit,
+        order,
+        data,
+    };
 };
 export const getOnePropertyByID = async (id: number | string) => {
     const request = db

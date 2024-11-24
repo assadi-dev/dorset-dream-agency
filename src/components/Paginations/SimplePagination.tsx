@@ -31,10 +31,14 @@ const SimplePagination = ({
     const router = useRouter();
 
     const updateRouteParams = React.useCallback(
-        (value: string) => {
+        (key: string, value: string) => {
+            console.log(key, value);
+
             const updatedSearchParams = new URLSearchParams(searchParams.toString());
-            updatedSearchParams.set("page", value);
+            updatedSearchParams.set(key, value);
             const updatePathName = pathname + "?" + updatedSearchParams.toString();
+            console.log(updatePathName);
+
             router.push(updatePathName);
         },
         [pathname, router, searchParams],
@@ -58,7 +62,7 @@ const SimplePagination = ({
             canNextPage: false,
             canPreviousPage: true,
         });
-        updateRouteParams(String(TOTAL_PAGE));
+        updateRouteParams("page", String(TOTAL_PAGE));
     };
     const goFirstPage = () => {
         setPaginationState({
@@ -66,22 +70,23 @@ const SimplePagination = ({
             canPreviousPage: false,
             canNextPage: false,
         });
-        updateRouteParams("1");
+        updateRouteParams("page", "1");
     };
 
     const goPreviousPage = () => {
         const newPage = Number(page) - 1;
         setPaginationState({ page: newPage });
-        updateRouteParams(String(newPage));
+        updateRouteParams("page", String(newPage));
     };
     const goNextPage = () => {
         const newPage = Number(page) + 1;
         setPaginationState({ page: newPage });
-        updateRouteParams(String(newPage));
+        updateRouteParams("page", String(newPage));
     };
 
     const handleSelectLimit = (value: any) => {
         setPaginationState({ limit: Number(value) });
+        updateRouteParams("limit", String(value));
     };
 
     React.useEffect(() => {
@@ -92,22 +97,22 @@ const SimplePagination = ({
             if (TOTAL_PAGE === 1) {
                 obj.canPreviousPage = false;
                 obj.canNextPage = false;
-                updateRouteParams(String(obj.page));
+                updateRouteParams("page", String(obj.page));
             } else if (currentPage <= 1) {
                 obj.page = 1;
                 obj.canPreviousPage = false;
-                updateRouteParams(String(obj.page));
+                updateRouteParams("page", String(obj.page));
             } else if (currentPage > 1 && currentPage < TOTAL_PAGE) {
                 obj.canPreviousPage = true;
                 obj.canNextPage = true;
             } else if (currentPage >= TOTAL_PAGE) {
-                updateRouteParams(String(TOTAL_PAGE));
+                updateRouteParams("page", String(TOTAL_PAGE));
                 obj.page = TOTAL_PAGE;
                 obj.canNextPage = false;
             }
             setPaginationState(obj);
         }
-    }, [page, paginationState.limit, totalItems]);
+    }, [totalItems, limit, page]);
 
     return (
         <div className="flex items-center  px-2 my-3">
