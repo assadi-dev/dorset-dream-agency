@@ -75,9 +75,9 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
             search: `%${search}%`,
         };
         data = await withPagination(queryWithCondition, orderby, page, limit, parameters);
+    } else {
+        data = await withPagination(query.$dynamic(), orderby, page, limit);
     }
-
-    data = await withPagination(query.$dynamic(), orderby, page, limit);
 
     return {
         totalItems,
