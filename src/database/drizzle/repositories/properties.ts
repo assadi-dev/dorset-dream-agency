@@ -3,14 +3,13 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { and, AnyColumn, asc, count, desc, eq, ilike, like, or, sql } from "drizzle-orm";
-import { createPropertyDto, updatePropertyDto } from "./dto/propertiesDTO";
+import { and, asc, count, desc, eq, like, or, sql } from "drizzle-orm";
+import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { clearGalleryFromVariantID, getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
+import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
 import { withPagination } from "./utils/entity";
-import { MySqlColumn, MySqlTableWithColumns } from "drizzle-orm/mysql-core";
 
 export const insertProperty = async (values: any) => {
     try {
