@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        const response = await getPropertiesWithVariantsCollections({ type: null });
+        const response = await getPropertiesWithVariantsCollections({ categoryName: null });
 
         return NextResponse.json(response);
     } catch (error: any) {
