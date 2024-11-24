@@ -7,6 +7,7 @@ import { fetchClientLocations, fetchClientLocationsArgs, filterClientTransaction
 import { useSearchParams } from "next/navigation";
 import { USER_QUERY_KEY } from "@/app/types/QueryKeys";
 import useDataCollections from "@/hooks/useDataCollections";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 const LocationsView = () => {
     const searchParams = useSearchParams();
@@ -34,6 +35,10 @@ const LocationsView = () => {
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">
+                <div className="flex justify-between">
+                    <div></div>
+                    <SimplePagination limit={limit} totalItems={LOCATION_DATA.totalItems} />
+                </div>
                 {!error ? <DataTable columns={LOCATION_COLUMNS} data={LOCATION_DATA.data} /> : null}
             </section>
         </div>

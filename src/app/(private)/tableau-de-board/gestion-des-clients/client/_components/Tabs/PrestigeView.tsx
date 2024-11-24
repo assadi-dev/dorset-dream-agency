@@ -7,6 +7,7 @@ import DataTable from "@/components/Datatable/Datatable";
 import { LOCATION_COLUMNS } from "./columns";
 import { USER_QUERY_KEY } from "@/app/types/QueryKeys";
 import useDataCollections from "@/hooks/useDataCollections";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 const PrestigeView = () => {
     const searchParams = useSearchParams();
@@ -34,6 +35,10 @@ const PrestigeView = () => {
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">
+                <div className="flex justify-between">
+                    <div></div>
+                    <SimplePagination limit={limit} totalItems={PRESTIGE_DATA.totalItems} />
+                </div>
                 {!error ? <DataTable columns={LOCATION_COLUMNS} data={PRESTIGE_DATA.data} /> : null}
             </section>
         </div>

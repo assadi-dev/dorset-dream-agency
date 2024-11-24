@@ -12,10 +12,7 @@ type Params = {
         id: string;
     };
 };
-type filterArg = {
-    id: string | number;
-    type?: PurchaseType | null;
-};
+
 export async function GET(req: NextRequest, { params: { id } }: Params) {
     const searchParams = req.nextUrl.searchParams;
 

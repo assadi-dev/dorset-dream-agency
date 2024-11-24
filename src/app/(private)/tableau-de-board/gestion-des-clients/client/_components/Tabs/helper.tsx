@@ -6,6 +6,7 @@ import PrestigeView from "./PrestigeView";
 import SelsView from "./SelsView";
 import { PurchaseType } from "@/app/types/properties";
 import { wait } from "@/lib/utils";
+import { FilterPaginationType } from "@/database/types";
 
 export const CLIENT_TABS_DATA: ClientTabsType[] = [
     {
@@ -55,10 +56,15 @@ export const fetchClientLocations = async ({ id, filters }: fetchClientLocations
 
 export type fetchClientPerquisitionWarrantArgs = {
     id?: string | number;
+    filters?: FilterPaginationType;
 };
-export const fetchClientPerquisitionWarrant = async ({ id }: fetchClientPerquisitionWarrantArgs) => {
+export const fetchClientPerquisitionWarrant = async ({ id, filters }: fetchClientPerquisitionWarrantArgs) => {
     try {
-        const res = await API_INSTANCE.get(`/client/${id}/perquisitions`);
+        const res = await API_INSTANCE.get(`/client/${id}/perquisitions`, {
+            params: {
+                ...filters,
+            },
+        });
         return res.data;
     } catch (error) {
         throw error;

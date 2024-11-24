@@ -1,13 +1,15 @@
 "use server";
 
 import { db } from "@/database";
-import { desc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { perquisitions } from "../schema/perquisitions";
 import { perquisitionDecode } from "./dto/perquisitionsPhotosDTO";
 import { employees } from "../schema/employees";
 import { clients } from "../schema/client";
 import { clearPerquisitionFiles, getWarrantPerquisitionPhotos } from "./perquisitionsToPhotos";
 import { photos } from "../schema/photos";
+import { withPagination } from "./utils/entity";
+import { BindParameters, FilterPaginationType } from "@/database/types";
 
 export const insertPerquisition = async (values: any) => {
     const validateInput = perquisitionDecode.perquisitionInput(values);
@@ -38,17 +40,36 @@ export const findOne = async (id: number) => {
 };
 
 type PhotoType = Omit<typeof photos.$inferSelect, "createdAt" | "updatedAt">;
-
-type getPerquisitionWithPhotosType = {
+type WarrantPerquisitionDataType = {
     id: number;
     employee: any;
     client: any;
     createdAt: Date | null;
     photos: any[];
 };
-export const getClientPerquisitionWithPhotos = async (id: number): Promise<getPerquisitionWithPhotosType[]> => {
-    const perquisitionsWithPhotos: getPerquisitionWithPhotosType[] = [];
-    const perquisitionsRequest = db
+
+type getPerquisitionWithPhotosType = {
+    page: number;
+    totalItems: number;
+    limit: number;
+    data: WarrantPerquisitionDataType[];
+};
+export const getClientPerquisitionWithPhotos = async (
+    id: number,
+    filters: FilterPaginationType,
+): Promise<getPerquisitionWithPhotosType> => {
+    const { page, limit, order, search } = filters;
+    const clientCondition = id ? eq(clients.id, sql.placeholder("id")) : undefined;
+    const searchCondition = search
+        ? or(
+              like(perquisitions.id, sql.placeholder("search")),
+              like(employees.firstName, sql.placeholder("search")),
+              like(employees.lastName, sql.placeholder("search")),
+          )
+        : undefined;
+
+    const perquisitionsWithPhotos: WarrantPerquisitionDataType[] = [];
+    const perquisitionsQuery = db
         .select({
             id: perquisitions.id,
             employee: sql`CONCAT(${employees.firstName}, " ",${employees.lastName})`,
@@ -58,18 +79,35 @@ export const getClientPerquisitionWithPhotos = async (id: number): Promise<getPe
         .from(perquisitions)
         .leftJoin(clients, eq(clients.id, perquisitions.clientID))
         .leftJoin(employees, eq(employees.id, perquisitions.employeeID))
-        .where(eq(clients.id, sql.placeholder("id")))
-        .orderBy(desc(perquisitions.createdAt))
-        .prepare();
-    const perquisitionsResult = await perquisitionsRequest.execute({
+        .where(and(clientCondition, searchCondition))
+        .$dynamic();
+
+    const parameters: BindParameters = {
         id,
+        search: `%${search}%`,
+    };
+
+    const rowsCount = await perquisitionsQuery.execute({
+        ...parameters,
     });
+
+    const totalItems = rowsCount.length || 0;
+    const orderColumn = "createdAt";
+    const orderBy = order === "asc" ? asc(perquisitions[orderColumn]) : desc(perquisitions[orderColumn]);
+
+    const perquisitionsResult = await withPagination(perquisitionsQuery, orderBy, page, limit, parameters);
+
     for (const perquisition of perquisitionsResult) {
         const photos = await getWarrantPerquisitionPhotos(perquisition.id);
         if (photos) perquisitionsWithPhotos.push({ ...perquisition, photos });
     }
 
-    return perquisitionsWithPhotos;
+    return {
+        page: Number(page),
+        totalItems,
+        limit: Number(limit),
+        data: perquisitionsWithPhotos,
+    };
 };
 
 export const deletePerquisition = async (id: number) => {

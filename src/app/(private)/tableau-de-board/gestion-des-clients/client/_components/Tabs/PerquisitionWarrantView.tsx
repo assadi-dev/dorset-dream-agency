@@ -1,7 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import { fetchClientPerquisitionWarrant, fetchClientPerquisitionWarrantArgs } from "./helper";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import DataTable from "@/components/Datatable/Datatable";
 import { WARRANT_COLUMNS } from "./columns";
@@ -11,17 +11,26 @@ import { CellColumn } from "@/app/types/ReactTable";
 import WarrantActions from "./columns/WarrantActions";
 import useModalState from "@/hooks/useModalState";
 import AddWarrant from "./views/AddWarrant";
+import SimplePagination from "@/components/Paginations/SimplePagination";
+import { USER_QUERY_KEY } from "@/app/types/QueryKeys";
+import useDataCollections from "@/hooks/useDataCollections";
 
 const PerquisitionWarrantView = () => {
     const searchParams = useSearchParams();
-    const id = searchParams.get("id");
-    const filter: fetchClientPerquisitionWarrantArgs = { id: "" };
-    if (id) filter.id = id as string;
+    const id = searchParams.get("id") as string;
+    const search = searchParams.get("search") || "";
+    const limit = Number(searchParams.get("limit")) || 5;
+    const page = Number(searchParams.get("page")) || 1;
+    const type = "prestige";
 
-    const { data, isFetching } = useQuery({
-        queryKey: ["USER_PERQUISITIONS_WARRANT"],
-        queryFn: async () => fetchClientPerquisitionWarrant(filter),
+    const filters = { type, search, page, limit };
+
+    const { data, isFetching, error } = useQuery({
+        queryKey: [USER_QUERY_KEY.USER_PERQUISITIONS_WARRANT, id, filters],
+        queryFn: async () => fetchClientPerquisitionWarrant({ id, filters }),
+        placeholderData: keepPreviousData,
     });
+
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -44,6 +53,8 @@ const PerquisitionWarrantView = () => {
         });
     };
 
+    const WARRANT_DATA = useDataCollections(data);
+
     return (
         <div className="grid grid-rows-[auto,1fr] mt-3">
             <section>
@@ -55,7 +66,11 @@ const PerquisitionWarrantView = () => {
                 </div>
             </section>
             <section className="min-h-[calc(80vh-220px)]">
-                {data ? <DataTable columns={WARRANT_COLUMNS_ID} data={data} /> : null}
+                <div className="flex justify-between">
+                    <div></div>
+                    <SimplePagination limit={limit} totalItems={WARRANT_DATA.totalItems} />
+                </div>
+                {!error ? <DataTable columns={WARRANT_COLUMNS_ID} data={WARRANT_DATA.data} /> : null}
             </section>
         </div>
     );
