@@ -55,7 +55,7 @@ const ListProperties = () => {
                 <div></div>
                 {!error && <SimplePagination totalItems={PROPERTIES_COLLECTIONS.totalItems} limit={limit} />}
             </div>
-            <DataTable columns={ImmobilierColumns} data={PROPERTIES_COLLECTIONS.data} />
+            {!error && <DataTable columns={ImmobilierColumns} data={PROPERTIES_COLLECTIONS.data} />}
         </div>
     );
 };
