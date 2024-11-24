@@ -3,7 +3,7 @@ import DataTable from "@/components/Datatable/Datatable";
 import React from "react";
 import { columns } from "./columns";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { PROPERTY_QUERY_KEY, fetchPropertiesCollections } from "../helpers";
+import { fetchPropertiesCollections } from "../helpers";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import ActionsImmobilier from "./ActionsImmobilier";
@@ -11,6 +11,7 @@ import DropdownActions from "@/components/Datatable/DropdownActions";
 import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import { useSearchParams } from "next/navigation";
+import { PROPERTY_QUERY_KEY } from "@/app/types/QueryKeys";
 
 const ListProperties = () => {
     const searchParams = useSearchParams();
@@ -25,7 +26,16 @@ const ListProperties = () => {
         placeholderData: keepPreviousData,
     });
 
-    const totalPagination = data ? data.totalItems : 0;
+    const PROPERTIES_COLLECTIONS = React.useMemo<{
+        data: any[];
+        totalItems: number;
+    }>(() => {
+        if (!data) return { data: [], totalItems: 0 };
+        return {
+            data: data.data,
+            totalItems: data.totalItems,
+        };
+    }, [data]);
 
     const actions = {
         id: "actions",
@@ -51,9 +61,9 @@ const ListProperties = () => {
             )}
             <div className="mb-3 flex items-center justify-between">
                 <div></div>
-                {!error && data && <SimplePagination totalItems={totalPagination} limit={limit} />}
+                {!error && <SimplePagination totalItems={PROPERTIES_COLLECTIONS.totalItems} limit={limit} />}
             </div>
-            {!error && data ? <DataTable columns={ImmobilierColumns} data={data.data} /> : null}
+            <DataTable columns={ImmobilierColumns} data={PROPERTIES_COLLECTIONS.data} />
         </div>
     );
 };
