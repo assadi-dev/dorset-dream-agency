@@ -60,20 +60,24 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
 
     const rowsCount = await db.select({ count: count() }).from(properties);
     const totalItems = rowsCount[0].count;
-    const queryWithCondition = search
-        ? query
-              .$dynamic()
-              .where(
-                  or(
-                      like(properties.name, sql.placeholder("search")),
-                      like(categoryProperties.name, sql.placeholder("search")),
-                  ),
-              )
-        : query.$dynamic();
-    const parameters = {
-        search: `%${search}%`,
-    };
-    const data = await withPagination(queryWithCondition, orderby, page, limit, parameters);
+    let data: any;
+    if (search) {
+        const queryWithCondition = query
+            .$dynamic()
+            .where(
+                or(
+                    like(properties.name, sql.placeholder("search")),
+                    like(categoryProperties.name, sql.placeholder("search")),
+                ),
+            );
+
+        const parameters = {
+            search: `%${search}%`,
+        };
+        data = await withPagination(queryWithCondition, orderby, page, limit, parameters);
+    }
+
+    data = await withPagination(query.$dynamic(), orderby, page, limit);
 
     return {
         totalItems,
