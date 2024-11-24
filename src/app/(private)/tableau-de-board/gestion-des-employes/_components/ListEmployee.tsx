@@ -6,11 +6,14 @@ import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import EmployeesActions from "./EmployeesActions";
 import { CellColumn } from "@/app/types/ReactTable";
+import SimplePagination from "@/components/Paginations/SimplePagination";
 
 type ListEmployee = {
-    employees: any;
+    employees: any[];
+    totalItems: number;
+    limit: number;
 };
-const ListEmployee = ({ employees }: ListEmployee) => {
+const ListEmployee = ({ employees, totalItems, limit }: ListEmployee) => {
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -23,8 +26,17 @@ const ListEmployee = ({ employees }: ListEmployee) => {
         },
     };
     const EmployeesColumn = [...columns, actions];
+    console.log(totalItems);
 
-    return <DataTable columns={EmployeesColumn} data={employees} />;
+    return (
+        <>
+            <div className="my-5 flex justify-between items-center">
+                <div></div>
+                <SimplePagination limit={limit} totalItems={totalItems} />
+            </div>
+            <DataTable columns={EmployeesColumn} data={employees} />
+        </>
+    );
 };
 
 export default ListEmployee;

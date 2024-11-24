@@ -9,7 +9,11 @@ import { PaginationSearchParams } from "@/app/types";
 
 const EmployeeCollection = async ({ filter }: any) => {
     const employee = await getEmployeeCollections(filter);
-    return <ListEmployee employees={employee?.data} />;
+    return (
+        employee && (
+            <ListEmployee employees={employee?.data || []} limit={filter.limit} totalItems={employee?.totalItems} />
+        )
+    );
 };
 
 export const metadata = setTitlePage("Gestion des employés");
