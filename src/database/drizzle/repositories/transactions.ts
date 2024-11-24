@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { and, asc, desc, eq, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
@@ -32,6 +32,16 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
     try {
         const { page, limit, order, search } = filter;
 
+        const searchCondition = search
+            ? or(
+                  like(clients.lastName, sql.placeholder("search")),
+                  like(clients.firstName, sql.placeholder("search")),
+                  like(clients.phone, sql.placeholder("search")),
+                  like(properties.name, sql.placeholder("search")),
+                  like(variants.name, sql.placeholder("search")),
+              )
+            : undefined;
+
         const query = db
             .select({
                 id: transactions.id,
@@ -54,8 +64,8 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
             .leftJoin(employees, eq(employees.id, transactions.employeeID))
             .leftJoin(variants, eq(variants.id, transactions.variantID))
             .leftJoin(properties, eq(properties.id, variants.propertyID))
-            .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
-
+            .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+            .where(searchCondition);
         const parameters: BindParameters = {
             search: `%${search}%`,
         };
