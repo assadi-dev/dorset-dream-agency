@@ -8,8 +8,10 @@ import SimplePagination from "@/components/Paginations/SimplePagination";
 
 type ListeClientsProps = {
     clients: Array<any>;
+    totalItems: number;
+    limit: number;
 };
-const ListeClients = ({ clients }: ListeClientsProps) => {
+const ListeClients = ({ clients, totalItems, limit }: ListeClientsProps) => {
     const handleSearch = (v: string | null) => console.log(v);
 
     return (
@@ -21,7 +23,7 @@ const ListeClients = ({ clients }: ListeClientsProps) => {
             </div>
             <div className="my-5 flex justify-between items-center">
                 <div></div>
-                <SimplePagination limit={5} totalItems={0} />
+                <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
             <ScrollArea className="h-[calc(85vh-220px)] rounded ">
                 <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fit,350px)] justify-center gap-x-9 gap-y-9">

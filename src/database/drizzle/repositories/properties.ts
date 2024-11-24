@@ -65,20 +65,16 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
 
     const columnToOrder = "createdAt";
     const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
-    let parameters: Record<string, string> | undefined;
-    if (search) {
-        parameters = {
-            search: `%${search}%`,
-        };
-    }
-    const rowsCount = await db
-        .select({ count: count() })
-        .from(properties)
-        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .where(searchCondition)
-        .prepare()
-        .execute({ ...parameters });
-    const totalItems = rowsCount[0].count;
+
+    const parameters: Record<string, string> | undefined = {
+        search: `%${search}%`,
+    };
+
+    const rowsCount = await query.execute({
+        ...parameters,
+    });
+
+    const totalItems = rowsCount.length || 0;
 
     const data = await withPagination(query.$dynamic(), orderby, page, limit, parameters);
 
@@ -230,7 +226,7 @@ export const getPropertiesWithVariantsCollections = async (
         : undefined;
     const categoryCondition = categoryName ? eq(categoryProperties.name, sql.placeholder("categoryName")) : undefined;
 
-    const parameters = {
+    const parameters: any = {
         search: `%${search}%`,
         categoryName: categoryName,
     };
@@ -257,14 +253,11 @@ export const getPropertiesWithVariantsCollections = async (
     if (categoryName !== "all" && categoryName) {
         query.where(and(searchCondition, categoryCondition));
     }
-    const rowsCount = await db
-        .select({ count: count() })
-        .from(properties)
-        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .where(and(searchCondition, categoryCondition))
-        .prepare()
-        .execute({ ...parameters });
-    const totalItems = rowsCount[0].count;
+    const rowsCount = await query.execute({
+        ...parameters,
+    });
+
+    const totalItems = rowsCount.length || 0;
     const columnToOrder = "createdAt";
     const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
     const data = await withPagination(query.$dynamic(), orderby, page, limit, parameters);

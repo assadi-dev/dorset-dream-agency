@@ -2,7 +2,10 @@
 
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
-import { desc, eq, sql } from "drizzle-orm";
+import { FilterPaginationType } from "@/database/types";
+import { count, desc, eq, like, or, sql } from "drizzle-orm";
+import { withPagination } from "./utils/entity";
+
 /* 
 class Client {
     getAll() {}
@@ -31,20 +34,47 @@ export const insertClient = async (values: any) => {
     }
 };
 
-export const getClientsCollections = async () => {
+export const getClientsCollections = async (filter: FilterPaginationType) => {
     try {
-        const response = await db
+        const { page, limit, search } = filter;
+        const searchCondition = search
+            ? or(
+                  like(clients.lastName, sql.placeholder("search")),
+                  like(clients.firstName, sql.placeholder("search")),
+                  like(clients.phone, sql.placeholder("search")),
+              )
+            : undefined;
+
+        const query = db
             .select({
                 id: clients.id,
-                fullName: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`,
+                fullName: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`.as("fullName"),
                 phone: clients.phone,
                 gender: clients.gender,
                 createdAt: clients.createdAt,
             })
             .from(clients)
-            .orderBy(desc(clients.createdAt));
+            .where(searchCondition);
 
-        return response;
+        const order = desc(clients.createdAt);
+        const parameters = search
+            ? {
+                  search: `%${search}%`,
+              }
+            : undefined;
+
+        const rowsCount = await query.execute({
+            ...parameters,
+        });
+
+        const totalItems = rowsCount.length || 0;
+        const data = await withPagination(query.$dynamic(), order, page, limit, parameters);
+        return {
+            totalItems,
+            limit,
+            order,
+            data,
+        };
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }

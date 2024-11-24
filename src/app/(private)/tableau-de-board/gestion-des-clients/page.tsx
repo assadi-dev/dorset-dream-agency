@@ -6,18 +6,33 @@ import AddButton from "@/components/forms/AddButton";
 import ListeClients from "./_components/ListeClients";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import ClientPageRightAction from "./_components/ClientPageRightAction";
-import { getClientsCollections } from "./actions";
+
 import { notFound } from "next/navigation";
 import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
+import { getClientsCollections } from "@/database/drizzle/repositories/clients";
 
 export const metadata = setTitlePage("Clients");
-const ClientPage = async () => {
+
+type ClientPageParams = {
+    searchParams: {
+        search: string;
+        limit: string;
+        page: string;
+    };
+};
+const ClientPage = async ({ searchParams }: ClientPageParams) => {
+    console.log(searchParams);
+    const page = Number(searchParams.page) || 1;
+    const limit = Number(searchParams.limit) || 15;
+    const search = searchParams.search || "";
+
     const ClientCollections = async () => {
-        const clients = await getClientsCollections();
+        const filter = { page, limit, search };
+        const clients = await getClientsCollections(filter);
         if (!clients) return notFound();
 
-        return <ListeClients clients={clients} />;
+        return <ListeClients clients={clients.data} limit={limit} totalItems={clients.totalItems} />;
     };
 
     return (
