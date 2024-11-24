@@ -1,8 +1,10 @@
 import { API_INSTANCE } from "@/lib/api";
 
-export const fetch_prestige = async () => {
+export const fetch_prestige = async (filter: any) => {
     try {
-        const res = await API_INSTANCE.get(`/properties/prestiges`);
+        const res = await API_INSTANCE.get(`/properties/prestiges`, {
+            params: { ...filter },
+        });
         return res.data;
     } catch (error) {
         throw error;

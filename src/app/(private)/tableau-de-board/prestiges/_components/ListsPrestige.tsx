@@ -17,9 +17,11 @@ const ListsPrestige = () => {
     const limit = Number(searchParams.get("limit")) || 5;
     const search = searchParams.get("search") || "";
 
+    const filter = { page, limit, search };
+
     const { data, error, isFetching } = useQuery({
         queryKey: [PROPERTY_QUERY_KEY.GET_PRESTIGE_PROPERTIES, page, limit, search],
-        queryFn: () => fetch_prestige(),
+        queryFn: () => fetch_prestige(filter),
         refetchOnMount: true,
     });
 
