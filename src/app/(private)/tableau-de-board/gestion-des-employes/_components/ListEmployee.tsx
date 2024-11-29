@@ -7,13 +7,16 @@ import DropdownActions from "@/components/Datatable/DropdownActions";
 import EmployeesActions from "./EmployeesActions";
 import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
+import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
+import useGetRoleUser from "@/hooks/useRoleUser";
 
-type ListEmployee = {
+type ListEmployeeProps = {
     employees: any[];
     totalItems: number;
     limit: number;
 };
-const ListEmployee = ({ employees, totalItems, limit }: ListEmployee) => {
+const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
+    const role = useGetRoleUser();
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -25,8 +28,8 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployee) => {
             );
         },
     };
-    const EmployeesColumn = [...columns, actions];
-    console.log(totalItems);
+
+    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.isAdmin(role) ? [...columns, actions] : columns;
 
     return (
         <>

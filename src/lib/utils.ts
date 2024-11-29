@@ -3,7 +3,7 @@ import { clsx, type ClassValue } from "clsx";
 import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
 import slugify from "slugify";
-import { Role } from "@/app/types/user";
+import { Role, RoleEnum } from "@/app/types/user";
 import { GenderType } from "@/app/types";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 
@@ -93,4 +93,8 @@ export const avatarByGender = (gender: GenderType) => {
         default:
             return AVATAR_MALE;
     }
+};
+
+export const isAdmin = (role: Role) => {
+    return role === "admin";
 };

@@ -13,6 +13,9 @@ import SimplePagination from "@/components/Paginations/SimplePagination";
 import { useSearchParams } from "next/navigation";
 import { PROPERTY_QUERY_KEY } from "@/app/types/QueryKeys";
 import useDataCollections from "@/hooks/useDataCollections";
+import useGetRoleUser from "@/hooks/useRoleUser";
+import { Role } from "@/app/types/user";
+import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 
 const ListProperties = () => {
     const searchParams = useSearchParams();
@@ -27,6 +30,8 @@ const ListProperties = () => {
         placeholderData: keepPreviousData,
     });
 
+    const role = useGetRoleUser();
+
     const PROPERTIES_COLLECTIONS = useDataCollections(data);
 
     const actions = {
@@ -38,7 +43,7 @@ const ListProperties = () => {
             </DropdownActions>
         ),
     };
-    const ImmobilierColumns = [...columns, actions];
+    const ImmobilierColumns = ACTIONS_CONTROL_PERMISSION.isAdmin(role) ? [...columns, actions] : columns;
 
     return (
         <div>

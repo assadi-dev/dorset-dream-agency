@@ -4,11 +4,16 @@ import React from "react";
 import AvatarClient from "./AvatarClient";
 import { clientDetailType } from "../actions/actions";
 import ActionDetailClient from "./ActionDetailClient";
+import { auth, UserSession } from "@/auth";
+import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 
 type ClientDetailCardType = {
     client?: clientDetailType | null;
 };
 const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
+    const session = (await auth()) as UserSession;
+    const role = session?.user.role;
+
     return (
         <Card className="bg-primary text-secondary lg:grid lg:grid-rows-[auto,1fr,auto] lg:gap-4">
             {client && (
@@ -31,7 +36,7 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
                 {/*  <li>Décédé: NON</li> */}
                 <li></li>
             </ul>
-            <ActionDetailClient client={client} />
+            <ActionDetailClient client={client} canUpdate={true} canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)} />
         </Card>
     );
 };

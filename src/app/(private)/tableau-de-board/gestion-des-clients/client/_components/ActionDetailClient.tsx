@@ -8,8 +8,10 @@ import DeleteClient from "../../_components/forms/DeleteClient";
 
 type ActionButtonType = {
     client?: clientDetailType | null;
+    canUpdate?: boolean;
+    canDelete?: boolean;
 };
-const ActionDetailClient = ({ client }: ActionButtonType) => {
+const ActionDetailClient = ({ client, canDelete, canUpdate }: ActionButtonType) => {
     const { openModal } = useModalState();
 
     const handleClickEdit = () => {
@@ -32,12 +34,16 @@ const ActionDetailClient = ({ client }: ActionButtonType) => {
     };
     return (
         <div className="lg:grid lg:grid-rows-2 self-end mb-8 p-3 gap-3">
-            <Button variant="outline" className="bg-primary" onClick={handleClickEdit}>
-                Modifier
-            </Button>
-            <Button variant="destructive" onClick={handleClickDelete}>
-                Supprimer
-            </Button>
+            {canUpdate && (
+                <Button variant="outline" className="bg-primary" onClick={handleClickEdit}>
+                    Modifier
+                </Button>
+            )}
+            {canDelete && (
+                <Button variant="destructive" onClick={handleClickDelete}>
+                    Supprimer
+                </Button>
+            )}
         </div>
     );
 };

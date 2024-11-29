@@ -7,6 +7,8 @@ import DropdownActions from "@/components/Datatable/DropdownActions";
 import AccountAction from "./AccountAction";
 import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
+import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
+import useGetRoleUser from "@/hooks/useRoleUser";
 
 type ListAccountsProps = {
     accounts: Array<any>;
@@ -14,6 +16,7 @@ type ListAccountsProps = {
     totalItems: number;
 };
 const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
+    const role = useGetRoleUser();
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -25,7 +28,7 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
             );
         },
     };
-    const accountColumns = [...columns, actions];
+    const accountColumns = ACTIONS_CONTROL_PERMISSION.isAdmin(role) ? [...columns, actions] : columns;
 
     return (
         <>

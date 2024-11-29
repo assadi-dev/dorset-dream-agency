@@ -1,9 +1,10 @@
 import NextAuth, { NextAuthConfig, Session, User } from "next-auth";
 import { credentials } from "./app/api/auth/[...nextauth]/providers";
 import { ENV } from "./config/global";
+import { Role } from "./app/types/user";
 
 type UserAdapter = User & {
-    role: string;
+    role: Role;
     employeeID?: number | null;
     grade?: string | null;
 };
@@ -39,7 +40,7 @@ const authOptions = {
                 user: {
                     ...params.session.user,
                     id: String(params.token.id),
-                    role: String(params.token.role),
+                    role: params.token.role as Role,
                     employeeID: Number(params.token.employeeID) || null,
                     grade: String(params.token.grade),
                 },

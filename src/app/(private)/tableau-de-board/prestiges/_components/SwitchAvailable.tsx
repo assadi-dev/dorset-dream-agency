@@ -3,6 +3,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { setAvailableProperty } from "../helper";
+import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
+import useGetRoleUser from "@/hooks/useRoleUser";
 
 type SwitchAvailableProps = {
     property?:
@@ -16,9 +18,13 @@ type SwitchAvailableProps = {
 };
 const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
     const [checked, setChecked] = React.useState(property?.isAvailable);
+    const role = useGetRoleUser();
+
+    const canUpdateSwitch = !ACTIONS_CONTROL_PERMISSION.isAdmin(role);
 
     const handleChange = async (checked: boolean) => {
         try {
+            if (role !== "admin") throw new Error("Vous n'avez pas la permission d'effectué cette action");
             setChecked(checked);
             const state = checked ? "disponible" : "non disponible";
             const MESSAGE_SUCCESS = `La propriété ${property?.name} est maintenant ${state}`;
@@ -40,6 +46,7 @@ const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
                 id="isAvailable"
                 checked={checked}
                 onCheckedChange={handleChange}
+                disabled={canUpdateSwitch}
             />
         </div>
     );
