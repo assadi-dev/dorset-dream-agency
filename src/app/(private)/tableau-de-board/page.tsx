@@ -9,7 +9,7 @@ const DashboardPage = async () => {
     return (
         <PageTemplate title="Tableau de board">
             <DashboardHeader />
-            {/*  <DashboardBody /> */}
+            {/*   <DashboardBody /> */}
         </PageTemplate>
     );
 };
