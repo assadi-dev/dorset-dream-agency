@@ -19,8 +19,6 @@ const TrombinoscopePage = async ({ searchParams }: TrombinoscopePageProps) => {
     const filter = { search, limit, page };
 
     const ListEmployeeAsync = async () => {
-        console.log(filter);
-
         const employees = await getEmployeeCollections(filter);
         return (
             employees && (
