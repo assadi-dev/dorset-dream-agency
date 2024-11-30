@@ -257,7 +257,6 @@ export const statGlobalSecteurTransaction = async () => {
         eq(transactions.propertyService, "Ventes LS"),
     );
     const sales = await rowCount(transactions, SaleCondition);
-    console.log(sales);
 
     return {
         total,

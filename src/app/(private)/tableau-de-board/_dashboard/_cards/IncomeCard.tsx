@@ -4,7 +4,7 @@ import React from "react";
 import DashboardCard from "../DashboardCard";
 import { DollarSign } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getIncomeTransaction } from "../helper";
+import { DASHBOARD_CARD_QUERY, getIncomeTransaction } from "../helper";
 import formatThousand from "format-thousands";
 
 const IncomeCard = () => {
@@ -25,7 +25,7 @@ const IncomeCard = () => {
     });
 
     const { data, error, isFetching } = useQuery({
-        queryKey: [startDate, endDate],
+        queryKey: [DASHBOARD_CARD_QUERY.DASHBOARD_STATS_INCOME, startDate, endDate],
         queryFn: () => getIncomeTransaction(startDate, endDate),
     });
 

@@ -14,3 +14,8 @@ export type getDashboardSumResponse = {
         percentage: number;
     };
 };
+export type getDashboardTransactionsCountResponse = {
+    total: number;
+    rental: number;
+    sales: number;
+};

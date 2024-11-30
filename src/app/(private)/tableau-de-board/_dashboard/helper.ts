@@ -1,6 +1,6 @@
 import { API_INSTANCE } from "@/lib/api";
 import { formatFullDateShortText, getHour, getWeekNumber } from "@/lib/date";
-import { getDashboardResponse, getDashboardSumResponse } from "./_cards/types";
+import { getDashboardResponse, getDashboardSumResponse, getDashboardTransactionsCountResponse } from "./_cards/types";
 
 export enum DASHBOARD_CARD_QUERY {
     DASHBOARD_STATS_CLIENT = "dashboard_stats_clients",
@@ -32,5 +32,9 @@ export const getIncomeTransaction = async (startDate: string, endDate: string): 
             endDate,
         },
     });
+    return response.data;
+};
+export const getGlobalCountTransaction = async (): Promise<getDashboardTransactionsCountResponse> => {
+    const response = await API_INSTANCE.get("/analytics/dashboards/transactionCount");
     return response.data;
 };
