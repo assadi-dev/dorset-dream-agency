@@ -97,7 +97,7 @@ export const getWeekNumber = (date: Date) => {
 
 export const DAYS_OF_WEEK = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
-export const MONTH_OF_WEEK = [
+export const MONTHS_OF_YEAR = [
     "Janvier",
     "Février",
     "Mars",

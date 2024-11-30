@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { and, asc, between, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, asc, between, desc, eq, like, or, sql, sum } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
@@ -263,4 +263,15 @@ export const statGlobalSecteurTransaction = async () => {
         rental,
         sales,
     };
+};
+
+export const statTransactionPerSecteurChart = async () => {
+    const request = await db
+        .select({ service: transactions.propertyService, total: sum(transactions.sellingPrice) })
+        .from(transactions)
+        .groupBy(transactions.propertyService);
+
+    return request.map((value) => {
+        return { ...value, total: Number(value.total) };
+    });
 };

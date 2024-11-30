@@ -9,7 +9,7 @@ export const chartConfig = {
         label: "Location iles",
         color: "hsl(var(--chart-2))",
     },
-    venteLS: {
+    ventesLS: {
         label: "Ventes LS",
         color: "hsl(var(--chart-3))",
     },
