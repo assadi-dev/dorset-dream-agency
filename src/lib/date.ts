@@ -75,10 +75,27 @@ export const getHour = (date: Date) => {
 };
 
 /**
- *Retourne le numero de la semaine à partir de la date
+ *Retourne le numéro de la semaine à partir de la date
  */
 export const getWeekNumber = (date: Date) => {
     const dt = new Date(date);
     const result = getISOWeek(dt);
     return result;
 };
+
+export const DAYS_OF_WEEK = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+export const MONTH_OF_WEEK = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+];
