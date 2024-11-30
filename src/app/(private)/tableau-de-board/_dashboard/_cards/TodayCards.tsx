@@ -18,7 +18,7 @@ const TodayCards = () => {
 
     return (
         <DashboardCard className="bg-primary text-secondary">
-            <div className="text-center grid grid-rows-[auto,1fr,auto] gap-3 justify-content-center">
+            <div className="text-center flex flex-col gap-3  justify-center h-full items-center pt-8">
                 <p className="font-bold">{state.day}</p>
                 <p className="text-3xl font-bold">{state.hours}</p>
                 <p className="font-bold">SEMAINE {state.week}</p>
