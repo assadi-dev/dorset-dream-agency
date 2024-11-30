@@ -12,15 +12,6 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     },
 
     {
-        accessorKey: "seller",
-        header: "Vendeur",
-    },
-    {
-        accessorKey: "client",
-        header: "Client",
-    },
-
-    {
         accessorKey: "propertyService",
         header: "Type",
     },
