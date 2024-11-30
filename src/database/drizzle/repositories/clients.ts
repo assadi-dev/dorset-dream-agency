@@ -3,8 +3,8 @@
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { FilterPaginationType } from "@/database/types";
-import { count, desc, eq, like, or, sql } from "drizzle-orm";
-import { withPagination } from "./utils/entity";
+import { between, desc, eq, like, or, sql } from "drizzle-orm";
+import { rowCount, withPagination } from "./utils/entity";
 
 /* 
 class Client {
@@ -130,4 +130,26 @@ export const deleteClients = async (ids: Array<number>) => {
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
+};
+
+type statClientViews = {
+    startDate: string;
+    endDate: string;
+};
+
+export const statClientViews = async ({ startDate, endDate }: statClientViews) => {
+    console.log(endDate);
+
+    const total = await rowCount(clients);
+    const where = between(clients.createdAt, new Date(startDate), new Date(endDate));
+    const countFromDate = await rowCount(clients, where);
+    const percent = Number((countFromDate / total) * 100).toFixed(2);
+
+    return {
+        count: total,
+        difference: {
+            count: countFromDate,
+            percentage: Number(percent),
+        },
+    };
 };

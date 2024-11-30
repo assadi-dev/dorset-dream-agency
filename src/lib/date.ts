@@ -1,4 +1,4 @@
-import { format, getISOWeek } from "date-fns";
+import { format, getISOWeek, getDaysInMonth } from "date-fns";
 import { fr } from "date-fns/locale";
 
 //const timeZone = "Europe/Paris";
@@ -27,6 +27,18 @@ export const datetimeFormatFr = (date: string) => {
     try {
         const dt = new Date(date);
         return format(dt, "dd-MM-yyyy à HH:mm");
+    } catch (error: any) {
+        return "Format de la date incorrect";
+    }
+};
+/**
+ * Retourne la date et l'heure au format suivant DD-MM-YYYY à HH:MM:SS
+ * @param {*} date
+ */
+export const datetimeFormatFr3 = (date: string) => {
+    try {
+        const dt = new Date(date);
+        return format(dt, "dd-MM-yyyy");
     } catch (error: any) {
         return "Format de la date incorrect";
     }
@@ -99,3 +111,12 @@ export const MONTH_OF_WEEK = [
     "Novembre",
     "Décembre",
 ];
+
+/**
+ * Retourne le nombre de jours dans le mois de l'année indiqué en paramètre
+ *
+ */
+export const getNbOfDayInMonth = (month: number, year: number) => {
+    const currentYear = year || new Date().getFullYear();
+    return getDaysInMonth(new Date(currentYear, month));
+};
