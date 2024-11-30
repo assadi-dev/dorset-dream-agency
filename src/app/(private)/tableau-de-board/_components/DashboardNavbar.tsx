@@ -10,7 +10,7 @@ const DashboardNavbar = async () => {
     return (
         <>
             {session && (
-                <header className={cn(styles.dashboardHeader, "bg-white shadow flex justify-end items-center")}>
+                <header className={cn(styles.dashboardHeader, "bg-white shadow flex justify-end items-center z-[10]")}>
                     {session.user && <AvatarDropdown user={session.user || null} />}
                 </header>
             )}
