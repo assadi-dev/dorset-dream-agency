@@ -33,7 +33,7 @@ const ClientsCard = () => {
                 <p className="text-4xl font-bold text-center">{data?.count || 0}</p>
                 <div>
                     <p className="text-xs text-muted-foreground">
-                        +{data?.difference.count} depuis le {showInCard}{" "}
+                        +{data?.difference.count} depuis le {showInCard}
                     </p>
                     <p className="text-xs text-muted-foreground">
                         +{data?.difference.percentage}% depuis le {showInCard}

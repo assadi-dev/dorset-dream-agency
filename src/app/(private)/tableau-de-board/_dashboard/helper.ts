@@ -1,6 +1,6 @@
 import { API_INSTANCE } from "@/lib/api";
 import { formatFullDateShortText, getHour, getWeekNumber } from "@/lib/date";
-import { getClientCountResponse } from "./_cards/types";
+import { getDashboardResponse, getDashboardSumResponse } from "./_cards/types";
 
 export enum DASHBOARD_CARD_QUERY {
     DASHBOARD_STATS_CLIENT = "dashboard_stats_clients",
@@ -16,8 +16,17 @@ export const getDateToday = () => {
     return { day, hours, week };
 };
 
-export const getClientCount = async (startDate: string, endDate: string): Promise<getClientCountResponse> => {
+export const getClientCount = async (startDate: string, endDate: string): Promise<getDashboardResponse> => {
     const response = await API_INSTANCE.get("/analytics/dashboards/clients", {
+        params: {
+            startDate,
+            endDate,
+        },
+    });
+    return response.data;
+};
+export const getIncomeTransaction = async (startDate: string, endDate: string): Promise<getDashboardSumResponse> => {
+    const response = await API_INSTANCE.get("/analytics/dashboards/incomeTransactions", {
         params: {
             startDate,
             endDate,

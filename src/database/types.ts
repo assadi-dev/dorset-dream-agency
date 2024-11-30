@@ -9,3 +9,8 @@ export type FilterPaginationType = {
 };
 
 export type BindParameters = Record<string, any> | undefined;
+
+export type StartDateEnDateType = {
+    startDate: string;
+    endDate: string;
+};

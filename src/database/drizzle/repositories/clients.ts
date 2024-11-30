@@ -138,8 +138,6 @@ type statClientViews = {
 };
 
 export const statClientViews = async ({ startDate, endDate }: statClientViews) => {
-    console.log(endDate);
-
     const total = await rowCount(clients);
     const where = between(clients.createdAt, new Date(startDate), new Date(endDate));
     const countFromDate = await rowCount(clients, where);

@@ -1,7 +1,11 @@
+"use client";
 import { getNbOfDayInMonth } from "@/lib/date";
 import React from "react";
 import DashboardCard from "../DashboardCard";
 import { DollarSign } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getIncomeTransaction } from "../helper";
+import formatThousand from "format-thousands";
 
 const IncomeCard = () => {
     const currentMonth = new Date().toLocaleDateString("en-US", {
@@ -20,21 +24,25 @@ const IncomeCard = () => {
         year: "numeric",
     });
 
+    const { data, error, isFetching } = useQuery({
+        queryKey: [startDate, endDate],
+        queryFn: () => getIncomeTransaction(startDate, endDate),
+    });
+
     return (
         <DashboardCard title="Revenue Total" icon={DollarSign} className="bg-primary text-secondary">
             <div className="grid grid-rows-[1fr,auto] gap-3.5 justify-content-center">
-                <p className="text-4xl font-bold text-center">$0</p>
+                <p className="text-4xl font-bold text-center">{formatThousand(data?.sum)}$</p>
 
                 <div>
-                    {" "}
                     <p
                         className="text-xs text-muted-foreground
                 mb-0"
                     >
-                        +{"100"}$ depuis le {showInCard}{" "}
+                        +{formatThousand(data?.difference.sum)}$ depuis le {showInCard}{" "}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                        +{"0.1"}% depuis le {showInCard}
+                        +{data?.difference.percentage}% depuis le {showInCard}
                     </p>
                 </div>
             </div>

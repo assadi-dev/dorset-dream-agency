@@ -2,14 +2,14 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, asc, between, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
 import { decodeTransactionInput } from "./dto/transactionsDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { BindParameters, FilterPaginationType } from "@/database/types";
-import { withPagination } from "./utils/entity";
+import { BindParameters, FilterPaginationType, StartDateEnDateType } from "@/database/types";
+import { rowCount, rowSum, withPagination } from "./utils/entity";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 
@@ -229,4 +229,19 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
     } catch (error: any) {
         throw new Error(error.message);
     }
+};
+
+export const statIncomeTransaction = async ({ startDate, endDate }: StartDateEnDateType) => {
+    const total = await rowSum(transactions, transactions.sellingPrice);
+    const where = between(transactions.createdAt, new Date(startDate), new Date(endDate));
+    const sumFromDate = await rowSum(transactions, transactions.sellingPrice, where);
+    const percent = Number((sumFromDate / total) * 100).toFixed(2);
+
+    return {
+        sum: total,
+        difference: {
+            sum: sumFromDate,
+            percentage: Number(percent),
+        },
+    };
 };
