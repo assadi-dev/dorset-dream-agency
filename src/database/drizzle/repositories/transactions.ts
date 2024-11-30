@@ -245,3 +245,23 @@ export const statIncomeTransaction = async ({ startDate, endDate }: StartDateEnD
         },
     };
 };
+export const statGlobalSecteurTransaction = async () => {
+    const total = await rowCount(transactions);
+    const RentalCondition = or(
+        eq(transactions.propertyService, "Location Iles"),
+        eq(transactions.propertyService, "Location LS"),
+    );
+    const rental = await rowCount(transactions, RentalCondition);
+    const SaleCondition = or(
+        eq(transactions.propertyService, "Vente Iles"),
+        eq(transactions.propertyService, "Ventes LS"),
+    );
+    const sales = await rowCount(transactions, SaleCondition);
+    console.log(sales);
+
+    return {
+        total,
+        rental,
+        sales,
+    };
+};
