@@ -1,4 +1,4 @@
-import { format, getISOWeek, getDaysInMonth } from "date-fns";
+import { format, getISOWeek, getDaysInMonth, startOfWeek, lastDayOfMonth } from "date-fns";
 import { fr } from "date-fns/locale";
 
 //const timeZone = "Europe/Paris";
@@ -119,4 +119,23 @@ export const MONTH_OF_WEEK = [
 export const getNbOfDayInMonth = (month: number, year: number) => {
     const currentYear = year || new Date().getFullYear();
     return getDaysInMonth(new Date(currentYear, month));
+};
+/**
+ * Retourne le dernier jours du mois de l'année
+ *
+ */
+export const getLastDayInMonth = (month: number, year: number) => {
+    const currentYear = year || new Date().getFullYear();
+    const result = lastDayOfMonth(new Date(currentYear, month));
+    return result;
+};
+
+/**
+ * Retourne a date du debut de la semaine
+ *
+ */
+export const getStartOfWeek = (date?: string) => {
+    const dt = date ? new Date(date) : new Date();
+    const result = startOfWeek(dt, { weekStartsOn: 1 });
+    return result;
 };

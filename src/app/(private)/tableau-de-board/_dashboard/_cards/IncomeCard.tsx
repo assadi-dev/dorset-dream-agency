@@ -1,5 +1,5 @@
 "use client";
-import { getNbOfDayInMonth } from "@/lib/date";
+import { getNbOfDayInMonth, getStartOfWeek } from "@/lib/date";
 import React from "react";
 import DashboardCard from "../DashboardCard";
 import { DollarSign } from "lucide-react";
@@ -8,10 +8,10 @@ import { getIncomeTransaction } from "../helper";
 import formatThousand from "format-thousands";
 
 const IncomeCard = () => {
-    const currentMonth = new Date().toLocaleDateString("en-US", {
+    const currentMonth = new Date(getStartOfWeek()).toLocaleDateString("en-US", {
         month: "2-digit",
     });
-    const currentDay = new Date().toLocaleDateString("en-US", {
+    const currentDay = new Date(getStartOfWeek()).toLocaleDateString("en-US", {
         day: "2-digit",
     });
     const currentYear = new Date().getFullYear();
