@@ -35,3 +35,17 @@ export type TransactionCountPerWeekResponse = {
         sales: number;
     }[];
 };
+
+export type FetchEmployeeIncomeTransactionResponse = {
+    page: number;
+    totalItems: number;
+    limit: number;
+    data: {
+        seller: string;
+        totalPrice: number;
+        totalSalesPrice: number;
+        totalRentPrice: number;
+        totalSales: number;
+        totalRent: number;
+    }[];
+};

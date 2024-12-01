@@ -1,6 +1,7 @@
 import { API_INSTANCE } from "@/lib/api";
 import { formatFullDateShortText, getHour, getWeekNumber } from "@/lib/date";
 import {
+    FetchEmployeeIncomeTransactionResponse,
     getDashboardResponse,
     getDashboardSumResponse,
     getDashboardTransactionsCountResponse,
@@ -15,6 +16,7 @@ export enum DASHBOARD_CARD_QUERY {
     DASHBOARD_LAST_TRANSACTION = "dashboard_last_transaction",
     DASHBOARD_STATS_TRANSACTION_PER_SERVICES = "dashboard_stats_transaction_per_service",
     DASHBOARD_STATS_TRANSACTION_PER_WEEK = "dashboard_stats_transaction_per_week",
+    DASHBOARD_STATS_TRANSACTION_PER_EMPLOYEES = "dashboard_stats_transaction_per_employees",
 }
 
 export const getDateToday = () => {
@@ -70,6 +72,18 @@ export const fetchTransactionCountPerWeek = async (filter: {
     endDate: string;
 }): Promise<TransactionCountPerWeekResponse> => {
     const response = await API_INSTANCE.get("/analytics/dashboards/charts/transactionPerWeek", {
+        params: { ...filter },
+    });
+    return response.data;
+};
+export const fetchEmployeeIncomeTransaction = async (filter: {
+    startDate: string;
+    endDate: string;
+    page: number;
+    limit: number;
+    search?: string | null;
+}): Promise<FetchEmployeeIncomeTransactionResponse> => {
+    const response = await API_INSTANCE.get("/analytics/dashboards/employeeContributions", {
         params: { ...filter },
     });
     return response.data;

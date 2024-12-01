@@ -1,26 +1,38 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { datetimeFormatFr } from "@/lib/date";
 import { CellColumn } from "@/app/types/ReactTable";
 import { LocationColumnType } from "../../../gestion-des-locations-et-ventes/types";
+import formatThousands from "format-thousands";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
-        accessorKey: "employee",
+        accessorKey: "seller",
         header: "Employé(e)",
     },
 
     {
-        accessorKey: "sales",
-        header: "Entrés",
-    },
-    {
-        accessorKey: "rental",
+        accessorKey: "totalRent",
         header: "Location",
     },
     {
-        accessorKey: "sales",
+        accessorKey: "totalSales",
         header: "Ventes",
+    },
+    {
+        accessorKey: "totalRentPrice",
+        header: "Location $",
+        cell: ({ row }: CellColumn) => formatThousands(row.getValue("totalRentPrice")) + "$",
+    },
+    {
+        accessorKey: "totalSalesPrice",
+        header: "Ventes $",
+        cell: ({ row }: CellColumn) => formatThousands(row.getValue("totalSalesPrice")) + "$",
+    },
+
+    {
+        accessorKey: "totalPrice",
+        header: "Total $",
+        cell: ({ row }: CellColumn) => formatThousands(row.getValue("totalPrice")) + "$",
     },
 ];
