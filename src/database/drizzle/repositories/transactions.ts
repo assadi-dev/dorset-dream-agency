@@ -41,6 +41,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                   like(clients.phone, sql.placeholder("search")),
                   like(properties.name, sql.placeholder("search")),
                   like(variants.name, sql.placeholder("search")),
+                  like(categoryProperties.name, sql.placeholder("search")),
               )
             : undefined;
 
