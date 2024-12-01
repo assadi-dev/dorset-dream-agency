@@ -6,8 +6,13 @@ import EmptyRow from "./EmptyRow";
 type SimpleTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    classNames?: {
+        tableClassName?: string;
+        tableHeaderClassName?: string;
+        tableBodyClassName?: string;
+    };
 };
-const SimpleTable = <TData, TValue>({ columns, data }: SimpleTableProps<TData, TValue>) => {
+const SimpleTable = <TData, TValue>({ columns, data, classNames }: SimpleTableProps<TData, TValue>) => {
     const table = useReactTable({
         data,
         columns,
@@ -20,7 +25,7 @@ const SimpleTable = <TData, TValue>({ columns, data }: SimpleTableProps<TData, T
                     <TableRow key={headerGroup.id}>
                         {headerGroup.headers.map((header) => {
                             return (
-                                <TableHead key={header.id}>
+                                <TableHead key={header.id} className={classNames?.tableHeaderClassName}>
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(header.column.columnDef.header, header.getContext())}

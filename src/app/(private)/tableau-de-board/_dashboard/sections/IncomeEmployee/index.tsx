@@ -56,7 +56,13 @@ const IncomeEmployee = () => {
                         <SelectMonth onValueChange={handleSelectMonth} />
                     </div>
                     <ScrollArea className="py-3 h-[200px] lg:h-[300px]">
-                        <SimpleTable columns={columns} data={DATA_TRANSACTIONS} />
+                        <SimpleTable
+                            columns={columns}
+                            data={DATA_TRANSACTIONS}
+                            classNames={{
+                                tableHeaderClassName: "text-center",
+                            }}
+                        />
                     </ScrollArea>
                 </CardContent>
             </Card>
