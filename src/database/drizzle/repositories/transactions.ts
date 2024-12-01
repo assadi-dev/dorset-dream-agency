@@ -356,3 +356,62 @@ export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartD
         data: complete,
     };
 };
+
+export const employeesContribution = async ({
+    startDate,
+    endDate,
+    search,
+    page,
+    limit,
+}: StartDateEnDateType & { search?: string | null; page: number; limit: number }) => {
+    const searchCondition = search
+        ? or(
+              like(transactions.propertyService, sql.placeholder("search")),
+              like(properties.name, sql.placeholder("search")),
+              like(employees.firstName, sql.placeholder("search")),
+              like(employees.lastName, sql.placeholder("search")),
+              like(categoryProperties.name, sql.placeholder("search")),
+          )
+        : undefined;
+    const intervalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
+
+    const query = db
+        .select({
+            seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`.as("seller"),
+            totalPrice: sum(transactions.sellingPrice).as("totalSales"),
+            totalSalesPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Vente Iles" THEN ${transactions.sellingPrice}  END )`,
+            totalRentPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Iles" THEN ${transactions.sellingPrice}  END )`,
+            totalSales: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Vente Iles" THEN ${transactions.propertyService}  END )`,
+            totalRent: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Iles" THEN ${transactions.propertyService}  END )`,
+        })
+        .from(transactions)
+        .leftJoin(employees, eq(employees.id, transactions.employeeID))
+        .groupBy(sql<string>`seller`)
+        .where(and(intervalCondition, searchCondition))
+        .$dynamic();
+
+    const parameters: BindParameters = {
+        search: `%${search}%`,
+    };
+    const rowsCount = await rowCount(transactions, and(intervalCondition, searchCondition));
+
+    const totalItems = rowsCount || 0;
+    const orderBy = desc(sql<string>`totalSales`);
+    const data = await withPagination(query, orderBy, page, limit, parameters);
+
+    const complete = data.map((v) => {
+        return {
+            ...v,
+            totalPrice: Number(v.totalPrice),
+            totalSalesPrice: Number(v.totalSalesPrice),
+            totalRentPrice: Number(v.totalRentPrice),
+        };
+    });
+
+    return {
+        page,
+        totalItems,
+        limit,
+        data: complete,
+    };
+};
