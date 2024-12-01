@@ -16,12 +16,12 @@ import { SelectMonth } from "@/components/forms/SelectMonth";
 import { useQuery } from "@tanstack/react-query";
 import { DASHBOARD_CARD_QUERY, fetchTransactionPerServiceStat } from "../../helper";
 
-import { getNbOfDayInMonth, MONTHS_OF_YEAR } from "@/lib/date";
+import { getCurrentMonth, getNbOfDayInMonth, MONTHS_OF_YEAR } from "@/lib/date";
 import EmptyChart from "./EmptyChart";
 
 const TransactionChart = () => {
-    const currentMonth = new Date().getMonth();
-    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth);
+    const currentMonth = getCurrentMonth();
+    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth + 1);
     const currentYear = new Date().getFullYear();
     const startDate = `${currentYear}-${selectedMonth}-01 00:00`;
     const endDate = `${currentYear}-${selectedMonth}-${getNbOfDayInMonth(selectedMonth, currentYear)} 23:59`;
