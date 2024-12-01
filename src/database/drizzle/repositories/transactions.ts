@@ -34,6 +34,8 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
 
         const searchCondition = search
             ? or(
+                  like(employees.lastName, sql.placeholder("search")),
+                  like(employees.firstName, sql.placeholder("search")),
                   like(clients.lastName, sql.placeholder("search")),
                   like(clients.firstName, sql.placeholder("search")),
                   like(clients.phone, sql.placeholder("search")),
