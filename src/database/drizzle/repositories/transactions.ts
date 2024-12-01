@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { and, asc, between, desc, eq, like, or, sql, sum } from "drizzle-orm";
+import { and, asc, between, count, desc, eq, like, or, sql, sum } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
@@ -264,6 +264,26 @@ export const statGlobalSecteurTransaction = async () => {
         sales,
     };
 };
+export const statGlobalSecteurTransactionInterval = async (startDate: string, endDate: string) => {
+    const totalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
+    const SaleCondition = and(
+        or(eq(transactions.propertyService, "Vente Iles"), eq(transactions.propertyService, "Ventes LS")),
+        between(transactions.createdAt, new Date(startDate), new Date(endDate)),
+    );
+    const RentalCondition = and(
+        or(eq(transactions.propertyService, "Location Iles"), eq(transactions.propertyService, "Location LS")),
+        between(transactions.createdAt, new Date(startDate), new Date(endDate)),
+    );
+    const total = await rowCount(transactions, totalCondition);
+    const rental = await rowCount(transactions, RentalCondition);
+    const sales = await rowCount(transactions, SaleCondition);
+
+    return {
+        total,
+        rental,
+        sales,
+    };
+};
 
 export const statTransactionPerSecteurChart = async ({ startDate, endDate }: StartDateEnDateType) => {
     const request = await db
@@ -275,4 +295,23 @@ export const statTransactionPerSecteurChart = async ({ startDate, endDate }: Sta
     return request.map((value) => {
         return { ...value, total: Number(value.total) };
     });
+};
+export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartDateEnDateType) => {
+    const request = await db
+        .select({
+            day: sql<string>`WEEKDAY(${transactions.createdAt})`.as("day"),
+            total: count(),
+        })
+        .from(transactions)
+        .groupBy(sql<string>`day`)
+        .orderBy(asc(sql<string>`day`))
+        .where(between(transactions.createdAt, new Date(startDate), new Date(endDate)));
+
+    const transactionCount = await statGlobalSecteurTransactionInterval(startDate, endDate);
+
+    return {
+        rental: transactionCount.rental,
+        sales: transactionCount.sales,
+        data: request,
+    };
 };
