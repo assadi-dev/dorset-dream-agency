@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
         const startDate = searchParams.get("startDate") || "";
         const endDate = searchParams.get("endDate") || "";
-        const result = await statTransactionPerSecteurChart();
+        const result = await statTransactionPerSecteurChart({ startDate, endDate });
 
         return NextResponse.json(result);
     } catch (error: any) {

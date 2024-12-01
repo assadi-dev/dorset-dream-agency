@@ -265,11 +265,12 @@ export const statGlobalSecteurTransaction = async () => {
     };
 };
 
-export const statTransactionPerSecteurChart = async () => {
+export const statTransactionPerSecteurChart = async ({ startDate, endDate }: StartDateEnDateType) => {
     const request = await db
         .select({ service: transactions.propertyService, total: sum(transactions.sellingPrice) })
         .from(transactions)
-        .groupBy(transactions.propertyService);
+        .groupBy(transactions.propertyService)
+        .where(between(transactions.createdAt, new Date(startDate), new Date(endDate)));
 
     return request.map((value) => {
         return { ...value, total: Number(value.total) };

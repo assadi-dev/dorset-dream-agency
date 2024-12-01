@@ -12,6 +12,8 @@ export enum DASHBOARD_CARD_QUERY {
     DASHBOARD_STATS_TRANSACTION = "dashboard_stats_transaction",
     DASHBOARD_STATS_INCOME = "dashboard_stats_income",
     DASHBOARD_LAST_TRANSACTION = "dashboard_last_transaction",
+    DASHBOARD_STATS_TRANSACTION_PER_SERVICES = "dashboard_stats_transaction_per_service",
+    DASHBOARD_STATS_TRANSACTION_PER_WEEK = "dashboard_stats_transaction_per_week",
 }
 
 export const getDateToday = () => {
