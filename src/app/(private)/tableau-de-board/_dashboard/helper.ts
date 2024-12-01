@@ -4,6 +4,7 @@ import {
     getDashboardResponse,
     getDashboardSumResponse,
     getDashboardTransactionsCountResponse,
+    TransactionCountPerWeekResponse,
     TransactionPerServiceStatResponse,
 } from "./_cards/types";
 
@@ -59,6 +60,16 @@ export const fetchTransactionPerServiceStat = async (filter: {
     endDate: string;
 }): Promise<TransactionPerServiceStatResponse[]> => {
     const response = await API_INSTANCE.get("/analytics/dashboards/charts/transactionPerService", {
+        params: { ...filter },
+    });
+    return response.data;
+};
+
+export const fetchTransactionCountPerWeek = async (filter: {
+    startDate: string;
+    endDate: string;
+}): Promise<TransactionCountPerWeekResponse> => {
+    const response = await API_INSTANCE.get("/analytics/dashboards/charts/transactionPerWeek", {
         params: { ...filter },
     });
     return response.data;

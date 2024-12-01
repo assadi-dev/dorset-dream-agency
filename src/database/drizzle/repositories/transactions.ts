@@ -299,7 +299,16 @@ export const statTransactionPerSecteurChart = async ({ startDate, endDate }: Sta
     });
 };
 export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartDateEnDateType) => {
-    const request = await db
+    const intervalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
+    const rentalCondition = or(
+        eq(transactions.propertyService, "Location Iles"),
+        eq(transactions.propertyService, "Location LS"),
+    );
+    const salesCondition = or(
+        eq(transactions.propertyService, "Vente Iles"),
+        eq(transactions.propertyService, "Ventes LS"),
+    );
+    const rentalData = await db
         .select({
             day: sql<string>`WEEKDAY(${transactions.createdAt})`.as("day"),
             total: count(),
@@ -307,13 +316,43 @@ export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartD
         .from(transactions)
         .groupBy(sql<string>`day`)
         .orderBy(asc(sql<string>`day`))
-        .where(between(transactions.createdAt, new Date(startDate), new Date(endDate)));
+        .where(and(rentalCondition, intervalCondition));
+
+    const salesData = await db
+        .select({
+            day: sql<string>`WEEKDAY(${transactions.createdAt})`.as("day"),
+            total: count(),
+        })
+        .from(transactions)
+        .groupBy(sql<string>`day`)
+        .orderBy(asc(sql<string>`day`))
+        .where(and(salesCondition, intervalCondition));
 
     const transactionCount = await statGlobalSecteurTransactionInterval(startDate, endDate);
+
+    const complete = [
+        { day: 0, rental: 0, sales: 0 },
+        { day: 1, rental: 0, sales: 0 },
+        { day: 2, rental: 0, sales: 0 },
+        { day: 3, rental: 0, sales: 0 },
+        { day: 4, rental: 0, sales: 0 },
+        { day: 5, rental: 0, sales: 0 },
+        { day: 6, rental: 0, sales: 0 },
+    ];
+
+    for (const sale of salesData) {
+        const index = Number(sale.day);
+        complete[index].sales = complete[index].sales + sale.total;
+    }
+    for (const rent of rentalData) {
+        const index = Number(rent.day);
+
+        complete[index].rental = complete[index].rental + rent.total;
+    }
 
     return {
         rental: transactionCount.rental,
         sales: transactionCount.sales,
-        data: request,
+        data: complete,
     };
 };

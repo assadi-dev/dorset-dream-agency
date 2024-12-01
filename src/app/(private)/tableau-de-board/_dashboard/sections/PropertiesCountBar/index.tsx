@@ -4,49 +4,49 @@ import { Bar, BarChart, CartesianGrid, Label, LabelList, XAxis } from "recharts"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SelectMonth } from "../../../../../../components/forms/SelectMonth";
-import { DAYS_OF_WEEK } from "@/lib/date";
-
-const chartData = [
-    { day: 0, rental: 222, sales: 150 },
-    { day: 1, rental: 97, sales: 180 },
-    { day: 2, rental: 167, sales: 120 },
-    { day: 3, rental: 242, sales: 260 },
-    { day: 4, rental: 373, sales: 290 },
-    { day: 5, rental: 301, sales: 340 },
-    { day: 6, rental: 245, sales: 180 },
-];
-
-const chartConfig = {
-    total: {
-        label: "Total",
-    },
-    rental: {
-        label: "Locations",
-        color: "hsl(var(--chart-1))",
-    },
-    sales: {
-        label: "Ventes",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig;
+import { DAYS_OF_WEEK, getCurrentMonth, getNbOfDayInMonth, MONTHS_OF_YEAR } from "@/lib/date";
+import { useQuery } from "@tanstack/react-query";
+import { DASHBOARD_CARD_QUERY, fetchTransactionCountPerWeek, fetchTransactionPerServiceStat } from "../../helper";
+import { chartConfig } from "./chartConfig";
 
 const PropertiesCountBar = () => {
     const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("rental");
 
-    const total = React.useMemo(
+    const currentMonth = getCurrentMonth();
+    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth + 1);
+    const currentYear = new Date().getFullYear();
+    const startDate = `${currentYear}-${selectedMonth}-01 00:00`;
+    const endDate = `${currentYear}-${selectedMonth}-${getNbOfDayInMonth(selectedMonth, currentYear)} 23:59`;
+    const filter = { startDate, endDate };
+    const { data, isFetching } = useQuery({
+        queryKey: [DASHBOARD_CARD_QUERY.DASHBOARD_STATS_TRANSACTION_PER_WEEK, filter],
+        queryFn: () => fetchTransactionCountPerWeek(filter),
+    });
+
+    const CHART_DATA = React.useMemo(() => {
+        if (!data) return;
+        return data.data;
+    }, [data]);
+
+    const TOTAL = React.useMemo(
         () => ({
-            rental: chartData.reduce((acc, curr) => acc + curr.rental, 0),
-            sales: chartData.reduce((acc, curr) => acc + curr.sales, 0),
+            rental: data ? data.rental : 0,
+            sales: data ? data.sales : 0,
         }),
-        [],
+        [data],
     );
+
+    const handleSelectMonth = (value: string) => {
+        const monthIndex = MONTHS_OF_YEAR.findIndex((m) => m === value);
+        setSelectedMonth(monthIndex + 1);
+    };
 
     return (
         <Card>
             <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-2 px-6 py-5 sm:py-6">
                     <CardTitle>Total de ventes et location</CardTitle>
-                    <SelectMonth />
+                    <SelectMonth onValueChange={handleSelectMonth} />
                 </div>
                 <div className="flex">
                     {["rental", "sales"].map((key) => {
@@ -60,7 +60,7 @@ const PropertiesCountBar = () => {
                             >
                                 <span className="text-xs text-muted-foreground">{chartConfig[chart].label}</span>
                                 <span className="text-lg font-bold leading-none sm:text-3xl">
-                                    {total[key as keyof typeof total].toLocaleString()}
+                                    {TOTAL[key as keyof typeof TOTAL].toLocaleString()}
                                 </span>
                             </button>
                         );
@@ -71,7 +71,7 @@ const PropertiesCountBar = () => {
                 <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
                     <BarChart
                         accessibilityLayer
-                        data={chartData}
+                        data={CHART_DATA}
                         margin={{
                             left: 12,
                             right: 12,

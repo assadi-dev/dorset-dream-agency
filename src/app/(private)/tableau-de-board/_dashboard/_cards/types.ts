@@ -26,3 +26,12 @@ export type TransactionPerServiceStatResponse = {
     service: PropertyService;
     total: number;
 };
+export type TransactionCountPerWeekResponse = {
+    rental: number;
+    sales: number;
+    data: {
+        day: number; // 0-6
+        rental: number;
+        sales: number;
+    }[];
+};
