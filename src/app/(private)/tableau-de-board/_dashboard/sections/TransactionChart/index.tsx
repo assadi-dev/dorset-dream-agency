@@ -21,7 +21,7 @@ import EmptyChart from "./EmptyChart";
 
 const TransactionChart = () => {
     const currentMonth = new Date().getMonth();
-    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth - 1);
+    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth);
     const currentYear = new Date().getFullYear();
     const startDate = `${currentYear}-${selectedMonth}-01 00:00`;
     const endDate = `${currentYear}-${selectedMonth}-${getNbOfDayInMonth(selectedMonth, currentYear)} 23:59`;
@@ -57,7 +57,7 @@ const TransactionChart = () => {
         <Card className="flex flex-col w-full h-full ">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Chiffre de l'agence en $</CardTitle>
-                <SelectMonth value={MONTHS_OF_YEAR[selectedMonth]} onValueChange={handleSelectMonth} />
+                <SelectMonth onValueChange={handleSelectMonth} />
             </CardHeader>
             {CHART_DATA.length > 0 && !isFetching && (
                 <ChartContainer config={chartConfig} className="mx-auto h-full">
