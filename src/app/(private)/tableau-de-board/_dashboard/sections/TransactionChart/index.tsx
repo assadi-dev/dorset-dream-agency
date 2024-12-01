@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Pie, PieChart } from "recharts";
+import { Bar, BarChart, CartesianGrid, Pie, PieChart, XAxis } from "recharts";
 import {
     ChartConfig,
     ChartContainer,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/chart";
 import { wait } from "@/lib/utils";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { chartConfig } from "./chartConfig";
+import { chartConfig, ServiceLabel } from "./chartConfig";
 import { SelectMonth } from "@/components/forms/SelectMonth";
 import { useQuery } from "@tanstack/react-query";
 import { DASHBOARD_CARD_QUERY, fetchTransactionPerServiceStat } from "../../helper";
@@ -61,14 +61,22 @@ const TransactionChart = () => {
             </CardHeader>
             {CHART_DATA.length > 0 && !isFetching && (
                 <ChartContainer config={chartConfig} className="mx-auto h-full">
-                    <PieChart>
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel className="min-w-[200px]" />}
+                    <BarChart accessibilityLayer data={CHART_DATA}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="secteur"
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                            tickFormatter={(value: string) => {
+                                const servicesLabel = ServiceLabel as Record<string, string>;
+                                return servicesLabel[value];
+                            }}
                         />
-                        <Pie data={CHART_DATA} dataKey="ventes" label nameKey="secteur" />
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent className="min-w-[200px]" />} />
+                        <Bar dataKey="ventes" fill="var(--color-desktop)" radius={5} />
                         <ChartLegend content={<ChartLegendContent nameKey="secteur" />} />
-                    </PieChart>
+                    </BarChart>
                 </ChartContainer>
             )}
             {CHART_DATA.length === 0 && !isFetching && <EmptyChart />}
