@@ -4,13 +4,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 import EmptyRow from "./EmptyRow";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import LoadingRow from "./LoadingRow";
 
 type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    isLoading?: boolean;
 };
 
-function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
@@ -36,7 +38,9 @@ function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValu
                     ))}
                 </TableHeader>
                 <TableBody>
-                    {table.getRowModel().rows?.length ? (
+                    {isLoading ? (
+                        <LoadingRow columns={columns} />
+                    ) : table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
@@ -51,6 +55,7 @@ function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValu
                     )}
                 </TableBody>
             </Table>
+
             <ScrollBar orientation="horizontal" />
         </ScrollArea>
     );

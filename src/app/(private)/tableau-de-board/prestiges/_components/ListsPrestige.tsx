@@ -20,7 +20,7 @@ const ListsPrestige = () => {
     const filter = { page, limit, search };
 
     const { data, error, isFetching } = useQuery({
-        queryKey: [PROPERTY_QUERY_KEY.GET_PRESTIGE_PROPERTIES, page, limit, search],
+        queryKey: [PROPERTY_QUERY_KEY.GET_PRESTIGE_PROPERTIES, filter],
         queryFn: () => fetch_prestige(filter),
         refetchOnMount: true,
     });
@@ -33,7 +33,7 @@ const ListsPrestige = () => {
             <div className="flex justify-end my-3">
                 {!error && <SimplePagination totalItems={PRESTIGE_COLLECTION.totalItems} limit={limit} />}
             </div>
-            {!error && <DataTable columns={columns} data={PRESTIGE_COLLECTION.data} />}
+            {!error && <DataTable columns={columns} data={PRESTIGE_COLLECTION.data} isLoading={isFetching} />}
         </div>
     );
 };
