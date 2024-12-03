@@ -42,7 +42,7 @@ const TransactionChart = () => {
             if (v.service === "Ventes LS") secteur = "ventesLS";
             return {
                 secteur,
-                ventes: v.total,
+                revenus: v.total,
                 fill: ` var(--color-${secteur})`,
             };
         });
@@ -74,7 +74,7 @@ const TransactionChart = () => {
                             }}
                         />
                         <ChartTooltip cursor={false} content={<ChartTooltipContent className="min-w-[200px]" />} />
-                        <Bar dataKey="ventes" fill="var(--color-desktop)" radius={5} />
+                        <Bar dataKey="revenus" fill="var(--color-desktop)" radius={5} />
                         <ChartLegend content={<ChartLegendContent nameKey="secteur" />} />
                     </BarChart>
                 </ChartContainer>

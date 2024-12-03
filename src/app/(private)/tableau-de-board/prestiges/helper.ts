@@ -1,4 +1,5 @@
 import { API_INSTANCE } from "@/lib/api";
+import { wait } from "@/lib/utils";
 
 export const fetch_prestige = async (filter: any) => {
     try {
