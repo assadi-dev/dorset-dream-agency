@@ -32,7 +32,7 @@ const ClientPage = async ({ searchParams }: ClientPageParams) => {
     };
 
     return (
-        <PageTemplate title="Clients" description="Gestion des client">
+        <PageTemplate title="Clients" description="Gestion des clients">
             <ModalProvider>
                 <section>
                     <ClientCollections />
