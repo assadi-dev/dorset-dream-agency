@@ -33,7 +33,7 @@ const TrombinoscopePage = async ({ searchParams }: TrombinoscopePageProps) => {
 
     return (
         <PageTemplate title="Trombinoscope">
-            <section className="pt-6">
+            <section className="pt-3">
                 <div className="flex justify-between items-center">
                     {" "}
                     <SearchInputDataTable />
