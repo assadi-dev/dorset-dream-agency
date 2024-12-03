@@ -39,7 +39,7 @@ const LastTransaction = () => {
     return (
         <Card className="">
             <CardHeader>
-                <CardTitle>Derniers Locations - Ventes</CardTitle>
+                <CardTitle>Dernières Locations et Ventes</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="flex sm:flex-row sm:justify-between ">
