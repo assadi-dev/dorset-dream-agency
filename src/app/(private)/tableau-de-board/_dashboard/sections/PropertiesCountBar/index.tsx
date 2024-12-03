@@ -45,7 +45,7 @@ const PropertiesCountBar = () => {
         <Card>
             <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-2 px-6 py-5 sm:py-6">
-                    <CardTitle>Total de ventes et location</CardTitle>
+                    <CardTitle>Total des Ventes et Locations</CardTitle>
                     <SelectMonth onValueChange={handleSelectMonth} />
                 </div>
                 <div className="flex">
