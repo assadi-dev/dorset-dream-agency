@@ -56,7 +56,7 @@ const TransactionChart = () => {
     return (
         <Card className="flex flex-col w-full h-full ">
             <CardHeader className="items-center pb-0">
-                <CardTitle>Chiffre de l'agence en $</CardTitle>
+                <CardTitle>Chiffre d'affaires de l'agence en $</CardTitle>
                 <SelectMonth onValueChange={handleSelectMonth} />
             </CardHeader>
             {CHART_DATA.length > 0 && !isFetching && (

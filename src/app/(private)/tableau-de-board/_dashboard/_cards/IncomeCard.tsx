@@ -30,7 +30,7 @@ const IncomeCard = () => {
     });
 
     return (
-        <DashboardCard title="Revenue Total" icon={DollarSign} className="bg-primary text-secondary">
+        <DashboardCard title="Revenu Total" icon={DollarSign} className="bg-primary text-secondary">
             <div className="grid grid-rows-[1fr,auto] gap-3.5 justify-content-center">
                 <p className="text-4xl font-bold text-center">{formatThousand(data?.sum)}$</p>
 

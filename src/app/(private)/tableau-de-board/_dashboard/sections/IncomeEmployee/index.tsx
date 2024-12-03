@@ -48,7 +48,7 @@ const IncomeEmployee = () => {
         <div>
             <Card className="">
                 <CardHeader>
-                    <CardTitle>Derniers contributions des employées</CardTitle>
+                    <CardTitle>Dernières contributions des employés</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex sm:flex-row sm:justify-between items-center">

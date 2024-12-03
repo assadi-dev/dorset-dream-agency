@@ -3,19 +3,18 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellColumn } from "@/app/types/ReactTable";
 import { LocationColumnType } from "../../../gestion-des-locations-et-ventes/types";
-import formatThousands from "format-thousands";
-import { CountRender, PriceRender } from "./CellIner";
+import { CountRender, PriceRender } from "./CellRender";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
         accessorKey: "seller",
-        header: "Employé(e)",
+        header: "Employé(e)s",
         cell: ({ row }: CellColumn) => <CountRender value={row.getValue("seller")} />,
     },
 
     {
         accessorKey: "totalRent",
-        header: "Location",
+        header: "Locations",
         cell: ({ row }: CellColumn) => <CountRender value={row.getValue("totalRent")} />,
     },
     {
@@ -25,7 +24,7 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     },
     {
         accessorKey: "totalRentPrice",
-        header: "Location $",
+        header: "Locations $",
         cell: ({ row }: CellColumn) => <PriceRender value={row.getValue("totalRentPrice")} />,
     },
     {

@@ -12,7 +12,7 @@ const ResumeTransactionCard = () => {
     });
 
     return (
-        <DashboardCard title="Location - Ventes" icon={Hotel} className="bg-primary text-secondary">
+        <DashboardCard title="Locations - Ventes" icon={Hotel} className="bg-primary text-secondary">
             <div className="text-4xl font-bold text-center my-1">{data?.total}</div>
             <p className="text-xs text-muted-foreground"> {data?.rental} Locations</p>
             <p className="text-xs text-muted-foreground"> {data?.sales} Ventes</p>
