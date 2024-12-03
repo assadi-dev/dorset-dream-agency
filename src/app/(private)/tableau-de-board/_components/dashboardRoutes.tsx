@@ -41,6 +41,10 @@ export const dashboardNavigation: DashboardNavigationType[] = [
                 name: "Comptes",
                 path: "/tableau-de-board/gestion-des-comptes",
             },
+            {
+                name: "Gestion des annonces",
+                path: "/tableau-de-board/gestion-des-annonces",
+            },
         ],
     },
     {
