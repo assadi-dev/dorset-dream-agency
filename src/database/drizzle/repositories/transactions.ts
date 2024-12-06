@@ -34,6 +34,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
 
         const searchCondition = search
             ? or(
+                  like(transactions.keyNumber, sql.placeholder("search")),
                   like(employees.lastName, sql.placeholder("search")),
                   like(employees.firstName, sql.placeholder("search")),
                   like(clients.lastName, sql.placeholder("search")),
@@ -158,6 +159,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
                   like(employees.firstName, sql.placeholder("search")),
                   like(employees.lastName, sql.placeholder("search")),
                   like(categoryProperties.name, sql.placeholder("search")),
+                  like(transactions.keyNumber, sql.placeholder("search")),
               )
             : undefined;
 
