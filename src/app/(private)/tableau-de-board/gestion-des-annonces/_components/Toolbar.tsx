@@ -12,20 +12,16 @@ import { Button } from "@/components/ui/button";
 
 const Toolbar = () => {
     return (
-        <Menubar className="w-fit py-5 mx-auto">
+        <Menubar className=" py-5 mx-auto flex justify-center">
             <MenubarMenu>
                 <MenubarTrigger asChild>
-                    <Button variant="ghost">Shape</Button>
+                    <Button variant="ghost">Form</Button>
                 </MenubarTrigger>
                 <MenubarContent>
-                    <MenubarItem>
-                        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-                    </MenubarItem>
-                    <MenubarItem>New Window</MenubarItem>
-                    <MenubarSeparator />
-                    <MenubarItem>Share</MenubarItem>
-                    <MenubarSeparator />
-                    <MenubarItem>Print</MenubarItem>
+                    <MenubarItem>Rectangle</MenubarItem>
+                    <MenubarItem>Cercle</MenubarItem>
+                    <MenubarItem>Ellipse</MenubarItem>
+                    <MenubarItem>Triangle</MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
