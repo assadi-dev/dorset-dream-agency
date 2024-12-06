@@ -8,7 +8,7 @@ import CanvasContainer from "../_components/CanvasContainer";
 
 export const metadata = setTitlePage("Gestion des annonces");
 
-export const CreateAnnouncement = async () => {
+export const CreateAnnouncementPage = async () => {
     return (
         <PageTemplate title="Création de l'annonce">
             <div className="grid grid-cols-[auto,1fr,auto] pt-6 h-[78vh] w-full gap-3">
@@ -20,4 +20,4 @@ export const CreateAnnouncement = async () => {
     );
 };
 
-export default CreateAnnouncement;
+export default CreateAnnouncementPage;
