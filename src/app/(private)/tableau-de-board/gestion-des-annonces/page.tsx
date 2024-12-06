@@ -4,7 +4,7 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 
 export const metadata = setTitlePage("Gestion des annonces");
 
-export const GestionAnnouncement = async () => {
+const GestionAnnouncementPage = async () => {
     return (
         <PageTemplate title="Annonces" description="Gestion des annonces">
             <section className="my-3">
@@ -17,4 +17,4 @@ export const GestionAnnouncement = async () => {
     );
 };
 
-export default GestionAnnouncement;
+export default GestionAnnouncementPage;
