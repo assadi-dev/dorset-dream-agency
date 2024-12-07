@@ -23,3 +23,7 @@ export const UPLOAD_DIR_PERQUISITION = path.join(ENV.STORAGE_DIR, "images", "per
  * Emplacement du dossier de stockage pour les images
  */
 export const UPLOAD_DIR_IMAGES = path.join(ENV.STORAGE_DIR, "images");
+/**
+ * Emplacement du dossier de stockage pour les images d’arrière plans pour l’éditeur des annonces
+ */
+export const BACKGROUND_DIR_IMAGES = path.join(ENV.STORAGE_DIR, "images", "backgrounds");
