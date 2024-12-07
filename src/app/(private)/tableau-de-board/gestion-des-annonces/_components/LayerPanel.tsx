@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowUpLeftSquare, Circle, ImagePlus, Square, Text, Triangle, Type } from "lucide-react";
 import React from "react";
+import BackgroundElements from "./BackgroundElements";
 
 const LayerPanel = () => {
     return (
@@ -37,15 +38,9 @@ const LayerPanel = () => {
                 <div className="mt-2">
                     <CardTitle>Arrière plans</CardTitle>
                     <ScrollArea className="h-[280px] w-full py-2 pr-2">
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))]  gap-1 p-1 w-full">
-                            <div className="w-full h-[80px] bg-white border"></div>
-                            <div className="w-full h-[80px] bg-red-300"></div>
-                            <div className="w-full h-[80px] bg-red-300"></div>
-                            <div className="w-full h-[80px] bg-red-300"></div>
-                            <div className="w-full h-[80px] bg-red-300"></div>
-                            <div className="w-full h-[80px] bg-red-300"></div>
-                            <div className="w-full h-[80px] bg-red-300"></div>
-                        </div>
+                        <React.Suspense fallback="yellow">
+                            <BackgroundElements />
+                        </React.Suspense>
                     </ScrollArea>
                 </div>
                 <div className="mt-2">
