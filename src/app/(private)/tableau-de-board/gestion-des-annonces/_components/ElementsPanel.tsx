@@ -14,10 +14,7 @@ import useFabricAction from "./fabric/useFabric";
 const ElementsPanel = () => {
     const { canvas } = useFabricAction();
     const handleChangeCanvasColor = (value: any) => {
-        console.log("value :>> ", value);
         if (!canvas) return;
-        console.log(canvas);
-
         canvas.backgroundColor = value;
         canvas.renderAll();
     };

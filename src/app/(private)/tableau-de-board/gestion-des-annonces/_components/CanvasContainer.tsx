@@ -9,17 +9,17 @@ const CanvasContainer = () => {
     const { canvas, setCanvas } = useFabricAction();
 
     React.useEffect(() => {
-        if (canvasRef.current && !canvas) {
-            const canvas = new Canvas(canvasRef.current, {
+        if (canvasRef.current) {
+            const initCanvas = new Canvas(canvasRef.current, {
                 width: 800,
                 height: 600,
             });
-            canvas.backgroundColor = "#ffffff";
-            canvas.renderAll();
-            setCanvas(canvas);
+            initCanvas.backgroundColor = "#ffffff";
+            initCanvas.renderAll();
+            setCanvas(initCanvas);
 
             return () => {
-                canvas.dispose();
+                initCanvas.dispose();
             };
         }
     }, []);
@@ -30,7 +30,7 @@ const CanvasContainer = () => {
                 {/*   <Toolbar /> */}
                 <canvas
                     id="canvas"
-                    className="canvas-container__canvas border w-[800px] h-[600px] rounded my-3 shadow mx-auto"
+                    className="canvas-container__canvas border w-[800px] h-[600px] rounded shadow mx-auto"
                     ref={canvasRef}
                 />
             </div>
