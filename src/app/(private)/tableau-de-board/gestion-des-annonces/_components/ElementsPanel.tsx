@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,8 +9,19 @@ import React from "react";
 import BackgroundElements from "./BackgroundElements";
 import ColorPickerInput from "./ColorPicker";
 import { Slider } from "@/components/ui/slider";
+import useFabricAction from "./fabric/useFabric";
 
 const ElementsPanel = () => {
+    const { canvas } = useFabricAction();
+    const handleChangeCanvasColor = (value: any) => {
+        console.log("value :>> ", value);
+        if (!canvas) return;
+        console.log(canvas);
+
+        canvas.backgroundColor = value;
+        canvas.renderAll();
+    };
+
     return (
         <div className="h-full w-[18rem] pt-3 px-1">
             <div className="pt-3  w-full">
@@ -50,18 +62,18 @@ const ElementsPanel = () => {
 
                     <div className="p-1 w-full grid grid-cols-2 gap-2 ">
                         <div>
-                            <Label>Hauteur</Label>
-                            <Input type="number" min={1} placeholder="Taille en px" /* defaultValue={800} */ />
+                            <Label>Largeur</Label>
+                            <Input type="number" min={1} defaultValue={canvas?.width} />
                         </div>
                         <div>
-                            <Label>Largeur</Label>
-                            <Input type="number" min={1} placeholder="Taille en px" /* defaultValue={600} */ />
+                            <Label>Hauteur</Label>
+                            <Input type="number" min={1} defaultValue={canvas?.height} />
                         </div>
                     </div>
                     <div>
                         <Label>Couleur</Label>
 
-                        <ColorPickerInput />
+                        <ColorPickerInput onChange={handleChangeCanvasColor} />
                     </div>
                     <div>
                         <Label>Zoom</Label>
