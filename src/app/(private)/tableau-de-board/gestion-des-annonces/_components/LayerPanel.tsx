@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowUpLeftSquare, Circle, ImagePlus, Square, Text, Triangle, Type } from "lucide-react";
 import React from "react";
 import BackgroundElements from "./BackgroundElements";
+import ColorPickerInput from "./ColorPicker";
 
 const LayerPanel = () => {
     return (
@@ -46,7 +47,7 @@ const LayerPanel = () => {
                 <div className="mt-2">
                     <CardTitle>Canvas</CardTitle>
 
-                    <div className="p-1 w-full grid grid-cols-2 gap-2 py-3">
+                    <div className="p-1 w-full grid grid-cols-2 gap-2 ">
                         <div>
                             <Label>Hauteur</Label>
                             <Input type="number" min={1} placeholder="Taille en px" /* defaultValue={800} */ />
@@ -55,6 +56,15 @@ const LayerPanel = () => {
                             <Label>Largeur</Label>
                             <Input type="number" min={1} placeholder="Taille en px" /* defaultValue={600} */ />
                         </div>
+                    </div>
+                    <div>
+                        <Label>Couleur</Label>
+
+                        <ColorPickerInput />
+                    </div>
+                    <div>
+                        <Label>Transparence</Label>
+                        <Input type="number" min={0} max={100} defaultValue={100} />
                     </div>
                 </div>
             </div>
