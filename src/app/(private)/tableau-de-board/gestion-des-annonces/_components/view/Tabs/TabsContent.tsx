@@ -29,7 +29,7 @@ export const TabsListElement: TabsEditorType[] = [
 
 const TabsEditorContent = () => {
     return (
-        <Tabs defaultValue="tabs-layers" className="w-[24rem] ">
+        <Tabs defaultValue={TabsListElement[1].id} className="w-[24rem] ">
             <TabsList className="w-full bg-transparent">
                 {TabsListElement.map((tab) => (
                     <TabsTrigger key={tab.id} value={tab.id}>
