@@ -60,16 +60,15 @@ const ElementsPanel = () => {
                     <div className="p-1 w-full grid grid-cols-2 gap-2 ">
                         <div>
                             <Label>Largeur</Label>
-                            <Input type="number" min={1} defaultValue={canvas?.width} />
+                            <Input type="number" min={1} defaultValue={canvas?.width} disabled />
                         </div>
                         <div>
                             <Label>Hauteur</Label>
-                            <Input type="number" min={1} defaultValue={canvas?.height} />
+                            <Input type="number" min={1} defaultValue={canvas?.height} disabled />
                         </div>
                     </div>
                     <div>
                         <Label>Couleur</Label>
-
                         <ColorPickerInput onChange={handleChangeCanvasColor} />
                     </div>
                     <div>

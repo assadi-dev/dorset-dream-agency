@@ -8,16 +8,16 @@ import ExportContent from "./ExportContent";
 
 export const TabsListElement: TabsEditorType[] = [
     {
+        id: "tabs-apparence",
+        label: "Apparence",
+        icon: <Layers />,
+        content: <EditorContent />,
+    },
+    {
         id: "tabs-layers",
         label: "Calques",
         icon: <Layers />,
         content: <LayersContent />,
-    },
-    {
-        id: "tabs-editor",
-        label: "Éditeur",
-        icon: <Layers />,
-        content: <EditorContent />,
     },
     {
         id: "tabs-export",
@@ -29,7 +29,7 @@ export const TabsListElement: TabsEditorType[] = [
 
 const TabsEditorContent = () => {
     return (
-        <Tabs defaultValue={TabsListElement[1].id} className="w-[24rem] ">
+        <Tabs defaultValue={TabsListElement[0].id} className="w-[24rem] ">
             <TabsList className="w-full bg-transparent">
                 {TabsListElement.map((tab) => (
                     <TabsTrigger key={tab.id} value={tab.id}>
