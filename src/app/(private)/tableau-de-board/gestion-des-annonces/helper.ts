@@ -1,8 +1,8 @@
 import { API_INSTANCE } from "@/lib/api";
 export const CANVAS_VALUES = {
-    height: 600,
-    width: 800,
-    background: "#ffffff",
+    height: 420,
+    width: 640,
+    backgroundColor: "#ffffff",
     stroke: 0,
 };
 

@@ -12,11 +12,11 @@ import { Slider } from "@/components/ui/slider";
 import useFabricAction from "./fabric/useFabric";
 
 const ElementsPanel = () => {
-    const { canvas } = useFabricAction();
+    const { canvas, setCanvasBackgroundColor } = useFabricAction();
     const handleChangeCanvasColor = (value: any) => {
         if (!canvas) return;
-        canvas.backgroundColor = value;
-        canvas.renderAll();
+
+        setCanvasBackgroundColor(value);
     };
 
     return (

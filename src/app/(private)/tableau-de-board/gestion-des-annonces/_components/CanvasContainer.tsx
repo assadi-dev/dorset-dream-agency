@@ -3,18 +3,19 @@ import React from "react";
 import Toolbar from "./Toolbar";
 import { Canvas } from "fabric";
 import useFabricAction from "./fabric/useFabric";
+import { CANVAS_VALUES } from "../helper";
 
 const CanvasContainer = () => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-    const { canvas, setCanvas } = useFabricAction();
+    const { setCanvas } = useFabricAction();
 
     React.useEffect(() => {
         if (canvasRef.current) {
             const initCanvas = new Canvas(canvasRef.current, {
-                width: 800,
-                height: 600,
+                width: CANVAS_VALUES.width,
+                height: CANVAS_VALUES.height,
             });
-            initCanvas.backgroundColor = "#ffffff";
+            initCanvas.backgroundColor = CANVAS_VALUES.backgroundColor;
             initCanvas.renderAll();
             setCanvas(initCanvas);
 
@@ -26,7 +27,7 @@ const CanvasContainer = () => {
 
     return (
         <div className="canvas-container p-3 pt-0 ">
-            <div className="w-[800px] mx-auto">
+            <div className={`w-fit mx-auto`}>
                 {/*   <Toolbar /> */}
                 <canvas
                     id="canvas"

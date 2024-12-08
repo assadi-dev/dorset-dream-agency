@@ -13,8 +13,8 @@ const ColorPickerInput = ({ defaultColor = "#ffffff", onChange }: ColorPickerInp
     const [color, setColor] = React.useState(defaultColor);
     const previewColorRef = React.useRef<HTMLButtonElement | null>(null);
     const sizes = {
-        height: 50,
-        width: 50,
+        height: 25,
+        width: 25,
     };
     const styles = {
         height: sizes.height,
