@@ -1,15 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TabsEditorContent from "./view/Tabs/TabsContent";
 
 const EditorPanel = () => {
-    return (
-        <Card className="h-full min-w-[18rem]">
-            <CardHeader>
-                <CardTitle>Layer</CardTitle>
-            </CardHeader>
-            <CardContent>LayerObjects</CardContent>
-        </Card>
-    );
+    return <TabsEditorContent />;
 };
 
 export default EditorPanel;

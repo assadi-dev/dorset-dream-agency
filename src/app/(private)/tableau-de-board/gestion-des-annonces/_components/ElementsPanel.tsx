@@ -7,8 +7,9 @@ import { ArrowUpLeftSquare, Circle, ImagePlus, Square, Text, Triangle, Type } fr
 import React from "react";
 import BackgroundElements from "./BackgroundElements";
 import ColorPickerInput from "./ColorPicker";
+import { Slider } from "@/components/ui/slider";
 
-const LayerPanel = () => {
+const ElementsPanel = () => {
     return (
         <div className="h-full w-[18rem] pt-3 px-1">
             <div className="pt-3  w-full">
@@ -63,8 +64,8 @@ const LayerPanel = () => {
                         <ColorPickerInput />
                     </div>
                     <div>
-                        <Label>Transparence</Label>
-                        <Input type="number" min={0} max={100} defaultValue={100} />
+                        <Label>Zoom</Label>
+                        <Slider defaultValue={[100]} max={200} min={10} />
                     </div>
                 </div>
             </div>
@@ -72,4 +73,4 @@ const LayerPanel = () => {
     );
 };
 
-export default LayerPanel;
+export default ElementsPanel;
