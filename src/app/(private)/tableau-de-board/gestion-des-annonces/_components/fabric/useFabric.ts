@@ -16,24 +16,17 @@ const useFabricAction = () => {
         canvas.add(object);
         canvas.setActiveObject(object);
         canvas.requestRenderAll();
-        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: object });
     };
 
-    const selectedObject = (object: FabricObject) => {
+    const selectedObject = (object: FabricObject | null) => {
         const canvas = canvasValidation(context.canvas);
+        if (!object) return;
         canvas.setActiveObject(object);
         canvas.requestRenderAll();
         context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: object });
     };
     const unselectedObject = () => {
-        const empty = {
-            type: "",
-            width: 0,
-            height: 0,
-            stroke: null,
-        };
-
-        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: empty });
+        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: null });
     };
 
     const updateObject = (object: FabricObject) => {

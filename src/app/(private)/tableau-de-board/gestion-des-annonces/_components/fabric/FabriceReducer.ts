@@ -13,6 +13,8 @@ const FabriceReducer = (state: FabricInitialStateType, action?: ActionReducer) =
     switch (type) {
         case FabricReducerAction.INIT_CANVAS:
             return { ...state, canvas: payload };
+        case FabricReducerAction.SELECTED_OBJECT:
+            return { ...state, selected: payload };
 
         default:
             return state;

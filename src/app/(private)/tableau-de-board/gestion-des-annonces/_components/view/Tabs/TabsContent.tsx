@@ -5,6 +5,7 @@ import LayersContent from "./LayersContent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditorContent from "./EditorContent";
 import ExportContent from "./ExportContent";
+import useFabricAction from "../../fabric/useFabric";
 
 export const TabsListElement: TabsEditorType[] = [
     {
@@ -28,6 +29,12 @@ export const TabsListElement: TabsEditorType[] = [
 ];
 
 const TabsEditorContent = () => {
+    const { canvas, selected } = useFabricAction();
+    if (selected) {
+        console.log("type sélectionné", selected?.type);
+        console.log("object :>> ", selected);
+    }
+
     return (
         <Tabs defaultValue={TabsListElement[0].id} className="w-[24rem] ">
             <TabsList className="w-full bg-transparent">

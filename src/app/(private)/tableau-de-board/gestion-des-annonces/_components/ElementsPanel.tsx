@@ -18,7 +18,6 @@ const ElementsPanel = () => {
     const { canvas, setCanvasBackgroundColor, addObjectToLayer } = useFabricAction();
     const handleChangeCanvasColor = (value: any) => {
         if (!canvas) return;
-
         setCanvasBackgroundColor(value);
     };
 
@@ -40,7 +39,6 @@ const ElementsPanel = () => {
             const image = await FabricImage.fromURL(reader);
             image.scaleToHeight(100);
             image.scaleToWidth(200);
-
             addObjectToLayer(image);
             URL.revokeObjectURL(reader);
         };

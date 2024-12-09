@@ -1,4 +1,4 @@
-import { Canvas } from "fabric";
+import { Canvas, FabricObject } from "fabric";
 
 export enum FabricReducerAction {
     INIT_CANVAS = "INI_CANVAS",
@@ -15,4 +15,10 @@ export enum FabricReducerAction {
 export const canvasValidation = (canvas: unknown) => {
     if (canvas instanceof Canvas) return canvas;
     throw new Error("l'instance canvas est NULL");
+};
+
+export const OBJECT_CLEAN_VALUES = {
+    getWidth: (object: FabricObject) => Math.round(object.width * object.scaleX),
+    getHeight: (object: FabricObject) => Math.round(object.height * object.scaleY),
+    getType: (object: FabricObject) => object.type,
 };
