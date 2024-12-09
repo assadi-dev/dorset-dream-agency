@@ -31,8 +31,10 @@ const CanvasContainer = () => {
                 {/*   <Toolbar /> */}
                 <canvas
                     id="canvas"
-                    className={`canvas-container__canvas border w-[${CANVAS_VALUES.width}px] h-[${CANVAS_VALUES.height}px] rounded shadow mx-auto`}
+                    className={`canvas-container__canvas border  shadow mx-auto `}
                     ref={canvasRef}
+                    width={CANVAS_VALUES.width}
+                    height={CANVAS_VALUES.height}
                 />
             </div>
         </div>

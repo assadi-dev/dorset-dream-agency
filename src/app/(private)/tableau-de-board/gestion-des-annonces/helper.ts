@@ -2,6 +2,8 @@ import { API_INSTANCE } from "@/lib/api";
 import { FabricFormType } from "./type";
 import { Circle, FabricImage, FabricObject, IText, Rect, Triangle } from "fabric";
 import uniqid from "uniqid";
+
+const SHAPE_COLOR = "#01035c";
 export const CANVAS_VALUES = {
     height: 480,
     width: 720,
@@ -17,8 +19,6 @@ export const fetchBackgroundImages = async () => {
 export enum ANNOUNCEMENT_QUERY_KEY {
     BACKGROUND_IMAGES = "BACKGROUND_IMAGES",
 }
-
-const SHAPE_COLOR = "#070a57";
 
 type ShapeGeneratorType = Record<string, () => Rect | Circle | Triangle | IText>;
 export const ShapeGenerator: ShapeGeneratorType = {
