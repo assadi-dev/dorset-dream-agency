@@ -16,8 +16,8 @@ const ImageItem = ({ name, url, onClick }: { name?: string; url: string; onClick
             className="w-full h-[80px] cursor-pointer active:scale-[0.9] transition-all object-cover object-center"
             src={url}
             alt={name || `image background for canvas`}
-            width={640}
-            height={448}
+            width={720}
+            height={480}
             onClick={handleClickImage}
         />
     );

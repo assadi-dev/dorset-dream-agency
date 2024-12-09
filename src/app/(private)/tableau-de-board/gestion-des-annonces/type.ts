@@ -19,9 +19,22 @@ export enum FabricFormType {
     circle = "circle",
     iText = "i-text",
     image = "image",
+    triangle = "triangle",
 }
 
 export type ActionReducer = {
     type: string;
     payload?: any;
+};
+
+export type FabricObjectSelected = {
+    type: FabricFormType;
+    width?: number;
+    height?: number;
+    x: number;
+    y: number;
+    fill?: string;
+    stroke?: string;
+    angle: number;
+    diameter: number;
 };

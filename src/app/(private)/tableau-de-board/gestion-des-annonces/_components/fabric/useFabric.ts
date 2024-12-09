@@ -3,7 +3,6 @@ import React from "react";
 import { FabricContext } from "./FabricContext";
 import { canvasValidation, FabricReducerAction } from "./helpers";
 import { Canvas, FabricImage, FabricObject } from "fabric";
-import { CANVAS_VALUES } from "../../helper";
 
 const useFabricAction = () => {
     const context = React.useContext(FabricContext);
@@ -12,11 +11,29 @@ const useFabricAction = () => {
         context.dispatch({ type: FabricReducerAction.INIT_CANVAS, payload: canvas });
     };
 
+    const addObjectToLayer = (object: any) => {
+        const canvas = canvasValidation(context.canvas);
+        canvas.add(object);
+        canvas.setActiveObject(object);
+        canvas.requestRenderAll();
+        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: object });
+    };
+
     const selectedObject = (object: FabricObject) => {
+        const canvas = canvasValidation(context.canvas);
+        canvas.setActiveObject(object);
+        canvas.requestRenderAll();
         context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: object });
     };
     const unselectedObject = () => {
-        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: null });
+        const empty = {
+            type: "",
+            width: 0,
+            height: 0,
+            stroke: null,
+        };
+
+        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: empty });
     };
 
     const updateObject = (object: FabricObject) => {
@@ -26,32 +43,29 @@ const useFabricAction = () => {
     const setCanvasBackgroundImage = async (url: string) => {
         const canvas = canvasValidation(context.canvas);
         const image = await FabricImage.fromURL(url);
-        image.width = canvas.width;
-        image.height = canvas.height;
-
+        image.scaleToHeight(canvas.height);
+        image.scaleToWidth(canvas.width);
         canvas.backgroundImage = image;
-        canvas.renderAll();
+        canvas.requestRenderAll();
     };
 
     const removeCanvasBackgroundImage = async () => {
         const canvas = canvasValidation(context.canvas);
         const image = await FabricImage.fromURL("");
-        image.width = canvas.width;
-        image.height = canvas.height;
         canvas.backgroundImage = image;
-        canvas.backgroundColor = CANVAS_VALUES.backgroundColor;
-        canvas.renderAll();
+        canvas.requestRenderAll();
     };
     const setCanvasBackgroundColor = (color: string) => {
         const canvas = canvasValidation(context.canvas);
         canvas.backgroundColor = color;
-        canvas.renderAll();
+        canvas.requestRenderAll();
     };
 
     return {
         canvas: context.canvas,
         selected: context.selected,
         layers: context.layers,
+        addObjectToLayer,
         setCanvas,
         selectedObject,
         unselectedObject,
