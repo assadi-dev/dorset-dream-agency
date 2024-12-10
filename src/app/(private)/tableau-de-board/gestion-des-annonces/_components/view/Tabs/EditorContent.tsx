@@ -92,8 +92,8 @@ const EditorContent = () => {
                             <Input type="number" />
                         </div>
                         <div>
-                            <Label className=" text-xs">Pivoter</Label>
-                            <Input type="number" />
+                            <Label className=" text-xs">Rotation</Label>
+                            <Input type="number" defaultValue={0} />
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ const EditorContent = () => {
                             </div>
                             <div>
                                 <Label className=" text-xs">arrondie</Label>
-                                <Input type="number" onChange={handleChangeBorderRadius} />
+                                <Input type="number" onChange={handleChangeBorderRadius} defaultValue={0} />
                             </div>
                         </div>
                         <div>
