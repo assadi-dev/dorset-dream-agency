@@ -1,54 +1,61 @@
 import { DashboardNavigationType } from "./types";
+import { LayoutDashboard, Home, Building2, Globe, Inbox, Gem, Search, Settings, SquareUser } from "lucide-react";
 
 export const dashboardNavigation: DashboardNavigationType[] = [
     {
-        name: "Tableau de board",
+        title: "Tableau de board",
         path: "/tableau-de-board",
+        icon: LayoutDashboard,
     },
     {
-        name: "Agence Immobilière",
+        title: "Agence Immobilière",
+        icon: Inbox,
         children: [
             {
-                name: "Clients",
+                title: "Clients",
                 path: "/tableau-de-board/gestion-des-clients",
             },
             {
-                name: "Locations/Ventes",
+                title: "Locations/Ventes",
                 path: "/tableau-de-board/gestion-des-locations-et-ventes",
             },
         ],
     },
     {
-        name: "Prestiges",
+        title: "Prestiges",
         path: "/tableau-de-board/prestiges",
+        icon: Gem,
     },
     {
-        name: "Trombinoscope",
+        title: "Trombinoscope",
         path: "/tableau-de-board/trombinoscope",
+        icon: SquareUser,
     },
     {
-        name: "Gestion de l'entreprise",
+        title: "Gestion de l'entreprise",
+        icon: Building2,
         children: [
             {
-                name: "Immobiliers",
+                title: "Immobiliers",
                 path: "/tableau-de-board/gestion-des-biens-immobiliers",
             },
             {
-                name: "Employés",
+                title: "Employés",
                 path: "/tableau-de-board/gestion-des-employes",
             },
             {
-                name: "Comptes",
+                title: "Comptes",
                 path: "/tableau-de-board/gestion-des-comptes",
             },
             {
-                name: "Gestion des annonces",
+                title: "Gestion des annonces",
                 path: "/tableau-de-board/gestion-des-annonces",
             },
         ],
     },
     {
-        name: "Site du catalogue",
+        title: "Site du catalogue",
+        icon: Globe,
         path: "/",
     },
 ];

@@ -1,6 +1,8 @@
+import { Component, ReactElement } from "react";
+
 export type DashboardNavigationType = {
-    name: string;
+    title: string;
     path?: string;
-    icon?: string;
+    icon?: any;
     children?: DashboardNavigationType[];
 };

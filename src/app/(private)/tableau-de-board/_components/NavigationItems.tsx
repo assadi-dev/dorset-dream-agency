@@ -2,6 +2,16 @@
 import Link from "next/link";
 import React from "react";
 import { DashboardNavigationType } from "./types";
+import {
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
+} from "@/components/ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronRight } from "lucide-react";
 
 export type NavigationProps = {
     route: DashboardNavigationType;
@@ -11,22 +21,38 @@ const NavigationItems = ({ route }: NavigationProps) => {
     return (
         <>
             {route.children ? (
-                <ul>
-                    {route.children?.map((parent) =>
-                        parent.path ? (
-                            <li key={parent.path}>
-                                <Link href={parent.path}>{parent.name} </Link>{" "}
-                            </li>
-                        ) : null,
-                    )}
-                </ul>
-            ) : (
-                route.path && (
-                    <li>
-                        <Link href={route.path}>{route.name} </Link>
-                    </li>
-                )
-            )}
+                <Collapsible className="group/collapsible">
+                    <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                            <SidebarMenuButton>
+                                {route.icon && <route.icon />}
+                                <span>{route.title}</span>
+                                <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                            </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className=" bg-white/25 rounded border-1 border-sidebar-border ml-3.5">
+                            {route.children?.map((parent) =>
+                                parent.path ? (
+                                    <SidebarMenuSubItem key={parent.path} className="mx-0 ">
+                                        <SidebarMenuSubButton asChild>
+                                            <Link href={parent.path}>{parent.title} </Link>
+                                        </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                ) : null,
+                            )}
+                        </CollapsibleContent>
+                    </SidebarMenuItem>
+                </Collapsible>
+            ) : route.path ? (
+                <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                        <Link href={route.path}>
+                            {route.icon && <route.icon />}
+                            <span>{route.title}</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            ) : null}
         </>
     );
 };
