@@ -30,10 +30,10 @@ const NavigationItems = ({ route }: NavigationProps) => {
                                 <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                             </SidebarMenuButton>
                         </CollapsibleTrigger>
-                        <CollapsibleContent className=" bg-white/25 rounded border-1 border-sidebar-border ml-3.5">
+                        <CollapsibleContent className=" bg-white/25 rounded border-1 ml-0   lg:ml-3.5">
                             {route.children?.map((parent) =>
                                 parent.path ? (
-                                    <SidebarMenuSubItem key={parent.path} className="mx-0 ">
+                                    <SidebarMenuSubItem key={parent.path}>
                                         <SidebarMenuSubButton asChild>
                                             <Link href={parent.path}>{parent.title} </Link>
                                         </SidebarMenuSubButton>

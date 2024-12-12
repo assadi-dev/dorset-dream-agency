@@ -1,5 +1,5 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { PowerOff } from "lucide-react";
+import { LogOut, PowerOff } from "lucide-react";
 import React from "react";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { Button } from "@/components/ui/button";
@@ -20,18 +20,15 @@ const LogoutButton = () => {
         });
     };
     return (
-        <ModalProvider>
-            <DropdownMenuItem asChild>
-                <Button
-                    type="button"
-                    onClick={logout}
-                    className="font-semibold text-red-900 bg-destructive/30 hover:bg-destructive hover:text-white w-full"
-                    disabled={isPending}
-                >
-                    <PowerOff className="h-4 w-4 mr-1" /> Déconnexion
-                </Button>
-            </DropdownMenuItem>
-        </ModalProvider>
+        <Button
+            variant="ghost"
+            type="button"
+            onClick={logout}
+            className="justify-start  items-center  w-full"
+            disabled={isPending}
+        >
+            <LogOut className="h-4 w-4" /> Déconnexion
+        </Button>
     );
 };
 

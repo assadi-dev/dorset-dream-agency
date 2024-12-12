@@ -9,6 +9,7 @@ import DashboardLogo from "./DasboardLogo";
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -18,6 +19,7 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar";
+import UserConnect from "./UserConnect";
 
 const AppSidebar = () => {
     return (
@@ -40,6 +42,9 @@ const AppSidebar = () => {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter>
+                <UserConnect />
+            </SidebarFooter>
             <SidebarRail />
         </Sidebar>
     );
