@@ -2,7 +2,8 @@ import React from "react";
 import { Control, FieldValues, Path } from "react-hook-form";
 
 import { FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField } from "@/components/ui/form";
-import { Input, InputProps } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
+import { InputProps } from "../ui/inputPassword";
 
 type InputFieldProps = InputProps & React.InputHTMLAttributes<HTMLInputElement>;
 type FormFieldInputProps<T extends FieldValues> = {

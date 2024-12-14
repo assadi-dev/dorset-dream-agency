@@ -1,8 +1,7 @@
 import React from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField } from "@/components/ui/form";
-import InputPassword from "../ui/inputPassword";
-import { InputProps } from "../ui/input";
+import InputPassword, { InputProps } from "../ui/inputPassword";
 
 type FormFieldInputProps<T extends FieldValues> = {
     control: Control<T>;

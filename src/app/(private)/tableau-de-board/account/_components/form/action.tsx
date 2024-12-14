@@ -1,9 +1,11 @@
 "use server";
 
-import { auth } from "@/auth";
-import { changePassword } from "@/database/drizzle/repositories/users";
+import { auth, unstable_update } from "@/auth";
+import { changePassword, updateUser } from "@/database/drizzle/repositories/users";
 
 export const updateEmployeeData = async (formData: FormData) => {
+    const session = await auth();
+    const id = Number(session?.user?.id);
     const employeeData = {
         lastName: formData.get("lastName"),
         firstName: formData.get("firstName"),
@@ -19,4 +21,17 @@ export const updateEmployeePassword = async (formData: FormData) => {
         confirmPassword: formData.get("confirmPassword") as string,
     };
     return changePassword(id, values);
+};
+
+export const updateUsernameEmployee = async (formData: FormData) => {
+    const session = await auth();
+    const id = Number(session?.user?.id);
+    if (formData.get("username")) {
+        const email = formData.get("username") as string;
+        await updateUser(id, { username: email });
+        unstable_update({
+            ...session,
+            user: { ...session?.user, email },
+        });
+    }
 };
