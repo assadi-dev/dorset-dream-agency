@@ -2,7 +2,7 @@ import React from "react";
 
 type PageTemplateProps = {
     title?: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     description?: string;
 };
 const PageTemplate = ({ title, description, children }: PageTemplateProps) => {
