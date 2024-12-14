@@ -88,11 +88,12 @@ const UserConnect = () => {
     const { isMobile } = useSidebar();
     const session = useSession();
     const user = session ? (session?.data?.user as User) : null;
+    const [open, toggle] = React.useReducer((state) => !state, false);
     return (
         <SidebarMenu>
             <SidebarMenuItem className="rounded-lg border border-white/15 bg-gradient-to-r from-primary  to-[#214583]  transition-all">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                <DropdownMenu open={open}>
+                    <DropdownMenuTrigger asChild onClick={toggle}>
                         <SidebarMenuButton
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground sm:min-h-[4rem] p-1.5"
@@ -113,7 +114,7 @@ const UserConnect = () => {
 
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Button asChild variant="ghost" className="justify-start gap-3 w-full">
+                            <Button asChild variant="ghost" className="justify-start gap-3 w-full" onClick={toggle}>
                                 <Link href={"/tableau-de-board/account"}>
                                     <User /> <span>Mon Compte</span>
                                 </Link>
