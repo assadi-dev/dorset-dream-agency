@@ -23,7 +23,7 @@ import UserConnect from "./UserConnect";
 
 const AppSidebar = () => {
     return (
-        <Sidebar className="bg-gradient-to-br  from-[#214583] from-5%  via-[#05095c] via-100%  to-[#214583]  text-white">
+        <Sidebar className="bg-gradient-to-br  from-[#214583] from-[5%]   to-[#05095c] to-100%    text-white">
             <SidebarHeader className="mb-5">
                 <SidebarMenu className="flex justify-end items-center p-3  rounded-xl">
                     <SidebarMenuItem className="w-[45%vw]  lg:w-[60%] h-[auto]">

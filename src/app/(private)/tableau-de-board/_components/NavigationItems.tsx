@@ -63,6 +63,9 @@ const NavigationItems = ({ route }: NavigationProps) => {
         });
     };
 
+    const CLASS_ITEM =
+        "data-[active=true]:border data-[active=true]:border-white/25  rounded data-[active=true]:font-bold  data-[active=true]:bg-gradient-to-r  from-[#214583] from-5% to-[#214583]";
+
     return (
         <>
             {route.children ? (
@@ -79,7 +82,11 @@ const NavigationItems = ({ route }: NavigationProps) => {
                             {route.children?.map((parent) =>
                                 parent.path ? (
                                     <SidebarMenuSubItem key={parent.path}>
-                                        <SidebarMenuSubButton asChild isActive={isActive(parent.path)}>
+                                        <SidebarMenuSubButton
+                                            asChild
+                                            isActive={isActive(parent.path)}
+                                            className={CLASS_ITEM}
+                                        >
                                             <a href={parent.path}>
                                                 <span>{parent.title}</span>{" "}
                                             </a>
@@ -92,7 +99,7 @@ const NavigationItems = ({ route }: NavigationProps) => {
                 </Collapsible>
             ) : route.path ? (
                 <SidebarMenuItem>
-                    <SidebarMenuButton asChild isActive={isActive(route.path)}>
+                    <SidebarMenuButton asChild isActive={isActive(route.path)} className={CLASS_ITEM}>
                         <Link href={route.path}>
                             {route.icon && <route.icon />}
                             <span>{route.title}</span>

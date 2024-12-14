@@ -49,7 +49,7 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
 
         return (
             <Image
-                className=" h-[2rem] w-[2rem] sm:h-[2.5rem] sm:w-[2.5rem] rounded  shadow-xl "
+                className=" h-[2rem] w-[2rem] sm:h-[3.5rem] sm:w-[3.5rem] rounded  shadow-xl "
                 src={picture}
                 width={80}
                 height={80}
@@ -82,18 +82,20 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
     return <AvatarRow user={user} />;
 };
 
+//bg-[#0f172a]
+
 const UserConnect = () => {
     const { isMobile } = useSidebar();
     const session = useSession();
     const user = session ? (session?.data?.user as User) : null;
     return (
         <SidebarMenu>
-            <SidebarMenuItem className="rounded-lg border border-white/15 bg-[#0f172a">
+            <SidebarMenuItem className="rounded-lg border border-white/15 bg-gradient-to-r from-primary  to-[#214583]  transition-all">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground sm:min-h-[4rem] p-1.5"
                         >
                             <AvatarDropdown user={user} />
                             <ChevronsUpDown className="ml-auto size-4" />
