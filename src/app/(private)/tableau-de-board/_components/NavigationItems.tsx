@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 
 export type NavigationProps = {
     route: DashboardNavigationType;
@@ -20,16 +20,39 @@ const SIDEBAR_STORAGE = "sidebar_toggle";
 
 const NavigationItems = ({ route }: NavigationProps) => {
     const pathname = usePathname();
-    const storedSidebarState = localStorage.getItem(SIDEBAR_STORAGE);
+    const searchParam = useSearchParams();
+
     const [state, setState] = useState<{ isOpen: boolean; group: string }>({
-        isOpen: storedSidebarState ? JSON.parse(storedSidebarState).isOpen : false,
-        group: storedSidebarState ? JSON.parse(storedSidebarState).group : "",
+        isOpen: false,
+        group: "",
     });
 
+    useEffect(() => {
+        if (localStorage) {
+            const storedSidebarState = localStorage.getItem(SIDEBAR_STORAGE) as string;
+            const parse = JSON.parse(storedSidebarState) as { isOpen: boolean; group: string };
+            setState({
+                isOpen: parse.isOpen,
+                group: parse.group,
+            });
+        }
+    }, []);
+
     const isActive = (path: string) => {
+        searchParam.size;
+
+        if (searchParam.size > 0) {
+            const pathArrayWithoutParams = pathname.split("/").slice(-searchParam.size);
+            const lastPath = pathArrayWithoutParams.values().toArray().slice(-1);
+            if (path.includes(lastPath.join("/"))) {
+                return true;
+            }
+        }
+
         if (pathname === path) {
             return true;
         }
+
         return false;
     };
 
