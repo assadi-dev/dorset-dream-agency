@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { usePathname, useRouter } from "next/navigation";
 import { updateImageSession } from "./action";
+import { Session } from "@/app/(private)/tableau-de-board/account/type";
 
 type UploadState = {
     preview?: string | null;
@@ -32,6 +33,7 @@ const PhotoDropzone = () => {
         file: null,
     });
     const session = useSession();
+    console.log(session);
 
     const sizeValidator = (file: File) => {
         if (file.size > 500 * 1024) {
@@ -66,14 +68,15 @@ const PhotoDropzone = () => {
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
     const savePhoto = async () => {
         if (!state.file) throw "Fichier introuvable";
+        const userSession = { ...session.data } as Session;
         const formData = new FormData();
         formData.append("file", state.file);
-        formData.append("photo", state.preview);
+        formData.append("employeeID", String(userSession?.user?.employeeID));
         await wait(3000);
-
+        const result = await updateImageSession(formData);
         await session.update({
             ...session,
-            user: { ...session?.data?.user, image: state.preview },
+            user: { ...session?.data?.user, image: result?.photoID },
         });
     };
 

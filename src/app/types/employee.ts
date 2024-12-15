@@ -11,4 +11,5 @@ export type EmployeeBasic = {
     gender: GenderType;
     secteur: SecteurType;
     grade: GradeType;
+    photoUrl?: string | null;
 };

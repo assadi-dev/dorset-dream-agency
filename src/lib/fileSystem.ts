@@ -61,6 +61,10 @@ export const UPLOAD_DIR_PROPERTIES = path.join(ENV.STORAGE_DIR, "images", "prope
  * Emplacement du dossier de stockage pour les photos de type perquisitions
  */
 export const UPLOAD_DIR_PERQUISITION = path.join(ENV.STORAGE_DIR, "images", "perquisitions");
+/**
+ * Emplacement du dossier de stockage pour les photos de type perquisitions
+ */
+export const UPLOAD_DIR_EMPLOYEES = path.join(ENV.STORAGE_DIR, "images", "employees");
 
 /**
  * Extraction de l'identifiant généré lors de l'upload du fichier à partir de l'url

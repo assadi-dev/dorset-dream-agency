@@ -20,7 +20,7 @@ export async function GET(req: Request, { params: { key } }: Params) {
         const { size } = fs.statSync(filePath);
 
         const headers = new Headers({
-            "Content-Type": "image/png",
+            "Content-Type": "image/jpeg",
             "Content-Length": size.toString(),
             /* "Content-Disposition": `attachment; filename="${key}"`, */
         });

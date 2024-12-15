@@ -9,6 +9,8 @@ import { EmployeeCreateInputDto, employeeValidator } from "./dto/employeeDTO";
 import { wait } from "@/lib/utils";
 import { withPagination } from "./utils/entity";
 import { BindParameters, FilterPaginationType } from "@/database/types";
+import { removePhotosByAndFile } from "./photos";
+import { photos } from "../schema/photos";
 
 /**
  * Insertion des donné de l'employé
@@ -48,11 +50,14 @@ export const getEmployeeCollections = async (filter: getEmployeeCollectionsArgs)
                 iban: employees.iban,
                 secteur: sql<string>`GROUP_CONCAT(${secteurs.name}) `,
                 phone: employees.phone,
+                photoID: photos.id,
+                photoUrl: photos.url,
             })
             .from(employees)
             .groupBy(employees.id)
-            .innerJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
+            .leftJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
             .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId))
+            .leftJoin(photos, eq(photos.id, employees.photoID))
             .orderBy(desc(employees.createdAt));
 
         const searchCondition = search
@@ -93,8 +98,22 @@ export const getEmployeeCollections = async (filter: getEmployeeCollectionsArgs)
 const getOneEmployee = async (id: number) => {
     try {
         const employeeReq = db
-            .select()
+            .select({
+                id: employees.id,
+                firstName: employees.firstName,
+                lastName: employees.lastName,
+                name: sql<string>`CONCAT(${employees.lastName}," ",${employees.firstName})`,
+                gender: employees.gender,
+                post: employees.post,
+                iban: employees.iban,
+                createdAt: employees.createdAt,
+                photoID: photos.id,
+                photoUrl: photos.url,
+            })
             .from(employees)
+            .leftJoin(photos, eq(photos.id, employees.photoID))
+            .leftJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
+            .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId))
             .where(eq(employees.id, sql.placeholder("id")))
             .prepare();
         const employee = await employeeReq.execute({ id });
@@ -135,6 +154,8 @@ export const updateEmployee = async (id: number, values: any) => {
 export const deleteEmployee = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
+            const employee = await getOneEmployee(id);
+            if (employee.photoID) await removePhotosByAndFile([employee.photoID], "employees");
             const req = db
                 .delete(employees)
                 .where(eq(employees.id, sql.placeholder("id")))
@@ -193,5 +214,20 @@ export const clearSecteurToEmployee = async (employeeID: number) => {
         }
     } catch (error: any) {
         throw error;
+    }
+};
+
+export const addPhotoToEmployee = async ({ employeeID, photoID }: { employeeID: number; photoID: number }) => {
+    try {
+        const employee = await getOneEmployee(employeeID);
+        if (employee.photoID) removePhotosByAndFile([employee.photoID], "employees");
+        await updateEmployee(employeeID, {
+            photoID,
+        });
+        return await getOneEmployee(employeeID);
+    } catch (error: any) {
+        if (error instanceof Error) {
+            throw error;
+        }
     }
 };

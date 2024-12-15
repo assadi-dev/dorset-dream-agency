@@ -12,7 +12,7 @@ type EmployeeCardProps = {
 };
 
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
-    const image = avatarByGender(employee.gender);
+    const image = employee.photoUrl || avatarByGender(employee.gender);
 
     return (
         <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white">

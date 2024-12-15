@@ -3,17 +3,19 @@
 import { auth, unstable_update } from "@/auth";
 import { updateEmployee } from "@/database/drizzle/repositories/employee";
 import { changePassword, updateUser } from "@/database/drizzle/repositories/users";
+import { Session } from "../../type";
 
 export const updateEmployeeData = async (formData: FormData) => {
-    const session = await auth();
-    const id = Number(session?.user?.id);
+    const session = (await auth()) as Session;
+
+    const employeeID = Number(session?.user?.employeeID);
     const employeeData = {
         iban: formData.get("iban"),
         lastName: formData.get("lastName"),
         firstName: formData.get("firstName"),
         phone: formData.get("phone"),
     };
-    await updateEmployee(id, employeeData);
+    await updateEmployee(employeeID, employeeData);
     await unstable_update({
         ...session,
         user: { ...session?.user, name: `${employeeData.firstName} ${employeeData.lastName}` },

@@ -19,6 +19,7 @@ import { asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { withPagination } from "./utils/entity";
+import { photos } from "../schema/photos";
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -197,9 +198,11 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
                 employeeID: employees.id,
                 name: sql<string>`CONCAT(${employees.firstName}," ",${employees.lastName})`,
                 grade: employees.post,
+                photoUrl: photos.url,
             })
             .from(users)
             .leftJoin(employees, eq(users.id, employees.userID))
+            .leftJoin(photos, eq(photos.id, employees.photoID))
             .where(eq(users.username, sql.placeholder("username")))
             .prepare();
         const user = (await findUserReq.execute({ username: validateInput.username }))[0];
@@ -212,7 +215,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
         return {
             id: user.userID,
             email: user.username,
-            image: "",
+            image: user.photoUrl || "",
             role: user.role,
             employeeID: user.employeeID || null,
             name: user.name,
