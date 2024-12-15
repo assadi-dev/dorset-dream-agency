@@ -92,7 +92,7 @@ const UserConnect = () => {
     const { isMobile } = useSidebar();
     const session = useSession();
     const user = session ? (session?.data?.user as User) : null;
-    const [open, toggle] = React.useReducer((state) => !state, false);
+
     return (
         <SidebarMenu>
             <SidebarMenuItem className="rounded-lg border border-white/25 bg-gradient-to-r from-primary  to-[#214583]  transition-all">

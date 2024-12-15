@@ -13,6 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { usePathname, useRouter } from "next/navigation";
+import { updateImageSession } from "./action";
 
 type UploadState = {
     preview?: string | null;
@@ -67,14 +68,12 @@ const PhotoDropzone = () => {
         if (!state.file) throw "Fichier introuvable";
         const formData = new FormData();
         formData.append("file", state.file);
+        formData.append("photo", state.preview);
         await wait(3000);
 
         await session.update({
             ...session,
-            data: {
-                ...session.data,
-                user: { ...session?.data?.user, name: "coco", image: state.preview },
-            },
+            user: { ...session?.data?.user, image: state.preview },
         });
     };
 
