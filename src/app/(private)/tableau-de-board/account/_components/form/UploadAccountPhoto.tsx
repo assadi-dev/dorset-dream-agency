@@ -1,13 +1,17 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { CircleX, ImagePlus, Pencil, Upload } from "lucide-react";
+import { ImagePlus, Upload } from "lucide-react";
 import React from "react";
-import { useDropzone } from "react-dropzone";
+
 import Image from "next/image";
 import useModalState from "@/hooks/useModalState";
 import { Button } from "@/components/ui/button";
-import PhotoDropzone from "./view/PhotoDropzone";
-import ActionPhoto from "./view/ActionPhoto";
+
+import { useSession } from "next-auth/react";
+import { Session } from "@/app/(private)/tableau-de-board/account/type";
+import ActionPhoto from "@/components/forms/UploadPhoto/view/ActionPhoto";
+import PhotoDropzone from "@/components/forms/UploadPhoto/view/PhotoDropzone";
+import { updateEmployeePhoto } from "./action";
 
 type UploadState = {
     preview?: string | null;
@@ -18,29 +22,35 @@ type UploadPhotoProps = {
     photo?: string | null;
     onUpload?: (file: File) => void;
 } & React.HtmlHTMLAttributes<HTMLDivElement>;
-const UploadPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => {
-    const { openModal, closeModal, payload } = useModalState();
+const UploadAccountPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => {
+    const { openModal, payload } = useModalState();
+    const session = useSession();
 
-    const clearAllFile = () => {};
     payload as UploadState;
     const DROPZONE_TEXT = "Cliquez sur le bouton ci-dessous pour ajouter une photo.";
 
-    const startUpload = async (file: File) => {};
+    const savePhoto = async (file: File) => {
+        if (!file) throw "Fichier introuvable";
+        const userSession = { ...session.data } as Session;
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("employeeID", String(userSession?.user?.employeeID));
+
+        const result = await updateEmployeePhoto(formData);
+
+        await session.update({
+            ...session,
+            user: { ...session?.data?.user, image: String(result?.photoUrl) },
+        });
+    };
 
     const openDropzone = () => {
         openModal({
             title: "Ajouter une photo",
-            component: PhotoDropzone,
-            payload: { preview: photo, file: null, startUpload },
+            component: () => PhotoDropzone({ onUpload: savePhoto }),
+            payload: { preview: photo, file: null },
             onInteractOutside: false,
         });
-    };
-
-    const styles: React.CSSProperties = {
-        backgroundImage: `url(${payload?.preview})`,
-        backgroundSize: "contain",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
     };
 
     return (
@@ -78,4 +88,4 @@ const UploadPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => {
     );
 };
 
-export default UploadPhoto;
+export default UploadAccountPhoto;

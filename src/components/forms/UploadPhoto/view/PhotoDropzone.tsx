@@ -19,10 +19,10 @@ import { Session } from "@/app/(private)/tableau-de-board/account/type";
 type UploadState = {
     preview?: string | null;
     file?: File | null;
-    startUpload: (file: File) => void;
+    onUpload?: (file: File) => Promise<void>;
 };
 
-const PhotoDropzone = () => {
+const PhotoDropzone = ({ onUpload }: UploadState) => {
     const pathname = usePathname();
     const router = useRouter();
     const { closeModal, payload } = useModalState();
@@ -33,7 +33,6 @@ const PhotoDropzone = () => {
         file: null,
     });
     const session = useSession();
-    console.log(session);
 
     const sizeValidator = (file: File) => {
         if (file.size > 500 * 1024) {
@@ -45,14 +44,31 @@ const PhotoDropzone = () => {
         return null;
     };
 
-    const clearAllFile = () => {};
+    //Récupération des fichier par copier collé
+    const handlePast = async (event: React.ClipboardEvent) => {
+        event.preventDefault();
+        try {
+            if (!event.clipboardData.files.length) {
+                return;
+            }
+
+            const file = event.clipboardData.files[0];
+            const error = sizeValidator(file);
+            if (error?.message) throw new Error(error?.message);
+            const prevLink = URL.createObjectURL(file);
+            setState({ file: file, preview: prevLink });
+        } catch (error: any) {
+            if (error instanceof Error) {
+                ToastErrorSonner(error.message);
+            }
+        }
+    };
 
     const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
-        if (acceptedFiles) {
-            for (const file of acceptedFiles) {
-                const prevLink = URL.createObjectURL(file);
-                setState({ file: file, preview: prevLink });
-            }
+        if (acceptedFiles.length) {
+            const file = acceptedFiles[acceptedFiles.length - 1] as File;
+            const prevLink = URL.createObjectURL(file);
+            setState({ file: file, preview: prevLink });
         }
     }, []);
     const { getRootProps, getInputProps, isDragActive, open, fileRejections } = useDropzone({
@@ -66,24 +82,12 @@ const PhotoDropzone = () => {
     });
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
-    const savePhoto = async () => {
-        if (!state.file) throw "Fichier introuvable";
-        const userSession = { ...session.data } as Session;
-        const formData = new FormData();
-        formData.append("file", state.file);
-        formData.append("employeeID", String(userSession?.user?.employeeID));
-        await wait(3000);
-        const result = await updateImageSession(formData);
-        await session.update({
-            ...session,
-            user: { ...session?.data?.user, image: result?.photoID },
-        });
-    };
 
     const process = () => {
         startTransition(async () => {
             try {
-                await savePhoto();
+                if (onUpload) await onUpload(state.file);
+
                 closeModal();
                 router.push(pathname);
                 router.refresh();
@@ -98,7 +102,7 @@ const PhotoDropzone = () => {
 
     return (
         <ScrollArea className="lg:max-h-[90vh]">
-            <div className="flex flex-col justify-between gap-5 sm:w-[35vw]">
+            <div className="flex flex-col justify-between gap-5 sm:w-[35vw]" onPaste={handlePast}>
                 <div
                     {...getRootProps()}
                     className={cn(

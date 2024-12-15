@@ -4,6 +4,7 @@ import { auth, unstable_update } from "@/auth";
 import { updateEmployee } from "@/database/drizzle/repositories/employee";
 import { changePassword, updateUser } from "@/database/drizzle/repositories/users";
 import { Session } from "../../type";
+import { uploadPhotoEmployee } from "@/database/drizzle/repositories/employeeFIle";
 
 export const updateEmployeeData = async (formData: FormData) => {
     const session = (await auth()) as Session;
@@ -43,4 +44,11 @@ export const updateUsernameEmployee = async (formData: FormData) => {
             user: { ...session?.user, email },
         });
     }
+};
+
+export const updateEmployeePhoto = async (formData: FormData) => {
+    if (!formData.get("file")) throw new Error("photo is empty");
+    if (!formData.get("employeeID")) throw new Error("employeeID is empty");
+    const result = await uploadPhotoEmployee(formData);
+    return result;
 };

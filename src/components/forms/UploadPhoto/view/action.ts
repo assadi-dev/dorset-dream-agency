@@ -9,13 +9,5 @@ export const updateImageSession = async (formData: FormData) => {
 
     const result = await uploadPhotoEmployee(formData);
 
-    await unstable_update({
-        ...session,
-        user: {
-            ...session?.user,
-            name: "tata",
-            image: result?.photoUrl,
-        },
-    });
     return result;
 };
