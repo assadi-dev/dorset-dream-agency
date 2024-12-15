@@ -3,6 +3,7 @@ import { updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { users } from "./users";
 import { employeesToSecteurs } from "./employeesToSecteurs";
+import { photos } from "./photos";
 
 export const employees = mysqlTable("employees", {
     id: int("id").autoincrement().primaryKey(),
@@ -13,6 +14,7 @@ export const employees = mysqlTable("employees", {
     phone: varchar("phone", { length: 15 }),
     gender: mysqlEnum("gender", ["Male", "Female"]),
     userID: int("user_id").references(() => users.id, { onDelete: "set null" }),
+    photoID: int("photo_id").references(() => photos.id, { onDelete: "set null" }),
     ...updatedAndCreatedAt,
 });
 
@@ -22,4 +24,5 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
         references: [users.id],
     }),
     secteurs: many(employeesToSecteurs),
+    photo: one(photos),
 }));
