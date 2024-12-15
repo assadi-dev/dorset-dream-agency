@@ -14,11 +14,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EmployeeDataForm, EmployeeDataFormType } from "./schema";
 import { UserData } from "../../type";
 import { formatFullDateShortText } from "@/lib/date";
+import { usePathname, useRouter } from "next/navigation";
 
 type PersonalDataFormProps = {
     userData: UserData;
 };
 const PersonalDataForm = ({ userData }: PersonalDataFormProps) => {
+    const pathname = usePathname();
+    const router = useRouter();
     const [isPending, startTransition] = React.useTransition();
     const form = useForm<EmployeeDataFormType>({
         resolver: zodResolver(EmployeeDataForm),
@@ -26,26 +29,41 @@ const PersonalDataForm = ({ userData }: PersonalDataFormProps) => {
             iban: userData.iban,
             lastName: userData.lastName || "",
             firstName: userData.firstName || "",
-            phone: userData.phone,
+            phone: userData.phone || "",
         },
     });
-    console.log(userData);
+    const session = useSession();
 
     const savePersonnelData: SubmitHandler<EmployeeDataFormType> = async (values) => {
         startTransition(async () => {
             try {
                 const formData = new FormData();
-                formData.append("email", values.email);
-                updateEmployeeData(formData);
+                formData.append("iban", values.iban);
+                formData.append("lastName", values.lastName);
+                formData.append("firstName", values.firstName);
+                formData.append("phone", values.phone);
+                await updateEmployeeData(formData);
+
+                await session.update({
+                    ...session,
+                    data: {
+                        ...session.data,
+                        user: { ...session?.data?.user, name: `${values.firstName} ${values.lastName}` },
+                    },
+                });
                 ToastSuccessSonner("Votre profile à été mise à jour !");
+                router.push(pathname);
+                router.refresh();
             } catch (error: any) {
                 if (error instanceof Error) {
-                    ToastErrorSonner("Votre profile n'a pas été mise à jour!");
+                    ToastErrorSonner(`Votre profile n'a pas été mise à jour cause: ${error.message}`);
                 }
             }
         });
     };
     // const mutation = useMutation({mutationKey:[QUERY_EMPLOYEE_ACCOUNT_QUERY.UPDATE_EMPLOYEE_DATA],mutationFn:})
+    console.log(form.formState.errors);
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(savePersonnelData)}>
@@ -87,17 +105,18 @@ const PersonalDataForm = ({ userData }: PersonalDataFormProps) => {
                                 name="phone"
                             />
                         </div>
-                        <div className="mt-6">
-                            <p className="text-slate-500">
-                                {userData.createdAt &&
-                                    `Compte créer le  ${formatFullDateShortText(new Date(userData.createdAt?.toISOString()))}`}
-                            </p>
-                        </div>
                     </CardContent>
                     <CardFooter>
-                        <SubmitButton className="w-full" isLoading={isPending}>
-                            Valider
-                        </SubmitButton>
+                        <div className="w-full flex flex-col gap-5">
+                            {userData.createdAt && (
+                                <CardDescription>
+                                    {`Compte créer le  ${formatFullDateShortText(new Date(userData.createdAt?.toISOString()))}`}{" "}
+                                </CardDescription>
+                            )}
+                            <SubmitButton type="submit" className="w-full" isLoading={isPending}>
+                                Valider
+                            </SubmitButton>
+                        </div>
                     </CardFooter>
                 </Card>
             </form>

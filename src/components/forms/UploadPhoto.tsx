@@ -66,13 +66,15 @@ const UploadPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => {
                 props.className,
             )}
         >
-            <Image
-                src={state.preview}
-                alt={`photo de l'employee`}
-                height={500}
-                width={500}
-                className="position-center object-cover  w-full bg-transparent h-[300px]"
-            />
+            {state.preview && (
+                <Image
+                    src={state.preview}
+                    alt={`photo de l'employee`}
+                    height={500}
+                    width={500}
+                    className="position-center object-cover  w-full bg-transparent h-[300px]"
+                />
+            )}
             {!state.preview && (
                 <div className="grid place-items-center gap-1 p-3">
                     <ImagePlus />
@@ -87,26 +89,28 @@ const UploadPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => {
                     </Button>
                 </div>
             )}
-            <div className="rounded-lg border border-white/50  bg-[#0f172a]/25  flex justify-end gap-2 items-center w-[90%] mx-auto p-1 absolute bottom-1.5    backdrop-blur-xl ">
-                <div className="w-[65%] px-2 overflow-hidden">
-                    {" "}
-                    <p className="font-semibold text-xs truncate drop-shadow-md text-white">Ma Photo</p>
+            {state.preview && (
+                <div className="rounded-lg border border-white/50  bg-[#0f172a]/25  flex justify-end gap-2 items-center w-[90%] mx-auto p-1 absolute bottom-1.5    backdrop-blur-xl ">
+                    <div className="w-[65%] px-2 overflow-hidden">
+                        {" "}
+                        <p className="font-semibold text-xs truncate drop-shadow-md text-white">Ma Photo</p>
+                    </div>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-white  border border-cyan-300 bg-cyan-500/35 backdrop-blur-sm hover:bg-cyan-400 hover:border-0"
+                    >
+                        <Pencil className="h-8 w-8" />
+                    </Button>
+                    <Button
+                        variant="destructive"
+                        size="icon"
+                        className="text-white bg-red-600/35 backdrop-blur-xl border border-red-500"
+                    >
+                        <CircleX className="h-8 w-8" />
+                    </Button>
                 </div>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-white  border border-cyan-300 bg-cyan-500/35 backdrop-blur-sm hover:bg-cyan-400 hover:border-0"
-                >
-                    <Pencil className="h-8 w-8" />
-                </Button>
-                <Button
-                    variant="destructive"
-                    size="icon"
-                    className="text-white bg-red-600/35 backdrop-blur-xl border border-red-500"
-                >
-                    <CircleX className="h-8 w-8" />
-                </Button>
-            </div>
+            )}
         </div>
     );
 };

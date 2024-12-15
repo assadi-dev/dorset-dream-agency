@@ -115,9 +115,11 @@ export const updateEmployee = async (id: number, values: any) => {
         const employee = await employeeReq.execute({ id });
         if (!employee) throw new Error("Employee not found");
 
-        if (values?.secteursIds.length > 0) {
-            await addSecteurToSecteurToEmployee(id, values.secteursIds);
-        } else if (values.secteursIds.length === 0) clearSecteurToEmployee(id);
+        if (values?.secteursIds) {
+            if (values?.secteursIds.length > 0) {
+                await addSecteurToSecteurToEmployee(id, values.secteursIds);
+            } else if (values?.secteursIds.length === 0) clearSecteurToEmployee(id);
+        }
 
         const request = db
             .update(employees)

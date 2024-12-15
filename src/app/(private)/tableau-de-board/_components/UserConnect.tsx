@@ -66,14 +66,9 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
         return (
             <>
                 <Picture gender={user?.gender || "Male"} />
-                <div className="relative grid flex-1 text-left text-sm leading-tight w-full">
-                    <span className="truncate font-semibold">{user?.name}</span>
+                <div className="relative grid flex-1 text-left text-sm leading-tight w-full max-w-[85%]">
+                    <span className="truncate font-semibold  text-sm">{user?.name}</span>
                     <span className="truncate text-xs ">{user?.grade}</span>
-                    {user?.role === "admin" && (
-                        <span className="absolute right-1 bottom-1  text-[0.68rem] font-semibold text-black drop-shadow-xl s bg-green-400 rounded-lg px-2 py-1">
-                            Admin
-                        </span>
-                    )}
                 </div>
             </>
         );

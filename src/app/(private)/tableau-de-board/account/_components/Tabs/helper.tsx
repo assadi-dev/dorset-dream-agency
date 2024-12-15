@@ -4,7 +4,7 @@ import PersonalDataForm from "../form/PersonalDataForm";
 
 export const TAB_ARRAY_ELEMENT: TabsArrayElementType[] = [
     {
-        id: "employee",
+        id: "personnelData",
         title: "Info Personnelle",
         component: PersonalDataForm,
     },
