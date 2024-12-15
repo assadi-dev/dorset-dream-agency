@@ -25,10 +25,10 @@ export type UserData = {
     username: string;
     employeeID: number;
     iban: string;
-    lastName: string | null;
-    firstName: string | null;
+    lastName: string;
+    firstName: string;
     gender: "Male" | "Female" | null;
     grade: "Employée" | "Manageuse" | "Patron" | "Employé San Andreas" | "Employé îles Galapagos" | null;
     phone: string | null;
-    createdAt: Date | null;
+    createdAt: string | null;
 };

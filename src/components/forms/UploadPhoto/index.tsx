@@ -15,7 +15,7 @@ type UploadState = {
 };
 
 type UploadPhotoProps = {
-    photo?: string;
+    photo?: string | null;
     onUpload?: (file: File) => void;
 } & React.HtmlHTMLAttributes<HTMLDivElement>;
 const UploadPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => {
