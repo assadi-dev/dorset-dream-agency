@@ -19,6 +19,7 @@ const EditForm = () => {
         firstName: payload?.firstName || "",
         phone: payload?.phone,
         gender: payload?.gender || "Male",
+        isDead: payload?.isDead || false,
     };
     const saveClient = async (values: ClientFormType) => {
         if (!payload?.id) throw new Error("id client undefined");

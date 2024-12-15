@@ -15,6 +15,7 @@ export const getClientDetails = async (id: string | number) => {
             firstName: clients.firstName,
             phone: clients.phone,
             gender: clients.gender,
+            isDead: clients.isDead,
         })
         .from(clients)
         .where(eq(clients.id, sql.placeholder("id")))

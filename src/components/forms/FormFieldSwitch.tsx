@@ -4,7 +4,7 @@ import { FormItem, FormLabel, FormControl, FormDescription, FormField } from "@/
 import { Control, FieldValues, Path } from "react-hook-form";
 import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
-import { InputProps } from "../ui/input";
+import { InputProps } from "../ui/inputPassword";
 
 type FormFieldSwitchProps<T extends FieldValues> = InputProps & {
     control: Control<T>;
@@ -27,8 +27,10 @@ const FormFieldSwitch = <T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className={cn("flex flex-row items-center justify-between rounded-lg border p-4", className)}>
-                    <div className="space-y-0.5">
+                <FormItem
+                    className={cn("flex flex-row items-center justify-between rounded-lg border py-2 px-4", className)}
+                >
+                    <div className="space-y-0.3">
                         <FormLabel className="text-base">{label}</FormLabel>
                         <FormDescription>{description}</FormDescription>
                     </div>

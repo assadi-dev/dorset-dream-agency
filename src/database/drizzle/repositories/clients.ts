@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { FilterPaginationType } from "@/database/types";
-import { between, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, between, desc, eq, like, or, sql } from "drizzle-orm";
 import { rowCount, withPagination } from "./utils/entity";
 
 /* 
@@ -25,6 +25,7 @@ export const insertClient = async (values: any) => {
             firstName: values.firstName,
             gender: values.gender,
             phone: values.phone,
+            isDead: false,
         };
 
         await db.insert(clients).values(newClient);
@@ -51,6 +52,7 @@ export const getClientsCollections = async (filter: FilterPaginationType) => {
                 fullName: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`.as("fullName"),
                 phone: clients.phone,
                 gender: clients.gender,
+                isDead: clients.isDead,
                 createdAt: clients.createdAt,
             })
             .from(clients)
@@ -104,6 +106,7 @@ export const updateClient = async (id: string | number, values: any) => {
             firstName: values.firstName,
             gender: values.gender,
             phone: values.phone,
+            isDead: values.isDead,
         };
 
         const prepare = db
@@ -150,4 +153,15 @@ export const statClientViews = async ({ startDate, endDate }: statClientViews) =
             percentage: Number(percent),
         },
     };
+};
+
+export const toggleDeceased = async (ids: number[], value: boolean) => {
+    if (ids.length === 0) throw new Error("ids array missing");
+    const whereCondition = ids.map((id) => eq(clients.id, id));
+    await db
+        .update(clients)
+        .set({
+            isDead: value,
+        })
+        .where(and(...whereCondition));
 };

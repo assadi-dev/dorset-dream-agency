@@ -19,6 +19,7 @@ export async function POST(req: Request) {
         firstName: body.firstName,
         gender: body.gender,
         phone: body.phone,
+        isDead: body.isDead || false,
     };
 
     await db.insert(clients).values(newClient);

@@ -13,6 +13,7 @@ import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { GENRE_OPTIONS } from "@/config/enums";
+import FormFieldSwitch from "@/components/forms/FormFieldSwitch";
 
 type ClientFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     defaultValues?: ClientFormType;
@@ -55,17 +56,24 @@ const ClientForm = ({ defaultValues, save, ...props }: ClientFormProps) => {
     return (
         <Form {...form}>
             <form {...props} onSubmit={form.handleSubmit(submitData)}>
-                <div className="mb-4">
+                <div className="mb-4 grid grid-cols-2 gap-3">
                     <FormFieldInput control={form.control} name="lastName" label="Nom" />
-                </div>
-                <div className="mb-4">
                     <FormFieldInput control={form.control} name="firstName" label="Prénom" />
                 </div>
+
                 <div className="mb-4">
                     <FormFieldInput control={form.control} name="phone" label="N° Téléphone" />
                 </div>
-                <div className="mb-4">
+                <div className="mb-5">
                     <FormFieldSelect control={form.control} label="Genre" name="gender" options={GENRE_OPTIONS} />
+                </div>
+                <div className="mb-4">
+                    <FormFieldSwitch
+                        control={form.control}
+                        label="Décédé"
+                        name="isDead"
+                        description="Définir si ce client est décédé ou pas"
+                    />
                 </div>
                 <DialogFooter className="pt-3">
                     <SubmitButton isLoading={isPending} className="mx-auto w-full" type="submit">

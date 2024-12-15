@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { updatedAndCreatedAt } from "../utils";
-import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { boolean, int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { transactions } from "./transactions";
 
 export const clients = mysqlTable("clients", {
@@ -9,6 +9,7 @@ export const clients = mysqlTable("clients", {
     firstName: varchar("first_name", { length: 100 }).notNull(),
     gender: mysqlEnum("gender", ["Male", "Female"]),
     phone: varchar("phone", { length: 15 }),
+    isDead: boolean("is_dead"),
     ...updatedAndCreatedAt,
 });
 

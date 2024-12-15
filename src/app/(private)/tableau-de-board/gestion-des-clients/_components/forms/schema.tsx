@@ -6,6 +6,7 @@ export const clientFormSchema = z.object({
     firstName: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     phone: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     gender: z.enum(["Male", "Female"], { message: REQUIRE_MESSAGE_ERROR }),
+    isDead: z.boolean().optional(),
 });
 
 export type ClientFormType = z.infer<typeof clientFormSchema>;

@@ -6,6 +6,7 @@ import { clientDetailType } from "../actions/actions";
 import ActionDetailClient from "./ActionDetailClient";
 import { auth, UserSession } from "@/auth";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
+import { Skull } from "lucide-react";
 
 type ClientDetailCardType = {
     client?: clientDetailType | null;
@@ -24,16 +25,29 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
                 />
             )}
 
-            <ul className="p-3 text-muted-foreground w-100 lg:max-w-[80%] mt-2 justify-self-center">
+            <ul className="py-5 sm:py-8 px-5 text-muted-foreground w-full mt-2 justify-self-center">
                 <li className="mb-3">
-                    <p className="flex items-center ">{"Address non renseigné"} </p>
-                </li>
-                <li className="mb-3">
-                    <p className="flex items-center">
-                        <PhoneCall className="text-muted-foreground h-3 w-3 mr-2" /> : {client?.phone || "N/A"}
+                    <p className="flex gap-1 items-center justify-between font-semibold">
+                        <span className="flex items-center gap-1">
+                            <PhoneCall className="text-muted-foreground h-4 w-4" /> Téléphone:
+                        </span>
+                        <span className="text-sm">{client?.phone || "N/A"}</span>
                     </p>
+                    <p className="text-sm"> </p>
                 </li>
-                {/*  <li>Décédé: NON</li> */}
+
+                <li>
+                    <p className="flex gap-1 items-center justify-between font-semibold">
+                        <span className="flex items-center gap-1">
+                            <Skull className="text-muted-foreground h-4 w-4" /> Décédé:
+                        </span>
+                        <span className="py-0.5 px-3  bg-green-600 rounded text-white text-xs">
+                            {client?.isDead ? "Oui" : "Non"}
+                        </span>
+                    </p>
+                    <p className="text-sm"> </p>
+                </li>
+
                 <li></li>
             </ul>
             <ActionDetailClient client={client} canUpdate={true} canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)} />

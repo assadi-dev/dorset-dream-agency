@@ -59,6 +59,7 @@ export const updateClient = async (id: string | number, values: ClientFormType) 
             firstName: values.firstName,
             gender: values.gender,
             phone: values.phone,
+            isDead: values.isDead,
         };
 
         const prepare = db
