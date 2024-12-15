@@ -3,11 +3,11 @@ import { setTitlePage, wait } from "@/lib/utils";
 import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import { formatFullDateShortText } from "@/lib/date";
-import UploadPhoto from "@/components/forms/UploadPhoto";
 import ProfilTabs from "./_components/Tabs/PersonalData";
-import { Session } from "./type";
 import { currentUser } from "@/database/drizzle/repositories/users";
 import LoadingTabs from "./_components/loading/LoadingTabs";
+import ModalProvider from "@/components/Modals/ModalProvider";
+import UploadPhoto from "@/components/forms/UploadPhoto";
 
 export const metadata = setTitlePage("Mon compte");
 const AccountPage = async () => {
@@ -26,15 +26,16 @@ const AccountPage = async () => {
         return <ProfilTabs userData={userData} />;
     };
     return (
-        <PageTemplate title={session?.user?.name || ""} description={description}>
-            {/*   {<pre>{JSON.stringify(session, null, 2)}</pre>} */}
-            <div className="grid sm:grid-cols-[auto,1fr] gap-3 p-3 mt-8">
-                <UploadPhoto className="w-[20rem] h-[20rem]" />
-                <React.Suspense fallback={<LoadingTabs />}>
-                    <ProfilAsync />
-                </React.Suspense>
-            </div>
-        </PageTemplate>
+        <ModalProvider>
+            <PageTemplate title={session?.user?.name || ""} description={description}>
+                <div className="grid sm:grid-cols-[auto,1fr] gap-3 p-3 mt-8">
+                    <UploadPhoto className="w-[20rem] h-[20rem]" />
+                    <React.Suspense fallback={<LoadingTabs />}>
+                        <ProfilAsync />
+                    </React.Suspense>
+                </div>
+            </PageTemplate>
+        </ModalProvider>
     );
 };
 

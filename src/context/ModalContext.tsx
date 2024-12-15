@@ -6,6 +6,7 @@ export type openModalArgs = {
     description?: string;
     payload?: any;
     component?: React.ComponentType<unknown>;
+    onInteractOutside?: boolean;
 };
 type ModalContextType = {
     open: boolean;
@@ -13,6 +14,7 @@ type ModalContextType = {
     description?: string;
     payload?: any;
     component?: React.ComponentType<unknown>;
+    onInteractOutside?: boolean;
     openModal: (args: openModalArgs) => void;
 };
 export const modalContext = React.createContext<ModalContextType>({
@@ -21,6 +23,7 @@ export const modalContext = React.createContext<ModalContextType>({
     description: "",
     payload: null,
     component: () => null,
+    onInteractOutside: true,
     openModal: () => {},
 });
 

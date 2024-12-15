@@ -2,7 +2,13 @@
 
 import { modalContext } from "@/context/ModalContext";
 import React from "react";
-
+type modalParams = {
+    title?: string;
+    description?: string;
+    payload?: any;
+    component?: React.ComponentType<unknown>;
+    onInteractOutside?: boolean;
+};
 const useModalState = () => {
     const modal = React.useContext(modalContext);
 
@@ -10,30 +16,10 @@ const useModalState = () => {
         modal.openModal({ open: false });
     };
 
-    const openModal = ({
-        title,
-        description,
-        payload,
-        component,
-    }: {
-        title?: string;
-        description?: string;
-        payload?: any;
-        component?: React.ComponentType<unknown>;
-    }) => {
-        modal.openModal({ open: true, title, description, payload, component });
+    const openModal = ({ title, description, payload, component, onInteractOutside }: modalParams) => {
+        modal.openModal({ open: true, title, description, onInteractOutside, payload, component });
     };
-    const toggleModal = ({
-        title,
-        description,
-        payload,
-        component,
-    }: {
-        title?: string;
-        description?: string;
-        payload?: any;
-        component?: React.ComponentType<unknown>;
-    }) => {
+    const toggleModal = ({ title, description, payload, component }: modalParams) => {
         modal.openModal({ open: !modal.open, title, description, payload, component });
     };
 
