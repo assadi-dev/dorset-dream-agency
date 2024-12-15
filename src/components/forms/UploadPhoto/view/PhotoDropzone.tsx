@@ -85,10 +85,10 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
                 closeModal();
                 router.push(pathname);
                 router.refresh();
-                ToastSuccessSonner("Votre photo de profile à été traité");
+                ToastSuccessSonner("L'envoie de la photo à été traité");
             } catch (error) {
                 if (error instanceof Error) {
-                    ToastErrorSonner(`Votre photo de profile n'a pas pu être traité cause: ${error.message}`);
+                    ToastErrorSonner(`L'envoie de la photo n'a pas pu être traité raison: ${error.message}`);
                 }
             }
         });
