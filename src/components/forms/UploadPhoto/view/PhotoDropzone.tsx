@@ -89,8 +89,8 @@ const PhotoDropzone = ({ onUpload }: UploadState) => {
                 if (onUpload) await onUpload(state.file);
 
                 closeModal();
-                router.push(pathname);
-                router.refresh();
+                /*       router.push(pathname);
+                router.refresh(); */
                 ToastSuccessSonner("Votre photo de profile à été traité");
             } catch (error) {
                 if (error instanceof Error) {
