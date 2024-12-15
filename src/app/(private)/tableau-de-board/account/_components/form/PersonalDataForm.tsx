@@ -61,8 +61,6 @@ const PersonalDataForm = ({ userData }: PersonalDataFormProps) => {
             }
         });
     };
-    // const mutation = useMutation({mutationKey:[QUERY_EMPLOYEE_ACCOUNT_QUERY.UPDATE_EMPLOYEE_DATA],mutationFn:})
-    console.log(form.formState.errors);
 
     return (
         <FormProvider {...form}>
@@ -110,7 +108,7 @@ const PersonalDataForm = ({ userData }: PersonalDataFormProps) => {
                         <div className="w-full flex flex-col gap-5">
                             {userData.createdAt && (
                                 <CardDescription>
-                                    {`Compte créer le  ${formatFullDateShortText(new Date(userData.createdAt?.toISOString()))}`}{" "}
+                                    {`Compte créer le  ${formatFullDateShortText(new Date(userData.createdAt))}`}{" "}
                                 </CardDescription>
                             )}
                             <SubmitButton type="submit" className="w-full" isLoading={isPending}>
