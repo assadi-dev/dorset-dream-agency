@@ -13,7 +13,7 @@ type ModalContextType = {
     title?: string;
     description?: string;
     payload?: any;
-    component?: React.ComponentType<unknown>;
+    component?: React.ComponentType<unknown> | React.ReactElement;
     onInteractOutside?: boolean;
     openModal: (args: openModalArgs) => void;
 };

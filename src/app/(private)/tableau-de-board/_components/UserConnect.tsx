@@ -23,6 +23,7 @@ import LogoutButton from "./LogoutButton";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
+import { RoleEnum } from "@/app/types/user";
 
 type User = {
     name?: string | null;
@@ -50,7 +51,7 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
         return (
             <Image
                 className=" h-[2rem] w-[2rem] sm:h-[3.5rem] sm:w-[3.5rem] rounded  shadow-xl "
-                src={picture}
+                src={user?.image || picture}
                 width={80}
                 height={80}
                 priority
@@ -61,20 +62,28 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
 
     type AvatarRowProps = {
         user?: User | null;
+        role?: boolean;
     };
-    const AvatarRow = ({ user }: AvatarRowProps) => {
+    const AvatarRow = ({ user, role }: AvatarRowProps) => {
         return (
             <>
                 <Picture gender={user?.gender || "Male"} />
-                <div className="relative grid flex-1 text-left text-sm leading-tight w-full max-w-[85%]">
+                <div className="relative grid flex-1 text-left text-sm leading-tight w-full max-w-[98%]">
                     <span className="truncate font-semibold  text-sm">{user?.name}</span>
-                    <span className="truncate text-xs ">{user?.grade}</span>
+                    <div className="flex justify-between items-center">
+                        <span className="truncate text-xs ">{user?.grade}</span>{" "}
+                        {role && user?.role === RoleEnum.admin && (
+                            <span className="absolute right-1 bottom-1  text-[0.68rem] font-semibold text-black drop-shadow-xl s bg-green-400 rounded-lg px-2 py-1">
+                                Admin
+                            </span>
+                        )}
+                    </div>
                 </div>
             </>
         );
     };
 
-    return <AvatarRow user={user} />;
+    return <AvatarRow user={user} role />;
 };
 
 //bg-[#0f172a]
@@ -86,15 +95,14 @@ const UserConnect = () => {
     const [open, toggle] = React.useReducer((state) => !state, false);
     return (
         <SidebarMenu>
-            <SidebarMenuItem className="rounded-lg border border-white/15 bg-gradient-to-r from-primary  to-[#214583]  transition-all">
-                <DropdownMenu open={open}>
-                    <DropdownMenuTrigger asChild onClick={toggle}>
+            <SidebarMenuItem className="rounded-lg border border-white/25 bg-gradient-to-r from-primary  to-[#214583]  transition-all">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground sm:min-h-[4rem] p-1.5"
                         >
                             <AvatarDropdown user={user} />
-                            <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -109,11 +117,11 @@ const UserConnect = () => {
 
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Button asChild variant="ghost" className="justify-start gap-3 w-full" onClick={toggle}>
-                                <Link href={"/tableau-de-board/account"}>
+                            <Link href={"/tableau-de-board/account"} className=" w-full">
+                                <DropdownMenuItem className="justify-start gap-3 w-full">
                                     <User /> <span>Mon Compte</span>
-                                </Link>
-                            </Button>
+                                </DropdownMenuItem>
+                            </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <LogoutButton />

@@ -6,7 +6,7 @@ type modalParams = {
     title?: string;
     description?: string;
     payload?: any;
-    component?: React.ComponentType<unknown>;
+    component?: React.ComponentType<unknown>; //TODO remplacer le type par  React.ReactElement
     onInteractOutside?: boolean;
 };
 const useModalState = () => {

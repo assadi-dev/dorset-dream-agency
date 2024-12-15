@@ -11,7 +11,7 @@ type SubmitButtonProps = React.RefAttributes<HTMLButtonElement> &
     };
 const SubmitButton = ({ isLoading, children, iconClassName, ...props }: SubmitButtonProps) => {
     return (
-        <Button {...props} disabled={isLoading}>
+        <Button {...props} disabled={isLoading || props.disabled}>
             {isLoading && <Loader className={cn("mr-1 h-4 w-4 animate-spin", iconClassName)} />}
             {children}
         </Button>
