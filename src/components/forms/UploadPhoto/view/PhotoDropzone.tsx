@@ -4,17 +4,12 @@ import { cn, wait } from "@/lib/utils";
 import { useDropzone } from "react-dropzone";
 import { CircleX, ImagePlus, Pencil, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import useModalState from "@/hooks/useModalState";
-import { CardFooter } from "@/components/ui/card";
 import SubmitButton from "../../SubmitButton";
 import PreviewDropzone from "./PreviewDropzone";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useSession } from "next-auth/react";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { usePathname, useRouter } from "next/navigation";
-import { updateImageSession } from "./action";
-import { Session } from "@/app/(private)/tableau-de-board/account/type";
 
 type UploadState = {
     preview?: string | null;
@@ -22,17 +17,16 @@ type UploadState = {
     onUpload?: (file: File) => Promise<void>;
 };
 
-const PhotoDropzone = ({ onUpload }: UploadState) => {
+const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
     const pathname = usePathname();
     const router = useRouter();
     const { closeModal, payload } = useModalState();
     const [isPending, startTransition] = useTransition();
     payload as UploadState;
     const [state, setState] = React.useReducer((prev: UploadState, next: any) => ({ ...prev, ...next }), {
-        preview: payload.preview,
+        preview: preview || payload.preview,
         file: null,
     });
-    const session = useSession();
 
     const sizeValidator = (file: File) => {
         if (file.size > 500 * 1024) {
@@ -89,8 +83,8 @@ const PhotoDropzone = ({ onUpload }: UploadState) => {
                 if (onUpload) await onUpload(state.file);
 
                 closeModal();
-                /*       router.push(pathname);
-                router.refresh(); */
+                router.push(pathname);
+                router.refresh();
                 ToastSuccessSonner("Votre photo de profile à été traité");
             } catch (error) {
                 if (error instanceof Error) {

@@ -7,13 +7,30 @@ import EditForm from "./forms/EditForm";
 import DeleteForm from "./forms/DeleteForm";
 import useGetRoleUser from "@/hooks/useRoleUser";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
+import { ActionPermission } from "@/app/types/user";
+import UploadPhotoForm from "./forms/UploadPhotoForm";
+import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { ImagePlus, Pen, Trash } from "lucide-react";
 
 type EmployeesActionsProps = {
     payload: any;
-};
-const EmployeesActions = ({ payload }: EmployeesActionsProps) => {
+    canUpload?: boolean;
+    onEdit?: () => void;
+    onDelete?: () => void;
+} & ActionPermission;
+const EmployeesActions = ({ payload, canDelete, canUpdate, canUpload }: EmployeesActionsProps) => {
     const { openModal } = useModalState();
-    const role = useGetRoleUser();
+
+    const handleClickUploadPhoto = () => {
+        openModal({
+            title: payload.name,
+            description: `Mettre à jour la photo de ${payload.name}`,
+            payload: payload,
+            component: () => <UploadPhotoForm />,
+            onInteractOutside: false,
+        });
+    };
+
     const handleClickEdit = () => {
         openModal({
             title: `Modifier un Employé`,
@@ -34,12 +51,26 @@ const EmployeesActions = ({ payload }: EmployeesActionsProps) => {
 
     return (
         <>
-            <ActionColumnButton
-                onEdit={handleClickEdit}
-                onDelete={handleClickDelete}
-                canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
-                canUpdate={true}
-            />
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {canUpload && (
+                <DropdownMenuItem onClick={handleClickUploadPhoto} className="text-primary">
+                    <ImagePlus className="mr-2 h-4 w-4" />
+                    Changer la photo
+                </DropdownMenuItem>
+            )}
+            {canUpdate && (
+                <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
+                    <Pen className="mr-2 h-4 w-4" />
+                    Modifier
+                </DropdownMenuItem>
+            )}
+            {canDelete && (
+                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Supprimer
+                </DropdownMenuItem>
+            )}
         </>
     );
 };

@@ -23,7 +23,12 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
         cell({ row }: CellColumn) {
             return (
                 <DropdownActions>
-                    <EmployeesActions payload={row.original} />
+                    <EmployeesActions
+                        payload={row.original}
+                        canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
+                        canUpdate={true}
+                        canUpload={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
+                    />
                 </DropdownActions>
             );
         },
