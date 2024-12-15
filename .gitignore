@@ -39,6 +39,6 @@ yarn-error.log*
 next-env.d.ts
 package-lock.json
 
-/src/storage/images/avatars/*
+/src/storage/images/employees/*
 /src/storage/images/properties/*
 /src/storage/images/perquisitions/*

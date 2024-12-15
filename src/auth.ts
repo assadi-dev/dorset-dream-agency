@@ -43,6 +43,7 @@ const authOptions = {
                     role: params.token.role as Role,
                     employeeID: Number(params.token.employeeID) || null,
                     grade: String(params.token.grade),
+                    image: String(params.token.image),
                 },
             };
 
