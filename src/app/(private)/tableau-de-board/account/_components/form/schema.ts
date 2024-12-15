@@ -2,7 +2,7 @@ import { EMAIL_INVALID, MIN_LENGTH_MESSAGE, REQUIRE_MESSAGE_ERROR } from "@/conf
 import { z } from "zod";
 
 export const EmployeeDataForm = z.object({
-    id: z.coerce.number(),
+    iban: z.string().optional().nullable(),
     lastName: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     firstName: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     email: z.string().email({ message: EMAIL_INVALID }).min(1, { message: REQUIRE_MESSAGE_ERROR }),

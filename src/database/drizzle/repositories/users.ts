@@ -222,3 +222,27 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
         throw error;
     }
 };
+
+export const currentUser = async (idUser: number) => {
+    const query = db
+        .select({
+            userId: users.id,
+            username: users.username,
+            employeeID: employees.id,
+            iban: employees.iban,
+            lastName: employees.lastName,
+            firstName: employees.firstName,
+            gender: employees.gender,
+            grade: employees.post,
+            phone: employees.phone,
+            createdAt: users.createdAt,
+        })
+        .from(users)
+        .where(eq(users.id, sql.placeholder("id")))
+        .leftJoin(employees, eq(users.id, employees.userID))
+        .prepare();
+    const result = await query.execute({
+        id: idUser,
+    });
+    return result[0];
+};

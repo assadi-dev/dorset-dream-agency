@@ -2,21 +2,15 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TAB_ARRAY_ELEMENT } from "./helper";
-import { Session } from "../../type";
+import { UserData } from "../../type";
 import { useQuery } from "@tanstack/react-query";
 import { fetchEmployeeData, QUERY_EMPLOYEE_ACCOUNT_QUERY } from "../helpers";
 import LoadingTabs from "../loading/LoadingTabs";
 
 type ProfilTabsProps = {
-    session: Session;
+    userData: UserData;
 };
-const ProfilTabs = ({ session }: ProfilTabsProps) => {
-    const employeeID = session.user.employeeID;
-    const { data, isError, isFetching } = useQuery({
-        queryKey: [QUERY_EMPLOYEE_ACCOUNT_QUERY.GET_EMPLOYEE_ACCOUNT],
-        queryFn: fetchEmployeeData,
-    });
-    /*  return <LoadingTabs />; */
+const ProfilTabs = ({ userData }: ProfilTabsProps) => {
     return (
         <Tabs defaultValue="account" className="w-[50vw] mx-auto  ">
             <TabsList className="grid w-full grid-cols-2 bg-white shadow border">
@@ -32,7 +26,7 @@ const ProfilTabs = ({ session }: ProfilTabsProps) => {
             </TabsList>
             {TAB_ARRAY_ELEMENT.map((item) => (
                 <TabsContent key={item.id} value={item.id}>
-                    {item.component}
+                    {<item.component userData={userData} />}
                 </TabsContent>
             ))}
         </Tabs>

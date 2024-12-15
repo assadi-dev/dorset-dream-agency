@@ -28,6 +28,9 @@ const nextConfig = {
             {
                 hostname: "demo.dorsetdreamagencyflashback.com",
             },
+            {
+                hostname: "images.unsplash.com",
+            },
         ],
     },
 };

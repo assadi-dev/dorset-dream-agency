@@ -12,13 +12,25 @@ import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner
 import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EmployeeDataForm, EmployeeDataFormType } from "./schema";
+import { UserData } from "../../type";
+import { formatFullDateShortText } from "@/lib/date";
 
-const PersonalDataForm = () => {
+type PersonalDataFormProps = {
+    userData: UserData;
+};
+const PersonalDataForm = ({ userData }: PersonalDataFormProps) => {
     const [isPending, startTransition] = React.useTransition();
-    const session = useSession();
     const form = useForm<EmployeeDataFormType>({
         resolver: zodResolver(EmployeeDataForm),
+        defaultValues: {
+            iban: userData.iban,
+            lastName: userData.lastName || "",
+            firstName: userData.firstName || "",
+            phone: userData.phone,
+        },
     });
+    console.log(userData);
+
     const savePersonnelData: SubmitHandler<EmployeeDataFormType> = async (values) => {
         startTransition(async () => {
             try {
@@ -46,9 +58,17 @@ const PersonalDataForm = () => {
                         <div className="space-y-1">
                             <FormFieldInput
                                 control={form.control}
+                                label="IBAN"
+                                placeholder="IBAN de l'employé"
+                                name="iban"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <FormFieldInput
+                                control={form.control}
                                 label="Nom"
                                 placeholder="Nom de l'employé"
-                                {...form.register("lastName")}
+                                name="lastName"
                             />
                         </div>
                         <div className="space-y-1">
@@ -56,7 +76,7 @@ const PersonalDataForm = () => {
                                 control={form.control}
                                 label="Prénom"
                                 placeholder="Prénom de l'employé"
-                                {...form.register("firstName")}
+                                name="firstName"
                             />
                         </div>
                         <div className="space-y-1">
@@ -64,8 +84,14 @@ const PersonalDataForm = () => {
                                 control={form.control}
                                 label="N° Téléphone"
                                 placeholder="EX: 555-1234"
-                                {...form.register("phone")}
+                                name="phone"
                             />
+                        </div>
+                        <div className="mt-6">
+                            <p className="text-slate-500">
+                                {userData.createdAt &&
+                                    `Compte créer le  ${formatFullDateShortText(new Date(userData.createdAt?.toISOString()))}`}
+                            </p>
                         </div>
                     </CardContent>
                     <CardFooter>
