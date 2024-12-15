@@ -56,7 +56,7 @@ export const deletePhotoByID = async (id: number | string) => {
     }
 };
 
-type contextPathType = "properties" | "perquisitions";
+type contextPathType = "properties" | "perquisitions" | "employees";
 
 /**
  * Suppression des photos + fichiers
