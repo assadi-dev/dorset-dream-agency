@@ -28,7 +28,7 @@ const NavigationItems = ({ route }: NavigationProps) => {
     });
 
     useEffect(() => {
-        if (localStorage) {
+        if (localStorage && localStorage.getItem(SIDEBAR_STORAGE)) {
             const storedSidebarState = localStorage.getItem(SIDEBAR_STORAGE) as string;
             const parse = JSON.parse(storedSidebarState) as { isOpen: boolean; group: string };
             setState({
