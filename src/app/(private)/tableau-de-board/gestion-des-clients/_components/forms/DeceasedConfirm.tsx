@@ -19,6 +19,7 @@ const DeceasedConfirm = () => {
 
     const confirmDeclaration = async () => {
         await setIsDeadClient(payload.ids, checked);
+        payload?.toggleModCard();
         closeModal();
         refreshWithParams();
     };

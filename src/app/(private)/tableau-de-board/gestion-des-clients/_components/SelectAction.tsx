@@ -26,6 +26,7 @@ const SelectAction = ({ mode, selected, toggleModCard }: SelectActionProps) => {
             payload: {
                 ids: selected,
                 value: true,
+                toggleModCard,
             },
         });
     };
