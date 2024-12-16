@@ -15,6 +15,7 @@ export type ClientType = {
     phone: string;
     gender: GenderType;
     slug?: string;
+    isDead?: boolean;
     createdAt: string;
     updatedAt?: string;
 };

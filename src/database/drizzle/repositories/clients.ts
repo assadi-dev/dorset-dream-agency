@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { FilterPaginationType } from "@/database/types";
-import { and, between, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, between, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { rowCount, withPagination } from "./utils/entity";
 
 /* 
@@ -155,13 +155,13 @@ export const statClientViews = async ({ startDate, endDate }: statClientViews) =
     };
 };
 
-export const toggleDeceased = async (ids: number[], value: boolean) => {
+export const declareDeceased = async (ids: number[], value: boolean) => {
     if (ids.length === 0) throw new Error("ids array missing");
-    const whereCondition = ids.map((id) => eq(clients.id, id));
+    const whereCondition = inArray(clients.id, ids);
     await db
         .update(clients)
         .set({
             isDead: value,
         })
-        .where(and(...whereCondition));
+        .where(whereCondition);
 };

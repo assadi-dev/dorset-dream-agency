@@ -5,14 +5,32 @@ import React from "react";
 import { ClientType } from "../types";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 import { datetimeFormatFr } from "@/lib/date";
-import { Skull } from "lucide-react";
+import { Check, Skull } from "lucide-react";
+import CheckBoxCard from "./forms/CheckBoxCard";
 
-const ClientCard = ({ client }: { client: ClientType }) => {
+const ClientCardSelect = ({
+    client,
+    onSelect,
+    selectedKeys,
+}: {
+    client: ClientType;
+    onSelect: (value: { id: number; checked: boolean }) => void;
+    selectedKeys: number[];
+}) => {
     const UNKNOWN_IMAGE = client.gender === "Female" ? AVATAR_FEMALE : AVATAR_MALE;
     const CLEAN_DATE = datetimeFormatFr(client.createdAt);
+    const handleChecked = (e: any) => {
+        const id = Number(e.target.id.split("-")[1]);
+        const checked = e.target.checked;
+        const result = {
+            id,
+            checked,
+        };
+        onSelect(result);
+    };
     return (
-        <Link href={{ pathname: "gestion-des-clients/client", query: { id: client.id } }}>
-            <Card className="rounded  bg-white hover:shadow-lg hover:scale-105 transition-all relative">
+        <Card className="rounded  bg-white hover:shadow-lg  transition-all relative">
+            <CheckBoxCard id={`checkbox-${client.id}`} name="isDead" onChange={handleChecked}>
                 <figure className="w-full h-[150px] relative grid">
                     <Image
                         width={100}
@@ -25,6 +43,7 @@ const ClientCard = ({ client }: { client: ClientType }) => {
                     <figcaption className=" text-sm text-center leading-6 w-full  lg:self-center z-10 lg:ml-8">
                         <p className="font-bold">{client.fullName}</p>
                         <p>{client.phone}</p>
+                        {/*   <p>{CLEAN_DATE}</p> */}
                         {client.isDead && (
                             <p className="font-semibold text-xs flex items-center gap-1 w-fit mx-auto text-slate-600 px-2 bg-slate-300 rounded">
                                 <Skull className="w-3" />
@@ -33,9 +52,9 @@ const ClientCard = ({ client }: { client: ClientType }) => {
                         )}
                     </figcaption>
                 </figure>
-            </Card>
-        </Link>
+            </CheckBoxCard>
+        </Card>
     );
 };
 
-export default ClientCard;
+export default ClientCardSelect;

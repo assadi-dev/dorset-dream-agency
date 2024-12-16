@@ -4,7 +4,7 @@ import { db } from "@/database";
 import { ClientFormType } from "./_components/forms/schema";
 import { clients } from "@/database/drizzle/schema/client";
 import { desc, eq, sql } from "drizzle-orm";
-import { deleteClients } from "@/database/drizzle/repositories/clients";
+import { declareDeceased, deleteClients } from "@/database/drizzle/repositories/clients";
 import { FilterPaginationType } from "@/database/types";
 import { withPagination } from "@/database/drizzle/repositories/utils/entity";
 
@@ -80,4 +80,8 @@ export const removeClient = async (ids: Array<number>) => {
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
+};
+
+export const setIsDeadClient = async (ids: number[], value: boolean) => {
+    return declareDeceased(ids, value);
 };
