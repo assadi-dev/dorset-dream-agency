@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import styles from "../styles.module.css";
-import { cn } from "@/lib/utils";
 import { dashboardNavigation } from "./dashboardRoutes";
 import NavigationItems from "./NavigationItems";
 import DashboardLogo from "./DasboardLogo";
@@ -12,10 +10,8 @@ import {
     SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar";
