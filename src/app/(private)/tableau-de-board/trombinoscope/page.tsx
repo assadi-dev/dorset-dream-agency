@@ -33,12 +33,6 @@ const TrombinoscopePage = async ({ searchParams }: TrombinoscopePageProps) => {
 
     return (
         <PageTemplate title="Trombinoscope">
-            <section className="pt-3">
-                <div className="flex justify-between items-center">
-                    {" "}
-                    <SearchInputDataTable />
-                </div>
-            </section>
             <React.Suspense fallback={<LoadingSkeleton />}>
                 <ListEmployeeAsync />
             </React.Suspense>
