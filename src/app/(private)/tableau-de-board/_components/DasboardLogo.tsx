@@ -6,7 +6,7 @@ import logo from "@assets/images/logo.jpg";
 
 const DashboardLogo = () => {
     return (
-        <Link href={ENV.NEXT_AUTH_SIGN_IN_SUCCESS}>
+        <Link href={"/tableau-de-board" /*ENV.NEXT_AUTH_SIGN_IN_SUCCESS*/}>
             <Image
                 className="rounded-xl border border-white/20  w-100 h-auto shadow-inner shadow-[#020817]"
                 src={logo}
