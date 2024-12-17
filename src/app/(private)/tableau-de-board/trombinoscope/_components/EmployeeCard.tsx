@@ -17,7 +17,13 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
     return (
         <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white">
             <div className="  bg-slate-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden">
-                <Image src={image} height={400} width={400} alt="photo employee" className="object-contain " />
+                <Image
+                    src={image}
+                    height={400}
+                    width={400}
+                    alt="photo employee"
+                    className="object-contain object-center"
+                />
             </div>
             <figcaption className="flex-1 bg-slate-900 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
                 <p className="text-sm lg:text-[1rem] font-bold max-w-[80%] text-nowrap text-ellipsis overflow-hidden">
