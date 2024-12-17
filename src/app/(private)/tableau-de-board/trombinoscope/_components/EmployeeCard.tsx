@@ -22,7 +22,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
                     height={400}
                     width={400}
                     alt="photo employee"
-                    className="object-contain object-center h-full"
+                    className="object-contain object-center "
                 />
             </div>
             <figcaption className="flex-1 bg-slate-900 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
