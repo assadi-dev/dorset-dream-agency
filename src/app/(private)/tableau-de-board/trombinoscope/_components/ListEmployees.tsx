@@ -20,7 +20,7 @@ const ListEmployees = ({ employees, totalItems, limit }: ListEmployeesProps) => 
 
     return (
         <>
-            <div className="sm:flex sm:justify-between sticky top-[0] sm:top-[62px] z-[10] bg-white shadow rounded py-3 mt-5">
+            <div className="sm:flex sm:justify-between sticky top-[0] sm:top-[60px] z-[5] bg-white shadow rounded py-3 mt-5">
                 <div className="sm:flex justify-between items-center px-3 w-full sm:w-[25vw]">
                     <SearchInputDataTable />
                 </div>
