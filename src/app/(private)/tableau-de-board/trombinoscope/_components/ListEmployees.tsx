@@ -23,7 +23,7 @@ const ListEmployees = ({ employees, totalItems, limit }: ListEmployeesProps) => 
                 <div></div>
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
-            <ScrollArea className="py-3 px-3 h-[68vh]">
+            <ScrollArea className="py-3 px-3 ">
                 {EMPLOYEES_LIST.length > 0 ? (
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] grid-rows-[repeat(auto-fill,380px)] gap-3 w-full h-full">
                         {EMPLOYEES_LIST.map((employee) => (
