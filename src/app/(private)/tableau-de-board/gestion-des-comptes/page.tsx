@@ -7,6 +7,7 @@ import ListAccounts from "./_components/ListAccounts";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { PaginationSearchParams } from "@/app/types";
 import { getAccountCollections } from "@/database/drizzle/repositories/users";
+import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Gestion des comptes");
 type GestionEmployeeParams = {
@@ -16,6 +17,7 @@ const GestionEmployeePage = async ({ searchParams }: GestionEmployeeParams) => {
     const search = searchParams.search;
     const limit = Number(searchParams.limit) || 5;
     const page = Number(searchParams.page) || 1;
+    adminAccess();
 
     const AccountsCollections = async () => {
         const filter = { page, limit, search };

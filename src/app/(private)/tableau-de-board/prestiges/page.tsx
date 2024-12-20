@@ -2,11 +2,13 @@ import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import ListsPrestige from "./_components/ListsPrestige";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
-import PaginationDataTable from "@/components/Datatable/PaginationDataTable";
 import { setTitlePage } from "@/lib/utils";
+import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Prestige");
-const PrestigePage = () => {
+
+const PrestigePage = async () => {
+    adminAccess();
     return (
         <PageTemplate title="Prestiges">
             <section className="my-3">

@@ -7,12 +7,13 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import DashboardNavbar from "./_components/DashboardNavbar";
 import { AuthSessionProvider } from "@/components/providers/AuthSessionProvider";
 import AppSidebar from "./_components/AppSidebar";
+import { Session } from "./account/type";
 
 type AdminLayoutType = {
     children: React.ReactNode;
 };
 const AdminLayout = async ({ children }: AdminLayoutType) => {
-    const session = await auth();
+    const session = (await auth()) as Session;
 
     if (!session) {
         redirect("/connexion");
@@ -21,7 +22,7 @@ const AdminLayout = async ({ children }: AdminLayoutType) => {
     return (
         <AuthSessionProvider session={session}>
             <SidebarProvider>
-                <AppSidebar />
+                <AppSidebar role={session?.user?.role} />
                 <main className="w-full p-1">
                     <DashboardNavbar />
                     <div className={styles.dashboardMain}>{children}</div>

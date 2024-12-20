@@ -1,10 +1,12 @@
 import { setTitlePage } from "@/lib/utils";
 import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
+import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Gestion des annonces");
 
 const GestionAnnouncementPage = async () => {
+    adminAccess();
     return (
         <PageTemplate title="Annonces" description="Gestion des annonces">
             <section className="my-3">

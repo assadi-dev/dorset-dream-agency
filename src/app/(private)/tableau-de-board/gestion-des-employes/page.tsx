@@ -6,8 +6,10 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { getEmployeeCollections } from "@/database/drizzle/repositories/employee";
 import { PaginationSearchParams } from "@/app/types";
+import { adminAccess } from "@/lib/security";
 
 const EmployeeCollection = async ({ filter }: any) => {
+    adminAccess();
     const employee = await getEmployeeCollections(filter);
     return (
         employee && (

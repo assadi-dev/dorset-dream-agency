@@ -5,10 +5,12 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import ListProperties from "./_components/ListProperties";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionImmobilierRightActions from "./_components/GestionImmobilierRightActions";
+import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Gestion des biens immobiliers");
 
 const GestionImmobilierPage = () => {
+    adminAccess();
     return (
         <ModalProvider>
             <PageTemplate title="Immobiliers" description="Gestion des biens et les variants">

@@ -3,7 +3,7 @@ import { credentials } from "./app/api/auth/[...nextauth]/providers";
 import { ENV } from "./config/global";
 import { Role } from "./app/types/user";
 
-type UserAdapter = User & {
+export type UserAdapter = User & {
     role: Role;
     employeeID?: number | null;
     grade?: string | null;

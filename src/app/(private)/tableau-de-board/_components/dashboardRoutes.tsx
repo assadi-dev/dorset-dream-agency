@@ -59,3 +59,8 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         path: "/",
     },
 ];
+
+const remove = ["Gestion de l'entreprise", "Prestiges"];
+export const dashboardNavigationUser = dashboardNavigation.filter((page) => {
+    return !remove.includes(page.title);
+});

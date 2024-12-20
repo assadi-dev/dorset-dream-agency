@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { dashboardNavigation } from "./dashboardRoutes";
+import { dashboardNavigation, dashboardNavigationUser } from "./dashboardRoutes";
 import NavigationItems from "./NavigationItems";
 import DashboardLogo from "./DasboardLogo";
 
@@ -16,8 +16,15 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar";
 import UserConnect from "./UserConnect";
+import { isAdmin } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { Role } from "@/app/types/user";
 
-const AppSidebar = () => {
+type AppSidebar = {
+    role: Role;
+};
+const AppSidebar = ({ role }: AppSidebar) => {
+    const SIDEBAR = isAdmin(role) ? dashboardNavigation : dashboardNavigationUser;
     return (
         <Sidebar className="bg-gradient-to-br  from-[#214583] from-[5%]   to-[#05095c] to-100%    text-white">
             <SidebarHeader className="mb-5">
@@ -31,7 +38,7 @@ const AppSidebar = () => {
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {dashboardNavigation.map((item) => (
+                            {SIDEBAR.map((item) => (
                                 <NavigationItems key={item.title} route={item} />
                             ))}
                         </SidebarMenu>

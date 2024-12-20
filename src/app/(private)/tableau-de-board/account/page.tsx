@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { setTitlePage, wait } from "@/lib/utils";
+import { setTitlePage } from "@/lib/utils";
 import React from "react";
 import PageTemplate from "../_components/PageTemplate";
 import ProfilTabs from "./_components/Tabs/PersonalData";
