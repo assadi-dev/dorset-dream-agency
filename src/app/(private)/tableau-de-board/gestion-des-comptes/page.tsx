@@ -17,7 +17,7 @@ const GestionEmployeePage = async ({ searchParams }: GestionEmployeeParams) => {
     const search = searchParams.search;
     const limit = Number(searchParams.limit) || 5;
     const page = Number(searchParams.page) || 1;
-    adminAccess();
+    await adminAccess();
 
     const AccountsCollections = async () => {
         const filter = { page, limit, search };

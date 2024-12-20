@@ -6,9 +6,11 @@ import CanvasContainer from "../_components/CanvasContainer";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import ElementsPanel from "../_components/ElementsPanel";
 import FabricProvider from "../_components/fabric/FabricProvider";
+import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Gestion des annonces");
 const CreateAnnouncementPage = async () => {
+    await adminAccess();
     return (
         <ModalProvider>
             <FabricProvider>

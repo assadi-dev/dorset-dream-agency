@@ -9,7 +9,7 @@ import { PaginationSearchParams } from "@/app/types";
 import { adminAccess } from "@/lib/security";
 
 const EmployeeCollection = async ({ filter }: any) => {
-    adminAccess();
+    await adminAccess();
     const employee = await getEmployeeCollections(filter);
     return (
         employee && (

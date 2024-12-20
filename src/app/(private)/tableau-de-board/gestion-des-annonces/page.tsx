@@ -6,7 +6,7 @@ import { adminAccess } from "@/lib/security";
 export const metadata = setTitlePage("Gestion des annonces");
 
 const GestionAnnouncementPage = async () => {
-    adminAccess();
+    await adminAccess();
     return (
         <PageTemplate title="Annonces" description="Gestion des annonces">
             <section className="my-3">
