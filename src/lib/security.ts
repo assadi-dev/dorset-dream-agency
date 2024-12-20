@@ -1,11 +1,10 @@
 "use server";
 
-import { Role } from "@/app/types/user";
 import { isAdmin } from "./utils";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { auth, UserSession } from "@/auth";
 
 export const adminAccess = async () => {
-    const session = await auth();
+    const session = (await auth()) as UserSession;
     if (!isAdmin(session?.user?.role || "user")) redirect("/");
 };
