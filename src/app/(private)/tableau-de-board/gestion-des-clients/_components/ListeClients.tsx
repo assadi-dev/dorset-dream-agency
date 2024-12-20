@@ -8,13 +8,18 @@ import SimplePagination from "@/components/Paginations/SimplePagination";
 import ClientCardSelect from "./ClientCardSelect";
 import { Button } from "@/components/ui/button";
 import SelectAction from "./SelectAction";
+import { isAdmin } from "@/lib/utils";
+import { Role } from "@/app/types/user";
+import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { FORBIDDEN_ACTION } from "@/config/messages";
 
 type ListeClientsProps = {
     clients: Array<any>;
     totalItems: number;
     limit: number;
+    role: Role;
 };
-const ListeClients = ({ clients, totalItems, limit }: ListeClientsProps) => {
+const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) => {
     const [state, setState] = useState<{ mode: "multiple" | "none"; selected: number[] }>({
         mode: "none",
         selected: [],
@@ -35,12 +40,19 @@ const ListeClients = ({ clients, totalItems, limit }: ListeClientsProps) => {
     };
 
     const toggleModCard = () => {
-        setState((current) => {
-            current.selected = [];
-            if (current.mode === "none") current.mode = "multiple";
-            else current.mode = "none";
-            return { ...current };
-        });
+        try {
+            if (!isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
+            setState((current) => {
+                current.selected = [];
+                if (current.mode === "none") current.mode = "multiple";
+                else current.mode = "none";
+                return { ...current };
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                ToastErrorSonner(error.message);
+            }
+        }
     };
 
     return (
@@ -52,7 +64,11 @@ const ListeClients = ({ clients, totalItems, limit }: ListeClientsProps) => {
             </div>
 
             <div className="my-5 flex justify-between items-center">
-                <SelectAction toggleModCard={toggleModCard} mode={state.mode} selected={state.selected} />
+                {isAdmin(role) ? (
+                    <SelectAction toggleModCard={toggleModCard} mode={state.mode} selected={state.selected} />
+                ) : (
+                    <div></div>
+                )}
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
             <ScrollArea className="h-[calc(85vh-220px)] rounded ">
