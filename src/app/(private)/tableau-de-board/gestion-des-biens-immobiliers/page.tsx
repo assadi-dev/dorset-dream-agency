@@ -9,7 +9,7 @@ import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Gestion des biens immobiliers");
 
-const GestionImmobilierPage = () => {
+const GestionImmobilierPage = async () => {
     await adminAccess();
     return (
         <ModalProvider>
