@@ -4,7 +4,7 @@ export const transactionSchema = z.object({
     employeeID: z.coerce.number(),
     clientID: z.coerce.number(),
     variantID: z.coerce.number(),
-    propertyService: z.enum(["Location LS", "Location Iles", "Ventes LS", "Vente Iles"]),
+    propertyService: z.enum(["Location LS", "Location Favelas", "Ventes LS", "Vente Favelas"]),
     keyQuantity: z.coerce.number(),
     keyNumber: z.string(),
     sellingPrice: z.coerce.number(),

@@ -13,7 +13,7 @@ export const transactions = mysqlTable("transactions", {
     sellingPrice: int("selling_price"),
     keyQuantity: int("key_quantity").default(0),
     keyNumber: varchar("key_number", { length: 100 }),
-    propertyService: mysqlEnum("property_service", ["Location LS", "Location Iles", "Ventes LS", "Vente Iles"]),
+    propertyService: mysqlEnum("property_service", ["Location LS", "Location Favelas", "Ventes LS", "Vente Favelas"]),
     ...updatedAndCreatedAt,
 });
 

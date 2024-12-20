@@ -168,13 +168,13 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
             case "vente":
                 locationTypeCondition = or(
                     eq(transactions.propertyService, "Ventes LS"),
-                    eq(transactions.propertyService, "Vente Iles"),
+                    eq(transactions.propertyService, "Vente Favelas"),
                 );
                 break;
             case "location":
                 locationTypeCondition = or(
                     eq(transactions.propertyService, "Location LS"),
-                    eq(transactions.propertyService, "Location Iles"),
+                    eq(transactions.propertyService, "Location Favelas"),
                 );
                 break;
             case "prestige":
@@ -253,12 +253,12 @@ export const statIncomeTransaction = async ({ startDate, endDate }: StartDateEnD
 export const statGlobalSecteurTransaction = async () => {
     const total = await rowCount(transactions);
     const RentalCondition = or(
-        eq(transactions.propertyService, "Location Iles"),
+        eq(transactions.propertyService, "Location Favelas"),
         eq(transactions.propertyService, "Location LS"),
     );
     const rental = await rowCount(transactions, RentalCondition);
     const SaleCondition = or(
-        eq(transactions.propertyService, "Vente Iles"),
+        eq(transactions.propertyService, "Vente Favelas"),
         eq(transactions.propertyService, "Ventes LS"),
     );
     const sales = await rowCount(transactions, SaleCondition);
@@ -272,11 +272,11 @@ export const statGlobalSecteurTransaction = async () => {
 export const statGlobalSecteurTransactionInterval = async (startDate: string, endDate: string) => {
     const totalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
     const SaleCondition = and(
-        or(eq(transactions.propertyService, "Vente Iles"), eq(transactions.propertyService, "Ventes LS")),
+        or(eq(transactions.propertyService, "Vente Favelas"), eq(transactions.propertyService, "Ventes LS")),
         between(transactions.createdAt, new Date(startDate), new Date(endDate)),
     );
     const RentalCondition = and(
-        or(eq(transactions.propertyService, "Location Iles"), eq(transactions.propertyService, "Location LS")),
+        or(eq(transactions.propertyService, "Location Favelas"), eq(transactions.propertyService, "Location LS")),
         between(transactions.createdAt, new Date(startDate), new Date(endDate)),
     );
     const total = await rowCount(transactions, totalCondition);
@@ -304,11 +304,11 @@ export const statTransactionPerSecteurChart = async ({ startDate, endDate }: Sta
 export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartDateEnDateType) => {
     const intervalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
     const rentalCondition = or(
-        eq(transactions.propertyService, "Location Iles"),
+        eq(transactions.propertyService, "Location Favelas"),
         eq(transactions.propertyService, "Location LS"),
     );
     const salesCondition = or(
-        eq(transactions.propertyService, "Vente Iles"),
+        eq(transactions.propertyService, "Vente Favelas"),
         eq(transactions.propertyService, "Ventes LS"),
     );
     const rentalData = await db
@@ -382,10 +382,10 @@ export const employeesContribution = async ({
         .select({
             seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`.as("seller"),
             totalPrice: sum(transactions.sellingPrice).as("totalSales"),
-            totalSalesPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Vente Iles" THEN ${transactions.sellingPrice}  END )`,
-            totalRentPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Iles" THEN ${transactions.sellingPrice}  END )`,
-            totalSales: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Vente Iles" THEN ${transactions.propertyService}  END )`,
-            totalRent: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Iles" THEN ${transactions.propertyService}  END )`,
+            totalSalesPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Vente Favelas" THEN ${transactions.sellingPrice}  END )`,
+            totalRentPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" THEN ${transactions.sellingPrice}  END )`,
+            totalSales: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Vente Favelas" THEN ${transactions.propertyService}  END )`,
+            totalRent: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" THEN ${transactions.propertyService}  END )`,
         })
         .from(transactions)
         .leftJoin(employees, eq(employees.id, transactions.employeeID))
