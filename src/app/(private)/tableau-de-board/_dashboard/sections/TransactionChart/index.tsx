@@ -36,9 +36,9 @@ const TransactionChart = () => {
 
         return data.map((v) => {
             let secteur = "";
-            if (v.service === "Location Iles") secteur = "locationIle";
+            if (v.service === "Location Favelas") secteur = "locationFavelas";
             if (v.service === "Location LS") secteur = "locationLS";
-            if (v.service === "Vente Iles") secteur = "venteIles";
+            if (v.service === "Ventes Favelas") secteur = "ventesFavelas";
             if (v.service === "Ventes LS") secteur = "ventesLS";
             return {
                 secteur,

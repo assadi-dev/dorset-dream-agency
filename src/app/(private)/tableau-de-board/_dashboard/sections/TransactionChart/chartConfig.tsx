@@ -2,9 +2,9 @@ import { ChartConfig } from "@/components/ui/chart";
 
 export enum ServiceLabel {
     locationLS = "Location LS",
-    locationIle = "Location Iles",
+    locationFavelas = "Location Favelas",
     ventesLS = "Ventes LS",
-    venteIles = "Vente Iles",
+    ventesFavelas = "Ventes Favelas",
 }
 
 export const chartConfig = {
@@ -12,16 +12,16 @@ export const chartConfig = {
         label: ServiceLabel.locationLS,
         color: "hsl(var(--chart-1))",
     },
-    locationIle: {
-        label: ServiceLabel.locationIle,
+    locationFavelas: {
+        label: ServiceLabel.locationFavelas,
         color: "hsl(var(--chart-2))",
     },
     ventesLS: {
         label: ServiceLabel.ventesLS,
         color: "hsl(var(--chart-3))",
     },
-    venteIles: {
-        label: ServiceLabel.venteIles,
+    ventesFavelas: {
+        label: ServiceLabel.ventesFavelas,
         color: "hsl(var(--chart-4))",
     },
     other: {
