@@ -25,7 +25,7 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
                 <DropdownActions>
                     <EmployeesActions
                         payload={row.original}
-                        canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
+                        canDelete={false}
                         canUpdate={true}
                         canUpload={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
                     />
