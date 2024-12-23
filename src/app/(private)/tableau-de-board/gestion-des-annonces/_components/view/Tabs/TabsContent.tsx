@@ -30,11 +30,11 @@ export const TabsListElement: TabsEditorType[] = [
 
 const TabsEditorContent = () => {
     const { canvas, selected } = useFabricAction();
-    if (selected) {
+    /*    if (selected) {
         console.log("type sélectionné", selected?.type);
         console.log("object :>> ", selected);
     }
-
+ */
     return (
         <Tabs defaultValue={TabsListElement[0].id} className="w-[24rem] ">
             <TabsList className="w-full bg-transparent">

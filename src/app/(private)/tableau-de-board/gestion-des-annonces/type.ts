@@ -38,3 +38,5 @@ export type FabricObjectSelected = {
     angle: number;
     diameter: number;
 };
+
+export type FabricObjectExtends = FabricObject & { id?: string; zIndex?: number };

@@ -15,6 +15,8 @@ const FabriceReducer = (state: FabricInitialStateType, action?: ActionReducer) =
             return { ...state, canvas: payload };
         case FabricReducerAction.SELECTED_OBJECT:
             return { ...state, selected: payload };
+        case FabricReducerAction.UPDATE_LAYER:
+            return { ...state, layers: payload };
 
         default:
             return state;

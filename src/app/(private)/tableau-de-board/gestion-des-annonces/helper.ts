@@ -1,7 +1,6 @@
 import { API_INSTANCE } from "@/lib/api";
 import { FabricFormType } from "./type";
 import { Circle, FabricImage, FabricObject, IText, Rect, Triangle } from "fabric";
-import uniqid from "uniqid";
 
 const SHAPE_COLOR = "#01035c";
 export const CANVAS_VALUES = {
@@ -24,7 +23,6 @@ type ShapeGeneratorType = Record<string, () => Rect | Circle | Triangle | IText>
 export const ShapeGenerator: ShapeGeneratorType = {
     [FabricFormType.rect]: () =>
         new Rect({
-            id: uniqid(),
             top: 100,
             left: 50,
             width: 100,
@@ -34,7 +32,6 @@ export const ShapeGenerator: ShapeGeneratorType = {
 
     [FabricFormType.circle]: () =>
         new Circle({
-            id: uniqid(),
             top: 100,
             left: 50,
             radius: 50,
@@ -43,7 +40,6 @@ export const ShapeGenerator: ShapeGeneratorType = {
         }),
     [FabricFormType.triangle]: () =>
         new Triangle({
-            id: uniqid(),
             top: 100,
             left: 50,
             width: 50,
@@ -52,7 +48,6 @@ export const ShapeGenerator: ShapeGeneratorType = {
         }),
     [FabricFormType.iText]: () =>
         new IText("Texte", {
-            id: uniqid(),
             top: 100,
             left: 50,
             textAlign: "left",

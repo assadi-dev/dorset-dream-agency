@@ -10,6 +10,7 @@ export enum FabricReducerAction {
     CLEAR_ALL_LAYER = "CLEAR_ALL_LAYER",
     SET_CANVAS_BACKGROUND_IMAGE = "SET_CANVAS_BACKGROUND_IMAGE",
     SET_CANVAS_BACKGROUND_COLOR = "SET_CANVAS_BACKGROUND_COLOR",
+    UPDATE_LAYER = "UPDATE_LAYER",
 }
 
 export const canvasValidation = (canvas: unknown) => {
