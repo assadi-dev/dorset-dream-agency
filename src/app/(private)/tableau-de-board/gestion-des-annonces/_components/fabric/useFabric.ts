@@ -28,6 +28,15 @@ const useFabricAction = () => {
         canvas.requestRenderAll();
     };
 
+    const setLayers = (layers: any[]) => {
+        const canvas = canvasValidation(context.canvas);
+        layers.forEach((object, index) => {
+            canvas.moveObjectTo(object, index);
+        });
+        canvas.requestRenderAll();
+        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: layers });
+    };
+
     const selectedObject = (object: FabricObject | null) => {
         const canvas = canvasValidation(context.canvas);
         if (!object) return;
@@ -35,9 +44,11 @@ const useFabricAction = () => {
         canvas.requestRenderAll();
         context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: object });
     };
-    const unselectedObject = () => {
+
+    const unselectedObject = React.useCallback(() => {
+        if (!context.canvas) return;
         context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: null });
-    };
+    }, [context]);
 
     const updateObject = (object: FabricObject) => {
         context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT_FROM_LAYER, payload: object });
@@ -71,7 +82,6 @@ const useFabricAction = () => {
             if (index === 0) index = 1;
             setIdObject(object);
             object.set("zIndex", index);
-            canvas.moveObjectTo(object, index);
         });
         context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: canvas.getObjects() });
     }, [context]);
@@ -114,6 +124,7 @@ const useFabricAction = () => {
         setCanvasBackgroundImage,
         removeCanvasBackgroundImage,
         moveObjectTo,
+        setLayers,
     };
 };
 

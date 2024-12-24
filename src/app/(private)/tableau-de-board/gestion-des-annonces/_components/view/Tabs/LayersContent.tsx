@@ -6,9 +6,23 @@ import { Button } from "@/components/ui/button";
 import { ArrowBigDown, ArrowDown, ArrowUp, ArrowUpToLine } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FabricObjectExtends } from "../../../type";
-
+import { closestCenter, DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
+import Draggable from "./LayerItem";
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import LayerItem from "./LayerItem";
+import { restrictToVerticalAxis, restrictToParentElement, restrictToWindowEdges } from "@dnd-kit/modifiers";
+const items = [
+    { id: 1, title: "title 1" },
+    { id: 2, title: "title-2" },
+];
 const LayersContent = () => {
-    const { layers, selected, moveObjectTo } = useFabricAction();
+    const { layers, selected, moveObjectTo, setLayers } = useFabricAction();
+    const [layerItems, setLayerItems] = React.useState(layers);
 
     const CLASS_ACTIVE = "bg-primary/50 text-white text-semibold";
     const isActive = (object: FabricObjectExtends) => (object.id === selected?.id ? CLASS_ACTIVE : "");
@@ -33,27 +47,42 @@ const LayersContent = () => {
 
         moveObjectTo(object, newIndex);
     };
-    console.log(layers);
+    const { isOver, setNodeRef } = useDroppable({
+        id: "droppable",
+    });
+    const style = {
+        color: isOver ? "green" : undefined,
+    };
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            const oldIndex = layers.findIndex((item) => item.id === active.id);
+            const newIndex = layers.findIndex((item) => item.id === over.id);
+            const newArray = arrayMove(layers, oldIndex, newIndex);
+            console.log(newArray);
+            setLayers(newArray);
+        }
+    };
+
+    const layerIdentifiers = layers.map((v) => v.id) as string[];
 
     return (
-        <div className="flex flex-col gap-1">
-            {layers.map((object) => (
-                <Card
-                    key={object?.id}
-                    className={cn("w-full flex py-2 px-3 items-center justify-between", isActive(object))}
-                >
-                    <div> {`${object.type}-${object.zIndex}`} </div>
-                    <div className="flex flex-col">
-                        <button className="active:opacity-50 p-1 px-2" onClick={() => moveUp(object)}>
-                            <ArrowUp size={12} />{" "}
-                        </button>
-                        <button className="active:opacity-50 p-1 px-2" onClick={() => moveDown(object)}>
-                            <ArrowDown size={12} />{" "}
-                        </button>
-                    </div>
-                </Card>
-            ))}
-        </div>
+        <DndContext
+            collisionDetection={closestCenter}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+            onDragStart={() => {}}
+            onDragEnd={handleDragEnd}
+        >
+            <div ref={setNodeRef} style={style} className="py-5">
+                <SortableContext id="layers-container" items={layerIdentifiers} strategy={verticalListSortingStrategy}>
+                    {layers.map((item) => (
+                        <LayerItem key={item.id} item={item} />
+                    ))}
+                </SortableContext>
+            </div>
+        </DndContext>
     );
 };
 
