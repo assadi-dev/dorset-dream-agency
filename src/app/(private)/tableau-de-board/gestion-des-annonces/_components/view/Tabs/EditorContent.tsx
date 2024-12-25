@@ -50,8 +50,8 @@ const EditorContent = () => {
         if (!selected) return;
         const { value } = e.target;
         selected.set({
-            rx: value,
-            ry: value,
+            rx: value * (1 / selected.scaleX),
+            ry: value * (1 / selected.scaleY),
         });
         canvas?.renderAll();
     };
@@ -76,6 +76,75 @@ const EditorContent = () => {
 
             text.setSelectionStyles({
                 fontWeight: fontWeight,
+            });
+        }
+
+        canvas?.requestRenderAll();
+    };
+
+    const handleClickLineThrough = () => {
+        if (!selected && !canvas) return;
+        const text = selected as IText;
+        if (text.isEditing) {
+            const styles = text.getSelectionStyles();
+
+            const fontWeight =
+                styles[0].fontWeight !== "bold" || styles[0].fontWeight === undefined ? "bold" : "normal";
+
+            text.setSelectionStyles({
+                fontWeight: fontWeight,
+            });
+        }
+
+        canvas?.requestRenderAll();
+    };
+    const handleClickUnderline = () => {
+        if (!selected && !canvas) return;
+        const text = selected as IText;
+        if (text.isEditing) {
+            const styles = text.getSelectionStyles();
+
+            const underline = styles[0].underline !== true || styles[0].underline === undefined ? true : false;
+
+            text.setSelectionStyles({
+                underline: underline,
+            });
+        }
+
+        canvas?.requestRenderAll();
+    };
+
+    const handleClickItalique = () => {
+        if (!selected && !canvas) return;
+        const text = selected as IText;
+        if (text.isEditing) {
+            const styles = text.getSelectionStyles();
+
+            const fontStyle =
+                styles[0].fontStyle !== "italic" || styles[0].fontStyle === undefined ? "italic" : "normal";
+
+            console.log(fontStyle);
+
+            text.setSelectionStyles({
+                fontStyle,
+            });
+        }
+
+        canvas?.requestRenderAll();
+    };
+
+    const handleClickStrikethrough = () => {
+        if (!selected && !canvas) return;
+        const text = selected as IText;
+        if (text.isEditing) {
+            const styles = text.getSelectionStyles();
+
+            const linethrough = styles[0].linethrough !== true || styles[0].linethrough === undefined ? true : false;
+
+            console.log(linethrough);
+
+            text.setSelectionStyles({
+                linethrough,
             });
         }
 
@@ -134,18 +203,28 @@ const EditorContent = () => {
                                 <Input defaultValue="sans-serif" name="fontFamily" />
                                 <Input type="number" defaultValue="18" onChange={handleChangeFontSize} />
                             </div>
-                            <div className="grid grid-cols-[auto,1fr,1fr] items-center gap-3">
-                                <Button variant="outline" type="button" onClick={handleClickBold}>
-                                    <strong>G</strong>
-                                </Button>
-                            </div>
+
                             <div className="">
                                 <Label className="text-xs">Alignement</Label>
                                 <div className="grid grid-cols-2"></div>
                             </div>
                             <div className="">
                                 <Label className="text-xs">Décoration</Label>
-                                <div className="grid grid-cols-2"></div>
+
+                                <div className="flex flex-wrap items-center gap-1">
+                                    <Button variant="outline" type="button" onClick={handleClickBold}>
+                                        <strong>G</strong>
+                                    </Button>
+                                    <Button variant="outline" type="button" onClick={handleClickItalique}>
+                                        <i>I</i>
+                                    </Button>
+                                    <Button variant="outline" type="button" onClick={handleClickUnderline}>
+                                        <u>U</u>
+                                    </Button>
+                                    <Button variant="outline" type="button" onClick={handleClickStrikethrough}>
+                                        <s>U</s>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3 mb-3">

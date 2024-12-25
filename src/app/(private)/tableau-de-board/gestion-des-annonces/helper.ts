@@ -1,6 +1,6 @@
 import { API_INSTANCE } from "@/lib/api";
 import { FabricFormType } from "./type";
-import { Circle, FabricImage, FabricObject, IText, Rect, Textbox, Triangle } from "fabric";
+import { Circle, FabricImage, FabricObject, IText, Polygon, Rect, Textbox, Triangle } from "fabric";
 
 const SHAPE_COLOR = "#01035c";
 export const CANVAS_VALUES = {
@@ -28,6 +28,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             width: 100,
             height: 100,
             fill: SHAPE_COLOR,
+            objectCaching: false,
         }),
 
     [FabricFormType.circle]: () =>
@@ -37,6 +38,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             radius: 50,
             hasBorders: true,
             fill: SHAPE_COLOR,
+            objectCaching: false,
         }),
     [FabricFormType.triangle]: () =>
         new Triangle({
@@ -45,6 +47,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             width: 50,
             height: 50,
             fill: SHAPE_COLOR,
+            objectCaching: false,
         }),
     [FabricFormType.iText]: () =>
         new IText("Texte", {
@@ -53,11 +56,33 @@ export const ShapeGenerator: ShapeGeneratorType = {
             textAlign: "left",
             editable: true,
             selectable: true,
-            hasControls: false,
+            hasControls: true,
             fontSize: 18,
             fill: SHAPE_COLOR,
-            lockScalingY: true,
+            objectCaching: false,
         }),
+    [FabricFormType.start]: () => {
+        const points = [
+            { x: 349.9, y: 75 },
+            { x: 379, y: 160.9 },
+            { x: 469, y: 160.9 },
+            { x: 397, y: 214.9 },
+            { x: 423, y: 300.9 },
+            { x: 350, y: 249.9 },
+            { x: 276.9, y: 301 },
+            { x: 303, y: 215 },
+            { x: 231, y: 161 },
+            { x: 321, y: 161 },
+        ];
+        return new Polygon(points, {
+            top: 100,
+            left: 50,
+            width: 100,
+            height: 100,
+            fill: SHAPE_COLOR,
+            objectCaching: false,
+        });
+    },
 
     /*  [FabricFormType.image]: async () => {}, */
 };

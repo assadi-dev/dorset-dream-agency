@@ -98,17 +98,17 @@ const useFabricAction = () => {
         if (context.canvas) {
             const canvas = canvasValidation(context.canvas);
             canvas.on("object:added", updateLayers);
-            canvas.on("object:modified", updateLayers);
+            // canvas.on("object:modified", updateLayers);
             canvas.on("object:removed", updateLayers);
             canvas.on("selection:cleared", unselectedObject);
-            canvas.on("selection:updated", unselectedObject);
+            // canvas.on("selection:updated", unselectedObject);
 
             return () => {
                 canvas.on("object:added", updateLayers);
-                canvas.on("object:modified", updateLayers);
+                //canvas.on("object:modified", updateLayers);
                 canvas.on("object:removed", updateLayers);
                 canvas.on("selection:cleared", unselectedObject);
-                canvas.on("selection:updated", unselectedObject);
+                // canvas.on("selection:updated", unselectedObject);
             };
         }
     }, [context.canvas, updateLayers, unselectedObject]);

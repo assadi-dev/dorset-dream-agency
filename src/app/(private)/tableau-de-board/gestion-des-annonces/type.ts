@@ -20,6 +20,7 @@ export enum FabricFormType {
     iText = "i-text",
     image = "image",
     triangle = "triangle",
+    start = "start",
 }
 
 export type ActionReducer = {

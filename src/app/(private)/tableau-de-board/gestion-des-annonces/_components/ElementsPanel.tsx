@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowUpLeftSquare, Circle, ImagePlus, Square, Text, Triangle, Type, Ellipsis } from "lucide-react";
+import { ArrowUpLeftSquare, Circle, ImagePlus, Square, Text, Triangle, Type, Ellipsis, Star } from "lucide-react";
 import React from "react";
 import BackgroundElements from "./BackgroundElements";
 import ColorPickerInput from "./ColorPicker";
@@ -83,8 +83,12 @@ const ElementsPanel = () => {
                         >
                             <Type />
                         </Button>
-                        <Button variant="outline" className="h-full w-full">
-                            <ArrowUpLeftSquare />
+                        <Button
+                            variant="outline"
+                            className="h-full w-full"
+                            onClick={() => addShape(FabricFormType.start)}
+                        >
+                            <Star />
                         </Button>
                         <Button variant="outline" className="h-full w-full" onClick={addImage}>
                             <ImagePlus />
@@ -95,9 +99,7 @@ const ElementsPanel = () => {
                 <div className="mt-2">
                     <CardTitle>Arrière plans</CardTitle>
                     <ScrollArea className="h-[280px] w-full py-2 pr-2">
-                        <React.Suspense fallback="yellow">
-                            <BackgroundElements />
-                        </React.Suspense>
+                        <BackgroundElements />
                     </ScrollArea>
                 </div>
                 <div className="mt-2">
