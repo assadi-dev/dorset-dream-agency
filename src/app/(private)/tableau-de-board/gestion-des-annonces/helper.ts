@@ -1,6 +1,6 @@
 import { API_INSTANCE } from "@/lib/api";
 import { FabricFormType } from "./type";
-import { Circle, FabricImage, FabricObject, IText, Rect, Triangle } from "fabric";
+import { Circle, FabricImage, FabricObject, IText, Rect, Textbox, Triangle } from "fabric";
 
 const SHAPE_COLOR = "#01035c";
 export const CANVAS_VALUES = {
@@ -53,9 +53,10 @@ export const ShapeGenerator: ShapeGeneratorType = {
             textAlign: "left",
             editable: true,
             selectable: true,
-            hasControls: true,
-            fontSize: 14,
+            hasControls: false,
+            fontSize: 18,
             fill: SHAPE_COLOR,
+            lockScalingY: true,
         }),
 
     /*  [FabricFormType.image]: async () => {}, */

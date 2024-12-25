@@ -1,7 +1,5 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TabsEditorContent from "./view/Tabs/TabsContent";
 import useFabricAction from "./fabric/useFabric";
 
@@ -18,9 +16,7 @@ const EditorPanel = () => {
                 selectedObject(object);
             });
             canvas.on("selection:cleared", () => {
-                // handleObjectSelection(null);
                 unselectedObject();
-                // clearSettings();
             });
             canvas.on("object:modified", (event) => {
                 const object = event.target;

@@ -6,6 +6,8 @@ import useFabricAction from "../../fabric/useFabric";
 import ColorPickerInput from "../../ColorPicker";
 import { OBJECT_CLEAN_VALUES } from "../../fabric/helpers";
 import { FabricFormType } from "../../fabric/FabricContext";
+import { Button } from "@/components/ui/button";
+import { IText } from "fabric";
 
 const EditorContent = () => {
     const { canvas, selected } = useFabricAction();
@@ -63,6 +65,23 @@ const EditorContent = () => {
         canvas?.renderAll();
     };
 
+    const handleClickBold = () => {
+        if (!selected && !canvas) return;
+        const text = selected as IText;
+        if (text.isEditing) {
+            const styles = text.getSelectionStyles();
+
+            const fontWeight =
+                styles[0].fontWeight !== "bold" || styles[0].fontWeight === undefined ? "bold" : "normal";
+
+            text.setSelectionStyles({
+                fontWeight: fontWeight,
+            });
+        }
+
+        canvas?.requestRenderAll();
+    };
+
     return (
         <div className="flex flex-col gap-2  p-3 h-full w-full text-sm">
             <div className="mb-5">
@@ -112,8 +131,13 @@ const EditorContent = () => {
                             <Label className=" text-xs">Typographie</Label>
                             <div className="grid grid-cols-[auto,1fr,1fr] items-center gap-3">
                                 <ColorPickerInput onChange={handleChangeTextColor} />
-                                <Input defaultValue="sans-serif" />
+                                <Input defaultValue="sans-serif" name="fontFamily" />
                                 <Input type="number" defaultValue="18" onChange={handleChangeFontSize} />
+                            </div>
+                            <div className="grid grid-cols-[auto,1fr,1fr] items-center gap-3">
+                                <Button variant="outline" type="button" onClick={handleClickBold}>
+                                    <strong>G</strong>
+                                </Button>
                             </div>
                             <div className="">
                                 <Label className="text-xs">Alignement</Label>
