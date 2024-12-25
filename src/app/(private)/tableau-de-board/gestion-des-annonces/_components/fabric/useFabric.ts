@@ -77,6 +77,7 @@ const useFabricAction = () => {
 
     const updateLayers = useCallback(() => {
         if (!context.canvas) return;
+
         const canvas = canvasValidation(context.canvas);
         canvas.getObjects().forEach((object, index) => {
             if (index === 0) index = 1;
@@ -101,12 +102,14 @@ const useFabricAction = () => {
             canvas.on("object:modified", updateLayers);
             canvas.on("object:removed", updateLayers);
             canvas.on("selection:cleared", unselectedObject);
+            canvas.on("selection:updated", unselectedObject);
 
             return () => {
                 canvas.on("object:added", updateLayers);
                 canvas.on("object:modified", updateLayers);
                 canvas.on("object:removed", updateLayers);
                 canvas.on("selection:cleared", unselectedObject);
+                canvas.on("selection:updated", unselectedObject);
             };
         }
     }, [context.canvas, updateLayers, unselectedObject]);
@@ -125,6 +128,7 @@ const useFabricAction = () => {
         removeCanvasBackgroundImage,
         moveObjectTo,
         setLayers,
+        updateLayers,
     };
 };
 
