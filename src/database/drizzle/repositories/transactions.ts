@@ -43,6 +43,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                   like(properties.name, sql.placeholder("search")),
                   like(variants.name, sql.placeholder("search")),
                   like(categoryProperties.name, sql.placeholder("search")),
+                  like(transactions.propertyService, sql.placeholder("search")),
               )
             : undefined;
 
@@ -389,6 +390,9 @@ export const employeesContribution = async ({
         })
         .from(transactions)
         .leftJoin(employees, eq(employees.id, transactions.employeeID))
+        .leftJoin(variants, eq(variants.id, transactions.variantID))
+        .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .groupBy(sql<string>`seller`)
         .where(and(intervalCondition, searchCondition))
         .$dynamic();
@@ -396,11 +400,11 @@ export const employeesContribution = async ({
     const parameters: BindParameters = {
         search: `%${search}%`,
     };
-    const rowsCount = await rowCount(transactions, and(intervalCondition, searchCondition));
 
-    const totalItems = rowsCount || 0;
     const orderBy = desc(sql<string>`totalSales`);
     const data = await withPagination(query, orderBy, page, limit, parameters);
+
+    const totalItems = data.length || 0;
 
     const complete = data.map((v) => {
         return {
