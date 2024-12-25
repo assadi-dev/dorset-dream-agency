@@ -77,7 +77,6 @@ const useFabricAction = () => {
 
     const updateLayers = useCallback(() => {
         if (!context.canvas) return;
-
         const canvas = canvasValidation(context.canvas);
         canvas.getObjects().forEach((object, index) => {
             if (index === 0) index = 1;

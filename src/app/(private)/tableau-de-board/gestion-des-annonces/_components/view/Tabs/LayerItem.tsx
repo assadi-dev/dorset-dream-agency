@@ -9,7 +9,7 @@ import useFabricAction from "../../fabric/useFabric";
 const VisibleBtn = ({ object }: { object?: FabricObject }) => {
     const { canvas, setLayers } = useFabricAction();
     const isVisible = object?.visible;
-    const handleClick = () => {
+    const handleClickVisible = () => {
         if (object && canvas) {
             object.toggle("visible");
             canvas.requestRenderAll();
@@ -17,7 +17,25 @@ const VisibleBtn = ({ object }: { object?: FabricObject }) => {
         }
     };
 
-    return <button onClick={handleClick}>{isVisible ? <Eye size={14} /> : <EyeOff size={14} />}</button>;
+    return <button onClick={handleClickVisible}>{isVisible ? <Eye size={14} /> : <EyeOff size={14} />}</button>;
+};
+
+const RemoveButton = ({ object }: { object?: FabricObject }) => {
+    const { canvas, setLayers } = useFabricAction();
+
+    const handleClickRemove = () => {
+        if (object && canvas) {
+            canvas.remove(object);
+            canvas.requestRenderAll();
+            setLayers(canvas.getObjects());
+        }
+    };
+
+    return (
+        <button onClick={handleClickRemove}>
+            <Trash2 size={14} />
+        </button>
+    );
 };
 
 const LayerItem = (props: any) => {
@@ -34,9 +52,7 @@ const LayerItem = (props: any) => {
                 <div className=""> {props.item.id}</div>
                 <div className="flex items-center gap-1">
                     <VisibleBtn object={props.item} />
-                    <button>
-                        <Trash2 size={14} />
-                    </button>
+                    <RemoveButton object={props.item} />
                     <button type="button" className="cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
                         <GripVertical size={16} />
                     </button>
