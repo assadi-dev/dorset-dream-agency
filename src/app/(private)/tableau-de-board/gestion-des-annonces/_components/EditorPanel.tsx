@@ -25,7 +25,7 @@ const EditorPanel = () => {
             canvas.on("object:scaling", (event) => {
                 const object = event.target;
 
-                if (object.type.includes("i-text")) {
+                /*    if (object.type.includes("i-text")) {
                     const originalWidth = object.width * object.scaleX;
                     const originalHeight = object.height * object.scaleY;
                     object.set({
@@ -34,7 +34,7 @@ const EditorPanel = () => {
                         scaleX: 1,
                         scaleY: 1,
                     });
-                }
+                } */
 
                 /*   if (["rect", "triangle"].includes(object.type)) {
                     console.log("hrllo");

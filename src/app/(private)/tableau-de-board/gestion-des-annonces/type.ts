@@ -21,6 +21,7 @@ export enum FabricFormType {
     image = "image",
     triangle = "triangle",
     start = "start",
+    textbox = "textbox",
 }
 
 export type ActionReducer = {
@@ -41,3 +42,10 @@ export type FabricObjectSelected = {
 };
 
 export type FabricObjectExtends = FabricObject & { id?: string; zIndex?: number };
+
+export type CustomCornerProps = {
+    cornerStyle: "rect" | "circle";
+    cornerColor: string;
+    transparentCorners: boolean;
+    cornerStrokeColor: string;
+};

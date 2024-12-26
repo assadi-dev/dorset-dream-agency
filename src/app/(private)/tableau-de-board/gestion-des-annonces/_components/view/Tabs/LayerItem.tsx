@@ -20,13 +20,13 @@ const LayerItem = ({ object }: LayerItemProps) => {
     return (
         <div ref={setNodeRef} style={style}>
             <Card className="w-full flex py-2 px-3 items-center justify-between">
+                <button type="button" className="cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
+                    <GripVertical size={16} />
+                </button>
                 <div className=""> {object.id}</div>
                 <div className="flex items-center gap-1">
                     <VisibleBtn object={object} />
                     <RemoveButton object={object} />
-                    <button type="button" className="cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
-                        <GripVertical size={16} />
-                    </button>
                 </div>
             </Card>
         </div>

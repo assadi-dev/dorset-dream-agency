@@ -11,7 +11,7 @@ import ColorPickerInput from "./ColorPicker";
 import { Slider } from "@/components/ui/slider";
 import useFabricAction from "./fabric/useFabric";
 import { FabricFormType } from "../type";
-import { ShapeGenerator } from "../helper";
+import { CORNER_STYLES, ShapeGenerator } from "../helper";
 import { FabricImage } from "fabric";
 
 const ElementsPanel = () => {
@@ -39,6 +39,11 @@ const ElementsPanel = () => {
             const image = await FabricImage.fromURL(reader);
             image.scaleToHeight(100);
             image.scaleToWidth(200);
+            image.cornerStrokeColor = CORNER_STYLES?.cornerStrokeColor;
+            image.cornerColor = CORNER_STYLES.cornerColor;
+            image.transparentCorners = CORNER_STYLES.transparentCorners;
+            image.cornerStyle = CORNER_STYLES.cornerStyle;
+            image.objectCaching = false;
             addObjectToLayer(image);
             URL.revokeObjectURL(reader);
         };
@@ -79,7 +84,7 @@ const ElementsPanel = () => {
                         <Button
                             variant="outline"
                             className="h-full w-full"
-                            onClick={() => addShape(FabricFormType.iText)}
+                            onClick={() => addShape(FabricFormType.textbox)}
                         >
                             <Type />
                         </Button>

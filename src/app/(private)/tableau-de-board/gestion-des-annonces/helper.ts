@@ -1,13 +1,20 @@
 import { API_INSTANCE } from "@/lib/api";
-import { FabricFormType } from "./type";
-import { Circle, FabricImage, FabricObject, IText, Polygon, Rect, Textbox, Triangle } from "fabric";
+import { CustomCornerProps, FabricFormType } from "./type";
+import { Circle, IText, Polygon, Rect, Textbox, Triangle } from "fabric";
 
-const SHAPE_COLOR = "#01035c";
+export const SHAPE_COLOR = "#01035c";
 export const CANVAS_VALUES = {
     height: 480,
     width: 720,
     backgroundColor: "#ffffff",
     stroke: 0,
+};
+
+export const CORNER_STYLES: CustomCornerProps = {
+    cornerStyle: "circle",
+    cornerColor: "white",
+    transparentCorners: false,
+    cornerStrokeColor: SHAPE_COLOR,
 };
 
 export const fetchBackgroundImages = async () => {
@@ -29,6 +36,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             height: 100,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            ...CORNER_STYLES,
         }),
 
     [FabricFormType.circle]: () =>
@@ -39,6 +47,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             hasBorders: true,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            ...CORNER_STYLES,
         }),
     [FabricFormType.triangle]: () =>
         new Triangle({
@@ -48,6 +57,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             height: 50,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            ...CORNER_STYLES,
         }),
     [FabricFormType.iText]: () =>
         new IText("Texte", {
@@ -60,6 +70,21 @@ export const ShapeGenerator: ShapeGeneratorType = {
             fontSize: 18,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            ...CORNER_STYLES,
+        }),
+    [FabricFormType.textbox]: () =>
+        new Textbox("Texte", {
+            top: 100,
+            left: 50,
+            textAlign: "left",
+            editable: true,
+            selectable: true,
+            hasControls: true,
+            fontSize: 18,
+            fill: SHAPE_COLOR,
+            objectCaching: false,
+            lockScalingY: true,
+            ...CORNER_STYLES,
         }),
     [FabricFormType.start]: () => {
         const points = [
@@ -81,6 +106,7 @@ export const ShapeGenerator: ShapeGeneratorType = {
             height: 100,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            ...CORNER_STYLES,
         });
     },
 
