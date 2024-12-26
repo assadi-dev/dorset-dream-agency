@@ -36,10 +36,9 @@ const ElementsPanel = () => {
         const generateImageObject = async (event: any) => {
             const file = event.target?.files[0];
             const reader = URL.createObjectURL(file);
-            const image = await FabricImage.fromURL(reader);
+            const image = await FabricImage.fromURL(reader, { crossOrigin: "anonymous" }, { ...CORNER_STYLES });
             image.scaleToHeight(100);
             image.scaleToWidth(200);
-            image.set({ ...CORNER_STYLES });
             addObjectToLayer(image);
             URL.revokeObjectURL(reader);
         };
