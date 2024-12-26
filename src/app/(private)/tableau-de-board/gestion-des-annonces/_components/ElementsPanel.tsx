@@ -39,11 +39,7 @@ const ElementsPanel = () => {
             const image = await FabricImage.fromURL(reader);
             image.scaleToHeight(100);
             image.scaleToWidth(200);
-            image.cornerStrokeColor = CORNER_STYLES?.cornerStrokeColor;
-            image.cornerColor = CORNER_STYLES.cornerColor;
-            image.transparentCorners = CORNER_STYLES.transparentCorners;
-            image.cornerStyle = CORNER_STYLES.cornerStyle;
-            image.objectCaching = false;
+            image.set({ ...CORNER_STYLES });
             addObjectToLayer(image);
             URL.revokeObjectURL(reader);
         };
