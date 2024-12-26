@@ -35,10 +35,10 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         title: "Gestion de l'entreprise",
         icon: Building2,
         children: [
-            /*   {
+            {
                 title: "Annonces",
                 path: "/tableau-de-board/gestion-des-annonces",
-            }, */
+            },
             {
                 title: "Immobiliers",
                 path: "/tableau-de-board/gestion-des-biens-immobiliers",
