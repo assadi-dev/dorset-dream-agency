@@ -2,9 +2,18 @@
 import React from "react";
 import TabsEditorContent from "./view/Tabs/TabsContent";
 import useFabricAction from "./fabric/useFabric";
+import { FabricObjectExtends } from "../type";
 
 const EditorPanel = () => {
     const { canvas, selectedObject, unselectedObject } = useFabricAction();
+
+    const guidelinesRef = React.useRef({
+        canvasWidth: 800,
+        canvasHeight: 600,
+        lineColor: "red",
+        lineWidth: 1,
+    });
+
     React.useEffect(() => {
         if (canvas) {
             canvas.on("selection:created", (event) => {
@@ -22,6 +31,7 @@ const EditorPanel = () => {
                 const object = event.target;
                 selectedObject(object);
             });
+
             canvas.on("object:scaling", (event) => {
                 const object = event.target;
 
@@ -45,7 +55,7 @@ const EditorPanel = () => {
                     });
                 } */
 
-                selectedObject(object);
+                // selectedObject(object);
             });
         }
     }, [canvas]);

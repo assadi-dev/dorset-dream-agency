@@ -4,10 +4,12 @@ import Toolbar from "./Toolbar";
 import { Canvas } from "fabric";
 import useFabricAction from "./fabric/useFabric";
 import { CANVAS_VALUES } from "../helper";
+import { FabricObjectExtends } from "../type";
+import { handleObjectMoving, clearGuideLines } from "./view/Tabs/snappingHelpers";
 
 const CanvasContainer = () => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-    const { setCanvas } = useFabricAction();
+    const { canvas, setCanvas } = useFabricAction();
 
     React.useEffect(() => {
         if (canvasRef.current) {
@@ -24,6 +26,36 @@ const CanvasContainer = () => {
             };
         }
     }, []);
+
+    const guidelinesRef = React.useRef({
+        canvasWidth: 800,
+        canvasHeight: 600,
+        lineColor: "red",
+        lineWidth: 1,
+    });
+
+    const [guideLines, setGuidelines] = React.useState<any[]>([]);
+
+    React.useEffect(() => {
+        if (!canvas) return;
+
+        // Écouteur pour déclencher les lignes lors du déplacement des objets
+        canvas.on("object:moving", (event) => {
+            handleObjectMoving(canvas, event.target, guideLines, setGuidelines);
+        });
+        canvas.on("object:modified", () => {
+            clearGuideLines(canvas);
+        });
+
+        /*    return () => {
+            canvas.off("object:moving", (event) => {
+                handleObjectMoving(canvas, event.target, guideLines, setGuidelines);
+            });
+            canvas.off("object:modified", () => {
+                clearGuideLines(canvas);
+            });
+        }; */
+    }, [canvas]);
 
     return (
         <div className="canvas-container p-3 pt-0 ">
