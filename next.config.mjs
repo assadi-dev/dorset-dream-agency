@@ -31,6 +31,9 @@ const nextConfig = {
             {
                 hostname: "images.unsplash.com",
             },
+            {
+                hostname: "fonts.googleapis.com",
+            },
         ],
     },
 };

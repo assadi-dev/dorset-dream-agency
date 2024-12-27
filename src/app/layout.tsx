@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { setTitlePage } from "@/lib/utils";
 import PageTopLoader from "@/components/loader/PageTopLoader";
@@ -26,6 +27,13 @@ const geistMono = localFont({
     weight: "100 900",
 });
 
+const roboto = Roboto({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-roboto",
+    weight: ["100", "300", "400", "500", "700", "900"],
+});
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -33,7 +41,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="fr">
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-primary-foreground`}>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased bg-primary-foreground`}
+            >
                 <PageTopLoader />
                 <QueryClientProvider>{children}</QueryClientProvider>
                 <Toaster theme="light" richColors closeButton />

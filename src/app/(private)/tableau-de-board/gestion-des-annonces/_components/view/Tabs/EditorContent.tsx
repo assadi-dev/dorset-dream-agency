@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { IText } from "fabric";
 import { Select } from "@/components/ui/select";
 import BordureSelect from "../select/BordureSelect";
+import TypographieSelect from "../select/TypographieSelect";
 
 const EditorContent = () => {
     const { canvas, selected } = useFabricAction();
@@ -202,8 +203,13 @@ const EditorContent = () => {
                             <Label className=" text-xs">Typographie</Label>
                             <div className="grid grid-cols-[auto,1fr,1fr] items-center gap-3">
                                 <ColorPickerInput onChange={handleChangeTextColor} />
-                                <Input defaultValue="sans-serif" name="fontFamily" />
-                                <Input type="number" defaultValue="18" onChange={handleChangeFontSize} />
+                                <TypographieSelect object={selected} />
+                                <Input
+                                    type="number"
+                                    defaultValue="18"
+                                    onChange={handleChangeFontSize}
+                                    className="text-xs w-[75px] "
+                                />
                             </div>
 
                             <div className="">
@@ -248,8 +254,6 @@ const EditorContent = () => {
                         <div>
                             <Label className=" text-xs">Bordure</Label>
                             <BordureSelect object={selected} />
-
-                            {/*  <Input type="number" min={0} onChange={handleChangeBorderRadius} /> */}
                         </div>
 
                         <div>
