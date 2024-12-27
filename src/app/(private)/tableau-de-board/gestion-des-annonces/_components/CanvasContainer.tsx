@@ -7,6 +7,8 @@ import { CANVAS_VALUES } from "../helper";
 import { FabricObjectExtends } from "../type";
 import { handleObjectMoving, clearGuideLines } from "./view/Tabs/snappingHelpers";
 import { initAligningGuidelines } from "./fabric/lib/aligning_guidelines";
+import { initCanvasGuidelines } from "./fabric/lib/canvasGuidline";
+import { drawGuidelines, isNearCenter } from "./fabric/lib/canvasGuidline/utils";
 
 const CanvasContainer = () => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -31,6 +33,10 @@ const CanvasContainer = () => {
 
     React.useEffect(() => {
         if (!canvas) return;
+        canvas.on("after:render", () => {
+            const object = canvas.getActiveObject();
+            object && drawGuidelines(canvas, object);
+        });
 
         initAligningGuidelines(canvas, {
             closeHLine: false,
