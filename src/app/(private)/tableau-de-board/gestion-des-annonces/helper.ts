@@ -36,6 +36,8 @@ export const ShapeGenerator: ShapeGeneratorType = {
             height: 100,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            noScaleCache: false,
+            strokeUniform: true,
             ...CORNER_STYLES,
         }),
 
@@ -47,6 +49,8 @@ export const ShapeGenerator: ShapeGeneratorType = {
             hasBorders: true,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            noScaleCache: false,
+            strokeUniform: true,
             ...CORNER_STYLES,
         }),
     [FabricFormType.triangle]: () =>
@@ -57,6 +61,8 @@ export const ShapeGenerator: ShapeGeneratorType = {
             height: 50,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            noScaleCache: false,
+            strokeUniform: true,
             ...CORNER_STYLES,
         }),
     [FabricFormType.iText]: () =>
@@ -70,6 +76,8 @@ export const ShapeGenerator: ShapeGeneratorType = {
             fontSize: 18,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            noScaleCache: false,
+            strokeUniform: true,
             ...CORNER_STYLES,
         }),
     [FabricFormType.textbox]: () =>
@@ -84,6 +92,8 @@ export const ShapeGenerator: ShapeGeneratorType = {
             fill: SHAPE_COLOR,
             objectCaching: false,
             lockScalingY: true,
+            noScaleCache: false,
+            strokeUniform: true,
             ...CORNER_STYLES,
         }),
     [FabricFormType.start]: () => {
@@ -106,6 +116,8 @@ export const ShapeGenerator: ShapeGeneratorType = {
             height: 100,
             fill: SHAPE_COLOR,
             objectCaching: false,
+            noScaleCache: false,
+            strokeUniform: true,
             ...CORNER_STYLES,
         });
     },

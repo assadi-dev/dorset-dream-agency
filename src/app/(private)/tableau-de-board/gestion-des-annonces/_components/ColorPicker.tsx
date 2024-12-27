@@ -30,7 +30,7 @@ const ColorPickerInput = ({ defaultColor = "#ffffff", onChange }: ColorPickerInp
     };
 
     return (
-        <div className="relative bg-transparent">
+        <div className="relative bg-transparent flex items-center">
             <Popover>
                 <PopoverTrigger asChild>
                     <button ref={previewColorRef} style={styles} className={`shadow rounded`}></button>

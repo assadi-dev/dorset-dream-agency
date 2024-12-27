@@ -8,6 +8,8 @@ import { OBJECT_CLEAN_VALUES } from "../../fabric/helpers";
 import { FabricFormType } from "../../fabric/FabricContext";
 import { Button } from "@/components/ui/button";
 import { IText } from "fabric";
+import { Select } from "@/components/ui/select";
+import BordureSelect from "../select/BordureSelect";
 
 const EditorContent = () => {
     const { canvas, selected } = useFabricAction();
@@ -245,6 +247,8 @@ const EditorContent = () => {
                         </div>
                         <div>
                             <Label className=" text-xs">Bordure</Label>
+                            <BordureSelect object={selected} />
+
                             {/*  <Input type="number" min={0} onChange={handleChangeBorderRadius} /> */}
                         </div>
 
