@@ -6,10 +6,12 @@ import useFabricAction from "./fabric/useFabric";
 import { CANVAS_VALUES } from "../helper";
 import { FabricObjectExtends } from "../type";
 import { handleObjectMoving, clearGuideLines } from "./view/Tabs/snappingHelpers";
+import { initAligningGuidelines } from "./fabric/lib/aligning_guidelines";
 
 const CanvasContainer = () => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const { canvas, setCanvas } = useFabricAction();
+    const [guideLines, setGuidelines] = React.useState<any[]>([]);
 
     React.useEffect(() => {
         if (canvasRef.current) {
@@ -27,34 +29,13 @@ const CanvasContainer = () => {
         }
     }, []);
 
-    const guidelinesRef = React.useRef({
-        canvasWidth: 800,
-        canvasHeight: 600,
-        lineColor: "red",
-        lineWidth: 1,
-    });
-
-    const [guideLines, setGuidelines] = React.useState<any[]>([]);
-
     React.useEffect(() => {
         if (!canvas) return;
 
-        // Écouteur pour déclencher les lignes lors du déplacement des objets
-        canvas.on("object:moving", (event) => {
-            handleObjectMoving(canvas, event.target, guideLines, setGuidelines);
+        initAligningGuidelines(canvas, {
+            closeHLine: false,
+            closeVLine: false,
         });
-        canvas.on("object:modified", () => {
-            clearGuideLines(canvas);
-        });
-
-        /*    return () => {
-            canvas.off("object:moving", (event) => {
-                handleObjectMoving(canvas, event.target, guideLines, setGuidelines);
-            });
-            canvas.off("object:modified", () => {
-                clearGuideLines(canvas);
-            });
-        }; */
     }, [canvas]);
 
     return (
