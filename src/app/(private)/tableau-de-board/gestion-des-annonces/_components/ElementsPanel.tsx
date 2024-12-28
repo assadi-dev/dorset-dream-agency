@@ -13,117 +13,32 @@ import useFabricAction from "./fabric/useFabric";
 import { FabricFormType } from "../type";
 import { CORNER_STYLES, ShapeGenerator } from "../helper";
 import { FabricImage } from "fabric";
+import LayersContent from "./view/Tabs/LayersContent";
+import { Separator } from "@/components/ui/separator";
 
 const ElementsPanel = () => {
     const { canvas, setCanvasBackgroundColor, addObjectToLayer } = useFabricAction();
-    const handleChangeCanvasColor = (value: any) => {
-        if (!canvas) return;
-        setCanvasBackgroundColor(value);
-    };
 
-    const addShape = (shape: FabricFormType) => {
-        if (!canvas) return;
-        const object = ShapeGenerator[shape]();
-        addObjectToLayer(object);
-    };
-
-    const addImage = async () => {
-        if (!canvas) return;
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.click();
-        const generateImageObject = async (event: any) => {
-            const file = event.target?.files[0];
-            const reader = URL.createObjectURL(file);
-            const image = await FabricImage.fromURL(reader, { crossOrigin: "anonymous" }, { ...CORNER_STYLES });
-            image.scaleToHeight(100);
-            image.scaleToWidth(200);
-            addObjectToLayer(image);
-            URL.revokeObjectURL(reader);
-        };
-        input.addEventListener("change", generateImageObject);
-
-        return () => {
-            input.removeEventListener("change", generateImageObject);
-            input.remove();
-        };
-    };
     return (
         <div className="h-full w-[18rem] pt-3 px-1">
             <div className="pt-3  w-full">
-                <div>
-                    <CardTitle>Elements</CardTitle>
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(50px,1fr))]  gap-1 p-1 w-full py-2 sm:w-[12rem]">
-                        <Button
-                            variant="outline"
-                            className="h-full w-full"
-                            onClick={() => addShape(FabricFormType.rect)}
-                        >
-                            <Square />
-                        </Button>
-                        <Button
-                            variant="outline"
-                            className="h-full w-full"
-                            onClick={() => addShape(FabricFormType.circle)}
-                        >
-                            <Circle />
-                        </Button>
-                        <Button
-                            variant="outline"
-                            className="h-full w-full"
-                            onClick={() => addShape(FabricFormType.triangle)}
-                        >
-                            <Triangle />
-                        </Button>
-                        <Button
-                            variant="outline"
-                            className="h-full w-full"
-                            onClick={() => addShape(FabricFormType.textbox)}
-                        >
-                            <Type />
-                        </Button>
-                        <Button
-                            variant="outline"
-                            className="h-full w-full"
-                            onClick={() => addShape(FabricFormType.start)}
-                        >
-                            <Star />
-                        </Button>
-                        <Button variant="outline" className="h-full w-full" onClick={addImage}>
-                            <ImagePlus />
-                        </Button>
-                    </div>
-                </div>
-
                 <div className="mt-2">
-                    <CardTitle>Arrière plans</CardTitle>
-                    <ScrollArea className="h-[280px] w-full py-2 pr-2">
-                        <BackgroundElements />
-                    </ScrollArea>
+                    <CardTitle className="text-center p-3">Calques</CardTitle>
                 </div>
-                <div className="mt-2">
-                    <CardTitle>Canvas</CardTitle>
-
-                    <div className="p-1 w-full grid grid-cols-2 gap-2 ">
-                        <div>
-                            <Label>Largeur</Label>
-                            <Input type="number" min={1} defaultValue={canvas?.width} disabled />
-                        </div>
-                        <div>
-                            <Label>Hauteur</Label>
-                            <Input type="number" min={1} defaultValue={canvas?.height} disabled />
-                        </div>
-                    </div>
-                    <div>
-                        <Label>Couleur</Label>
-                        <ColorPickerInput onChange={handleChangeCanvasColor} />
-                    </div>
-                    <div>
-                        <Label>Zoom</Label>
-                        <Slider defaultValue={[100]} max={200} min={10} />
-                    </div>
+                <div className=" p-3 mt-1 flex items-center justify justify-between">
+                    <Button size="sm" variant="ghost">
+                        <p className="text-xs flex items-center gap-2">
+                            <Square className="w-4 h-4" /> Sélectionner
+                        </p>
+                    </Button>
+                    <Button size="sm" variant="ghost">
+                        <p className="text-xs"> Grouper</p>
+                    </Button>
                 </div>
+                <Separator className="my-3" />
+                <ScrollArea className=" h-[70vh]">
+                    <LayersContent />
+                </ScrollArea>
             </div>
         </div>
     );

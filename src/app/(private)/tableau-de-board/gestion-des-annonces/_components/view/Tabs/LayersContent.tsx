@@ -37,7 +37,7 @@ const LayersContent = () => {
             const oldIndex = layers.findIndex((item) => item.id === active.id);
             const newIndex = layers.findIndex((item) => item.id === over.id);
             const newArray = arrayMove(layers, oldIndex, newIndex);
-            console.log(newArray);
+
             setLayers(newArray);
         }
     };
@@ -51,7 +51,7 @@ const LayersContent = () => {
             onDragStart={() => {}}
             onDragEnd={handleDragEnd}
         >
-            <div ref={setNodeRef} style={style} className="py-5">
+            <div ref={setNodeRef} style={style}>
                 <SortableContext id="layers-container" items={layerIdentifiers} strategy={verticalListSortingStrategy}>
                     {layers.map((item) => (
                         <LayerItem key={item.id} object={item} />

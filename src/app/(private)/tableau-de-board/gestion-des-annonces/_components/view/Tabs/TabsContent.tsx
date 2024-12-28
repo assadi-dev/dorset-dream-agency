@@ -1,11 +1,12 @@
 import React from "react";
 import { TabsEditorType } from "../../../type";
-import { Layers } from "lucide-react";
+import { Layers, PictureInPicture } from "lucide-react";
 import LayersContent from "./LayersContent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditorContent from "./EditorContent";
 import ExportContent from "./ExportContent";
 import useFabricAction from "../../fabric/useFabric";
+import CanvasContent from "./CanvasContent";
 
 export const TabsListElement: TabsEditorType[] = [
     {
@@ -14,11 +15,12 @@ export const TabsListElement: TabsEditorType[] = [
         icon: <Layers />,
         content: <EditorContent />,
     },
+
     {
-        id: "tabs-layers",
-        label: "Calques",
-        icon: <Layers />,
-        content: <LayersContent />,
+        id: "tabs-canvas",
+        label: "Canvas",
+        icon: <PictureInPicture />,
+        content: <CanvasContent />,
     },
     {
         id: "tabs-export",

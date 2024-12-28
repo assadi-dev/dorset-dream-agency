@@ -6,7 +6,7 @@ type ColorPickerViewProps = ColorPickerProps;
 const ColorPickerView = ({ ...props }: ColorPickerViewProps) => {
     /*   const { getGradientObject } = useColorPicker(color, setColor); */
     const customPresets = [
-        "rgba(128,128,128, 1)",
+        "rgba(0,0,0, 0)",
         "rgba(192,192,192, 1)",
         "rgba(255,255,255, 1)",
         "rgba(1, 3, 92, 1)",

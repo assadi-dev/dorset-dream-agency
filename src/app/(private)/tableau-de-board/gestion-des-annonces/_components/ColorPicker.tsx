@@ -9,7 +9,7 @@ type ColorPickerInputProps = {
     defaultColor?: string;
     onChange: (value: any) => void;
 };
-const ColorPickerInput = ({ defaultColor = "#ffffff", onChange }: ColorPickerInputProps) => {
+const ColorPickerInput = ({ defaultColor, onChange }: ColorPickerInputProps) => {
     const [color, setColor] = React.useState(defaultColor);
     const previewColorRef = React.useRef<HTMLButtonElement | null>(null);
     const sizes = {

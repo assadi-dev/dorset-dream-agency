@@ -21,14 +21,11 @@ import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
 
 const Toolbar = () => {
-    const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject } = useFabricAction();
+    const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject, selectedObject } =
+        useFabricAction();
 
-    const type = selected?.type || null;
-
-    const handleChangeCanvasColor = (value: any) => {
-        if (!canvas) return;
-        setCanvasBackgroundColor(value);
-    };
+    const type = selected?.type || "";
+    const DEFAULT_COLOR = selected ? selected.fill : "#fff";
 
     const addShape = (shape: FabricFormType) => {
         if (!canvas) return;
@@ -65,6 +62,20 @@ const Toolbar = () => {
         canvas.renderAll();
         unselectedObject();
     };
+
+    const IS_TEXT = type?.includes("text");
+    const IS_RECT = type?.includes("rect");
+    const IS_CIRCLE = type === FabricFormType.circle;
+
+    const changeColor = (value: string) => {
+        if (!canvas || !selected) return;
+        selected.set("fill", value);
+        canvas.renderAll();
+        selectedObject(selected);
+    };
+
+    console.log(DEFAULT_COLOR);
+
     return (
         <Menubar className=" py-6 mx-auto  ">
             <MenubarMenu>
@@ -121,21 +132,25 @@ const Toolbar = () => {
             </MenubarMenu>
             <Separator className="h-8" orientation="vertical" />
             {/* Style de l'élément sélectionné */}
-
-            <MenubarMenu>
-                <TypographieSelect object={null} />
-            </MenubarMenu>
-            <MenubarMenu>
-                <div className="border">
-                    <ColorPickerInput onChange={() => {}} />
-                </div>
-            </MenubarMenu>
-            <MenubarMenu>
-                <div className="border">
-                    <Input placeholder="taille de la police" type="number" className="w-[65px]" defaultValue={18} />
-                </div>
-            </MenubarMenu>
-
+            {type?.includes("text") && (
+                <MenubarMenu>
+                    <TypographieSelect object={null} />
+                </MenubarMenu>
+            )}
+            {selected && (
+                <MenubarMenu>
+                    <div className="border">
+                        {<ColorPickerInput defaultColor={DEFAULT_COLOR} onChange={changeColor} />}
+                    </div>
+                </MenubarMenu>
+            )}
+            {type?.includes("text") && (
+                <MenubarMenu>
+                    <div className="border">
+                        <Input placeholder="taille de la police" type="number" className="w-[65px]" defaultValue={18} />
+                    </div>
+                </MenubarMenu>
+            )}
             <MenubarMenu>
                 <Button
                     variant="ghost"

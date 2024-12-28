@@ -5,14 +5,7 @@ import useFabricAction from "./fabric/useFabric";
 import { FabricObjectExtends } from "../type";
 
 const EditorPanel = () => {
-    const { canvas, selectedObject, unselectedObject } = useFabricAction();
-
-    const guidelinesRef = React.useRef({
-        canvasWidth: 800,
-        canvasHeight: 600,
-        lineColor: "red",
-        lineWidth: 1,
-    });
+    const { canvas, selectedObject, updateObject, unselectedObject } = useFabricAction();
 
     React.useEffect(() => {
         if (canvas) {
@@ -20,13 +13,12 @@ const EditorPanel = () => {
                 const object = event.selected[0];
                 selectedObject(object);
             });
+
             canvas.on("selection:updated", (event) => {
                 const object = event.selected[0];
                 selectedObject(object);
             });
-            canvas.on("selection:cleared", () => {
-                unselectedObject();
-            });
+
             canvas.on("object:modified", (event) => {
                 const object = event.target;
                 selectedObject(object);
@@ -57,6 +49,14 @@ const EditorPanel = () => {
 
                 // selectedObject(object);
             });
+
+            return () => {
+                canvas.off("selection:updated", (event) => {
+                    console.log(event);
+                    const object = event.selected[0];
+                    updateObject(object);
+                });
+            };
         }
     }, [canvas]);
     return <TabsEditorContent />;
