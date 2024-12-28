@@ -2,7 +2,7 @@
 import React, { useCallback } from "react";
 import { FabricContext, FabricFormType } from "./FabricContext";
 import { canvasValidation, FabricReducerAction } from "./helpers";
-import { Canvas, FabricImage, FabricObject } from "fabric";
+import { ActiveSelection, Canvas, FabricImage, FabricObject } from "fabric";
 import uniqid from "uniqid";
 import { FabricObjectExtends } from "../../type";
 

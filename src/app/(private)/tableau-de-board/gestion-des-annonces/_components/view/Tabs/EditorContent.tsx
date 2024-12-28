@@ -19,6 +19,12 @@ import {
     setTopPosition,
     setVerticalCenterPosition,
 } from "../../fabric/lib/object/align_positions";
+import Decorations from "../Decorations/Decorations";
+import TextAlignement from "../Decorations/TextAlignement";
+import ObjectAlignements from "../Decorations/ObjectAlignement";
+import ObjectLayout from "../Objects/ObjectLayout";
+import TextSizeAndColor from "../Decorations/TextSizeAndColor";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const EditorContent = () => {
     const { canvas, selected } = useFabricAction();
@@ -167,117 +173,33 @@ const EditorContent = () => {
     };
 
     return (
-        <div className="flex flex-col gap-2  p-3 h-full w-full text-sm">
-            <div className="mb-5">
-                <CardTitle className="mb-2">Dimensions</CardTitle>
-                <CardTitle className="mb-1">Taille</CardTitle>
-                <div className="grid grid-cols-2 gap-3 mb-3">
-                    <div>
-                        <Label className=" text-xs">Hauteur</Label>
-                        <Input type="number" placeholder="Hauteur" />
-                    </div>
-                    <div>
-                        <Label className=" text-xs">Largeur</Label>
-                        <Input type="number" placeholder="Largeur" />
-                    </div>
+        <div className="flex flex-col gap-2  h-full  text-sm w-fit bg-white p-5 rounded-xl shadow-lg">
+            <ScrollArea className="h-[72vh] py-3 px-3 xl:px-6">
+                <div className="mb-3">
+                    <ObjectAlignements />
                 </div>
-            </div>
-            <div className="mb-5">
-                <div className=" mb-5">
-                    <CardTitle className="mb-1">Position</CardTitle>
-                    <div className="grid grid-cols-3 gap-3">
-                        <div>
-                            <Label className=" text-xs">X</Label>
-                            <Input type="number" />
-                        </div>
-                        <div>
-                            <Label className=" text-xs">Y</Label>
-                            <Input type="number" />
-                        </div>
-                        <div>
-                            <Label className=" text-xs">Rotation</Label>
-                            <Input type="number" defaultValue={0} />
-                        </div>
-                    </div>
+                <ObjectLayout />
+
+                <div className="mb-3">
+                    <TextSizeAndColor />
                 </div>
-                <div className=" mb-3">
-                    <CardTitle className="mb-3">Apparence</CardTitle>
 
-                    <div className="mb-3">
-                        <CardTitle className="mb-2 text-xs">Remplissage</CardTitle>
-                        <div className="flex justify-between">
-                            <ColorPickerInput onChange={setBackground} />
-                        </div>
-                    </div>
-
-                    <div className="">
-                        <div>
-                            <Label className=" text-xs">Typographie</Label>
-                            <div className="grid grid-cols-[auto,1fr,1fr] items-center gap-3">
-                                <ColorPickerInput onChange={handleChangeTextColor} />
-                                <TypographieSelect object={selected} />
-                                <Input
-                                    type="number"
-                                    defaultValue="18"
-                                    onChange={handleChangeFontSize}
-                                    className="text-xs w-[75px] "
-                                />
-                            </div>
-
-                            <div className="">
-                                <Label className="text-xs">Alignement</Label>
-                                <div className="grid grid-cols-2">
-                                    <button type="button" onClick={handleClickPos}>
-                                        right
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="">
-                                <Label className="text-xs">Décoration</Label>
-
-                                <div className="flex flex-wrap items-center gap-1">
-                                    <Button variant="outline" type="button" onClick={handleClickBold}>
-                                        <strong>G</strong>
-                                    </Button>
-                                    <Button variant="outline" type="button" onClick={handleClickItalique}>
-                                        <i>I</i>
-                                    </Button>
-                                    <Button variant="outline" type="button" onClick={handleClickUnderline}>
-                                        <u>U</u>
-                                    </Button>
-                                    <Button variant="outline" type="button" onClick={handleClickStrikethrough}>
-                                        <s>U</s>
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3 mb-3">
-                            <div>
-                                <Label className=" text-xs">opacité</Label>
-                                <Input
-                                    type="number"
-                                    onChange={handleChangeOpacity}
-                                    min={0}
-                                    max={100}
-                                    defaultValue={100}
-                                />
-                            </div>
-                            <div>
-                                <Label className=" text-xs">arrondie</Label>
-                                <Input type="number" onChange={handleChangeBorderRadius} defaultValue={0} />
-                            </div>
-                        </div>
-                        <div>
-                            <Label className=" text-xs">Bordure</Label>
-                            <BordureSelect object={selected} />
-                        </div>
-
-                        <div>
-                            <Label className=" text-xs">Effet</Label>
-                        </div>
-                    </div>
+                <div className="flex items-center gap-1 justify-between mb-3">
+                    <TextAlignement />
+                    <Decorations />
                 </div>
-            </div>
+
+                <div className="mb-3 p-1">
+                    <BordureSelect object={selected} />
+                </div>
+
+                {/*  
+                TODO Ajouter les ombre et floue
+         
+            <div>
+                    <Label className=" text-xs">Effet</Label>
+                </div> */}
+            </ScrollArea>
         </div>
     );
 };

@@ -8,6 +8,9 @@ export enum FabricFormType {
     circle = "circle",
     iText = "i-text",
     image = "image",
+    triangle = "triangle",
+    start = "start",
+    textbox = "textbox",
 }
 
 export type FabricInitialStateType = {

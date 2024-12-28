@@ -30,10 +30,10 @@ const ColorPickerInput = ({ defaultColor = "#ffffff", onChange }: ColorPickerInp
     };
 
     return (
-        <div className="relative bg-transparent flex items-center">
+        <div className="relative bg-transparent flex items-center ">
             <Popover>
                 <PopoverTrigger asChild>
-                    <button ref={previewColorRef} style={styles} className={`shadow rounded`}></button>
+                    <button ref={previewColorRef} style={styles} className={`border  shadow rounded`}></button>
                 </PopoverTrigger>
                 <PopoverContent className="w-fit bg-[rgb(34,34,34)] border-0">
                     <ColorPickerView value={color} onChange={handChangeColor} />

@@ -13,6 +13,7 @@ import { FabricObjectExtends } from "../../../type";
 import useFabricAction from "../../fabric/useFabric";
 import ColorPickerInput from "../../ColorPicker";
 import { Input } from "@/components/ui/input";
+import { StrokeThickness } from "./StokeIconeWidth";
 
 type BorderListType = {
     value: string;
@@ -93,10 +94,10 @@ const BordureSelect = ({ object }: BordureSelectProps) => {
     };
 
     return (
-        <div className="my-1 flex gap-1 items-center">
+        <div className="my-1 flex flex-col gap-3">
             {borderState.selected !== "none" && <ColorPickerInput onChange={handleChangeStrokeColor} />}
             <Select defaultValue={borderState.selected} onValueChange={handleSelectBordure}>
-                <SelectTrigger className="w-[100px] text-xs">
+                <SelectTrigger className="w-full text-xs">
                     <SelectValue placeholder="Select a fruit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -107,15 +108,21 @@ const BordureSelect = ({ object }: BordureSelectProps) => {
                     ))}
                 </SelectContent>
             </Select>
-            <Input
-                type="number"
-                placeholder="épaisseur"
-                min={0}
-                value={borderState.strokeWidth}
-                onChange={handleChangeStrokeWidth}
-                name="strokeWidth"
-                className="text-xs w-[65px]"
-            />
+            <div className="flex gap-5 items-center">
+                <ColorPickerInput onChange={() => {}} />
+                <div className="flex gap-2 items-center">
+                    <StrokeThickness />
+                    <Input
+                        type="number"
+                        placeholder="épaisseur"
+                        min={0}
+                        value={borderState.strokeWidth}
+                        onChange={handleChangeStrokeWidth}
+                        name="strokeWidth"
+                        className="text-xs w-[65px]"
+                    />
+                </div>
+            </div>
         </div>
     );
 };

@@ -46,8 +46,8 @@ const CanvasContainer = () => {
 
     return (
         <div className="canvas-container p-3 pt-0 ">
-            <div className={`w-fit mx-auto`}>
-                {/*   <Toolbar /> */}
+            <div className={`grid grid-rows-[auto,1fr] w-fit mx-auto h-full gap-5`}>
+                {<Toolbar />}
                 <canvas
                     id="canvas"
                     className={`canvas-container__canvas border  shadow mx-auto `}

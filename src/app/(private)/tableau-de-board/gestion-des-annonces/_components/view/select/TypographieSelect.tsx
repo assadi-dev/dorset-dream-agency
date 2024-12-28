@@ -54,17 +54,17 @@ const TypographieSelect = ({ object }: TypographieSelectProps) => {
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="w-[200px] justify-between text-xs"
+                        className="w-full justify-between text-xs"
                     >
                         {value ? SYSTEM_FONTS.find((font) => font.value === value)?.label : "Sélectionner une typo"}
                         <ChevronsUpDown className="opacity-50" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
+                <PopoverContent className="w-full p-0">
                     <Command>
-                        <CommandInput placeholder="Recherché une typo" className="h-9" />
+                        <CommandInput placeholder="Recherché une police" className="h-9" />
                         <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandEmpty>Police introuvable.</CommandEmpty>
                             <CommandGroup>
                                 {SYSTEM_FONTS.map((font) => (
                                     <CommandItem key={font.value} value={font.value} onSelect={handleSelect}>
