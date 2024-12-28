@@ -11,6 +11,14 @@ import { IText } from "fabric";
 import { Select } from "@/components/ui/select";
 import BordureSelect from "../select/BordureSelect";
 import TypographieSelect from "../select/TypographieSelect";
+import {
+    setBottomPosition,
+    setCenterPosition,
+    setHorizontalCenterPosition,
+    setRightPosition,
+    setTopPosition,
+    setVerticalCenterPosition,
+} from "../../fabric/lib/object/align_positions";
 
 const EditorContent = () => {
     const { canvas, selected } = useFabricAction();
@@ -137,20 +145,24 @@ const EditorContent = () => {
     };
 
     const handleClickStrikethrough = () => {
-        if (!selected && !canvas) return;
+        if (!selected || !canvas) return;
         const text = selected as IText;
         if (text.isEditing) {
             const styles = text.getSelectionStyles();
 
             const linethrough = styles[0].linethrough !== true || styles[0].linethrough === undefined ? true : false;
 
-            console.log(linethrough);
-
             text.setSelectionStyles({
                 linethrough,
             });
         }
 
+        canvas?.requestRenderAll();
+    };
+
+    const handleClickPos = () => {
+        if (!canvas || !selected) return;
+        setCenterPosition(canvas, selected);
         canvas?.requestRenderAll();
     };
 
@@ -214,7 +226,11 @@ const EditorContent = () => {
 
                             <div className="">
                                 <Label className="text-xs">Alignement</Label>
-                                <div className="grid grid-cols-2"></div>
+                                <div className="grid grid-cols-2">
+                                    <button type="button" onClick={handleClickPos}>
+                                        right
+                                    </button>
+                                </div>
                             </div>
                             <div className="">
                                 <Label className="text-xs">Décoration</Label>

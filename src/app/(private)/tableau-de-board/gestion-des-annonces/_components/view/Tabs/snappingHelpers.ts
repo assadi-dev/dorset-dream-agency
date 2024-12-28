@@ -1,3 +1,4 @@
+//TODO Non utilisé a supprimé
 import { Canvas, Line } from "fabric";
 import { FabricObjectExtends } from "../../../type";
 
