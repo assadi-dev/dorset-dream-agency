@@ -19,40 +19,38 @@ import {
 import { ObjectPositionAlignement } from "../../../helper";
 import useFabricAction from "../../fabric/useFabric";
 import { getCurrentOject } from "../../fabric/helpers";
+import { FabricObjectExtends } from "../../../type";
 
 const ObjectAlignements = () => {
-    const { canvas, selected } = useFabricAction();
-
-    const fabricObject = React.useMemo(() => {
-        if (!canvas) return null;
-        return getCurrentOject(canvas, selected?.id);
-    }, [canvas, selected]);
+    const { canvas, selectedObject } = useFabricAction();
 
     const handleClickObjectAlign = (event: React.MouseEvent<HTMLButtonElement>) => {
         const data_position = event.currentTarget.dataset;
-        if (data_position.position && fabricObject && canvas) {
+        if (data_position.position && canvas) {
+            const object = canvas.getActiveObject() as FabricObjectExtends;
             const position = data_position.position;
             switch (position) {
                 case ObjectPositionAlignement.horizontal_start:
-                    setTopPosition(fabricObject);
+                    setTopPosition(object);
                     break;
                 case ObjectPositionAlignement.horizontal_center:
-                    setHorizontalCenterPosition(canvas, fabricObject);
+                    setHorizontalCenterPosition(canvas, object);
                     break;
                 case ObjectPositionAlignement.horizontal_end:
-                    setBottomPosition(canvas, fabricObject);
+                    setBottomPosition(canvas, object);
                     break;
                 case ObjectPositionAlignement.vertical_start:
-                    setLeftPosition(fabricObject);
+                    setLeftPosition(object);
                     break;
                 case ObjectPositionAlignement.vertical_middle:
-                    setVerticalCenterPosition(canvas, fabricObject);
+                    setVerticalCenterPosition(canvas, object);
                     break;
                 case ObjectPositionAlignement.vertical_end:
-                    setRightPosition(canvas, fabricObject);
+                    setRightPosition(canvas, object);
                     break;
             }
             canvas?.renderAll();
+            selectedObject(object);
         }
     };
 
