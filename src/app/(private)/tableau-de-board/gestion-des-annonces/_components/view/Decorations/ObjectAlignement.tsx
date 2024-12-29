@@ -18,7 +18,6 @@ import {
 } from "../../fabric/lib/object/align_positions";
 import { ObjectPositionAlignement } from "../../../helper";
 import useFabricAction from "../../fabric/useFabric";
-import { getCurrentOject } from "../../fabric/helpers";
 import { FabricObjectExtends } from "../../../type";
 
 const ObjectAlignements = () => {
