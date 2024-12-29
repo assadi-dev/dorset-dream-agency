@@ -124,3 +124,12 @@ export const ShapeGenerator: ShapeGeneratorType = {
 
     /*  [FabricFormType.image]: async () => {}, */
 };
+
+export enum ObjectPositionAlignement {
+    vertical_start = "vertical-start",
+    vertical_middle = "vertical-middle",
+    vertical_end = "vertical-end",
+    horizontal_start = "horizontal-start",
+    horizontal_center = "horizontal-center",
+    horizontal_end = "horizontal-end",
+}
