@@ -1,6 +1,16 @@
-import { Canvas, Circle, FabricObject, Rect, FabricObjectProps, ObjectEvents, SerializedObjectProps } from "fabric";
+import {
+    Canvas,
+    Circle,
+    FabricObject,
+    Rect,
+    FabricObjectProps,
+    ObjectEvents,
+    SerializedObjectProps,
+    IText,
+} from "fabric";
 import { FabricObjectExtends, FabricObjectSelected } from "../../type";
 import { FabricFormType } from "./FabricContext";
+import { Textbox } from "fabric";
 
 export enum FabricReducerAction {
     INIT_CANVAS = "INI_CANVAS",
@@ -35,6 +45,9 @@ export const fabricObjectSerializer = (fabricObject: FabricObjectExtends): Fabri
     }
     if (fabricObject instanceof Rect) {
         object.borderRadius = fabricObject.rx || fabricObject.ry;
+    }
+    if (object instanceof IText || object instanceof Textbox) {
+        object.lineHeight = fabricObject?.lineHeight as number;
     }
 
     return object;

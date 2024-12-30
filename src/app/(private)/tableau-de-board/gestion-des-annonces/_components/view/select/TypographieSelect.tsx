@@ -5,44 +5,49 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { FabricObjectExtends } from "../../../type";
-import { IText } from "fabric";
+import { FabricObjectExtends, FabricObjectSelected } from "../../../type";
+import { IText, Textbox } from "fabric";
 import useFabricAction from "../../fabric/useFabric";
+import { getActiveObjectFromLayers } from "../../fabric/helpers";
 
 type BorderListType = {
     value: string;
     label: string;
 };
 const SYSTEM_FONTS: BorderListType[] = [
-    { label: "Anton", value: `"Anton", serif` },
-    { label: "Archivo Black", value: `"Archivo Black", serif` },
-    { label: "Arial", value: "Arial, sans-serif" },
-    { label: "Cinzel Decorative", value: `"Cinzel Decorative", serif` },
-    { label: "Roboto", value: `"Roboto", sans-serif` },
-    { label: "Noto Sans", value: `"Noto Sans", serif` },
-    { label: "Montserrat", value: `"Montserrat", sans-serif` },
-    { label: "Times New Roman", value: '"Times New Roman", Times, serif' },
-    { label: "Courier New", value: '"Courier New", Courier, monospace' },
-    { label: "Monsieur La Doulaise", value: `"Monsieur La Doulaise", serif` },
-    { label: "Poppins", value: `"Poppins", sans-serif` },
-    { label: "Raleway", value: `"Raleway", sans-serif` },
+    { label: "Anton", value: `Anton` },
+    { label: "Archivo Black", value: `Archivo Black` },
+    { label: "Arial", value: "Arial" },
+    { label: "Cinzel Decorative", value: `Cinzel Decorative` },
+    { label: "Roboto", value: `Roboto` },
+    { label: "Noto Sans", value: `Noto Sans` },
+    { label: "Montserrat", value: `Montserrat` },
+    { label: "Times New Roman", value: "Times New Roman" },
+    { label: "Courier New", value: "Courier New" },
+    { label: "Monsieur La Doulaise", value: `Monsieur La Doulaise` },
+    { label: "Poppins", value: `Poppins` },
+    { label: "Raleway", value: `Raleway", sans-serif` },
 ];
 
-type TypographieSelectProps = {
-    object: FabricObjectExtends | null;
-};
-const TypographieSelect = ({ object }: TypographieSelectProps) => {
-    const { canvas } = useFabricAction();
+const TypographieSelect = () => {
+    const { canvas, selected, updateObject } = useFabricAction();
     const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState(SYSTEM_FONTS[0].value);
+
+    const fabricObjectText = selected && (selected as FabricObjectSelected);
 
     const handleSelect = (currentValue: string) => {
-        if (object && object.type.includes("text")) {
-            const textObject = object as IText;
-            textObject.fontFamily = currentValue;
+        if (!canvas || !selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (!object) return;
+        if (object instanceof IText || object instanceof Textbox) {
+            const textObject = object;
+            textObject.set({
+                fontFamily: currentValue,
+            });
             canvas?.requestRenderAll();
+            updateObject(object);
         }
-        setValue(currentValue);
+
         setOpen(false);
     };
 
@@ -56,7 +61,9 @@ const TypographieSelect = ({ object }: TypographieSelectProps) => {
                         aria-expanded={open}
                         className="w-full justify-between text-xs"
                     >
-                        {value ? SYSTEM_FONTS.find((font) => font.value === value)?.label : "Sélectionner une typo"}
+                        {fabricObjectText?.fontFamily
+                            ? SYSTEM_FONTS.find((font) => font.value === fabricObjectText.fontFamily)?.label
+                            : "Sélectionner une typo"}
                         <ChevronsUpDown className="opacity-50" />
                     </Button>
                 </PopoverTrigger>
@@ -72,7 +79,9 @@ const TypographieSelect = ({ object }: TypographieSelectProps) => {
                                         <Check
                                             className={cn(
                                                 "ml-auto w-4",
-                                                value === font.value ? "opacity-100" : "opacity-0",
+                                                fabricObjectText?.fontFamily === font.value
+                                                    ? "opacity-100"
+                                                    : "opacity-0",
                                             )}
                                         />
                                     </CommandItem>

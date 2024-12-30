@@ -6,7 +6,7 @@ import ColorPickerView from "./view/ColorPickerView";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 type ColorPickerInputProps = {
-    defaultColor?: string;
+    defaultColor?: string | null;
     onChange: (value: any) => void;
 };
 const ColorPickerInput = ({ defaultColor, onChange }: ColorPickerInputProps) => {

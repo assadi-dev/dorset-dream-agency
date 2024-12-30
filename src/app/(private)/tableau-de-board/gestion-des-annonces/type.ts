@@ -45,12 +45,17 @@ export type FabricObjectSelected = {
     radius?: number;
     opacity: number;
     zIndex?: number;
+    fontFamily?: string;
+    fontSize?: number;
+    fontWeight?: string;
+    lineHeight?: number;
 };
 
 export type FabricObjectExtends = FabricObject & {
     id?: string;
     zIndex?: number;
     strokeStyle?: "none" | "solid" | "dashed";
+    lineHeight?: number;
 };
 
 export type CustomCornerProps = {

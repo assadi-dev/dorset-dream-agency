@@ -19,14 +19,14 @@ import { CORNER_STYLES, ShapeGenerator } from "../helper";
 import { FabricImage } from "fabric";
 import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
-import { VALIDE_TYPE } from "./fabric/helpers";
+import { getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
 
 const Toolbar = () => {
-    const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject, selectedObject } =
+    const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject, updateObject } =
         useFabricAction();
 
     const type = selected?.type || "";
-    const DEFAULT_COLOR = selected ? selected.fill : "#fff";
+    const DEFAULT_COLOR = selected ? (selected.fill as string) : "#fff";
 
     const addShape = (shape: FabricFormType) => {
         if (!canvas) return;
@@ -64,18 +64,14 @@ const Toolbar = () => {
         unselectedObject();
     };
 
-    const IS_TEXT = type?.includes("text");
-    const IS_RECT = type?.includes("rect");
-    const IS_CIRCLE = type === FabricFormType.circle;
-
     const changeColor = (value: string) => {
-        if (!canvas || !selected) return;
-        selected.set("fill", value);
+        if (!canvas || !selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (!object) return;
+        object.set("fill", value);
         canvas.renderAll();
-        selectedObject(selected);
+        updateObject(object);
     };
-
-    //console.log(DEFAULT_COLOR);
 
     return (
         <Menubar className=" py-6 mx-auto  ">
@@ -133,9 +129,9 @@ const Toolbar = () => {
             </MenubarMenu>
             <Separator className="h-8" orientation="vertical" />
             {/* Style de l'élément sélectionné */}
-            {VALIDE_TYPE.text(type) && (
+            {VALIDE_TYPE.text(type as FabricFormType) && (
                 <MenubarMenu>
-                    <TypographieSelect object={null} />
+                    <TypographieSelect />
                 </MenubarMenu>
             )}
             {selected && (
