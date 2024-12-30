@@ -186,7 +186,7 @@ const EditorContent = () => {
                 )}
                 {
                     <div className="mb-3 p-1">
-                        <BordureSelect object={selected} />
+                        <BordureSelect />
                     </div>
                 }
 

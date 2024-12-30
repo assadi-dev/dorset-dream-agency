@@ -7,7 +7,7 @@ export enum FabricReducerAction {
     SELECTED_OBJECT = "SELECTED_OBJECT_LAYER",
     UNSELECTED_OBJECT = "UNSELECTED_OBJECT_LAYER",
     ADD_OBJECT_TO_LAYER = "ADD_OBJECT_TO_LAYER",
-    UPDATE_OBJECT_FROM_LAYER = "UPDATE_OBJECT_FROM_LAYER",
+    UPDATE_OBJECT = "UPDATE_OBJECT",
     REMOVE_OBJECT_TO_LAYER = "REMOVE_OBJECT_FROM_LAYER",
     CLEAR_ALL_LAYERS = "CLEAR_ALL_LAYERS",
     SET_CANVAS_BACKGROUND_IMAGE = "SET_CANVAS_BACKGROUND_IMAGE",
@@ -72,4 +72,8 @@ export const serializedList = (
         object.set("zIndex", index);
         return fabricObjectSerializer(object);
     });
+};
+
+export const getActiveObjectFromLayers = (id: string, canvas: Canvas) => {
+    return canvas.getObjects().find((object) => object.id === id);
 };

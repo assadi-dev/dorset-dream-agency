@@ -62,7 +62,8 @@ const useFabricAction = () => {
     }, [context]);
 
     const updateObject = (object: FabricObject) => {
-        context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT_FROM_LAYER, payload: object });
+        const objectSerialized = fabricObjectSerializer(object);
+        context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT, payload: objectSerialized });
     };
 
     const setCanvasBackgroundImage = async (url: string) => {

@@ -2,13 +2,16 @@ import { FabricObject } from "fabric";
 import useFabricAction from "../../fabric/useFabric";
 import { Trash2, Eye, EyeOff } from "lucide-react";
 import { FabricObjectExtends } from "../../../type";
+import { getActiveObjectFromLayers } from "../../fabric/helpers";
 
 export const VisibleBtn = ({ object }: { object?: FabricObject }) => {
     const { canvas, setLayers } = useFabricAction();
     const isVisible = object?.visible;
     const handleClickVisible = () => {
-        if (object && canvas) {
-            object.toggle("visible");
+        if (object?.id && canvas) {
+            const fabricObject = getActiveObjectFromLayers(object.id, canvas);
+            if (!fabricObject) return;
+            fabricObject.toggle("visible");
             canvas.requestRenderAll();
             setLayers(canvas.getObjects());
         }
@@ -21,8 +24,10 @@ export const RemoveButton = ({ object }: { object?: FabricObjectExtends }) => {
     const { canvas, setLayers } = useFabricAction();
 
     const handleClickRemove = () => {
-        if (object && canvas) {
-            canvas.remove(object);
+        if (object?.id && canvas) {
+            const fabricObject = getActiveObjectFromLayers(object.id, canvas);
+            if (!fabricObject) return;
+            canvas.remove(fabricObject);
             canvas.requestRenderAll();
             setLayers(canvas.getObjects());
         }

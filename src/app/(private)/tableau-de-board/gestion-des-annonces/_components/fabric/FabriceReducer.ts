@@ -14,6 +14,14 @@ const FabriceReducer = (state: FabricInitialStateType, action?: ActionReducer) =
             return { ...state, canvas: payload };
         case FabricReducerAction.ADD_OBJECT_TO_LAYER:
             return { ...state, selected: payload.object, layers: payload.layers };
+        case FabricReducerAction.UPDATE_OBJECT:
+            const updateLayer = state.layers.map((current) => {
+                if (current.id === payload.id) {
+                    return { ...current, ...payload };
+                }
+                return current;
+            });
+            return { ...state, selected: payload, layers: updateLayer };
         case FabricReducerAction.SELECTED_OBJECT:
             return { ...state, selected: payload };
         case FabricReducerAction.UPDATE_LAYER:

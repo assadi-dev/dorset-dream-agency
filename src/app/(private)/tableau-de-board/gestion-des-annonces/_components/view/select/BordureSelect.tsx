@@ -14,6 +14,7 @@ import useFabricAction from "../../fabric/useFabric";
 import ColorPickerInput from "../../ColorPicker";
 import { Input } from "@/components/ui/input";
 import { StrokeThickness } from "./StokeIconeWidth";
+import { fabricObjectSerializer, getActiveObjectFromLayers } from "../../fabric/helpers";
 
 type BorderListType = {
     value: string;
@@ -34,71 +35,76 @@ const BORDER_LIST_TYPE: BorderListType[] = [
     },
 ];
 
-type BordureSelectProps = {
-    object: FabricObjectExtends | null;
-};
-const BordureSelect = ({ object }: BordureSelectProps) => {
-    const { canvas } = useFabricAction();
-
+const BordureSelect = () => {
+    const { canvas, selected, updateLayers, updateObject } = useFabricAction();
+    /* 
     const [borderState, setBorderState] = React.useState<{
         stroke: string | null;
         strokeWidth: number;
         selected: string;
     }>({
-        stroke: null,
-        strokeWidth: object?.strokeWidth || 0,
+        stroke: selected?.strokeStyle || null,
+        strokeWidth: selected?.strokeWidth || 0,
         selected: BORDER_LIST_TYPE[0].value,
     });
-
+ */
     const handleSelectBordure = (value: string) => {
+        if (!selected || !canvas) return;
+        const strokeWidth = selected.strokeWidth || 2;
+        const stroke = selected.stroke || "black";
+        const object = getActiveObjectFromLayers(selected.id as string, canvas);
         if (!object) return;
-        const strokeWidth = borderState.strokeWidth || 2;
-        const stroke = borderState.stroke || "black";
         switch (value) {
             case "none":
                 object.stroke = null;
                 object.strokeWidth = 0;
                 object.strokeDashArray = [];
                 canvas?.renderAll();
-
+                updateObject(object);
                 break;
             case "solid":
                 object.stroke = stroke;
                 object.strokeWidth = strokeWidth;
                 object.strokeDashArray = [];
                 canvas?.renderAll();
-                setBorderState((prev) => ({ ...prev, selected: value, stroke, strokeWidth }));
+                //const serialize = fabricObjectSerializer(object)
+                updateObject(object);
                 break;
             case "dashed":
                 object.stroke = stroke;
                 object.strokeWidth = strokeWidth;
                 object.strokeDashArray = [strokeWidth, strokeWidth];
                 canvas?.renderAll();
+                updateObject(object);
                 break;
         }
     };
 
     const handleChangeStrokeColor = (value: any) => {
+        if (!selected || !canvas) return;
+        const object = getActiveObjectFromLayers(selected.id as string, canvas);
         if (!object) return;
         object.stroke = value;
         canvas?.renderAll();
-        setBorderState((prev) => ({ ...prev, stroke: value }));
+        updateObject(object);
     };
 
     const handleChangeStrokeWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!selected || !canvas) return;
+        const object = getActiveObjectFromLayers(selected.id as string, canvas);
+        if (!object) return;
         const value = Number(e.target.value);
         if (!object) return;
         object.strokeWidth = value;
         canvas?.renderAll();
-        setBorderState((prev) => ({ ...prev, strokeWidth: value }));
+        updateObject(object);
     };
 
     return (
         <div className="my-1 flex flex-col gap-3">
-            {borderState.selected !== "none" && <ColorPickerInput onChange={handleChangeStrokeColor} />}
-            <Select defaultValue={borderState.selected} onValueChange={handleSelectBordure}>
+            <Select defaultValue={selected?.strokeStyle || "none"} onValueChange={handleSelectBordure}>
                 <SelectTrigger className="w-full text-xs">
-                    <SelectValue placeholder="Select a fruit" />
+                    <SelectValue placeholder="Sélectionner un type de bordure" />
                 </SelectTrigger>
                 <SelectContent>
                     {BORDER_LIST_TYPE.map((border) => (
@@ -108,18 +114,18 @@ const BordureSelect = ({ object }: BordureSelectProps) => {
                     ))}
                 </SelectContent>
             </Select>
-            <div className="flex gap-5 items-center">
-                <ColorPickerInput onChange={() => {}} />
+            <div className="flex gap-5 items-center justify-center">
+                <ColorPickerInput onChange={handleChangeStrokeColor} />
                 <div className="flex gap-2 items-center">
                     <StrokeThickness />
                     <Input
                         type="number"
                         placeholder="épaisseur"
                         min={0}
-                        value={borderState.strokeWidth}
+                        value={selected?.strokeWidth}
                         onChange={handleChangeStrokeWidth}
                         name="strokeWidth"
-                        className="text-xs w-[65px]"
+                        className="text-xs w-[75px]"
                     />
                 </div>
             </div>
