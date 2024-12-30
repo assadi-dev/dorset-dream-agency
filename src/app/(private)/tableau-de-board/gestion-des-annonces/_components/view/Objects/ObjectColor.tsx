@@ -2,11 +2,7 @@ import React from "react";
 import BordureSelect from "../select/BordureSelect";
 
 const ObjectColors = () => {
-    return (
-        <div>
-            <BordureSelect object={null} />
-        </div>
-    );
+    return <BordureSelect />;
 };
 
 export default ObjectColors;

@@ -37,18 +37,8 @@ const BORDER_LIST_TYPE: BorderListType[] = [
 ];
 
 const BordureSelect = () => {
-    const { canvas, selected, updateLayers, updateObject } = useFabricAction();
-    /* 
-    const [borderState, setBorderState] = React.useState<{
-        stroke: string | null;
-        strokeWidth: number;
-        selected: string;
-    }>({
-        stroke: selected?.strokeStyle || null,
-        strokeWidth: selected?.strokeWidth || 0,
-        selected: BORDER_LIST_TYPE[0].value,
-    });
- */
+    const { canvas, selected, updateObject } = useFabricAction();
+
     const handleSelectBordure = (value: string) => {
         if (!canvas) return;
         const object = canvas.getActiveObject() as FabricObject;

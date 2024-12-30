@@ -19,6 +19,7 @@ import { CORNER_STYLES, ShapeGenerator } from "../helper";
 import { FabricImage } from "fabric";
 import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
+import { VALIDE_TYPE } from "./fabric/helpers";
 
 const Toolbar = () => {
     const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject, selectedObject } =
@@ -132,7 +133,7 @@ const Toolbar = () => {
             </MenubarMenu>
             <Separator className="h-8" orientation="vertical" />
             {/* Style de l'élément sélectionné */}
-            {type?.includes("text") && (
+            {VALIDE_TYPE.text(type) && (
                 <MenubarMenu>
                     <TypographieSelect object={null} />
                 </MenubarMenu>
@@ -144,7 +145,7 @@ const Toolbar = () => {
                     </div>
                 </MenubarMenu>
             )}
-            {type?.includes("text") && (
+            {VALIDE_TYPE.text(type) && (
                 <MenubarMenu>
                     <div className="border">
                         <Input placeholder="taille de la police" type="number" className="w-[65px]" defaultValue={18} />

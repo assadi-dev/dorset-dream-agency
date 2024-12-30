@@ -4,7 +4,7 @@ import React from "react";
 import useFabricAction from "../../fabric/useFabric";
 import { Radius, DraftingCompass, Blend, Scan, Palette } from "lucide-react";
 import ColorPickerInput from "../../ColorPicker";
-import { DEFAULT_INPUT_VALUE, VALIDE_TYPE } from "../../fabric/helpers";
+import { DEFAULT_INPUT_VALUE, getActiveObjectFromLayers, VALIDE_TYPE } from "../../fabric/helpers";
 import { FabricFormType } from "../../fabric/FabricContext";
 
 const ObjectLayout = () => {
@@ -12,14 +12,27 @@ const ObjectLayout = () => {
 
     const type = selected?.type as FabricFormType;
 
+    const handleChangeInput = () => {
+        if (!selected || !canvas) return;
+        const object = getActiveObjectFromLayers(selected.id as string, canvas);
+        if (!object) return;
+    };
+
+    const handleChangeBackgroundColor = () => {
+        if (!selected || !canvas) return;
+        const object = getActiveObjectFromLayers(selected.id as string, canvas);
+        if (!object) return;
+    };
+
     return (
-        <div className="grid grid-cols-2 row-3 gap-3 w-full">
+        <div className="grid grid-cols-2 row-[auto] gap-3 w-full">
             <div className="flex items-center gap-3">
-                <Label className="text-xs" htmlFor="x">
+                <Label className="text-xs" htmlFor="left">
                     X
                 </Label>
                 <Input
-                    id="x"
+                    id="left"
+                    name="left"
                     className="text-xs"
                     type="number"
                     placeholder="0"
@@ -27,17 +40,24 @@ const ObjectLayout = () => {
                 />
             </div>
             <div className="flex items-center gap-3">
-                <Label htmlFor="y" className=" text-xs">
+                <Label htmlFor="top" className=" text-xs">
                     Y
                 </Label>
-                <Input id="y" type="number" placeholder="0" defaultValue={selected?.top || DEFAULT_INPUT_VALUE} />
+                <Input
+                    id="top"
+                    name="top"
+                    type="number"
+                    placeholder="0"
+                    defaultValue={selected?.top || DEFAULT_INPUT_VALUE}
+                />
             </div>
             <div className="flex items-center gap-3">
-                <Label className="text-xs" htmlFor="w">
+                <Label className="text-xs" htmlFor="width">
                     W
                 </Label>
                 <Input
-                    id="w"
+                    id="width"
+                    name="width"
                     className="text-xs"
                     type="number"
                     placeholder="w"
@@ -45,59 +65,76 @@ const ObjectLayout = () => {
                 />
             </div>
             <div className="flex items-center gap-3">
-                <Label htmlFor="h" className=" text-xs">
+                <Label htmlFor="height" className=" text-xs">
                     H
                 </Label>
-                <Input id="h" type="number" placeholder="H" defaultValue={selected?.width || DEFAULT_INPUT_VALUE} />
+                <Input
+                    id="height"
+                    name="height"
+                    type="number"
+                    placeholder="0"
+                    defaultValue={selected?.height || DEFAULT_INPUT_VALUE}
+                />
             </div>
-            {VALIDE_TYPE.circle(type) && (
-                <div className="flex items-center gap-3">
-                    <Label htmlFor="radius" className=" text-xs">
-                        <Radius className="w-5" />
-                    </Label>
-                    <Input
-                        id="radius"
-                        type="number"
-                        placeholder="50"
-                        defaultValue={selected?.radius || DEFAULT_INPUT_VALUE}
-                    />
-                </div>
-            )}
+
             <div className="flex items-center gap-3">
-                <Label htmlFor="rotate" className=" text-xs">
+                <Label htmlFor="angle" className=" text-xs">
                     <DraftingCompass className="w-5" />
                 </Label>
                 <Input
-                    id="rotate"
+                    id="angle"
+                    name="angle"
                     type="number"
                     placeholder="100"
                     defaultValue={selected?.angle || DEFAULT_INPUT_VALUE}
                 />
+            </div>
+            <div>
+                {VALIDE_TYPE.circle(type) && (
+                    <div className="flex items-center gap-3">
+                        <Label htmlFor="radius" className=" text-xs">
+                            <Radius className="w-5" />
+                        </Label>
+                        <Input
+                            id="radius"
+                            name="radius"
+                            type="number"
+                            placeholder="0"
+                            defaultValue={selected?.radius || DEFAULT_INPUT_VALUE}
+                        />
+                    </div>
+                )}
+            </div>
+
+            <div className="flex items-center gap-3">
+                <Label htmlFor="backgroundColor" className=" text-xs">
+                    <Palette className="w-5" />
+                </Label>
+
+                <ColorPickerInput defaultColor={selected?.fill || "#fff"} onChange={handleChangeBackgroundColor} />
             </div>
 
             <div className="flex items-center gap-3">
                 <Label htmlFor="opacity" className=" text-xs">
                     <Blend className="w-5" />
                 </Label>
-                <Input id="opacity" type="number" placeholder="100" defaultValue={100} />
+                <Input id="opacity" name="opacity" type="number" placeholder="100" defaultValue={100} />
             </div>
-            <div className="flex items-center gap-3">
-                <Label htmlFor="backgroundColor" className=" text-xs">
-                    <Palette className="w-5" />
-                </Label>
-                {<ColorPickerInput />}
-            </div>
-            <div className="flex items-center gap-3">
-                <Label htmlFor="rounded" className=" text-xs">
-                    <Scan className="w-5" />
-                </Label>
-                <Input
-                    id="rounded"
-                    type="number"
-                    placeholder="100"
-                    defaultValue={selected?.borderRadius || DEFAULT_INPUT_VALUE}
-                />
-            </div>
+
+            {VALIDE_TYPE.rec(type) && (
+                <div className="flex items-center gap-3">
+                    <Label htmlFor="borderRadius" className=" text-xs">
+                        <Scan className="w-5" />
+                    </Label>
+                    <Input
+                        id="borderRadius"
+                        name="borderRadius"
+                        type="number"
+                        placeholder="100"
+                        defaultValue={selected?.borderRadius || DEFAULT_INPUT_VALUE}
+                    />
+                </div>
+            )}
         </div>
     );
 };

@@ -173,12 +173,12 @@ const EditorContent = () => {
                     <ObjectAlignements />
                 </div>
                 <ObjectLayout />
-                {VALIDE_TYPE.circle(type) && (
+                {VALIDE_TYPE.text(type) && (
                     <div className="mb-3">
                         <TextSizeAndColor />
                     </div>
                 )}
-                {VALIDE_TYPE.circle(type) && (
+                {VALIDE_TYPE.text(type) && (
                     <div className="flex items-center gap-1 justify-between mb-3">
                         <TextAlignement />
                         <Decorations />

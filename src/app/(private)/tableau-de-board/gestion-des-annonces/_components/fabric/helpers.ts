@@ -58,9 +58,9 @@ export const getCurrentOject = (canvas: Canvas, id?: string) => {
 };
 
 export const VALIDE_TYPE = {
-    text: (type?: FabricFormType) => type?.includes("text") || false,
-    rec: (type?: FabricFormType) => type?.includes("rec") || false,
-    circle: (type?: FabricFormType) => type?.includes("circle") || false,
+    text: (type?: FabricFormType) => type?.toLowerCase()?.includes("text") || false,
+    rec: (type?: FabricFormType) => type?.toLowerCase()?.includes("rec") || false,
+    circle: (type?: FabricFormType) => type?.toLowerCase()?.includes("circle") || false,
 };
 
 export const DEFAULT_INPUT_VALUE = 0;
