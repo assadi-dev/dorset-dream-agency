@@ -141,7 +141,7 @@ const Toolbar = () => {
                     </div>
                 </MenubarMenu>
             )}
-            {VALIDE_TYPE.text(type) && (
+            {VALIDE_TYPE.text(type as FabricFormType) && (
                 <MenubarMenu>
                     <div className="border">
                         <Input placeholder="taille de la police" type="number" className="w-[65px]" defaultValue={18} />
