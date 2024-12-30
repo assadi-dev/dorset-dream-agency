@@ -10,7 +10,7 @@
     ],
     "cSpell.ignoreRegExpList": ["/import\\s+[^;]*;/"],
     "cSpell.language": "en,fr",
-    "cSpell.words": ["andreas", "employes", "galapagos", "iban", "iles", "Iles", "Manageuse"],
+    "cSpell.words": ["andreas", "dorset", "employes", "galapagos", "iban", "iles", "Iles", "Manageuse"],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "prettier.bracketSameLine": true,
