@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { BACKGROUND_DIR_IMAGES } from "@/config/dir";
+import { ENV } from "@/config/global";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ type BackgroundFile = {
 
 export const GET = async (request: NextRequest) => {
     try {
-        const url = request.nextUrl;
+        const url = ENV.DOMAIN;
         const fileUrl = `${url}`;
         const backgroundDir = path.join(BACKGROUND_DIR_IMAGES);
         const promise = (): Promise<BackgroundFile[]> =>
