@@ -1,12 +1,10 @@
 "use client";
 import React, { useCallback } from "react";
 import { FabricContext, FabricFormType } from "./FabricContext";
-import { canvasValidation, FabricReducerAction } from "./helpers";
-import { ActiveSelection, Canvas, FabricImage, FabricObject } from "fabric";
+import { canvasValidation, fabricObjectSerializer, FabricReducerAction, serializedList } from "./helpers";
+import { Canvas, FabricImage, FabricObject } from "fabric";
 import uniqid from "uniqid";
 import { FabricObjectExtends } from "../../type";
-
-type customObject = FabricObject & { id?: string; zIndex?: number };
 
 const useFabricAction = () => {
     const context = React.useContext(FabricContext);
@@ -16,25 +14,37 @@ const useFabricAction = () => {
         context.dispatch({ type: FabricReducerAction.INIT_CANVAS, payload: canvas });
     };
 
-    const setIdObject = (object: customObject) => {
+    const setIdObject = (object: FabricObject) => {
         if (!object) return;
-        if (!object.id) return object.set("id", `${object.type}_${uniqid()}`);
+        if (!object.id) object.set("id", `${object.type}_${uniqid()}`);
+        return object;
     };
 
     const addObjectToLayer = (object: any) => {
         const canvas = canvasValidation(context.canvas);
+        setIdObject(object);
+        object.set("name", object.id);
         canvas.add(object);
         canvas.setActiveObject(object);
         canvas.requestRenderAll();
+        const objectSerialized = fabricObjectSerializer(object);
+        const objectListsSerialized = serializedList(canvas.getObjects());
+        context.dispatch({
+            type: FabricReducerAction.ADD_OBJECT_TO_LAYER,
+            payload: { object: objectSerialized, layers: objectListsSerialized },
+        });
     };
 
     const setLayers = (layers: any[]) => {
         const canvas = canvasValidation(context.canvas);
         layers.forEach((object, index) => {
-            canvas.moveObjectTo(object, index);
+            const fabricObject = canvas.getObjects().find((current) => current.id === object.id);
+            fabricObject && canvas.moveObjectTo(fabricObject, index);
         });
-        canvas.requestRenderAll();
-        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: layers });
+
+        canvas.renderAll();
+        const objectListsSerialized = serializedList(canvas.getObjects());
+        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: objectListsSerialized });
     };
 
     const selectedObject = (object: FabricObject | null) => {
@@ -42,7 +52,8 @@ const useFabricAction = () => {
         if (!object) return;
         canvas.setActiveObject(object);
         canvas.requestRenderAll();
-        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: object });
+        const objectSerialized = fabricObjectSerializer(object);
+        context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: objectSerialized });
     };
 
     const unselectedObject = React.useCallback(() => {
@@ -78,12 +89,9 @@ const useFabricAction = () => {
     const updateLayers = useCallback(() => {
         if (!context.canvas) return;
         const canvas = canvasValidation(context.canvas);
-        canvas.getObjects().forEach((object, index) => {
-            if (index === 0) index = 1;
-            setIdObject(object);
-            object.set("zIndex", index);
-        });
-        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: canvas.getObjects() });
+        const objectListsSerialized = serializedList(canvas.getObjects());
+        canvas.renderAll();
+        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: objectListsSerialized });
     }, [context]);
 
     const moveObjectTo = (object: FabricObjectExtends, index: number) => {
@@ -91,7 +99,8 @@ const useFabricAction = () => {
         const canvas = canvasValidation(context.canvas);
         canvas.moveObjectTo(object, index);
         canvas.requestRenderAll();
-        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: canvas.getObjects() });
+        const objectListsSerialized = serializedList(canvas.getObjects());
+        //  context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: objectListsSerialized });
     };
 
     React.useEffect(() => {

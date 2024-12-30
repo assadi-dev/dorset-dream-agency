@@ -44,6 +44,7 @@ export type FabricObjectSelected = {
     angle: number;
     radius?: number;
     opacity: number;
+    zIndex?: number;
 };
 
 export type FabricObjectExtends = FabricObject & { id?: string; zIndex?: number };

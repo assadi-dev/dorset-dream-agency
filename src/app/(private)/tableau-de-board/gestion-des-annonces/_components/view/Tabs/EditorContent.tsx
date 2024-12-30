@@ -166,12 +166,6 @@ const EditorContent = () => {
         canvas?.requestRenderAll();
     };
 
-    const handleClickPos = () => {
-        if (!canvas || !selected) return;
-        setCenterPosition(canvas, selected);
-        canvas?.requestRenderAll();
-    };
-
     return (
         <div className="flex flex-col gap-2  h-full  text-sm w-fit bg-white p-5 rounded-xl shadow-lg">
             <ScrollArea className="h-[72vh] py-3 px-3 xl:px-6">
@@ -190,11 +184,11 @@ const EditorContent = () => {
                         <Decorations />
                     </div>
                 )}
-                {!VALIDE_TYPE.circle(type) && (
+                {
                     <div className="mb-3 p-1">
                         <BordureSelect object={selected} />
                     </div>
-                )}
+                }
 
                 {/*  
                 TODO Ajouter les ombre et floue
