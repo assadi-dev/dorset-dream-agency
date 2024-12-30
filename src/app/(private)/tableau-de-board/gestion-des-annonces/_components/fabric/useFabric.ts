@@ -66,7 +66,6 @@ const useFabricAction = () => {
 
     const updateObject = (object: FabricObject) => {
         const objectSerialized = fabricObjectSerializer(object);
-        console.log(objectSerialized);
 
         context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT, payload: objectSerialized });
     };
