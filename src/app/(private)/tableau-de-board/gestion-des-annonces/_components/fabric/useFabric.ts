@@ -26,6 +26,7 @@ const useFabricAction = () => {
         object.set({
             name: object.id,
             strokeStyle: "none",
+            opacity: 1,
         });
         canvas.add(object);
         canvas.setActiveObject(object);

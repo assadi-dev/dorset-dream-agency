@@ -38,6 +38,7 @@ export const fabricObjectSerializer = (fabricObject: FabricObjectExtends): Fabri
         strokeStyle: fabricObject?.strokeStyle || "none",
         borderRadius: 0,
         zIndex: fabricObject.zIndex,
+        opacity: fabricObject.opacity,
     } satisfies FabricObjectSelected;
 
     if (fabricObject instanceof Circle) {

@@ -16,7 +16,6 @@ const ObjectLayout = () => {
     const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.currentTarget.name;
         const value = event.currentTarget.value;
-        console.log(name);
 
         if (!selected || !canvas) return;
         const object = getActiveObjectFromLayers(selected.id as string, canvas);
@@ -30,19 +29,18 @@ const ObjectLayout = () => {
                     });
                 }
                 break;
-            case "top":
-                object.top = Number(value);
+            case "opacity":
+                object.set({
+                    opacity: Number(value) * 0.01,
+                });
+
                 break;
-            case "left":
-                object.left = Number(value);
-                break;
-            case "width":
-                object.width = Number(value);
-            case "height":
-                object.width = Number(value);
+            default:
+                object.set(name, Number(value));
+                object.setCoords();
                 break;
         }
-        canvas.requestRenderAll();
+        canvas.renderAll();
         updateObject(object);
     };
 
@@ -64,7 +62,8 @@ const ObjectLayout = () => {
                     className="text-xs"
                     type="number"
                     placeholder="0"
-                    defaultValue={selected?.left || DEFAULT_INPUT_VALUE}
+                    value={selected?.left}
+                    onChange={handleChangeInput}
                 />
             </div>
             <div className="flex items-center gap-3">
@@ -76,7 +75,8 @@ const ObjectLayout = () => {
                     name="top"
                     type="number"
                     placeholder="0"
-                    defaultValue={selected?.top || DEFAULT_INPUT_VALUE}
+                    value={selected?.top}
+                    onChange={handleChangeInput}
                 />
             </div>
             <div className="flex items-center gap-3">
@@ -89,7 +89,8 @@ const ObjectLayout = () => {
                     className="text-xs"
                     type="number"
                     placeholder="w"
-                    defaultValue={selected?.width || DEFAULT_INPUT_VALUE}
+                    value={selected?.width}
+                    onChange={handleChangeInput}
                 />
             </div>
             <div className="flex items-center gap-3">
@@ -101,7 +102,8 @@ const ObjectLayout = () => {
                     name="height"
                     type="number"
                     placeholder="0"
-                    defaultValue={selected?.height || DEFAULT_INPUT_VALUE}
+                    value={selected?.height}
+                    onChange={handleChangeInput}
                 />
             </div>
 
@@ -113,8 +115,9 @@ const ObjectLayout = () => {
                     id="angle"
                     name="angle"
                     type="number"
-                    placeholder="100"
-                    defaultValue={selected?.angle || DEFAULT_INPUT_VALUE}
+                    placeholder="0"
+                    value={selected?.angle}
+                    onChange={handleChangeInput}
                 />
             </div>
             <div>
@@ -128,7 +131,7 @@ const ObjectLayout = () => {
                             name="radius"
                             type="number"
                             placeholder="0"
-                            defaultValue={selected?.radius || DEFAULT_INPUT_VALUE}
+                            value={selected?.radius}
                             onChange={handleChangeInput}
                         />
                     </div>
@@ -140,7 +143,10 @@ const ObjectLayout = () => {
                     <Palette className="w-5" />
                 </Label>
 
-                <ColorPickerInput defaultColor={selected?.fill || "#fff"} onChange={handleChangeBackgroundColor} />
+                <ColorPickerInput
+                    defaultColor={(selected?.fill as string) || "#fff"}
+                    onChange={handleChangeBackgroundColor}
+                />
             </div>
 
             <div className="flex items-center gap-3">
@@ -152,8 +158,11 @@ const ObjectLayout = () => {
                     name="opacity"
                     type="number"
                     placeholder="100"
-                    defaultValue={100}
+                    value={selected?.opacity && selected?.opacity * 100}
                     onChange={handleChangeInput}
+                    min={0}
+                    step={5}
+                    max={100}
                 />
             </div>
 
@@ -166,8 +175,8 @@ const ObjectLayout = () => {
                         id="borderRadius"
                         name="borderRadius"
                         type="number"
-                        placeholder="100"
-                        defaultValue={selected?.borderRadius || DEFAULT_INPUT_VALUE}
+                        placeholder="0"
+                        value={selected?.borderRadius}
                         onChange={handleChangeInput}
                     />
                 </div>
