@@ -29,22 +29,6 @@ const Decorations = () => {
         }
     };
 
-    const handleClickLineThrough = () => {
-        if (!selected && !canvas) return;
-        const text = selected as IText;
-        if (text.isEditing) {
-            const styles = text.getSelectionStyles();
-
-            const fontWeight =
-                styles[0].fontWeight !== "bold" || styles[0].fontWeight === undefined ? "bold" : "normal";
-
-            text.setSelectionStyles({
-                fontWeight: fontWeight,
-            });
-        }
-
-        canvas?.requestRenderAll();
-    };
     const handleClickUnderline = () => {
         if (!canvas) return;
         if (!selected?.id) return;
