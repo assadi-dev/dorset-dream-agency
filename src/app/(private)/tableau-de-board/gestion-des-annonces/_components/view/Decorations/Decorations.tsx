@@ -2,29 +2,31 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { Strikethrough, Underline, Italic, Bold } from "lucide-react";
 import useFabricAction from "../../fabric/useFabric";
-import { IText } from "fabric";
+import { IText, Textbox } from "fabric";
 import TextAlignement from "./TextAlignement";
+import { getActiveObjectFromLayers } from "../../fabric/helpers";
 
 const Decorations = () => {
-    const { canvas, selected } = useFabricAction();
+    const { canvas, selected, updateObject } = useFabricAction();
 
     const type = selected?.type;
 
     const handleClickBold = () => {
-        if (!selected && !canvas) return;
-        const text = selected as IText;
-        if (text.isEditing) {
-            const styles = text.getSelectionStyles();
-
-            const fontWeight =
-                styles[0].fontWeight !== "bold" || styles[0].fontWeight === undefined ? "bold" : "normal";
-
-            text.setSelectionStyles({
-                fontWeight: fontWeight,
-            });
+        if (!canvas) return;
+        if (!selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (object instanceof IText || object instanceof Textbox) {
+            if (object.isEditing) {
+                const styles = object.getSelectionStyles();
+                const fontWeight =
+                    styles[0].fontWeight !== "bold" || styles[0].fontWeight === undefined ? "bold" : "normal";
+                object.setSelectionStyles({
+                    fontWeight: fontWeight,
+                });
+            }
+            canvas.requestRenderAll();
+            updateObject(object);
         }
-
-        canvas?.requestRenderAll();
     };
 
     const handleClickLineThrough = () => {
@@ -44,54 +46,63 @@ const Decorations = () => {
         canvas?.requestRenderAll();
     };
     const handleClickUnderline = () => {
-        if (!selected && !canvas) return;
-        const text = selected as IText;
-        if (text.isEditing) {
-            const styles = text.getSelectionStyles();
+        if (!canvas) return;
+        if (!selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (object instanceof IText || object instanceof Textbox) {
+            if (object.isEditing) {
+                const styles = object.getSelectionStyles();
+                const underline = styles[0].underline !== true || styles[0].underline === undefined ? true : false;
 
-            const underline = styles[0].underline !== true || styles[0].underline === undefined ? true : false;
-
-            text.setSelectionStyles({
-                underline: underline,
-            });
+                object.setSelectionStyles({
+                    underline: underline,
+                });
+            }
+            canvas.requestRenderAll();
+            updateObject(object);
         }
-
-        canvas?.requestRenderAll();
     };
 
     const handleClickItalique = () => {
-        if (!selected && !canvas) return;
-        const text = selected as IText;
-        if (text.isEditing) {
-            const styles = text.getSelectionStyles();
+        if (!canvas) return;
+        if (!selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (object instanceof IText || object instanceof Textbox) {
+            if (object.isEditing) {
+                const styles = object.getSelectionStyles();
+                const fontStyle =
+                    styles[0].fontStyle !== "italic" || styles[0].fontStyle === undefined ? "italic" : "normal";
 
-            const fontStyle =
-                styles[0].fontStyle !== "italic" || styles[0].fontStyle === undefined ? "italic" : "normal";
+                console.log(fontStyle);
 
-            console.log(fontStyle);
-
-            text.setSelectionStyles({
-                fontStyle,
-            });
+                object.setSelectionStyles({
+                    fontStyle,
+                });
+            }
+            canvas.requestRenderAll();
+            updateObject(object);
         }
-
-        canvas?.requestRenderAll();
     };
 
     const handleClickStrikethrough = () => {
-        if (!selected || !canvas) return;
-        const text = selected as IText;
-        if (text.isEditing) {
-            const styles = text.getSelectionStyles();
+        if (!canvas) return;
+        if (!selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (object instanceof IText || object instanceof Textbox) {
+            if (object.isEditing) {
+                const styles = object.getSelectionStyles();
 
-            const linethrough = styles[0].linethrough !== true || styles[0].linethrough === undefined ? true : false;
+                const linethrough =
+                    styles[0].linethrough !== true || styles[0].linethrough === undefined ? true : false;
 
-            text.setSelectionStyles({
-                linethrough,
-            });
+                object.setSelectionStyles({
+                    linethrough,
+                });
+            }
+
+            canvas?.requestRenderAll();
+            updateObject(object);
         }
-
-        canvas?.requestRenderAll();
     };
 
     return (
