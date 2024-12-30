@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import React from "react";
 import useFabricAction from "../../fabric/useFabric";
 import ColorPickerInput from "../../ColorPicker";
-import { OBJECT_CLEAN_VALUES } from "../../fabric/helpers";
+import { OBJECT_CLEAN_VALUES, VALIDE_TYPE } from "../../fabric/helpers";
 import { FabricFormType } from "../../fabric/FabricContext";
 import { Button } from "@/components/ui/button";
 import { IText } from "fabric";
@@ -29,7 +29,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const EditorContent = () => {
     const { canvas, selected } = useFabricAction();
 
-    const type = selected?.type;
+    const type = selected?.type as FabricFormType;
 
     const setBackground = (value: string) => {
         if (!selected) return;
@@ -179,19 +179,22 @@ const EditorContent = () => {
                     <ObjectAlignements />
                 </div>
                 <ObjectLayout />
-
-                <div className="mb-3">
-                    <TextSizeAndColor />
-                </div>
-
-                <div className="flex items-center gap-1 justify-between mb-3">
-                    <TextAlignement />
-                    <Decorations />
-                </div>
-
-                <div className="mb-3 p-1">
-                    <BordureSelect object={selected} />
-                </div>
+                {VALIDE_TYPE.circle(type) && (
+                    <div className="mb-3">
+                        <TextSizeAndColor />
+                    </div>
+                )}
+                {VALIDE_TYPE.circle(type) && (
+                    <div className="flex items-center gap-1 justify-between mb-3">
+                        <TextAlignement />
+                        <Decorations />
+                    </div>
+                )}
+                {!VALIDE_TYPE.circle(type) && (
+                    <div className="mb-3 p-1">
+                        <BordureSelect object={selected} />
+                    </div>
+                )}
 
                 {/*  
                 TODO Ajouter les ombre et floue
