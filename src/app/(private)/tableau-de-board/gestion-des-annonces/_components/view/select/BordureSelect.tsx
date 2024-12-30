@@ -15,6 +15,7 @@ import ColorPickerInput from "../../ColorPicker";
 import { Input } from "@/components/ui/input";
 import { StrokeThickness } from "./StokeIconeWidth";
 import { fabricObjectSerializer, getActiveObjectFromLayers } from "../../fabric/helpers";
+import { FabricObject } from "fabric";
 
 type BorderListType = {
     value: string;
@@ -49,35 +50,46 @@ const BordureSelect = () => {
     });
  */
     const handleSelectBordure = (value: string) => {
-        if (!selected || !canvas) return;
-        const strokeWidth = selected.strokeWidth || 2;
-        const stroke = selected.stroke || "black";
-        const object = getActiveObjectFromLayers(selected.id as string, canvas);
+        if (!canvas) return;
+        const object = canvas.getActiveObject() as FabricObject;
+        if (!object) return;
+        const strokeWidth = object.strokeWidth || 2;
+        const stroke = object.stroke || "black";
+
         if (!object) return;
         switch (value) {
             case "none":
-                object.stroke = null;
-                object.strokeWidth = 0;
-                object.strokeDashArray = [];
+                object.set({
+                    stroke: null,
+                    strokeStyle: value,
+                    strokeWidth: 0,
+                    strokeDashArray: [],
+                });
                 canvas?.renderAll();
-                updateObject(object);
+
                 break;
             case "solid":
-                object.stroke = stroke;
-                object.strokeWidth = strokeWidth;
-                object.strokeDashArray = [];
+                object.set({
+                    stroke,
+                    strokeStyle: value,
+                    strokeWidth,
+                    strokeDashArray: [],
+                });
                 canvas?.renderAll();
-                //const serialize = fabricObjectSerializer(object)
-                updateObject(object);
+
                 break;
             case "dashed":
-                object.stroke = stroke;
-                object.strokeWidth = strokeWidth;
-                object.strokeDashArray = [strokeWidth, strokeWidth];
+                object.set({
+                    stroke,
+                    strokeStyle: value,
+                    strokeWidth,
+                    strokeDashArray: [strokeWidth, strokeWidth],
+                });
                 canvas?.renderAll();
-                updateObject(object);
+
                 break;
         }
+        updateObject(object);
     };
 
     const handleChangeStrokeColor = (value: any) => {
@@ -102,7 +114,7 @@ const BordureSelect = () => {
 
     return (
         <div className="my-1 flex flex-col gap-3">
-            <Select defaultValue={selected?.strokeStyle || "none"} onValueChange={handleSelectBordure}>
+            <Select value={selected?.strokeStyle || "none"} onValueChange={handleSelectBordure}>
                 <SelectTrigger className="w-full text-xs">
                     <SelectValue placeholder="Sélectionner un type de bordure" />
                 </SelectTrigger>
@@ -114,21 +126,23 @@ const BordureSelect = () => {
                     ))}
                 </SelectContent>
             </Select>
-            <div className="flex gap-5 items-center justify-center">
-                <ColorPickerInput onChange={handleChangeStrokeColor} />
-                <div className="flex gap-2 items-center">
-                    <StrokeThickness />
-                    <Input
-                        type="number"
-                        placeholder="épaisseur"
-                        min={0}
-                        value={selected?.strokeWidth}
-                        onChange={handleChangeStrokeWidth}
-                        name="strokeWidth"
-                        className="text-xs w-[75px]"
-                    />
+            {selected?.strokeStyle !== "none" && (
+                <div className="flex gap-5 items-center justify-center">
+                    <ColorPickerInput defaultColor={selected?.stroke as string} onChange={handleChangeStrokeColor} />
+                    <div className="flex gap-2 items-center">
+                        <StrokeThickness />
+                        <Input
+                            type="number"
+                            placeholder="épaisseur"
+                            min={0}
+                            value={selected?.strokeWidth}
+                            onChange={handleChangeStrokeWidth}
+                            name="strokeWidth"
+                            className="text-xs w-[75px]"
+                        />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

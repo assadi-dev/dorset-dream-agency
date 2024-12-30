@@ -10,7 +10,6 @@ type ColorPickerInputProps = {
     onChange: (value: any) => void;
 };
 const ColorPickerInput = ({ defaultColor, onChange }: ColorPickerInputProps) => {
-    const [color, setColor] = React.useState(defaultColor);
     const previewColorRef = React.useRef<HTMLButtonElement | null>(null);
     const sizes = {
         height: 30,
@@ -19,14 +18,10 @@ const ColorPickerInput = ({ defaultColor, onChange }: ColorPickerInputProps) => 
     const styles = {
         height: sizes.height,
         width: sizes.width,
-        background: color,
+        background: defaultColor,
     };
     const handChangeColor = (value: string) => {
-        setColor((current) => {
-            current = value;
-            onChange && onChange(current);
-            return current;
-        });
+        onChange && onChange(value);
     };
 
     return (
@@ -36,7 +31,7 @@ const ColorPickerInput = ({ defaultColor, onChange }: ColorPickerInputProps) => 
                     <button ref={previewColorRef} style={styles} className={`border  shadow rounded`}></button>
                 </PopoverTrigger>
                 <PopoverContent className="w-fit bg-[rgb(34,34,34)] border-0">
-                    <ColorPickerView value={color} onChange={handChangeColor} />
+                    <ColorPickerView value={defaultColor} onChange={handChangeColor} />
                 </PopoverContent>
             </Popover>
         </div>

@@ -23,7 +23,10 @@ const useFabricAction = () => {
     const addObjectToLayer = (object: any) => {
         const canvas = canvasValidation(context.canvas);
         setIdObject(object);
-        object.set("name", object.id);
+        object.set({
+            name: object.id,
+            strokeStyle: "none",
+        });
         canvas.add(object);
         canvas.setActiveObject(object);
         canvas.requestRenderAll();
@@ -51,7 +54,7 @@ const useFabricAction = () => {
         const canvas = canvasValidation(context.canvas);
         if (!object) return;
         canvas.setActiveObject(object);
-        canvas.requestRenderAll();
+        canvas.renderAll();
         const objectSerialized = fabricObjectSerializer(object);
         context.dispatch({ type: FabricReducerAction.SELECTED_OBJECT, payload: objectSerialized });
     };
@@ -63,6 +66,8 @@ const useFabricAction = () => {
 
     const updateObject = (object: FabricObject) => {
         const objectSerialized = fabricObjectSerializer(object);
+        console.log(objectSerialized);
+
         context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT, payload: objectSerialized });
     };
 
@@ -87,13 +92,16 @@ const useFabricAction = () => {
         canvas.requestRenderAll();
     };
 
-    const updateLayers = useCallback(() => {
-        if (!context.canvas) return;
-        const canvas = canvasValidation(context.canvas);
-        const objectListsSerialized = serializedList(canvas.getObjects());
-        canvas.renderAll();
-        context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: objectListsSerialized });
-    }, [context]);
+    const updateLayers = useCallback(
+        (e: any) => {
+            if (!context.canvas) return;
+            const canvas = canvasValidation(context.canvas);
+            const objectSerialized = fabricObjectSerializer(e.target as FabricObject);
+            canvas.renderAll();
+            context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT, payload: objectSerialized });
+        },
+        [context],
+    );
 
     const moveObjectTo = (object: FabricObjectExtends, index: number) => {
         if (!object || !index) return;

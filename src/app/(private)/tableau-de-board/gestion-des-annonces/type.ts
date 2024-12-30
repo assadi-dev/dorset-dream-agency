@@ -47,7 +47,11 @@ export type FabricObjectSelected = {
     zIndex?: number;
 };
 
-export type FabricObjectExtends = FabricObject & { id?: string; zIndex?: number };
+export type FabricObjectExtends = FabricObject & {
+    id?: string;
+    zIndex?: number;
+    strokeStyle?: "none" | "solid" | "dashed";
+};
 
 export type CustomCornerProps = {
     cornerStyle: "rect" | "circle";

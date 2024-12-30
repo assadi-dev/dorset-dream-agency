@@ -25,7 +25,7 @@ export const fabricObjectSerializer = (fabricObject: FabricObjectExtends): Fabri
         ...fabricObjectSerialize,
         id: fabricObject.id,
         name: fabricObject.name,
-        strokeStyle: "none",
+        strokeStyle: fabricObject?.strokeStyle || "none",
         borderRadius: 0,
         zIndex: fabricObject.zIndex,
     } satisfies FabricObjectSelected;
