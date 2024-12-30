@@ -52,7 +52,7 @@ export function initAligningGuidelines(canvas: Canvas, options: Partial<Aligning
         const objects = options.getObjectsByTarget?.(target) ?? getObjectsByTarget(target);
         const points: Point[] = [];
         // Collect all the points to draw reference lines.
-        for (const object of objects) points.push(...getCaCheMapValue(object));
+        for (const object of objects as any) points.push(...getCaCheMapValue(object));
 
         // Obtain horizontal and vertical reference lines.
         const { vLines, hLines } = collectLine(target, points);
@@ -111,7 +111,7 @@ export function initAligningGuidelines(canvas: Canvas, options: Partial<Aligning
         if (onlyDrawPoint) isUniform = false;
 
         const list: Point[] = [];
-        for (const object of objects) {
+        for (const object of objects as any) {
             const d = getCaCheMapValue(object);
             list.push(...d);
         }
@@ -148,18 +148,18 @@ export function initAligningGuidelines(canvas: Canvas, options: Partial<Aligning
         if (onlyDrawPoint) {
             const list: LineProps[] = [];
             if (!options.closeVLine) {
-                for (const v of verticalLines) list.push(JSON.parse(v));
+                for (const v of verticalLines as any) list.push(JSON.parse(v));
             }
             if (!options.closeHLine) {
-                for (const h of horizontalLines) list.push(JSON.parse(h));
+                for (const h of horizontalLines as any) list.push(JSON.parse(h));
             }
             drawPointList(canvas, list);
         } else {
             if (!options.closeVLine) {
-                for (const v of verticalLines) drawVerticalLine(canvas, JSON.parse(v));
+                for (const v of verticalLines as any) drawVerticalLine(canvas, JSON.parse(v));
             }
             if (!options.closeHLine) {
-                for (const h of horizontalLines) {
+                for (const h of horizontalLines as any) {
                     drawHorizontalLine(canvas, JSON.parse(h));
                 }
             }
