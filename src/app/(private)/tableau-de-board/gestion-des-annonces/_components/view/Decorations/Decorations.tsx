@@ -57,8 +57,6 @@ const Decorations = () => {
                 const fontStyle =
                     styles[0].fontStyle !== "italic" || styles[0].fontStyle === undefined ? "italic" : "normal";
 
-                console.log(fontStyle);
-
                 object.setSelectionStyles({
                     fontStyle,
                 });

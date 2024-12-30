@@ -11,6 +11,7 @@ import {
 import { FabricObjectExtends, FabricObjectSelected } from "../../type";
 import { FabricFormType } from "./FabricContext";
 import { Textbox } from "fabric";
+import { object } from "zod";
 
 export enum FabricReducerAction {
     INIT_CANVAS = "INI_CANVAS",
@@ -36,16 +37,17 @@ export const fabricObjectSerializer = (fabricObject: FabricObjectExtends): Fabri
         id: fabricObject.id,
         name: fabricObject.name,
         strokeStyle: fabricObject?.strokeStyle || "none",
-        borderRadius: 0,
         zIndex: fabricObject.zIndex,
         opacity: fabricObject.opacity,
+        width: OBJECT_CLEAN_VALUES.getWidth(fabricObject),
+        height: OBJECT_CLEAN_VALUES.getHeight(fabricObject),
     } satisfies FabricObjectSelected;
 
     if (fabricObject instanceof Circle) {
         object.radius = fabricObject.radius;
     }
     if (fabricObject instanceof Rect) {
-        object.borderRadius = fabricObject.rx || fabricObject.ry;
+        object.borderRadius = fabricObject.borderRadius;
     }
     if (object instanceof IText || object instanceof Textbox) {
         object.lineHeight = fabricObject?.lineHeight as number;

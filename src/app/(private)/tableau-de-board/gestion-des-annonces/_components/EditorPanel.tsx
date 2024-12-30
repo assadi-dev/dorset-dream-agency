@@ -3,59 +3,67 @@ import React from "react";
 import TabsEditorContent from "./view/Tabs/TabsContent";
 import useFabricAction from "./fabric/useFabric";
 import { FabricObjectExtends } from "../type";
+import { BasicTransformEvent, FabricObject, Rect, TEvent, TPointerEvent } from "fabric";
 
 const EditorPanel = () => {
     const { canvas, selectedObject, updateObject, unselectedObject } = useFabricAction();
 
+    const scaleHandler = (
+        event: BasicTransformEvent<TPointerEvent> & {
+            target: FabricObject;
+        },
+    ) => {
+        const object = event.target;
+
+        if (object instanceof Rect) {
+            const objectClone = { borderRadius: object.borderRadius || 0 };
+            object.set({
+                rx: objectClone.borderRadius * (1 / object.scaleX),
+                ry: objectClone.borderRadius * (1 / object.scaleY),
+            });
+        }
+
+        updateObject(object);
+    };
+    const objectUpdateHandler = (
+        event: BasicTransformEvent<TPointerEvent> & {
+            target: FabricObject;
+        },
+    ) => {
+        const object = event.target;
+        if (object instanceof Rect) {
+            const objectClone = { borderRadius: object.borderRadius || 0 };
+            object.set({
+                rx: objectClone.borderRadius * (1 / object.scaleX),
+                ry: objectClone.borderRadius * (1 / object.scaleY),
+            });
+        }
+
+        updateObject(object);
+    };
+
+    const selectHandler = (
+        event: Partial<TEvent<TPointerEvent>> & {
+            selected: FabricObject[];
+            deselected: FabricObject[];
+        },
+    ) => {
+        const object = event.selected[0];
+        selectedObject(object);
+    };
+
     React.useEffect(() => {
         if (canvas) {
-            canvas.on("selection:created", (event) => {
-                const object = event.selected[0];
-                selectedObject(object);
-            });
-
-            canvas.on("selection:updated", (event) => {
-                const object = event.selected[0];
-                selectedObject(object);
-            });
-
-            canvas.on("object:modified", (event) => {
-                const object = event.target;
-                selectedObject(object);
-            });
-
-            canvas.on("object:scaling", (event) => {
-                const object = event.target;
-
-                /*    if (object.type.includes("i-text")) {
-                    const originalWidth = object.width * object.scaleX;
-                    const originalHeight = object.height * object.scaleY;
-                    object.set({
-                        width: originalWidth,
-                        height: originalHeight,
-                        scaleX: 1,
-                        scaleY: 1,
-                    });
-                } */
-
-                /*   if (["rect", "triangle"].includes(object.type)) {
-                    console.log("hrllo");
-
-                    object.set({
-                        rx: 10 * (1 / object.scaleX),
-                        ry: 10 * (1 / object.scaleY),
-                    });
-                } */
-
-                // selectedObject(object);
-            });
+            canvas.on("selection:created", selectHandler);
+            canvas.on("selection:updated", selectHandler);
+            canvas.on("object:modified", objectUpdateHandler);
+            canvas.on("object:scaling", scaleHandler);
 
             return () => {
-                canvas.off("selection:updated", (event) => {
-                    console.log(event);
-                    const object = event.selected[0];
-                    updateObject(object);
-                });
+                canvas.off("selection:created", selectHandler);
+                canvas.off("selection:updated", selectHandler);
+                canvas.off("object:scaling", scaleHandler);
+                canvas.off("object:modified", objectUpdateHandler);
             };
         }
     }, [canvas]);

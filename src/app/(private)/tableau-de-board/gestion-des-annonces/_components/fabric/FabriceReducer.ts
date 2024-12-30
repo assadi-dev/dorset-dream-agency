@@ -17,7 +17,7 @@ const FabriceReducer = (state: FabricInitialStateType, action?: ActionReducer) =
         case FabricReducerAction.UPDATE_OBJECT:
             const updateLayer = [...state.layers].map((current) => {
                 if (current.id === payload.id) {
-                    return { ...current, ...payload, strokeStyle: "none" };
+                    return { ...current, ...payload };
                 }
                 return current;
             });

@@ -24,8 +24,9 @@ const ObjectLayout = () => {
             case "borderRadius":
                 if (object instanceof Rect) {
                     object.set({
-                        rx: Number(value) * (1 / object.scaleX),
-                        ry: Number(value) * (1 / object.scaleY),
+                        borderRadius: Number(value),
+                        rx: (Number(value) * 1) / object.scaleX,
+                        ry: (Number(value) * 1) / object.scaleY,
                     });
                 }
                 break;

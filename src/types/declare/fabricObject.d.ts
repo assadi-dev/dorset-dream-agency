@@ -6,11 +6,13 @@ declare module "fabric" {
         id?: string;
         name?: string;
         zIndex?: number;
+        borderRadius?: number;
     }
     // to have the properties typed in the exported object
     interface SerializedObjectProps {
         id?: string;
         name?: string;
         zIndex?: number;
+        borderRadius?: number;
     }
 }

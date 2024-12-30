@@ -20,8 +20,6 @@ type HeaderRightDetails = {
     propertyInfo: PropertyInfoType;
 };
 const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
-    console.log(propertyInfo.stock);
-
     const isAvailable = propertyInfo.isAvailable ? "OUI" : "NON";
     const isFurnish = propertyInfo.isFurnish ? "OUI" : "NON";
     const Stock = () => {
