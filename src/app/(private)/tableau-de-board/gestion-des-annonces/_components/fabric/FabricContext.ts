@@ -1,7 +1,7 @@
 "use client";
 import { Canvas, FabricObject } from "fabric";
 import React from "react";
-import { ActionReducer, FabricObjectExtends } from "../../type";
+import { ActionReducer, FabricObjectExtends, FabricObjectSelected } from "../../type";
 
 export enum FabricFormType {
     rect = "rect",
@@ -11,12 +11,13 @@ export enum FabricFormType {
     triangle = "triangle",
     start = "start",
     textbox = "textbox",
+    unknown = "unknown",
 }
 
 export type FabricInitialStateType = {
     canvas: Canvas | null;
-    selected: FabricObjectExtends | null;
-    layers: FabricObjectExtends[];
+    selected: FabricObjectSelected | null;
+    layers: FabricObjectSelected[];
 };
 
 export const fabricInitialState: FabricInitialStateType = {

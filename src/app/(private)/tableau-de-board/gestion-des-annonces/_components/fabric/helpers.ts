@@ -1,5 +1,6 @@
-import { Canvas, FabricObject } from "fabric";
-import { FabricObjectExtends } from "../../type";
+import { Canvas, Circle, FabricObject, Rect } from "fabric";
+import { FabricObjectExtends, FabricObjectSelected } from "../../type";
+import { FabricFormType } from "./FabricContext";
 
 export enum FabricReducerAction {
     INIT_CANVAS = "INI_CANVAS",
@@ -13,6 +14,29 @@ export enum FabricReducerAction {
     SET_CANVAS_BACKGROUND_COLOR = "SET_CANVAS_BACKGROUND_COLOR",
     UPDATE_LAYER = "UPDATE_LAYER",
 }
+
+export const fabricObjectSerializer = (fabricObject: FabricObjectExtends & Circle & Rect): FabricObjectSelected => {
+    if (!fabricObject) throw new Error("le fabric object n'est pas renseigné");
+    if (!fabricObject.id) throw new Error("id non renseigné");
+
+    const object = {
+        id: fabricObject.id,
+        type: fabricObject.type,
+        left: fabricObject.left,
+        top: fabricObject.top,
+        width: fabricObject.width * fabricObject.scaleX,
+        height: fabricObject.width * fabricObject.scaleY,
+        fill: fabricObject.fill,
+        opacity: fabricObject.opacity,
+        stroke: fabricObject.stroke,
+        strokeWidth: fabricObject.strokeWidth,
+        angle: fabricObject.angle,
+        borderRadius: fabricObject.rx || fabricObject.ry,
+        radius: fabricObject.radius,
+    } satisfies Partial<FabricObjectSelected>;
+
+    return object;
+};
 
 export const canvasValidation = (canvas: unknown) => {
     if (canvas instanceof Canvas) return canvas;
@@ -30,3 +54,11 @@ export const getCurrentOject = (canvas: Canvas, id?: string) => {
     const object = canvas.getObjects().find((obj: FabricObjectExtends) => obj?.id === id);
     return object;
 };
+
+export const VALIDE_TYPE = {
+    text: (type?: FabricFormType) => type?.includes("text") || false,
+    rec: (type?: FabricFormType) => type?.includes("rec") || false,
+    circle: (type?: FabricFormType) => type?.includes("circle") || false,
+};
+
+export const DEFAULT_INPUT_VALUE = 0;

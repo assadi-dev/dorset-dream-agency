@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Canvas, FabricObject } from "fabric";
+import { Canvas, FabricObject, TFiller } from "fabric";
 
 export type BackgroundImageApiResponse = {
     name: string;
@@ -30,15 +30,20 @@ export type ActionReducer = {
 };
 
 export type FabricObjectSelected = {
-    type: FabricFormType;
+    id: string | null;
+    type: string | FabricFormType;
     width?: number;
     height?: number;
-    x: number;
-    y: number;
-    fill?: string;
-    stroke?: string;
+    left: number;
+    top: number;
+    fill?: string | TFiller | null;
+    stroke?: string | TFiller | null;
+    strokeWidth?: number;
+    strokeStyle?: "none" | "solid" | "dashed";
+    borderRadius: number;
     angle: number;
-    diameter: number;
+    radius?: number;
+    opacity: number;
 };
 
 export type FabricObjectExtends = FabricObject & { id?: string; zIndex?: number };

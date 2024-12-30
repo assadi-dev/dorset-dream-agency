@@ -74,7 +74,7 @@ const Toolbar = () => {
         selectedObject(selected);
     };
 
-    console.log(DEFAULT_COLOR);
+    //console.log(DEFAULT_COLOR);
 
     return (
         <Menubar className=" py-6 mx-auto  ">

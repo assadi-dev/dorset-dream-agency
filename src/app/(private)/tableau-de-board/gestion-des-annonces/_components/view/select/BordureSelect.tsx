@@ -25,7 +25,7 @@ const BORDER_LIST_TYPE: BorderListType[] = [
         label: "Aucun",
     },
     {
-        value: "line",
+        value: "solid",
         label: "Linéaire",
     },
     {
@@ -62,7 +62,7 @@ const BordureSelect = ({ object }: BordureSelectProps) => {
                 canvas?.renderAll();
 
                 break;
-            case "line":
+            case "solid":
                 object.stroke = stroke;
                 object.strokeWidth = strokeWidth;
                 object.strokeDashArray = [];
