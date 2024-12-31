@@ -13,7 +13,7 @@ type BackgroundFile = {
 
 export const GET = async (request: NextRequest) => {
     try {
-        const url = ENV.DOMAIN + "/api";
+        const url = ENV.DOMAIN + "/api/announcement/background";
         const fileUrl = `${url}`;
         const backgroundDir = path.join(BACKGROUND_DIR_IMAGES);
         const promise = (): Promise<BackgroundFile[]> =>
