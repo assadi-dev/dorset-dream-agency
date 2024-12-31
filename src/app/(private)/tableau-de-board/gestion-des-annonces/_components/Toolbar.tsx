@@ -9,7 +9,7 @@ import {
     MenubarTrigger,
 } from "@/components/ui/menubar";
 import { Button } from "@/components/ui/button";
-import { MousePointer2, Trash2, Type, Shapes, ImagePlus, Square, Circle, Triangle, Star } from "lucide-react";
+import { MousePointer2, Trash2, Type, Shapes, ImagePlus, Square, Circle, Triangle, Star, Copy } from "lucide-react";
 import ColorPickerInput from "./ColorPicker";
 import { Separator } from "@/components/ui/separator";
 import TypographieSelect from "./view/select/TypographieSelect";
@@ -19,7 +19,7 @@ import { CORNER_STYLES, ShapeGenerator } from "../helper";
 import { FabricImage } from "fabric";
 import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
-import { getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
+import { duplicateObject, getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
 
 const Toolbar = () => {
     const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject, updateObject } =
@@ -71,6 +71,14 @@ const Toolbar = () => {
         object.set("fill", value);
         canvas.renderAll();
         updateObject(object);
+    };
+
+    const duplicate = async () => {
+        if (!canvas || !selected?.id) return;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (!object) return;
+        const newObject = await duplicateObject(object, canvas);
+        addObjectToLayer(newObject);
     };
 
     return (
@@ -148,6 +156,11 @@ const Toolbar = () => {
                     </div>
                 </MenubarMenu>
             )}
+            <MenubarMenu>
+                <Button variant="ghost" className=" transition" onClick={duplicate}>
+                    <Copy />
+                </Button>
+            </MenubarMenu>
             <MenubarMenu>
                 <Button
                     variant="ghost"

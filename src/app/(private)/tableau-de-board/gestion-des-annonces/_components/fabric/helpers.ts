@@ -11,7 +11,7 @@ import {
 import { FabricObjectExtends, FabricObjectSelected } from "../../type";
 import { FabricFormType } from "./FabricContext";
 import { Textbox } from "fabric";
-import { object } from "zod";
+import uniqid from "uniqid";
 
 export enum FabricReducerAction {
     INIT_CANVAS = "INI_CANVAS",
@@ -92,4 +92,16 @@ export const serializedList = (
 
 export const getActiveObjectFromLayers = (id: string, canvas: Canvas) => {
     return canvas.getObjects().find((object) => object.id === id);
+};
+
+export const duplicateObject = async (object: FabricObject, canvas: Canvas) => {
+    const newObject = await object.clone();
+    const id = `${object.type}_${uniqid()}`;
+    newObject.set({
+        id: `${object.type}_${uniqid()}`,
+        name: id,
+        left: object.left + 10,
+        top: object.top + 10,
+    });
+    return newObject;
 };
