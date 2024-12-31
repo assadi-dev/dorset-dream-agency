@@ -21,7 +21,9 @@ const TextSizeAndColor = () => {
         const object = getActiveObjectFromLayers(selected.id, canvas);
         if (object instanceof IText || object instanceof Textbox) {
             object.set(name, value);
-            canvas.requestRenderAll();
+            object.exitEditing();
+            object.setCoords();
+            canvas.renderAll();
             updateObject(object);
         }
     };

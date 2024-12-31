@@ -16,7 +16,7 @@ import TypographieSelect from "./view/select/TypographieSelect";
 import { Input } from "@/components/ui/input";
 import Decorations from "./view/Decorations/Decorations";
 import { CORNER_STYLES, ShapeGenerator } from "../helper";
-import { FabricImage } from "fabric";
+import { FabricImage, IText, Textbox } from "fabric";
 import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
 import { duplicateObject, getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
@@ -70,6 +70,19 @@ const Toolbar = () => {
         object.set("fill", value);
         canvas.renderAll();
         updateObject(object);
+    };
+
+    const changeFontSize = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!canvas || !selected?.id) return;
+        const value = event.currentTarget.value;
+        const object = getActiveObjectFromLayers(selected.id, canvas);
+        if (object instanceof IText || object instanceof Textbox) {
+            object.set("fontSize", value);
+            object.exitEditing();
+            object.setCoords();
+            canvas.renderAll();
+            updateObject(object);
+        }
     };
 
     const duplicate = async () => {
@@ -161,7 +174,13 @@ const Toolbar = () => {
             {VALIDE_TYPE.text(type as FabricFormType) && (
                 <MenubarMenu>
                     <div className="border">
-                        <Input placeholder="taille de la police" type="number" className="w-[65px]" defaultValue={18} />
+                        <Input
+                            placeholder="taille de la police"
+                            type="number"
+                            className="w-[65px]"
+                            value={selected?.fontSize}
+                            onChange={changeFontSize}
+                        />
                     </div>
                 </MenubarMenu>
             )}

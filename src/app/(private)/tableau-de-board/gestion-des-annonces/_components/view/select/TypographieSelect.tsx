@@ -44,7 +44,9 @@ const TypographieSelect = () => {
             textObject.set({
                 fontFamily: currentValue,
             });
-            canvas?.requestRenderAll();
+            object.exitEditing();
+            object.setCoords();
+            canvas?.renderAll();
             updateObject(object);
         }
 
