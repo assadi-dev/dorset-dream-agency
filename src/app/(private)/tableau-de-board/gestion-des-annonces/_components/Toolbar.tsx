@@ -22,8 +22,7 @@ import useFabricAction from "./fabric/useFabric";
 import { duplicateObject, getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
 
 const Toolbar = () => {
-    const { selected, canvas, setCanvasBackgroundColor, addObjectToLayer, unselectedObject, updateObject } =
-        useFabricAction();
+    const { selected, canvas, setLayers, addObjectToLayer, unselectedObject, updateObject } = useFabricAction();
 
     const type = selected?.type || "";
     const DEFAULT_COLOR = selected ? (selected.fill as string) : "#fff";
@@ -77,8 +76,18 @@ const Toolbar = () => {
         if (!canvas || !selected?.id) return;
         const object = getActiveObjectFromLayers(selected.id, canvas);
         if (!object) return;
-        const newObject = await duplicateObject(object, canvas);
+        const newObject = await duplicateObject(object);
         addObjectToLayer(newObject);
+    };
+
+    const handleClickRemove = () => {
+        if (selected?.id && canvas) {
+            const fabricObject = getActiveObjectFromLayers(selected.id, canvas);
+            if (!fabricObject) return;
+            canvas.remove(fabricObject);
+            canvas.requestRenderAll();
+            setLayers(canvas.getObjects());
+        }
     };
 
     return (
@@ -165,6 +174,7 @@ const Toolbar = () => {
                 <Button
                     variant="ghost"
                     className="text-destructive hover:bg-destructive hover:text-destructive-foreground transition"
+                    onClick={handleClickRemove}
                 >
                     <Trash2 />
                 </Button>

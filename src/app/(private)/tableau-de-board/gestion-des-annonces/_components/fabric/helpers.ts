@@ -94,7 +94,7 @@ export const getActiveObjectFromLayers = (id: string, canvas: Canvas) => {
     return canvas.getObjects().find((object) => object.id === id);
 };
 
-export const duplicateObject = async (object: FabricObject, canvas: Canvas) => {
+export const duplicateObject = async (object: FabricObject) => {
     const newObject = await object.clone();
     const id = `${object.type}_${uniqid()}`;
     newObject.set({
