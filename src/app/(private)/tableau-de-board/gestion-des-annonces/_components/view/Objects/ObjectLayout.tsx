@@ -45,10 +45,13 @@ const ObjectLayout = () => {
         updateObject(object);
     };
 
-    const handleChangeBackgroundColor = () => {
+    const handleChangeBackgroundColor = (value: string) => {
         if (!selected || !canvas) return;
         const object = getActiveObjectFromLayers(selected.id as string, canvas);
         if (!object) return;
+        object.set("fill", value);
+        canvas.renderAll();
+        updateObject(object);
     };
 
     return (
@@ -139,16 +142,18 @@ const ObjectLayout = () => {
                 )}
             </div>
 
-            <div className="flex items-center gap-3">
-                <Label htmlFor="backgroundColor" className=" text-xs">
-                    <Palette className="w-5" />
-                </Label>
+            {!VALIDE_TYPE.text(type) && (
+                <div className="flex items-center gap-3">
+                    <Label htmlFor="backgroundColor" className=" text-xs">
+                        <Palette className="w-5" />
+                    </Label>
 
-                <ColorPickerInput
-                    defaultColor={(selected?.fill as string) || "#fff"}
-                    onChange={handleChangeBackgroundColor}
-                />
-            </div>
+                    <ColorPickerInput
+                        defaultColor={(selected?.fill as string) || "#fff"}
+                        onChange={handleChangeBackgroundColor}
+                    />
+                </div>
+            )}
 
             <div className="flex items-center gap-3">
                 <Label htmlFor="opacity" className=" text-xs">
