@@ -27,3 +27,11 @@ export const UPLOAD_DIR_IMAGES = path.join(ENV.STORAGE_DIR, "images");
  * Emplacement du dossier de stockage pour les images d’arrière plans pour l’éditeur des annonces
  */
 export const BACKGROUND_DIR_IMAGES = path.join(ENV.STORAGE_DIR, "images", "backgrounds");
+/**
+ * Emplacement du dossier de stockage des fichiers généré dans l'éditeur des annonces
+ */
+export const ANNOUNCEMENT_DIR_CREATIONS = path.join(ENV.STORAGE_DIR, "announcements", "creations");
+/**
+ * Emplacement du dossier de stockage des fichiers sauvegarde dans l'éditeur des annonces
+ */
+export const ANNOUNCEMENT_DIR_SAVES = path.join(ENV.STORAGE_DIR, "announcements", "saves");
