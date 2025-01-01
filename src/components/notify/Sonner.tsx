@@ -13,3 +13,16 @@ export function ToastErrorSonner(message: string, duration?: number) {
         duration: duration || 8000,
     });
 }
+
+export function ToastInfoSonner(message: string, duration?: number) {
+    toast.info(ERROR_TITLE_NOTIFY, {
+        description: message,
+        duration: duration || 8000,
+    });
+}
+export function ToastWarningSonner(message: string, duration?: number) {
+    toast.warning(ERROR_TITLE_NOTIFY, {
+        description: message,
+        duration: duration || 8000,
+    });
+}
