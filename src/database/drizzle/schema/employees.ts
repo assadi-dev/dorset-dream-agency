@@ -1,9 +1,10 @@
 import { relations } from "drizzle-orm";
-import { updatedAndCreatedAt } from "../utils";
+import { deletedAt, updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { users } from "./users";
 import { employeesToSecteurs } from "./employeesToSecteurs";
 import { photos } from "./photos";
+import { announcements } from "./announcements";
 
 export const employees = mysqlTable("employees", {
     id: int("id").autoincrement().primaryKey(),
@@ -16,6 +17,7 @@ export const employees = mysqlTable("employees", {
     userID: int("user_id").references(() => users.id, { onDelete: "set null" }),
     photoID: int("photo_id").references(() => photos.id, { onDelete: "set null" }),
     ...updatedAndCreatedAt,
+    ...deletedAt,
 });
 
 export const employeesRelations = relations(employees, ({ one, many }) => ({
@@ -25,4 +27,5 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
     }),
     secteurs: many(employeesToSecteurs),
     photo: one(photos),
+    announcements: many(announcements),
 }));

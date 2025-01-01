@@ -9,6 +9,13 @@ export const updatedAndCreatedAt = {
     updatedAt: datetime("updated_at").$onUpdate(() => new Date()),
 };
 
+/**
+ * Ajout des champs deleted_at
+ */
+export const deletedAt = {
+    deletedAt: datetime("deleted_at"),
+};
+
 export const takeUniqueOrThrow = (message: string) => {
     return <T>(values: T[]): T => {
         if (values.length !== 1) throw new Error(`Found non unique or inexistent value: ${message}`);
