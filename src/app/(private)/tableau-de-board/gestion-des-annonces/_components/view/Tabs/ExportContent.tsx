@@ -17,14 +17,39 @@ import { wait } from "@/lib/utils";
 const ExportContent = () => {
     const { canvas } = useFabricAction();
     const [isPending, startTransition] = React.useTransition();
-    const exportToPng = React.useCallback(async () => {
+
+    const hasObject = () => {
         if (!canvas) return;
         const objectsLength = canvas.getObjects().length;
         if (objectsLength === 0) {
             ToastInfoSonner("Pas d'objet à exporter");
-            return;
+            return false;
         }
-        const png = canvas.toDataURL();
+        return true;
+    };
+
+    const exportToPng = React.useCallback(async () => {
+        if (!canvas) return;
+        if (!hasObject()) return;
+        const dataUrl = canvas.toDataURL();
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = `annonce_${new Date().getTime()}.png`;
+        link.click();
+        link.remove();
+    }, [canvas]);
+
+    const exportToSVG = React.useCallback(async () => {
+        if (!canvas) return;
+        if (!hasObject()) return;
+        const svg = canvas.toSVG();
+        const blob = new Blob([svg], { type: "image/svg+xm" });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = `annonce_${new Date().getTime()}.svg`;
+        link.click();
+        link.remove();
     }, [canvas]);
 
     const form = useForm<AnnouncementFormType>({
@@ -34,7 +59,9 @@ const ExportContent = () => {
     const saveAnnounce: SubmitHandler<AnnouncementFormType> = async (values) => {
         startTransition(async () => {
             try {
+                if (!hasObject()) return;
                 await wait(3000);
+
                 ToastSuccessSonner("Annonce sauvegardé");
             } catch (error) {
                 ToastErrorSonner("Une erreur est survenu lors de la création de l'annonce");
@@ -52,7 +79,7 @@ const ExportContent = () => {
                             type="text"
                             label=""
                             placeholder="Titre de l’annonce"
-                            {...form.register("title")}
+                            name="title"
                         />
                     </div>
                     <div className="my-3">
@@ -82,18 +109,12 @@ const ExportContent = () => {
                             isLoading={false}
                             size={"sm"}
                             type="button"
-                            onClick={exportToPng}
+                            onClick={exportToSVG}
                             className="w-full"
                         >
                             <ImageDown className="w-4 h-4" /> Export SVG
                         </SubmitButton>
-                        <SubmitButton
-                            isLoading={isPending}
-                            size={"sm"}
-                            type="submit"
-                            onClick={exportToPng}
-                            className="w-full"
-                        >
+                        <SubmitButton isLoading={isPending} size={"sm"} type="submit" className="w-full">
                             {isPending ? (
                                 "Sauvegarde en cours..."
                             ) : (

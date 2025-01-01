@@ -20,6 +20,7 @@ import { FabricImage, IText, Textbox } from "fabric";
 import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
 import { duplicateObject, getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
+import { toBase64 } from "@/lib/convertFile";
 
 const Toolbar = () => {
     const { selected, canvas, setLayers, addObjectToLayer, unselectedObject, updateObject } = useFabricAction();
@@ -41,12 +42,11 @@ const Toolbar = () => {
         input.click();
         const generateImageObject = async (event: any) => {
             const file = event.target?.files[0];
-            const reader = URL.createObjectURL(file);
-            const image = await FabricImage.fromURL(reader, { crossOrigin: "anonymous" }, { ...CORNER_STYLES });
+            const base64 = (await toBase64(file)) as string;
+            const image = await FabricImage.fromURL(base64, { crossOrigin: "anonymous" }, { ...CORNER_STYLES });
             image.scaleToHeight(100);
             image.scaleToWidth(200);
             addObjectToLayer(image);
-            URL.revokeObjectURL(reader);
         };
         input.addEventListener("change", generateImageObject);
 
