@@ -3,7 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { Card } from "@/components/ui/card";
 import { GripVertical, Trash2, Eye, EyeOff } from "lucide-react";
-import { RemoveButton, VisibleBtn } from "./LayerItemActions";
+import { LockedBtn, RemoveButton, VisibleBtn } from "./LayerItemActions";
 import { FabricObjectExtends } from "../../../type";
 
 type LayerItemProps = {
@@ -23,8 +23,9 @@ const LayerItem = ({ object }: LayerItemProps) => {
                 <button type="button" className="cursor-grab active:cursor-grabbing" {...listeners} {...attributes}>
                     <GripVertical size={16} />
                 </button>
-                <div className=""> {object.name}</div>
+                <div className="text-xs max-w-[80%] text-ellipsis text-nowrap overflow-hidden"> {object.name}</div>
                 <div className="flex items-center gap-1">
+                    <LockedBtn object={object} />
                     <VisibleBtn object={object} />
                     <RemoveButton object={object} />
                 </div>

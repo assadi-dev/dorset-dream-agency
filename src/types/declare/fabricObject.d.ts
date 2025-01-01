@@ -7,6 +7,7 @@ declare module "fabric" {
         name?: string;
         zIndex?: number;
         borderRadius?: number;
+        evented: boolean;
     }
     // to have the properties typed in the exported object
     interface SerializedObjectProps {

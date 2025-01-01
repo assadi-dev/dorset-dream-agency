@@ -41,6 +41,9 @@ export const fabricObjectSerializer = (fabricObject: FabricObjectExtends): Fabri
         opacity: fabricObject.opacity,
         width: OBJECT_CLEAN_VALUES.getWidth(fabricObject),
         height: OBJECT_CLEAN_VALUES.getHeight(fabricObject),
+        evented: fabricObject.evented,
+        selectable: fabricObject.selectable,
+        hoverCursor: fabricObject.hoverCursor,
     } satisfies FabricObjectSelected;
 
     if (fabricObject instanceof Circle) {
