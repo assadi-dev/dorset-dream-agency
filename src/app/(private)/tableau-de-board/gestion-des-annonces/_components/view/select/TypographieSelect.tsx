@@ -26,7 +26,7 @@ const SYSTEM_FONTS: BorderListType[] = [
     { label: "Courier New", value: "Courier New" },
     { label: "Monsieur La Doulaise", value: `Monsieur La Doulaise` },
     { label: "Poppins", value: `Poppins` },
-    { label: "Raleway", value: `Raleway", sans-serif` },
+    { label: "Raleway", value: `Raleway` },
 ];
 
 const TypographieSelect = () => {
