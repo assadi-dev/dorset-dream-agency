@@ -8,6 +8,7 @@ import {
     TransactionCountPerWeekResponse,
     TransactionPerServiceStatResponse,
 } from "./_cards/types";
+import { wait } from "@/lib/utils";
 
 export enum DASHBOARD_CARD_QUERY {
     DASHBOARD_STATS_CLIENT = "dashboard_stats_clients",
@@ -17,6 +18,7 @@ export enum DASHBOARD_CARD_QUERY {
     DASHBOARD_STATS_TRANSACTION_PER_SERVICES = "dashboard_stats_transaction_per_service",
     DASHBOARD_STATS_TRANSACTION_PER_WEEK = "dashboard_stats_transaction_per_week",
     DASHBOARD_STATS_TRANSACTION_PER_EMPLOYEES = "dashboard_stats_transaction_per_employees",
+    DASHBOARD_ANNOUNCE = "dashboard_announce",
 }
 
 export const getDateToday = () => {
@@ -87,4 +89,17 @@ export const fetchEmployeeIncomeTransaction = async (filter: {
         params: { ...filter },
     });
     return response.data;
+};
+
+export const fetchAnnounce = async (): Promise<{
+    title: string;
+    url: string;
+} | null> => {
+    try {
+        const response = await API_INSTANCE.get("/announcements/display");
+        const data = response.data;
+        return data;
+    } catch (error) {
+        throw error;
+    }
 };

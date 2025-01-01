@@ -42,3 +42,5 @@ package-lock.json
 /src/storage/images/employees/*
 /src/storage/images/properties/*
 /src/storage/images/perquisitions/*
+/src/storage/images/announcements/files/*
+/src/storage/images/announcements/saves/*

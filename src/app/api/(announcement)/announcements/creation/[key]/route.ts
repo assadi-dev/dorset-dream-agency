@@ -20,9 +20,9 @@ export async function GET(req: Request, { params: { key } }: Params) {
         const { size } = fs.statSync(filePath);
 
         const headers = new Headers({
-            "Content-Type": "image/png",
+            "Content-Type": "image/svg+xml",
             "Content-Length": size.toString(),
-            /* "Content-Disposition": `attachment; filename="${key}"`, */
+            /*"Content-Disposition": `attachment; filename="${key}"`, */
         });
         const response = new NextResponse(imageBuffer, {
             status: 200,

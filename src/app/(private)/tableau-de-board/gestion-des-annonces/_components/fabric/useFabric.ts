@@ -5,6 +5,7 @@ import { canvasValidation, fabricObjectSerializer, FabricReducerAction, serializ
 import { Canvas, FabricImage, FabricObject } from "fabric";
 import uniqid from "uniqid";
 import { FabricObjectExtends } from "../../type";
+import { toBase64, toBase64FromUrl } from "@/lib/convertFile";
 
 const useFabricAction = () => {
     const context = React.useContext(FabricContext);
@@ -73,7 +74,9 @@ const useFabricAction = () => {
 
     const setCanvasBackgroundImage = async (url: string) => {
         const canvas = canvasValidation(context.canvas);
-        const image = await FabricImage.fromURL(url);
+
+        const base64 = (await toBase64FromUrl(url)) as string;
+        const image = await FabricImage.fromURL(base64);
         image.scaleToHeight(canvas.height);
         image.scaleToWidth(canvas.width);
         canvas.backgroundImage = image;

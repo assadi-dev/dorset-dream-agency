@@ -46,7 +46,7 @@ const IncomeEmployee = () => {
 
     return (
         <div>
-            <Card className="">
+            <Card className="h-full">
                 <CardHeader>
                     <CardTitle>Dernières contributions des employés</CardTitle>
                 </CardHeader>
