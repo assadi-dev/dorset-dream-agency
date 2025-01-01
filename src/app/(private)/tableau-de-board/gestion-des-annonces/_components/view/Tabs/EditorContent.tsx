@@ -32,35 +32,38 @@ const EditorContent = () => {
     const type = selected?.type as FabricFormType;
 
     return (
-        <div className="flex flex-col gap-2  h-full  text-sm w-fit bg-white p-5 rounded-xl shadow-lg">
-            <ScrollArea className="h-[72vh] py-3 px-3 xl:px-6">
-                <div className="mb-3">
-                    <ObjectAlignements />
-                </div>
-                <ObjectLayout />
-                {VALIDE_TYPE.text(type) && (
+        <div className="w-fit bg-white rounded-xl shadow-lg">
+            {" "}
+            <ScrollArea className="h-[72vh] py-3 ">
+                <div className="flex flex-col gap-2  p-3 xl:p-5  h-full  text-sm ">
                     <div className="mb-3">
-                        <TextSizeAndColor />
+                        <ObjectAlignements />
                     </div>
-                )}
-                {VALIDE_TYPE.text(type) && (
-                    <div className="flex items-center gap-1 justify-between mb-3">
-                        <TextAlignement />
-                        <Decorations />
-                    </div>
-                )}
-                {
-                    <div className="mb-3 p-1">
-                        <BordureSelect />
-                    </div>
-                }
+                    <ObjectLayout />
+                    {VALIDE_TYPE.text(type) && (
+                        <div className="mb-3">
+                            <TextSizeAndColor />
+                        </div>
+                    )}
+                    {VALIDE_TYPE.text(type) && (
+                        <div className="flex items-center gap-1 justify-between mb-3">
+                            <TextAlignement />
+                            <Decorations />
+                        </div>
+                    )}
+                    {
+                        <div className="mb-3 p-1">
+                            <BordureSelect />
+                        </div>
+                    }
 
-                {/*  
+                    {/*  
                 TODO Ajouter les ombre et floue
          
             <div>
                     <Label className=" text-xs">Effet</Label>
                 </div> */}
+                </div>
             </ScrollArea>
         </div>
     );

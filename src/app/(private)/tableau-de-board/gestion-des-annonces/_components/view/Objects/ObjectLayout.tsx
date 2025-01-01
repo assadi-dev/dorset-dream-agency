@@ -55,7 +55,7 @@ const ObjectLayout = () => {
     };
 
     return (
-        <div className="grid grid-cols-2 row-[auto] gap-3 w-full">
+        <div className="grid grid-cols-2 row-[auto] gap-3 w-full ">
             <div className="flex items-center gap-3">
                 <Label className="text-xs" htmlFor="left">
                     X
