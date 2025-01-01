@@ -1,12 +1,20 @@
+import { ENV } from "@/config/global";
+import { getPublishedAnnouncements } from "@/database/drizzle/repositories/announcements";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export const GET = async () => {
     try {
-        const data = {
-            title: "Announcement",
-            url: "http://localhost:3000/api/announcements/creation/1735759275343.svg",
-        };
+        const result = await getPublishedAnnouncements();
+
+        const URL = ENV.DOMAIN + "/api/announcements/creation/";
+        const data =
+            result.length > 0
+                ? {
+                      title: result[0].title,
+                      url: URL + result[0].path,
+                  }
+                : null;
 
         return NextResponse.json(data);
     } catch (error: unknown) {

@@ -1,9 +1,9 @@
 import { relations } from "drizzle-orm";
 import { deletedAt, updatedAndCreatedAt } from "../utils";
-import { boolean, int, mysqlEnum, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
+import { boolean, datetime, int, mysqlEnum, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 import { employees } from "./employees";
 
-export const announcements = mysqlTable("clients", {
+export const announcements = mysqlTable("announcements", {
     id: int("id").autoincrement().primaryKey(),
     title: varchar("title", { length: 250 }).notNull(),
     description: text("description"),
@@ -11,6 +11,7 @@ export const announcements = mysqlTable("clients", {
     settings: varchar("settings", { length: 255 }),
     author: int("author").references(() => employees.id, { onDelete: "set null" }),
     isPublish: boolean("is_publish"),
+    publishedAt: datetime("published_at"),
     ...updatedAndCreatedAt,
     ...deletedAt,
 });
