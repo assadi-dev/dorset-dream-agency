@@ -67,9 +67,12 @@ export type CustomCornerProps = {
 
 export type AnnouncementType = {
     id: number;
-    title: number;
+    title: string;
     description: string | null;
-    path: string;
-    isPublish: boolean;
+    path: string | null;
+    settings: string | null;
     author: string;
+    publishedAt: Date | null;
+    isPublish: boolean | null;
+    createdAt: Date | null;
 };

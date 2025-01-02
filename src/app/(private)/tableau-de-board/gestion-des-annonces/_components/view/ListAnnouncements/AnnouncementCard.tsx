@@ -72,7 +72,7 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
                                     <label htmlFor="publish">Publier</label>
                                     <Switch
                                         id="publish"
-                                        defaultChecked={announce.isPublish}
+                                        defaultChecked={announce.isPublish || false}
                                         onCheckedChange={handleSwitchPublish}
                                     />
                                 </DropdownMenuItem>
