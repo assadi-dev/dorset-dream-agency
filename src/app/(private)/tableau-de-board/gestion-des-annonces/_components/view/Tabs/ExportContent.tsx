@@ -13,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnnouncementFormType, AnnouncementSchema } from "../../../schema";
 import { ToastErrorSonner, ToastInfoSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { wait } from "@/lib/utils";
+import { saveAnnonceCreation } from "../../../ajouter/actions";
+import { convertBlobToFile, convertUrlToFile } from "@/lib/convertFile";
 
 const ExportContent = () => {
     const { canvas } = useFabricAction();
@@ -59,8 +61,17 @@ const ExportContent = () => {
     const saveAnnounce: SubmitHandler<AnnouncementFormType> = async (values) => {
         startTransition(async () => {
             try {
+                if (!canvas) return;
                 if (!hasObject()) return;
-                await wait(3000);
+                const fileName = `announcement_${Date.now()}.png`;
+                const mimetype = "image/png";
+                const dataUrl = canvas.toDataURL();
+
+                const creationFile = await convertUrlToFile({ url: dataUrl, name: fileName, mimetype });
+
+                const formData = new FormData();
+                formData.append("files", creationFile);
+                await saveAnnonceCreation(formData, values);
 
                 ToastSuccessSonner("Annonce sauvegardé");
             } catch (error) {

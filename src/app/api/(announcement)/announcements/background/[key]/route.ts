@@ -16,6 +16,7 @@ export async function GET(req: Request, { params: { key } }: Params) {
         if (!key) throw new Error("Key undefined");
 
         const filePath = path.join(BACKGROUND_DIR_IMAGES, key);
+
         const imageBuffer = fs.readFileSync(filePath);
         const { size } = fs.statSync(filePath);
 

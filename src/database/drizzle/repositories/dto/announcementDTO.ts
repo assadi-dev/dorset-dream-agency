@@ -3,11 +3,11 @@ import { z } from "zod";
 
 export const announceSchema = z.object({
     title: z.string().min(1),
-    description: z.string().nullable(),
-    path: z.string().nullable(),
-    settings: z.string().nullable(),
+    description: z.string().optional().nullable(),
+    path: z.string().optional().nullable(),
+    settings: z.string().optional().nullable(),
     author: z.number().min(1),
-    isPublish: z.boolean(),
+    isPublish: z.boolean().optional(),
 });
 
 export type AnnounceCreateInputDto = z.infer<typeof announceSchema>;

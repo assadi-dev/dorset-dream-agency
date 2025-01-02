@@ -2,6 +2,11 @@ import path from "path";
 import { ENV } from "./global";
 
 /**
+ * Emplacement du dossier storage
+ */
+export const STORAGE_DIR = ENV.STORAGE_DIR;
+
+/**
  * Dossier de l'Emplacement des images concernant les propriétés
  */
 export const PROPERTIES_DIR = path.join(ENV.STORAGE_DIR, "images", "properties");
@@ -30,8 +35,8 @@ export const BACKGROUND_DIR_IMAGES = path.join(ENV.STORAGE_DIR, "images", "backg
 /**
  * Emplacement du dossier de stockage des fichiers généré dans l'éditeur des annonces
  */
-export const ANNOUNCEMENT_DIR_CREATIONS = path.join(ENV.STORAGE_DIR, "announcements", "creations");
+export const UPLOAD_ANNOUNCEMENT_DIR_CREATIONS = path.join(ENV.STORAGE_DIR, "announcements", "creations");
 /**
  * Emplacement du dossier de stockage des fichiers sauvegarde dans l'éditeur des annonces
  */
-export const ANNOUNCEMENT_DIR_SAVES = path.join(ENV.STORAGE_DIR, "announcements", "saves");
+export const UPLOAD_ANNOUNCEMENT_DIR_SAVES = path.join(ENV.STORAGE_DIR, "announcements", "saves");

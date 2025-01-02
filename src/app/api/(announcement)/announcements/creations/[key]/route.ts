@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import path from "path";
 import * as fs from "fs";
-import { ANNOUNCEMENT_DIR_CREATIONS, BACKGROUND_DIR_IMAGES } from "@/config/dir";
+import { UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, BACKGROUND_DIR_IMAGES } from "@/config/dir";
 
 export const dynamic = "force-dynamic";
 
@@ -15,12 +15,12 @@ export async function GET(req: Request, { params: { key } }: Params) {
     try {
         if (!key) throw new Error("Key undefined");
 
-        const filePath = path.join(ANNOUNCEMENT_DIR_CREATIONS, key);
+        const filePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, key);
         const imageBuffer = fs.readFileSync(filePath);
         const { size } = fs.statSync(filePath);
 
         const headers = new Headers({
-            "Content-Type": "image/svg+xml",
+            "Content-Type": "image/png",
             "Content-Length": size.toString(),
             /*"Content-Disposition": `attachment; filename="${key}"`, */
         });

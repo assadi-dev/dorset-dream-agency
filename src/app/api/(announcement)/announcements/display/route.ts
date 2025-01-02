@@ -7,7 +7,7 @@ export const GET = async () => {
     try {
         const result = await getPublishedAnnouncements();
 
-        const URL = ENV.DOMAIN + "/api/announcements/creation/";
+        const URL = ENV.DOMAIN + "/api";
         const data =
             result.length > 0
                 ? {

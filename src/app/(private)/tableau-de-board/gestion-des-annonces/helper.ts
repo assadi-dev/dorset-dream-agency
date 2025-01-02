@@ -18,7 +18,7 @@ export const CORNER_STYLES: CustomCornerProps = {
 };
 
 export const fetchBackgroundImages = async () => {
-    const result = await API_INSTANCE.get("/announcement/background");
+    const result = await API_INSTANCE.get("/announcements/background");
     return result.data;
 };
 

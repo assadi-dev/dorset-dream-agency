@@ -8,7 +8,7 @@ export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
 
     if (validateInput.error) throw validateInput.error;
 
-    const query = await db.insert(announcements).values(validateInput.data);
+    const query = await db.insert(announcements).values({ ...validateInput.data, isPublish: false });
     const id = query[0].insertId;
     return findOneByID(id);
 };
@@ -44,7 +44,12 @@ export const setPublishAnnounce = async (id: number, values: boolean) => {
 };
 
 export const getPublishedAnnouncements = async () => {
-    const query = db.select().from(announcements).where(eq(announcements.isPublish, true)).prepare();
+    const query = db
+        .select()
+        .from(announcements)
+        .where(eq(announcements.isPublish, true))
+        .orderBy(desc(announcements.publishedAt))
+        .prepare();
     const result = await query.execute();
     return result;
 };
@@ -59,4 +64,15 @@ export const findOneByID = async (id: number) => {
     return result[0];
 };
 
-export const deleteAnnounce = async (ids: number[]) => {};
+export const deleteAnnouncements = async (ids: number[]) => {
+    for (const id of ids) {
+        const announce = await findOneByID(id);
+        if (announce) {
+            const query = db
+                .delete(announcements)
+                .where(eq(announcements.id, sql.placeholder("id")))
+                .prepare();
+            await query.execute({ id });
+        }
+    }
+};
