@@ -4,6 +4,7 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { adminAccess } from "@/lib/security";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ListAnnouncements from "./_components/view/ListAnnouncements";
 
 export const metadata = setTitlePage("Gestion des annonces");
 
@@ -21,7 +22,9 @@ const GestionAnnouncementPage = async () => {
                     </div>
                 </div>
             </section>
-            <section></section>
+            <section>
+                <ListAnnouncements />
+            </section>
         </PageTemplate>
     );
 };

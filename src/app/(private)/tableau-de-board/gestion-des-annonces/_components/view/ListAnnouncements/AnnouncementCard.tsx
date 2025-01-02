@@ -1,0 +1,68 @@
+import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { CircleUser, Pencil, Trash2, User2 } from "lucide-react";
+import React from "react";
+import { EllipsisVertical } from "lucide-react";
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import AnnouncementBadges from "./AnnouncementBadges";
+
+const AnnouncementCard = () => {
+    const img = "http://localhost:3000/api/announcements/creations/1735783599597.svg";
+
+    return (
+        <>
+            <Card className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white transition ">
+                <div className="  bg-slate-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden">
+                    <div className="w-full absolute top-0 left-0 py-1"></div>
+                    <embed src={img} className="object-cover object-center w-full h-[190px] rounded-lg" />
+                </div>
+                <div className="flex flex-col gap-1 min-h-[45px] relative bg-slate-900 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
+                    <div className="flex gap-2 items-center">
+                        <AnnouncementBadges />
+                        <p className="text-xs lg:text-sm font-bold max-w-[80%] text-nowrap text-ellipsis overflow-x-hidden flex gap-1 items-center">
+                            Titre de l'annonce
+                        </p>
+                    </div>
+                    <div className="flex items-center h-full">
+                        <div>
+                            <p className="flex items-center flex-nowrap gap-1 text-xs text-gray-400 ">
+                                <CircleUser className="h-4 w-4" /> Auteur
+                            </p>
+                        </div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button
+                                    type="button"
+                                    className="absolute right-1 top-2 p-1  text-xs transition hover:bg-white/25 rounded-full "
+                                >
+                                    <EllipsisVertical className="w-4 h-4" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-24 text-xs">
+                                <DropdownMenuItem className="text-xs flex justify-between items-center">
+                                    <label htmlFor="publish">Publier</label>
+                                    <Switch id="publish" />
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="text-xs flex  items-center gap-1">
+                                    <Pencil className="w-4 h-3.5" /> Modifier
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="text-xs flex  items-center gap-1">
+                                    <Trash2 className="w-4 h-4" />
+                                    Supprimer
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                </div>
+            </Card>
+        </>
+    );
+};
+
+export default AnnouncementCard;
