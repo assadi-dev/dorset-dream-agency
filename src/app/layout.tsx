@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import "./fonts.css";
 import { setTitlePage } from "@/lib/utils";
 import PageTopLoader from "@/components/loader/PageTopLoader";
 import { Toaster } from "@/components/ui/sonner";

@@ -1,4 +1,4 @@
-import { ENV } from "@/config/global";
+import { ENV, GOOGLE_FONT_URL } from "@/config/global";
 import { clsx, type ClassValue } from "clsx";
 import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
@@ -97,4 +97,9 @@ export const avatarByGender = (gender: GenderType) => {
 
 export const isAdmin = (role: Role) => {
     return role === "admin";
+};
+
+export const loadGoogleFont = async () => {
+    const loadFont = await fetch(GOOGLE_FONT_URL);
+    return loadFont.text();
 };

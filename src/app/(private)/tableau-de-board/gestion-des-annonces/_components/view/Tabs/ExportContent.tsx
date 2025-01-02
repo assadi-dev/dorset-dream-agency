@@ -12,9 +12,10 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnnouncementFormType, AnnouncementSchema } from "../../../schema";
 import { ToastErrorSonner, ToastInfoSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { wait } from "@/lib/utils";
+import { loadGoogleFont, wait } from "@/lib/utils";
 import { saveAnnonceCreation } from "../../../ajouter/actions";
-import { convertBlobToFile, convertUrlToFile } from "@/lib/convertFile";
+import { convertBlobToFile } from "@/lib/convertFile";
+import { GOOGLE_FONT_URL } from "@/config/global";
 
 const ExportContent = () => {
     const { canvas } = useFabricAction();
@@ -44,8 +45,13 @@ const ExportContent = () => {
     const exportToSVG = React.useCallback(async () => {
         if (!canvas) return;
         if (!hasObject()) return;
+
         const svg = canvas.toSVG();
-        const blob = new Blob([svg], { type: "image/svg+xm" });
+        const fontData = await loadGoogleFont();
+        const svgWithFont = svg.replace(`<defs></defs>`, `<defs> <style type="text/css">${fontData}</style>  </defs>`);
+        const mimetype = "image/svg+xml";
+
+        const blob = new Blob([svgWithFont], { type: mimetype });
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.href = url;
@@ -63,11 +69,18 @@ const ExportContent = () => {
             try {
                 if (!canvas) return;
                 if (!hasObject()) return;
-                const fileName = `announcement_${Date.now()}.png`;
-                const mimetype = "image/png";
-                const dataUrl = canvas.toDataURL();
 
-                const creationFile = await convertUrlToFile({ url: dataUrl, name: fileName, mimetype });
+                const fileName = `announcement_${Date.now()}.svg`;
+                const mimetype = "image/svg+xml";
+
+                const svg = canvas.toSVG();
+                const fontData = await loadGoogleFont();
+                const svgWithFont = svg.replace(
+                    `<defs></defs>`,
+                    `<defs> <style type="text/css">${fontData}</style>  </defs>`,
+                );
+                const blob = new Blob([svgWithFont], { type: mimetype });
+                const creationFile = await convertBlobToFile({ name: fileName, blob, mimetype });
 
                 const formData = new FormData();
                 formData.append("files", creationFile);

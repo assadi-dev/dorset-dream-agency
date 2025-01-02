@@ -24,12 +24,12 @@ const Announcement = () => {
     return (
         <Card className="bg-primary text-white overflow-hidden">
             {data?.url ? (
-                <Image
-                    src={data?.url || ""}
-                    alt={`announce title ${data.title}`}
-                    width={720}
-                    height={480}
-                    className="object-cover object-center w-full h-full"
+                <embed
+                    src="http://localhost:3000/api/announcements/creations/1735783599597.svg"
+                    type="image/svg+xml"
+                    className="w-full"
+                    role="img"
+                    aria-description="Affichage des annonce"
                 />
             ) : (
                 <div className="h-full flex flex-col justify-center items-center gap-3">
