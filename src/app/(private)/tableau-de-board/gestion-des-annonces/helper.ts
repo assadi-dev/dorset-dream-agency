@@ -24,6 +24,7 @@ export const fetchBackgroundImages = async () => {
 
 export enum ANNOUNCEMENT_QUERY_KEY {
     BACKGROUND_IMAGES = "BACKGROUND_IMAGES",
+    GET_ANNOUNCEMENT_COLLECTIONS = "GET_ANNOUNCEMENT_COLLECTIONS",
 }
 
 type ShapeGeneratorType = Record<string, () => Rect | Circle | Triangle | IText>;
