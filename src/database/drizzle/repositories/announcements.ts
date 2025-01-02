@@ -1,7 +1,10 @@
 import { db } from "@/database";
-import { desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, like, or, sql } from "drizzle-orm";
 import { AnnounceCreateInputDto, announceValidator } from "./dto/announcementDTO";
 import { announcements } from "../schema/announcements";
+import { BindParameters, FilterPaginationType } from "@/database/types";
+import { employees } from "../schema/employees";
+import { withPagination } from "./utils/entity";
 
 export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     const validateInput = announceValidator(values);
@@ -28,6 +31,7 @@ export const updateAnnounce = async (id: number, values: AnnounceCreateInputDto)
     return findOneByID(result[0].insertId);
 };
 export const setPublishAnnounce = async (id: number, values: boolean) => {
+    await db.update(announcements).set({ isPublish: false }).where(eq(announcements.isPublish, true));
     const query = db
         .update(announcements)
         .set({
@@ -62,6 +66,61 @@ export const findOneByID = async (id: number) => {
         .prepare();
     const result = await query.execute({ id });
     return result[0];
+};
+
+export const getAnnounceCollections = async (filter: FilterPaginationType) => {
+    try {
+        const { page, limit, search } = filter;
+
+        const query = db
+            .select({
+                id: announcements.id,
+                title: announcements.title,
+                description: announcements.description,
+                path: announcements.path,
+                settings: announcements.settings,
+                author: sql<string>`CONCAT(${employees.firstName}," ",${employees.lastName})`.as("author"),
+                publishedAt: announcements.publishedAt,
+                isPublish: announcements.isPublish,
+                createdAt: announcements.createdAt,
+            })
+            .from(announcements)
+            .leftJoin(employees, eq(employees.id, announcements.author));
+
+        const searchCondition = search
+            ? or(
+                  like(announcements.title, sql.placeholder("search")),
+                  like(employees.lastName, sql.placeholder("search")),
+                  like(employees.firstName, sql.placeholder("search")),
+                  like(employees.post, sql.placeholder("search")),
+                  like(employees.phone, sql.placeholder("search")),
+              )
+            : undefined;
+
+        const parameters: BindParameters = {
+            search: `%${search}%`,
+        };
+
+        query.where(and(searchCondition));
+
+        const rowsCount = await query.execute({
+            ...parameters,
+        });
+
+        const orderbyColumn = desc(announcements.publishedAt);
+
+        const totalItems = rowsCount.length || 0;
+        const data = await withPagination(query.$dynamic(), orderbyColumn, page, limit, parameters);
+
+        return {
+            page,
+            totalItems,
+            limit,
+            data,
+        };
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
 };
 
 export const deleteAnnouncements = async (ids: number[]) => {

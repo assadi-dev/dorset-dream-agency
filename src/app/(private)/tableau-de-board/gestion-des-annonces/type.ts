@@ -64,3 +64,12 @@ export type CustomCornerProps = {
     transparentCorners: boolean;
     cornerStrokeColor: string;
 };
+
+export type AnnouncementType = {
+    id: number;
+    title: number;
+    description: string | null;
+    path: string;
+    isPublish: boolean;
+    author: string;
+};

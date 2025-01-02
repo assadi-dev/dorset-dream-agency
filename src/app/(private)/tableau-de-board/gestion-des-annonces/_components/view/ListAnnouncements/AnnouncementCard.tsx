@@ -1,3 +1,4 @@
+"use client";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { CircleUser, Pencil, Trash2, User2 } from "lucide-react";
@@ -11,9 +12,31 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import AnnouncementBadges from "./AnnouncementBadges";
+import { AnnouncementType } from "../../../type";
+import { ENV } from "@/config/global";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
+import { publish } from "../../../actions";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
-const AnnouncementCard = () => {
-    const img = "http://localhost:3000/api/announcements/creations/1735783599597.svg";
+type AnnouncementCardProps = {
+    announce: AnnouncementType;
+};
+const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
+    const img = `${ENV.DOMAIN}/api/${announce.path}`;
+    const { refreshWithParams } = useRouteRefresh();
+
+    const handleSwitchPublish = async (checked: boolean) => {
+        try {
+            publish({
+                id: announce.id,
+                value: checked,
+            });
+            ToastSuccessSonner("Annonce publié");
+            refreshWithParams();
+        } catch (error) {
+            ToastErrorSonner("");
+        }
+    };
 
     return (
         <>
@@ -24,15 +47,15 @@ const AnnouncementCard = () => {
                 </div>
                 <div className="flex flex-col gap-1 min-h-[45px] relative bg-slate-900 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
                     <div className="flex gap-2 items-center">
-                        <AnnouncementBadges />
+                        {announce.isPublish && <AnnouncementBadges />}
                         <p className="text-xs lg:text-sm font-bold max-w-[80%] text-nowrap text-ellipsis overflow-x-hidden flex gap-1 items-center">
-                            Titre de l'annonce
+                            {announce.title}
                         </p>
                     </div>
                     <div className="flex items-center h-full">
                         <div>
                             <p className="flex items-center flex-nowrap gap-1 text-xs text-gray-400 ">
-                                <CircleUser className="h-4 w-4" /> Auteur
+                                <CircleUser className="h-4 w-4" /> {announce.title}
                             </p>
                         </div>
                         <DropdownMenu>
@@ -47,7 +70,11 @@ const AnnouncementCard = () => {
                             <DropdownMenuContent className="w-24 text-xs">
                                 <DropdownMenuItem className="text-xs flex justify-between items-center">
                                     <label htmlFor="publish">Publier</label>
-                                    <Switch id="publish" />
+                                    <Switch
+                                        id="publish"
+                                        defaultChecked={announce.isPublish}
+                                        onCheckedChange={handleSwitchPublish}
+                                    />
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="text-xs flex  items-center gap-1">
                                     <Pencil className="w-4 h-3.5" /> Modifier

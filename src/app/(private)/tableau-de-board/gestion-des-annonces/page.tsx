@@ -7,15 +7,25 @@ import Link from "next/link";
 import ListAnnouncements from "./_components/view/ListAnnouncements";
 import React from "react";
 import LoadingAnnounce from "./_components/view/ListAnnouncements/LoadingAnnounce";
+import { getAnnounceCollections } from "@/database/drizzle/repositories/announcements";
 
 export const metadata = setTitlePage("Gestion des annonces");
 
-const GestionAnnouncementPage = async () => {
+type GestionAnnouncementPageProps = {
+    searchParams: { search: string; limit: string; page: string };
+};
+
+const GestionAnnouncementPage = async ({ searchParams }: GestionAnnouncementPageProps) => {
     await adminAccess();
 
     const ListAnnouncementsAsync = async () => {
-        await wait(3000);
-        return <ListAnnouncements announcements={[]} />;
+        const search = searchParams.search || "";
+        const limit = Number(searchParams.limit) || 15;
+        const page = Number(searchParams.page) || 1;
+        const filter = { search, limit, page };
+
+        const announcements = await getAnnounceCollections(filter);
+        return <ListAnnouncements announcements={announcements?.data || []} />;
     };
 
     return (
