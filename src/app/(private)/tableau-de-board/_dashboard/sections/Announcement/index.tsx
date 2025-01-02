@@ -25,11 +25,11 @@ const Announcement = () => {
         <Card className="bg-primary text-white overflow-hidden">
             {data?.url ? (
                 <embed
-                    src="http://localhost:3000/api/announcements/creations/1735783599597.svg"
+                    src={data?.url}
                     type="image/svg+xml"
                     className="w-full"
                     role="img"
-                    aria-description="Affichage des annonce"
+                    aria-description={`fiche d'annonce intitulé ${data?.title}`}
                 />
             ) : (
                 <div className="h-full flex flex-col justify-center items-center gap-3">
