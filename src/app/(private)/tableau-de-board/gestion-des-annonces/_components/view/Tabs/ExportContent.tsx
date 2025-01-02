@@ -48,7 +48,8 @@ const ExportContent = () => {
 
         const svg = canvas.toSVG();
         const fontData = await loadGoogleFont();
-        const svgWithFont = svg.replace(`<defs></defs>`, `<defs> <style type="text/css">${fontData}</style>  </defs>`);
+
+        const svgWithFont = svg.replace(`<defs>`, `<defs><style type="text/css">${fontData}</style>`);
         const mimetype = "image/svg+xml";
 
         const blob = new Blob([svgWithFont], { type: mimetype });
@@ -75,10 +76,8 @@ const ExportContent = () => {
 
                 const svg = canvas.toSVG();
                 const fontData = await loadGoogleFont();
-                const svgWithFont = svg.replace(
-                    `<defs></defs>`,
-                    `<defs> <style type="text/css">${fontData}</style>  </defs>`,
-                );
+                const svgWithFont = svg.replace(`<defs>`, `<defs><style type="text/css">${fontData}</style>`);
+
                 const blob = new Blob([svgWithFont], { type: mimetype });
                 const creationFile = await convertBlobToFile({ name: fileName, blob, mimetype });
 
