@@ -9,7 +9,7 @@ const ListAnnouncements = ({ announcements = [] }: ListAnnouncementsProps) => {
     return (
         <>
             {announcements.length > 0 ? (
-                <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-3 justify-center">
+                <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-3 justify-center transition-all">
                     {announcements.map((announce) => (
                         <AnnouncementCard key={announce.id} announce={announce} />
                     ))}
