@@ -60,7 +60,7 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
                     <div className="flex items-center h-full">
                         <div>
                             <p className="flex items-center flex-nowrap gap-1 text-xs text-gray-400 ">
-                                <CircleUser className="h-4 w-4" /> {announce.title}
+                                <CircleUser className="h-4 w-4" /> {announce.author}
                             </p>
                         </div>
                         <DropdownMenu>
