@@ -83,7 +83,7 @@ export const removeFilesByIdAndFile = async (ids: number[] | string[]) => {
             const file = await getOneFileByID(id);
             if (file) {
                 const key = file.path;
-                remove(key);
+                await remove(key);
                 await deleteFileByID(file.id);
             }
         }

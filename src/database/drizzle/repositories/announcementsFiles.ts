@@ -1,8 +1,9 @@
 import { fileNameChange, saveBuffer } from "@/lib/fileSystem";
-import { insertFiles } from "./files";
+import { deleteFileByID, findFileByPath, insertFiles, removeFilesByIdAndFile } from "./files";
 import { UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, UPLOAD_ANNOUNCEMENT_DIR_SAVES } from "@/config/dir";
 import fs, { existsSync, rmSync } from "fs";
 import path from "path";
+import { findOneByID } from "./announcements";
 
 export const uploadAnnounceFile = async (formData: FormData) => {
     if (!fs.existsSync(UPLOAD_ANNOUNCEMENT_DIR_CREATIONS)) {
@@ -51,18 +52,24 @@ export const uploadSaveFile = async (formData: FormData) => {
         size,
         originaleName: originaleFileName,
         mimeType: mimetype,
-        path: `/announcements/save/${fileName}`,
+        path: `/announcements/saves/${fileName}`,
     });
 };
 
-export const removeAnnounceFiles = async (key: string) => {
-    const creationFilePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, key);
-    if (existsSync(creationFilePath)) rmSync(creationFilePath);
-
-    const saveFilePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_SAVES, key);
-    console.log(saveFilePath);
-
-    if (existsSync(saveFilePath)) rmSync(saveFilePath);
+export const removeAnnounceFiles = async (id: number) => {
+    const announce = await findOneByID(id);
+    const ids: number[] = [];
+    if (announce) {
+        if (announce.path) {
+            const creationFile = await findFileByPath(announce.path);
+            if (creationFile) ids.push(creationFile.id);
+        }
+        if (announce.settings) {
+            const settingsFile = await findFileByPath(announce.settings);
+            if (settingsFile) ids.push(settingsFile.id);
+        }
+        await removeFilesByIdAndFile(ids);
+    }
 };
 
 /**
