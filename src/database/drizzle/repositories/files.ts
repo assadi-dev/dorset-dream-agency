@@ -1,5 +1,5 @@
 import { db } from "@/database";
-import { eq, sql } from "drizzle-orm";
+import { eq, like, sql } from "drizzle-orm";
 import { removeFile } from "@/lib/fileSystem";
 import path from "path";
 import { STORAGE_DIR } from "@/config/dir";
@@ -36,6 +36,20 @@ export const getOneFileByID = async (id: number | string) => {
         const result = await request.execute({
             id,
         });
+        return result[0];
+    } catch (error) {
+        return null;
+    }
+};
+
+export const findFileByPath = async (path: string) => {
+    try {
+        const query = db
+            .select()
+            .from(files)
+            .where(like(files.path, sql.placeholder("path")))
+            .prepare();
+        const result = await query.execute({ path: `%${path}%` });
         return result[0];
     } catch (error) {
         return null;

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import path from "path";
 import * as fs from "fs";
 import { UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, BACKGROUND_DIR_IMAGES } from "@/config/dir";
+import { findFileByPath } from "@/database/drizzle/repositories/files";
 
 export const dynamic = "force-dynamic";
 
@@ -18,9 +19,11 @@ export async function GET(req: Request, { params: { key } }: Params) {
         const filePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, key);
         const imageBuffer = fs.readFileSync(filePath);
         const { size } = fs.statSync(filePath);
+        const file = await findFileByPath(key);
+        const mimeTType = file?.mimeType || "image/svg+xml";
 
         const headers = new Headers({
-            "Content-Type": "image/svg+xml",
+            "Content-Type": mimeTType,
             "Content-Length": size.toString(),
             /*"Content-Disposition": `attachment; filename="${key}"`, */
         });
