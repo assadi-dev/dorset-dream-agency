@@ -5,6 +5,7 @@ import { announcements } from "../schema/announcements";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { employees } from "../schema/employees";
 import { withPagination } from "./utils/entity";
+import { extractKey, removeAnnounceFiles } from "./announcementsFiles";
 
 export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     const validateInput = announceValidator(values);
@@ -15,6 +16,7 @@ export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     const id = query[0].insertId;
     return findOneByID(id);
 };
+
 export const updateAnnounce = async (id: number, values: AnnounceCreateInputDto) => {
     const validateInput = announceValidator(values);
     if (validateInput.error) throw validateInput.error;
@@ -127,6 +129,11 @@ export const deleteAnnouncements = async (ids: number[]) => {
     for (const id of ids) {
         const announce = await findOneByID(id);
         if (announce) {
+            if (announce.path) {
+                const keyFile = extractKey(announce.path);
+                await removeAnnounceFiles(keyFile);
+            }
+
             const query = db
                 .delete(announcements)
                 .where(eq(announcements.id, sql.placeholder("id")))

@@ -3,6 +3,7 @@ import path from "path";
 import * as fs from "fs";
 import { UPLOAD_ANNOUNCEMENT_DIR_SAVES } from "@/config/dir";
 import { findFileByPath } from "@/database/drizzle/repositories/files";
+import { extractKey } from "@/database/drizzle/repositories/announcementsFiles";
 
 export const dynamic = "force-dynamic";
 

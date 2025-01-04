@@ -1,7 +1,7 @@
 import { fileNameChange, saveBuffer } from "@/lib/fileSystem";
 import { insertFiles } from "./files";
 import { UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, UPLOAD_ANNOUNCEMENT_DIR_SAVES } from "@/config/dir";
-import fs from "fs";
+import fs, { existsSync, rmSync } from "fs";
 import path from "path";
 
 export const uploadAnnounceFile = async (formData: FormData) => {
@@ -53,4 +53,22 @@ export const uploadSaveFile = async (formData: FormData) => {
         mimeType: mimetype,
         path: `/announcements/save/${fileName}`,
     });
+};
+
+export const removeAnnounceFiles = async (key: string) => {
+    const creationFilePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, key);
+    if (existsSync(creationFilePath)) rmSync(creationFilePath);
+
+    const saveFilePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_SAVES, key);
+    if (existsSync(saveFilePath)) rmSync(saveFilePath);
+};
+
+/**
+ * retourne le fileName du fichier
+ * @param pathFile chemin du fichier
+ * @returns {string}  ex: 1735990686401.json
+ */
+export const extractKey = (pathFile: string) => {
+    const key = pathFile.split("/").slice(-1).join();
+    return key.trim();
 };
