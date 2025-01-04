@@ -119,7 +119,7 @@ export const getAnnounceCollections = async (filter: FilterPaginationType) => {
             data,
         };
     } catch (error) {
-        if (error instanceof Error) throw new Error(error.message);
+        if (error instanceof Error) throw error;
     }
 };
 
