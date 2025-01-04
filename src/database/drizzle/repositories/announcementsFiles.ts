@@ -60,6 +60,8 @@ export const removeAnnounceFiles = async (key: string) => {
     if (existsSync(creationFilePath)) rmSync(creationFilePath);
 
     const saveFilePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_SAVES, key);
+    console.log(saveFilePath);
+
     if (existsSync(saveFilePath)) rmSync(saveFilePath);
 };
 

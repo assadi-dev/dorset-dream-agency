@@ -6,6 +6,7 @@ import { BindParameters, FilterPaginationType } from "@/database/types";
 import { employees } from "../schema/employees";
 import { withPagination } from "./utils/entity";
 import { extractKey, removeAnnounceFiles } from "./announcementsFiles";
+import { findFileByPath } from "./files";
 
 export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     const validateInput = announceValidator(values);
@@ -131,6 +132,10 @@ export const deleteAnnouncements = async (ids: number[]) => {
         if (announce) {
             if (announce.path) {
                 const keyFile = extractKey(announce.path);
+                await removeAnnounceFiles(keyFile);
+            }
+            if (announce.settings) {
+                const keyFile = extractKey(announce.settings);
                 await removeAnnounceFiles(keyFile);
             }
 

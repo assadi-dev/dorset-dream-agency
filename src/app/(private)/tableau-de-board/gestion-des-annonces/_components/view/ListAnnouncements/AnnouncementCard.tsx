@@ -25,7 +25,7 @@ type AnnouncementCardProps = {
 const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
     const img = `/api/${announce.path}`;
     const { refreshWithParams } = useRouteRefresh();
-    const { openModal, closeModal } = useModalState();
+    const { openModal } = useModalState();
 
     const handleSwitchPublish = async (checked: boolean) => {
         try {
@@ -45,6 +45,8 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
             title: "Supprimer l'annonce",
             description: `Voulez-vous supprimer l'annonce ${announce.title} ?`,
             component: ConfirmDeleteAnnonce,
+            payload: announce,
+            onInteractOutside: false,
         });
     };
 
