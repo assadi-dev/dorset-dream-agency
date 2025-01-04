@@ -16,6 +16,8 @@ import { AnnouncementType } from "../../../type";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { publish } from "../../../actions";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
+import useModalState from "@/hooks/useModalState";
+import ConfirmDeleteAnnonce from "../modal/ConfrmDeleteAnnonce";
 
 type AnnouncementCardProps = {
     announce: AnnouncementType;
@@ -23,6 +25,7 @@ type AnnouncementCardProps = {
 const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
     const img = `/api/${announce.path}`;
     const { refreshWithParams } = useRouteRefresh();
+    const { openModal, closeModal } = useModalState();
 
     const handleSwitchPublish = async (checked: boolean) => {
         try {
@@ -35,6 +38,14 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
         } catch (error) {
             ToastErrorSonner("");
         }
+    };
+
+    const handleClickDelete = () => {
+        openModal({
+            title: "Supprimer l'annonce",
+            description: `Voulez-vous supprimer l'annonce ${announce.title} ?`,
+            component: ConfirmDeleteAnnonce,
+        });
     };
 
     return (
@@ -84,7 +95,10 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
                                 <DropdownMenuItem className="text-xs flex  items-center gap-1">
                                     <Pencil className="w-4 h-3.5" /> Modifier
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className="text-xs flex  items-center gap-1">
+                                <DropdownMenuItem
+                                    className="text-xs flex  items-center gap-1"
+                                    onClick={handleClickDelete}
+                                >
                                     <Trash2 className="w-4 h-4" />
                                     Supprimer
                                 </DropdownMenuItem>
