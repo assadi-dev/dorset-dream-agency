@@ -9,7 +9,19 @@ import {
     MenubarTrigger,
 } from "@/components/ui/menubar";
 import { Button } from "@/components/ui/button";
-import { MousePointer2, Trash2, Type, Shapes, ImagePlus, Square, Circle, Triangle, Star, Copy } from "lucide-react";
+import {
+    MousePointer2,
+    Trash2,
+    Type,
+    Shapes,
+    ImagePlus,
+    Square,
+    Circle,
+    Triangle,
+    Star,
+    Copy,
+    Save,
+} from "lucide-react";
 import ColorPickerInput from "./ColorPicker";
 import { Separator } from "@/components/ui/separator";
 import TypographieSelect from "./view/select/TypographieSelect";
@@ -21,6 +33,7 @@ import { FabricFormType } from "./fabric/FabricContext";
 import useFabricAction from "./fabric/useFabric";
 import { duplicateObject, getActiveObjectFromLayers, VALIDE_TYPE } from "./fabric/helpers";
 import { toBase64 } from "@/lib/convertFile";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 
 const Toolbar = () => {
     const { selected, canvas, setLayers, addObjectToLayer, unselectedObject, updateObject } = useFabricAction();
@@ -100,6 +113,16 @@ const Toolbar = () => {
             canvas.remove(fabricObject);
             canvas.requestRenderAll();
             setLayers(canvas.getObjects());
+        }
+    };
+
+    const handleClickSave = async () => {
+        try {
+            ToastSuccessSonner("sauvegardé");
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                ToastErrorSonner(error.message);
+            }
         }
     };
 
@@ -189,6 +212,11 @@ const Toolbar = () => {
                     <Copy />
                 </Button>
             </MenubarMenu>
+            {/*           <MenubarMenu>
+                <Button variant="ghost" onClick={handleClickSave}>
+                    <Save />
+                </Button>
+            </MenubarMenu> */}
             <MenubarMenu>
                 <Button
                     variant="ghost"

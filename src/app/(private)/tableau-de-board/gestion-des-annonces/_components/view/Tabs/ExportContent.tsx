@@ -71,6 +71,8 @@ const ExportContent = () => {
                 if (!canvas) return;
                 if (!hasObject()) return;
 
+                const formData = new FormData();
+                //Generation du fichier svg
                 const fileName = `announcement_${Date.now()}.svg`;
                 const mimetype = "image/svg+xml";
 
@@ -81,8 +83,20 @@ const ExportContent = () => {
                 const blob = new Blob([svgWithFont], { type: mimetype });
                 const creationFile = await convertBlobToFile({ name: fileName, blob, mimetype });
 
-                const formData = new FormData();
-                formData.append("files", creationFile);
+                formData.append("announce", creationFile);
+
+                //Génération du fichier
+                const canvasObjectJson = canvas.toJSON();
+                const canvasObjectFileName = fileName.replace("svg", "json");
+                const canvasObjectMimetype = "application/json";
+                const canvasObjectBlob = new Blob([JSON.stringify(canvasObjectJson)], { type: canvasObjectMimetype });
+                const canvasObjectSaveFile = await convertBlobToFile({
+                    name: canvasObjectFileName,
+                    blob: canvasObjectBlob,
+                    mimetype: canvasObjectMimetype,
+                });
+
+                formData.append("save", canvasObjectSaveFile);
                 await saveAnnonceCreation(formData, values);
 
                 ToastSuccessSonner("Annonce sauvegardé");
