@@ -34,14 +34,14 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         );
 
     return (
-        <Card className="w-full p-1 h-full transition-shadow hover:shadow-lg relative ">
+        <Card className="group w-full p-1 h-full transition-shadow hover:shadow-lg relative ">
             <div className="overflow-hidden rounded-lg relative h-[180px] lg:h-[250px]">
                 <Image
                     src={property.cover}
                     alt={`cover of property ${property.name}`}
                     width={1200}
                     height={720}
-                    className="h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform hover:scale-[1.2] hover:brightness-75"
+                    className="h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform group-hover:scale-[1.2] group-hover:brightness-75"
                 />
             </div>
 
@@ -63,8 +63,9 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                     </div>
                     <Button
                         asChild
+                        variant={"default"}
                         type="button"
-                        className="bg-background border hover:border-none hover:shadow-lg hover:shadow-blue-950/50 border-input text-black hover:bg-gradient-to-br from-sky-600 to-primary   duration-300   transition-colors  hover:text-white text-xs lg:text-sm w-full lg:w-fit"
+                        className="bg-gradient-to-br from-sky-600 to-primary !text-white lg:bg-background border hover:border-none hover:shadow-lg lg:hover:shadow-blue-950/50 border-input lg:text-black hover:bg-gradient-to-br   duration-300   transition-all  lg:hover:text-white text-xs lg:text-sm w-full lg:w-fit"
                     >
                         <Link href={`property?id=${property.id}&name=${property.name}`}>Plus d'info</Link>
                     </Button>
