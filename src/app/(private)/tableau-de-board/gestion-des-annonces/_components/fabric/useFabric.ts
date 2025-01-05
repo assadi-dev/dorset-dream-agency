@@ -1,7 +1,13 @@
 "use client";
 import React, { useCallback } from "react";
 import { FabricContext, FabricFormType } from "./FabricContext";
-import { canvasValidation, fabricObjectSerializer, FabricReducerAction, serializedList } from "./helpers";
+import {
+    canvasValidation,
+    fabricObjectSerializer,
+    FabricReducerAction,
+    OBJECT_CLEAN_VALUES,
+    serializedList,
+} from "./helpers";
 import { Canvas, FabricImage, FabricObject } from "fabric";
 import uniqid from "uniqid";
 import { FabricObjectExtends } from "../../type";
@@ -68,7 +74,8 @@ const useFabricAction = () => {
 
     const updateObject = (object: FabricObject) => {
         const objectSerialized = fabricObjectSerializer(object);
-
+        objectSerialized.height = Math.round(object.height * object.scaleY);
+        objectSerialized.width = Math.round(object.width * object.scaleX);
         context.dispatch({ type: FabricReducerAction.UPDATE_OBJECT, payload: objectSerialized });
     };
 
@@ -111,21 +118,17 @@ const useFabricAction = () => {
         const canvas = canvasValidation(context.canvas);
         canvas.moveObjectTo(object, index);
         canvas.requestRenderAll();
-        const objectListsSerialized = serializedList(canvas.getObjects());
-        //  context.dispatch({ type: FabricReducerAction.UPDATE_LAYER, payload: objectListsSerialized });
     };
 
     React.useEffect(() => {
         if (context.canvas) {
             const canvas = canvasValidation(context.canvas);
             canvas.on("object:added", updateLayers);
-            canvas.on("object:modified", updateLayers);
             canvas.on("object:removed", updateLayers);
             canvas.on("selection:cleared", unselectedObject);
 
             return () => {
                 canvas.off("object:added", updateLayers);
-                canvas.off("object:modified", updateLayers);
                 canvas.off("object:removed", updateLayers);
                 canvas.off("selection:cleared", unselectedObject);
             };

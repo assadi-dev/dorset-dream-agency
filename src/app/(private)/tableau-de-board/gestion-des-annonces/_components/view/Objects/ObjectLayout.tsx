@@ -36,6 +36,18 @@ const ObjectLayout = () => {
                 });
 
                 break;
+            case "width":
+                object.set({
+                    width: Number(value) / object.scaleX,
+                });
+                object.setCoords();
+                break;
+            case "height":
+                object.set({
+                    height: Number(value) / object.scaleY,
+                });
+                object.setCoords();
+                break;
             default:
                 object.set(name, Number(value));
                 object.setCoords();
