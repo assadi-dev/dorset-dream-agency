@@ -53,7 +53,7 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
 
     return (
         <>
-            <Card className=" grid grid-rows-[1fr,auto] gap-3 p-2 w-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white  has-[.active-announce]:from-lime-600 has-[.active-announce]:border  has-[.active-announce]:to-lime-400 has-[.active-announce]:shadow-lime-600  transition-all">
+            <Card className=" grid grid-rows-[1fr,auto] gap-3 p-2 w-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white   transition-all">
                 <div className="  bg-slate-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden">
                     <div className="w-full absolute top-0 left-0 py-1"></div>
                     <embed
