@@ -13,13 +13,13 @@ import { loadAnnounceSaves } from "./helpers";
 
 export const metadata = setTitlePage("Éditeur d' annonce");
 
-type CreateAnnouncementPageProps = {
+type EditAnnouncementPageProps = {
     searchParams: {
         id?: string;
     };
 };
 
-const CreateAnnouncementPage = async ({ searchParams: { id } }: CreateAnnouncementPageProps) => {
+const EditAnnouncementPage = async ({ searchParams: { id } }: EditAnnouncementPageProps) => {
     await adminAccess();
     if (!id) throw new Error("id missing !");
     const announce = await findOneByID(Number(id));
@@ -44,4 +44,4 @@ const CreateAnnouncementPage = async ({ searchParams: { id } }: CreateAnnounceme
     );
 };
 
-export default CreateAnnouncementPage;
+export default EditAnnouncementPage;
