@@ -119,6 +119,9 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
                     fontSize: layers[i].fontSize,
                     fontWeight: layers[i].fontWeight,
                     lineHeight: layers[i].lineHeight,
+                    evented: layers[i].evented,
+                    selectable: layers[i].selectable,
+                    hoverCursor: layers[i].hoverCursor,
                 }));
                 const canvasObjectFileName = fileName.replace("svg", "json");
                 const canvasObjectMimetype = "application/json";

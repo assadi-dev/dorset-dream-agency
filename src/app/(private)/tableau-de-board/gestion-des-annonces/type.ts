@@ -49,6 +49,9 @@ export type FabricObjectSelected = {
     fontSize?: number;
     fontWeight?: string;
     lineHeight?: number;
+    evented: boolean;
+    selectable: boolean;
+    hoverCursor: string;
 };
 
 export type FabricObjectExtends = FabricObject & {
