@@ -94,7 +94,7 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
                                         onCheckedChange={handleSwitchPublish}
                                     />
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className="text-xs flex  items-center gap-1">
+                                <DropdownMenuItem className="text-xs flex  items-center gap-1" disabled={true}>
                                     <Pencil className="w-4 h-3.5" /> Modifier
                                 </DropdownMenuItem>
                                 <DropdownMenuItem

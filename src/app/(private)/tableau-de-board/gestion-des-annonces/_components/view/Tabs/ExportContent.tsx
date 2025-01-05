@@ -15,11 +15,19 @@ import { ToastErrorSonner, ToastInfoSonner, ToastSuccessSonner } from "@/compone
 import { loadGoogleFont, wait } from "@/lib/utils";
 import { saveAnnonceCreation } from "../../../ajouter/actions";
 import { convertBlobToFile } from "@/lib/convertFile";
-import { GOOGLE_FONT_URL } from "@/config/global";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
+import { useSearchParams } from "next/navigation";
+import { fetchOneAnnounce } from "../../../modifier/helpers";
 
-const ExportContent = () => {
-    const { canvas } = useFabricAction();
+type ExportContentProps = {
+    isEdit?: boolean;
+    defaultValues?: Partial<AnnouncementFormType>;
+};
+const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
+    const { canvas, layers } = useFabricAction();
     const [isPending, startTransition] = React.useTransition();
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id") ? Number(searchParams.get("id")) : null;
 
     const hasObject = () => {
         if (!canvas) return;
@@ -63,7 +71,25 @@ const ExportContent = () => {
 
     const form = useForm<AnnouncementFormType>({
         resolver: zodResolver(AnnouncementSchema),
+        defaultValues: {
+            ...defaultValues,
+        },
     });
+
+    React.useEffect(() => {
+        if (!form || !id) return;
+        const controller = new AbortController();
+        fetchOneAnnounce(Number(id), controller.signal).then((res) => {
+            form.setValue("id", res.id);
+            form.setValue("title", res.title);
+            form.setValue("description", res.description);
+            form.setValue("author", res.author);
+        });
+
+        return () => {
+            controller.abort();
+        };
+    }, [id, form]);
 
     const saveAnnounce: SubmitHandler<AnnouncementFormType> = async (values) => {
         startTransition(async () => {
@@ -87,6 +113,7 @@ const ExportContent = () => {
 
                 //Génération du fichier
                 const canvasObjectJson = canvas.toJSON();
+                canvasObjectJson.objects = layers;
                 const canvasObjectFileName = fileName.replace("svg", "json");
                 const canvasObjectMimetype = "application/json";
                 const canvasObjectBlob = new Blob([JSON.stringify(canvasObjectJson)], { type: canvasObjectMimetype });
@@ -98,7 +125,6 @@ const ExportContent = () => {
 
                 formData.append("save", canvasObjectSaveFile);
                 await saveAnnonceCreation(formData, values);
-
                 ToastSuccessSonner("Annonce sauvegardé");
             } catch (error) {
                 ToastErrorSonner("Une erreur est survenu lors de la création de l'annonce");
@@ -106,10 +132,22 @@ const ExportContent = () => {
         });
     };
 
+    const updateAnnounce: SubmitHandler<AnnouncementFormType> = async () => {
+        try {
+            if (!canvas) return;
+            const canvasObjectJson = canvas.toJSON();
+            canvasObjectJson.objects = layers;
+            console.log("object", canvasObjectJson);
+            ToastSuccessSonner("Annonce sauvegardé");
+        } catch (error) {
+            ToastErrorSonner("Une erreur est survenu lors de la création de l'annonce");
+        }
+    };
+
     return (
         <div className="flex flex-col gap-2  h-full  bg-white p-5 rounded-xl shadow-lg w-full text-xs">
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(saveAnnounce)}>
+                <form onSubmit={form.watch("id") ? form.handleSubmit(updateAnnounce) : form.handleSubmit(saveAnnounce)}>
                     <div className="my-3">
                         <FormFieldInput
                             control={form.control}

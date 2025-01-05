@@ -10,10 +10,12 @@ import { initAligningGuidelines } from "./fabric/lib/aligning_guidelines";
 import { initCanvasGuidelines } from "./fabric/lib/canvasGuidline";
 import { drawGuidelines, isNearCenter } from "./fabric/lib/canvasGuidline/utils";
 
-const CanvasContainer = () => {
+type CanvasContainerProps = {
+    canvasObject?: any;
+};
+const CanvasContainer = ({ canvasObject }: CanvasContainerProps) => {
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-    const { canvas, setCanvas } = useFabricAction();
-    const [guideLines, setGuidelines] = React.useState<any[]>([]);
+    const { canvas, setCanvas, setLayers } = useFabricAction();
 
     React.useEffect(() => {
         if (canvasRef.current) {
@@ -22,7 +24,7 @@ const CanvasContainer = () => {
                 height: CANVAS_VALUES.height,
             });
             initCanvas.backgroundColor = CANVAS_VALUES.backgroundColor;
-            initCanvas.renderAll();
+            initCanvas.requestRenderAll();
             setCanvas(initCanvas);
 
             return () => {
@@ -30,6 +32,13 @@ const CanvasContainer = () => {
             };
         }
     }, []);
+
+    const loadCanvasObjectSaves = React.useCallback(async () => {
+        if (canvasObject && canvas) {
+            await canvas.loadFromJSON(canvasObject);
+            canvasObject?.objects.length > 0 && setLayers(canvasObject?.objects);
+        }
+    }, [canvas, canvasObject]);
 
     React.useEffect(() => {
         if (!canvas) return;
@@ -42,7 +51,8 @@ const CanvasContainer = () => {
             closeHLine: false,
             closeVLine: false,
         });
-    }, [canvas]);
+        loadCanvasObjectSaves();
+    }, [canvas, canvasObject]);
 
     return (
         <div className="canvas-container p-3 pt-0 ">

@@ -53,9 +53,7 @@ const LayersContent = () => {
         >
             <div ref={setNodeRef} style={style}>
                 <SortableContext id="layers-container" items={layerIdentifiers} strategy={verticalListSortingStrategy}>
-                    {layers.map((item) => (
-                        <LayerItem key={item.id} object={item as any} />
-                    ))}
+                    {layers.length > 0 && layers.map((item) => <LayerItem key={item.id} object={item as any} />)}
                 </SortableContext>
             </div>
         </DndContext>

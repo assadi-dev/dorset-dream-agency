@@ -7,17 +7,35 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import ElementsPanel from "../_components/ElementsPanel";
 import FabricProvider from "../_components/fabric/FabricProvider";
 import { adminAccess } from "@/lib/security";
+import { findOneByID } from "@/database/drizzle/repositories/announcements";
+import { datetimeFormatFr, datetimeFormatFr2 } from "@/lib/date";
+import { loadAnnounceSaves } from "./helpers";
 
 export const metadata = setTitlePage("Éditeur d' annonce");
-const CreateAnnouncementPage = async () => {
+
+type CreateAnnouncementPageProps = {
+    searchParams: {
+        id?: string;
+    };
+};
+
+const CreateAnnouncementPage = async ({ searchParams: { id } }: CreateAnnouncementPageProps) => {
     await adminAccess();
+    if (!id) throw new Error("id missing !");
+    const announce = await findOneByID(Number(id));
+    if (!announce) throw new Error("Annonce introuvable");
+    const saves = await loadAnnounceSaves(String(announce.settings));
+
     return (
         <ModalProvider>
             <FabricProvider>
-                <PageTemplate title="Création de l'annonce">
+                <PageTemplate
+                    title={`Modifier l'annonce`}
+                    description={`Annonce ${announce.title} crée le  ${datetimeFormatFr(String(announce.createdAt))}`}
+                >
                     <div className="grid grid-cols-[auto,1fr,auto] pt-6 h-[78vh] w-full gap-3">
                         <ElementsPanel />
-                        <CanvasContainer />
+                        <CanvasContainer canvasObject={saves} />
                         <EditorPanel />
                     </div>
                 </PageTemplate>

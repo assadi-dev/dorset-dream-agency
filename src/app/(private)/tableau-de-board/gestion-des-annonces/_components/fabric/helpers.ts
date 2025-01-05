@@ -30,7 +30,7 @@ export const fabricObjectSerializer = (fabricObject: FabricObjectExtends): Fabri
     if (!fabricObject) throw new Error("le fabric object n'est pas renseigné");
     if (!fabricObject.id) throw new Error("id non renseigné");
 
-    const fabricObjectSerialize = JSON.parse(JSON.stringify(fabricObject));
+    const fabricObjectSerialize = fabricObject.toJSON();
 
     const object = {
         ...fabricObjectSerialize,
