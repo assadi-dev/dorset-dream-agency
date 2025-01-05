@@ -27,7 +27,7 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
     const { canvas, layers } = useFabricAction();
     const [isPending, startTransition] = React.useTransition();
 
-    const { searchParams, router } = useRouteRefresh();
+    const { searchParams, router, refreshWithParams } = useRouteRefresh();
 
     const hasObject = () => {
         if (!canvas) return;
@@ -116,8 +116,9 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
                 const saveAnnonce = await saveAnnonceCreation(formData, values);
                 ToastSuccessSonner("Annonce sauvegardé");
                 // saveAnnonce && updateSearchParamAndRefresh("id", String(saveAnnonce.id));
-                saveAnnonce &&
-                    router.push(`/tableau-de-board/gestion-des-annonces/modifier?id=${String(saveAnnonce?.id)}`);
+                /*    saveAnnonce && !searchParams.get("id")
+                    router.push(`/tableau-de-board/gestion-des-annonces/modifier?id=${String(saveAnnonce?.id)}`); */
+                searchParams.get("id") ? refreshWithParams() : router.push(`/tableau-de-board/gestion-des-annonces`);
             } catch (error) {
                 ToastErrorSonner("Une erreur est survenu lors de la création de l'annonce");
             }
