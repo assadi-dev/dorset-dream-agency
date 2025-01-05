@@ -7,12 +7,16 @@ import EditorContent from "./EditorContent";
 import ExportContent from "./ExportContent";
 import useFabricAction from "../../fabric/useFabric";
 import CanvasContent from "./CanvasContent";
+import { useSearchParams } from "next/navigation";
 
 type TabsEditorContentProps = {
     announce?: any;
 };
 const TabsEditorContent = ({ announce }: TabsEditorContentProps) => {
-    const { canvas, selected } = useFabricAction();
+    const defaultValues = {
+        ...announce,
+    };
+
     const TabsListElement: TabsEditorType[] = [
         {
             id: "tabs-apparence",
@@ -31,7 +35,7 @@ const TabsEditorContent = ({ announce }: TabsEditorContentProps) => {
             id: "tabs-export",
             label: "Export",
             icon: <Layers />,
-            content: <ExportContent defaultValues={announce || null} />,
+            content: <ExportContent defaultValues={defaultValues || null} />,
         },
     ];
 

@@ -1,6 +1,6 @@
 import { fileNameChange, saveBuffer } from "@/lib/fileSystem";
-import { deleteFileByID, findFileByPath, insertFiles, removeFilesByIdAndFile } from "./files";
-import { UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, UPLOAD_ANNOUNCEMENT_DIR_SAVES } from "@/config/dir";
+import { deleteFileByID, findFileByPath, insertFiles, remove, removeFilesByIdAndFile } from "./files";
+import { STORAGE_DIR, UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, UPLOAD_ANNOUNCEMENT_DIR_SAVES } from "@/config/dir";
 import fs, { existsSync, rmSync } from "fs";
 import path from "path";
 import { findOneByID } from "./announcements";
@@ -13,6 +13,22 @@ export const uploadAnnounceFile = async (formData: FormData) => {
 
     if (!formData.get("announce")) throw new Error("No files received.");
     const file = formData.get("announce") as File;
+
+    //Test en cas d'update suppression des l'ancien fichier puis generation de la nouvelle en conservant le meme emplacement
+    if (formData.get("announceID")) {
+        const announceID = Number(formData.get("announceID"));
+        const announce = await findOneByID(announceID);
+        if (announce) {
+            const annoncePath = announce.path as string;
+            await remove(annoncePath);
+            const destination = path.join(STORAGE_DIR, annoncePath);
+            await saveBuffer({
+                destination,
+                file,
+            });
+            return await findFileByPath(annoncePath);
+        }
+    }
 
     const { size, fileName, mimetype, originaleFileName } = fileNameChange(file);
 
@@ -39,6 +55,22 @@ export const uploadSaveFile = async (formData: FormData) => {
 
     if (!formData.get("save")) throw new Error("No settings file received.");
     const file = formData.get("save") as File;
+
+    //Test en cas d'update suppression des l'ancien fichier puis generation de la nouvelle en conservant le meme emplacement
+    if (formData.get("announceID")) {
+        const announceID = Number(formData.get("announceID"));
+        const announce = await findOneByID(announceID);
+        if (announce) {
+            const annonceSavePath = announce.settings as string;
+            await remove(annonceSavePath);
+            const destination = path.join(STORAGE_DIR, annonceSavePath);
+            await saveBuffer({
+                destination,
+                file,
+            });
+            return await findFileByPath(annonceSavePath);
+        }
+    }
 
     const { size, fileName, mimetype, originaleFileName } = fileNameChange(file);
     const destination = path.join(UPLOAD_ANNOUNCEMENT_DIR_SAVES, fileName);

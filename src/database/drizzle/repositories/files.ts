@@ -42,6 +42,26 @@ export const getOneFileByID = async (id: number | string) => {
     }
 };
 
+type FileInput = { path: string; originalName: string; mimeType: string; size: number };
+
+//{ title: string; description: string; path: string; author: number }
+
+const updateFile = async (id: number, values: Partial<FileInput>) => {
+    const request = db
+        .update(files)
+        .set({
+            ...values,
+        })
+        .where(eq(files.id, sql.placeholder("id")))
+        .prepare();
+
+    await request.execute({
+        id,
+    });
+
+    return await getOneFileByID(id);
+};
+
 export const findFileByPath = async (path: string) => {
     try {
         const query = db

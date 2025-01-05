@@ -14,6 +14,14 @@ const useRouteRefresh = () => {
         router.push(pathname);
         router.refresh();
     };
+
+    const updateSearchParamAndRefresh = (name: string, value: string) => {
+        const updatedSearchParams = new URLSearchParams(searchParams.toString());
+        updatedSearchParams.set(name, value);
+        const updatePathName = pathname + "?" + updatedSearchParams.toString();
+        router.push(updatePathName);
+        router.refresh();
+    };
     const refreshWithParams = () => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
         const updatePathName = pathname + "?" + updatedSearchParams.toString();
@@ -27,6 +35,7 @@ const useRouteRefresh = () => {
         searchParams,
         refresh,
         refreshWithParams,
+        updateSearchParamAndRefresh,
     };
 };
 

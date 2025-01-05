@@ -26,7 +26,8 @@ type ExportContentProps = {
 const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
     const { canvas, layers } = useFabricAction();
     const [isPending, startTransition] = React.useTransition();
-    const searchParams = useSearchParams();
+
+    const { searchParams, router } = useRouteRefresh();
 
     const hasObject = () => {
         if (!canvas) return;
@@ -76,12 +77,16 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
     });
 
     const saveAnnounce: SubmitHandler<AnnouncementFormType> = async (values) => {
+        if (searchParams.get("id")) values.id = Number(searchParams.get("id"));
+
         startTransition(async () => {
             try {
                 if (!canvas) return;
                 if (!hasObject()) return;
 
                 const formData = new FormData();
+                if (values.id) formData.append("announceID", String(values.id));
+
                 //Generation du fichier svg
                 const fileName = `announcement_${Date.now()}.svg`;
                 const mimetype = "image/svg+xml";
@@ -97,7 +102,7 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
 
                 //Génération du fichier
                 const canvasObjectJson = canvas.toJSON();
-                canvasObjectJson.objects = layers;
+                canvasObjectJson.objects = canvasObjectJson.objects.map((v: any, i: any) => ({ ...layers[i], ...v }));
                 const canvasObjectFileName = fileName.replace("svg", "json");
                 const canvasObjectMimetype = "application/json";
                 const canvasObjectBlob = new Blob([JSON.stringify(canvasObjectJson)], { type: canvasObjectMimetype });
@@ -108,30 +113,21 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
                 });
 
                 formData.append("save", canvasObjectSaveFile);
-                await saveAnnonceCreation(formData, values);
+                const saveAnnonce = await saveAnnonceCreation(formData, values);
                 ToastSuccessSonner("Annonce sauvegardé");
+                // saveAnnonce && updateSearchParamAndRefresh("id", String(saveAnnonce.id));
+                saveAnnonce &&
+                    router.push(`/tableau-de-board/gestion-des-annonces/modifier?id=${String(saveAnnonce?.id)}`);
             } catch (error) {
                 ToastErrorSonner("Une erreur est survenu lors de la création de l'annonce");
             }
         });
     };
 
-    const updateAnnounce: SubmitHandler<AnnouncementFormType> = async () => {
-        try {
-            if (!canvas) return;
-            const canvasObjectJson = canvas.toJSON();
-            canvasObjectJson.objects = layers;
-            console.log("object", canvasObjectJson);
-            ToastSuccessSonner("Annonce sauvegardé");
-        } catch (error) {
-            ToastErrorSonner("Une erreur est survenu lors de la création de l'annonce");
-        }
-    };
-
     return (
         <div className="flex flex-col gap-2  h-full  bg-white p-5 rounded-xl shadow-lg w-full text-xs">
             <Form {...form}>
-                <form onSubmit={form.watch("id") ? form.handleSubmit(updateAnnounce) : form.handleSubmit(saveAnnounce)}>
+                <form onSubmit={form.handleSubmit(saveAnnounce)}>
                     <div className="my-3">
                         <FormFieldInput
                             control={form.control}

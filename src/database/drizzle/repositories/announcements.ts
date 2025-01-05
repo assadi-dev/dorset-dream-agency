@@ -18,7 +18,7 @@ export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     return findOneByID(id);
 };
 
-export const updateAnnounce = async (id: number, values: AnnounceCreateInputDto) => {
+export const updateAnnounce = async (id: number, values: Partial<AnnounceCreateInputDto>) => {
     const validateInput = announceValidator(values);
     if (validateInput.error) throw validateInput.error;
 
