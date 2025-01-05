@@ -52,9 +52,10 @@ const EditorContent = () => {
                         </div>
                     )}
                     {
-                        <div className="mb-3 p-1">
+                        <fieldset className="mb-3 p-3 border border-slate-300 rounded">
+                            <legend className="text-xs xl:text-[0.875rem] font-semibold bg-white px-3">Bordure</legend>
                             <BordureSelect />
-                        </div>
+                        </fieldset>
                     }
 
                     {/*  
