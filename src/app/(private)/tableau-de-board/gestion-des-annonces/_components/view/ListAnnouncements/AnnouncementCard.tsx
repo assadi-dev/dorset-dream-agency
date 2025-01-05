@@ -18,6 +18,7 @@ import { publish } from "../../../actions";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
 import useModalState from "@/hooks/useModalState";
 import ConfirmDeleteAnnonce from "../modal/ConfrmDeleteAnnonce";
+import Link from "next/link";
 
 type AnnouncementCardProps = {
     announce: AnnouncementType;
@@ -94,9 +95,11 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
                                         onCheckedChange={handleSwitchPublish}
                                     />
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className="text-xs flex  items-center gap-1" disabled={true}>
-                                    <Pencil className="w-4 h-3.5" /> Modifier
-                                </DropdownMenuItem>
+                                <Link href={`/tableau-de-board/gestion-des-annonces/modifier?id=${announce.id}`}>
+                                    <DropdownMenuItem className="text-xs flex  items-center gap-1">
+                                        <Pencil className="w-4 h-3.5" /> Modifier
+                                    </DropdownMenuItem>
+                                </Link>
                                 <DropdownMenuItem
                                     className="text-xs flex  items-center gap-1"
                                     onClick={handleClickDelete}
