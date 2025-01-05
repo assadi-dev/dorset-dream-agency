@@ -23,7 +23,10 @@ const Decorations = () => {
                 object.setSelectionStyles({
                     fontWeight: fontWeight,
                 });
+
+                fontWeight === "bold" ? object.set("width", object.width + 1) : object.set("width", object.width - 1);
             }
+
             canvas.requestRenderAll();
             updateObject(object);
         }
@@ -41,7 +44,10 @@ const Decorations = () => {
                 object.setSelectionStyles({
                     underline: underline,
                 });
+
+                underline ? object.set("width", object.width + 1) : object.set("width", object.width - 1);
             }
+
             canvas.requestRenderAll();
             updateObject(object);
         }
@@ -60,7 +66,9 @@ const Decorations = () => {
                 object.setSelectionStyles({
                     fontStyle,
                 });
+                fontStyle === "italic" ? object.set("width", object.width + 1) : object.set("width", object.width - 1);
             }
+
             canvas.requestRenderAll();
             updateObject(object);
         }
@@ -80,6 +88,8 @@ const Decorations = () => {
                 object.setSelectionStyles({
                     linethrough,
                 });
+
+                linethrough ? object.set("width", object.width + 1) : object.set("width", object.width - 1);
             }
 
             canvas?.requestRenderAll();

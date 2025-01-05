@@ -102,7 +102,24 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
 
                 //Génération du fichier
                 const canvasObjectJson = canvas.toJSON();
-                canvasObjectJson.objects = canvasObjectJson.objects.map((v: any, i: any) => ({ ...layers[i], ...v }));
+                canvasObjectJson.objects = canvasObjectJson.objects.map((v: any, i: any) => ({
+                    ...v,
+                    id: layers[i].id,
+                    name: layers[i].id,
+                    zIndex: layers[i].zIndex,
+                    width: layers[i].width,
+                    height: layers[i].height,
+                    stroke: layers[i].stroke,
+                    strokeWidth: layers[i].strokeWidth,
+                    strokeStyle: layers[i].strokeStyle,
+                    borderRadius: layers[i].borderRadius,
+                    angle: layers[i].angle,
+                    radius: layers[i].radius,
+                    fontFamily: layers[i].fontFamily,
+                    fontSize: layers[i].fontSize,
+                    fontWeight: layers[i].fontWeight,
+                    lineHeight: layers[i].lineHeight,
+                }));
                 const canvasObjectFileName = fileName.replace("svg", "json");
                 const canvasObjectMimetype = "application/json";
                 const canvasObjectBlob = new Blob([JSON.stringify(canvasObjectJson)], { type: canvasObjectMimetype });
