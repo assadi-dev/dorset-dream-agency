@@ -25,7 +25,7 @@ const ElementsPanel = () => {
                 <div className="mt-2">
                     <CardTitle className="text-center p-3">Calques</CardTitle>
                 </div>
-                <div className=" p-3 mt-1 flex items-center justify justify-between">
+                <div className=" p-3 mt-1 flex items-center justify justify-between hidden">
                     <Button size="sm" variant="ghost">
                         <p className="text-xs flex items-center gap-2">
                             <Square className="w-4 h-4" /> Sélectionner
