@@ -24,7 +24,7 @@ const CreateAnnouncementPage = async ({ searchParams: { id } }: CreateAnnounceme
     if (!id) throw new Error("id missing !");
     const announce = await findOneByID(Number(id));
     if (!announce) throw new Error("Annonce introuvable");
-    const saves = await loadAnnounceSaves(String(announce.settings));
+    const saves = announce.settings ? await loadAnnounceSaves(String(announce.settings)) : undefined;
 
     return (
         <ModalProvider>
