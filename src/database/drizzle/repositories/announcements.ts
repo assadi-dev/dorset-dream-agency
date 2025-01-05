@@ -68,6 +68,7 @@ export const findOneByID = async (id: number) => {
         .where(eq(announcements.id, sql.placeholder("id")))
         .prepare();
     const result = await query.execute({ id });
+    if (!result[0]) return null;
     return result[0];
 };
 

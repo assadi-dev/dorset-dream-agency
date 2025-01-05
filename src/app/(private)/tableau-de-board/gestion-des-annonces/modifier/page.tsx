@@ -36,7 +36,7 @@ const EditAnnouncementPage = async ({ searchParams: { id } }: EditAnnouncementPa
                     <div className="grid grid-cols-[auto,1fr,auto] pt-6 h-[78vh] w-full gap-3">
                         <ElementsPanel />
                         <CanvasContainer canvasObject={saves} />
-                        <EditorPanel />
+                        <EditorPanel announce={announce} />
                     </div>
                 </PageTemplate>
             </FabricProvider>

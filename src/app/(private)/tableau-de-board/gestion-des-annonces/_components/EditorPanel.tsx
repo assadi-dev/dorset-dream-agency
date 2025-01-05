@@ -5,7 +5,10 @@ import useFabricAction from "./fabric/useFabric";
 import { FabricObjectExtends } from "../type";
 import { BasicTransformEvent, FabricObject, Rect, TEvent, TPointerEvent } from "fabric";
 
-const EditorPanel = () => {
+type EditorPanelProps = {
+    announce?: any;
+};
+const EditorPanel = ({ announce }: EditorPanelProps) => {
     const { canvas, selectedObject, updateObject, unselectedObject } = useFabricAction();
 
     const scaleHandler = (
@@ -67,7 +70,7 @@ const EditorPanel = () => {
             };
         }
     }, [canvas]);
-    return <TabsEditorContent />;
+    return <TabsEditorContent announce={announce} />;
 };
 
 export default EditorPanel;

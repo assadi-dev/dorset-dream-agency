@@ -8,30 +8,32 @@ import ExportContent from "./ExportContent";
 import useFabricAction from "../../fabric/useFabric";
 import CanvasContent from "./CanvasContent";
 
-export const TabsListElement: TabsEditorType[] = [
-    {
-        id: "tabs-apparence",
-        label: "Apparence",
-        icon: <Layers />,
-        content: <EditorContent />,
-    },
-
-    {
-        id: "tabs-canvas",
-        label: "Canvas",
-        icon: <PictureInPicture />,
-        content: <CanvasContent />,
-    },
-    {
-        id: "tabs-export",
-        label: "Export",
-        icon: <Layers />,
-        content: <ExportContent />,
-    },
-];
-
-const TabsEditorContent = () => {
+type TabsEditorContentProps = {
+    announce?: any;
+};
+const TabsEditorContent = ({ announce }: TabsEditorContentProps) => {
     const { canvas, selected } = useFabricAction();
+    const TabsListElement: TabsEditorType[] = [
+        {
+            id: "tabs-apparence",
+            label: "Apparence",
+            icon: <Layers />,
+            content: <EditorContent />,
+        },
+
+        {
+            id: "tabs-canvas",
+            label: "Canvas",
+            icon: <PictureInPicture />,
+            content: <CanvasContent />,
+        },
+        {
+            id: "tabs-export",
+            label: "Export",
+            icon: <Layers />,
+            content: <ExportContent defaultValues={announce || null} />,
+        },
+    ];
 
     return (
         <Tabs defaultValue={TabsListElement[0].id} className="w-[24rem] ">

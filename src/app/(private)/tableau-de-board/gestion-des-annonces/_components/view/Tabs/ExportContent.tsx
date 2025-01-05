@@ -27,7 +27,6 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
     const { canvas, layers } = useFabricAction();
     const [isPending, startTransition] = React.useTransition();
     const searchParams = useSearchParams();
-    const id = searchParams.get("id") ? Number(searchParams.get("id")) : null;
 
     const hasObject = () => {
         if (!canvas) return;
@@ -75,21 +74,6 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
             ...defaultValues,
         },
     });
-
-    React.useEffect(() => {
-        if (!form || !id) return;
-        const controller = new AbortController();
-        fetchOneAnnounce(Number(id), controller.signal).then((res) => {
-            form.setValue("id", res.id);
-            form.setValue("title", res.title);
-            form.setValue("description", res.description);
-            form.setValue("author", res.author);
-        });
-
-        return () => {
-            controller.abort();
-        };
-    }, [id, form]);
 
     const saveAnnounce: SubmitHandler<AnnouncementFormType> = async (values) => {
         startTransition(async () => {
