@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { updatedAndCreatedAt } from "../utils";
+import { deletedAt, updatedAndCreatedAt } from "../utils";
 import { boolean, int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { transactions } from "./transactions";
 
@@ -11,6 +11,7 @@ export const clients = mysqlTable("clients", {
     phone: varchar("phone", { length: 15 }),
     isDead: boolean("is_dead"),
     ...updatedAndCreatedAt,
+    ...deletedAt,
 });
 
 export const clientsRelations = relations(clients, ({ many }) => ({

@@ -49,7 +49,11 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
 
                 <li></li>
             </ul>
-            <ActionDetailClient client={client} canUpdate={true} canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)} />
+            <ActionDetailClient
+                client={client}
+                canUpdate={true}
+                canDelete={ACTIONS_CONTROL_PERMISSION.canAction(role)}
+            />
         </Card>
     );
 };

@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { updatedAndCreatedAt } from "../utils";
+import { deletedAt, updatedAndCreatedAt } from "../utils";
 import { boolean, int, mysqlEnum, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 import { categoryProperties } from "./categoryProperties";
 import { variants } from "./variants";
@@ -19,6 +19,7 @@ export const properties = mysqlTable("properties", {
     stock: int("stock"),
     categoryID: int("category_id").references(() => categoryProperties.id, { onDelete: "set null" }),
     ...updatedAndCreatedAt,
+    ...deletedAt,
 });
 
 export const propertiesRelation = relations(properties, ({ one, many }) => ({

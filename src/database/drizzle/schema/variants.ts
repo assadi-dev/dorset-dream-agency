@@ -1,4 +1,4 @@
-import { updatedAndCreatedAt } from "../utils";
+import { deletedAt, updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 import { properties } from "./properties";
 import { relations } from "drizzle-orm";
@@ -10,6 +10,7 @@ export const variants = mysqlTable("variants", {
     description: text("description"),
     propertyID: int("property_id").references(() => properties.id, { onDelete: "cascade" }),
     ...updatedAndCreatedAt,
+    ...deletedAt,
 });
 
 export const variantsRelation = relations(variants, ({ one, many }) => ({
