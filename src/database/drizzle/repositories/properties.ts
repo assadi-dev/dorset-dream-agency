@@ -15,6 +15,7 @@ import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/enti
  * Filtre par la colonne deletedAt
  */
 const softDeleteCondition = selectWithSoftDelete(properties);
+const variantSoftDeleteCondition = selectWithSoftDelete(variants);
 
 export const insertProperty = async (values: any) => {
     try {
@@ -139,12 +140,12 @@ export const getOnePropertyWithVariant = async (id: number | string) => {
 
 export const updateProperty = async (id: number | string, data: any) => {
     const property = await getOnePropertyByID(id);
-
     const request = db
         .update(properties)
         .set({
             ...property,
             ...data,
+            categoryID: data.categoryProperty,
         })
         .where(eq(properties.id, sql.placeholder("id")))
         .prepare();
@@ -264,7 +265,7 @@ export const getPropertiesWithVariantsCollections = async (
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .orderBy(sql`${variants.createdAt} desc`);
     if (categoryName !== "all" && categoryName) {
-        query.where(and(softDeleteCondition, searchCondition, categoryCondition));
+        query.where(and(variantSoftDeleteCondition, softDeleteCondition, searchCondition, categoryCondition));
     }
     const rowsCount = await query.execute({
         ...parameters,
@@ -302,7 +303,7 @@ export const getPropertiesWithVariantsOptions = async () => {
         })
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID))
-        .where(softDeleteCondition);
+        .where(and(softDeleteCondition, variantSoftDeleteCondition));
 
     return await result;
 };
@@ -374,7 +375,9 @@ export const getPropertyCollections = async ({
               )
             : undefined;
 
-    result.where(and(softDeleteCondition, searchCondition, categoryCondition, isAvailableCondition));
+    result.where(
+        and(softDeleteCondition, variantSoftDeleteCondition, searchCondition, categoryCondition, isAvailableCondition),
+    );
 
     result.prepare();
 
@@ -426,7 +429,7 @@ export const getOnePropertyByVariantID = async (variantID: number) => {
         .from(variants)
         .leftJoin(properties, eq(properties.id, variants.propertyID))
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .where(eq(variants.id, sql.placeholder("variantID")))
+        .where(and(variantSoftDeleteCondition, softDeleteCondition, eq(variants.id, sql.placeholder("variantID"))))
         .prepare();
     return request.execute({
         variantID,

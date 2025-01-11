@@ -1,10 +1,15 @@
 "use server";
 import { db } from "@/database";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
-import { clearGalleryFromVariantID, getGalleryCollectionForVariants } from "./galleries";
+import { getGalleryCollectionForVariants } from "./galleries";
 import { properties } from "../schema/properties";
+import { selectWithSoftDelete, setDeletedAt } from "./utils/entity";
 
+/**
+ * Filtre par la colonne deletedAt
+ */
+const softDeleteCondition = selectWithSoftDelete(variants);
 export const insertVariant = async (name?: string | null, propertyID?: number | null) => {
     try {
         const prepare = db
@@ -34,7 +39,7 @@ export const getOneVariant = async (id: number | string) => {
         const request = db
             .select()
             .from(variants)
-            .where(eq(variants.id, sql.placeholder("id")))
+            .where(and(softDeleteCondition, eq(variants.id, sql.placeholder("id"))))
             .prepare();
         const result = await request.execute({ id });
         return result[0];
@@ -51,7 +56,7 @@ export const getVariantsProperty = async (id: number | string) => {
         .select({ id: variants.id, name: variants.name })
         .from(variants)
         .leftJoin(properties, eq(variants.propertyID, properties.id))
-        .where(eq(properties.id, sql.placeholder("id")))
+        .where(and(softDeleteCondition, eq(properties.id, sql.placeholder("id"))))
         .prepare();
     const result = await request.execute({ id });
     return result;
@@ -61,7 +66,7 @@ export const getOneVariantWithGallery = async (id: number | string) => {
     const request = db
         .select({ id: variants.id, name: variants.name })
         .from(variants)
-        .where(eq(variants.id, sql.placeholder("id")))
+        .where(and(softDeleteCondition, eq(variants.id, sql.placeholder("id"))))
         .prepare();
     const result = await request.execute({ id });
 
@@ -95,11 +100,18 @@ export const updateVariant = async (id: number | string, data: any) => {
 export const deleteVariant = async (ids: Array<number>) => {
     if (ids.length) {
         for (const id of ids) {
-            const prepare = db
+            /*     const prepare = db
                 .delete(variants)
                 .where(eq(variants.id, sql.placeholder("id")))
                 .prepare();
             await prepare.execute({
+                id: id,
+            }); */
+
+            const prepare = setDeletedAt(variants)
+                ?.where(eq(variants.id, sql.placeholder("id")))
+                .prepare();
+            await prepare?.execute({
                 id: id,
             });
         }
@@ -113,7 +125,7 @@ export const deleteVariant = async (ids: Array<number>) => {
 export const removeVariantsWithGallery = async (ids: Array<number>) => {
     if (ids.length) {
         for (const id of ids) {
-            await clearGalleryFromVariantID(id);
+            // await clearGalleryFromVariantID(id);
         }
         await deleteVariant(ids);
     }

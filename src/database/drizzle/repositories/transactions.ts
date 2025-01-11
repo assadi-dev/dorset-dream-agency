@@ -9,9 +9,13 @@ import { variants } from "../schema/variants";
 import { decodeTransactionInput } from "./dto/transactionsDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { BindParameters, FilterPaginationType, StartDateEnDateType } from "@/database/types";
-import { rowCount, rowSum, withPagination } from "./utils/entity";
+import { rowCount, rowSum, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
+/**
+ * Filtre par la colonne deletedAt
+ */
+const softDeleteCondition = selectWithSoftDelete(transactions);
 
 export const insertTransaction = async (values: unknown) => {
     try {
@@ -70,7 +74,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
             .leftJoin(variants, eq(variants.id, transactions.variantID))
             .leftJoin(properties, eq(properties.id, variants.propertyID))
             .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-            .where(searchCondition);
+            .where(and(softDeleteCondition, searchCondition));
         const parameters: BindParameters = {
             search: `%${search}%`,
         };
@@ -101,11 +105,16 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
 export const deleteTransactions = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
-            const request = db
+            /*         const request = db
                 .delete(transactions)
                 .where(eq(transactions.id, sql.placeholder("id")))
                 .prepare();
-            await request.execute({ id });
+            await request.execute({ id }); */
+
+            const request = setDeletedAt(transactions)
+                ?.where(eq(transactions.id, sql.placeholder("id")))
+                .prepare();
+            await request?.execute({ id });
         }
     } catch (error: any) {
         throw error;
