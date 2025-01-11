@@ -9,7 +9,7 @@ import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
-import { selectWithSoftDelete, withPagination } from "./utils/entity";
+import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 
 /**
  * Filtre par la colonne deletedAt
@@ -66,7 +66,7 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
         })
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .where(searchCondition);
+        .where(and(softDeleteCondition, searchCondition));
 
     const columnToOrder = "createdAt";
     const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
@@ -95,7 +95,7 @@ export const getOnePropertyByID = async (id: number | string) => {
     const request = db
         .select()
         .from(properties)
-        .where(eq(properties.id, sql.placeholder("id")))
+        .where(and(softDeleteCondition, eq(properties.id, sql.placeholder("id"))))
         .prepare();
     const result = await request.execute({
         id,
@@ -160,11 +160,18 @@ export const updateProperty = async (id: number | string, data: any) => {
 export const deleteProperty = async (id: number | string) => {
     const property = await getOnePropertyByID(id);
     if (!property) throw new Error("property not found");
-    const request = db
+    /*    const request = db
         .delete(properties)
         .where(eq(properties.id, sql.placeholder("id")))
         .prepare();
     await request.execute({
+        id,
+    }); */
+
+    const request = setDeletedAt(properties)
+        ?.where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    await request?.execute({
         id,
     });
 };
@@ -257,7 +264,7 @@ export const getPropertiesWithVariantsCollections = async (
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .orderBy(sql`${variants.createdAt} desc`);
     if (categoryName !== "all" && categoryName) {
-        query.where(and(searchCondition, categoryCondition));
+        query.where(and(softDeleteCondition, searchCondition, categoryCondition));
     }
     const rowsCount = await query.execute({
         ...parameters,
@@ -294,7 +301,8 @@ export const getPropertiesWithVariantsOptions = async () => {
             sellingPrice: properties.sellingPrice,
         })
         .from(variants)
-        .leftJoin(properties, eq(properties.id, variants.propertyID));
+        .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .where(softDeleteCondition);
 
     return await result;
 };
@@ -366,7 +374,7 @@ export const getPropertyCollections = async ({
               )
             : undefined;
 
-    result.where(and(searchCondition, categoryCondition, isAvailableCondition));
+    result.where(and(softDeleteCondition, searchCondition, categoryCondition, isAvailableCondition));
 
     result.prepare();
 
