@@ -49,24 +49,28 @@ const AddVariantProperty = () => {
         return null;
     };
 
-    const onDrop = React.useCallback((acceptedFiles: Array<File>) => {
-        // Do something with the files
-        const currentFiles = form.getValues("files");
-        const fileObj = acceptedFiles.map((file: File) => {
-            const id = uniqid();
-            return {
-                id,
-                name: file.name,
-                url: URL.createObjectURL(file),
-                file,
-                size: file.size,
-                type: file.type,
-            };
-        }) as FileObjType[];
+    const onDrop = React.useCallback(
+        (acceptedFiles: Array<File>) => {
+            // Do something with the files
+            if (!form) return;
+            const currentFiles = form.getValues("files");
+            const fileObj = acceptedFiles.map((file: File) => {
+                const id = uniqid();
+                return {
+                    id,
+                    name: file.name,
+                    url: URL.createObjectURL(file),
+                    file,
+                    size: file.size,
+                    type: file.type,
+                };
+            }) as FileObjType[];
 
-        const updated = [...currentFiles, ...fileObj];
-        form.setValue("files", updated);
-    }, []);
+            const updated = [...currentFiles, ...fileObj];
+            form.setValue("files", updated);
+        },
+        [form],
+    );
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {

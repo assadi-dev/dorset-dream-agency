@@ -5,7 +5,7 @@ import { clients } from "@/database/drizzle/schema/client";
 import { wait } from "@/lib/utils";
 import { eq, sql } from "drizzle-orm";
 
-export type clientsType = Omit<typeof clients.$inferSelect, "createdAt" | "updatedAt">;
+export type clientsType = Omit<typeof clients.$inferSelect, "createdAt" | "updatedAt" | "deletedAt">;
 
 export const getClientDetails = async (id: string | number) => {
     const prepare = db
