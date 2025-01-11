@@ -8,7 +8,7 @@ export const users = mysqlTable("users", {
     username: varchar("username", { length: 255 }).notNull(),
     password: varchar("password", { length: 255 }).notNull(),
     avatar: varchar("avatar", { length: 255 }),
-    role: mysqlEnum("role", ["user", "admin"]).notNull(),
+    role: mysqlEnum("role", ["user", "patron", "admin"]).notNull(),
     ...updatedAndCreatedAt,
 });
 

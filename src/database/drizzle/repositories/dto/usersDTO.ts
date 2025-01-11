@@ -8,7 +8,7 @@ export const userSchema = z.object({
         .min(1, { message: REQUIRE_MESSAGE_ERROR }),
     password: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     confirmPassword: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    role: z.enum(["user", "admin"]),
+    role: z.enum(["user", "patron", "admin"]),
 });
 
 const passwordSchema = z
@@ -39,7 +39,7 @@ export const userUpdateSchema = z.object({
         .string({ message: REQUIRE_MESSAGE_ERROR })
         .email(EMAIL_INVALID)
         .min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    role: z.enum(["user", "admin"]).optional(),
+    role: z.enum(["user", "patron", "admin"]).optional(),
 });
 
 export type UserUpdateInputDto = z.infer<typeof userUpdateSchema>;

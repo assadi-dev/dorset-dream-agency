@@ -9,7 +9,7 @@ export const gestionAccountEmployeeSchema = z
             .email(EMAIL_INVALID),
         password: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
         confirmPassword: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
-        role: z.enum(["user", "admin"]),
+        role: z.enum(["user", "admin", "patron"]),
         lastName: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
         firstName: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
         post: z.enum(["Employée", "Manageuse", "Patron", "Employé San Andreas", "Employé îles Galapagos"]),

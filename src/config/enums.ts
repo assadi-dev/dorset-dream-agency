@@ -4,6 +4,10 @@ export const ROLE_OPTIONS: Record<"label" | "value", string>[] = [
         value: "user",
     },
     {
+        label: "Patron",
+        value: "patron",
+    },
+    {
         label: "Admin",
         value: "admin",
     },
