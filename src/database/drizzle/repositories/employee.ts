@@ -11,6 +11,8 @@ import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/enti
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { removePhotosByAndFile } from "./photos";
 import { photos } from "../schema/photos";
+import { users } from "../schema/users";
+import { deleteAccounts } from "./users";
 
 /**
  * Filtre par la colonne deletedAt
@@ -129,6 +131,28 @@ const getOneEmployee = async (id: number) => {
     }
 };
 
+export const getAccountEmployee = async (id: number) => {
+    try {
+        const employeeReq = db
+            .select({
+                id: employees.id,
+                firstName: employees.firstName,
+                lastName: employees.lastName,
+                createdAt: employees.createdAt,
+                userId: employees.userID,
+            })
+            .from(employees)
+            .leftJoin(users, eq(users.id, employees.userID))
+            .where(and(softDeleteCondition, eq(employees.id, sql.placeholder("id"))))
+            .prepare();
+        const employee = await employeeReq.execute({ id });
+        if (!employee) throw new Error("Employee not found");
+        return employee[0];
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const updateEmployee = async (id: number, values: any) => {
     try {
         const employeeReq = db
@@ -161,12 +185,17 @@ export const deleteEmployee = async (ids: Array<number>) => {
         for (const id of ids) {
             const employee = await getOneEmployee(id);
             if (!employee) throw new Error("C'est employé n'existe plus");
+
+            //Suppression du compte
+            const account = await getAccountEmployee(id);
+            await deleteAccounts([account.id]);
             //  if (employee.photoID) await removePhotosByAndFile([employee.photoID], "employees");
             /*      const req = db
                 .delete(employees)
                 .where(eq(employees.id, sql.placeholder("id")))
                 .prepare(); */
             const req = setDeletedAt(employees)?.where(eq(employees.id, sql.placeholder("id")));
+
             await req?.execute({ id });
         }
     } catch (error: any) {
