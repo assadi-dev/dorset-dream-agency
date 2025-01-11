@@ -1,6 +1,7 @@
-export type Role = "user" | "admin";
+export type Role = "user" | "patron" | "admin";
 export enum RoleEnum {
     user = "user",
+    patron = "patron",
     admin = "admin",
 }
 

@@ -10,7 +10,6 @@ import { adminAccess } from "@/lib/security";
 export const metadata = setTitlePage("Gestion des biens immobiliers");
 
 const GestionImmobilierPage = async () => {
-    await adminAccess();
     return (
         <ModalProvider>
             <PageTemplate title="Immobiliers" description="Gestion des biens et les variants">

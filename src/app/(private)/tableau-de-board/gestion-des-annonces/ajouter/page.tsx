@@ -10,7 +10,6 @@ import { adminAccess } from "@/lib/security";
 
 export const metadata = setTitlePage("Éditeur d' annonce");
 const CreateAnnouncementPage = async () => {
-    await adminAccess();
     return (
         <ModalProvider>
             <FabricProvider>

@@ -20,7 +20,6 @@ type EditAnnouncementPageProps = {
 };
 
 const EditAnnouncementPage = async ({ searchParams: { id } }: EditAnnouncementPageProps) => {
-    await adminAccess();
     if (!id) throw new Error("id missing !");
     const announce = await findOneByID(Number(id));
     if (!announce) throw new Error("Annonce introuvable");

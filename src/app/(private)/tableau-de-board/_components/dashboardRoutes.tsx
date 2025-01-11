@@ -60,7 +60,9 @@ export const dashboardNavigation: DashboardNavigationType[] = [
     },
 ];
 
-const remove = ["Gestion de l'entreprise", "Prestiges"];
 export const dashboardNavigationUser = dashboardNavigation.filter((page) => {
-    return !remove.includes(page.title);
+    return !["Gestion de l'entreprise", "Prestiges", "admin"].includes(page.title);
+});
+export const dashboardNavigationPatron = dashboardNavigation.filter((page) => {
+    return !["Admin"].includes(page.title);
 });

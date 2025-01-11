@@ -16,8 +16,6 @@ type GestionAnnouncementPageProps = {
 };
 
 const GestionAnnouncementPage = async ({ searchParams }: GestionAnnouncementPageProps) => {
-    await adminAccess();
-
     const ListAnnouncementsAsync = async () => {
         const search = searchParams.search || "";
         const limit = Number(searchParams.limit) || 15;
