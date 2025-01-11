@@ -21,7 +21,7 @@ const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
     const [checked, setChecked] = React.useState(property?.isAvailable);
     const role = useGetRoleUser();
 
-    const canUpdateSwitch = !ACTIONS_CONTROL_PERMISSION.isAdmin(role);
+    const canUpdateSwitch = !ACTIONS_CONTROL_PERMISSION.canAction(role);
 
     const handleChange = async (checked: boolean) => {
         try {

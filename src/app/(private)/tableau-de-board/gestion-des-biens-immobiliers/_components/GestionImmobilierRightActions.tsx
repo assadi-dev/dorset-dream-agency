@@ -9,7 +9,7 @@ const GestionImmobilierRightActions = async () => {
     const role = session.user.role;
     return (
         <div className="flex justify-end">
-            {ACTIONS_CONTROL_PERMISSION.isAdmin(role) && <AddButton href={PAGES.ADD_PROPERTY} />}
+            {ACTIONS_CONTROL_PERMISSION.canAction(role) && <AddButton href={PAGES.ADD_PROPERTY} />}
         </div>
     );
 };
