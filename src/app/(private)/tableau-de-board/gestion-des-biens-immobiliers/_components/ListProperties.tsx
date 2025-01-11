@@ -43,7 +43,7 @@ const ListProperties = () => {
             </DropdownActions>
         ),
     };
-    const ImmobilierColumns = ACTIONS_CONTROL_PERMISSION.isAdmin(role) ? [...columns, actions] : columns;
+    const ImmobilierColumns = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [...columns, actions] : columns;
 
     return (
         <div>
