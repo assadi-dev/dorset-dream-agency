@@ -1,5 +1,5 @@
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
-import { updatedAndCreatedAt } from "../utils";
+import { deletedAt, updatedAndCreatedAt } from "../utils";
 import { relations } from "drizzle-orm";
 import { employees } from "./employees";
 
@@ -10,6 +10,7 @@ export const users = mysqlTable("users", {
     avatar: varchar("avatar", { length: 255 }),
     role: mysqlEnum("role", ["user", "patron", "admin"]).notNull(),
     ...updatedAndCreatedAt,
+    ...deletedAt,
 });
 
 export const userRelations = relations(users, ({ one }) => ({

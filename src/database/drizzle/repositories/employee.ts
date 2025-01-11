@@ -134,7 +134,7 @@ export const updateEmployee = async (id: number, values: any) => {
         const employeeReq = db
             .select()
             .from(employees)
-            .where(eq(employees.id, sql.placeholder("id")))
+            .where(and(softDeleteCondition, eq(employees.id, sql.placeholder("id"))))
             .prepare();
         const employee = await employeeReq.execute({ id });
         if (!employee) throw new Error("Employee not found");
@@ -148,7 +148,7 @@ export const updateEmployee = async (id: number, values: any) => {
         const request = db
             .update(employees)
             .set({ ...employee, ...values })
-            .where(eq(employees.id, sql.placeholder("id")))
+            .where(and(softDeleteCondition, eq(employees.id, sql.placeholder("id"))))
             .prepare();
         return await request.execute({ id });
     } catch (error: any) {

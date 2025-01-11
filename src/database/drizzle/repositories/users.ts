@@ -15,11 +15,16 @@ import {
     userUpdateValidator,
     userValidator,
 } from "./dto/usersDTO";
-import { asc, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { BindParameters, FilterPaginationType } from "@/database/types";
-import { withPagination } from "./utils/entity";
+import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { photos } from "../schema/photos";
+
+/**
+ * Filtre par la colonne deletedAt
+ */
+const softDeleteCondition = selectWithSoftDelete(users);
 
 /**
  * Insertion d'un compte utilisateur vers la base de donné
@@ -59,6 +64,26 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
     }
 };
 
+export const findUserById = async (id: number) => {
+    const findUserReq = db
+        .select()
+        .from(users)
+        .where(and(softDeleteCondition, eq(users.id, sql.placeholder("id"))))
+        .prepare();
+    const user = await findUserReq.execute({ id });
+    return user[0];
+};
+
+export const findUserByUsername = async (username: string) => {
+    const findUserReq = db
+        .select()
+        .from(users)
+        .where(and(softDeleteCondition, eq(users.id, sql.placeholder("username"))))
+        .prepare();
+    const user = await findUserReq.execute({ username });
+    return user[0];
+};
+
 export const getAccountCollections = async (filter: FilterPaginationType) => {
     try {
         const { search, order, limit, page } = filter;
@@ -73,7 +98,7 @@ export const getAccountCollections = async (filter: FilterPaginationType) => {
                 createdAt: users.createdAt,
             })
             .from(users)
-            .where(searchCondition)
+            .where(and(softDeleteCondition, searchCondition))
             .$dynamic();
 
         const orderByColumn = order === "asc" ? asc(users.createdAt) : desc(users.createdAt);
@@ -101,8 +126,15 @@ export const getAccountCollections = async (filter: FilterPaginationType) => {
 export const deleteAccounts = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
-            const request = db.delete(users).where(eq(users.id, sql.placeholder("id")));
+            const user = findUserById(id);
+            if (!user) throw new Error("Cet utilisateur n'existe plus");
+            /*   const request = db.delete(users).where(eq(users.id, sql.placeholder("id")));
             await request.execute({
+                id,
+            }); */
+
+            const request = setDeletedAt(users)?.where(eq(users.id, sql.placeholder("id")));
+            await request?.execute({
                 id,
             });
         }
@@ -113,12 +145,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
 
 export const changePassword = async (id: number, values: passwordValidatorType) => {
     try {
-        const findUserReq = db
-            .select()
-            .from(users)
-            .where(eq(users.id, sql.placeholder("id")))
-            .prepare();
-        const user = await findUserReq.execute({ id });
+        const user = await findUserById(id);
 
         if (!user) throw new Error("User not found !");
         const passwordValidate = passwordValidator(values);
@@ -130,7 +157,7 @@ export const changePassword = async (id: number, values: passwordValidatorType) 
         const result = db
             .update(users)
             .set({
-                ...findUserReq,
+                ...user,
                 password: hashedPassword,
             })
             .where(eq(users.id, sql.placeholder("id")))
@@ -143,12 +170,7 @@ export const changePassword = async (id: number, values: passwordValidatorType) 
 
 export const updateUser = async (id: number, values: UserUpdateInputDto) => {
     try {
-        const findUserReq = db
-            .select()
-            .from(users)
-            .where(eq(users.id, sql.placeholder("id")))
-            .prepare();
-        const user = await findUserReq.execute({ id });
+        const user = await findUserById(id);
 
         if (!user) throw new Error("User not found !");
         const userInputValidate = userUpdateValidator(values);
@@ -203,7 +225,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
             .from(users)
             .leftJoin(employees, eq(users.id, employees.userID))
             .leftJoin(photos, eq(photos.id, employees.photoID))
-            .where(eq(users.username, sql.placeholder("username")))
+            .where(and(softDeleteCondition, eq(users.username, sql.placeholder("username"))))
             .prepare();
         const user = (await findUserReq.execute({ username: validateInput.username }))[0];
         if (!user) throw new Error("Unauthorized !", { cause: "authentication" });
@@ -241,7 +263,7 @@ export const currentUser = async (idUser: number) => {
             createdAt: users.createdAt,
         })
         .from(users)
-        .where(eq(users.id, sql.placeholder("id")))
+        .where(and(softDeleteCondition, eq(users.id, sql.placeholder("id"))))
         .leftJoin(employees, eq(users.id, employees.userID))
         .prepare();
     const result = await query.execute({
