@@ -7,11 +7,12 @@ import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } 
 import NewPassword from "./forms/NewPassword";
 import { Pen, Trash, LockKeyhole } from "lucide-react";
 import DeleteAccount from "./forms/DeleteAccount";
+import { ActionControl } from "@/types/global";
 
-type AccountActionProps = {
+type AccountActionProps = ActionControl & {
     payload: any;
 };
-const AccountAction = ({ payload }: AccountActionProps) => {
+const AccountAction = ({ payload, canUpdate, canDelete, canChangePassword }: AccountActionProps) => {
     const { openModal } = useModalState();
 
     const handleClickEdit = () => {
@@ -43,17 +44,23 @@ const AccountAction = ({ payload }: AccountActionProps) => {
         <>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleClickNewPassword} className="text-primary">
-                <LockKeyhole className="mr-2 h-4 w-4" /> Nouveau mot de passe
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
-                <Pen className="mr-2 h-4 w-4" />
-                Modifier
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
-                <Trash className="mr-2 h-4 w-4" />
-                Supprimer
-            </DropdownMenuItem>
+            {canChangePassword && (
+                <DropdownMenuItem onClick={handleClickNewPassword} className="text-primary">
+                    <LockKeyhole className="mr-2 h-4 w-4" /> Nouveau mot de passe
+                </DropdownMenuItem>
+            )}
+            {canUpdate && (
+                <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
+                    <Pen className="mr-2 h-4 w-4" />
+                    Modifier
+                </DropdownMenuItem>
+            )}
+            {canDelete && (
+                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Supprimer
+                </DropdownMenuItem>
+            )}
         </>
     );
 };

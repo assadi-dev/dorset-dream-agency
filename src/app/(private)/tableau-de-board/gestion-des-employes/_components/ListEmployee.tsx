@@ -25,16 +25,16 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
                 <DropdownActions>
                     <EmployeesActions
                         payload={row.original}
-                        canDelete={false}
+                        canDelete={ACTIONS_CONTROL_PERMISSION.canAction(role)}
                         canUpdate={true}
-                        canUpload={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
+                        canUpload={ACTIONS_CONTROL_PERMISSION.canAction(role)}
                     />
                 </DropdownActions>
             );
         },
     };
 
-    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.isAdmin(role) ? [...columns, actions] : columns;
+    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [...columns, actions] : columns;
 
     return (
         <>

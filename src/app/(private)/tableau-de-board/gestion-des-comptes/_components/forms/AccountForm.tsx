@@ -11,6 +11,8 @@ import { ROLE_OPTIONS } from "@/config/enums";
 import { DialogFooter } from "@/components/ui/dialog";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from "@/config/messages";
+import { isAdmin } from "@/lib/utils";
+import useGetRoleUser from "@/hooks/useRoleUser";
 
 type AccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     defaultValues: userEditFormType;
@@ -19,6 +21,7 @@ type AccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
 const AccountForm = ({ defaultValues, save, ...props }: AccountFormProps) => {
     const [isPending, startTransition] = React.useTransition();
     const SUBMIT_LABEL = isPending ? SUBMIT_PROCESS_MESSAGE : SUBMIT_IDLE_MESSAGE;
+    const role = useGetRoleUser();
 
     const form = useForm<userEditFormType>({
         resolver: zodResolver(userUpdateSchema),
@@ -49,9 +52,11 @@ const AccountForm = ({ defaultValues, save, ...props }: AccountFormProps) => {
                     />
                 </div>
 
-                <div className="mb-4">
-                    <FormFieldSelect control={form.control} name="role" label="Role" options={ROLE_OPTIONS} />
-                </div>
+                {isAdmin(role) && (
+                    <div className="mb-4">
+                        <FormFieldSelect control={form.control} name="role" label="Role" options={ROLE_OPTIONS} />
+                    </div>
+                )}
                 <DialogFooter className="pt-3">
                     <SubmitButton isLoading={isPending} className="mx-auto w-full" type="submit">
                         {SUBMIT_LABEL}

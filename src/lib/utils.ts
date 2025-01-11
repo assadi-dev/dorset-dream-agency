@@ -96,7 +96,18 @@ export const avatarByGender = (gender: GenderType) => {
 };
 
 export const isAdmin = (role: Role) => {
-    return role === "admin";
+    return role === RoleEnum.admin;
+};
+
+export const canDelete = (role: Role) => {
+    return [RoleEnum.admin as string, RoleEnum.patron as string].includes(role);
+};
+export const canUpdate = (role: Role) => {
+    return [RoleEnum.admin as string, RoleEnum.patron as string].includes(role);
+};
+
+export const canAction = (role: Role) => {
+    return [RoleEnum.admin as string, RoleEnum.patron as string].includes(role);
 };
 
 export const loadGoogleFont = async () => {
