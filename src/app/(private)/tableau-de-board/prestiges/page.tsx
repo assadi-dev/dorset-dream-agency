@@ -8,7 +8,6 @@ import { adminAccess } from "@/lib/security";
 export const metadata = setTitlePage("Prestige");
 
 const PrestigePage = async () => {
-    await adminAccess();
     return (
         <PageTemplate title="Prestiges">
             <section className="my-3">

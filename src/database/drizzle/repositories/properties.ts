@@ -9,7 +9,12 @@ import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
-import { withPagination } from "./utils/entity";
+import { selectWithSoftDelete, withPagination } from "./utils/entity";
+
+/**
+ * Filtre par la colonne deletedAt
+ */
+const softDeleteCondition = selectWithSoftDelete(properties);
 
 export const insertProperty = async (values: any) => {
     try {
