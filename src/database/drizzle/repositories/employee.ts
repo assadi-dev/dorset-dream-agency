@@ -188,7 +188,10 @@ export const deleteEmployee = async (ids: Array<number>) => {
 
             //Suppression du compte
             const account = await getAccountEmployee(id);
-            await deleteAccounts([account.id]);
+            if (account) {
+                await deleteAccounts([account.id]);
+            }
+
             //  if (employee.photoID) await removePhotosByAndFile([employee.photoID], "employees");
             /*      const req = db
                 .delete(employees)
