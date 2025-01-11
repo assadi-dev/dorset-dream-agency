@@ -4,7 +4,7 @@ import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { FilterPaginationType } from "@/database/types";
 import { and, between, desc, eq, inArray, like, or, sql } from "drizzle-orm";
-import { rowCount, withPagination } from "./utils/entity";
+import { rowCount, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 
 /* 
 class Client {
@@ -16,6 +16,11 @@ class Client {
     getTransactions() { }
     
 } */
+
+/**
+ * Filtre par la colonne deletedAt
+ */
+const softDeleteCondition = selectWithSoftDelete(clients);
 
 type NewClient = typeof clients.$inferInsert;
 export const insertClient = async (values: any) => {
@@ -56,7 +61,7 @@ export const getClientsCollections = async (filter: FilterPaginationType) => {
                 createdAt: clients.createdAt,
             })
             .from(clients)
-            .where(searchCondition);
+            .where(and(softDeleteCondition, searchCondition));
 
         const order = desc(clients.createdAt);
         const parameters = search
@@ -91,10 +96,36 @@ export const getClientsOptions = async () => {
                 phone: clients.phone,
             })
             .from(clients)
-            .orderBy(desc(clients.createdAt));
+            .orderBy(desc(clients.createdAt))
+            .where(softDeleteCondition);
 
         return response;
     } catch (error: any) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
+};
+
+const getOneClient = async (id: number) => {
+    try {
+        const query = db
+            .select({
+                id: clients.id,
+                fullName: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`.as("fullName"),
+                phone: clients.phone,
+                gender: clients.gender,
+                isDead: clients.isDead,
+                createdAt: clients.createdAt,
+            })
+            .from(clients)
+            .orderBy(desc(clients.createdAt))
+            .where(and(softDeleteCondition, eq(clients.id, sql.placeholder("id"))));
+
+        const result = await query.execute({
+            id,
+        });
+
+        return result[0];
+    } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
@@ -112,10 +143,10 @@ export const updateClient = async (id: string | number, values: any) => {
         const prepare = db
             .update(clients)
             .set(client)
-            .where(eq(clients.id, sql.placeholder("id")))
+            .where(and(softDeleteCondition, eq(clients.id, sql.placeholder("id"))))
             .prepare();
         const result = await prepare.execute({ id });
-        return result;
+        return result[0];
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
@@ -124,11 +155,17 @@ export const updateClient = async (id: string | number, values: any) => {
 export const deleteClients = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
-            const req = db
+            /*      const req = db
                 .delete(clients)
                 .where(eq(clients.id, sql.placeholder("id")))
                 .prepare();
-            await req.execute({ id });
+            await req.execute({ id }); */
+            const client = await getOneClient(id);
+            if (!client) throw new Error("Ce client n'existe plus");
+            const req = setDeletedAt(clients)
+                ?.where(eq(clients.id, sql.placeholder("id")))
+                .prepare();
+            await req?.execute({ id });
         }
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
