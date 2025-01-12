@@ -62,6 +62,8 @@ export const showRole = (role: Role) => {
             return "Utilisateur";
         case "admin":
             return "Administrateur";
+        case "patron":
+            return "Patron";
         default:
             return "Inconnu";
     }
