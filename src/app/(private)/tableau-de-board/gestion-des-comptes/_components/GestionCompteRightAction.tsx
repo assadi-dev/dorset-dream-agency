@@ -12,7 +12,7 @@ const GestionCompteRightAction = () => {
     const role = useGetRoleUser();
 
     const handleClickAddBtn = () => {
-        if (!ACTIONS_CONTROL_PERMISSION.isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
+        if (!ACTIONS_CONTROL_PERMISSION.canAction(role)) throw new Error(FORBIDDEN_ACTION);
         toggleModal({
             title: "Créer un compte employé",
             description: "Création de compte et information de l'employé",
@@ -22,7 +22,7 @@ const GestionCompteRightAction = () => {
 
     return (
         <div className="flex justify-end items-center">
-            {ACTIONS_CONTROL_PERMISSION.isAdmin(role) && <AddButton onClick={handleClickAddBtn} />}
+            {ACTIONS_CONTROL_PERMISSION.canAction(role) && <AddButton onClick={handleClickAddBtn} />}
         </div>
     );
 };
