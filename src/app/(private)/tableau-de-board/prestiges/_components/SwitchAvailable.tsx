@@ -1,11 +1,11 @@
 import React from "react";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import { setAvailableProperty } from "../helper";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import useGetRoleUser from "@/hooks/useRoleUser";
 import { FORBIDDEN_ACTION } from "@/config/messages";
+import { canAction } from "@/lib/utils";
 
 type SwitchAvailableProps = {
     property?:
@@ -25,7 +25,7 @@ const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
 
     const handleChange = async (checked: boolean) => {
         try {
-            if (role !== "admin") throw new Error(FORBIDDEN_ACTION);
+            if (canUpdateSwitch) throw new Error(FORBIDDEN_ACTION);
             setChecked(checked);
             const state = checked ? "disponible" : "non disponible";
             const MESSAGE_SUCCESS = `La propriété ${property?.name} est maintenant ${state}`;
