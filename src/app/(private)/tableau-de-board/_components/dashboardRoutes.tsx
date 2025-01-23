@@ -1,5 +1,16 @@
 import { DashboardNavigationType } from "./types";
-import { LayoutDashboard, Home, Building2, Globe, Inbox, Gem, Search, Settings, SquareUser } from "lucide-react";
+import {
+    LayoutDashboard,
+    Home,
+    Building2,
+    Globe,
+    Inbox,
+    Gem,
+    Search,
+    Settings,
+    Shield,
+    SquareUser,
+} from "lucide-react";
 
 export const dashboardNavigation: DashboardNavigationType[] = [
     {
@@ -54,6 +65,24 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         ],
     },
     {
+        title: "Administration",
+        icon: Shield,
+        children: [
+            {
+                title: "Comptes",
+                path: "/tableau-de-board/administrations/gestion-des-comptes",
+            },
+            {
+                title: "Historiques des actions",
+                path: "/tableau-de-board/administrations/historiques-des-actions",
+            },
+            {
+                title: "Corbeille",
+                path: "/tableau-de-board/administrations/corbeille",
+            },
+        ],
+    },
+    {
         title: "Site du catalogue",
         icon: Globe,
         path: "/",
@@ -61,8 +90,8 @@ export const dashboardNavigation: DashboardNavigationType[] = [
 ];
 
 export const dashboardNavigationUser = dashboardNavigation.filter((page) => {
-    return !["Gestion de l'entreprise", "Prestiges", "admin"].includes(page.title);
+    return !["Gestion de l'entreprise", "Prestiges", "Administration"].includes(page.title);
 });
 export const dashboardNavigationPatron = dashboardNavigation.filter((page) => {
-    return !["Admin"].includes(page.title);
+    return !["Administration"].includes(page.title);
 });
