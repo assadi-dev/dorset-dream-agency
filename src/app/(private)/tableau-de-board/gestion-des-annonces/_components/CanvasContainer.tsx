@@ -33,15 +33,14 @@ const CanvasContainer = ({ canvasObject }: CanvasContainerProps) => {
         }
     }, []);
 
-    const loadCanvasObjectSaves = React.useCallback(async () => {
-        if (canvasObject && canvas) {
-            await canvas.loadFromJSON(canvasObject);
-            canvasObject?.objects.length > 0 && setLayers(canvasObject?.objects);
-        }
-    }, [canvas, canvasObject]);
-
     React.useEffect(() => {
         if (!canvas) return;
+        const loadCanvasObjectSaves = async () => {
+            if (canvasObject && canvas) {
+                await canvas.loadFromJSON(canvasObject);
+                canvasObject?.objects.length > 0 && setLayers(canvasObject?.objects);
+            }
+        };
         canvas.on("after:render", () => {
             const object = canvas.getActiveObject();
             object && drawGuidelines(canvas, object);
@@ -51,7 +50,7 @@ const CanvasContainer = ({ canvasObject }: CanvasContainerProps) => {
             closeHLine: false,
             closeVLine: false,
         });
-        loadCanvasObjectSaves();
+        if (canvasObject) loadCanvasObjectSaves();
     }, [canvas, canvasObject]);
 
     return (

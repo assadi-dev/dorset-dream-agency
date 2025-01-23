@@ -4,7 +4,9 @@ import { API_INSTANCE } from "@/lib/api";
 export const loadAnnounceSaves = async (path: string) => {
     try {
         const url = `${ENV.DOMAIN}/api/${path}`;
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            cache: "no-cache",
+        });
         const data = await res.json();
         if (!res.ok) {
             throw data;
