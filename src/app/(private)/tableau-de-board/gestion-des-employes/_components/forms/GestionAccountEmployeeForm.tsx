@@ -7,14 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { gestionAccountEmployeeSchema, GestionEmployeeFormType } from "./schema";
+
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { GENRE_OPTIONS, GRADE_OPTIONS, ROLE_OPTIONS } from "@/config/enums";
 import FormFieldMultiSelect from "@/components/forms/FormFieldMultiSelect";
-import { Option } from "@/components/ui/MultipleSelector";
 import useFetchSecteursOptions from "@/hooks/useFetchSecteurOptions";
+import {
+    gestionAccountEmployeeSchema,
+    GestionEmployeeFormType,
+} from "../../../administrations/gestion-des-comptes/_components/forms/schema";
 
 type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (values: GestionEmployeeFormType) => Promise<any>;

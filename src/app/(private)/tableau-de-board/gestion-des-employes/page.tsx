@@ -7,6 +7,7 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { getEmployeeCollections } from "@/database/drizzle/repositories/employee";
 import { PaginationSearchParams } from "@/app/types";
 import { adminAccess } from "@/lib/security";
+import GestionEmployeeRightAction from "./_components/GestionEmployeeRightAction";
 
 const EmployeeCollection = async ({ filter }: any) => {
     const employee = await getEmployeeCollections(filter);
@@ -32,6 +33,7 @@ const GestionEmployeePage = async ({ searchParams }: GestionEmployeePageProps) =
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                         <SearchInputDataTable />
+                        <GestionEmployeeRightAction />
                     </div>
 
                     <EmployeeCollection filter={filter} />
