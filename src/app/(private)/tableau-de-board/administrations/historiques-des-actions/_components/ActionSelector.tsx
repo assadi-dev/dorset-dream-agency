@@ -1,34 +1,68 @@
 "use client";
+import MultipleSelector, { MultipleSelectorProps } from "@/components/ui/MultipleSelector";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
 import React from "react";
+import { UserAction, UserActionEnum } from "../types";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Filter } from "lucide-react";
 
-export enum ActionSelectEnum {
-    create = "Création",
-    update = "Modification",
-    delete = "Suppression",
-}
-
-const ActionSelector = () => {
+type ActionSelectorProps = MultipleSelectorProps;
+const ActionSelector = ({ ...props }: ActionSelectorProps) => {
     const { updateSearchParamAndRefresh } = useRouteRefresh();
-    const handleSelect = (value: string) => {
-        updateSearchParamAndRefresh("action", value);
-    };
 
+    type selectStateType = { create: boolean; update: boolean; delete: boolean };
+
+    const options = Object.entries(UserActionEnum).map(([k, v]) => ({ label: v, value: k }));
+    const [selected, setSelected] = React.useReducer(
+        (prev: selectStateType, state: Partial<selectStateType>) => ({ ...prev, ...state }),
+        {
+            create: true,
+            update: true,
+            delete: true,
+        },
+    );
+    const handleSelect = (action: UserAction, checked: boolean) => {
+        const current = { ...selected };
+        current[action] = checked;
+        setSelected(current);
+        const actionsParams = Object.entries(current)
+            .filter(([k, v]) => v === true)
+            .map((i) => i[0]);
+        updateSearchParamAndRefresh("action", actionsParams.join(","));
+    };
     return (
-        <Select defaultValue="all" onValueChange={handleSelect}>
-            <SelectTrigger className="lg:w-[220px]">
-                <SelectValue placeholder="Sélectionné une action" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem value="all">Voir tout</SelectItem>
-                {Object.entries(ActionSelectEnum).map(([k, v]) => (
-                    <SelectItem key={k} value={k}>
-                        {v}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+        <div className="w-fit">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                        <Filter /> Filtres
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Filtrer par action</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+
+                    {options.map((item) => (
+                        <DropdownMenuCheckboxItem
+                            key={item.value}
+                            checked={selected[item.value as UserAction]}
+                            onCheckedChange={(checked: boolean) => handleSelect(item.value as UserAction, checked)}
+                        >
+                            {item.label}
+                        </DropdownMenuCheckboxItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
     );
 };
 

@@ -1,4 +1,13 @@
-import { format, getISOWeek, getDaysInMonth, startOfWeek, lastDayOfMonth, getMonth } from "date-fns";
+import {
+    format,
+    getISOWeek,
+    getDaysInMonth,
+    startOfWeek,
+    lastDayOfMonth,
+    getMonth,
+    differenceInDays,
+    differenceInCalendarDays,
+} from "date-fns";
 import { fr } from "date-fns/locale";
 
 //const timeZone = "Europe/Paris";
