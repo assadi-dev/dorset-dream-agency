@@ -25,7 +25,7 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
     const [selected, setSelected] = React.useReducer(
         (prev: selectStateType, state: Partial<selectStateType>) => ({ ...prev, ...state }),
         {
-            create: true,
+            create: false,
             update: true,
             delete: true,
         },
