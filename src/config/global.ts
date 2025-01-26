@@ -15,6 +15,7 @@ const EnvSchema = z.object({
     MYSQL_DB_PORT: z.coerce.string().transform((val) => parseInt(val)),
     DOMAIN: z.coerce.string(),
     STORAGE_DIR: z.coerce.string(),
+    SQLITE_DATABASE_URL: z.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;
