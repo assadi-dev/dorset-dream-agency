@@ -33,7 +33,6 @@ export const getUserActionsCollections = async (filter: getUserActionsCollection
 
         const totalItems = rowsCount.length || 0;
         const data = await withPaginationForSqlite(query.$dynamic(), page, limit, parameters);
-        console.log(data);
 
         return {
             page,
