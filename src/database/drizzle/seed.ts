@@ -18,7 +18,6 @@ const ENV = {
 //Tableau des categories
 const categories = ["Prestige", "Appartement", "Bureau", "Entrepot", "Garage", "Sous sol"];
 const secteursNames = ["Iles Galapagos", "San Andreas"];
-const secteursAddress = ["Iles Galapagos", "San Andreas"];
 const bar = new cliProgress.SingleBar({ format: "{bar} {value}/{total}" });
 
 const main = async () => {

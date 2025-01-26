@@ -4,6 +4,7 @@ import { count, isNull, SQL, SQLWrapper, sum } from "drizzle-orm";
 import { MySqlColumn, MySqlSelect, MySqlTable, MySqlTableWithColumns, QueryBuilder } from "drizzle-orm/mysql-core";
 import { MySql2Database } from "drizzle-orm/mysql2";
 import { TypedQueryBuilder } from "drizzle-orm/query-builders/query-builder";
+import { SQLiteColumn, SQLiteSelect } from "drizzle-orm/sqlite-core";
 
 export function withPagination<T extends MySqlSelect>(
     qb: T,
@@ -16,6 +17,22 @@ export function withPagination<T extends MySqlSelect>(
         .orderBy(orderByColumn)
         .limit(limit)
         .offset((page - 1) * limit);
+    if (bindParams) {
+        return query.prepare().execute({
+            ...bindParams,
+        });
+    }
+
+    return query;
+}
+
+export function withPaginationForSqlite<T extends SQLiteSelect>(
+    qb: T,
+    page = 1,
+    limit = 5,
+    bindParams?: BindParameters,
+) {
+    const query = qb.limit(limit).offset((page - 1) * limit);
     if (bindParams) {
         return query.prepare().execute({
             ...bindParams,
