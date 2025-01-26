@@ -18,9 +18,9 @@ import RightFilterActions from "./RightFilterActions";
 const ListActionsHistory = () => {
     const role = useGetRoleUser();
     const data: UserActionColumnType[] = [
-        { user: "Alice", action: "update", context: "Modifié email", date: "2025-01-25" },
-        { user: "Bob", action: "delete", context: "Supprimé compte", date: "2025-01-22" },
-        { user: "Bob", action: "create", context: "Ajout d'une propriété", date: "2025-01-22" },
+        { user: "Alice", grade: "employé", action: "update", context: "Modifié email", date: "2025-01-25" },
+        { user: "Bob", grade: "employé", action: "delete", context: "Supprimé compte", date: "2025-01-22" },
+        { user: "Bob", grade: "employé", action: "create", context: "Ajout d'une propriété", date: "2025-01-22" },
     ];
 
     const actions = {

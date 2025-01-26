@@ -10,6 +10,10 @@ export const columns: ColumnDef<UserActionColumnType>[] = [
         header: "Utilisateur",
     },
     {
+        accessorKey: "grade",
+        header: "grade",
+    },
+    {
         accessorKey: "action",
         header: "Action",
         cell: ({ cell }) => <ActionTypeColumnView action={cell.getValue() as UserAction} />,

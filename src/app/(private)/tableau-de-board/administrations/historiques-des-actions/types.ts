@@ -7,6 +7,7 @@ export enum UserActionEnum {
 export type UserAction = "create" | "update" | "delete";
 export type UserActionColumnType = {
     user: string;
+    grade: string;
     action: UserAction;
     context: string;
     date: string;
