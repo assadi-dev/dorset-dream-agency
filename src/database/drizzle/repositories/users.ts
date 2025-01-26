@@ -20,6 +20,9 @@ import { employees } from "../schema/employees";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { photos } from "../schema/photos";
+import { insertUserAction } from "../sqlite/repositories/usersAction";
+import { auth } from "@/auth";
+import { generateDescriptionForUserAction } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -124,9 +127,10 @@ export const getAccountCollections = async (filter: FilterPaginationType) => {
 };
 
 export const deleteAccounts = async (ids: Array<number>) => {
+    const session = await auth();
     try {
         for (const id of ids) {
-            const user = findUserById(id);
+            const user = await findUserById(id);
             if (!user) throw new Error("Cet utilisateur n'existe plus");
             /*   const request = db.delete(users).where(eq(users.id, sql.placeholder("id")));
             await request.execute({
@@ -134,9 +138,28 @@ export const deleteAccounts = async (ids: Array<number>) => {
             }); */
 
             const request = setDeletedAt(users)?.where(eq(users.id, sql.placeholder("id")));
+
             await request?.execute({
                 id,
             });
+
+            if (session) {
+                const description = await generateDescriptionForUserAction({
+                    session: session,
+                    message: `Suppression du compte de ${user.username}`,
+                    extras: { id: user.id },
+                });
+                if (description) {
+                    await insertUserAction({
+                        user: description.user as string,
+                        action: "delete",
+                        name: "Suppression de compte",
+                        description: JSON.stringify(description),
+                        grade: description.grade as string,
+                        entity: "users",
+                    });
+                }
+            }
         }
     } catch (error: any) {
         throw error;

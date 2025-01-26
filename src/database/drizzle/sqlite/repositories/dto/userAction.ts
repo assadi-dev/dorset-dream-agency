@@ -8,6 +8,7 @@ export const userActionSchema = z.object({
     description: z.string().optional().nullable(),
     grade: z.string(),
     action: z.enum(UserActionZodEnum),
+    entity: z.string().min(1),
     timestamp: z.boolean().optional().nullable(),
 });
 

@@ -54,9 +54,10 @@ export const insertUserAction = async (inputs: UserActionCreateInputDto) => {
             action: validateInput.data.action,
             name: validateInput.data.name,
             description: validateInput.data.description,
+            entity: validateInput.data.entity,
         });
-        const id = result.lastInsertRowid;
-        console.log(id);
+        const id = result.lastInsertRowid as number;
+        return await findUserAction(id);
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
     }

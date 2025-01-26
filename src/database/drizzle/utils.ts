@@ -1,6 +1,7 @@
-import { SQL } from "drizzle-orm";
-import { date, datetime, timestamp } from "drizzle-orm/mysql-core";
+import { datetime } from "drizzle-orm/mysql-core";
 import { OrderType } from "../types";
+import { Session } from "next-auth";
+
 /**
  * Ajout des champs created_at et updated_at
  */
@@ -29,4 +30,32 @@ export const ExtractFilterParams = (searchParams: URLSearchParams) => {
     const order = searchParams.get("order")?.toLowerCase() || "desc";
     const search = searchParams.get("search")?.toLowerCase() || null;
     return { search, page, limit, order: order as OrderType };
+};
+
+export const generateDescriptionForUserAction = async ({
+    session,
+    message,
+    extras,
+}: {
+    session: Session;
+    message: string;
+    extras: Record<string, any> | null;
+}) => {
+    if (session) {
+        const description = {
+            user: session?.user?.name,
+            grade: session?.user?.grade,
+            role: session?.user?.role,
+            description: message,
+            extras: extras || null,
+        };
+
+        return description;
+    }
+    return {
+        user: "unknown",
+        grade: "unknown",
+        role: "unknown",
+        description: message,
+    };
 };

@@ -7,6 +7,7 @@ export const userActions = sqliteTable("user_action", {
     grade: text("grade", { mode: "text", length: 50 }),
     action: text("action", { enum: ["create", "update", "delete", "restore"], length: 50 }),
     name: text("name", { mode: "text", length: 50 }).notNull(),
+    entity: text("entity", { mode: "text", length: 50 }).notNull(),
     description: text("description", { mode: "json" }),
     timestamp: integer("timestamp", { mode: "timestamp" }).default(sql<string>`(CURRENT_TIMESTAMP)`),
 });
