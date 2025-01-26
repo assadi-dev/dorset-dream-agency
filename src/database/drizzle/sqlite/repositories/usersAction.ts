@@ -5,7 +5,7 @@ import { and, desc, eq, like, or, sql } from "drizzle-orm";
 import { withPaginationForSqlite } from "../../repositories/utils/entity";
 import { UserActionCreateInputDto, userActionValidator } from "./dto/userAction";
 
-type getUserActionsCollectionsArgs = FilterPaginationType & { from: string; to: string; columns: string | null };
+type getUserActionsCollectionsArgs = FilterPaginationType & { from: string; to: string; columns: string[] };
 export const getUserActionsCollections = async (filter: getUserActionsCollectionsArgs) => {
     try {
         const { search, page, limit } = filter;
@@ -33,6 +33,8 @@ export const getUserActionsCollections = async (filter: getUserActionsCollection
 
         const totalItems = rowsCount.length || 0;
         const data = await withPaginationForSqlite(query.$dynamic(), page, limit, parameters);
+        console.log(data);
+
         return {
             page,
             totalItems,

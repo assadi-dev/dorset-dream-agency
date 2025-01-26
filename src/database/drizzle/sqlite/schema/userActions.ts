@@ -9,5 +9,5 @@ export const userActions = sqliteTable("user_action", {
     name: text("name", { mode: "text", length: 50 }).notNull(),
     entity: text("entity", { mode: "text", length: 50 }).notNull(),
     description: text("description", { mode: "json" }),
-    timestamp: integer("timestamp", { mode: "timestamp" }).default(sql<string>`(CURRENT_TIMESTAMP)`),
+    timestamp: integer("timestamp", { mode: "number" }).default(sql<string>`(CURRENT_TIMESTAMP)`),
 });

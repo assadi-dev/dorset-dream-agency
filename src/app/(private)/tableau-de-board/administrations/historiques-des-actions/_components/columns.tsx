@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { UserAction, UserActionColumnType } from "../types";
 import ActionTypeColumnView from "./ActionTypeView";
+import { datetimeFormatFr } from "@/lib/date";
 
 export const columns: ColumnDef<UserActionColumnType>[] = [
     {
@@ -19,12 +20,12 @@ export const columns: ColumnDef<UserActionColumnType>[] = [
         cell: ({ cell }) => <ActionTypeColumnView action={cell.getValue() as UserAction} />,
     },
     {
-        accessorKey: "context",
+        accessorKey: "name",
         header: "Context",
     },
     {
-        accessorKey: "date",
+        accessorKey: "timestamp",
         header: "Date",
-        cell: ({ cell }) => cell.getValue(),
+        cell: ({ cell }) => datetimeFormatFr(cell.getValue() as string),
     },
 ];
