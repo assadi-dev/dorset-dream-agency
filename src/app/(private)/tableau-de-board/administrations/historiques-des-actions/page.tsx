@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import React from "react";
 import RightActions from "./_components/RightActions";
+import ListActionsHistory from "./_components/ListActionsHistory";
 
 export const metadata = setTitlePage("Historique des actions");
 const StoryActionPage = async () => {
@@ -21,7 +22,9 @@ const StoryActionPage = async () => {
                     <SearchInputDataTable />
                     <RightActions />
                 </div>
-                <React.Suspense fallback={"loading"}></React.Suspense>
+                <React.Suspense fallback={"loading"}>
+                    <ListActionsHistory />
+                </React.Suspense>
             </section>
         </PageTemplate>
     );
