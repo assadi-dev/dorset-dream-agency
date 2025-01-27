@@ -1,7 +1,6 @@
 "use server";
 
 import { SALT_ROUNDS } from "@/config/security";
-
 import bcrypt from "bcrypt";
 import { db } from "@/database";
 import { users } from "@/database/drizzle/schema/users";
@@ -21,8 +20,7 @@ import { BindParameters, FilterPaginationType } from "@/database/types";
 import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { photos } from "../schema/photos";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
-import { auth } from "@/auth";
-import { ACTION_NAMES, generateDescriptionForUserAction } from "../utils";
+import { ACTION_NAMES } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -80,6 +78,7 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
 };
 
 export const findUserById = async (id: number) => {
+    const softDeleteCondition = selectWithSoftDelete(users);
     const findUserReq = db
         .select()
         .from(users)
@@ -90,6 +89,7 @@ export const findUserById = async (id: number) => {
 };
 
 export const findUserByUsername = async (username: string) => {
+    const softDeleteCondition = selectWithSoftDelete(users);
     const findUserReq = db
         .select()
         .from(users)
@@ -101,6 +101,7 @@ export const findUserByUsername = async (username: string) => {
 
 export const getAccountCollections = async (filter: FilterPaginationType) => {
     try {
+        const softDeleteCondition = selectWithSoftDelete(users);
         const { search, order, limit, page } = filter;
         const searchCondition = search
             ? or(like(users.username, sql.placeholder("search")), like(users.role, sql.placeholder("search")))
@@ -287,6 +288,7 @@ type UserSession = {
 };
 export const authenticate = async (values: Partial<userCredentialType> | unknown): Promise<UserSession> => {
     try {
+        const softDeleteCondition = selectWithSoftDelete(users);
         const userInputValidate = userCredentialValidator(values);
         if (userInputValidate.error) {
             throw new Error(userInputValidate.error.message);
@@ -332,6 +334,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
 };
 
 export const currentUser = async (idUser: number) => {
+    const softDeleteCondition = selectWithSoftDelete(users);
     const query = db
         .select({
             userId: users.id,
