@@ -66,12 +66,12 @@ export function hasDeletedAtColumn(table: MySqlTableWithColumns<any>): boolean {
     return "deletedAt" in table;
 }
 
-export const selectWithSoftDelete = (table: MySqlTableWithColumns<any>) => {
+export function selectWithSoftDelete(table: MySqlTableWithColumns<any>) {
     if (hasDeletedAtColumn(table)) {
         return isNull(table["deletedAt"]);
     }
     return undefined;
-};
+}
 
 export const setDeletedAt = (table: MySqlTableWithColumns<any>) => {
     if (hasDeletedAtColumn(table)) {
@@ -85,7 +85,7 @@ export const setDeletedAt = (table: MySqlTableWithColumns<any>) => {
     return undefined;
 };
 
-export const generateDescription = async (message: string, extras?: any) => {
+export async function generateDescription(message: string, extras?: any) {
     try {
         const session = await auth();
 
@@ -96,4 +96,4 @@ export const generateDescription = async (message: string, extras?: any) => {
         });
         return description;
     } catch (error) {}
-};
+}

@@ -89,7 +89,6 @@ export const findUserById = async (id: number) => {
 };
 
 export const findUserByUsername = async (username: string) => {
-    const softDeleteCondition = selectWithSoftDelete(users);
     const findUserReq = db
         .select()
         .from(users)
@@ -101,7 +100,6 @@ export const findUserByUsername = async (username: string) => {
 
 export const getAccountCollections = async (filter: FilterPaginationType) => {
     try {
-        const softDeleteCondition = selectWithSoftDelete(users);
         const { search, order, limit, page } = filter;
         const searchCondition = search
             ? or(like(users.username, sql.placeholder("search")), like(users.role, sql.placeholder("search")))
@@ -288,7 +286,6 @@ type UserSession = {
 };
 export const authenticate = async (values: Partial<userCredentialType> | unknown): Promise<UserSession> => {
     try {
-        const softDeleteCondition = selectWithSoftDelete(users);
         const userInputValidate = userCredentialValidator(values);
         if (userInputValidate.error) {
             throw new Error(userInputValidate.error.message);
@@ -334,7 +331,6 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
 };
 
 export const currentUser = async (idUser: number) => {
-    const softDeleteCondition = selectWithSoftDelete(users);
     const query = db
         .select({
             userId: users.id,

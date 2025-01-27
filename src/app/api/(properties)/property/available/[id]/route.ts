@@ -1,8 +1,4 @@
-import {
-    getOnePropertyByID,
-    getOnePropertyByVariantID,
-    updateProperty,
-} from "@/database/drizzle/repositories/properties";
+import { updateProperty } from "@/database/drizzle/repositories/properties";
 import { NextResponse } from "next/server";
 
 type BodyType = {

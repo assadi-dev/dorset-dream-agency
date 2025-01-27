@@ -12,7 +12,7 @@ export const columns: ColumnDef<UserActionColumnType>[] = [
     },
     {
         accessorKey: "grade",
-        header: "grade",
+        header: "Grade",
     },
     {
         accessorKey: "action",

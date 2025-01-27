@@ -24,11 +24,12 @@ const ListActionsHistory = () => {
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 5;
     const search = searchParams.get("search") || "";
-    const actions = searchParams.get("action") || "update,delete";
+    const actions = searchParams.get("action") || encodeURI("update,delete");
 
     const { data, isFetching, error } = useQuery({
         queryKey: [QUERY_USERS_ACTIONS.GET_USERS_ACTION_COLLECTIONS, page, limit, search, actions],
         queryFn: () => fetchUserActionCollection({ page, limit, search, actions }),
+        refetchOnMount: true,
     });
 
     const collections = React.useMemo(() => {
