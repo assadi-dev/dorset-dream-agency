@@ -18,11 +18,11 @@ import {
 import { and, asc, desc, eq, like, or, sql } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { BindParameters, FilterPaginationType } from "@/database/types";
-import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { photos } from "../schema/photos";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { auth } from "@/auth";
-import { generateDescriptionForUserAction } from "../utils";
+import { ACTION_NAMES, generateDescriptionForUserAction } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -61,7 +61,19 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
             })
             .$returningId();
         const userId = request[0].id;
-        return userId;
+        const newUser = await findUserById(userId);
+        const description = await generateDescription(`Création  du compte pour ${newUser.username}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "create",
+                name: ACTION_NAMES.users.create,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: "users",
+            });
+        }
+        return newUser;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
@@ -127,7 +139,6 @@ export const getAccountCollections = async (filter: FilterPaginationType) => {
 };
 
 export const deleteAccounts = async (ids: Array<number>) => {
-    const session = await auth();
     try {
         for (const id of ids) {
             const user = await findUserById(id);
@@ -143,22 +154,16 @@ export const deleteAccounts = async (ids: Array<number>) => {
                 id,
             });
 
-            if (session) {
-                const description = await generateDescriptionForUserAction({
-                    session: session,
-                    message: `Suppression du compte de ${user.username}`,
-                    extras: { id: user.id },
+            const description = await generateDescription(`Suppression du compte de ${user.username}`);
+            if (description) {
+                await insertUserAction({
+                    user: description.user as string,
+                    action: "delete",
+                    name: ACTION_NAMES.users.delete,
+                    description: JSON.stringify(description),
+                    grade: description.grade as string,
+                    entity: "users",
                 });
-                if (description) {
-                    await insertUserAction({
-                        user: description.user as string,
-                        action: "delete",
-                        name: "Suppression de compte",
-                        description: JSON.stringify(description),
-                        grade: description.grade as string,
-                        entity: "users",
-                    });
-                }
             }
         }
     } catch (error: any) {
@@ -186,6 +191,17 @@ export const changePassword = async (id: number, values: passwordValidatorType) 
             .where(eq(users.id, sql.placeholder("id")))
             .prepare();
         await result.execute({ id });
+        const description = await generateDescription(`Changement de mot de passe de ${user.username}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "update",
+                name: ACTION_NAMES.users.updatePassword,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: "users",
+            });
+        }
     } catch (error: any) {
         throw error;
     }
@@ -210,7 +226,51 @@ export const updateUser = async (id: number, values: UserUpdateInputDto) => {
             })
             .where(eq(users.id, sql.placeholder("id")))
             .prepare();
+        const userUpdate = await result.execute({ id });
+        const description = await generateDescription(`Modification du compte de ${user.username}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "update",
+                name: ACTION_NAMES.users.update,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: "users",
+            });
+        }
+        return userUpdate;
+    } catch (error: any) {
+        throw error;
+    }
+};
+
+export const restoreUser = async (id: number) => {
+    try {
+        const user = await findUserById(id);
+
+        if (!user) throw new Error("User not found !");
+
+        const result = db
+            .update(users)
+            .set({
+                ...user,
+                deletedAt: null,
+            })
+            .where(eq(users.id, sql.placeholder("id")))
+            .prepare();
         await result.execute({ id });
+
+        const description = await generateDescription(`Restauration du compte de ${user.username}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "restore",
+                name: ACTION_NAMES.users.restore,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: "users",
+            });
+        }
     } catch (error: any) {
         throw error;
     }

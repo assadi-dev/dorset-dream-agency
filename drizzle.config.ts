@@ -1,7 +1,7 @@
 import { ENV } from "@/config/global";
 import { defineConfig } from "drizzle-kit";
 
-/* export default defineConfig({
+export default defineConfig({
     dialect: "mysql",
     dbCredentials: {
         host: ENV.MYSQL_DB_HOST,
@@ -14,9 +14,8 @@ import { defineConfig } from "drizzle-kit";
     out: "./src/database/drizzle/migrations",
     schema: "./src/database/drizzle/schema/*.ts",
 });
- */
 
-export default defineConfig({
+/* export default defineConfig({
     dialect: "sqlite",
     dbCredentials: {
         url: ENV.SQLITE_DATABASE_URL,
@@ -25,3 +24,4 @@ export default defineConfig({
     out: "./src/database/drizzle/sqlite/migrations",
     schema: "./src/database/drizzle/sqlite/schema/*.ts",
 });
+ */

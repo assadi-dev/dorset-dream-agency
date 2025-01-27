@@ -5,7 +5,7 @@ import { employees } from "./employees";
 
 export const users = mysqlTable("users", {
     id: int("id").autoincrement().primaryKey(),
-    username: varchar("username", { length: 255 }).notNull(),
+    username: varchar("username", { length: 255 }).notNull().unique(),
     password: varchar("password", { length: 255 }).notNull(),
     avatar: varchar("avatar", { length: 255 }),
     role: mysqlEnum("role", ["user", "patron", "admin"]).notNull(),

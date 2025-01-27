@@ -5,6 +5,8 @@ import { MySqlColumn, MySqlSelect, MySqlTable, MySqlTableWithColumns, QueryBuild
 import { MySql2Database } from "drizzle-orm/mysql2";
 import { TypedQueryBuilder } from "drizzle-orm/query-builders/query-builder";
 import { SQLiteColumn, SQLiteSelect } from "drizzle-orm/sqlite-core";
+import { generateDescriptionForUserAction } from "../../utils";
+import { auth } from "@/auth";
 
 export function withPagination<T extends MySqlSelect>(
     qb: T,
@@ -81,4 +83,17 @@ export const setDeletedAt = (table: MySqlTableWithColumns<any>) => {
             .$dynamic();
     }
     return undefined;
+};
+
+export const generateDescription = async (message: string, extras?: any) => {
+    try {
+        const session = await auth();
+
+        const description = await generateDescriptionForUserAction({
+            session: session || null,
+            message: message,
+            extras: extras,
+        });
+        return description;
+    } catch (error) {}
 };

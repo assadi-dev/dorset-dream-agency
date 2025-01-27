@@ -37,7 +37,7 @@ export const generateDescriptionForUserAction = async ({
     message,
     extras,
 }: {
-    session: Session;
+    session: Session | null;
     message: string;
     extras: Record<string, any> | null;
 }) => {
@@ -58,4 +58,42 @@ export const generateDescriptionForUserAction = async ({
         role: "unknown",
         description: message,
     };
+};
+
+export const ACTION_NAMES = {
+    users: {
+        create: "Création de compte",
+        update: "Modification de compte",
+        delete: "Suppression de compte",
+        restore: "Restauration de compte",
+        updatePassword: "Changement de mot passe",
+    },
+    employees: {
+        create: "Ajout d'un employé",
+        update: "Modification d'un employé",
+        delete: "Suppression d'un employé",
+        restore: "Restauration d'un employé",
+        updatePhoto: "Mise à jour de la photo",
+    },
+    clients: {
+        create: "Ajout d'un client",
+        update: "Modification d'un client",
+        delete: "Suppression d'un client",
+        restore: "Restauration d'un client",
+    },
+    properties: {
+        create: "Ajout d'une propriété immobilier",
+        update: "Modification d'une propriété immobilier",
+        delete: "Suppression d'une propriété immobilier",
+        restore: "Restauration d'une propriété immobilier",
+    },
+    variants: {
+        create: "Ajout d'une variante",
+        update: "Modification d'une variante",
+        delete: "Suppression d'une variante",
+        restore: "Restauration d'une variante",
+    },
+    prestige: {
+        available: "Mise à jour de la disponibilité",
+    },
 };
