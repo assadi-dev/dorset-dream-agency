@@ -82,10 +82,10 @@ export const ACTION_NAMES = {
         restore: "Restauration d'un client",
     },
     properties: {
-        create: "Ajout d'une propriété immobilier",
-        update: "Modification d'une propriété immobilier",
-        delete: "Suppression d'une propriété immobilier",
-        restore: "Restauration d'une propriété immobilier",
+        create: "Ajout d'un bien immobilier",
+        update: "Modification d'un bien immobilier",
+        delete: "Suppression d'un bien immobilier",
+        restore: "Restauration d'un bien immobilier",
     },
     variants: {
         create: "Ajout d'une variante",

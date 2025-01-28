@@ -9,7 +9,9 @@ import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
-import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import { insertUserAction } from "../sqlite/repositories/usersAction";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -32,11 +34,21 @@ export const insertProperty = async (values: any) => {
             .$returningId();
         const id: number = result[0].id;
 
-        const newProperty = await db
-            .select()
-            .from(properties)
-            .where(sql<string>`id=${id}`);
-        return newProperty[0];
+        const newProperty = await getOnePropertyByID(id);
+
+        const description = await generateDescription(`Création du biens immobilier ${newProperty.name}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "create",
+                name: ACTION_NAMES.properties.create,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.PROPERTIES,
+            });
+        }
+
+        return newProperty;
     } catch (error: any) {
         throw error;
     }
@@ -155,6 +167,18 @@ export const updateProperty = async (id: number | string, data: any) => {
 
     const propertyUpdated = await getOnePropertyByID(id);
 
+    const description = await generateDescription(`Modification du biens immobilier ${propertyUpdated.name}`);
+    if (description) {
+        await insertUserAction({
+            user: description.user as string,
+            action: "update",
+            name: ACTION_NAMES.properties.update,
+            description: JSON.stringify(description),
+            grade: description.grade as string,
+            entity: ENTITIES_ENUM.PROPERTIES,
+        });
+    }
+
     return propertyUpdated;
 };
 
@@ -175,6 +199,18 @@ export const deleteProperty = async (id: number | string) => {
     await request?.execute({
         id,
     });
+
+    const description = await generateDescription(`Suppression du biens immobilier ${property.name}`);
+    if (description) {
+        await insertUserAction({
+            user: description.user as string,
+            action: "delete",
+            name: ACTION_NAMES.properties.delete,
+            description: JSON.stringify(description),
+            grade: description.grade as string,
+            entity: ENTITIES_ENUM.PROPERTIES,
+        });
+    }
 };
 
 /**
