@@ -97,3 +97,12 @@ export const ACTION_NAMES = {
         available: "Mise à jour de la disponibilité",
     },
 };
+
+export const enum ENTITIES_ENUM {
+    USERS = "users",
+    EMPLOYEES = "employees",
+    CLIENTS = "clients",
+    PROPERTIES = "properties",
+    VARIANTS = "variants",
+    PRESTIGES = "prestige",
+}

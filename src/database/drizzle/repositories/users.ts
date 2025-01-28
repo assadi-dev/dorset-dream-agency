@@ -20,7 +20,7 @@ import { BindParameters, FilterPaginationType } from "@/database/types";
 import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { photos } from "../schema/photos";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
-import { ACTION_NAMES } from "../utils";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -68,7 +68,7 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
                 name: ACTION_NAMES.users.create,
                 description: JSON.stringify(description),
                 grade: description.grade as string,
-                entity: "users",
+                entity: ENTITIES_ENUM.USERS,
             });
         }
         return newUser;
@@ -147,7 +147,9 @@ export const deleteAccounts = async (ids: Array<number>) => {
                 id,
             }); */
 
-            const request = setDeletedAt(users)?.where(eq(users.id, sql.placeholder("id")));
+            const request = setDeletedAt(users)
+                ?.where(eq(users.id, sql.placeholder("id")))
+                .prepare();
 
             await request?.execute({
                 id,
@@ -161,7 +163,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
                     name: ACTION_NAMES.users.delete,
                     description: JSON.stringify(description),
                     grade: description.grade as string,
-                    entity: "users",
+                    entity: ENTITIES_ENUM.USERS,
                 });
             }
         }
@@ -198,7 +200,7 @@ export const changePassword = async (id: number, values: passwordValidatorType) 
                 name: ACTION_NAMES.users.updatePassword,
                 description: JSON.stringify(description),
                 grade: description.grade as string,
-                entity: "users",
+                entity: ENTITIES_ENUM.USERS,
             });
         }
     } catch (error: any) {
@@ -234,7 +236,7 @@ export const updateUser = async (id: number, values: UserUpdateInputDto) => {
                 name: ACTION_NAMES.users.update,
                 description: JSON.stringify(description),
                 grade: description.grade as string,
-                entity: "users",
+                entity: ENTITIES_ENUM.USERS,
             });
         }
         return userUpdate;
@@ -267,7 +269,7 @@ export const restoreUser = async (id: number) => {
                 name: ACTION_NAMES.users.restore,
                 description: JSON.stringify(description),
                 grade: description.grade as string,
-                entity: "users",
+                entity: ENTITIES_ENUM.USERS,
             });
         }
     } catch (error: any) {
@@ -310,7 +312,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
             .where(and(softDeleteCondition, eq(users.username, sql.placeholder("username"))))
             .prepare();
         const user = (await findUserReq.execute({ username: validateInput.username }))[0];
-        if (!user) throw new Error("Unauthorized !", { cause: "authentication" });
+        if (!user) throw new Error("User no found !", { cause: "authentication" });
 
         const match = await bcrypt.compare(validateInput.password, user.password);
 

@@ -14,8 +14,8 @@ const AddForm = () => {
             userID?: any;
         },
     ) => {
-        const newUserId = await insertUserAccount(values);
-        values.userID = newUserId;
+        const newUser = await insertUserAccount(values);
+        values.userID = newUser?.id;
         const secteursIds = values.secteur.map((secteur) => Number(secteur.value));
         await insertEmployee({ ...values, secteursIds });
 

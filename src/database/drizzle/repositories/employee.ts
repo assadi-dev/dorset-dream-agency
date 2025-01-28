@@ -7,12 +7,14 @@ import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
 import { EmployeeCreateInputDto, employeeValidator } from "./dto/employeeDTO";
 import { wait } from "@/lib/utils";
-import { selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { removePhotosByAndFile } from "./photos";
 import { photos } from "../schema/photos";
 import { users } from "../schema/users";
 import { deleteAccounts } from "./users";
+import { insertUserAction } from "../sqlite/repositories/usersAction";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -31,11 +33,23 @@ export const insertEmployee = async (values: EmployeeCreateInputDto) => {
 
         const request = await db.insert(employees).values(employeeValidation.data).$returningId();
         const employeeId = request[0].id;
+        const employee = await getOneEmployee(employeeId);
 
         if (values.secteursIds) {
             await addSecteurToSecteurToEmployee(employeeId, values.secteursIds);
         }
 
+        const description = await generateDescription(`Ajout d'employé ${employee.firstName} ${employee.lastName}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "create",
+                name: ACTION_NAMES.employees.create,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.EMPLOYEES,
+            });
+        }
         return employeeId;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
@@ -155,12 +169,7 @@ export const getAccountEmployee = async (id: number) => {
 
 export const updateEmployee = async (id: number, values: any) => {
     try {
-        const employeeReq = db
-            .select()
-            .from(employees)
-            .where(and(softDeleteCondition, eq(employees.id, sql.placeholder("id"))))
-            .prepare();
-        const employee = await employeeReq.execute({ id });
+        const employee = await getOneEmployee(id);
         if (!employee) throw new Error("Employee not found");
 
         if (values?.secteursIds) {
@@ -169,12 +178,28 @@ export const updateEmployee = async (id: number, values: any) => {
             } else if (values?.secteursIds.length === 0) clearSecteurToEmployee(id);
         }
 
+        const descriptionMessage =
+            values.photoID !== null
+                ? `Mise à jour de la photo de l'employé ${employee.firstName} ${employee.lastName}`
+                : `Modification des infos de l'employé ${employee.firstName} ${employee.lastName}`;
+
         const request = db
             .update(employees)
             .set({ ...employee, ...values })
             .where(and(softDeleteCondition, eq(employees.id, sql.placeholder("id"))))
             .prepare();
-        return await request.execute({ id });
+        await request.execute({ id });
+        const description = await generateDescription(descriptionMessage);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "update",
+                name: values.photoID ? ACTION_NAMES.employees.updatePhoto : ACTION_NAMES.employees.update,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.EMPLOYEES,
+            });
+        }
     } catch (error: any) {
         throw error;
     }
@@ -184,22 +209,38 @@ export const deleteEmployee = async (ids: Array<number>) => {
     try {
         for (const id of ids) {
             const employee = await getOneEmployee(id);
-            if (!employee) throw new Error("C'est employé n'existe plus");
+            if (!employee) throw new Error("Cet employé n'existe plus");
 
             //Suppression du compte
             const account = await getAccountEmployee(id);
-            if (account) {
-                await deleteAccounts([account.id]);
+
+            if (account?.userId) {
+                await deleteAccounts([account?.userId]);
             }
 
             //  if (employee.photoID) await removePhotosByAndFile([employee.photoID], "employees");
-            /*      const req = db
+            /* const req = db
                 .delete(employees)
                 .where(eq(employees.id, sql.placeholder("id")))
-                .prepare(); */
+                .prepare(); 
+            */
             const req = setDeletedAt(employees)?.where(eq(employees.id, sql.placeholder("id")));
 
             await req?.execute({ id });
+            const description = await generateDescription(
+                `Suppression de l'employé ${employee.firstName} ${employee.lastName}`,
+            );
+
+            if (description) {
+                await insertUserAction({
+                    user: description.user as string,
+                    action: "delete",
+                    name: ACTION_NAMES.employees.delete,
+                    description: JSON.stringify(description),
+                    grade: description.grade as string,
+                    entity: ENTITIES_ENUM.EMPLOYEES,
+                });
+            }
         }
     } catch (error: any) {
         throw error;
@@ -263,7 +304,8 @@ export const addPhotoToEmployee = async ({ employeeID, photoID }: { employeeID: 
         await updateEmployee(employeeID, {
             photoID,
         });
-        return await getOneEmployee(employeeID);
+        const result = await getOneEmployee(employeeID);
+        return result;
     } catch (error: any) {
         if (error instanceof Error) {
             throw error;
