@@ -4,7 +4,9 @@ import { and, eq, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
 import { getGalleryCollectionForVariants } from "./galleries";
 import { properties } from "../schema/properties";
-import { selectWithSoftDelete, setDeletedAt } from "./utils/entity";
+import { generateDescription, selectWithSoftDelete, setDeletedAt } from "./utils/entity";
+import { insertUserAction } from "../sqlite/repositories/usersAction";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -24,6 +26,21 @@ export const insertVariant = async (name?: string | null, propertyID?: number | 
             name: name,
             propertyID,
         });
+
+        const newVariants = await getOneVariant(result[0].insertId);
+        const messageDescription = newVariants ? `Ajout de la variante  ${newVariants.name}` : `Ajout d'une variante`;
+
+        const description = await generateDescription(messageDescription);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "create",
+                name: ACTION_NAMES.variants.create,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.VARIANTS,
+            });
+        }
 
         return { id: result[0].insertId };
     } catch (error: any) {
@@ -89,6 +106,22 @@ export const updateVariant = async (id: number | string, data: any) => {
             .prepare();
 
         await request.execute({ id: findVariant.id });
+
+        const messageDescription = findVariant
+            ? `Modification de la variante  ${findVariant.name}`
+            : `Modification d'une variante`;
+
+        const description = await generateDescription(messageDescription);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "update",
+                name: ACTION_NAMES.variants.update,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.VARIANTS,
+            });
+        }
         return await getOneVariant(findVariant.id);
     } else {
         if (!data.propertyID) throw new Error("propertyID missing!");
@@ -100,6 +133,7 @@ export const updateVariant = async (id: number | string, data: any) => {
 export const deleteVariant = async (ids: Array<number>) => {
     if (ids.length) {
         for (const id of ids) {
+            const findVariant = await getOneVariant(id);
             /*     const prepare = db
                 .delete(variants)
                 .where(eq(variants.id, sql.placeholder("id")))
@@ -114,6 +148,21 @@ export const deleteVariant = async (ids: Array<number>) => {
             await prepare?.execute({
                 id: id,
             });
+            const messageDescription = findVariant
+                ? `Suppression de la variante  ${findVariant.name}`
+                : `Suppression d'une variante`;
+
+            const description = await generateDescription(messageDescription);
+            if (description) {
+                await insertUserAction({
+                    user: description.user as string,
+                    action: "delete",
+                    name: ACTION_NAMES.variants.delete,
+                    description: JSON.stringify(description),
+                    grade: description.grade as string,
+                    entity: ENTITIES_ENUM.VARIANTS,
+                });
+            }
         }
     }
 };
