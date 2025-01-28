@@ -36,7 +36,7 @@ export const insertProperty = async (values: any) => {
 
         const newProperty = await getOnePropertyByID(id);
 
-        const description = await generateDescription(`Création du biens immobilier ${newProperty.name}`);
+        const description = await generateDescription(`Création du bien immobilier ${newProperty.name}`);
         if (description) {
             await insertUserAction({
                 user: description.user as string,
@@ -167,7 +167,7 @@ export const updateProperty = async (id: number | string, data: any) => {
 
     const propertyUpdated = await getOnePropertyByID(id);
 
-    const description = await generateDescription(`Modification du biens immobilier ${propertyUpdated.name}`);
+    const description = await generateDescription(`Modification du bien immobilier ${propertyUpdated.name}`);
     if (description) {
         await insertUserAction({
             user: description.user as string,
@@ -200,7 +200,7 @@ export const deleteProperty = async (id: number | string) => {
         id,
     });
 
-    const description = await generateDescription(`Suppression du biens immobilier ${property.name}`);
+    const description = await generateDescription(`Suppression du bien immobilier ${property.name}`);
     if (description) {
         await insertUserAction({
             user: description.user as string,
