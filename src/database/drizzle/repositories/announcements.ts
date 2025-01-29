@@ -4,9 +4,11 @@ import { AnnounceCreateInputDto, announceValidator } from "./dto/announcementDTO
 import { announcements } from "../schema/announcements";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { employees } from "../schema/employees";
-import { withPagination } from "./utils/entity";
+import { generateDescription, withPagination } from "./utils/entity";
 import { extractKey, removeAnnounceFiles } from "./announcementsFiles";
 import { deleteFileByID, findFileByPath } from "./files";
+import { insertUserAction } from "../sqlite/repositories/usersAction";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     const validateInput = announceValidator(values);
@@ -15,7 +17,19 @@ export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
 
     const query = await db.insert(announcements).values({ ...validateInput.data, isPublish: false });
     const id = query[0].insertId;
-    return findOneByID(id);
+    const newAnnouncement = await findOneByID(id);
+
+    const description = await generateDescription(`Création de l'annonce ${newAnnouncement?.title}`);
+    if (description) {
+        await insertUserAction({
+            user: description.user as string,
+            action: "create",
+            name: ACTION_NAMES.announcements.create,
+            description: JSON.stringify(description),
+            grade: description.grade as string,
+            entity: ENTITIES_ENUM.ANNOUNCEMENTS,
+        });
+    }
 };
 
 export const updateAnnounce = async (id: number, values: Partial<AnnounceCreateInputDto>) => {
@@ -31,7 +45,19 @@ export const updateAnnounce = async (id: number, values: Partial<AnnounceCreateI
         id,
     });
 
-    return findOneByID(result[0].insertId);
+    const announcement = await findOneByID(result[0].insertId);
+    const description = await generateDescription(`Modification de l'annonce ${announcement?.title}`);
+    if (description) {
+        await insertUserAction({
+            user: description.user as string,
+            action: "update",
+            name: ACTION_NAMES.announcements.update,
+            description: JSON.stringify(description),
+            grade: description.grade as string,
+            entity: ENTITIES_ENUM.ANNOUNCEMENTS,
+        });
+    }
+    return announcement;
 };
 export const setPublishAnnounce = async (id: number, values: boolean) => {
     await db.update(announcements).set({ isPublish: false }).where(eq(announcements.isPublish, true));
@@ -47,7 +73,19 @@ export const setPublishAnnounce = async (id: number, values: boolean) => {
         id,
     });
 
-    return findOneByID(result[0].insertId);
+    const announcement = await findOneByID(result[0].insertId);
+    const description = await generateDescription(`Publication de l'annonce ${announcement?.title}`);
+    if (description) {
+        await insertUserAction({
+            user: description.user as string,
+            action: "update",
+            name: ACTION_NAMES.announcements.publish,
+            description: JSON.stringify(description),
+            grade: description.grade as string,
+            entity: ENTITIES_ENUM.ANNOUNCEMENTS,
+        });
+    }
+    return announcement;
 };
 
 export const getPublishedAnnouncements = async () => {
@@ -137,6 +175,18 @@ export const deleteAnnouncements = async (ids: number[]) => {
                 .where(eq(announcements.id, sql.placeholder("id")))
                 .prepare();
             await query.execute({ id });
+
+            const description = await generateDescription(`Suppression de l'annonce ${announce.title}`);
+            if (description) {
+                await insertUserAction({
+                    user: description.user as string,
+                    action: "delete",
+                    name: ACTION_NAMES.announcements.delete,
+                    description: JSON.stringify(description),
+                    grade: description.grade as string,
+                    entity: ENTITIES_ENUM.ANNOUNCEMENTS,
+                });
+            }
         }
     }
 };

@@ -61,6 +61,13 @@ export const generateDescriptionForUserAction = async ({
 };
 
 export const ACTION_NAMES = {
+    announcements: {
+        create: "Création d'une annonce",
+        update: "Modification d'une annonce",
+        delete: "Suppression d'une annonce",
+        publish: "Publication d'une annonce",
+        restore: "Restauration d'une annonce",
+    },
     users: {
         create: "Création de compte",
         update: "Modification de compte",
@@ -99,6 +106,7 @@ export const ACTION_NAMES = {
 };
 
 export const enum ENTITIES_ENUM {
+    ANNOUNCEMENTS = "announcements",
     USERS = "users",
     EMPLOYEES = "employees",
     CLIENTS = "clients",
