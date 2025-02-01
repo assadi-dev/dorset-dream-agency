@@ -21,6 +21,7 @@ import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination
 import { photos } from "../schema/photos";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
+import { deleteEmployee } from "./employee";
 
 /**
  * Filtre par la colonne deletedAt
@@ -80,8 +81,16 @@ export const insertUserAccount = async (values: UserCreateInputDto) => {
 export const findUserById = async (id: number) => {
     const softDeleteCondition = selectWithSoftDelete(users);
     const findUserReq = db
-        .select()
+        .select({
+            id: users.id,
+            username: users.username,
+            role: users.role,
+            createdAt: users.createdAt,
+            updatedAt: users.updatedAt,
+            employeeID: employees.id,
+        })
         .from(users)
+        .leftJoin(employees, eq(employees.userID, users.id))
         .where(and(softDeleteCondition, eq(users.id, sql.placeholder("id"))))
         .prepare();
     const user = await findUserReq.execute({ id });
@@ -146,6 +155,16 @@ export const deleteAccounts = async (ids: Array<number>) => {
             await request.execute({
                 id,
             }); */
+
+            if (user.employeeID) {
+                const requestEmployee = setDeletedAt(employees)
+                    ?.where(eq(employees.id, sql.placeholder("id")))
+                    .prepare();
+
+                await requestEmployee?.execute({
+                    id: user.employeeID,
+                });
+            }
 
             const request = setDeletedAt(users)
                 ?.where(eq(users.id, sql.placeholder("id")))
