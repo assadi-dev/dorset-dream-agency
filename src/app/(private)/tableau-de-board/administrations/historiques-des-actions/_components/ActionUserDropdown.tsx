@@ -2,23 +2,31 @@ import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/co
 import useModalState from "@/hooks/useModalState";
 import { RotateCcw, Info, Trash } from "lucide-react";
 import React from "react";
-import { UserAction, UserActionEnum } from "../types";
+import { ActionDescription, UserAction, UserActionEnum } from "../types";
+import ActionDetailView from "./views/ActionDetailView";
 
 type ActionUserDropdownProps = {
     userActionItem: any;
 };
 const ActionUserDropdown = ({ userActionItem }: ActionUserDropdownProps) => {
     const { openModal } = useModalState();
-    const handleClickNewVariant = () => {};
-    const handleClickDelete = () => {};
+    const handleClickDetailView = () => {
+        openModal({
+            title: "Description détaillé",
+            description: userActionItem?.name,
+            component: ActionDetailView,
+            payload: userActionItem,
+        });
+    };
+    const handleClickRestore = () => {};
 
     return (
         <>
-            <DropdownMenuItem onClick={handleClickNewVariant} className="text-primary">
+            <DropdownMenuItem onClick={handleClickDetailView} className="text-primary">
                 <Info className="mr-2 h-4 w-4" /> Description détaillé
             </DropdownMenuItem>
             {userActionItem.action === "delete" && (
-                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
+                <DropdownMenuItem onClick={handleClickRestore} className="text-red-600" disabled>
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Restaurer
                 </DropdownMenuItem>

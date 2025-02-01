@@ -4,6 +4,7 @@ import { isAdmin, setTitlePage } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import React from "react";
 import ListActionsHistory from "./_components/ListActionsHistory";
+import ModalProvider from "@/components/Modals/ModalProvider";
 
 export const metadata = setTitlePage("Historique des actions");
 const StoryActionPage = async () => {
@@ -15,11 +16,11 @@ const StoryActionPage = async () => {
             title="Historique des actions"
             description="Consulter l'historique des actions de modification et de suppression effectuées par les employés."
         >
-            <section className="my-3">
-                <React.Suspense fallback={"loading"}>
+            <ModalProvider>
+                <section className="my-3">
                     <ListActionsHistory />
-                </React.Suspense>
-            </section>
+                </section>
+            </ModalProvider>
         </PageTemplate>
     );
 };
