@@ -1,6 +1,5 @@
 "use client";
-import MultipleSelector, { MultipleSelectorProps } from "@/components/ui/MultipleSelector";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MultipleSelectorProps } from "@/components/ui/MultipleSelector";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
 import React from "react";
 import { UserAction, UserActionEnum } from "../types";
@@ -19,7 +18,7 @@ type ActionSelectorProps = MultipleSelectorProps;
 const ActionSelector = ({ ...props }: ActionSelectorProps) => {
     const { updateSearchParamAndRefresh } = useRouteRefresh();
 
-    type selectStateType = { create: boolean; update: boolean; delete: boolean };
+    type selectStateType = { create: boolean; update: boolean; delete: boolean; restore: boolean };
 
     const options = Object.entries(UserActionEnum).map(([k, v]) => ({ label: v, value: k }));
     const [selected, setSelected] = React.useReducer(
@@ -28,6 +27,7 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
             create: false,
             update: true,
             delete: true,
+            restore: false,
         },
     );
     const handleSelect = (action: UserAction, checked: boolean) => {
