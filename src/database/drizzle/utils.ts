@@ -102,7 +102,13 @@ export const ACTION_NAMES = {
         restore: "Restauration d'une variante",
     },
     prestige: {
-        available: "Mise à jour de la disponibilité",
+        available: "Mise à jour de la disponibilité d'une propriété",
+    },
+    transactions: {
+        create: "Ajout d'une transaction",
+        update: "Modification d'une transaction",
+        delete: "Suppression d'une transaction",
+        restore: "Restauration d'une transaction",
     },
 };
 
@@ -114,4 +120,5 @@ export const enum ENTITIES_ENUM {
     PROPERTIES = "properties",
     VARIANTS = "variants",
     PRESTIGES = "prestige",
+    TRANSACTIONS = "transactions",
 }

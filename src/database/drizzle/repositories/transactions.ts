@@ -9,7 +9,15 @@ import { variants } from "../schema/variants";
 import { decodeTransactionInput } from "./dto/transactionsDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { BindParameters, FilterPaginationType, StartDateEnDateType } from "@/database/types";
-import { rowCount, rowSum, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import {
+    rowCount,
+    rowSum,
+    selectWithSoftDelete,
+    sendToUserActions,
+    setDeletedAt,
+    withPagination,
+} from "./utils/entity";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 /**
@@ -25,7 +33,17 @@ export const insertTransaction = async (values: unknown) => {
             throw new Error(inputParsed.error.message);
         }
 
-        const transaction = await db.insert(transactions).values(inputParsed.data);
+        const newTransaction = await db.insert(transactions).values(inputParsed.data).$returningId();
+        const transaction = await findOneTransaction(newTransaction[0].id);
+
+        const message = `La transaction ${transaction.propertyService} - ${transaction.property} au client ${transaction.client} à été ajouté`;
+        await sendToUserActions({
+            message,
+            action: "create",
+            actionName: ACTION_NAMES.transactions.create,
+            entity: ENTITIES_ENUM.TRANSACTIONS,
+        });
+
         return transaction;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
@@ -56,9 +74,9 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                 id: transactions.id,
                 property: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
                 variantID: variants.id,
-                seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
+                seller: sql<string>`CONCAT(${employees.firstName}, " ",${employees.lastName})`,
                 employeeID: employees.id,
-                client: sql<string>`CONCAT(${clients.lastName}, " ",${clients.firstName})`,
+                client: sql<string>`CONCAT(${clients.firstName}, " ",${clients.lastName})`,
                 clientID: clients.id,
                 phone: clients.phone,
                 price: transactions.sellingPrice,
@@ -110,20 +128,48 @@ export const deleteTransactions = async (ids: Array<number>) => {
                 .where(eq(transactions.id, sql.placeholder("id")))
                 .prepare();
             await request.execute({ id }); */
-
+            const transaction = await findOneTransaction(id);
+            if (!transaction) continue;
             const request = setDeletedAt(transactions)
                 ?.where(eq(transactions.id, sql.placeholder("id")))
                 .prepare();
             await request?.execute({ id });
+
+            const message = `La transaction ${transaction.propertyService} - ${transaction.property} au client ${transaction.client} à été supprimé `;
+            await sendToUserActions({
+                message,
+                action: "delete",
+                actionName: ACTION_NAMES.transactions.delete,
+                entity: ENTITIES_ENUM.TRANSACTIONS,
+            });
         }
     } catch (error: any) {
         throw error;
     }
 };
 
-export const findOneTransaction = async () => {
+export const findOneTransaction = async (id: number) => {
     try {
-        const transaction = await db.select().from(transactions);
+        const transaction = await db
+            .select({
+                id: transactions.id,
+                property: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
+                variantID: variants.id,
+                seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`,
+                employeeID: employees.id,
+                client: sql<string>`CONCAT(${clients.firstName}, " ",${clients.lastName})`,
+                clientID: clients.id,
+                phone: clients.phone,
+                price: transactions.sellingPrice,
+                propertyService: transactions.propertyService,
+            })
+            .from(transactions)
+            .leftJoin(clients, eq(clients.id, transactions.clientID))
+            .leftJoin(employees, eq(employees.id, transactions.employeeID))
+            .leftJoin(variants, eq(variants.id, transactions.variantID))
+            .leftJoin(properties, eq(properties.id, variants.propertyID))
+            .where(and(eq(transactions.id, id)));
+        return transaction[0];
     } catch (error: any) {
         throw error;
     }
@@ -131,7 +177,7 @@ export const findOneTransaction = async () => {
 
 export const updateTransaction = async (id: number, values: Partial<insertTransactionType>) => {
     try {
-        const transaction = await db.select().from(transactions).where(eq(transactions.id, id));
+        const transaction = await findOneTransaction(id);
         if (!transaction) throw new Error("Transaction no found");
 
         const cloneTransaction = { ...transaction, ...values };
@@ -142,6 +188,13 @@ export const updateTransaction = async (id: number, values: Partial<insertTransa
             .where(eq(transactions.id, sql.placeholder("id")))
             .prepare();
         await request.execute({ id });
+        const message = `La transaction ${transaction.propertyService} - ${transaction.property} au client ${transaction.client} à été modifié`;
+        await sendToUserActions({
+            message,
+            action: "update",
+            actionName: ACTION_NAMES.transactions.update,
+            entity: ENTITIES_ENUM.TRANSACTIONS,
+        });
     } catch (error: any) {
         throw error;
     }
