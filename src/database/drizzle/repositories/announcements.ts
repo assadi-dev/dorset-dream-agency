@@ -73,7 +73,7 @@ export const setPublishAnnounce = async (id: number, values: boolean) => {
         id,
     });
 
-    const announcement = await findOneByID(result[0].insertId);
+    const announcement = await findOneByID(id);
     const description = await generateDescription(`Publication de l'annonce ${announcement?.title}`);
     if (description) {
         await insertUserAction({
