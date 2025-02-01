@@ -220,7 +220,7 @@ export const deleteEmployee = async (ids: Array<number>) => {
                     .prepare();
 
                 await request?.execute({
-                    userId: users.id,
+                    userId: account?.userId,
                 });
             }
 
