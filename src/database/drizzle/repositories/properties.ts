@@ -9,9 +9,16 @@ import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
-import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import {
+    generateDescription,
+    selectWithSoftDelete,
+    sendToUserActions,
+    setDeletedAt,
+    withPagination,
+} from "./utils/entity";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
+import { clients } from "../schema/client";
 
 /**
  * Filtre par la colonne deletedAt
@@ -470,6 +477,25 @@ export const getOnePropertyByVariantID = async (variantID: number) => {
     return request.execute({
         variantID,
     });
+};
+
+export const setAvailableProperties = async (id: number, value: boolean) => {
+    const property = await getOnePropertyByID(id);
+    if (!property) throw new Error("Property no found");
+    const message = `La propriété ${property.name} à été rendu ${value ? "disponible" : "non-disponible"}`;
+    const req = db
+        .update(properties)
+        .set({ isAvailable: value })
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    await req.execute({ id });
+    sendToUserActions({
+        message,
+        action: "update",
+        actionName: ACTION_NAMES.prestige.available,
+        entity: ENTITIES_ENUM.PROPERTIES,
+    });
+    return await getOnePropertyByID(id);
 };
 
 /**
