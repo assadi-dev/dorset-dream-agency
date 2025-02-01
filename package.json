@@ -58,6 +58,7 @@
         "esbuild-register": "^3.6.0",
         "fabric": "^6.5.3",
         "format-thousands": "^2.0.0",
+        "lottie-react": "^2.4.1",
         "lucide-react": "^0.446.0",
         "mysql2": "^3.11.3",
         "next": "14.2.13",
