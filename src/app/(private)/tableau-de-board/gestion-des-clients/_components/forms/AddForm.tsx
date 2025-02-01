@@ -1,15 +1,16 @@
 import React from "react";
 import ClientForm from "./ClientForm";
 import { ClientFormType } from "./schema";
-import { insertClient } from "../../actions";
+
 import { usePathname, useRouter } from "next/navigation";
+import { saveClient } from "../../actions";
 
 const AddForm = () => {
     const pathname = usePathname();
     const router = useRouter();
 
     const createClient = async (values: ClientFormType) => {
-        await insertClient(values);
+        await saveClient(values);
         router.push(pathname);
         router.refresh();
     };

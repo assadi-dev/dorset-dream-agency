@@ -1,12 +1,12 @@
 import { db } from "@/database";
 import { BindParameters } from "@/database/types";
 import { count, isNull, SQL, SQLWrapper, sum } from "drizzle-orm";
-import { MySqlColumn, MySqlSelect, MySqlTable, MySqlTableWithColumns, QueryBuilder } from "drizzle-orm/mysql-core";
-import { MySql2Database } from "drizzle-orm/mysql2";
-import { TypedQueryBuilder } from "drizzle-orm/query-builders/query-builder";
-import { SQLiteColumn, SQLiteSelect } from "drizzle-orm/sqlite-core";
-import { generateDescriptionForUserAction } from "../../utils";
+import { MySqlColumn, MySqlSelect, MySqlTableWithColumns } from "drizzle-orm/mysql-core";
+import { SQLiteSelect } from "drizzle-orm/sqlite-core";
+import { ENTITIES_ENUM, generateDescriptionForUserAction } from "../../utils";
 import { auth } from "@/auth";
+import { insertUserAction } from "../../sqlite/repositories/usersAction";
+import { UserActionUnion } from "@/types/global";
 
 export function withPagination<T extends MySqlSelect>(
     qb: T,
@@ -97,3 +97,29 @@ export async function generateDescription(message: string, extras?: any) {
         return description;
     } catch (error) {}
 }
+
+type insertUserActionArgs = {
+    message: string;
+    action: UserActionUnion;
+    entity: ENTITIES_ENUM;
+    actionName: string;
+    extras?: any;
+};
+
+/**
+ * Method qui permet de créer une entrée dans la bdd contenant les action des utilisateur
+ *
+ */
+export const sendToUserActions = async ({ message, action, entity, actionName, extras }: insertUserActionArgs) => {
+    const description = await generateDescription(message, extras);
+    if (description) {
+        await insertUserAction({
+            user: description.user as string,
+            action: action,
+            name: actionName,
+            description: JSON.stringify(description),
+            grade: description.grade as string,
+            entity: entity,
+        });
+    }
+};

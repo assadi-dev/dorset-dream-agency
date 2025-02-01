@@ -86,6 +86,7 @@ export const ACTION_NAMES = {
         create: "Ajout d'un client",
         update: "Modification d'un client",
         delete: "Suppression d'un client",
+        dead: "Déclaration de décès",
         restore: "Restauration d'un client",
     },
     properties: {

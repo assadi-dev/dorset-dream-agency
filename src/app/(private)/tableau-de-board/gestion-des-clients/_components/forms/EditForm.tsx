@@ -3,7 +3,6 @@ import React from "react";
 import ClientForm from "./ClientForm";
 import { ClientFormType } from "./schema";
 import useModalState from "@/hooks/useModalState";
-import { updateClient } from "../../actions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { API_INSTANCE } from "@/lib/api";
 

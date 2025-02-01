@@ -4,7 +4,17 @@ import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { FilterPaginationType } from "@/database/types";
 import { and, between, desc, eq, inArray, like, or, sql } from "drizzle-orm";
-import { rowCount, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
+import {
+    generateDescription,
+    rowCount,
+    selectWithSoftDelete,
+    sendToUserActions,
+    setDeletedAt,
+    withPagination,
+} from "./utils/entity";
+import { insertUserAction } from "../sqlite/repositories/usersAction";
+import { UserActionUnion } from "@/types/global";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 /* 
 class Client {
@@ -34,6 +44,13 @@ export const insertClient = async (values: any) => {
         };
 
         await db.insert(clients).values(newClient);
+        const message = `Ajout du client ${newClient.firstName} ${newClient.lastName}`;
+        await sendToUserActions({
+            message,
+            action: "create",
+            entity: ENTITIES_ENUM.CLIENTS,
+            actionName: ACTION_NAMES.clients.create,
+        });
         return newClient;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
@@ -132,7 +149,9 @@ const getOneClient = async (id: number) => {
 
 export const updateClient = async (id: string | number, values: any) => {
     try {
-        const client: NewClient = {
+        const client = await getOneClient(id as number);
+        if (!client) throw new Error("Ce client n'existe plus");
+        const clientValues: NewClient = {
             lastName: values.lastName,
             firstName: values.firstName,
             gender: values.gender,
@@ -142,10 +161,17 @@ export const updateClient = async (id: string | number, values: any) => {
 
         const prepare = db
             .update(clients)
-            .set(client)
+            .set(clientValues)
             .where(and(softDeleteCondition, eq(clients.id, sql.placeholder("id"))))
             .prepare();
         const result = await prepare.execute({ id });
+        const message = `Modification des infos du client ${client.fullName}`;
+        await sendToUserActions({
+            message,
+            action: "update",
+            entity: ENTITIES_ENUM.CLIENTS,
+            actionName: ACTION_NAMES.clients.update,
+        });
         return result[0];
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
@@ -166,6 +192,13 @@ export const deleteClients = async (ids: Array<number>) => {
                 ?.where(eq(clients.id, sql.placeholder("id")))
                 .prepare();
             await req?.execute({ id });
+            const message = `Suppression du client ${client.fullName}`;
+            await sendToUserActions({
+                message,
+                action: "delete",
+                entity: ENTITIES_ENUM.CLIENTS,
+                actionName: ACTION_NAMES.clients.delete,
+            });
         }
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
@@ -201,4 +234,17 @@ export const declareDeceased = async (ids: number[], value: boolean) => {
             isDead: value,
         })
         .where(whereCondition);
+
+    for (const id of ids) {
+        const client = await getOneClient(id);
+        if (!client) continue;
+        const isDead = client.isDead ? "décédé" : "non-décédé";
+        const message = `Le client${client.fullName} à été déclaré ${isDead}`;
+        await sendToUserActions({
+            message,
+            action: "update",
+            entity: ENTITIES_ENUM.CLIENTS,
+            actionName: ACTION_NAMES.clients.dead,
+        });
+    }
 };
