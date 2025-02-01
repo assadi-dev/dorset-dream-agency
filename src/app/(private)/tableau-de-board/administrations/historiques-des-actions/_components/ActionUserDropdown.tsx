@@ -14,11 +14,11 @@ const ActionUserDropdown = ({ userActionItem }: ActionUserDropdownProps) => {
 
     return (
         <>
-            <DropdownMenuItem onClick={handleClickNewVariant} className="text-primary" disabled>
+            <DropdownMenuItem onClick={handleClickNewVariant} className="text-primary">
                 <Info className="mr-2 h-4 w-4" /> Description détaillé
             </DropdownMenuItem>
             {userActionItem.action === "delete" && (
-                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600" disabled>
+                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Restaurer
                 </DropdownMenuItem>
