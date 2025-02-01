@@ -2,6 +2,7 @@ import { auth, UserSession } from "@/auth";
 import PageTemplate from "../../_components/PageTemplate";
 import { isAdmin } from "@/lib/utils";
 import { notFound } from "next/navigation";
+import WorkInProgress from "./_components/work_in_progress";
 
 const TrashPage = async () => {
     const session = await auth();
@@ -10,7 +11,7 @@ const TrashPage = async () => {
     return (
         <PageTemplate title="Corbeille" description="Consulté le elements supprimé">
             <div>
-                <h1>Corbeille</h1>
+                <WorkInProgress />
             </div>
         </PageTemplate>
     );

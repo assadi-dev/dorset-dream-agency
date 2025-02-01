@@ -21,7 +21,8 @@
             "@/*": ["./src/*"],
             "@assets/*": ["./src/assets/*"],
             "@components/*": ["./src/components/*"],
-            "@types/*": ["./src/types/*"]
+            "@types/*": ["./src/types/*"],
+            "@lottieFiles/*": ["./src/assets/lottieFiles/*"]
         }
     },
     "include": [
