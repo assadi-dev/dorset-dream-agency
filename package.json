@@ -67,6 +67,7 @@
         "nextjs-toploader": "^3.6.15",
         "photoswipe": "^5.4.4",
         "react": "^18",
+        "react-advanced-cropper": "^0.20.0",
         "react-best-gradient-color-picker": "^3.0.11",
         "react-day-picker": "^9.5.0",
         "react-dom": "^18",
