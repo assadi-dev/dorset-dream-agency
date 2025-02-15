@@ -2,7 +2,7 @@
 import React, { useTransition } from "react";
 import { cn, wait } from "@/lib/utils";
 import { useDropzone } from "react-dropzone";
-import { CircleX, ImagePlus, Pencil, Upload } from "lucide-react";
+import { CircleAlert, CircleX, ImagePlus, Pencil, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useModalState from "@/hooks/useModalState";
 import SubmitButton from "../../SubmitButton";
@@ -32,7 +32,7 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
         if (file.size > 500 * 1024) {
             return {
                 code: "file-size-too-large",
-                message: `la taille du fichier doit être inférieure à 500 KB`,
+                message: `La taille du fichier doit être inférieure à 500 KB `,
             };
         }
         return null;
@@ -70,7 +70,8 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
         validator: sizeValidator,
         accept: {
             "image/jpeg": [".jpeg", ".jpg"],
-            "image/webp": [],
+            "image/png": [".png"],
+            "image/webp": [".webp"],
         },
         noClick: true,
     });
@@ -100,16 +101,35 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
                 <div
                     {...getRootProps()}
                     className={cn(
-                        "border-2 rounded border-dashed",
-                        "rounded relative  w-full grid place-items-center  text-[rgba(0,0,0,0.6)] p-3 text-sm",
+                        "border-2 rounded",
+                        "rounded relative  w-full grid place-items-center  p-3 text-sm",
+                        {
+                            "border-dashed": fileRejections.length == 0,
+                            "text-[rgba(0,0,0,0.6)] ": fileRejections.length == 0,
+                            "border-red-800": fileRejections.length > 0,
+                            "text-red-800": fileRejections.length > 0,
+                            "bg-red-200": fileRejections.length > 0,
+                        },
+
                         CLASS_DRAG_ACTIVE,
                     )}
                 >
                     <div className="grid place-items-center gap-1 p-3">
-                        <ImagePlus />
-                        <p className="text-xs">{DROPZONE_TEXT}</p>
-                        {!isDragActive && (
-                            <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+                        {fileRejections.length > 0 ? (
+                            <div className="grid place-items-center gap-1 ">
+                                <CircleAlert className="justify-self-center text-red-900 h-10 w-10" />
+                                <p className="text-red-900 text-sm font-semibold my-3 transition-all  ">
+                                    {fileRejections[0].errors[0].message}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="grid place-items-center gap-1">
+                                <ImagePlus className="justify-self-center" />
+                                <p className="text-xs">{DROPZONE_TEXT}</p>
+                                {!isDragActive && (
+                                    <small className="text-xs">Vous pouvez copier collé vos photos dans la zone</small>
+                                )}
+                            </div>
                         )}
                         <input {...getInputProps()} />
                         <Button size="sm" type="button" className="mt-3 text-xs" onClick={open}>

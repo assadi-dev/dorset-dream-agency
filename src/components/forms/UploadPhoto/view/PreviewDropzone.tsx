@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { CropperRef, Cropper } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 import "react-advanced-cropper/dist/themes/corners.css";
+
 import EditGroupButton from "./EditGroupButton";
 
 type PreviewDropzoneProps = {
@@ -14,9 +15,7 @@ type PreviewDropzoneProps = {
 };
 const PreviewDropzone = ({ src, alt }: PreviewDropzoneProps) => {
     const cropperRef = React.useRef<CropperRef>(null);
-    const onChange = (cropper: CropperRef) => {
-        console.log(cropper.getCoordinates(), cropper.getCanvas());
-    };
+
     const fadeIn = !src ? "h-0 opacity-0 " : "lg:h-[48vh]  opacity-1";
     return (
         <div
@@ -33,8 +32,9 @@ const PreviewDropzone = ({ src, alt }: PreviewDropzoneProps) => {
                             aspectRatio: 1 / 1,
                         }}
                         src={src}
-                        onChange={onChange}
                         className={"cropper lg:p-3"}
+                        minHeight={500}
+                        minWidth={500}
                     />
                 )
                 /*      <Image
@@ -45,7 +45,7 @@ const PreviewDropzone = ({ src, alt }: PreviewDropzoneProps) => {
                     className="position-center object-contain  w-full bg-transparent h-full"
                 /> */
             }
-            <EditGroupButton />
+            {cropperRef.current && <EditGroupButton cropperRef={cropperRef.current} />}
         </div>
     );
 };
