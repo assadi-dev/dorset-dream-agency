@@ -136,11 +136,15 @@ export const deleteTransactions = async (ids: Array<number>) => {
             await request?.execute({ id });
 
             const message = `La transaction ${transaction.propertyService} - ${transaction.property} au client ${transaction.client} à été supprimé `;
+            const extras = {
+                id: transaction.id,
+            };
             await sendToUserActions({
                 message,
                 action: "delete",
                 actionName: ACTION_NAMES.transactions.delete,
                 entity: ENTITIES_ENUM.TRANSACTIONS,
+                extras: extras,
             });
         }
     } catch (error: any) {
@@ -483,4 +487,31 @@ export const employeesContribution = async ({
         limit,
         data: complete,
     };
+};
+
+export const restoreTransaction = async (id: number) => {
+    const query = db
+        .update(transactions)
+        .set({ deletedAt: null })
+        .where(eq(transactions.id, sql.placeholder("id")))
+        .prepare();
+    await query.execute({
+        id,
+    });
+    const transaction = await findOneTransaction(id);
+    const message = `La transaction ${transaction.propertyService} - ${transaction.property} au client ${transaction.client} à été restauré.`;
+    await sendToUserActions({
+        message,
+        action: "restore",
+        actionName: ACTION_NAMES.transactions.restore,
+        entity: ENTITIES_ENUM.TRANSACTIONS,
+    });
+};
+
+export const restoreTransactions = async (ids: number[]) => {
+    if (ids.length > 0) {
+        for (const id of ids) {
+            await restoreTransaction(id);
+        }
+    }
 };

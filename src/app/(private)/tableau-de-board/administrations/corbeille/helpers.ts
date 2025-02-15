@@ -3,6 +3,7 @@ import {
     restoreClient,
     restoreEmployee,
     restoreProperty,
+    restoreTransaction,
     restoreUserAccount,
     restoreVariant,
 } from "./actions";
@@ -16,5 +17,7 @@ export const restoreFunctions = {
     clients: async (payload: { id: number }) => restoreClient([payload.id]),
     properties: async (payload: { id: number }) => restoreProperty([payload.id]),
     variants: async (payload: { id: number }) => restoreVariant([payload.id]),
-    transactions: async (payload: { id: number }) => {},
+    transactions: async (payload: { id: number }) => {
+        restoreTransaction([payload.id]);
+    },
 };
