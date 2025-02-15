@@ -4,11 +4,16 @@ import { AnnounceCreateInputDto, announceValidator } from "./dto/announcementDTO
 import { announcements } from "../schema/announcements";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { employees } from "../schema/employees";
-import { generateDescription, withPagination } from "./utils/entity";
+import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { extractKey, removeAnnounceFiles } from "./announcementsFiles";
 import { deleteFileByID, findFileByPath } from "./files";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
+
+/**
+ * Filtre par la colonne deletedAt
+ */
+const softDeleteCondition = selectWithSoftDelete(announcements);
 
 export const insertAnnounce = async (values: AnnounceCreateInputDto) => {
     const validateInput = announceValidator(values);
@@ -143,7 +148,7 @@ export const getAnnounceCollections = async (filter: FilterPaginationType) => {
             search: `%${search}%`,
         };
 
-        query.where(and(searchCondition));
+        query.where(and(softDeleteCondition, searchCondition));
 
         const rowsCount = await query.execute({
             ...parameters,
@@ -169,14 +174,20 @@ export const deleteAnnouncements = async (ids: number[]) => {
     for (const id of ids) {
         const announce = await findOneByID(id);
         if (announce) {
-            await removeAnnounceFiles(announce.id);
+            /*       await removeAnnounceFiles(announce.id);
             const query = db
                 .delete(announcements)
                 .where(eq(announcements.id, sql.placeholder("id")))
                 .prepare();
-            await query.execute({ id });
+            await query.execute({ id }); */
+            const req = setDeletedAt(announcements)
+                ?.where(eq(announcements.id, sql.placeholder("id")))
+                .prepare();
+            await req?.execute({ id });
 
-            const description = await generateDescription(`Suppression de l'annonce ${announce.title}`);
+            const extras = { id: announce.id };
+            const description = await generateDescription(`Suppression de l'annonce ${announce.title}`, extras);
+
             if (description) {
                 await insertUserAction({
                     user: description.user as string,
@@ -188,5 +199,38 @@ export const deleteAnnouncements = async (ids: number[]) => {
                 });
             }
         }
+    }
+};
+
+export const restoreAnnouncement = async (id: number) => {
+    try {
+        const query = db
+            .update(announcements)
+            .set({ deletedAt: null })
+            .where(eq(announcements.id, sql.placeholder("id")))
+            .prepare();
+        const result = await query.execute({
+            id,
+        });
+        const announce = await findOneByID(id);
+        const description = await generateDescription(`Restauration de l'annonce de ${announce?.title}`);
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "restore",
+                name: ACTION_NAMES.announcements.restore,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.ANNOUNCEMENTS,
+            });
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const restoreAnnouncements = async (ids: number[]) => {
+    for (const id of ids) {
+        await restoreAnnouncement(id);
     }
 };
