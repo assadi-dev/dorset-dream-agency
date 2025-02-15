@@ -4,7 +4,7 @@ export enum UserActionEnum {
     create = "Création",
     update = "Modification",
     delete = "Surpression",
-    restore = "Restoration",
+    restore = "Restauration",
 }
 
 export type UserAction = "create" | "update" | "delete" | "restore";
