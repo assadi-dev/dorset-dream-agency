@@ -1,6 +1,7 @@
 "use server";
 
 import { restoreAnnouncements } from "@/database/drizzle/repositories/announcements";
+import { restoreClients } from "@/database/drizzle/repositories/clients";
 import { restoreEmployees } from "@/database/drizzle/repositories/employee";
 import { restoreAccount } from "@/database/drizzle/repositories/users";
 
@@ -13,7 +14,9 @@ export const restoreEmployee = async (userID: number, employeeID: number) => {
 };
 export const restoreTransaction = async () => {};
 
-export const restoreClient = async () => {};
+export const restoreClient = async (ids: number[]) => {
+    await restoreClients(ids);
+};
 
 export const restoreAnnouncement = async (ids: number[]) => {
     await restoreAnnouncements(ids);

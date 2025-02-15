@@ -192,12 +192,14 @@ export const deleteClients = async (ids: Array<number>) => {
                 ?.where(eq(clients.id, sql.placeholder("id")))
                 .prepare();
             await req?.execute({ id });
+            const extras = { id: client.id };
             const message = `Suppression du client ${client.fullName}`;
             await sendToUserActions({
                 message,
                 action: "delete",
                 entity: ENTITIES_ENUM.CLIENTS,
                 actionName: ACTION_NAMES.clients.delete,
+                extras,
             });
         }
     } catch (error: any) {
@@ -246,5 +248,31 @@ export const declareDeceased = async (ids: number[], value: boolean) => {
             entity: ENTITIES_ENUM.CLIENTS,
             actionName: ACTION_NAMES.clients.dead,
         });
+    }
+};
+
+export const restoreClient = async (id: number) => {
+    const req = db
+        .update(clients)
+        .set({ deletedAt: null })
+        .where(eq(clients.id, sql.placeholder("id")))
+        .prepare();
+    await req.execute({
+        id,
+    });
+    const client = await getOneClient(id);
+
+    const message = `Restauration des données du client ${client?.fullName}`;
+    await sendToUserActions({
+        message,
+        action: "restore",
+        entity: ENTITIES_ENUM.CLIENTS,
+        actionName: ACTION_NAMES.clients.restore,
+    });
+};
+
+export const restoreClients = async (ids: number[]) => {
+    for (const id of ids) {
+        await restoreClient(id);
     }
 };
