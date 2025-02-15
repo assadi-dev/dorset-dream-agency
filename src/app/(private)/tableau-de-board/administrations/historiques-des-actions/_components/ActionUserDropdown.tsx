@@ -20,6 +20,10 @@ const ActionUserDropdown = ({ userActionItem }: ActionUserDropdownProps) => {
     };
     const handleClickRestore = () => {};
 
+    const extras = userActionItem.extras;
+
+    console.log(extras);
+
     return (
         <>
             <DropdownMenuItem onClick={handleClickDetailView} className="text-primary">

@@ -238,10 +238,10 @@ export const deleteEmployee = async (ids: Array<number>) => {
             const req = setDeletedAt(employees)?.where(eq(employees.id, sql.placeholder("id")));
 
             await req?.execute({ id });
-            const extras = JSON.stringify({
+            const extras = {
                 id: account?.userId,
                 employeeID: employee.id,
-            });
+            };
             const description = await generateDescription(
                 `Suppression de l'employé ${employee.firstName} ${employee.lastName}`,
                 extras,
@@ -260,6 +260,46 @@ export const deleteEmployee = async (ids: Array<number>) => {
         }
     } catch (error: any) {
         throw error;
+    }
+};
+
+export const restoreEmployee = async (id: number) => {
+    try {
+        const employee = await getOneEmployee(id);
+
+        if (!employee) throw new Error("Cet employé n'existe plus");
+
+        const result = db
+            .update(employees)
+            .set({
+                ...employee,
+                deletedAt: null,
+            })
+            .where(eq(users.id, sql.placeholder("id")))
+            .prepare();
+        await result.execute({ id });
+
+        const description = await generateDescription(
+            `Restauration des donnés de l'employé ${employee.firstName} ${employee.lastName}`,
+        );
+        if (description) {
+            await insertUserAction({
+                user: description.user as string,
+                action: "restore",
+                name: ACTION_NAMES.employees.restore,
+                description: JSON.stringify(description),
+                grade: description.grade as string,
+                entity: ENTITIES_ENUM.EMPLOYEES,
+            });
+        }
+    } catch (error: any) {
+        throw error;
+    }
+};
+
+export const restoreEmployees = async (ids: number[]) => {
+    for (const id of ids) {
+        await restoreEmployee(id);
     }
 };
 
