@@ -23,6 +23,8 @@ import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { deleteEmployee } from "./employee";
 import { FORBIDDEN_ACTION } from "@/config/messages";
+import { auth } from "@/auth";
+import { isAdmin } from "@/lib/utils";
 
 /**
  * Filtre par la colonne deletedAt
@@ -149,6 +151,7 @@ export const getAccountCollections = async (filter: FilterPaginationType) => {
 
 export const deleteAccounts = async (ids: Array<number>) => {
     try {
+        const session = await auth();
         for (const id of ids) {
             const user = await findUserById(id);
             if (!user) throw new Error("Cet utilisateur n'existe plus");
@@ -156,7 +159,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
             await request.execute({
                 id,
             }); */
-            if (user.role === "admin") throw new Error(FORBIDDEN_ACTION);
+            if (isAdmin(user.role) && !isAdmin(session?.user?.role)) throw new Error(FORBIDDEN_ACTION);
 
             if (user.employeeID) {
                 const requestEmployee = setDeletedAt(employees)

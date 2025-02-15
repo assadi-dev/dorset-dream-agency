@@ -73,9 +73,11 @@ export const getEmployeeCollections = async (filter: getEmployeeCollectionsArgs)
                 phone: employees.phone,
                 photoID: photos.id,
                 photoUrl: photos.url,
+                role: users.role,
             })
             .from(employees)
             .groupBy(employees.id)
+            .leftJoin(users, eq(users.id, employees.userID))
             .leftJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
             .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId))
             .leftJoin(photos, eq(photos.id, employees.photoID))
@@ -130,8 +132,10 @@ const getOneEmployee = async (id: number) => {
                 createdAt: employees.createdAt,
                 photoID: photos.id,
                 photoUrl: photos.url,
+                role: users.role,
             })
             .from(employees)
+            .leftJoin(users, eq(users.id, employees.userID))
             .leftJoin(photos, eq(photos.id, employees.photoID))
             .leftJoin(employeesToSecteurs, eq(employees.id, employeesToSecteurs.employeeID))
             .leftJoin(secteurs, eq(secteurs.id, employeesToSecteurs.secteurId))

@@ -1,6 +1,9 @@
 import AlertModalContent from "@/components/Modals/AlertModalContent";
+import { FORBIDDEN_ACTION } from "@/config/messages";
 import { deleteEmployee } from "@/database/drizzle/repositories/employee";
 import useModalState from "@/hooks/useModalState";
+import { isAdmin } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
@@ -9,12 +12,16 @@ const DeleteForm = () => {
     const EMPLOYEE_ID = payload.id;
     const router = useRouter();
     const pathname = usePathname();
+    const session = useSession();
+    const role = session.data?.user?.role;
 
     const handleCancel = () => {
         closeModal();
     };
     const handleConfirm = async () => {
         try {
+            if (isAdmin(payload.role) && !isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
+
             const ids = [EMPLOYEE_ID];
             await deleteEmployee(ids);
             closeModal();
