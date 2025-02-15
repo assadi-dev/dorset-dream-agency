@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import AlertModalContent from "@/components/Modals/AlertModalContent";
 import { removeUsersAccounts } from "../../action";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { ERROR_TITLE_NOTIFY, FORBIDDEN_ACTION } from "@/config/messages";
 
 const DeleteAccount = () => {
     const { closeModal, payload } = useModalState();
@@ -19,7 +20,8 @@ const DeleteAccount = () => {
             router.refresh();
         } catch (error) {
             if (error instanceof Error) {
-                throw new Error("test");
+                if (error.message === FORBIDDEN_ACTION) throw new Error(FORBIDDEN_ACTION);
+                throw new Error(error.message);
             }
         }
     };
