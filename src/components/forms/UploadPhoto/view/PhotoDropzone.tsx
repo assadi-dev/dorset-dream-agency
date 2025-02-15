@@ -95,6 +95,11 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
         });
     };
 
+    const handleEditFile = (file: File) => {
+        const prevLink = URL.createObjectURL(file);
+        setState({ file: file, preview: prevLink });
+    };
+
     return (
         <ScrollArea className="lg:max-h-[90vh]">
             <div className="flex flex-col justify-between gap-5 sm:w-[35vw]" onPaste={handlePast}>
@@ -138,7 +143,7 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
                         </Button>
                     </div>
                 </div>
-                <PreviewDropzone src={state.preview} />
+                <PreviewDropzone src={state.preview} onEditFile={handleEditFile} />
 
                 <div className="my-3 w-full">
                     <SubmitButton

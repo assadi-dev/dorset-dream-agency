@@ -44,7 +44,7 @@ type ConvertBlobToFileArg = {
 /**
  * Conversion en fichier spécifique au mimetype à partir de l'url
  * @param {ConvertBlobToFileArg} args Arguments à passé pour la conversion
- * @param {string} args.name - uNom du fichier
+ * @param {string} args.name - Nom du fichier
  * @param {string} args.mimetype - type de fichier à généré exemple: ```image/png```, ```video/mp4```, ```image/svg+xml```
  */
 export const convertBlobToFile = async ({ name, blob, mimetype }: ConvertBlobToFileArg): Promise<File> => {
@@ -52,3 +52,7 @@ export const convertBlobToFile = async ({ name, blob, mimetype }: ConvertBlobToF
     const file = new File([buffer], name, { type: mimetype });
     return file;
 };
+
+type base64FileName = { base64: string; mimetype: string; fileName: string };
+
+export const base64ToFile = async ({ base64, mimetype, fileName }: base64FileName) => {};

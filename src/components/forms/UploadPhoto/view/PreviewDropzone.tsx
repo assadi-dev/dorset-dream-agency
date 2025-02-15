@@ -12,18 +12,13 @@ type PreviewDropzoneProps = {
     src?: string | null;
     alt?: string;
     onRemove?: () => void;
+    onEditFile?: (file: File) => void;
 };
-const PreviewDropzone = ({ src, alt }: PreviewDropzoneProps) => {
+const PreviewDropzone = ({ src, alt, onEditFile }: PreviewDropzoneProps) => {
     const cropperRef = React.useRef<CropperRef>(null);
-
     const fadeIn = !src ? "h-0 opacity-0 " : "lg:h-[48vh]  opacity-1";
     return (
-        <div
-            className={cn(
-                "relative overflow-hidden bg-gradient-to-br to-[#0f172a] from-[#214583] rounded shadow p-2 transition-all duration-500",
-                fadeIn,
-            )}
-        >
+        <div className={cn("relative overflow-hidden bg-black rounded shadow p-2 transition-all duration-500", fadeIn)}>
             {
                 src && (
                     <Cropper
@@ -45,7 +40,7 @@ const PreviewDropzone = ({ src, alt }: PreviewDropzoneProps) => {
                     className="position-center object-contain  w-full bg-transparent h-full"
                 /> */
             }
-            {cropperRef.current && <EditGroupButton cropperRef={cropperRef.current} />}
+            {cropperRef.current && src && <EditGroupButton cropperRef={cropperRef.current} onGetFile={onEditFile} />}
         </div>
     );
 };
