@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import AlertModalContent from "@/components/Modals/AlertModalContent";
 import { removeUsersAccounts } from "../../action";
 import { FORBIDDEN_ACTION } from "@/config/messages";
+import { RoleEnum } from "@/app/types/user";
 
 const DeleteAccount = () => {
     const { closeModal, payload } = useModalState();
@@ -11,18 +12,12 @@ const DeleteAccount = () => {
     const pathname = usePathname();
 
     const handleConfirm = async () => {
-        try {
-            const ids = [payload.id];
-            await removeUsersAccounts(ids);
-            closeModal();
-            router.push(pathname);
-            router.refresh();
-        } catch (error) {
-            if (error instanceof Error) {
-                if (error.message === FORBIDDEN_ACTION) throw new Error(FORBIDDEN_ACTION);
-                throw new Error(error.message);
-            }
-        }
+        const ids = [payload.id];
+        if (payload.role === RoleEnum.admin) throw new Error(FORBIDDEN_ACTION);
+        await removeUsersAccounts(ids);
+        closeModal();
+        router.push(pathname);
+        router.refresh();
     };
 
     const handleCancel = () => {
