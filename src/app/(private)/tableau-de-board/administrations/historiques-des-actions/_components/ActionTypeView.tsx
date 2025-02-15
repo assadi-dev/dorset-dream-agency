@@ -26,6 +26,13 @@ const ActionTypeColumnView = ({ action }: ActionTypeColumnViewProps) => {
             </p>
         );
     }
+    if (action === "restore") {
+        return (
+            <p className="text-xs py-1 px-2 ring-1 ring-slate-700 font-semibold w-[100px] text-center rounded-lg bg-slate-200 text-slate-700">
+                {UserActionEnum["restore"]}
+            </p>
+        );
+    }
 };
 
 export default ActionTypeColumnView;

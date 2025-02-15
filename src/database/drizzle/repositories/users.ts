@@ -180,7 +180,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
             });
 
             const extras = {
-                id: user.id,
+                userID: user.id,
                 employeeID: user.employeeID,
             };
             const description = await generateDescription(`Suppression du compte de ${user.username}`, extras);
@@ -275,20 +275,17 @@ export const updateUser = async (id: number, values: UserUpdateInputDto) => {
 
 export const restoreUser = async (id: number) => {
     try {
-        const user = await findUserById(id);
-
-        if (!user) throw new Error("User not found !");
-
         const result = db
             .update(users)
             .set({
-                ...user,
                 deletedAt: null,
             })
             .where(eq(users.id, sql.placeholder("id")))
             .prepare();
         await result.execute({ id });
+        const user = await findUserById(id);
 
+        if (!user) throw new Error("User not found !");
         const description = await generateDescription(`Restauration du compte de ${user.username}`);
         if (description) {
             await insertUserAction({

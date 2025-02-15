@@ -239,7 +239,7 @@ export const deleteEmployee = async (ids: Array<number>) => {
 
             await req?.execute({ id });
             const extras = {
-                id: account?.userId,
+                userID: account?.userId,
                 employeeID: employee.id,
             };
             const description = await generateDescription(
@@ -265,19 +265,16 @@ export const deleteEmployee = async (ids: Array<number>) => {
 
 export const restoreEmployee = async (id: number) => {
     try {
-        const employee = await getOneEmployee(id);
-
-        if (!employee) throw new Error("Cet employé n'existe plus");
-
         const result = db
             .update(employees)
             .set({
-                ...employee,
                 deletedAt: null,
             })
-            .where(eq(users.id, sql.placeholder("id")))
+            .where(eq(employees.id, sql.placeholder("id")))
             .prepare();
         await result.execute({ id });
+
+        const employee = await getOneEmployee(id);
 
         const description = await generateDescription(
             `Restauration des donnés de l'employé ${employee.firstName} ${employee.lastName}`,

@@ -3,12 +3,12 @@
 import { restoreEmployees } from "@/database/drizzle/repositories/employee";
 import { restoreAccount } from "@/database/drizzle/repositories/users";
 
-export const restoreUserAccount = async (idUser: number, idEmployee: number) => {
-    await restoreAccount([idUser]);
-    await restoreEmployees([idEmployee]);
+export const restoreUserAccount = async (userID: number, employeeID: number) => {
+    await restoreAccount([userID]);
+    await restoreEmployees([employeeID]);
 };
-export const restoreEmployee = async (idUser: number, idEmployee: number) => {
-    restoreUserAccount(idUser, idEmployee);
+export const restoreEmployee = async (userID: number, employeeID: number) => {
+    restoreUserAccount(userID, employeeID);
 };
 export const restoreTransaction = async () => {};
 
