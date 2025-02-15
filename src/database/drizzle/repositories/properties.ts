@@ -207,17 +207,14 @@ export const deleteProperty = async (id: number | string) => {
         id,
     });
 
-    const description = await generateDescription(`Suppression du bien immobilier ${property.name}`);
-    if (description) {
-        await insertUserAction({
-            user: description.user as string,
-            action: "delete",
-            name: ACTION_NAMES.properties.delete,
-            description: JSON.stringify(description),
-            grade: description.grade as string,
-            entity: ENTITIES_ENUM.PROPERTIES,
-        });
-    }
+    const extras = { id };
+    await sendToUserActions({
+        message: `Suppression du bien immobilier ${property.name}`,
+        action: "delete",
+        entity: ENTITIES_ENUM.PROPERTIES,
+        actionName: ACTION_NAMES.properties.delete,
+        extras,
+    });
 };
 
 /**
@@ -228,7 +225,7 @@ export const removeProperties = async (ids: number[] | string[]) => {
     if (ids && ids.length > 0) {
         for (const id of ids) {
             const property = await getOnePropertyByID(id);
-            if (!property) throw new Error("property not found");
+            if (!property) continue;
             deleteProperty(id);
         }
     }

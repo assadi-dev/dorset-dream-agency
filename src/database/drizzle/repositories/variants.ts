@@ -4,7 +4,7 @@ import { and, eq, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
 import { getGalleryCollectionForVariants } from "./galleries";
 import { properties } from "../schema/properties";
-import { generateDescription, selectWithSoftDelete, setDeletedAt } from "./utils/entity";
+import { generateDescription, selectWithSoftDelete, sendToUserActions, setDeletedAt } from "./utils/entity";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
@@ -130,11 +130,9 @@ export const updateVariant = async (id: number | string, data: any) => {
     }
 };
 
-export const deleteVariant = async (ids: Array<number>) => {
-    if (ids.length) {
-        for (const id of ids) {
-            const findVariant = await getOneVariant(id);
-            /*     const prepare = db
+export const deleteVariant = async (id: number) => {
+    const findVariant = await getOneVariant(id);
+    /* const prepare = db
                 .delete(variants)
                 .where(eq(variants.id, sql.placeholder("id")))
                 .prepare();
@@ -142,29 +140,26 @@ export const deleteVariant = async (ids: Array<number>) => {
                 id: id,
             }); */
 
-            const prepare = setDeletedAt(variants)
-                ?.where(eq(variants.id, sql.placeholder("id")))
-                .prepare();
-            await prepare?.execute({
-                id: id,
-            });
-            const messageDescription = findVariant
-                ? `Suppression de la variante  ${findVariant.name}`
-                : `Suppression d'une variante`;
+    const prepare = setDeletedAt(variants)
+        ?.where(eq(variants.id, sql.placeholder("id")))
+        .prepare();
+    await prepare?.execute({
+        id: id,
+    });
 
-            const description = await generateDescription(messageDescription);
-            if (description) {
-                await insertUserAction({
-                    user: description.user as string,
-                    action: "delete",
-                    name: ACTION_NAMES.variants.delete,
-                    description: JSON.stringify(description),
-                    grade: description.grade as string,
-                    entity: ENTITIES_ENUM.VARIANTS,
-                });
-            }
-        }
-    }
+    const messageDescription = findVariant
+        ? `Suppression de la variante  ${findVariant.name}`
+        : `Suppression d'une variante`;
+
+    const extras = { id: findVariant?.id };
+
+    await sendToUserActions({
+        message: messageDescription,
+        action: "delete",
+        actionName: ACTION_NAMES.variants.delete,
+        entity: ENTITIES_ENUM.VARIANTS,
+        extras,
+    });
 };
 
 /**
@@ -175,7 +170,7 @@ export const removeVariantsWithGallery = async (ids: Array<number>) => {
     if (ids.length) {
         for (const id of ids) {
             // await clearGalleryFromVariantID(id);
+            await deleteVariant(id);
         }
-        await deleteVariant(ids);
     }
 };

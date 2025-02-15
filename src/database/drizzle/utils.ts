@@ -57,6 +57,7 @@ export const generateDescriptionForUserAction = async ({
         grade: "unknown",
         role: "unknown",
         description: message,
+        extras: extras || null,
     };
 };
 

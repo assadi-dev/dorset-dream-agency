@@ -112,6 +112,7 @@ type insertUserActionArgs = {
  */
 export const sendToUserActions = async ({ message, action, entity, actionName, extras }: insertUserActionArgs) => {
     const description = await generateDescription(message, extras);
+
     if (description) {
         await insertUserAction({
             user: description.user as string,
