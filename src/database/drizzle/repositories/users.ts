@@ -179,7 +179,11 @@ export const deleteAccounts = async (ids: Array<number>) => {
                 id,
             });
 
-            const description = await generateDescription(`Suppression du compte de ${user.username}`);
+            const extras = JSON.stringify({
+                id: user.id,
+                employeeID: user.employeeID,
+            });
+            const description = await generateDescription(`Suppression du compte de ${user.username}`, extras);
             if (description) {
                 await insertUserAction({
                     user: description.user as string,

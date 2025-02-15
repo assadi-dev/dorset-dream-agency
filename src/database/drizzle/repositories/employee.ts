@@ -238,8 +238,13 @@ export const deleteEmployee = async (ids: Array<number>) => {
             const req = setDeletedAt(employees)?.where(eq(employees.id, sql.placeholder("id")));
 
             await req?.execute({ id });
+            const extras = JSON.stringify({
+                id: account?.userId,
+                employeeID: employee.id,
+            });
             const description = await generateDescription(
                 `Suppression de l'employé ${employee.firstName} ${employee.lastName}`,
+                extras,
             );
 
             if (description) {
