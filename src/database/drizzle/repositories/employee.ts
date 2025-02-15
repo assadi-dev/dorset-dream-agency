@@ -215,13 +215,14 @@ export const deleteEmployee = async (ids: Array<number>) => {
             const account = await getAccountEmployee(id);
 
             if (account?.userId) {
-                const request = setDeletedAt(users)
+                await deleteAccounts([account?.userId]);
+                /*        const request = setDeletedAt(users)
                     ?.where(eq(users.id, sql.placeholder("userId")))
                     .prepare();
 
                 await request?.execute({
                     userId: account?.userId,
-                });
+                }); */
             }
 
             //  if (employee.photoID) await removePhotosByAndFile([employee.photoID], "employees");

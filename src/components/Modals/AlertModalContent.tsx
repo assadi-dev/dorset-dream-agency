@@ -21,9 +21,15 @@ const AlertModalContent = ({ onCancel, onConfirm, successMessage, errorMessage, 
             try {
                 if (onConfirm) {
                     startTransition(async () => {
-                        await onConfirm();
-                        ToastSuccessSonner(SUCCESS_MESSAGE);
-                        resolve("action confirmed");
+                        try {
+                            await onConfirm();
+                            ToastSuccessSonner(SUCCESS_MESSAGE);
+                            resolve("action confirmed");
+                        } catch (error) {
+                            if (error instanceof Error) {
+                                ToastErrorSonner(error.message);
+                            }
+                        }
                     });
                 }
             } catch (error: any) {

@@ -22,6 +22,7 @@ import { photos } from "../schema/photos";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { deleteEmployee } from "./employee";
+import { FORBIDDEN_ACTION } from "@/config/messages";
 
 /**
  * Filtre par la colonne deletedAt
@@ -155,6 +156,7 @@ export const deleteAccounts = async (ids: Array<number>) => {
             await request.execute({
                 id,
             }); */
+            if (user.role === "admin") throw new Error(FORBIDDEN_ACTION);
 
             if (user.employeeID) {
                 const requestEmployee = setDeletedAt(employees)
@@ -293,6 +295,14 @@ export const restoreUser = async (id: number) => {
         }
     } catch (error: any) {
         throw error;
+    }
+};
+
+export const restoreAccount = async (ids: number[]) => {
+    if (ids.length > 0) {
+        for (const id of ids) {
+            await restoreUser(id);
+        }
     }
 };
 
