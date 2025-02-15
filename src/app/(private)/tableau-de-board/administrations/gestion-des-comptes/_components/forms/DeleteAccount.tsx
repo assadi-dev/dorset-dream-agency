@@ -3,8 +3,7 @@ import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AlertModalContent from "@/components/Modals/AlertModalContent";
 import { removeUsersAccounts } from "../../action";
-import { ToastErrorSonner } from "@/components/notify/Sonner";
-import { ERROR_TITLE_NOTIFY, FORBIDDEN_ACTION } from "@/config/messages";
+import { FORBIDDEN_ACTION } from "@/config/messages";
 
 const DeleteAccount = () => {
     const { closeModal, payload } = useModalState();
