@@ -1,4 +1,11 @@
-import { restoreAnnouncement, restoreClient, restoreEmployee, restoreUserAccount } from "./actions";
+import {
+    restoreAnnouncement,
+    restoreClient,
+    restoreEmployee,
+    restoreProperty,
+    restoreUserAccount,
+    restoreVariant,
+} from "./actions";
 
 export const restoreFunctions = {
     users: async (payload: { userID: number; employeeID: number }) =>
@@ -7,7 +14,7 @@ export const restoreFunctions = {
         restoreEmployee(payload.userID, payload.employeeID),
     announcements: async (payload: { id: number }) => restoreAnnouncement([payload.id]),
     clients: async (payload: { id: number }) => restoreClient([payload.id]),
+    properties: async (payload: { id: number }) => restoreProperty([payload.id]),
+    variants: async (payload: { id: number }) => restoreVariant([payload.id]),
     transactions: async (payload: { id: number }) => {},
-    properties: async (payload: any) => {},
-    variants: async (payload: any) => {},
 };

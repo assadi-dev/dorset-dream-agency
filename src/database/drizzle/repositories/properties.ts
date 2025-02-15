@@ -7,7 +7,12 @@ import { and, asc, count, desc, eq, like, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
-import { getVariantsProperty, removeVariantsWithGallery } from "./variants";
+import {
+    getVariantsProperty,
+    getVariantsPropertyNoSoftDelete,
+    removeVariantsWithGallery,
+    restoreVariants,
+} from "./variants";
 import { FilterPaginationType, OrderType } from "@/database/types";
 import {
     generateDescription,
@@ -116,6 +121,18 @@ export const getOnePropertyByID = async (id: number | string) => {
         .select()
         .from(properties)
         .where(and(softDeleteCondition, eq(properties.id, sql.placeholder("id"))))
+        .prepare();
+    const result = await request.execute({
+        id,
+    });
+    return result[0];
+};
+
+export const getOnePropertyByIDNoSoftDelete = async (id: number | string) => {
+    const request = db
+        .select()
+        .from(properties)
+        .where(and(eq(properties.id, sql.placeholder("id"))))
         .prepare();
     const result = await request.execute({
         id,
@@ -543,4 +560,33 @@ export const propertyParser = async (property: any): Promise<PropertyParser> => 
     };
 
     return propertyParser;
+};
+
+export const restoreProperty = async (id: number) => {
+    const variantsOfProperty = await getVariantsPropertyNoSoftDelete(id);
+    if (variantsOfProperty.length) {
+        const variantIds = variantsOfProperty.map((v) => v.id);
+
+        await restoreVariants(variantIds);
+    }
+    const query = db
+        .update(properties)
+        .set({ deletedAt: null })
+        .where(eq(properties.id, sql.placeholder("id")))
+        .prepare();
+    await query.execute({ id });
+    const property = await getOnePropertyByID(id);
+    const message = `Restauration du bien immobilier ${property.name}`;
+    await sendToUserActions({
+        message,
+        action: "restore",
+        actionName: ACTION_NAMES.properties.restore,
+        entity: ENTITIES_ENUM.PROPERTIES,
+    });
+};
+
+export const restoreProperties = async (ids: number[]) => {
+    for (const id of ids) {
+        await restoreProperty(id);
+    }
 };

@@ -3,7 +3,9 @@
 import { restoreAnnouncements } from "@/database/drizzle/repositories/announcements";
 import { restoreClients } from "@/database/drizzle/repositories/clients";
 import { restoreEmployees } from "@/database/drizzle/repositories/employee";
+import { restoreProperties } from "@/database/drizzle/repositories/properties";
 import { restoreAccount } from "@/database/drizzle/repositories/users";
+import { restoreVariants } from "@/database/drizzle/repositories/variants";
 
 export const restoreUserAccount = async (userID: number, employeeID: number) => {
     await restoreAccount([userID]);
@@ -22,6 +24,12 @@ export const restoreAnnouncement = async (ids: number[]) => {
     await restoreAnnouncements(ids);
 };
 
-export const restoreVariant = async () => {};
+export const restoreVariant = async (ids: number[]) => {
+    // TODO: implement restore variant
+    await restoreVariants(ids);
+};
 
-export const restoreProperties = async () => {};
+export const restoreProperty = async (ids: number[]) => {
+    // TODO: implement restore properties
+    await restoreProperties(ids);
+};

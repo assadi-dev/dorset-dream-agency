@@ -1,12 +1,13 @@
 "use server";
 import { db } from "@/database";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { variants } from "@/database/drizzle/schema/variants";
 import { getGalleryCollectionForVariants } from "./galleries";
 import { properties } from "../schema/properties";
 import { generateDescription, selectWithSoftDelete, sendToUserActions, setDeletedAt } from "./utils/entity";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
+import { getOnePropertyByID, getOnePropertyByIDNoSoftDelete, restoreProperty } from "./properties";
 
 /**
  * Filtre par la colonne deletedAt
@@ -74,6 +75,20 @@ export const getVariantsProperty = async (id: number | string) => {
         .from(variants)
         .leftJoin(properties, eq(variants.propertyID, properties.id))
         .where(and(softDeleteCondition, eq(properties.id, sql.placeholder("id"))))
+        .prepare();
+    const result = await request.execute({ id });
+    return result;
+};
+
+/**
+ * Retourne les variants d'une propriété à partir de l'id de l'entité property
+ */
+export const getVariantsPropertyNoSoftDelete = async (id: number | string) => {
+    const request = db
+        .select({ id: variants.id, name: variants.name })
+        .from(variants)
+        .leftJoin(properties, eq(variants.propertyID, properties.id))
+        .where(and(eq(properties.id, sql.placeholder("id"))))
         .prepare();
     const result = await request.execute({ id });
     return result;
@@ -147,14 +162,18 @@ export const deleteVariant = async (id: number) => {
         id: id,
     });
 
-    const messageDescription = findVariant
-        ? `Suppression de la variante  ${findVariant.name}`
-        : `Suppression d'une variante`;
+    let complement = "";
+    const message =
+        findVariant && findVariant.name
+            ? `Suppression de la variante  ${findVariant.name}`
+            : `Suppression d'une variante`;
+    const property = findVariant?.propertyID && (await getOnePropertyByIDNoSoftDelete(findVariant?.propertyID));
+    if (property) complement = ` de la propriété ${property.name}`;
 
     const extras = { id: findVariant?.id };
 
     await sendToUserActions({
-        message: messageDescription,
+        message: message + complement + ".",
         action: "delete",
         actionName: ACTION_NAMES.variants.delete,
         entity: ENTITIES_ENUM.VARIANTS,
@@ -171,6 +190,50 @@ export const removeVariantsWithGallery = async (ids: Array<number>) => {
         for (const id of ids) {
             // await clearGalleryFromVariantID(id);
             await deleteVariant(id);
+        }
+    }
+};
+
+export const restoreVariant = async (id: number) => {
+    const prepare = db
+        .update(variants)
+        .set({ deletedAt: null })
+        .where(eq(variants.id, sql.placeholder("id")));
+    await prepare.execute({ id });
+    const variant = await getOneVariant(id);
+    let complement = "";
+    const message =
+        variant && variant.name ? `Restauration de la variante  ${variant.name}` : `Restauration d'une variante`;
+    const property = variant?.propertyID && (await getOnePropertyByIDNoSoftDelete(variant?.propertyID));
+    if (property) complement = ` de la propriété ${property.name}`;
+
+    await sendToUserActions({
+        message: message + complement + ".",
+        action: "restore",
+        actionName: ACTION_NAMES.variants.restore,
+        entity: ENTITIES_ENUM.VARIANTS,
+    });
+};
+
+export const restoreVariants = async (ids: number[]) => {
+    if (ids.length) {
+        for (const id of ids) {
+            await shouldRestoreProperty(id);
+            await restoreVariant(id);
+        }
+    }
+};
+
+export const shouldRestoreProperty = async (id: number) => {
+    const variant = await getOneVariant(id);
+    if (variant?.propertyID) {
+        const property = await getOnePropertyByIDNoSoftDelete(variant.propertyID);
+        if (property && property.deletedAt) {
+            const query = db
+                .update(properties)
+                .set({ deletedAt: null })
+                .where(and(eq(properties.id, sql.placeholder("id")), isNotNull(properties.deletedAt)));
+            await query.execute({ id: property.id });
         }
     }
 };
