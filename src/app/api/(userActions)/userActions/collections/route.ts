@@ -1,5 +1,8 @@
+import { auth } from "@/auth";
+import { FORBIDDEN_ACTION } from "@/config/messages";
 import { deleteUserAction, getUserActionsCollections } from "@/database/drizzle/sqlite/repositories/usersAction";
 import { ExtractFilterParams } from "@/database/drizzle/utils";
+import { isAdmin } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -27,6 +30,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
+        const session = await auth();
+        const user = session?.user;
+        if (user && user.role) {
+            if (!isAdmin(user.role)) throw new Error(FORBIDDEN_ACTION);
+        }
         const body = await req.json();
         const ids: number[] = body.ids;
         await deleteUserAction(ids);
