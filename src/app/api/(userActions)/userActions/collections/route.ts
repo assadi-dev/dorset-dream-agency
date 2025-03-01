@@ -1,4 +1,4 @@
-import { getUserActionsCollections } from "@/database/drizzle/sqlite/repositories/usersAction";
+import { deleteUserAction, getUserActionsCollections } from "@/database/drizzle/sqlite/repositories/usersAction";
 import { ExtractFilterParams } from "@/database/drizzle/utils";
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
@@ -19,6 +19,21 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(response);
     } catch (error: any) {
-        return NextResponse.json("");
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message });
+        }
+    }
+}
+
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json();
+        const ids: number[] = body.ids;
+        await deleteUserAction(ids);
+        return NextResponse.json({ message: `Delete user action with success ${ids.length}` });
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message });
+        }
     }
 }

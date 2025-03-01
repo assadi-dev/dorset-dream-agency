@@ -79,3 +79,19 @@ export const findUserAction = async (id: number) => {
         if (error instanceof Error) throw new Error(error.message);
     }
 };
+
+export const deleteUserAction = async (ids: number[]) => {
+    try {
+        for (const id of ids) {
+            const prepare = sqlLite
+                .delete(userActions)
+                .where(eq(userActions.id, sql.placeholder("id")))
+                .prepare();
+            await prepare.execute({
+                id,
+            });
+        }
+    } catch (error) {
+        if (error instanceof Error) throw new Error(error.message);
+    }
+};
