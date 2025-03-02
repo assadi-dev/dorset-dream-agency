@@ -100,7 +100,7 @@
         @apply hover:bg-primary;
     }
     .dataTable tbody tr {
-        @apply hover:bg-primary hover:text-secondary text-secondary drop-shadow py-3;
+        @apply hover:bg-primary hover:text-secondary text-secondary data-[state=selected]:bg-primary drop-shadow py-3;
     }
 }
 
