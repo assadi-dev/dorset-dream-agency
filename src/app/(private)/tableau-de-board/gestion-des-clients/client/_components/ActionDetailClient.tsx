@@ -29,7 +29,7 @@ const ActionDetailClient = ({ client, canDelete, canUpdate }: ActionButtonType) 
             component: () => <DeleteClient />,
             description:
                 "Supprimer ce client entraînera la suppression des informations le concernant ainsi que les transaction qui lui son associé",
-            payload: client,
+            payload: { client, ids: [client?.id] },
         });
     };
     return (

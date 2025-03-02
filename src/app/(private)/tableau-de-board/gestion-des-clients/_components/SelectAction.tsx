@@ -6,6 +6,9 @@ import React from "react";
 import DeceasedConfirm from "./forms/DeceasedConfirm";
 import { plural } from "@/lib/format";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
+import withTooltip from "@/HOC/withTooltip";
+import { DeathButton, DeleteButton } from "./SelectionButtons";
+import DeleteClient from "./forms/DeleteClient";
 
 type SelectActionProps = {
     mode: "none" | "multiple";
@@ -31,6 +34,22 @@ const SelectAction = ({ mode, selected, toggleModCard }: SelectActionProps) => {
         });
     };
 
+    const handleClickDelete = () => {
+        if (selected.length === 0) {
+            ToastErrorSonner("Vous devez sélectionnez au moins 1 client pour effectué cette action");
+            return;
+        }
+
+        openModal({
+            title: "Suppression des clients",
+            description: `${selected.length} ${plural(selected.length | 1, "élément", "éléments")} ${plural(selected.length | 1, "sélectionné", "sélectionnés")}`,
+            component: DeleteClient,
+            payload: {
+                ids: selected,
+            },
+        });
+    };
+
     return (
         <div className="flex gap-1 items-center">
             <Button
@@ -45,13 +64,8 @@ const SelectAction = ({ mode, selected, toggleModCard }: SelectActionProps) => {
             </Button>
             {mode === "multiple" && (
                 <div className="bg-slate-100 py-1 flex gap-1   transition-all">
-                    <Button type="button" size="sm" variant="outline" onClick={handleClickDeceased}>
-                        <Skull /> Déclarer mort
-                    </Button>
-
-                    {/*    <Button type="button" size="sm" variant="outline">
-                            <Trash /> Supprimer
-                        </Button> */}
+                    <DeathButton size="sm" variant="outline" onClick={handleClickDeceased} />
+                    <DeleteButton type="button" variant={"destructive"} size={"sm"} onClick={handleClickDelete} />
                 </div>
             )}
         </div>

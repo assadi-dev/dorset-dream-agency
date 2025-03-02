@@ -7,12 +7,12 @@ import { removeClient } from "../../actions";
 const DeleteClient = () => {
     const { closeModal, payload } = useModalState();
 
-    const clientID = payload?.id || null;
+    const clientIDs = payload?.ids || null;
     const router = useRouter();
     const pathname = usePathname();
 
     const confirmDeleteClient = async () => {
-        if (clientID) await removeClient([clientID]);
+        if (clientIDs.length) await removeClient(clientIDs);
         closeModal();
         router.push("/tableau-de-board/gestion-des-clients");
         router.refresh();
