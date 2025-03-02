@@ -276,3 +276,28 @@ export const restoreClients = async (ids: number[]) => {
         await restoreClient(id);
     }
 };
+
+export const deleteAllClient = async () => {
+    await setDeletedAt(clients);
+    const extras = { id: -1 };
+    const message = `Suppression de tout les clients`;
+    await sendToUserActions({
+        message,
+        action: "delete",
+        entity: ENTITIES_ENUM.CLIENTS,
+        actionName: ACTION_NAMES.clients.clean,
+        extras,
+    });
+};
+
+export const restoreAllClients = async () => {
+    await db.update(clients).set({ deletedAt: null });
+
+    const message = `Restauration des données de tous les clients supprimés`;
+    await sendToUserActions({
+        message,
+        action: "restore",
+        entity: ENTITIES_ENUM.CLIENTS,
+        actionName: ACTION_NAMES.clients.reset,
+    });
+};

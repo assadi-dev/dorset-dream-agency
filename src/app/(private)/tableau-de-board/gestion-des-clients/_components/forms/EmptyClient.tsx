@@ -5,15 +5,21 @@ import useRouteRefresh from "@/hooks/useRouteRefresh";
 import { CircleAlert } from "lucide-react";
 import { useRouter } from "next/router";
 import React from "react";
+import { emptyClientAction } from "../../actions";
+import { isAdmin } from "@/lib/utils";
+import { FORBIDDEN_ACTION } from "@/config/messages";
+import { useSession } from "next-auth/react";
 
 const EmptyClient = () => {
     const { closeModal, payload } = useModalState();
 
-    const clientIDs = payload?.ids || null;
+    const session = useSession();
+    const role = session.data?.user?.role;
     const { refreshWithParams } = useRouteRefresh();
 
-    const confirmDeleteClient = async () => {
-        //if (clientIDs.length) await removeClient(clientIDs);
+    const confirmEmptyClient = async () => {
+        if (!isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
+        await emptyClientAction();
         closeModal();
         refreshWithParams();
     };
@@ -26,7 +32,7 @@ const EmptyClient = () => {
 
             <AlertModalContent
                 onCancel={closeModal}
-                onConfirm={confirmDeleteClient}
+                onConfirm={confirmEmptyClient}
                 className="flex justify-end gap-2 pt-3"
             />
         </div>

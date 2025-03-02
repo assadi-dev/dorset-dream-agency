@@ -68,6 +68,7 @@ export const ACTION_NAMES = {
         delete: "Suppression d'une annonce",
         publish: "Publication d'une annonce",
         restore: "Restauration d'une annonce",
+        clean: "Suppression de tous les annonces",
     },
     users: {
         create: "Création de compte",
@@ -82,6 +83,7 @@ export const ACTION_NAMES = {
         delete: "Suppression d'un employé",
         restore: "Restauration d'un employé",
         updatePhoto: "Mise à jour de la photo",
+        clean: "Suppression de tous les employées",
     },
     clients: {
         create: "Ajout d'un client",
@@ -89,18 +91,22 @@ export const ACTION_NAMES = {
         delete: "Suppression d'un client",
         dead: "Déclaration de décès",
         restore: "Restauration d'un client",
+        clean: "Suppression de tous les clients",
+        reset: "Restauration de tout les clients supprimés",
     },
     properties: {
         create: "Ajout d'un bien immobilier",
         update: "Modification d'un bien immobilier",
         delete: "Suppression d'un bien immobilier",
         restore: "Restauration d'un bien immobilier",
+        clean: "Suppression de tous les Propriétés",
     },
     variants: {
         create: "Ajout d'une variante",
         update: "Modification d'une variante",
         delete: "Suppression d'une variante",
         restore: "Restauration d'une variante",
+        clean: "Suppression de tous les variantes",
     },
     prestige: {
         available: "Mise à jour de la disponibilité d'une propriété",
@@ -110,6 +116,7 @@ export const ACTION_NAMES = {
         update: "Modification d'une transaction",
         delete: "Suppression d'une transaction",
         restore: "Restauration d'une transaction",
+        clean: "Suppression de tous les transactions",
     },
 };
 

@@ -1,4 +1,5 @@
 import {
+    resetClients,
     restoreAnnouncement,
     restoreClient,
     restoreEmployee,
@@ -14,7 +15,7 @@ export const restoreFunctions = {
     employees: async (payload: { userID: number; employeeID: number }) =>
         restoreEmployee(payload.userID, payload.employeeID),
     announcements: async (payload: { id: number }) => restoreAnnouncement([payload.id]),
-    clients: async (payload: { id: number }) => restoreClient([payload.id]),
+    clients: async (payload: { id: number }) => (payload.id === -1 ? resetClients() : restoreClient([payload.id])),
     properties: async (payload: { id: number }) => restoreProperty([payload.id]),
     variants: async (payload: { id: number }) => restoreVariant([payload.id]),
     transactions: async (payload: { id: number }) => {

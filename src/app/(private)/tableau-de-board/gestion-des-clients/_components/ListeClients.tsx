@@ -65,7 +65,12 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
 
             <div className="my-5 flex justify-between items-center">
                 {isAdmin(role) ? (
-                    <SelectAction toggleModCard={toggleModCard} mode={state.mode} selected={state.selected} />
+                    <SelectAction
+                        totalCount={totalItems}
+                        toggleModCard={toggleModCard}
+                        mode={state.mode}
+                        selected={state.selected}
+                    />
                 ) : (
                     <div></div>
                 )}
