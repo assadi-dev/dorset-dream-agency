@@ -41,8 +41,6 @@ const CheckBoxColumn = ({ onCheckedChange, onCheckedAllChange, selected }: Check
                 onCheckedAllChange(remove);
             }
         }
-
-        setCheckedAll(checked);
     };
 
     const isCheckedAll = (table: Table<any>) => {
