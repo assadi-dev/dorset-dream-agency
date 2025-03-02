@@ -20,21 +20,15 @@ const EmptyClient = () => {
 
     return (
         <div className="lg:max-w-[30vw]">
-            <div className="ring-1 ring-destructive p-3 rounded shadow-lg bg-red-100 text-red-900  mx-auto">
-                <p>
-                    <strong>Attention</strong> : Cette action entraînera la suppression de tous les clients stockés dans
-                    la base de données.
-                </p>
+            <div className="ring-1 ring-destructive p-5 rounded shadow-lg bg-red-100 text-red-900  mx-auto">
+                <p>Cette action entraînera la suppression de tous les clients stockés dans la base de données.</p>
             </div>
 
-            <div className="pt-3 flex justify-end">
-                {" "}
-                <AlertModalContent
-                    onCancel={closeModal}
-                    onConfirm={confirmDeleteClient}
-                    className="flex justify-end lg:w-[25vw]"
-                />
-            </div>
+            <AlertModalContent
+                onCancel={closeModal}
+                onConfirm={confirmDeleteClient}
+                className="flex justify-end gap-2 pt-3"
+            />
         </div>
     );
 };
