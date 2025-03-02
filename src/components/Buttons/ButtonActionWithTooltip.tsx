@@ -28,7 +28,7 @@ const ButtonActionWithTooltip = ({
     const Component = () => {
         return (
             <Button {...props} className={cn(props.className)}>
-                {icon ? <Trash /> : null} {label}
+                {icon ? icon : null} {label}
             </Button>
         );
     };
