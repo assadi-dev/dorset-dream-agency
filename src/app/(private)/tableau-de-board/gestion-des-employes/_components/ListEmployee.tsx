@@ -11,6 +11,7 @@ import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import useGetRoleUser from "@/hooks/useRoleUser";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
 import EmployeeSelectedActions from "./EmployeeSelectedActions";
+import useSelectTableRow from "@/hooks/useSelectTableRow";
 
 type ListEmployeeProps = {
     employees: any[];
@@ -19,6 +20,8 @@ type ListEmployeeProps = {
 };
 const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
     const role = useGetRoleUser();
+    const { itemChecked, handleSelectedAllRow, handleSelectedRow } = useSelectTableRow();
+
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -36,29 +39,14 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
         },
     };
 
-    const [itemChecked, setItemChecked] = React.useState<any[]>([]);
-    const handleSelectedRow = (row: Record<string, string>) => {
-        if (!row) return;
-        const id = row.id;
-        const exist = itemChecked.find((item) => item.id === id);
-        if (exist) {
-            const index = itemChecked.indexOf(exist);
-            itemChecked.splice(index, 1);
-            setItemChecked([...itemChecked]);
-        } else {
-            setItemChecked([...itemChecked, row]);
-        }
-    };
-    const handleSelectedAllRow = (rows: Record<string, string>[]) => {
-        setItemChecked([...rows]);
-    };
-
     const SelectColumns = CheckBoxColumn({
         onCheckedChange: handleSelectedRow,
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
-    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, actions] : columns;
+    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role)
+        ? [SelectColumns, ...columns, actions]
+        : [SelectColumns, ...columns];
 
     return (
         <>

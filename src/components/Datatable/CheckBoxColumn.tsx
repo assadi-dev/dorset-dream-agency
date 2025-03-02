@@ -17,7 +17,7 @@ const CheckBoxColumn = ({ onCheckedChange, onCheckedAllChange, selected }: Check
         }
     };
 
-    const handleSelectedRow = (table: Table<any>, checked: any) => {
+    const handleSelectAllRow = (table: Table<any>, checked: any) => {
         const rows = table.getPaginationRowModel().rows;
         const objects = rows.map((item) => item.original);
 
@@ -55,7 +55,7 @@ const CheckBoxColumn = ({ onCheckedChange, onCheckedAllChange, selected }: Check
             <Checkbox
                 className="bg-white"
                 checked={isCheckedAll(table)}
-                onCheckedChange={(value) => handleSelectedRow(table, value)}
+                onCheckedChange={(value) => handleSelectAllRow(table, value)}
                 aria-label="Select all"
             />
         ),
