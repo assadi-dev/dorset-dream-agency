@@ -9,6 +9,8 @@ import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import useGetRoleUser from "@/hooks/useRoleUser";
+import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
+import useSelectTableRow from "@/hooks/useSelectTableRow";
 
 type ListAccountsProps = {
     accounts: Array<any>;
@@ -17,6 +19,8 @@ type ListAccountsProps = {
 };
 const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
     const role = useGetRoleUser();
+    const { itemChecked, handleSelectedRow, handleSelectedAllRow } = useSelectTableRow();
+
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -33,7 +37,15 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
             );
         },
     };
-    const accountColumns = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [...columns, actions] : columns;
+
+    const SelectColumns = CheckBoxColumn({
+        onCheckedChange: handleSelectedRow,
+        onCheckedAllChange: handleSelectedAllRow,
+        selected: itemChecked,
+    });
+    const accountColumns = ACTIONS_CONTROL_PERMISSION.canAction(role)
+        ? [SelectColumns, ...columns, actions]
+        : [SelectColumns, ...columns];
 
     return (
         <>

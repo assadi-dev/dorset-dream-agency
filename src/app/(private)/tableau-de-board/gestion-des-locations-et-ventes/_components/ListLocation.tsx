@@ -6,6 +6,8 @@ import DropdownActions from "@/components/Datatable/DropdownActions";
 import TransactionActions from "./TransactionActions";
 import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
+import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
+import useSelectTableRow from "@/hooks/useSelectTableRow";
 
 type ListLocationProps = {
     transactions: any[];
@@ -13,6 +15,7 @@ type ListLocationProps = {
     limit: number;
 };
 const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) => {
+    const { itemChecked, handleSelectedRow, handleSelectedAllRow } = useSelectTableRow();
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -24,7 +27,12 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
             );
         },
     };
-    const transactionsColumn = [...columns, actions];
+    const SelectColumns = CheckBoxColumn({
+        onCheckedChange: handleSelectedRow,
+        onCheckedAllChange: handleSelectedAllRow,
+        selected: itemChecked,
+    });
+    const transactionsColumn = [SelectColumns, ...columns, actions];
 
     return (
         <>
