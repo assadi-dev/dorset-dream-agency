@@ -43,18 +43,23 @@ const CheckBoxColumn = ({ onCheckedChange, onCheckedAllChange, selected }: Check
         }
     };
 
-    const isCheckedAll = (table: Table<any>) => {
+    const isSomeRowChecked = (table: Table<any>) => {
         const rows = table.getPaginationRowModel().rows;
         const objects = rows.map((item) => item.original);
         return objects.some((v) => selected?.some((vi) => JSON.stringify(vi) === JSON.stringify(v)));
+    };
+    const isAllRowChecked = (table: Table<any>) => {
+        const rows = table.getPaginationRowModel().rows;
+        const objects = rows.map((item) => item.original);
+        return objects.every((v) => selected?.some((vi) => JSON.stringify(vi) === JSON.stringify(v)));
     };
 
     const column: ColumnDef<any> = {
         id: "select",
         header: ({ table }) => (
             <Checkbox
-                className="bg-white"
-                checked={isCheckedAll(table)}
+                className="bg-white ring-white ring-1 text-primary"
+                checked={isAllRowChecked(table) || (isSomeRowChecked(table) && "indeterminate")}
                 onCheckedChange={(value) => handleSelectAllRow(table, value)}
                 aria-label="Select all"
             />
@@ -62,7 +67,7 @@ const CheckBoxColumn = ({ onCheckedChange, onCheckedAllChange, selected }: Check
         cell: ({ row }) => {
             return (
                 <Checkbox
-                    className="bg-white"
+                    className="bg-white ring-white ring-1"
                     checked={
                         selected && selected?.find((item) => JSON.stringify(item) === JSON.stringify(row.original))
                             ? true
