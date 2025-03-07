@@ -213,7 +213,7 @@ type statClientViews = {
 };
 
 export const statClientViews = async ({ startDate, endDate }: statClientViews) => {
-    const total = await rowCount(clients);
+    const total = await rowCount(clients, softDeleteCondition);
     const where = between(clients.createdAt, new Date(startDate), new Date(endDate));
     const countFromDate = await rowCount(clients, where);
     const percent = Number((countFromDate / total) * 100).toFixed(2);
