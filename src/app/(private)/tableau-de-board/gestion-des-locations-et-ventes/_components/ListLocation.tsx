@@ -8,17 +8,9 @@ import { CellColumn } from "@/app/types/ReactTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
 import useSelectTableRow from "@/hooks/useSelectTableRow";
-import { Trash, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import ButtonActionWithTooltip from "@/components/Buttons/ButtonActionWithTooltip";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SelectionActionButton from "./SelectionActionButton";
+import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
+import { useSession } from "next-auth/react";
 
 type ListLocationProps = {
     transactions: any[];
@@ -26,6 +18,9 @@ type ListLocationProps = {
     limit: number;
 };
 const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) => {
+    const session = useSession();
+    const { data } = session;
+    const IS_ADMIN = ACTIONS_CONTROL_PERMISSION.isAdmin(data?.user?.role);
     const { itemChecked, handleSelectedRow, handleSelectedAllRow } = useSelectTableRow();
     const actions = {
         id: "actions",
@@ -43,7 +38,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
-    const transactionsColumn = [SelectColumns, ...columns, actions];
+    const transactionsColumn = (IS_ADMIN && [SelectColumns, ...columns, actions]) || [...columns, actions];
 
     return (
         <>

@@ -14,6 +14,7 @@ import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import { useSession } from "next-auth/react";
 import DeleteTransaction from "./forms/DeleteTransaction";
 import { plural } from "@/lib/format";
+import { FORBIDDEN_ACTION } from "@/config/messages";
 
 type SelectionActionButtonProps = {
     selectedItems?: any[];
@@ -28,6 +29,7 @@ const SelectionActionButton = ({ selectedItems }: SelectionActionButtonProps) =>
     const ids = selectedItems?.map((item) => item?.id);
 
     const handleClickDelete = () => {
+        if (!CAN_DELETE) throw new Error(FORBIDDEN_ACTION);
         openModal({
             title: "Suppression des locations - ventes sélectionnée(s)",
             description: `${ids?.length} ${plural(ids?.length, "élément", "éléments")} ${plural(ids?.length, "sélectionné", "sélectionnés")}    `,
@@ -35,6 +37,8 @@ const SelectionActionButton = ({ selectedItems }: SelectionActionButtonProps) =>
             payload: ids,
         });
     };
+
+    const TOOLTIP_MESSAGE = CAN_DELETE ? "Supprimer les éléments sélectionnés" : FORBIDDEN_ACTION;
 
     return (
         <>
@@ -46,7 +50,7 @@ const SelectionActionButton = ({ selectedItems }: SelectionActionButtonProps) =>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuItem onClick={handleClickDelete} disabled={!CAN_DELETE}>
-                        <TextWithTooltip tooltipTitle="Supprimer les éléments sélectionnés">
+                        <TextWithTooltip tooltipTitle={TOOLTIP_MESSAGE}>
                             {" "}
                             <p className="flex gap-2 items-center">
                                 {" "}
