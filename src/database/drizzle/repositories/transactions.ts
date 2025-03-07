@@ -318,17 +318,17 @@ export const statIncomeTransaction = async ({ startDate, endDate }: StartDateEnD
     };
 };
 export const statGlobalSecteurTransaction = async () => {
-    const total = await rowCount(transactions);
+    const total = await rowCount(transactions, softDeleteCondition);
     const RentalCondition = or(
         eq(transactions.propertyService, "Location Favelas"),
         eq(transactions.propertyService, "Location LS"),
     );
-    const rental = await rowCount(transactions, RentalCondition);
+    const rental = await rowCount(transactions, and(RentalCondition, softDeleteCondition));
     const SaleCondition = or(
         eq(transactions.propertyService, "Ventes Favelas"),
         eq(transactions.propertyService, "Ventes LS"),
     );
-    const sales = await rowCount(transactions, SaleCondition);
+    const sales = await rowCount(transactions, and(SaleCondition, softDeleteCondition));
 
     return {
         total,
