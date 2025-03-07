@@ -304,7 +304,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
 };
 
 export const statIncomeTransaction = async ({ startDate, endDate }: StartDateEnDateType) => {
-    const total = await rowSum(transactions, transactions.sellingPrice);
+    const total = await rowSum(transactions, transactions.sellingPrice, softDeleteCondition);
     const where = between(transactions.createdAt, new Date(startDate), new Date(endDate));
     const sumFromDate = await rowSum(transactions, transactions.sellingPrice, where);
     const percent = Number((sumFromDate / total) * 100).toFixed(2);
