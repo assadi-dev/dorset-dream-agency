@@ -1,11 +1,10 @@
-import { Trash } from "lucide-react";
 import { Button, ButtonProps } from "@/components/ui/button";
 import React from "react";
 import withTooltip from "@/HOC/withTooltip";
 import { cn } from "@/lib/utils";
 
-type ButtonActionWithTooltipProps = {
-    label?: string;
+type TextWithTooltipWithTooltipProps = {
+    children?: React.ReactNode;
     tooltipTitle: string;
     icon?: any;
     side?: "top" | "right" | "bottom" | "left";
@@ -14,23 +13,19 @@ type ButtonActionWithTooltipProps = {
         tooltipTextContent?: string;
     };
 } & ButtonProps;
-const ButtonActionWithTooltip = ({
-    label,
+const TextWithTooltip = ({
+    children,
     tooltipTitle,
     icon,
     side,
     classNames,
     ...props
-}: ButtonActionWithTooltipProps) => {
+}: TextWithTooltipWithTooltipProps) => {
     const TooltipText = () => {
         return <p className={cn("text-sm text-black", classNames?.tooltipTextContent)}>{tooltipTitle}</p>;
     };
     const Component = () => {
-        return (
-            <Button {...props} className={cn("flex items-center gap-2", props.className)}>
-                {icon ? icon : null} {label}
-            </Button>
-        );
+        return <>{children}</>;
     };
 
     return withTooltip(Component, {
@@ -42,4 +37,4 @@ const ButtonActionWithTooltip = ({
     });
 };
 
-export default ButtonActionWithTooltip;
+export default TextWithTooltip;

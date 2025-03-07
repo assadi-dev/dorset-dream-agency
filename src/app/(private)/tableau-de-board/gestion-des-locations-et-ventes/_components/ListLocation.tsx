@@ -18,6 +18,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import SelectionActionButton from "./SelectionActionButton";
 
 type ListLocationProps = {
     transactions: any[];
@@ -48,33 +49,14 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
         <>
             <div className="my-5 flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    {" "}
                     {itemChecked.length > 0 && (
                         <div className="flex gap-3 items-center ">
                             <p className="px-2 py-0.5 bg-slate-50 ring-1 ring-slate-300 rounded-md shadow">
-                                {" "}
-                                {itemChecked.length} element sélectionnées{" "}
-                            </p>{" "}
-                            <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                    <Button size={"sm"} variant={"outline"}>
-                                        Actions
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem asChild={true}>
-                                        <Button
-                                            size={"sm"}
-                                            className="flex items-center gap-2 w-full"
-                                            variant={"ghost"}
-                                        >
-                                            <Trash2 /> Supprimer
-                                        </Button>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                                {itemChecked.length} element sélectionnées
+                            </p>
+                            <SelectionActionButton selectedItems={itemChecked} />
                         </div>
-                    )}{" "}
+                    )}
                 </div>
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
