@@ -3,23 +3,38 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { dateFormatISO8601, formatFullDateShortText } from "@/lib/date";
+import { Separator } from "@/components/ui/separator";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
+import { dateFormatISO8601, datetimeFormatWithoutSecISO8601, formatFullDateShortText } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import * as React from "react";
 import { type DateRange } from "react-day-picker";
+import { INIT_DATE } from "../utils";
 
 export default function SelectDateRange({ className }: React.HTMLAttributes<HTMLDivElement>) {
+    const { updateSearchParamWitObjectAndRefresh } = useRouteRefresh();
     const [date, setDate] = React.useState<DateRange | undefined>({
-        from: addDays(new Date(), -30),
-        to: new Date(),
+        from: INIT_DATE.from,
+        to: INIT_DATE.to,
     });
+    const [open, setOpen] = React.useState(false);
+
+    const sendDateRangeFilter = () => {
+        const dateStart = date?.from?.toISOString() || INIT_DATE.from.toISOString();
+        const dateEnd = date?.to?.toISOString() || INIT_DATE.to.toISOString();
+        const from = datetimeFormatWithoutSecISO8601(dateStart);
+        const to = datetimeFormatWithoutSecISO8601(dateEnd);
+        const actionsParams = { from, to };
+        updateSearchParamWitObjectAndRefresh(actionsParams);
+        setOpen(false);
+    };
 
     return (
         <div className={cn("grid gap-2", className)}>
-            <Popover>
-                <PopoverTrigger asChild>
+            <Popover open={open}>
+                <PopoverTrigger asChild onClick={() => setOpen(true)}>
                     <Button
                         id="date"
                         variant={"outline"}
@@ -51,6 +66,12 @@ export default function SelectDateRange({ className }: React.HTMLAttributes<HTML
                         onSelect={setDate}
                         numberOfMonths={2}
                     />
+                    <Separator />
+                    <div className="p-2">
+                        <Button size={"sm"} className="w-full" onClick={sendDateRangeFilter}>
+                            Valider
+                        </Button>
+                    </div>
                 </PopoverContent>
             </Popover>
         </div>
