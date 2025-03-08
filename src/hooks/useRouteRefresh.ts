@@ -22,6 +22,16 @@ const useRouteRefresh = () => {
         router.push(updatePathName);
         router.refresh();
     };
+    const updateSearchParamWitObjectAndRefresh = (params: Record<string, string>) => {
+        const updatedSearchParams = new URLSearchParams(searchParams.toString());
+        Object.keys(params).forEach((key) => {
+            const value = params[key];
+            updatedSearchParams.set(key, value);
+        });
+        const updatePathName = pathname + "?" + updatedSearchParams.toString();
+        router.push(updatePathName);
+        router.refresh();
+    };
     const refreshWithParams = () => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
         const updatePathName = pathname + "?" + updatedSearchParams.toString();
@@ -36,6 +46,7 @@ const useRouteRefresh = () => {
         refresh,
         refreshWithParams,
         updateSearchParamAndRefresh,
+        updateSearchParamWitObjectAndRefresh,
     };
 };
 

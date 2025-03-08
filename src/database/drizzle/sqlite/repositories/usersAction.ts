@@ -1,7 +1,7 @@
 import { sqlLite } from "@/database";
 import { userActions } from "../schema/userActions";
 import { BindParameters, FilterPaginationType } from "@/database/types";
-import { and, desc, eq, inArray, like, or, sql } from "drizzle-orm";
+import { and, between, desc, eq, getTableColumns, inArray, like, or, sql } from "drizzle-orm";
 import { withPaginationForSqlite } from "../../repositories/utils/entity";
 import { UserActionCreateInputDto, userActionValidator } from "./dto/userAction";
 import { UserActionUnion } from "@/types/global";
@@ -13,8 +13,14 @@ type getUserActionsCollectionsArgs = FilterPaginationType & {
 };
 export const getUserActionsCollections = async (filter: getUserActionsCollectionsArgs) => {
     try {
-        const { search, page, limit, actionsType } = filter;
-        const query = sqlLite.select().from(userActions).groupBy(userActions.id);
+        const { search, page, limit, actionsType, from, to } = filter;
+        const query = sqlLite
+            .select({
+                ...getTableColumns(userActions),
+                createdAt: sql<number>`strftime('%s', ${userActions.timestamp})`.as("createdAt"),
+            })
+            .from(userActions)
+            .groupBy(userActions.id);
         const searchCondition = search
             ? or(
                   like(userActions.user, sql.placeholder("search")),
@@ -28,7 +34,20 @@ export const getUserActionsCollections = async (filter: getUserActionsCollection
             search: `%${search}%`,
         };
 
-        query.where(and(searchCondition, inArray(userActions.action, actionsType)));
+        const startDate = new Date(from);
+        startDate.setHours(0, 0, 0, 0);
+        const endDate = new Date(to);
+        endDate.setHours(23, 59, 59);
+
+        const startTimestamp = startDate.toISOString();
+        const endTimestamp = endDate.toISOString();
+        const rangeCondition = between(
+            sql<number>`strftime('%s', ${userActions.timestamp})`,
+            sql<number>`strftime('%s', ${startTimestamp})`,
+            sql<number>`strftime('%s', ${endTimestamp})`,
+        );
+
+        query.where(and(searchCondition, inArray(userActions.action, actionsType), rangeCondition));
         const orderbyColumn = desc(userActions.timestamp);
         query.orderBy(orderbyColumn);
 

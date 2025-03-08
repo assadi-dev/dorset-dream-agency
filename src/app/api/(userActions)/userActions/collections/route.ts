@@ -15,8 +15,8 @@ export async function GET(request: NextRequest) {
 
         const filter = ExtractFilterParams(searchParams);
         const extrasFilter = {
-            from: "",
-            to: "",
+            from: searchParams.get("from") || "",
+            to: searchParams.get("to") || "",
             actionsType: searchParams.get("actions")?.split(",") as UserActionUnion[],
         };
 

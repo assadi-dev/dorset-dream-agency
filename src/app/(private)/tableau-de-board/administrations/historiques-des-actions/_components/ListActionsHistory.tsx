@@ -1,12 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
-import UserActionsPage from "./UserActionsPage";
+
+import React from "react";
 import { columns } from "./columns";
 import DataTable from "@/components/Datatable/Datatable";
-import SimpleTable from "@/components/Datatable/BasicTable";
-import { Card, CardContent } from "@/components/ui/card";
-import { UserActionColumnType } from "../types";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import useGetRoleUser from "@/hooks/useRoleUser";
 import { CellColumn } from "@/app/types/ReactTable";
@@ -15,20 +11,25 @@ import ActionUserDropdown from "./ActionUserDropdown";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import RightFilterActions from "./RightFilterActions";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserActionCollection, QUERY_USERS_ACTIONS } from "../utils";
+import { fetchUserActionCollection, INIT_DATE, QUERY_USERS_ACTIONS } from "../utils";
 import { useSearchParams } from "next/navigation";
+import { datetimeFormatWithoutSecISO8601 } from "@/lib/date";
+import { addDays } from "date-fns";
 
 const ListActionsHistory = () => {
+    const dt = new Date();
     const role = useGetRoleUser();
     const searchParams = useSearchParams();
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 5;
     const search = searchParams.get("search") || "";
-    const actions = searchParams.get("action") || encodeURI("update,delete");
+    const actions = searchParams.get("action") || encodeURI("create,update,delete,restore");
+    const from = searchParams.get("from") || datetimeFormatWithoutSecISO8601(INIT_DATE.from.toISOString());
+    const to = searchParams.get("to") || datetimeFormatWithoutSecISO8601(INIT_DATE.to.toISOString());
 
     const { data, isFetching, error } = useQuery({
-        queryKey: [QUERY_USERS_ACTIONS.GET_USERS_ACTION_COLLECTIONS, page, limit, search, actions],
-        queryFn: () => fetchUserActionCollection({ page, limit, search, actions }),
+        queryKey: [QUERY_USERS_ACTIONS.GET_USERS_ACTION_COLLECTIONS, page, limit, search, actions, from, to],
+        queryFn: () => fetchUserActionCollection({ page, limit, search, actions, from, to }),
         refetchOnMount: true,
     });
 
