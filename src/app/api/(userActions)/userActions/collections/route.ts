@@ -3,6 +3,7 @@ import { FORBIDDEN_ACTION } from "@/config/messages";
 import { deleteUserAction, getUserActionsCollections } from "@/database/drizzle/sqlite/repositories/usersAction";
 import { ExtractFilterParams } from "@/database/drizzle/utils";
 import { isAdmin } from "@/lib/utils";
+import { UserActionUnion } from "@/types/global";
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -16,8 +17,9 @@ export async function GET(request: NextRequest) {
         const extrasFilter = {
             from: "",
             to: "",
-            columns: ["update", "delete"],
+            actionsType: searchParams.get("actions")?.split(",") as UserActionUnion[],
         };
+
         const response = await getUserActionsCollections({ ...filter, ...extrasFilter });
 
         return NextResponse.json(response);

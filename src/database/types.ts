@@ -1,3 +1,5 @@
+import { UserActionEnum } from "@/types/global";
+
 export type OrderType = "desc" | "asc";
 
 export type FilterPaginationType = {

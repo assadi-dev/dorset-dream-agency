@@ -1,15 +1,19 @@
 import { sqlLite } from "@/database";
 import { userActions } from "../schema/userActions";
 import { BindParameters, FilterPaginationType } from "@/database/types";
-import { and, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { withPaginationForSqlite } from "../../repositories/utils/entity";
 import { UserActionCreateInputDto, userActionValidator } from "./dto/userAction";
+import { UserActionUnion } from "@/types/global";
 
-type getUserActionsCollectionsArgs = FilterPaginationType & { from: string; to: string; columns: string[] };
+type getUserActionsCollectionsArgs = FilterPaginationType & {
+    from: string;
+    to: string;
+    actionsType: UserActionUnion[];
+};
 export const getUserActionsCollections = async (filter: getUserActionsCollectionsArgs) => {
     try {
-        const { search, page, limit } = filter;
-
+        const { search, page, limit, actionsType } = filter;
         const query = sqlLite.select().from(userActions).groupBy(userActions.id);
         const searchCondition = search
             ? or(
@@ -23,7 +27,8 @@ export const getUserActionsCollections = async (filter: getUserActionsCollection
         const parameters: BindParameters = {
             search: `%${search}%`,
         };
-        query.where(and(searchCondition));
+
+        query.where(and(searchCondition, inArray(userActions.action, actionsType)));
         const orderbyColumn = desc(userActions.timestamp);
         query.orderBy(orderbyColumn);
 

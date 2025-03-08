@@ -19,31 +19,37 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
     const { updateSearchParamAndRefresh } = useRouteRefresh();
 
     type selectStateType = { create: boolean; update: boolean; delete: boolean; restore: boolean };
+    const [open, setOpen] = React.useState(false);
 
     const options = Object.entries(UserActionEnum).map(([k, v]) => ({ label: v, value: k }));
     const [selected, setSelected] = React.useReducer(
         (prev: selectStateType, state: Partial<selectStateType>) => ({ ...prev, ...state }),
         {
-            create: false,
+            create: true,
             update: true,
             delete: true,
-            restore: false,
+            restore: true,
         },
     );
     const handleSelect = (action: UserAction, checked: boolean) => {
         const current = { ...selected };
         current[action] = checked;
         setSelected(current);
-        const actionsParams = Object.entries(current)
+    };
+
+    const confirmFilterAction = () => {
+        const actionsParams = Object.entries(selected)
             .filter(([k, v]) => v === true)
             .map((i) => i[0]);
         updateSearchParamAndRefresh("action", actionsParams.join(","));
+        setOpen(false);
     };
+
     return (
         <div className="w-fit">
-            <DropdownMenu>
+            <DropdownMenu open={open}>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={() => setOpen(true)}>
                         <Filter /> Filtres
                     </Button>
                 </DropdownMenuTrigger>
@@ -51,7 +57,7 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
                     <DropdownMenuLabel>Filtrer par action</DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
-                    {options.map((item) => (
+                    {options.map((item: { value: string; label: UserActionEnum }) => (
                         <DropdownMenuCheckboxItem
                             key={item.value}
                             checked={selected[item.value as UserAction]}
@@ -60,6 +66,12 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
                             {item.label}
                         </DropdownMenuCheckboxItem>
                     ))}
+                    <DropdownMenuSeparator />
+                    <div>
+                        <Button className="w-full shadow-lg" size={"sm"} onClick={confirmFilterAction}>
+                            Valider
+                        </Button>
+                    </div>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
