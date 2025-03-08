@@ -34,7 +34,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
         openModal({
             title: `Supprimer un biens Immobilier`,
             description: `${payload.name}`,
-            payload,
+            payload: { ids: [payload.id] },
             component: DeleteProperty,
         });
     };

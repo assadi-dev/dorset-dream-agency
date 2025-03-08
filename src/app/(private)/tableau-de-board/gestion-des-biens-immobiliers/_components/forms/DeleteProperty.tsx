@@ -14,9 +14,12 @@ const DeleteProperty = () => {
     const handleConfirm = async () => {
         try {
             const formData = new FormData();
-            formData.append("ids", payload.id);
+            const ids = payload.ids as number[];
+
+            ids.forEach((id) => formData.append("ids", String(id)));
             await removePropertiesAction(formData);
             queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
+            payload?.resetSelected && payload?.resetSelected();
             closeModal();
         } catch (error: any) {
             throw error;

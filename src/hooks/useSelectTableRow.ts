@@ -18,10 +18,13 @@ const useSelectTableRow = () => {
         setItemChecked([...rows]);
     };
 
+    const reset = () => setItemChecked([]);
+
     return {
         itemChecked,
         handleSelectedRow,
         handleSelectedAllRow,
+        reset,
     };
 };
 

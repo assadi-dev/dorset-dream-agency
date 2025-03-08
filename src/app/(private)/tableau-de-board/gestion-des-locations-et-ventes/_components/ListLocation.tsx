@@ -21,7 +21,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
     const session = useSession();
     const { data } = session;
     const IS_ADMIN = ACTIONS_CONTROL_PERMISSION.isAdmin(data?.user?.role);
-    const { itemChecked, handleSelectedRow, handleSelectedAllRow } = useSelectTableRow();
+    const { itemChecked, handleSelectedRow, handleSelectedAllRow, reset } = useSelectTableRow();
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -49,7 +49,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                             <p className="px-2 py-0.5 bg-slate-50 ring-1 ring-slate-300 rounded-md shadow">
                                 {itemChecked.length} element sélectionnées
                             </p>
-                            <SelectionActionButton selectedItems={itemChecked} />
+                            <SelectionActionButton selectedItems={itemChecked} resetSelectedRow={reset} />
                         </div>
                     )}
                 </div>

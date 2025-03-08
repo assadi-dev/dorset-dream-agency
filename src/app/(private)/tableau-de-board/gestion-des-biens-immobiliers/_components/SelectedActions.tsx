@@ -12,16 +12,17 @@ import TextWithTooltip from "@/components/Text/TextWithTooltip";
 import useModalState from "@/hooks/useModalState";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import { useSession } from "next-auth/react";
-import DeleteTransaction from "./forms/DeleteTransaction";
 import { plural } from "@/lib/format";
 import { FORBIDDEN_ACTION } from "@/config/messages";
+import DeleteProperty from "./forms/DeleteProperty";
+import { selectedLabel } from "@/lib/text";
 
 type SelectionActionButtonProps = {
     selectedItems?: any[];
-    resetSelectedRow?: () => void;
+    resetSelected?: () => void;
 };
 
-const SelectionActionButton = ({ selectedItems, resetSelectedRow }: SelectionActionButtonProps) => {
+const SelectionActions = ({ selectedItems, resetSelected }: SelectionActionButtonProps) => {
     const session = useSession();
     const { data } = session;
     const CAN_DELETE = ACTIONS_CONTROL_PERMISSION.isAdmin(data?.user?.role);
@@ -32,10 +33,10 @@ const SelectionActionButton = ({ selectedItems, resetSelectedRow }: SelectionAct
     const handleClickDelete = () => {
         if (!CAN_DELETE) throw new Error(FORBIDDEN_ACTION);
         openModal({
-            title: "Suppression des locations - ventes sélectionnée(s)",
-            description: `${ids?.length} ${plural(ids?.length, "élément", "éléments")} ${plural(ids?.length, "sélectionné", "sélectionnés")}    `,
-            component: DeleteTransaction,
-            payload: { ids, resetSelectedRow },
+            title: "Suppression des Proprietés",
+            description: selectedLabel(ids?.length),
+            component: DeleteProperty,
+            payload: { ids, resetSelected },
         });
     };
 
@@ -65,4 +66,4 @@ const SelectionActionButton = ({ selectedItems, resetSelectedRow }: SelectionAct
     );
 };
 
-export default SelectionActionButton;
+export default SelectionActions;

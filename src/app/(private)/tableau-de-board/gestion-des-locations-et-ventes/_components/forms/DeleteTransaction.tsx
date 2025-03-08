@@ -7,13 +7,14 @@ import { usePathname, useRouter } from "next/navigation";
 const DeleteTransaction = () => {
     const { closeModal, payload } = useModalState();
 
-    const transactionID = payload || null;
+    const transactionID = payload.ids || null;
     const router = useRouter();
     const pathname = usePathname();
 
     const confirmDeleteTransaction = async () => {
         transactionID && removeTransaction(transactionID);
         closeModal();
+        payload.resetSelectedRow && payload.resetSelectedRow();
         router.push(pathname);
     };
 

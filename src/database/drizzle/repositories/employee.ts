@@ -6,7 +6,6 @@ import { employees } from "../schema/employees";
 import { secteurs } from "../schema/secteurs";
 import { employeesToSecteurs } from "../schema/employeesToSecteurs";
 import { EmployeeCreateInputDto, employeeValidator } from "./dto/employeeDTO";
-import { wait } from "@/lib/utils";
 import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination } from "./utils/entity";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { removePhotosByAndFile } from "./photos";

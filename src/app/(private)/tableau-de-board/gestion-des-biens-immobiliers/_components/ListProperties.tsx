@@ -18,6 +18,8 @@ import { Role } from "@/app/types/user";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import useSelectTableRow from "@/hooks/useSelectTableRow";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
+import SelectionActions from "./SelectedActions";
+import { selectedLabel } from "@/lib/text";
 
 const ListProperties = () => {
     const searchParams = useSearchParams();
@@ -34,7 +36,7 @@ const ListProperties = () => {
 
     const role = useGetRoleUser();
 
-    const { itemChecked, handleSelectedRow, handleSelectedAllRow } = useSelectTableRow();
+    const { itemChecked, handleSelectedRow, handleSelectedAllRow, reset } = useSelectTableRow();
 
     const PROPERTIES_COLLECTIONS = useDataCollections(data);
 
@@ -68,7 +70,16 @@ const ListProperties = () => {
                 </Alert>
             )}
             <div className="mb-3 flex items-center justify-between">
-                <div></div>
+                <div className="flex items-center gap-2">
+                    {itemChecked.length > 0 && (
+                        <div className="flex gap-3 items-center ">
+                            <p className="px-2 py-0.5 bg-slate-50 ring-1 ring-slate-300 rounded-md shadow">
+                                {selectedLabel(itemChecked.length)}
+                            </p>
+                            <SelectionActions selectedItems={itemChecked} resetSelected={reset} />
+                        </div>
+                    )}
+                </div>
                 {!error && <SimplePagination totalItems={PROPERTIES_COLLECTIONS.totalItems} limit={limit} />}
             </div>
             {!error && (

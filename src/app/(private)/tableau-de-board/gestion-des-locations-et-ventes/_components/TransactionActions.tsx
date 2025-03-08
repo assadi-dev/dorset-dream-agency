@@ -29,7 +29,7 @@ const TransactionActions = ({ payload }: TransactionActionsProps) => {
             title: "Suppression",
             description: "Voulez-vous supprimez cette la transaction ?",
             component: DeleteTransaction,
-            payload: [payload.id],
+            payload: { ids: [payload.id] },
         });
     };
 
