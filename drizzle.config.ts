@@ -14,14 +14,3 @@ export default defineConfig({
     out: "./src/database/drizzle/migrations",
     schema: "./src/database/drizzle/schema/*.ts",
 });
-
-/* export default defineConfig({
-    dialect: "sqlite",
-    dbCredentials: {
-        url: ENV.SQLITE_DATABASE_URL,
-    },
-    verbose: true,
-    out: "./src/database/drizzle/sqlite/migrations",
-    schema: "./src/database/drizzle/sqlite/schema/*.ts",
-});
- */
