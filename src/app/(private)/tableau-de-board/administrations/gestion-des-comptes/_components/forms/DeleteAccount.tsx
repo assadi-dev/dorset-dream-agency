@@ -16,10 +16,11 @@ const DeleteAccount = () => {
     const role = session.data?.user?.role;
 
     const handleConfirm = async () => {
-        const ids = [payload.id];
+        const ids = payload.ids;
         if (isAdmin(payload.role) && !isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
         await removeUsersAccounts(ids);
         closeModal();
+        payload.resetSelected && payload.resetSelected();
         router.push(pathname);
         router.refresh();
     };

@@ -1,4 +1,4 @@
 export type SelectionAction = {
-    selectedItems?: any[];
+    selectedItems: any[];
     resetSelected?: () => void;
 };

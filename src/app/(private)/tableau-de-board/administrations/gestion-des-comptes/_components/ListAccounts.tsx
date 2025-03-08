@@ -11,6 +11,7 @@ import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import useGetRoleUser from "@/hooks/useRoleUser";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
 import useSelectTableRow from "@/hooks/useSelectTableRow";
+import AccountSelectedActions from "./AccountSelectedActions";
 
 type ListAccountsProps = {
     accounts: Array<any>;
@@ -19,7 +20,7 @@ type ListAccountsProps = {
 };
 const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
     const role = useGetRoleUser();
-    const { itemChecked, handleSelectedRow, handleSelectedAllRow } = useSelectTableRow();
+    const { itemChecked, handleSelectedRow, handleSelectedAllRow, reset } = useSelectTableRow();
 
     const actions = {
         id: "actions",
@@ -50,7 +51,11 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
     return (
         <>
             <div className="flex justify-between">
-                <div></div>
+                <div>
+                    {itemChecked.length > 0 && (
+                        <AccountSelectedActions selectedItems={itemChecked} resetSelected={reset} />
+                    )}
+                </div>
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
 

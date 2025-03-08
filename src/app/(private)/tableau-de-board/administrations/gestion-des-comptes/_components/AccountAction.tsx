@@ -35,7 +35,7 @@ const AccountAction = ({ payload, canUpdate, canDelete, canChangePassword }: Acc
         openModal({
             title: `Supprimer un compte`,
             description: `Supprimer le compte ${payload.username}`,
-            payload: payload,
+            payload: { ids: [payload.id] },
             component: DeleteAccount,
         });
     };

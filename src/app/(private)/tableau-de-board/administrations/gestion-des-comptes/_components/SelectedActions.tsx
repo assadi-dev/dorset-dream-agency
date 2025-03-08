@@ -1,5 +1,4 @@
 import React from "react";
-import ButtonActionWithTooltip from "@/components/Buttons/ButtonActionWithTooltip";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,15 +14,15 @@ import { useSession } from "next-auth/react";
 import { FORBIDDEN_ACTION } from "@/config/messages";
 
 import { selectedLabel } from "@/lib/text";
-import DeleteForm from "./forms/DeleteForm";
 import { SelectionAction } from "@/app/types/generic";
+import DeleteAccount from "./forms/DeleteAccount";
 
 type SelectionActionButtonProps = SelectionAction;
 
 const SelectionActions = ({ selectedItems, resetSelected }: SelectionActionButtonProps) => {
     const session = useSession();
     const { data } = session;
-    const CAN_DELETE = ACTIONS_CONTROL_PERMISSION.canAction(data?.user?.role);
+    const CAN_DELETE = ACTIONS_CONTROL_PERMISSION.isAdmin(data?.user?.role);
     const { openModal } = useModalState();
 
     const ids = selectedItems?.map((item) => item?.id);
@@ -31,9 +30,9 @@ const SelectionActions = ({ selectedItems, resetSelected }: SelectionActionButto
     const handleClickDelete = () => {
         if (!CAN_DELETE) throw new Error(FORBIDDEN_ACTION);
         openModal({
-            title: "Supprimer un Employé",
+            title: "Supprimer le(s) compte(s)",
             description: selectedLabel(ids?.length),
-            component: DeleteForm,
+            component: DeleteAccount,
             payload: { ids, resetSelected },
         });
     };
