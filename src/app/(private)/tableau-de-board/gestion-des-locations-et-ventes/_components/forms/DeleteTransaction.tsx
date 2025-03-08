@@ -14,7 +14,7 @@ const DeleteTransaction = () => {
     const confirmDeleteTransaction = async () => {
         transactionID && removeTransaction(transactionID);
         closeModal();
-        payload.resetSelectedRow && payload.resetSelectedRow();
+        payload.resetSelectedRow && payload.resetSelected();
         router.push(pathname);
     };
 

@@ -15,13 +15,11 @@ import { useSession } from "next-auth/react";
 import DeleteTransaction from "./forms/DeleteTransaction";
 import { plural } from "@/lib/format";
 import { FORBIDDEN_ACTION } from "@/config/messages";
+import { SelectionAction } from "@/app/types/generic";
 
-type SelectionActionButtonProps = {
-    selectedItems?: any[];
-    resetSelectedRow?: () => void;
-};
+type SelectionActionButtonProps = SelectionAction;
 
-const SelectionActionButton = ({ selectedItems, resetSelectedRow }: SelectionActionButtonProps) => {
+const SelectionActionButton = ({ selectedItems, resetSelected }: SelectionActionButtonProps) => {
     const session = useSession();
     const { data } = session;
     const CAN_DELETE = ACTIONS_CONTROL_PERMISSION.isAdmin(data?.user?.role);
@@ -35,7 +33,7 @@ const SelectionActionButton = ({ selectedItems, resetSelectedRow }: SelectionAct
             title: "Suppression des locations - ventes sélectionnée(s)",
             description: `${ids?.length} ${plural(ids?.length, "élément", "éléments")} ${plural(ids?.length, "sélectionné", "sélectionnés")}    `,
             component: DeleteTransaction,
-            payload: { ids, resetSelectedRow },
+            payload: { ids, resetSelected },
         });
     };
 

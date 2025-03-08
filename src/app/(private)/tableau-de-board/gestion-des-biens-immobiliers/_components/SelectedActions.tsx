@@ -16,11 +16,9 @@ import { plural } from "@/lib/format";
 import { FORBIDDEN_ACTION } from "@/config/messages";
 import DeleteProperty from "./forms/DeleteProperty";
 import { selectedLabel } from "@/lib/text";
+import { SelectionAction } from "@/app/types/generic";
 
-type SelectionActionButtonProps = {
-    selectedItems?: any[];
-    resetSelected?: () => void;
-};
+type SelectionActionButtonProps = SelectionAction;
 
 const SelectionActions = ({ selectedItems, resetSelected }: SelectionActionButtonProps) => {
     const session = useSession();

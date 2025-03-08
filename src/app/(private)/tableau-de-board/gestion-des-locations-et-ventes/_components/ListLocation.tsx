@@ -49,7 +49,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                             <p className="px-2 py-0.5 bg-slate-50 ring-1 ring-slate-300 rounded-md shadow">
                                 {itemChecked.length} element sélectionnées
                             </p>
-                            <SelectionActionButton selectedItems={itemChecked} resetSelectedRow={reset} />
+                            <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
                         </div>
                     )}
                 </div>
