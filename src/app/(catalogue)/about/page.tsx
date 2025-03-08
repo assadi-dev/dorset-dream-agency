@@ -18,11 +18,7 @@ const AboutPage = async () => {
                         <h2 className="font-bold text-xl">NOS HORAIRES</h2>
 
                         <div>
-                            <p className="text-slate-600 text-sm  lg:text-lg"> Du lundi au jeudi : de 21h00 à 00h00</p>
-                            <p className="text-slate-600 text-sm lg:text-lg">
-                                {" "}
-                                Le vendredi et le samedi : de 21h00 à 01h30
-                            </p>
+                            <p className="text-slate-600 text-sm  lg:text-lg"> Tout les jours de 21h30 à 00h00</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -39,7 +35,7 @@ const AboutPage = async () => {
                     dispositions, n’hésitez pas à nous en faire part.
                 </p>
                 <p className="block text-sm lg:text-lg  lg:max-w-[45vw] mx-auto my-8">
-                    Cordialement, La direction Dorset Dream Agency 💫.
+                    Cordialement, La direction du Dynasty 8 💫.
                 </p>
             </div>
         </div>
