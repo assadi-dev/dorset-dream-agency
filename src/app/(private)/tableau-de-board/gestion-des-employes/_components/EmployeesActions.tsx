@@ -45,7 +45,7 @@ const EmployeesActions = ({ payload, canDelete, canUpdate, canUpload }: Employee
             title: `Supprimer un Employé`,
             description: `Supprimer les informations de ${payload.name}`,
             component: DeleteForm,
-            payload: payload,
+            payload: { ids: [payload.id] },
         });
     };
 

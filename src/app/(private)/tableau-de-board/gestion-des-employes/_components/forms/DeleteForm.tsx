@@ -9,7 +9,6 @@ import React from "react";
 
 const DeleteForm = () => {
     const { payload, closeModal } = useModalState();
-    const EMPLOYEE_ID = payload.id;
     const router = useRouter();
     const pathname = usePathname();
     const session = useSession();
@@ -22,9 +21,10 @@ const DeleteForm = () => {
         try {
             if (isAdmin(payload.role) && !isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
 
-            const ids = [EMPLOYEE_ID];
+            const ids = payload.ids;
             await deleteEmployee(ids);
             closeModal();
+            payload?.resetSelected && payload.resetSelected();
             router.push(pathname);
             router.refresh();
         } catch (error: any) {

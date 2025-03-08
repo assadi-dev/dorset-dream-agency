@@ -20,7 +20,7 @@ type ListEmployeeProps = {
 };
 const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
     const role = useGetRoleUser();
-    const { itemChecked, handleSelectedAllRow, handleSelectedRow } = useSelectTableRow();
+    const { itemChecked, handleSelectedAllRow, handleSelectedRow, reset } = useSelectTableRow();
 
     const actions = {
         id: "actions",
@@ -44,15 +44,15 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
-    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role)
-        ? [SelectColumns, ...columns, actions]
-        : [SelectColumns, ...columns];
+    const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, actions] : columns;
 
     return (
         <>
             <div className="my-5 flex justify-between items-center">
                 <div>
-                    <EmployeeSelectedActions itemSelected={itemChecked} />
+                    {itemChecked.length > 0 && (
+                        <EmployeeSelectedActions itemSelected={itemChecked} resetSelectedRow={reset} />
+                    )}
                 </div>
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>

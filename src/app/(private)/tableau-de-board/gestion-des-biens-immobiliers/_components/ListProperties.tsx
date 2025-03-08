@@ -56,7 +56,7 @@ const ListProperties = () => {
     });
     const ImmobilierColumns = ACTIONS_CONTROL_PERMISSION.canAction(role)
         ? [SelectColumns, ...columns, actions]
-        : [SelectColumns, ...columns];
+        : columns;
 
     return (
         <div>
