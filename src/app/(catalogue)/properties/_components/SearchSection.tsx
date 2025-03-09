@@ -51,7 +51,7 @@ const SearchSection = () => {
                     <Input type="search" placeholder="Rechercher" name="search" defaultValue={searchTermInParam} />
                     <Button
                         type="submit"
-                        className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-sky-500 via-blue-950 to-primary"
+                        className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-black via-green-900 to-primary"
                     >
                         <Search />
                     </Button>
