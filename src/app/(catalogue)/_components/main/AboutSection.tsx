@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
-import logo from "@assets/images/logo.jpg";
+import logo from "@assets/images/logo.png";
 import Image from "next/image";
 
 const AboutSection = () => {
@@ -40,14 +40,14 @@ const AboutSection = () => {
                 <Separator orientation="vertical" />
 
                 <div className="flex flex-col  gap-3 items-center justify-center h-full">
-                    <div className="w-full sm:w-[25rem] sm:pt-5 lg:pt-0">
+                    <div className="w-full lg:w-[25rem] lg:h-[25rem] grid place-items-center   rounded-xl shadow-xl bg-[#106835]  p-8 ">
                         <Image
                             src={logo}
                             width={500}
                             height={500}
                             layout="responsive"
-                            alt="logo dorset dream"
-                            className="rounded-xl shadow-lg"
+                            alt="logo dynasty8"
+                            className="w-full"
                         />
                     </div>
                 </div>

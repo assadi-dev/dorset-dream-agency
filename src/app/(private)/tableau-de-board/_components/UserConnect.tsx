@@ -95,7 +95,7 @@ const UserConnect = () => {
 
     return (
         <SidebarMenu>
-            <SidebarMenuItem className="rounded-lg border border-white/25 bg-gradient-to-r from-primary  to-[#214583]  transition-all">
+            <SidebarMenuItem className="rounded-lg border border-green-900 bg-gradient-to-r from-black  to-primary  transition-all shadow-lg">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton

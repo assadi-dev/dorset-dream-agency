@@ -64,7 +64,7 @@ const NavigationItems = ({ route }: NavigationProps) => {
     };
 
     const CLASS_ITEM =
-        "data-[active=true]:border data-[active=true]:border-white/25  rounded data-[active=true]:font-bold  data-[active=true]:bg-gradient-to-r  from-[#214583] from-5% to-[#214583]";
+        "data-[active=true]:border data-[active=true]:border-white/25  rounded data-[active=true]:font-bold  data-[active=true]:bg-gradient-to-r  from-primary from-5% to-primary";
 
     return (
         <>

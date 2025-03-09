@@ -42,9 +42,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="fr">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased bg-primary-foreground`}
-            >
+            <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased `}>
                 <PageTopLoader />
                 <QueryClientProvider>{children}</QueryClientProvider>
                 <Toaster theme="light" richColors closeButton />
