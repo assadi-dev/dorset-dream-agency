@@ -80,7 +80,7 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                     ))}
                 </Swiper>
             </div>
-            <div className="w-full p-1 overflow-hidden bg-blue-950 backdrop-blur-sm   z-50 rounded-lg mt-1">
+            <div className="w-full p-1 overflow-hidden bg-primary backdrop-blur-sm   z-50 rounded-lg mt-1">
                 <Swiper
                     spaceBetween={5}
                     slidesPerView={3}
