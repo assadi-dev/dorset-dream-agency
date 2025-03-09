@@ -2,21 +2,24 @@ import { setTitlePage } from "@/lib/utils";
 import React from "react";
 import backgroundImage from "@assets/images/background.png";
 import LoginForm from "./LoginForm";
+import Image from "next/image";
 
 export const metadata = setTitlePage("Connexion");
 const Connexion = async () => {
     const backgroundStyle = {
-        backgroundImage: `linear-gradient(to bottom, rgba(16, 104, 53,0.65), rgb(0, 0, 0,0.65)),url(${backgroundImage.src})`,
+        backgroundImage: `linear-gradient(to right, rgba(16, 104, 53,0.15), rgb(0, 0, 0,0.10)), url(${backgroundImage.src})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "100vh",
+
         backgroundRepeat: "no-repeat",
     };
 
     return (
         <React.Suspense>
-            <main style={backgroundStyle} className="lg:grid lg:grid-cols-[1fr,0.5fr]">
-                <section></section>
+            <main style={backgroundStyle} className="lg:grid lg:grid-cols-[1fr,0.5fr] h-screen">
+                <section className="p-8 grid place-items-center">
+                    {/*  <Image src={backgroundImage} alt="" className="rounded-lg w-[55vw] h-[65vh]" /> */}
+                </section>
                 <section
                     className=" md:grid md:place-items-center text-secondary "
                     style={{
