@@ -37,7 +37,7 @@ const NavbarCatalogue = async () => {
                                 alt="logo du site catalogue Dorset dream agency"
                                 height={1200}
                                 width={800}
-                                className="h-auto  w-[12rem] lg:w-[80px] "
+                                className="h-auto  w-[4rem] lg:w-[5rem] "
                             />
                         </Link>
                     </Button>

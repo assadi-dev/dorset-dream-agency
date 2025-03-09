@@ -40,7 +40,7 @@ const AboutSection = () => {
                 <Separator orientation="vertical" />
 
                 <div className="flex flex-col  gap-3 items-center justify-center h-full">
-                    <div className="w-full lg:w-[25rem] lg:h-[25rem] grid place-items-center   rounded-xl shadow-xl bg-[#106835]  p-8 ">
+                    <div className="w-full lg:w-[25rem] lg:h-[25rem] grid place-items-center   rounded-xl shadow-xl bg-gradient-to-br from-black to-primary  p-8 ">
                         <Image
                             src={logo}
                             width={500}
