@@ -1,6 +1,6 @@
 import { setTitlePage } from "@/lib/utils";
 import React from "react";
-import backgroundImage from "@assets/images/background.jpg";
+import backgroundImage from "@assets/images/background.png";
 import LoginForm from "./LoginForm";
 
 export const metadata = setTitlePage("Connexion");
@@ -20,7 +20,7 @@ const Connexion = async () => {
                 <section
                     className=" md:grid md:place-items-center text-secondary "
                     style={{
-                        background: "#0b1b47dc",
+                        background: "rgba(3, 51, 23, 0.85)",
                         backdropFilter: "blur(8px)",
                         borderLeft: "1px solid rgba(255,255,255,0.3)",
                     }}

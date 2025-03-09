@@ -11,6 +11,8 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
 import { Form } from "@/components/ui/form";
+import Image from "next/image";
+import logo from "@assets/images/logo.png";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -51,6 +53,9 @@ const LoginForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSignIn)} className="md:w-[80%] p-10">
+                <div className="text--center w-full flex justify-center mb-10">
+                    <Image src={logo} alt="Logo Dynasty 8" width={200} height={200} />
+                </div>
                 <div className="mb-4">
                     <FormFieldInput
                         control={form.control}
@@ -71,7 +76,12 @@ const LoginForm = () => {
                     />
                 </div>
                 <div className="grid w-full items-center gap-1.5 shadow mt-12">
-                    <SubmitButton isLoading={isPending} variant="default" className="bg-blue-500" type="submit">
+                    <SubmitButton
+                        isLoading={isPending}
+                        variant="default"
+                        className="hover:bg-green-950 ring-1 ring-green-800"
+                        type="submit"
+                    >
                         Connexion
                     </SubmitButton>
                 </div>
