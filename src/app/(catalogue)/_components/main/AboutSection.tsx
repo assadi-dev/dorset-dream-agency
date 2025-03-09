@@ -19,7 +19,7 @@ const AboutSection = () => {
                         l'organisation de chacun, voici les plages horaires que nous avons définies
                     </p>
                     <div className="w-fit mx-auto flex flex-col gap-3   text-left ">
-                        <p className="text-slate-600 text-sm  lg:text-lg"> Tout les jours de 21h30 à 00h00</p>
+                        <p className="font-bold"> Tout les jours de 21h30 à 00h00</p>
                     </div>
 
                     <p className="my-8">
