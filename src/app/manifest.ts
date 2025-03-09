@@ -3,33 +3,24 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: "Dorset Dream Agency",
-        short_name: "Dorset Dream",
+        name: "Dynasty 8",
+        short_name: "D8",
         description: `Consulter le catalogue des biens immobilier proposer par l'agence ${ENV.APP_TITLE}`,
         start_url: "/",
         id: "/",
         display: "minimal-ui",
-        background_color: "#060a5b",
-        theme_color: "#060a5b",
+        background_color: "#106835",
+        theme_color: "#106835",
         icons: [
             {
                 src: "/favicon/favicon.ico",
                 sizes: "any",
                 type: "image/x-icon",
             },
-            {
-                src: "/favicon/favicon-144x144.png",
-                sizes: "144x144",
-                type: "image/png",
-            },
+
             {
                 src: "/favicon/android-chrome-192x192.png",
                 sizes: "192x192",
-                type: "image/png",
-            },
-            {
-                src: "/favicon/android-chrome-384x384.png",
-                sizes: "384x384",
                 type: "image/png",
             },
         ],
