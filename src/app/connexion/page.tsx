@@ -6,7 +6,7 @@ import LoginForm from "./LoginForm";
 export const metadata = setTitlePage("Connexion");
 const Connexion = async () => {
     const backgroundStyle = {
-        backgroundImage: `url(${backgroundImage.src})`,
+        backgroundImage: `linear-gradient(to bottom, rgba(16, 104, 53,0.65), rgb(0, 0, 0,0.65)),url(${backgroundImage.src})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
