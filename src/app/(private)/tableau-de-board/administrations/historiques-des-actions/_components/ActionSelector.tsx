@@ -31,7 +31,9 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
             restore: true,
         },
     );
-    const handleSelect = (action: UserAction, checked: boolean) => {
+    const handleSelect = (e: React.MouseEvent, action: UserAction) => {
+        e.preventDefault();
+        const checked = !selected[action];
         const current = { ...selected };
         current[action] = checked;
         setSelected(current);
@@ -60,8 +62,8 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
                     {options.map((item: { value: string; label: UserActionEnum }) => (
                         <DropdownMenuCheckboxItem
                             key={item.value}
+                            onClick={(e: React.MouseEvent<any>) => handleSelect(e, item.value as UserAction)}
                             checked={selected[item.value as UserAction]}
-                            onCheckedChange={(checked: boolean) => handleSelect(item.value as UserAction, checked)}
                         >
                             {item.label}
                         </DropdownMenuCheckboxItem>
