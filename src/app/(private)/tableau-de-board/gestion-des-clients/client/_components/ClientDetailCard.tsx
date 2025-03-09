@@ -16,7 +16,7 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
     const role = session?.user.role;
 
     return (
-        <Card className="bg-primary text-secondary lg:grid lg:grid-rows-[auto,1fr,auto] lg:gap-4">
+        <Card className="bg-primary text-primary-accent lg:grid lg:grid-rows-[auto,1fr,auto] lg:gap-4">
             {client && (
                 <AvatarClient
                     variant={client.gender || "Male"}
@@ -25,11 +25,11 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
                 />
             )}
 
-            <ul className="py-5 sm:py-8 px-5 text-muted-foreground w-full mt-2 justify-self-center">
+            <ul className="py-5 sm:py-8 px-5 text-primary-accent w-full mt-2 justify-self-center">
                 <li className="mb-3">
                     <p className="flex gap-1 items-center justify-between font-semibold space-y-3">
                         <span className="flex items-center gap-1 text-sm">
-                            <PhoneCall className="text-muted-foreground h-4 w-4" /> Téléphone:
+                            <PhoneCall className="h-4 w-4" /> Téléphone:
                         </span>
                         <span className="text-sm">{client?.phone || "N/A"}</span>
                     </p>
@@ -39,7 +39,7 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
                 <li className="">
                     <p className="flex gap-1 items-center justify-between font-semibold space-y-3">
                         <span className="flex items-center gap-1 text-sm">
-                            <Skull className="text-muted-foreground h-4 w-4" /> Décédé:
+                            <Skull className=" h-4 w-4" /> Décédé:
                         </span>
                         <span className="py-0.5 px-3  bg-green-600 rounded text-white text-xs">
                             {client?.isDead ? "Oui" : "Non"}

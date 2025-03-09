@@ -5,8 +5,8 @@ type SpinnerLoadingProps = SpinnerCircularFixedProps;
 const SpinnerLoading = ({
     size = 40,
     speed = 250,
-    color = "#fff",
-    secondaryColor = "#FFFFFF50",
+    color = "#106835",
+    secondaryColor = "#10683550",
     thickness = 120,
     ...props
 }: SpinnerLoadingProps) => {

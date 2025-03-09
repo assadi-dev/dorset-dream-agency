@@ -30,12 +30,12 @@ const ClientsCard = () => {
     return (
         <DashboardCard title="Total Clients" icon={Users} className="bg-primary text-secondary">
             <div className="grid grid-rows-[1fr,auto] gap-3.5 justify-content-center">
-                <p className="text-4xl font-bold text-center">{data?.count || 0}</p>
+                <p className="text-4xl font-bold text-center drop-shadow-lg">{data?.count || 0}</p>
                 <div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted drop-shadow-lg">
                         +{data?.difference.count} depuis le {showInCard}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted drop-shadow-lg">
                         +{data?.difference.percentage}% depuis le {showInCard}
                     </p>
                 </div>

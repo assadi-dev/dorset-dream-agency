@@ -12,6 +12,7 @@
 
 @layer base {
     :root {
+        --dynasty: 47 26% 86%;
         --body: 47 26% 86%;
         --background: 0 0% 100%;
         --foreground: 222.2 84% 4.9%;

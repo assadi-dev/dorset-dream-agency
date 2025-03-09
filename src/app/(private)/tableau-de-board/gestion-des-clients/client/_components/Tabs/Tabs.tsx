@@ -23,10 +23,10 @@ const TabsTest = () => {
     return (
         <Tabs defaultValue={defaultValue} className="w-full">
             <div className="flex justify-items-center ">
-                <TabsList className="bg-primary mx-auto h-auto">
+                <TabsList className="bg-primary/25 mx-auto h-auto">
                     {CLIENT_TABS_DATA.map((tabs) => (
                         <TabsTrigger
-                            className=" lg:text-xl"
+                            className=" lg:text-xl data-[state=active]:bg-primary data-[state=active]:text-primary-accent"
                             key={tabs.value}
                             value={tabs.value}
                             onClick={() => handleSelect(tabs.value)}
