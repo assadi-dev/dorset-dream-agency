@@ -17,8 +17,8 @@ const TodayCards = () => {
     useInterval(updateDate, 1000);
 
     return (
-        <DashboardCard className="bg-primary text-secondary">
-            <div className="text-center flex flex-col gap-3  justify-center h-full items-center pt-8">
+        <DashboardCard className="bg-primary flex items-center justify-center">
+            <div className="text-center flex flex-col gap-3  justify-center h-full items-center pt-8 text-primary-accent drop-shadow-xl">
                 <p className="font-bold">{state.day}</p>
                 <p className="text-3xl font-bold">{state.hours}</p>
                 <p className="font-bold">SEMAINE {state.week}</p>

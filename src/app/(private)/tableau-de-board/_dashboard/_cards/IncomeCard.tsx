@@ -32,16 +32,18 @@ const IncomeCard = () => {
     return (
         <DashboardCard title="Revenu Total" icon={DollarSign} className="bg-primary text-secondary">
             <div className="grid grid-rows-[1fr,auto] gap-3.5 justify-content-center">
-                <p className="text-4xl font-bold text-center drop-shadow-lg">{formatThousand(data?.sum)}$</p>
+                <p className="text-4xl font-bold text-center drop-shadow-lg text-primary-accent">
+                    {formatThousand(data?.sum)}$
+                </p>
 
-                <div>
+                <div className="text-primary-accent">
                     <p
-                        className="text-xs text-muted drop-shadow-lg
+                        className="text-xs  drop-shadow-lg
                 mb-0"
                     >
                         +{formatThousand(data?.difference.sum)}$ depuis le {showInCard}{" "}
                     </p>
-                    <p className="text-xs text-muted drop-shadow-lg">
+                    <p className="text-xs  drop-shadow-lg">
                         +{data?.difference.percentage}% depuis le {showInCard}
                     </p>
                 </div>
