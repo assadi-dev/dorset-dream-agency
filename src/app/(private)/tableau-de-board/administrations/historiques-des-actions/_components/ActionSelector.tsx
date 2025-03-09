@@ -47,7 +47,7 @@ const ActionSelector = ({ ...props }: ActionSelectorProps) => {
 
     return (
         <div className="w-fit">
-            <DropdownMenu open={open}>
+            <DropdownMenu open={open} onOpenChange={() => setOpen(!open)}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" onClick={() => setOpen(true)}>
                         <Filter /> Filtres

@@ -33,7 +33,7 @@ export default function SelectDateRange({ className }: React.HTMLAttributes<HTML
 
     return (
         <div className={cn("grid gap-2", className)}>
-            <Popover open={open}>
+            <Popover open={open} onOpenChange={() => setOpen(!open)}>
                 <PopoverTrigger asChild onClick={() => setOpen(true)}>
                     <Button
                         id="date"
