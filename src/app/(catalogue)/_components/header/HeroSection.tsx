@@ -7,6 +7,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { cleanDataForCarousel, getPropertiesForCarouselApi, getPropertiesPerCategoryApi } from "../../helper";
+import EmptyAvailableProperties from "./EmptyAvailableProperties";
 
 type SliderItemProps = {
     property: {
@@ -64,21 +65,25 @@ const HeroSection = () => {
 
     return (
         <div className="relative rounded-lg shadow-lg w-full h-[280px]  sm:h-[380px] lg:h-[480px] overflow-hidden">
-            <Swiper
-                loop={true}
-                autoplay={{ delay: 5000, disableOnInteraction: false }}
-                spaceBetween={10}
-                modules={[Autoplay, EffectFade]}
-                slidesPerView={1}
-                effect="fade"
-                className="h-full w-full"
-            >
-                {PROPERTIES.map((item: any) => (
-                    <SwiperSlide key={item.id}>
-                        <SliderItem property={item} />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            {PROPERTIES.length > 0 ? (
+                <Swiper
+                    loop={true}
+                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                    spaceBetween={10}
+                    modules={[Autoplay, EffectFade]}
+                    slidesPerView={1}
+                    effect="fade"
+                    className="h-full w-full"
+                >
+                    {PROPERTIES.map((item: any) => (
+                        <SwiperSlide key={item.id}>
+                            <SliderItem property={item} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            ) : (
+                <EmptyAvailableProperties />
+            )}
         </div>
     );
 };
