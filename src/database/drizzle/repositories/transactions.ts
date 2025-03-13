@@ -233,10 +233,10 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
         let locationTypeCondition: any;
         switch (type?.toLowerCase()) {
             case "vente":
-                locationTypeCondition = or(inArray(transactions.propertyService, RENTAL_FILTER_ARRAY));
+                locationTypeCondition = or(inArray(transactions.propertyService, SALES_FILTER_ARRAY));
                 break;
             case "location":
-                locationTypeCondition = or(inArray(transactions.propertyService, SALES_FILTER_ARRAY));
+                locationTypeCondition = or(inArray(transactions.propertyService, RENTAL_FILTER_ARRAY));
                 break;
             case "prestige":
                 locationTypeCondition = eq(categoryProperties.name, "Prestige");
@@ -359,14 +359,8 @@ export const statTransactionPerSecteurChart = async ({ startDate, endDate }: Sta
 };
 export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartDateEnDateType) => {
     const intervalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
-    const rentalCondition = or(
-        eq(transactions.propertyService, "Location Favelas"),
-        eq(transactions.propertyService, "Location LS"),
-    );
-    const salesCondition = or(
-        eq(transactions.propertyService, "Ventes Favelas"),
-        eq(transactions.propertyService, "Ventes LS"),
-    );
+    const rentalCondition = or(inArray(transactions.propertyService, RENTAL_FILTER_ARRAY));
+    const salesCondition = or(inArray(transactions.propertyService, SALES_FILTER_ARRAY));
     const rentalData = await db
         .select({
             day: sql<string>`WEEKDAY(${transactions.createdAt})`.as("day"),
