@@ -2,6 +2,8 @@ import { datetime } from "drizzle-orm/mysql-core";
 import { OrderType } from "../types";
 import { Session } from "next-auth";
 
+export const ROLE_ENTITY_ARRAY = ["user", "patron", "admin"] as const;
+
 /**
  * Ajout des champs created_at et updated_at
  */

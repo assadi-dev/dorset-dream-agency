@@ -1,5 +1,6 @@
 import { EMAIL_INVALID, REQUIRE_MESSAGE_ERROR } from "@/config/messages";
 import { z } from "zod";
+import { ROLE_ENTITY_ARRAY } from "../../utils";
 
 export const userSchema = z.object({
     username: z
@@ -8,7 +9,7 @@ export const userSchema = z.object({
         .min(1, { message: REQUIRE_MESSAGE_ERROR }),
     password: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     confirmPassword: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    role: z.enum(["user", "patron", "admin"]),
+    role: z.enum(ROLE_ENTITY_ARRAY),
 });
 
 const passwordSchema = z
