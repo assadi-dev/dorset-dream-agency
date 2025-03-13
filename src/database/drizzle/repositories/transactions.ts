@@ -2,7 +2,7 @@
 import { db } from "@/database";
 import { transactions } from "../schema/transactions";
 import { clients } from "../schema/client";
-import { and, asc, between, count, desc, eq, like, or, sql, sum } from "drizzle-orm";
+import { and, asc, between, count, desc, eq, inArray, like, or, sql, sum } from "drizzle-orm";
 import { employees } from "../schema/employees";
 import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
@@ -17,7 +17,7 @@ import {
     setDeletedAt,
     withPagination,
 } from "./utils/entity";
-import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
+import { ACTION_NAMES, ENTITIES_ENUM, RENTAL_FILTER_ARRAY, SALES_FILTER_ARRAY } from "../utils";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 /**
@@ -233,16 +233,10 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
         let locationTypeCondition: any;
         switch (type?.toLowerCase()) {
             case "vente":
-                locationTypeCondition = or(
-                    eq(transactions.propertyService, "Ventes LS"),
-                    eq(transactions.propertyService, "Ventes Favelas"),
-                );
+                locationTypeCondition = or(inArray(transactions.propertyService, RENTAL_FILTER_ARRAY));
                 break;
             case "location":
-                locationTypeCondition = or(
-                    eq(transactions.propertyService, "Location LS"),
-                    eq(transactions.propertyService, "Location Favelas"),
-                );
+                locationTypeCondition = or(inArray(transactions.propertyService, SALES_FILTER_ARRAY));
                 break;
             case "prestige":
                 locationTypeCondition = eq(categoryProperties.name, "Prestige");
@@ -319,15 +313,9 @@ export const statIncomeTransaction = async ({ startDate, endDate }: StartDateEnD
 };
 export const statGlobalSecteurTransaction = async () => {
     const total = await rowCount(transactions, softDeleteCondition);
-    const RentalCondition = or(
-        eq(transactions.propertyService, "Location Favelas"),
-        eq(transactions.propertyService, "Location LS"),
-    );
+    const RentalCondition = or(inArray(transactions.propertyService, RENTAL_FILTER_ARRAY));
     const rental = await rowCount(transactions, and(RentalCondition, softDeleteCondition));
-    const SaleCondition = or(
-        eq(transactions.propertyService, "Ventes Favelas"),
-        eq(transactions.propertyService, "Ventes LS"),
-    );
+    const SaleCondition = or(inArray(transactions.propertyService, SALES_FILTER_ARRAY));
     const sales = await rowCount(transactions, and(SaleCondition, softDeleteCondition));
 
     return {
@@ -336,14 +324,15 @@ export const statGlobalSecteurTransaction = async () => {
         sales,
     };
 };
+
 export const statGlobalSecteurTransactionInterval = async (startDate: string, endDate: string) => {
     const totalCondition = between(transactions.createdAt, new Date(startDate), new Date(endDate));
     const SaleCondition = and(
-        or(eq(transactions.propertyService, "Ventes Favelas"), eq(transactions.propertyService, "Ventes LS")),
+        inArray(transactions.propertyService, SALES_FILTER_ARRAY),
         between(transactions.createdAt, new Date(startDate), new Date(endDate)),
     );
     const RentalCondition = and(
-        or(eq(transactions.propertyService, "Location Favelas"), eq(transactions.propertyService, "Location LS")),
+        inArray(transactions.propertyService, RENTAL_FILTER_ARRAY),
         between(transactions.createdAt, new Date(startDate), new Date(endDate)),
     );
     const total = await rowCount(transactions, totalCondition);

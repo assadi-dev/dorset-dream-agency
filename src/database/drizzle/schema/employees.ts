@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { deletedAt, updatedAndCreatedAt } from "../utils";
+import { deletedAt, EMPLOYEE_POST, updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { users } from "./users";
 import { employeesToSecteurs } from "./employeesToSecteurs";
@@ -10,7 +10,7 @@ export const employees = mysqlTable("employees", {
     id: int("id").autoincrement().primaryKey(),
     lastName: varchar("last_name", { length: 100 }).notNull(),
     firstName: varchar("first_name", { length: 100 }).notNull(),
-    post: mysqlEnum("post", ["Employée", "Manageuse", "Patron", "Employé San Andreas", "Employé îles Galapagos"]),
+    post: mysqlEnum("post", EMPLOYEE_POST),
     iban: varchar("iban", { length: 100 }),
     phone: varchar("phone", { length: 15 }),
     gender: mysqlEnum("gender", ["Male", "Female"]),
