@@ -89,6 +89,7 @@ export const getEmployeeCollections = async (filter: getEmployeeCollectionsArgs)
                   like(employees.post, sql.placeholder("search")),
                   like(employees.iban, sql.placeholder("search")),
                   like(secteurs.name, sql.placeholder("search")),
+                  like(employees.phone, sql.placeholder("search")),
               )
             : undefined;
 
