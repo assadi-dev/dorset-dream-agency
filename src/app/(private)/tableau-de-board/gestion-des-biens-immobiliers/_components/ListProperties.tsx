@@ -20,6 +20,9 @@ import useSelectTableRow from "@/hooks/useSelectTableRow";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
 import SelectionActions from "./SelectedActions";
 import { selectedLabel } from "@/lib/text";
+import { Card, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 
 const ListProperties = () => {
     const searchParams = useSearchParams();
@@ -59,8 +62,8 @@ const ListProperties = () => {
         : columns;
 
     return (
-        <div>
-            {error && (
+        <Card className="px-2 bg-white">
+            {/*       {error && (
                 <Alert variant="destructive">
                     <Terminal className="h-4 w-4" />
                     <AlertTitle>Erreur</AlertTitle>
@@ -68,24 +71,34 @@ const ListProperties = () => {
                         Un problème est survenue lors de la Récupérations des biens immobiliers
                     </AlertDescription>
                 </Alert>
-            )}
-            <div className="mb-3 flex items-center justify-between">
+            )} */}
+            <div className="my-5  flex items-center justify-between">
+                <div className="flex items-center gap-2  min-w-[25vw]">
+                    <SearchInputDataTable />
+                </div>
                 <div className="flex items-center gap-2">
                     {itemChecked.length > 0 && (
                         <div className="flex gap-3 items-center ">
-                            <p className="px-2 py-0.5 bg-slate-50 ring-1 ring-slate-300 rounded-md shadow">
-                                {selectedLabel(itemChecked.length)}
-                            </p>
+                            <p className="px-2 py-0.5 text-muted-foreground">{selectedLabel(itemChecked.length)}</p>
                             <SelectionActions selectedItems={itemChecked} resetSelected={reset} />
                         </div>
                     )}
                 </div>
-                {!error && <SimplePagination totalItems={PROPERTIES_COLLECTIONS.totalItems} limit={limit} />}
             </div>
             {!error && (
                 <DataTable columns={ImmobilierColumns} data={PROPERTIES_COLLECTIONS.data} isLoading={isFetching} />
             )}
-        </div>
+            <Separator className="my-3" />
+            <CardFooter>
+                <div className="flex justify-between items-center w-full">
+                    <div></div>
+
+                    <div className="self-end">
+                        {!error && <SimplePagination totalItems={PROPERTIES_COLLECTIONS.totalItems} limit={limit} />}
+                    </div>
+                </div>
+            </CardFooter>
+        </Card>
     );
 };
 

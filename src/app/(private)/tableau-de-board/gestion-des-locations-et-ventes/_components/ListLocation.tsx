@@ -49,21 +49,20 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                 <div className="flex items-center gap-2  min-w-[25vw]">
                     <SearchInputDataTable />
                 </div>
+                {itemChecked.length > 0 && (
+                    <div className="flex gap-3 items-center ">
+                        <p className="px-2 py-0.5  text-nowrap text-muted-foreground">
+                            {itemChecked.length} element sélectionnées
+                        </p>
+                        <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
+                    </div>
+                )}
             </div>
             <DataTable columns={transactionsColumn} data={transactions} />
             <Separator className="my-3" />
             <CardFooter>
                 <div className="flex justify-between items-center w-full">
-                    <div>
-                        {itemChecked.length > 0 && (
-                            <div className="flex gap-3 items-center ">
-                                <p className="px-2 py-0.5  text-nowrap text-muted-foreground">
-                                    {itemChecked.length} element sélectionnées
-                                </p>
-                                <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
-                            </div>
-                        )}
-                    </div>
+                    <div></div>
 
                     <div className="self-end">
                         <SimplePagination limit={limit} totalItems={totalItems} />

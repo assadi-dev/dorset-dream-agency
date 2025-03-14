@@ -10,6 +10,9 @@ import { PROPERTY_QUERY_KEY } from "@/app/types/QueryKeys";
 import { useSearchParams } from "next/navigation";
 import useDataCollections from "@/hooks/useDataCollections";
 import SimplePagination from "@/components/Paginations/SimplePagination";
+import { Card, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 
 const ListsPrestige = () => {
     const searchParams = useSearchParams();
@@ -28,13 +31,26 @@ const ListsPrestige = () => {
     const PRESTIGE_COLLECTION = useDataCollections(data);
 
     return (
-        <div>
-            <div className="my-3">{error ? <AlertDestructive title="Erreur" description={error.message} /> : null}</div>
-            <div className="flex justify-end my-3">
-                {!error && <SimplePagination totalItems={PRESTIGE_COLLECTION.totalItems} limit={limit} />}
+        <Card className="bg-white px-2">
+            {/*   <div className="my-3">{error ? <AlertDestructive title="Erreur" description={error.message} /> : null}</div> */}
+            <div className="my-5 flex justify-between items-center">
+                <div className="flex items-center gap-2  min-w-[25vw]">
+                    <SearchInputDataTable />
+                </div>
             </div>
+
             {!error && <DataTable columns={columns} data={PRESTIGE_COLLECTION.data} isLoading={isFetching} />}
-        </div>
+            <Separator className="my-3" />
+            <CardFooter>
+                <div className="flex justify-between items-center w-full">
+                    <div></div>
+
+                    <div className="self-end">
+                        {!error && <SimplePagination totalItems={PRESTIGE_COLLECTION.totalItems} limit={limit} />}
+                    </div>
+                </div>
+            </CardFooter>
+        </Card>
     );
 };
 

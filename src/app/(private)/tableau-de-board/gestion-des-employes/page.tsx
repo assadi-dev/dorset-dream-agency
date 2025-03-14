@@ -32,7 +32,7 @@ const GestionEmployeePage = async ({ searchParams }: GestionEmployeePageProps) =
             <PageTemplate title="Employés" description="Gestion des employés et creations des comptes">
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
-                        <SearchInputDataTable />
+                        <div></div>
                         <GestionEmployeeRightAction />
                     </div>
 

@@ -11,7 +11,7 @@ const EmployeeSelectedActions = ({ itemSelected, resetSelectedRow }: EmployeeSel
     const numberSelected = itemSelected.length > 0 ? itemSelected.length : null;
     return (
         <div className="flex items-center gap-2">
-            {numberSelected && <p>{selectedLabel(numberSelected)}</p>}
+            {numberSelected && <p className="text-muted-foreground">{selectedLabel(numberSelected)}</p>}
             <SelectionActions selectedItems={itemSelected} resetSelected={resetSelectedRow} />
         </div>
     );

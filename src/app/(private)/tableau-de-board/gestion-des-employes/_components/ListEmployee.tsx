@@ -12,6 +12,9 @@ import useGetRoleUser from "@/hooks/useRoleUser";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
 import EmployeeSelectedActions from "./EmployeeSelectedActions";
 import useSelectTableRow from "@/hooks/useSelectTableRow";
+import { Card, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 
 type ListEmployeeProps = {
     employees: any[];
@@ -47,17 +50,30 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
     const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, actions] : columns;
 
     return (
-        <>
+        <Card className="  px-2 bg-white">
             <div className="my-5 flex justify-between items-center">
+                <div className="min-w-[25vw]">
+                    {" "}
+                    <SearchInputDataTable />
+                </div>
                 <div>
                     {itemChecked.length > 0 && (
                         <EmployeeSelectedActions itemSelected={itemChecked} resetSelectedRow={reset} />
                     )}
                 </div>
-                <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
             <DataTable columns={EmployeesColumn} data={employees} />
-        </>
+            <Separator className="my-2" />
+            <CardFooter>
+                <div className="flex justify-between items-center w-full">
+                    <div></div>
+
+                    <div className="self-end">
+                        <SimplePagination limit={limit} totalItems={totalItems} />
+                    </div>
+                </div>
+            </CardFooter>
+        </Card>
     );
 };
 

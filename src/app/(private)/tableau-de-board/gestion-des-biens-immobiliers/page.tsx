@@ -15,7 +15,7 @@ const GestionImmobilierPage = async () => {
             <PageTemplate title="Immobiliers" description="Gestion des biens et les variants">
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
-                        <SearchInputDataTable />
+                        <div></div>
                         <GestionImmobilierRightActions />
                     </div>
                 </section>
