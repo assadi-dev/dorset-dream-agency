@@ -57,8 +57,13 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
 
     return (
         <div>
-            <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr]  items-center">
-                <SearchInputDataTable />
+            <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr]  items-center pt-5">
+                <SearchInputDataTable
+                    classNames={{
+                        input: "bg-green-950/25 ",
+                        icon: "!text-primary-accent",
+                    }}
+                />
 
                 <ClientPageRightAction />
             </div>

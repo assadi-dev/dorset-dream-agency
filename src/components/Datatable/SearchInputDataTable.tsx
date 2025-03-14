@@ -1,6 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
@@ -8,8 +9,13 @@ import React from "react";
 type SearchInputDataTableType = {
     value?: string | null;
     onSearch?: (value: string | null) => void;
+    classNames?: {
+        container?: string;
+        input?: string;
+        icon?: string;
+    };
 };
-const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTableType) => {
+const SearchInputDataTable = ({ value, onSearch, classNames }: SearchInputDataTableType) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -49,9 +55,16 @@ const SearchInputDataTable = ({ value, onSearch }: SearchInputDataTableType) => 
     };
 
     return (
-        <div className="relative w-full ">
-            <Input type="search" value={searchTerm || ""} onChange={handleInputChange} className="pr-10" />
-            <Search className="absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+        <div className={cn("relative w-full", classNames?.container)}>
+            <Input
+                type="search"
+                value={searchTerm || ""}
+                onChange={handleInputChange}
+                className={cn("pr-10", classNames?.input)}
+            />
+            <Search
+                className={cn("absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500", classNames?.icon)}
+            />
         </div>
     );
 };

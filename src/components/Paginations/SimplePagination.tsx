@@ -121,7 +121,7 @@ const SimplePagination = ({
                 <div className="flex items-center space-x-2">
                     <p className="text-sm font-medium">{rowLabel}</p>
                     <Select value={String(paginationState.limit)} onValueChange={handleSelectLimit}>
-                        <SelectTrigger className="h-8 w-[70px]">
+                        <SelectTrigger className="h-8 w-[70px] bg-white">
                             <SelectValue placeholder={paginationState.limit} />
                         </SelectTrigger>
                         <SelectContent side="bottom">

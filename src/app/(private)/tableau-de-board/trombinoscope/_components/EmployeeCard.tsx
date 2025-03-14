@@ -15,8 +15,8 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
     const image = employee.photoUrl || avatarByGender(employee.gender);
 
     return (
-        <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-blue-900 to-blue-950 text-white rounded-lg shadow-inner shadow-white">
-            <div className="  bg-slate-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
+        <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white">
+            <div className="  bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
                 <Image
                     src={image}
                     height={400}
@@ -25,16 +25,16 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
                     className="object-cover object-center h-full "
                 />
             </div>
-            <figcaption className="flex-1 bg-slate-900 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
+            <figcaption className="flex-1 bg-green-950 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
                 <p className="text-sm lg:text-[1rem] font-bold max-w-[80%] text-nowrap text-ellipsis overflow-hidden">
                     {employee.name}
                 </p>
                 <div className="flex justify-between items-center">
                     <div>
-                        <p className="flex items-center flex-nowrap gap-2 text-xs text-gray-400">
+                        <p className="flex items-center flex-nowrap gap-2 text-xs text-primary-accent">
                             <BriefcaseBusiness className="h-3 w-3" /> {employee.grade}
                         </p>
-                        <p className="flex items-center flex-nowrap gap-2 text-xs text-gray-400">
+                        <p className="flex items-center flex-nowrap gap-2 text-xs text-primary-accent">
                             <PhoneCall className="h-3 w-3" /> {employee.phone}
                         </p>
                     </div>
