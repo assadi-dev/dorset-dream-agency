@@ -5,6 +5,13 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+    FirstPageButtonPagination,
+    LastPageButtonPagination,
+    NextButtonPagination,
+    PrevButtonPagination,
+} from "./ButtonPagination";
+import { TooltipProvider } from "../ui/tooltip";
 
 type paginationStateType = {
     page: number;
@@ -133,42 +140,12 @@ const SimplePagination = ({
                     Page {page} sur {TOTAL_PAGE}
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
-                        variant="outline"
-                        className="hidden h-8 w-8 p-0 lg:flex"
-                        onClick={goFirstPage}
-                        disabled={!paginationState.canPreviousPage}
-                    >
-                        <span className="sr-only">Go to first page</span>
-                        <DoubleArrowLeftIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="h-8 w-8 p-0"
-                        onClick={goPreviousPage}
-                        disabled={!paginationState.canPreviousPage}
-                    >
-                        <span className="sr-only">Go to previous page</span>
-                        <ChevronLeftIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="h-8 w-8 p-0"
-                        onClick={goNextPage}
-                        disabled={!paginationState.canNextPage}
-                    >
-                        <span className="sr-only">Go to next page</span>
-                        <ChevronRightIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="hidden h-8 w-8 p-0 lg:flex"
-                        onClick={gotToLastPage}
-                        disabled={!paginationState.canNextPage}
-                    >
-                        <span className="sr-only">Go to last page</span>
-                        <DoubleArrowRightIcon className="h-4 w-4" />
-                    </Button>
+                    <TooltipProvider>
+                        <FirstPageButtonPagination onClick={goFirstPage} disabled={!paginationState.canPreviousPage} />
+                        <PrevButtonPagination onClick={goPreviousPage} disabled={!paginationState.canPreviousPage} />
+                        <NextButtonPagination onClick={goNextPage} disabled={!paginationState.canNextPage} />
+                        <LastPageButtonPagination onClick={gotToLastPage} disabled={!paginationState.canNextPage} />
+                    </TooltipProvider>
                 </div>
             </div>
         </div>

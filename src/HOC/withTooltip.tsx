@@ -7,9 +7,9 @@ type WithTooltipProps = {
     tooltipTrigger?: TooltipTriggerProps;
     tooltipContentChildren: React.ReactNode;
 };
-const withTooltip = (Component: React.ComponentType<any>, props: WithTooltipProps) => {
-    const NewComponent = (props: any) => {
-        return <Component {...props} />;
+const withTooltip = (Component: any, props: WithTooltipProps) => {
+    const NewComponent = (p: any, ref: any) => {
+        return <Component {...p} />;
     };
 
     const tooltipTriggerProps = props.tooltipTrigger;
@@ -17,8 +17,10 @@ const withTooltip = (Component: React.ComponentType<any>, props: WithTooltipProp
 
     return (
         <Tooltip>
-            <TooltipTrigger {...tooltipTriggerProps}>
-                <NewComponent />
+            <TooltipTrigger {...tooltipTriggerProps} asChild>
+                <div>
+                    <NewComponent />
+                </div>
             </TooltipTrigger>
             <TooltipContent {...tooltipContentProps}>{props.tooltipContentChildren}</TooltipContent>
         </Tooltip>

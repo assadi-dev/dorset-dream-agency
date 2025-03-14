@@ -25,7 +25,7 @@ const TransactionPage = async ({ searchParams }: TransactionPageParams) => {
             <PageTemplate title="Location - Ventes" description="Gestion des locations et ventes">
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
-                        <SearchInputDataTable />
+                        <div></div>
                         <GestionLocationRightAction />
                     </div>
                 </section>

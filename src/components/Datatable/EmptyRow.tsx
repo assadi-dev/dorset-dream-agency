@@ -9,7 +9,7 @@ const EmptyRow = ({ columns }: EmptyProps) => {
     return (
         <TableRow>
             <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Aucun résultat trouvé pour votre recherche.
             </TableCell>
         </TableRow>
     );

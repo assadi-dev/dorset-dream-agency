@@ -13,6 +13,7 @@ type ButtonActionWithTooltipProps = {
         tooltipContent?: string;
         tooltipTextContent?: string;
     };
+    srOnly?: string;
 } & ButtonProps;
 const ButtonActionWithTooltip = ({
     label,
@@ -20,18 +21,24 @@ const ButtonActionWithTooltip = ({
     icon,
     side,
     classNames,
+    srOnly,
     ...props
 }: ButtonActionWithTooltipProps) => {
     const TooltipText = () => {
         return <p className={cn("text-sm text-black", classNames?.tooltipTextContent)}>{tooltipTitle}</p>;
     };
-    const Component = () => {
+    const Component = React.forwardRef((p: any, ref: React.LegacyRef<HTMLButtonElement>) => {
+        const mergeProps = { ...props };
+        delete mergeProps.onPointerDown;
+        delete mergeProps.onPointerLeave;
+        delete mergeProps.onPointerMove;
         return (
-            <Button {...props} className={cn("flex items-center gap-2", props.className)}>
+            <Button ref={ref} {...mergeProps} className={cn("flex items-center gap-2", props.className)}>
+                {srOnly && <span className="sr-only">{srOnly}</span>}
                 {icon ? icon : null} {label}
             </Button>
         );
-    };
+    });
 
     return withTooltip(Component, {
         tooltipContent: {
