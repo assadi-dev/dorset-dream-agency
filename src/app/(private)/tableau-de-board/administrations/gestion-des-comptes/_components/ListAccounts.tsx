@@ -12,6 +12,8 @@ import useGetRoleUser from "@/hooks/useRoleUser";
 import CheckBoxColumn from "@/components/Datatable/CheckBoxColumn";
 import useSelectTableRow from "@/hooks/useSelectTableRow";
 import AccountSelectedActions from "./AccountSelectedActions";
+import { Card, CardFooter } from "@/components/ui/card";
+import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 
 type ListAccountsProps = {
     accounts: Array<any>;
@@ -49,8 +51,11 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
         : [SelectColumns, ...columns];
 
     return (
-        <>
-            <div className="flex justify-between">
+        <Card className="px-2 bg-white">
+            <div className="my-5 flex justify-between items-center">
+                <div className="min-w-[25vw]">
+                    <SearchInputDataTable />
+                </div>
                 <div>
                     {itemChecked.length > 0 && (
                         <AccountSelectedActions selectedItems={itemChecked} resetSelected={reset} />
@@ -58,9 +63,14 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
                 </div>
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
-
             <DataTable columns={accountColumns} data={accounts} />
-        </>
+            <CardFooter>
+                <div className="flex items-center justify-between w-full">
+                    <div></div>
+                    <SimplePagination limit={limit} totalItems={totalItems} />
+                </div>
+            </CardFooter>
+        </Card>
     );
 };
 

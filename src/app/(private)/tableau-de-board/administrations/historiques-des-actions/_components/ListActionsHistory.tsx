@@ -8,13 +8,15 @@ import useGetRoleUser from "@/hooks/useRoleUser";
 import { CellColumn } from "@/app/types/ReactTable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
 import ActionUserDropdown from "./ActionUserDropdown";
-import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import RightFilterActions from "./RightFilterActions";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserActionCollection, INIT_DATE, QUERY_USERS_ACTIONS } from "../utils";
 import { useSearchParams } from "next/navigation";
 import { datetimeFormatWithoutSecISO8601 } from "@/lib/date";
-import { addDays } from "date-fns";
+import { Card, CardFooter } from "@/components/ui/card";
+import SimplePagination from "@/components/Paginations/SimplePagination";
+import { Separator } from "@/components/ui/separator";
+import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 
 const ListActionsHistory = () => {
     const dt = new Date();
@@ -54,10 +56,24 @@ const ListActionsHistory = () => {
     return (
         <div>
             <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] py-6 items-center gap-3">
-                <SearchInputDataTable />
-                <RightFilterActions totalItem={data?.totalItems || 0} />
+                <div></div>
             </div>
-            <DataTable columns={UserActionColumns} data={collections} isLoading={isFetching} />
+            <Card className="px-2 bg-white">
+                <div className="my-5 flex justify-between items-center">
+                    <div className="min-w-[25vw]">
+                        <SearchInputDataTable />
+                    </div>
+                    <RightFilterActions totalItem={data?.totalItems || 0} />
+                </div>
+                <DataTable columns={UserActionColumns} data={collections} isLoading={isFetching} />
+                <Separator className="my-3" />
+                <CardFooter>
+                    <div className="flex items-center justify-between w-full">
+                        <div></div>
+                        <SimplePagination totalItems={data?.totalItems || 0} limit={limit} />
+                    </div>
+                </CardFooter>
+            </Card>
         </div>
     );
 };

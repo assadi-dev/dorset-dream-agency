@@ -1,8 +1,5 @@
 "use client";
 import React from "react";
-import { Button } from "../ui/button";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
