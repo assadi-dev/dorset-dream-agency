@@ -97,16 +97,8 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <PrevButton
-                        onClick={handleClickPrevSlide}
-                        className="opacity-50"
-                        classNames={{ icon: "h-12 w-12" }}
-                    />
-                    <NextButton
-                        onClick={handleClickNextSlide}
-                        className="opacity-50"
-                        classNames={{ icon: "h-12 w-12" }}
-                    />
+                    <PrevButton onClick={handleClickPrevSlide} classNames={{ icon: "h-12 w-12" }} />
+                    <NextButton onClick={handleClickNextSlide} classNames={{ icon: "h-12 w-12" }} />
                 </div>
                 <div className="relative w-full  overflow-hidden   z-50 rounded-lg mt-1">
                     <Swiper
@@ -118,7 +110,10 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                         onSwiper={handleClickThumbs}
                     >
                         {gallery.map((thumb) => (
-                            <SwiperSlide key={thumb.id} className="opacity-50 transition-all duration-500">
+                            <SwiperSlide
+                                key={thumb.id}
+                                className="opacity-50 transition-all duration-500 cursor-pointer hover:opacity-100"
+                            >
                                 <ThumbItemProperty propertyName={propertyName || "???"} photo={thumb} />
                             </SwiperSlide>
                         ))}

@@ -1,7 +1,9 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { PropertyInfoType } from "../../schema";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { CircleDollarSignIcon, DollarSign } from "lucide-react";
+import formatThousands from "format-thousands";
 
 type CardRightDetailProps = {
     title: string;
@@ -26,7 +28,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
     const Stock = () => {
         if (typeof propertyInfo.stock === "number") {
             if (propertyInfo.stock === -1) return "Sur demande au sénat";
-            if (propertyInfo.stock > 0) return `${propertyInfo.stock} kg`;
+            if (propertyInfo.stock > 0) return `${formatThousands(propertyInfo.stock)} kg`;
             else return "Pas de coffre";
         } else {
             return "Pas de coffre";
@@ -37,45 +39,56 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
         const NEGATIVE_MESSAGE = mode === "vente" ? "Non achetable" : "non louable";
         if (!price) return "Prix non définis";
         if (price === -1) return NEGATIVE_MESSAGE;
-        if (price > 0) return `${price}$`;
+        if (price > 0) return `${formatThousands(price)}$`;
     };
 
     return (
         <Card className="w-full lg:h-[65vh]  p-1 xl:flex xl:flex-col xl:justify-between  shadow-lg bg-white">
-            <CardRightDetail title="TARIFS">
-                <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
-                    <div className="pl-5">
-                        <p className="font-semibold">Prix de location</p>
-                        <p className="font-bold">
-                            <Price price={propertyInfo.rentalPrice} mode="location" />
+            <CardHeader>
+                <h2 className="text-2xl font-semibold text-center text-muted-foreground">Fiche de renseignement</h2>
+            </CardHeader>
+            <CardContent className="flex flex-col justify-evenly gap-3 h-full">
+                <div>
+                    <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">Tarifs</p>
+                    <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
+                        <p className="flex items-center justify-between w-full">
+                            <span>Prix de vente:</span>{" "}
+                            <strong className="text-muted-foreground">
+                                {<Price price={propertyInfo.sellingPrice} mode="vente" />}
+                            </strong>
                         </p>
-                    </div>
-                    <Separator />
-                    <div className="pl-5">
-                        <p className="font-semibold">Prix de Vente</p>
-                        <p className="font-bold">
-                            <Price price={propertyInfo.sellingPrice} mode="vente" />
-                        </p>
-                    </div>
-                    <Separator />
-                </div>
-            </CardRightDetail>
-            <CardRightDetail title="Coffre">
-                <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
-                    <p className=" text-sm lg:text-lg font-semibold text-center">{<Stock />}</p>
-                </div>
-            </CardRightDetail>
 
-            <CardRightDetail title="INFORMATIONS">
-                <div className="p-5 text-sm lg:text-md text-slate-500 flex flex-wrap items-center justify-center gap-3">
-                    <span>
-                        Disponible: <strong>{isAvailable || "Non renseigné"}</strong>{" "}
-                    </span>
-                    <span>
-                        Meublé: <strong>{isFurnish || "Non renseigné"}</strong>
-                    </span>
+                        <p className="flex items-center w-full justify-between">
+                            <span>Prix de location:</span>{" "}
+                            <strong className="text-muted-foreground">
+                                {<Price price={propertyInfo.rentalPrice} mode="location" />}
+                            </strong>
+                        </p>
+                    </div>
                 </div>
-            </CardRightDetail>
+
+                <div className="">
+                    <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">Coffre</p>
+                    <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
+                        <p className="flex items-center justify-between">
+                            <span>Taille de stockage:</span>{" "}
+                            <strong className="text-muted-foreground">{<Stock />}</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div className="">
+                    <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">État</p>
+                    <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
+                        <p className="flex items-center justify-between">
+                            <span>Disponibilité:</span> <strong className="text-muted-foreground">{isAvailable}</strong>
+                        </p>
+                        <p className="flex items-center justify-between">
+                            <span>Meublé:</span> <strong className="text-muted-foreground">{isFurnish}</strong>
+                        </p>
+                    </div>
+                </div>
+            </CardContent>
         </Card>
     );
 };
