@@ -1,0 +1,19 @@
+.skeleton {
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-glow {
+    animation: loading 3.5s infinite;
+    background-size: 200% 100%;
+    -webkit-animation: loading 3.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

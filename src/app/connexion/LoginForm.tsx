@@ -13,6 +13,8 @@ import FormFieldInputPassword from "@/components/forms/FormFieldInputPassword";
 import { Form } from "@/components/ui/form";
 import Image from "next/image";
 import logo from "@assets/images/logo.png";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -38,11 +40,10 @@ const LoginForm = () => {
                 await signIn("credentials", {
                     username,
                     password,
-                    redirectTo: "/tableau-de-board",
+                    redirect: false,
                 });
 
-                /*       router.push("/tableau-de-board");
-                router.refresh(); */
+                router.replace("/tableau-de-board");
             } catch (error: any) {
                 form.setError("root", { message: "Identifiant ou mot de passe incorrect" });
                 throw error;
@@ -50,22 +51,48 @@ const LoginForm = () => {
         });
     };
 
+    const container = React.useRef<HTMLDivElement>();
+
+    useGSAP(
+        () => {
+            gsap.from(".credential-input", {
+                delay: 0.25,
+                opacity: 0,
+
+                repeat: 0,
+                x: -25,
+
+                ease: "expo.out",
+                duration: 2.5,
+                stagger: {
+                    each: 0.25,
+                },
+            });
+        },
+        { scope: container },
+    );
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSignIn)} className="md:w-[80%] p-10">
+            <form
+                onSubmit={form.handleSubmit(handleSignIn)}
+                className="login-form md:w-[80%] p-10 "
+                ref={container as any}
+            >
                 <div className="text--center w-full flex justify-center mb-10">
                     <Image src={logo} alt="Logo Dynasty 8" width={200} height={200} />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 min-h-8">
                     <FormFieldInput
                         control={form.control}
                         name="username"
                         placeholder="Email"
                         label="Email"
                         autoComplete="username"
+                        classNameFormItem="credential-input"
                     />
                 </div>
-                <div className="my-6 gap-3">
+                <div className="my-6 gap-3 min-h-8">
                     <FormFieldInputPassword
                         control={form.control}
                         name="password"
@@ -73,6 +100,7 @@ const LoginForm = () => {
                         autoComplete="current-password"
                         classNamButton="hover:text-secondary"
                         placeholder="Mot de passe"
+                        classNameFormItem="credential-input"
                     />
                 </div>
                 <div className="grid w-full items-center gap-1.5 shadow mt-12">

@@ -1,14 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PropertyCard from "./PropertyCard";
 import { useQuery } from "@tanstack/react-query";
-import { cleanDataForCarousel, cleanDataForSlides, getPropertiesPerCategoryApi } from "../../helper";
+import { cleanDataForSlides, getPropertiesPerCategoryApi } from "../../helper";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export type PropertiesCardSectionType = {
     id: number;
@@ -56,8 +53,29 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         },
     };
 
+    const container = React.useRef<HTMLDivElement>();
+
+    useGSAP(
+        () => {
+            gsap.from(".propertyBox", {
+                immediateRender: PROPERTIES.length > 0,
+                delay: 0.25,
+                opacity: 0,
+                repeat: 0,
+                scale: 0.7,
+
+                ease: "expo.out",
+                duration: 1,
+                stagger: {
+                    each: 0.2,
+                },
+            });
+        },
+        { scope: container, dependencies: [PROPERTIES.length] },
+    );
+
     return (
-        <div className="relative rounded-lg   w-full    overflow-hidden">
+        <div className="relative rounded-lg   w-full    overflow-hidden" ref={container as any}>
             <Swiper spaceBetween={0} slidesPerView={1} breakpoints={breakTest} className="h-full w-full">
                 {PROPERTIES.map((item) => (
                     <SwiperSlide key={item.id} className="px-1 py-5">

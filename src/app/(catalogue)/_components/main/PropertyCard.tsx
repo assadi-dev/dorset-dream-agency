@@ -34,7 +34,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         );
 
     return (
-        <Card className="group w-full p-1 h-full transition-shadow hover:shadow-lg relative ">
+        <Card className="propertyBox group w-full p-1 h-full transition-shadow hover:shadow-lg relative">
             <div className="overflow-hidden rounded-lg relative h-[180px] lg:h-[250px]">
                 <Image
                     src={property.cover}
@@ -47,7 +47,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
 
             <div className="p-2 flex flex-col justify-between gap-3 relative">
                 <p className="font-bold sm:text-sm lg:text-lg text-nowrap text-ellipsis max-w-[80%] overflow-hidden">
-                    {property.name}{" "}
+                    {property.name}
                 </p>
                 <PropertyBadges
                     isAvailable={property.isAvailable}
@@ -58,7 +58,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                     <div className="flex flex-col gap-1">
                         <p className="text-xs text-slate-600">Location - Vente</p>
                         <p className="font-bold text-xs lg:text-lg">
-                            {property.rentalPrice}$ - {sellingPrice}{" "}
+                            {property.rentalPrice}$ - {sellingPrice}
                         </p>
                     </div>
                     <Button
