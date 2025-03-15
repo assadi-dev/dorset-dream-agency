@@ -31,6 +31,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({
         queryKey: [`${category}-slides-section`],
         queryFn: () => getPropertiesPerCategoryApi(category, 10),
+        refetchInterval: 10 * 60 * 1000,
     });
 
     const PROPERTIES = React.useMemo<PropertyMemoType[]>(() => {
@@ -76,6 +77,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                     start: "top 85%",
                     end: () => `+=${window.innerHeight}`, // scrollTrigger will end when the element is fully visible
                     scrub: false,
+                    markers: true,
                 },
             });
         },

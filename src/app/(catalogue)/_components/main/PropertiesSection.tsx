@@ -26,8 +26,8 @@ const PropertiesSection = () => {
     const categoryQuery = useCategoryPropertiesOptions();
 
     const ENUM_PROPERTY_CATEGORIES = React.useMemo<categoryMemoType[]>(() => {
-        if (categoryQuery.data) return categoryQuery.data;
-        return [];
+        if (!categoryQuery.data) return [];
+        return categoryQuery.data;
     }, [categoryQuery.data]);
 
     const array = Array.from({ length: 6 }, (_, i) => i + 1);
