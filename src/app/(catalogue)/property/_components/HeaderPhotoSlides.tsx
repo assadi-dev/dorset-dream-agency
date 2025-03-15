@@ -79,8 +79,8 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
     };
 
     return (
-        <Card className="bg-white shadow-xl">
-            <CardContent className="p-3">
+        <Card className="bg-white shadow-xl group">
+            <CardContent className="p-3 ">
                 <div className="relative rounded-lg h-[280px] lg:h-[430px] xl:h-[480px]   overflow-hidden">
                     <Swiper
                         onInit={(swiper) => setSwiperState(swiper)}
@@ -99,11 +99,11 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                     </Swiper>
                     <PrevButton
                         onClick={handleClickPrevSlide}
-                        className="bg-primary-accent/50 hover:bg-primary-accent"
+                        className="bg-primary-accent/50 hover:bg-primary-accent opacity-0 group-hover:opacity-100 "
                         classNames={{ icon: "h-12 w-12 text-black" }}
                     />
                     <NextButton
-                        className="bg-primary-accent/50 hover:bg-primary-accent"
+                        className="bg-primary-accent/50 hover:bg-primary-accent opacity-0 group-hover:opacity-100"
                         onClick={handleClickNextSlide}
                         classNames={{ icon: "h-12 w-12 text-black" }}
                     />
