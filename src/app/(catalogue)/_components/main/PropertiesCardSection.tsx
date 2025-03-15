@@ -77,7 +77,6 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                     start: "top 85%",
                     end: () => `+=${window.innerHeight}`, // scrollTrigger will end when the element is fully visible
                     scrub: false,
-                    markers: true,
                 },
             });
         },
