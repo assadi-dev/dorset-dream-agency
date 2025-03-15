@@ -97,8 +97,16 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <PrevButton onClick={handleClickPrevSlide} classNames={{ icon: "h-12 w-12" }} />
-                    <NextButton onClick={handleClickNextSlide} classNames={{ icon: "h-12 w-12" }} />
+                    <PrevButton
+                        onClick={handleClickPrevSlide}
+                        className="bg-primary-accent/50 hover:bg-primary-accent"
+                        classNames={{ icon: "h-12 w-12 text-black" }}
+                    />
+                    <NextButton
+                        className="bg-primary-accent/50 hover:bg-primary-accent"
+                        onClick={handleClickNextSlide}
+                        classNames={{ icon: "h-12 w-12 text-black" }}
+                    />
                 </div>
                 <div className="relative w-full  overflow-hidden   z-50 rounded-lg mt-1">
                     <Swiper

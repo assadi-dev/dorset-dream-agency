@@ -6,7 +6,7 @@ type SlideButtonProps = React.HtmlHTMLAttributes<HTMLButtonElement> & {
 };
 export const SlideButton = ({ children, ...props }: SlideButtonProps) => {
     const initialClass =
-        "absolute p-1 grid place-items-center rounded-full top-[50%] translate-y-[-50%]  z-10 bg-white/35 drop-shadow-lg hover:bg-secondary text-white hover:text-black active:scale-[1.5] transition-all";
+        "absolute p-1 grid place-items-center rounded-full top-[50%] translate-y-[-50%]  z-10 bg-white/50 drop-shadow-lg hover:bg-secondary text-white hover:text-black active:scale-[1.5] transition-all";
     return (
         <button {...props} className={cn(initialClass, props.className)}>
             {children && children}

@@ -43,11 +43,13 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
     };
 
     return (
-        <Card className="w-full lg:h-[65vh]  p-1 xl:flex xl:flex-col xl:justify-between  shadow-lg bg-white">
-            <CardHeader>
-                <h2 className="text-2xl font-semibold text-center text-muted-foreground">Fiche de renseignement</h2>
+        <Card className="w-full  p-1 xl:flex xl:flex-col xl:justify-between  shadow-lg bg-white">
+            <CardHeader className="pb-0">
+                <h2 className="text-2xl font-semibold text-center text-muted-foreground">
+                    Aperçu des Caractéristiques
+                </h2>
             </CardHeader>
-            <CardContent className="flex flex-col justify-evenly gap-3 h-full">
+            <CardContent className="flex flex-col justify-evenly  gap-3 lg:min-h-[35vh] xl:min-h-[56vh]">
                 <div>
                     <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">Tarifs</p>
                     <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
@@ -67,7 +69,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                     </div>
                 </div>
 
-                <div className="">
+                <div>
                     <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">Coffre</p>
                     <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
                         <p className="flex items-center justify-between">
@@ -77,7 +79,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                     </div>
                 </div>
 
-                <div className="">
+                <div>
                     <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">État</p>
                     <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
                         <p className="flex items-center justify-between">
