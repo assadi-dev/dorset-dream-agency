@@ -4,6 +4,13 @@ import DescriptionProperty from "./_components/DescriptionProperty";
 import { Separator } from "@/components/ui/separator";
 import { getPropertyDetailForCatalogueWithGallery } from "@/database/drizzle/repositories/properties";
 import { formatTitlePage, setTitlePage } from "@/lib/utils";
+import { LucideMapPin } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import HeaderPhotoSlides from "./_components/HeaderPhotoSlides";
+import DescriptionLeftCol from "./_components/DescriptionLeftCol";
+import { extractDataForInfo } from "../schema";
+import HeaderRightDetails from "./_components/HeaderRightDetails";
+import DescriptionRightCol from "./_components/DescriptionRightCol";
 
 type SearchParams = {
     searchParams: {
@@ -22,18 +29,9 @@ const PropertyCatalog = async ({ searchParams }: SearchParams) => {
 
     return (
         <>
-            <HeaderSection property={property} />
-            <div className="mt-6">
-                <h1 className="text-lg md:text-2xl lg:text-3xl font-bold ">{property.name}</h1>
-                <p className="text-slate-500 text-xs lg:text-lg mt-1">
-                    {" "}
-                    {property.address || "Adresse non renseigné"}{" "}
-                </p>
-            </div>
-
-            <div className="min-h-[35vh] xl:max-w-[62vw] ">
-                <Separator className="my-6" />
-                <DescriptionProperty description={property.description} />
+            <div className="lg:grid lg:grid-cols-[55vw,1fr] gap-3">
+                <DescriptionLeftCol property={property} />
+                <DescriptionRightCol property={property} />
             </div>
         </>
     );

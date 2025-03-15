@@ -1,6 +1,7 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { PropertyInfoType } from "../../schema";
+import { Card } from "@/components/ui/card";
 
 type CardRightDetailProps = {
     title: string;
@@ -40,7 +41,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
     };
 
     return (
-        <div className="w-full h-full  p-1 xl:flex xl:flex-col xl:justify-between bg-slate-100/50  rounded-xl border border-slate-400 ">
+        <Card className="w-full lg:h-[65vh]  p-1 xl:flex xl:flex-col xl:justify-between  shadow-lg bg-white">
             <CardRightDetail title="TARIFS">
                 <div className="flex flex-col  w-full text-sm lg:text-lg py-3 lg:py-5  gap-3 text-slate-500">
                     <div className="pl-5">
@@ -75,7 +76,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                     </span>
                 </div>
             </CardRightDetail>
-        </div>
+        </Card>
     );
 };
 

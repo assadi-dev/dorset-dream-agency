@@ -5,6 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/thumbs";
 import { Thumbs } from "swiper/modules";
 import { GalleryObjectType } from "../../schema";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronLeftCircle, icons } from "lucide-react";
+import { NextButton, PrevButton, SlideButton } from "./SlideActions";
+import { Swiper as SwiperCore } from "swiper/types";
 
 type ItemSlideProperty = {
     propertyName: string;
@@ -27,7 +32,7 @@ const SlideItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
 
 const ThumbItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
     return (
-        <div className="rounded-lg overflow-hidden relative h-[62px] sm:h-[100px]">
+        <div className="rounded-lg overflow-hidden relative h-[62px] sm:h-[100px] transition-all">
             <Image
                 src={photo.url}
                 alt={`thumb  ${photo.originalName} of property ${propertyName || "???"}`}
@@ -47,6 +52,8 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     const handleClickThumbs = (value: any) => setThumbsSwiper(value);
 
+    const [swiperState, setSwiperState] = React.useState<SwiperCore>();
+
     const breakPoint = {
         1536: {
             slidesPerView: 5,
@@ -62,41 +69,63 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
         },
     };
 
+    const handleClickNextSlide = () => {
+        if (!swiperState) return;
+        swiperState.slideNext();
+    };
+    const handleClickPrevSlide = () => {
+        if (!swiperState) return;
+        swiperState.slidePrev();
+    };
+
     return (
-        <div className=" xl:max-w-[72vw] 2xl:max-w-[65vw] ">
-            <div className="relative rounded-lg h-[280px] lg:h-[430px] xl:h-[480px]  bg-slate-100 shadow-lg overflow-hidden">
-                <Swiper
-                    loop={true}
-                    spaceBetween={0}
-                    slidesPerView={1}
-                    modules={[Thumbs]}
-                    thumbs={{ swiper: thumbsSwiper }}
-                    className="h-full w-full"
-                >
-                    {gallery.map((photo) => (
-                        <SwiperSlide key={photo.id}>
-                            <SlideItemProperty propertyName={propertyName || "???"} photo={photo} />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-            <div className="w-full p-1 overflow-hidden bg-primary backdrop-blur-sm   z-50 rounded-lg mt-1">
-                <Swiper
-                    spaceBetween={5}
-                    slidesPerView={3}
-                    breakpoints={breakPoint}
-                    modules={[Thumbs]}
-                    watchSlidesProgress
-                    onSwiper={handleClickThumbs}
-                >
-                    {gallery.map((thumb) => (
-                        <SwiperSlide key={thumb.id}>
-                            <ThumbItemProperty propertyName={propertyName || "???"} photo={thumb} />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-        </div>
+        <Card className="bg-white shadow-xl">
+            <CardContent className="p-3">
+                <div className="relative rounded-lg h-[280px] lg:h-[430px] xl:h-[480px]   overflow-hidden">
+                    <Swiper
+                        onInit={(swiper) => setSwiperState(swiper)}
+                        loop={true}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        modules={[Thumbs]}
+                        thumbs={{ swiper: thumbsSwiper }}
+                        className="h-full w-full"
+                    >
+                        {gallery.map((photo) => (
+                            <SwiperSlide key={photo.id}>
+                                <SlideItemProperty propertyName={propertyName || "???"} photo={photo} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                    <PrevButton
+                        onClick={handleClickPrevSlide}
+                        className="opacity-50"
+                        classNames={{ icon: "h-12 w-12" }}
+                    />
+                    <NextButton
+                        onClick={handleClickNextSlide}
+                        className="opacity-50"
+                        classNames={{ icon: "h-12 w-12" }}
+                    />
+                </div>
+                <div className="relative w-full  overflow-hidden   z-50 rounded-lg mt-1">
+                    <Swiper
+                        spaceBetween={5}
+                        slidesPerView={3}
+                        breakpoints={breakPoint}
+                        modules={[Thumbs]}
+                        watchSlidesProgress
+                        onSwiper={handleClickThumbs}
+                    >
+                        {gallery.map((thumb) => (
+                            <SwiperSlide key={thumb.id} className="opacity-50 transition-all duration-500">
+                                <ThumbItemProperty propertyName={propertyName || "???"} photo={thumb} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+            </CardContent>
+        </Card>
     );
 };
 
