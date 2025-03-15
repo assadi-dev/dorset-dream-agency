@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { cleanDataForSlides, getPropertiesPerCategoryApi } from "../../helper";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export type PropertiesCardSectionType = {
     id: number;
@@ -30,7 +31,6 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({
         queryKey: [`${category}-slides-section`],
         queryFn: () => getPropertiesPerCategoryApi(category, 10),
-        refetchInterval: 10 * 60 * 1000,
     });
 
     const PROPERTIES = React.useMemo<PropertyMemoType[]>(() => {
@@ -54,20 +54,29 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     };
 
     const container = React.useRef<HTMLDivElement>();
+    gsap.registerPlugin(ScrollTrigger);
 
     useGSAP(
         () => {
-            gsap.from(".propertyBox", {
+            if (!container.current) return;
+            const boxes = container.current?.querySelectorAll(".propertyBox");
+            gsap.from(boxes, {
                 immediateRender: PROPERTIES.length > 0,
                 delay: 0.25,
                 opacity: 0,
                 repeat: 0,
                 scale: 0.7,
-
                 ease: "expo.out",
-                duration: 1,
+                duration: 1.5,
                 stagger: {
                     each: 0.2,
+                },
+                scrollTrigger: {
+                    trigger: boxes,
+                    start: "top 85%",
+                    end: () => `+=${window.innerHeight}`,
+                    markers: true,
+                    scrub: false,
                 },
             });
         },

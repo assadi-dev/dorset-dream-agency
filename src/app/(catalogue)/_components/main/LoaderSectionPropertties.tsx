@@ -24,7 +24,7 @@ const LoaderSectionProperties = () => {
     return (
         <div className="mt-5">
             <Skeleton className="h-8 w-[25vw] rounded-xl shadow-lg bg-green-950 my-5 " />
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-3 h-[18rem] justify-center">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-3 h-[25rem] justify-center">
                 {array.map((v) => (
                     <div className="h-full" key={v}>
                         <Skeleton className="h-full w-full rounded-xl shadow-lg bg-green-950" />
