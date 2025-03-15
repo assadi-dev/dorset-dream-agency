@@ -61,7 +61,6 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
                         <AccountSelectedActions selectedItems={itemChecked} resetSelected={reset} />
                     )}
                 </div>
-                <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
             <DataTable columns={accountColumns} data={accounts} />
             <CardFooter>
