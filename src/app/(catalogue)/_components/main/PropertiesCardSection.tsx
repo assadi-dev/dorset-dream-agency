@@ -74,8 +74,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
                 scrollTrigger: {
                     trigger: boxes,
                     start: "top 85%",
-                    end: () => `+=${window.innerHeight}`,
-                    markers: true,
+                    end: () => `+=${window.innerHeight}`, // scrollTrigger will end when the element is fully visible
                     scrub: false,
                 },
             });
