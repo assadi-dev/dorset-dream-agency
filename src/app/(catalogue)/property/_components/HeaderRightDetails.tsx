@@ -9,13 +9,13 @@ type CardRightDetailProps = {
     title: string;
     children: React.ReactNode;
 };
-const CardRightDetail = ({ title, children }: CardRightDetailProps) => {
+const CardDetail = ({ title, children }: CardRightDetailProps) => {
     return (
         <div>
-            <div className="w-full p-1 lg:p-3 bg-slate-200/50 border border-slate-300  text-zinc-900 rounded-lg  text-center">
-                <h1 className="text-lg lg:text-xl font-semibold">{title}</h1>
+            <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">{title}</p>
+            <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
+                {children}
             </div>
-            {children}
         </div>
     );
 };
@@ -50,46 +50,36 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                 </h2>
             </CardHeader>
             <CardContent className="flex flex-col justify-evenly  gap-3 lg:min-h-[35vh] xl:min-h-[56vh]">
-                <div>
-                    <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">Tarifs</p>
-                    <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
-                        <p className="flex items-center justify-between w-full">
-                            <span>Prix de vente:</span>{" "}
-                            <strong className="text-muted-foreground">
-                                {<Price price={propertyInfo.sellingPrice} mode="vente" />}
-                            </strong>
-                        </p>
+                <CardDetail title="Tarifs">
+                    <p className="flex items-center justify-between w-full">
+                        <span>Prix de vente:</span>
+                        <strong className="text-muted-foreground">
+                            {<Price price={propertyInfo.sellingPrice} mode="vente" />}
+                        </strong>
+                    </p>
 
-                        <p className="flex items-center w-full justify-between">
-                            <span>Prix de location:</span>{" "}
-                            <strong className="text-muted-foreground">
-                                {<Price price={propertyInfo.rentalPrice} mode="location" />}
-                            </strong>
-                        </p>
-                    </div>
-                </div>
+                    <p className="flex items-center w-full justify-between">
+                        <span>Prix de location:</span>
+                        <strong className="text-muted-foreground">
+                            {<Price price={propertyInfo.rentalPrice} mode="location" />}
+                        </strong>
+                    </p>
+                </CardDetail>
 
-                <div>
-                    <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">Coffre</p>
-                    <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
-                        <p className="flex items-center justify-between">
-                            <span>Taille de stockage:</span>{" "}
-                            <strong className="text-muted-foreground">{<Stock />}</strong>
-                        </p>
-                    </div>
-                </div>
+                <CardDetail title="Coffre">
+                    <p className="flex items-center justify-between">
+                        <span>Taille de stockage:</span> <strong className="text-muted-foreground">{<Stock />}</strong>
+                    </p>
+                </CardDetail>
 
-                <div>
-                    <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">État</p>
-                    <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
-                        <p className="flex items-center justify-between">
-                            <span>Disponibilité:</span> <strong className="text-muted-foreground">{isAvailable}</strong>
-                        </p>
-                        <p className="flex items-center justify-between">
-                            <span>Meublé:</span> <strong className="text-muted-foreground">{isFurnish}</strong>
-                        </p>
-                    </div>
-                </div>
+                <CardDetail title="État">
+                    <p className="flex items-center justify-between">
+                        <span>Disponibilité:</span> <strong className="text-muted-foreground">{isAvailable}</strong>
+                    </p>
+                    <p className="flex items-center justify-between">
+                        <span>Meublé:</span> <strong className="text-muted-foreground">{isFurnish}</strong>
+                    </p>
+                </CardDetail>
             </CardContent>
         </Card>
     );

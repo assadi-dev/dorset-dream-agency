@@ -1,6 +1,7 @@
 import React from "react";
 import HeaderRightDetails from "./HeaderRightDetails";
 import { extractDataForInfo } from "../../schema";
+import PropertyLightGallery from "./PropertyLightGallery";
 
 type DescriptionRightColProp = {
     property: any;
@@ -11,6 +12,7 @@ const DescriptionRightCol = ({ property }: DescriptionRightColProp) => {
     return (
         <div className="flex flex-col gap-5 min-h-screen">
             <HeaderRightDetails propertyInfo={propertyInfo} />
+            {property && <PropertyLightGallery property={property} />}
         </div>
     );
 };
