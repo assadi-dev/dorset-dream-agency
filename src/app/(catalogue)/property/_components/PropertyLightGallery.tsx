@@ -3,8 +3,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import React from "react";
 import "photoswipe/dist/photoswipe.css";
 import { Gallery, Item } from "react-photoswipe-gallery";
-import { DataSource } from "photoswipe";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import GalleryLoader from "./GalleryLoader";
 
 type GalleryProperty = {
@@ -20,7 +18,7 @@ type PropertyLightGalleryProps = {
     };
 };
 
-type DataSourceType = GalleryProperty & {
+type DataSourceType = {
     sourceId: number;
     original: string;
     thumbnail: string;
@@ -45,7 +43,6 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
 
                     const setPhoto = () => {
                         photoReady.add({
-                            ...photo,
                             width: img.width,
                             height: img.height,
                             original: photo.url,
@@ -76,7 +73,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                 setDataSource(res);
             });
         }
-    }, [property.gallery.length, dataSource.length]);
+    }, [property.gallery.length]);
 
     return (
         <Card>
@@ -84,24 +81,26 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                 <h2 className="text-2xl font-semibold text-center text-muted-foreground">Galleries</h2>
             </CardHeader>
             <CardContent className="min-h-[15rem]">
-                {!isPending ? (
-                    <Gallery>
+                {!isPending && dataSource.length > 0 ? (
+                    <Gallery dataSource={dataSource}>
                         <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))]  2xl:grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 ">
                             {dataSource.length > 0
-                                ? dataSource.map((image) => (
+                                ? dataSource.slice(0, 4).map((image) => (
                                       <Item<HTMLImageElement>
-                                          key={image.id}
+                                          key={image.sourceId}
                                           width={image.width}
                                           height={image.height}
                                           original={image.original}
                                           thumbnail={image.thumbnail}
+                                          sourceId={image.sourceId}
                                       >
                                           {({ ref, open }) => (
+                                              // eslint-disable-next-line @next/next/no-img-element
                                               <img
                                                   ref={ref}
                                                   onClick={open}
                                                   src={image.original}
-                                                  alt={`${image.originalName}`}
+                                                  alt={`${image.alt}`}
                                                   className="rounded-lg cursor-pointer"
                                               />
                                           )}
