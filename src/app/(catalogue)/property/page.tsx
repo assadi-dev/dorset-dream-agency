@@ -29,7 +29,7 @@ const PropertyCatalog = async ({ searchParams }: SearchParams) => {
 
     return (
         <>
-            <div className="lg:grid lg:grid-cols-[55vw,1fr] gap-3">
+            <div className="grid grid-rows-[repeat(auto-fit,minmax(auto,1fr))] grid-cols-1 gap-5  lg:grid-cols-[55vw,1fr] lg:gap-3">
                 <DescriptionLeftCol property={property} />
                 <DescriptionRightCol property={property} />
             </div>
