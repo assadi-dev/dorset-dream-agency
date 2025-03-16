@@ -2,17 +2,20 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { PropertyInfoType } from "../../schema";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CircleDollarSignIcon, DollarSign } from "lucide-react";
+import { CircleDollarSignIcon, DollarSign, Home, Sofa, Weight } from "lucide-react";
 import formatThousands from "format-thousands";
 
 type CardRightDetailProps = {
     title: string;
+    icon?: React.ReactNode;
     children: React.ReactNode;
 };
-const CardDetail = ({ title, children }: CardRightDetailProps) => {
+const CardDetail = ({ icon, title, children }: CardRightDetailProps) => {
     return (
         <div>
-            <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground">{title}</p>
+            <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground flex items-center gap-2">
+                {icon && icon} {title}
+            </p>
             <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent">
                 {children}
             </div>
@@ -50,7 +53,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                 </h2>
             </CardHeader>
             <CardContent className="flex flex-col justify-evenly  gap-3 lg:min-h-[35vh] xl:min-h-[56vh]">
-                <CardDetail title="Tarifs">
+                <CardDetail icon={<DollarSign className="h-5 w-5" />} title="Tarifs">
                     <p className="flex items-center justify-between w-full">
                         <span>Prix de vente:</span>
                         <strong className="text-muted-foreground">
@@ -66,13 +69,13 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
                     </p>
                 </CardDetail>
 
-                <CardDetail title="Coffre">
+                <CardDetail icon={<Weight className="h-5 w-5" />} title="Coffre">
                     <p className="flex items-center justify-between">
                         <span>Taille de stockage:</span> <strong className="text-muted-foreground">{<Stock />}</strong>
                     </p>
                 </CardDetail>
 
-                <CardDetail title="État">
+                <CardDetail icon={<Sofa className="h-5 w-5" />} title="État">
                     <p className="flex items-center justify-between">
                         <span>Disponibilité:</span> <strong className="text-muted-foreground">{isAvailable}</strong>
                     </p>
