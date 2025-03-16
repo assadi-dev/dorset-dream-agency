@@ -102,7 +102,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                                                   onClick={open}
                                                   src={image.original}
                                                   alt={`${image.originalName}`}
-                                                  className="rounded-lg"
+                                                  className="rounded-lg cursor-pointer"
                                               />
                                           )}
                                       </Item>
