@@ -97,16 +97,6 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <PrevButton
-                        onClick={handleClickPrevSlide}
-                        className="bg-primary-accent/50 hover:bg-primary-accent opacity-0 group-hover:opacity-100 "
-                        classNames={{ icon: "h-12 w-12 text-black" }}
-                    />
-                    <NextButton
-                        className="bg-primary-accent/50 hover:bg-primary-accent opacity-0 group-hover:opacity-100"
-                        onClick={handleClickNextSlide}
-                        classNames={{ icon: "h-12 w-12 text-black" }}
-                    />
                 </div>
                 <div className="relative w-full  overflow-hidden   z-50 rounded-lg mt-1">
                     <Swiper
@@ -126,6 +116,16 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                    <PrevButton
+                        onClick={handleClickPrevSlide}
+                        className="bg-primary-accent/50 hover:bg-primary-accent 2xl:opacity-0 group-hover:opacity-100 "
+                        classNames={{ icon: "lg:h-8 lg:w-8 text-black" }}
+                    />
+                    <NextButton
+                        className="bg-primary-accent/50 hover:bg-primary-accent opacity-0 group-hover:opacity-100"
+                        onClick={handleClickNextSlide}
+                        classNames={{ icon: "lg:h-8 lg:w-8 text-black" }}
+                    />
                 </div>
             </CardContent>
         </Card>
