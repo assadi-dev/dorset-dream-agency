@@ -40,15 +40,15 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     }, [data]);
 
     const breakTest = {
-        768: {
-            slidesPerView: 3,
+        586: {
+            slidesPerView: 2,
             spaceBetween: 3,
         },
         1024: {
             slidesPerView: 3,
             spaceBetween: 5,
         },
-        1280: {
+        1536: {
             slidesPerView: 4,
             spaceBetween: 5,
         },

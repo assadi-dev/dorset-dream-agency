@@ -35,7 +35,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 Non achetable
             </span>
         );
-    const CONTAINER_IMAGE_CLASS = "overflow-hidden rounded-lg relative h-[180px] lg:h-[250px]";
+    const CONTAINER_IMAGE_CLASS = "overflow-hidden rounded-lg relative h-[250px] lg:h-[30vh]";
     const IMAGE_CLASS =
         "h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform group-hover:scale-[1.2] group-hover:brightness-75";
 
