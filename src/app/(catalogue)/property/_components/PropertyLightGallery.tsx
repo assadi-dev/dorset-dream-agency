@@ -76,7 +76,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                 setDataSource(res);
             });
         }
-    }, [property.gallery.length]);
+    }, [property.gallery]);
     const container = React.useRef<HTMLDivElement>();
 
     gsap.registerPlugin(ScrollTrigger);
@@ -112,7 +112,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                 );
             }
         },
-        { scope: container, dependencies: [dataSource, isPending] },
+        { scope: container, dependencies: [dataSource, isPending], revertOnUpdate: true },
     );
 
     return (
