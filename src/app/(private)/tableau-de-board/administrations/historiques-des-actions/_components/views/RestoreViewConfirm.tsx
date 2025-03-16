@@ -6,7 +6,7 @@ import { restoreFunctions } from "../../../corbeille/helpers";
 
 const RestoreViewConfirm = () => {
     const { payload, closeModal } = useModalState();
-    const { refresh } = useRouteRefresh();
+    const { refreshWithParams } = useRouteRefresh();
     const handleCancel = () => {
         closeModal();
     };
@@ -15,7 +15,7 @@ const RestoreViewConfirm = () => {
         const entity = payload.entity as keyof typeof restoreFunctions;
         await restoreFunctions[entity](payload);
         closeModal();
-        refresh();
+        refreshWithParams();
     };
     return (
         <div>

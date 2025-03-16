@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import formatThousands from "format-thousands";
 import { CircleCheck, CircleCheckBig, CircleX, SofaIcon, Weight } from "lucide-react";
 import React from "react";
 type PropertyBadgesProps = {
@@ -39,7 +40,7 @@ export const AvailableBadge = ({ isAvailable }: { isAvailable: boolean }) => {
 };
 
 export const StockageBadges = ({ stock }: { stock: number | null }) => {
-    const STOCK_LABEL = (stock && stock > 0 && `${stock} kg`) || "Pas de coffre";
+    const STOCK_LABEL = (stock && stock > 0 && `${formatThousands(stock)} kg`) || "Pas de coffre";
     return (
         <p className="flex items-center gap-1  text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded border border-gray-400">
             <Weight className="w-3 h-3" />

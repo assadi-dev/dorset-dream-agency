@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PropertyBadges } from "./PropertyBadge";
 import { HandCoins, Handshake } from "lucide-react";
 import formatThousands from "format-thousands";
+import { cn } from "@/lib/utils";
 
 type PropertyItemType = {
     id: number;
@@ -30,21 +31,31 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         property.sellingPrice !== -1 ? (
             formatThousands(property.sellingPrice) + "$"
         ) : (
-            <span className="px-2 py-1 ring-1 ring-destructive rounded text-xs lg:text-sm  text-destructive bg-red-100">
+            <span className="text-xs lg:text-sm  font-semibold text-destructive bg-red-100 px-2 border py-0.5 border-red-800 rounded drop-shadow-lg">
                 Non achetable
             </span>
         );
+    const CONTAINER_IMAGE_CLASS = "overflow-hidden rounded-lg relative h-[180px] lg:h-[250px]";
+    const IMAGE_CLASS =
+        "h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform group-hover:scale-[1.2] group-hover:brightness-75";
 
     return (
         <Card className="propertyBox group w-full p-1 h-full transition-shadow hover:shadow-lg relative">
-            <div className="overflow-hidden rounded-lg relative h-[180px] lg:h-[250px]">
+            <div className={cn(CONTAINER_IMAGE_CLASS)}>
                 <Image
                     src={property.cover}
                     alt={`cover of property ${property.name}`}
                     width={1200}
                     height={720}
-                    className="h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform group-hover:scale-[1.2] group-hover:brightness-75"
+                    className={cn(IMAGE_CLASS, {
+                        grayscale: !property.isAvailable,
+                    })}
                 />
+                {!property.isAvailable && (
+                    <p className="absolute z-10 top-[50%] translate-[-50%] font-bold lg:text-lg text-white left-[50%] translate-x-[-50%] bg-destructive p-3 rounded-lg">
+                        Indisponible
+                    </p>
+                )}
             </div>
 
             <div className="p-2 flex flex-col justify-between gap-3 relative">
