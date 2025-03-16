@@ -55,21 +55,29 @@ const LoginForm = () => {
 
     useGSAP(
         () => {
-            gsap.from(".credential-input", {
-                delay: 0.25,
-                opacity: 0,
-
-                repeat: 0,
-                x: -25,
-
-                ease: "expo.out",
-                duration: 2.5,
-                stagger: {
-                    each: 0.25,
+            const boxes = container.current?.querySelectorAll(".credential-input");
+            if (!boxes?.length) return;
+            gsap.fromTo(
+                boxes,
+                {
+                    opacity: 0,
+                    repeat: 0,
+                    x: -25,
                 },
-            });
+                {
+                    opacity: 1,
+                    repeat: 0,
+                    x: 0,
+
+                    ease: "expo.out",
+                    duration: 2.5,
+                    stagger: {
+                        each: 0.25,
+                    },
+                },
+            );
         },
-        { scope: container },
+        { scope: container, revertOnUpdate: true },
     );
 
     return (
@@ -89,7 +97,7 @@ const LoginForm = () => {
                         placeholder="Email"
                         label="Email"
                         autoComplete="username"
-                        classNameFormItem="credential-input"
+                        classNameFormItem="credential-input opacity-0"
                     />
                 </div>
                 <div className="my-6 gap-3 min-h-8">
@@ -100,7 +108,7 @@ const LoginForm = () => {
                         autoComplete="current-password"
                         classNamButton="hover:text-secondary"
                         placeholder="Mot de passe"
-                        classNameFormItem="credential-input"
+                        classNameFormItem="credential-input opacity-0"
                     />
                 </div>
                 <div className="grid w-full items-center gap-1.5 shadow mt-12">
