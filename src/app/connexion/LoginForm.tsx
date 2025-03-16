@@ -57,16 +57,24 @@ const LoginForm = () => {
         () => {
             const boxes = container.current?.querySelectorAll(".credential-input");
             if (!boxes?.length) return;
-            gsap.to(boxes, {
-                opacity: 1,
-                repeat: 0,
-                x: 25,
-                ease: "expo.out",
-                duration: 2.5,
-                stagger: {
-                    each: 0.25,
+            gsap.fromTo(
+                boxes,
+                {
+                    opacity: 0,
+                    repeat: 0,
+                    x: -50,
                 },
-            });
+                {
+                    opacity: 1,
+                    repeat: 0,
+                    x: 0,
+                    ease: "expo.out",
+                    duration: 2.5,
+                    stagger: {
+                        each: 0.25,
+                    },
+                },
+            );
         },
         { scope: container, revertOnUpdate: true },
     );
