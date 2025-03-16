@@ -51,7 +51,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                             alt: photo.originalName,
                         });
                         img.removeEventListener("load", setPhoto);
-                        // img.remove();
+                        img.remove();
                         resolveImage();
                     };
 
