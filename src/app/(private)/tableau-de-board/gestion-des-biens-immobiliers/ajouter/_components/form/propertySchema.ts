@@ -14,6 +14,7 @@ export const propertySchema = z.object({
     categoryProperty: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }).or(z.string()).optional().nullable(),
     isAvailable: z.boolean(),
     stock: z.coerce.number().optional(),
+    typeStock: z.coerce.number(),
     variants: z.array(
         z.object({
             id: z.coerce.number().or(z.string()).optional().nullable(),

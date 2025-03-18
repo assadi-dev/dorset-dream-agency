@@ -15,21 +15,11 @@ type StockChoiceProps = {
 const StockChoice = ({ label, className }: StockChoiceProps) => {
     const { getValues, setValue, control } = useFormContext<propertyFormType>();
     const [stock] = React.useState<number>(getValues("stock") as number);
-    const [choice, setChoice] = React.useState<number>(stock > 0 ? 1 : stock);
+    const [choice, setChoice] = React.useState<number>(getValues("typeStock") as number);
 
     const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
-        switch (value) {
-            case -1:
-                setValue("stock", value);
-                break;
-            case 0:
-                setValue("stock", value);
-                break;
-            default:
-                setValue("stock", stock);
-                break;
-        }
+        setValue("typeStock", value);
         setChoice(value);
     };
 

@@ -33,6 +33,7 @@ const AddProperty = () => {
             rentalPrice: 0,
             variants: [],
             stock: 0,
+            typeStock: 0,
         },
     });
 
@@ -40,12 +41,11 @@ const AddProperty = () => {
         startTransition(async () => {
             try {
                 if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
+                if (Number(values.typeStock) < 1) values.stock = values.typeStock;
                 await wait(1000);
-
                 if (values.variants && values.variants.length > 0) {
                     const validateInputs = await createPropertyDto(values);
                     if (validateInputs.error) throw validateInputs.error;
-
                     const property = await insertProperty(validateInputs.data);
                     const propertyID = String(property.id);
                     for (const variant of values.variants) {

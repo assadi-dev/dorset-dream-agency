@@ -37,6 +37,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
             rentalPrice: 0,
             variants: [],
             stock: 0,
+            typeStock: 0,
             ...defaultValues,
         },
     });
@@ -46,6 +47,8 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
             try {
                 if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
                 await wait(1000);
+                console.log(values.stock);
+                if (Number(values.typeStock) < 1) values.stock = values.typeStock;
 
                 if (values.variants && values.variants.length > 0) {
                     const validateInputs = await createPropertyDto(values);

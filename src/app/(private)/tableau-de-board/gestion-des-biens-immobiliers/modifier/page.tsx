@@ -40,6 +40,7 @@ const EditPropertyPage = async ({ searchParams }: Params) => {
             isAvailable: propertyFound.isAvailable,
             isFurnish: propertyFound.isFurnish,
             stock: propertyFound.stock,
+            typeStock: propertyFound.stock > 0 ? 1 : propertyFound.stock,
             variants: retrieveVariants,
         } satisfies propertyFormType;
 
