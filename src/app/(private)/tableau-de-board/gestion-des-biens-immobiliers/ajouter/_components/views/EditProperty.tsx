@@ -14,6 +14,7 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { updatePropertyApi, updateVariantGalleryApi } from "../form/helpers";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
+import { Card } from "@/components/ui/card";
 
 type EditPropertyProps = {
     propertyID: number | string;
@@ -96,17 +97,18 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
         <FormProvider {...form}>
             <ModalProvider>
                 <form onSubmit={form.handleSubmit(processing)}>
-                    <div className="lg:grid lg:grid-cols-[0.82fr,1fr] h-[calc(95vh-200px)] pt-3 gap-3">
-                        <ScrollArea className="w-full">
-                            <PropertyForm form={form} className="px-8" />
-                        </ScrollArea>
-                        <div>
-                            <div className="flex justify-end">
-                                <SubmitButton isLoading={isPending}>{SUBMIT_BUTTON}</SubmitButton>
-                            </div>
-                            <div className="p-3 max-h-[calc(90vh-200px)] overflow-hidden ">
-                                <AddVariantProperty />
-                            </div>
+                    <div className="flex justify-end w-full">
+                        <SubmitButton isLoading={isPending}>{SUBMIT_BUTTON}</SubmitButton>
+                    </div>
+                    <div className="lg:grid lg:grid-cols-[0.82fr,1fr] h-[78vh] gap-5 items-center py-5">
+                        <Card className="bg-white shadow-lg h-full">
+                            <ScrollArea className="w-full h-full">
+                                <PropertyForm form={form} className="h-full p-5" />
+                            </ScrollArea>
+                        </Card>
+
+                        <div className="h-full overflow-hidden">
+                            <AddVariantProperty />
                         </div>
                     </div>
                 </form>

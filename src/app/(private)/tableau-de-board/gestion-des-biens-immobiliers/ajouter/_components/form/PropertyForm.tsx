@@ -2,13 +2,14 @@
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import FormFieldSwitch from "@/components/forms/FormFieldSwitch";
-import { PURCHASE_TYPE } from "@/config/enums";
 import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { FieldValues, UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { propertyFormType } from "./propertySchema";
 import FormFieldTextarea from "@/components/forms/FormFieldTextarea";
+import { CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import StockChoice from "./StockChoice";
 
 type PropertyFormProps = React.HTMLAttributes<HTMLDivElement> & {
     form: UseFormReturn<propertyFormType>;
@@ -22,7 +23,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
     }, [categoryQuery.data]);
 
     return (
-        <div {...props}>
+        <CardContent {...props} className={cn("h-full", props.className)}>
             <div className="mb-3 lg:grid lg:grid-cols-2 gap-3">
                 <FormFieldInput control={form.control} name="name" label="Nom" placeholder="Nom du bien immobilier" />
                 <FormFieldSelect
@@ -88,15 +89,9 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                 />
             </div>
             <div className="mb-3">
-                <FormFieldInput
-                    control={form.control}
-                    name="stock"
-                    label="Stockage en kg"
-                    description="Entrer la valeur en nombre. Entrez 0 pour pas de coffre ou -1 pour sur demande"
-                    type="number"
-                />
+                <StockChoice label="Stockage en kg" />
             </div>
-        </div>
+        </CardContent>
     );
 };
 

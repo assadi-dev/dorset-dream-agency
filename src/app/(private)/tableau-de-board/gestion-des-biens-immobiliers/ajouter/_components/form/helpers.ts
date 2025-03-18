@@ -26,3 +26,24 @@ export const updateVariantGalleryApi = async (formData: FormData) => {
 export const removeVariantWithGalleryApi = (ids: number[]) => {
     return API_INSTANCE.delete("/variants/gallery");
 };
+
+export const STOCKAGE_VALUE = {
+    no: 0,
+    other: -1,
+    yes: 1,
+};
+
+export const STOCKAGE_RADIO_LIST = [
+    {
+        label: "Pas de coffre ",
+        value: STOCKAGE_VALUE.no,
+    },
+    {
+        label: "Sur demande",
+        value: STOCKAGE_VALUE.other,
+    },
+    {
+        label: "Avec coffre",
+        value: STOCKAGE_VALUE.yes,
+    },
+];
