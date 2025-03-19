@@ -100,7 +100,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const SIZE_ICON = `h-[2.5em] w-[2.5rem] lg:h-[3rem] lg:w-[3rem]`;
 
     return (
-        <div className="relative rounded-lg w-full group" ref={container as any}>
+        <div className="relative rounded-lg w-full group/parent" ref={container as any}>
             <Swiper
                 onInit={(swiper) => (swiperRef.current = swiper)}
                 spaceBetween={0}
@@ -116,11 +116,11 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
             </Swiper>
             <PrevButton
                 onClick={handleClickPrevSlide}
-                className="bg-slate-50 hover:bg-primary-accent  group-hover:opacity-100 translate-x-[-35%] lg:translate-x-[-50%] shadow-xl 2xl:opacity-0 transition-all duration-500"
+                className="bg-slate-50 hover:bg-primary-accent  group-hover/parent:opacity-100 translate-x-[-35%] lg:translate-x-[-50%] shadow-xl 2xl:opacity-0 transition-all duration-500"
                 classNames={{ icon: cn(SIZE_ICON, `text-black `) }}
             />
             <NextButton
-                className="bg-slate-50 hover:bg-primary-accent  group-hover:opacity-100 translate-x-[35%]  lg:translate-x-[50%] shadow-xl 2xl:opacity-0 transition-all duration-500"
+                className="bg-slate-50 hover:bg-primary-accent  group-hover/parent:opacity-100 translate-x-[35%]  lg:translate-x-[50%] shadow-xl 2xl:opacity-0 transition-all duration-500"
                 onClick={handleClickNextSlide}
                 classNames={{ icon: cn(SIZE_ICON, `text-black`) }}
             />
