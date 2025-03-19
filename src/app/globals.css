@@ -126,7 +126,7 @@
 }
 
 .swiper-slide-thumb-active {
-    opacity: 1;
+    opacity: 1 !important;
     transform: scale(1);
     -webkit-transform: scale(1);
     -moz-transform: scale(1);

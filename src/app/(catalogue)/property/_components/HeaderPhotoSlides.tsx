@@ -122,7 +122,7 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
                         classNames={{ icon: "lg:h-8 lg:w-8 text-black" }}
                     />
                     <NextButton
-                        className="bg-primary-accent/50 hover:bg-primary-accent opacity-0 group-hover:opacity-100"
+                        className="bg-primary-accent/50 hover:bg-primary-accent 2xl:opacity-0 group-hover:opacity-100"
                         onClick={handleClickNextSlide}
                         classNames={{ icon: "lg:h-8 lg:w-8 text-black" }}
                     />
