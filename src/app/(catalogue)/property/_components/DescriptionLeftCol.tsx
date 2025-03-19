@@ -3,7 +3,6 @@ import HeaderPhotoSlides from "./HeaderPhotoSlides";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LucideMapPin } from "lucide-react";
 import DescriptionProperty from "./DescriptionProperty";
-import GoBackButton from "@/app/(private)/tableau-de-board/_components/GoBackButton";
 
 type DescriptionLeftColProps = {
     property: {
