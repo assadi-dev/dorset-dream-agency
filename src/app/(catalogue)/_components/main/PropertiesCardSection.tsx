@@ -33,7 +33,7 @@ type PropertyMemoType = {
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({
         queryKey: [`${category}-slides-section`],
-        queryFn: () => getPropertiesPerCategoryApi(category, 3),
+        queryFn: () => getPropertiesPerCategoryApi(category, 10),
         refetchInterval: 10 * 60 * 1000,
     });
     const swiperRef = React.useRef<any>(null);
@@ -63,8 +63,9 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
 
     useGSAP(
         () => {
-            if (!container.current) return;
+            if (!container.current || PROPERTIES.length === 0) return;
             const boxes = container.current?.querySelectorAll(".propertyBox");
+            if (boxes?.length === 0) return;
             gsap.from(boxes, {
                 immediateRender: PROPERTIES.length > 0,
                 delay: 0.25,
