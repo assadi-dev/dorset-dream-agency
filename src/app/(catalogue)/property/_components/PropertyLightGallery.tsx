@@ -125,7 +125,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                     <Gallery dataSource={dataSource}>
                         <div
                             ref={container as React.LegacyRef<HTMLDivElement>}
-                            className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))]  2xl:grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 "
+                            className="grid  grid-cols-[repeat(auto-fit,minmax(100px,1fr))]  sm:grid-cols-[repeat(auto-fit,minmax(150px,1fr))]  2xl:grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 "
                         >
                             {dataSource.length > 0
                                 ? dataSource.slice(0, 4).map((image) => (

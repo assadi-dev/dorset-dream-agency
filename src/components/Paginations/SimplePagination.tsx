@@ -40,7 +40,7 @@ const SimplePagination = ({
             updatedSearchParams.set(key, value);
             const updatePathName = pathname + "?" + updatedSearchParams.toString();
 
-            router.push(updatePathName);
+            router.replace(updatePathName);
         },
         [pathname, router, searchParams],
     );

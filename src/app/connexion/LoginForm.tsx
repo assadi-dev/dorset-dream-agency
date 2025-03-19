@@ -15,6 +15,8 @@ import Image from "next/image";
 import logo from "@assets/images/logo.png";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import Link from "next/link";
+import { Store } from "lucide-react";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -26,27 +28,26 @@ const LoginForm = () => {
 
     const router = useRouter();
 
-    React.useEffect(() => {
-        if (searchParams.get("error")) {
-            form.setError("root", { message: "Identifiant ou mot de passe incorrect" });
-        }
-    }, [searchParams, form]);
-
     const handleSignIn: SubmitHandler<LoginFormType> = async (data) => {
         const username = data.username;
         const password = data.password;
         startTransition(async () => {
             try {
-                await signIn("credentials", {
+                const res = await signIn("credentials", {
                     username,
                     password,
                     redirect: false,
                 });
-
+                if (res?.error) throw new Error(res?.code);
                 router.replace("/tableau-de-board");
             } catch (error: any) {
-                form.setError("root", { message: "Identifiant ou mot de passe incorrect" });
-                throw error;
+                if (error instanceof Error) {
+                    const message =
+                        error.message == "Invalid credential !"
+                            ? "Identifiant ou mot de passe incorrect"
+                            : error.message;
+                    form.setError("root", { message });
+                }
             }
         });
     };
@@ -76,7 +77,7 @@ const LoginForm = () => {
                 },
             );
         },
-        { scope: container, revertOnUpdate: true },
+        { scope: container },
     );
 
     return (
@@ -121,7 +122,14 @@ const LoginForm = () => {
                     </SubmitButton>
                 </div>
 
-                <div className="my-6">
+                <div className="my-6 ">
+                    <Link
+                        href={"/"}
+                        className="hover:underline underline-offset-2 flex items-center gap-1 mx-auto w-fit text-sm text-primary-accent mb-3"
+                    >
+                        <Store className=" h-4 w-4" />
+                        Retour vers la page catalogue{" "}
+                    </Link>
                     {form.formState.errors.root && (
                         <AlertDestructive title="Erreur" description={form.formState.errors.root.message} />
                     )}

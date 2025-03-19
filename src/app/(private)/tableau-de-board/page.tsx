@@ -7,7 +7,7 @@ import DashboardBody from "./_dashboard/DashboardBody";
 export const metadata = setTitlePage("Tableau de board");
 const DashboardPage = async () => {
     return (
-        <PageTemplate title="Tableau de board">
+        <PageTemplate showPrevButton={false} title="Tableau de board">
             <DashboardHeader />
             <DashboardBody />
         </PageTemplate>

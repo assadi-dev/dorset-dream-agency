@@ -1,4 +1,5 @@
 import { getUserData } from "@/app/connexion/action";
+import { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 export const credentials = Credentials({
@@ -18,8 +19,12 @@ export const credentials = Credentials({
         try {
             const user = await getUserData(credentials);
             return user;
-        } catch (error) {
-            return null;
+        } catch (error: unknown) {
+            const credentialError = new CredentialsSignin();
+            if (error instanceof Error) {
+                credentialError.code = error.message;
+            }
+            throw credentialError;
         }
     },
 });

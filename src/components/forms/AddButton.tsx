@@ -11,13 +11,13 @@ const AddButton = ({ title, href, ...props }: AddButtonProps) => {
     return (
         <>
             {href ? (
-                <Button {...props} asChild>
+                <Button {...props} asChild size="sm">
                     <Link href={href}>
                         <Plus className="h-5 w-5  mr-1" /> {title || "Ajouter"}
                     </Link>
                 </Button>
             ) : (
-                <Button {...props}>
+                <Button size="sm" {...props}>
                     <Plus className="h-5 w-5  mr-1" /> {title || "Ajouter"}
                 </Button>
             )}

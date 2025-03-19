@@ -12,6 +12,6 @@ export const getUserData = async (values: Partial<LoginFormType> | unknown) => {
             role: user.role || "user",
         };
     } catch (error: any) {
-        return null;
+        throw error;
     }
 };
