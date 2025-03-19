@@ -92,7 +92,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                     duration: 0.35,
                     scrollTrigger: {
                         trigger: boxes,
-                        start: "top 90%",
+                        start: "top 95%",
                         end: "bottom 200%",
                         scrub: false,
                     },
