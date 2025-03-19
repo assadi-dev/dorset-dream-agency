@@ -11,6 +11,7 @@ import DescriptionLeftCol from "./_components/DescriptionLeftCol";
 import { extractDataForInfo } from "../schema";
 import HeaderRightDetails from "./_components/HeaderRightDetails";
 import DescriptionRightCol from "./_components/DescriptionRightCol";
+import GoBackButton from "@/app/(private)/tableau-de-board/_components/GoBackButton";
 
 type SearchParams = {
     searchParams: {
@@ -29,6 +30,10 @@ const PropertyCatalog = async ({ searchParams }: SearchParams) => {
 
     return (
         <>
+            <div className="flex items-center gap-5  mb-3">
+                <GoBackButton />{" "}
+                <h1 className="text-xl  md:text-2xl lg:text-3xl font-bold truncate  w-full">{property.name}</h1>
+            </div>
             <div className="grid grid-rows-[repeat(auto-fit,minmax(auto,1fr))] grid-cols-1 gap-5  lg:grid-cols-[55vw,1fr] lg:gap-3">
                 <DescriptionLeftCol property={property} />
                 <DescriptionRightCol property={property} />
