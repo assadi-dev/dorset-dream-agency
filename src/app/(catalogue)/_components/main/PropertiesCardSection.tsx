@@ -7,6 +7,9 @@ import { cleanDataForSlides, getPropertiesPerCategoryApi } from "../../helper";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Swiper as SwiperCore } from "swiper/types";
+import { NextButton, PrevButton } from "../../property/_components/SlideActions";
+import { cn } from "@/lib/utils";
 
 export type PropertiesCardSectionType = {
     id: number;
@@ -30,9 +33,10 @@ type PropertyMemoType = {
 const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     const { data, isFetching, error } = useQuery({
         queryKey: [`${category}-slides-section`],
-        queryFn: () => getPropertiesPerCategoryApi(category, 10),
+        queryFn: () => getPropertiesPerCategoryApi(category, 3),
         refetchInterval: 10 * 60 * 1000,
     });
+    const swiperRef = React.useRef<any>(null);
 
     const PROPERTIES = React.useMemo<PropertyMemoType[]>(() => {
         if (!data) return [];
@@ -83,15 +87,42 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         { scope: container, dependencies: [PROPERTIES.length] },
     );
 
+    const handleClickNextSlide = () => {
+        if (!swiperRef.current) return;
+        swiperRef.current.slideNext();
+    };
+    const handleClickPrevSlide = () => {
+        if (!swiperRef.current) return;
+        swiperRef.current.slidePrev();
+    };
+
+    const SIZE_ICON = `h-[2.5em] w-[2.5rem] lg:h-[3rem] lg:w-[3rem]`;
+
     return (
-        <div className="relative rounded-lg   w-full    overflow-hidden" ref={container as any}>
-            <Swiper spaceBetween={0} slidesPerView={1} breakpoints={breakTest} className="h-full w-full">
+        <div className="relative rounded-lg w-full group" ref={container as any}>
+            <Swiper
+                onInit={(swiper) => (swiperRef.current = swiper)}
+                spaceBetween={0}
+                slidesPerView={1}
+                breakpoints={breakTest}
+                className="h-full w-full"
+            >
                 {PROPERTIES.map((item) => (
                     <SwiperSlide key={item.id} className="px-1 py-5">
                         <PropertyCard property={item} />
                     </SwiperSlide>
                 ))}
             </Swiper>
+            <PrevButton
+                onClick={handleClickPrevSlide}
+                className="bg-slate-50 hover:bg-primary-accent  group-hover:opacity-100 translate-x-[-35%] lg:translate-x-[-50%] shadow-xl 2xl:opacity-0 transition-all duration-500"
+                classNames={{ icon: cn(SIZE_ICON, `text-black `) }}
+            />
+            <NextButton
+                className="bg-slate-50 hover:bg-primary-accent  group-hover:opacity-100 translate-x-[35%]  lg:translate-x-[50%] shadow-xl 2xl:opacity-0 transition-all duration-500"
+                onClick={handleClickNextSlide}
+                classNames={{ icon: cn(SIZE_ICON, `text-black`) }}
+            />
         </div>
     );
 };
