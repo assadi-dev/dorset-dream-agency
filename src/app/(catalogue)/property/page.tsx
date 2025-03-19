@@ -30,7 +30,7 @@ const PropertyCatalog = async ({ searchParams }: SearchParams) => {
 
     return (
         <>
-            <div className="flex items-center gap-5  mb-3">
+            <div className="flex items-center gap-5  pb-5 lg:pb-3">
                 <GoBackButton />{" "}
                 <h1 className="text-xl  md:text-2xl lg:text-3xl font-bold truncate  w-full">{property.name}</h1>
             </div>
