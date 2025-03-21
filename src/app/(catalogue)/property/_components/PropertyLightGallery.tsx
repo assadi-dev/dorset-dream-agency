@@ -99,7 +99,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                 });
                 tl.fromTo(
                     boxes,
-                    { scale: 0.8, x: -25 },
+                    { x: -25 },
                     {
                         opacity: 1,
                         scale: 1,
@@ -144,7 +144,9 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                                                   onClick={open}
                                                   src={image.original}
                                                   alt={`${image.alt}`}
-                                                  className="itemGallery rounded-lg cursor-pointer opacity-0 w-full"
+                                                  className="itemGallery rounded-lg cursor-pointer opacity-0 w-full scale-75"
+                                                  width={image.width}
+                                                  height={image.height}
                                               />
                                           )}
                                       </Item>
