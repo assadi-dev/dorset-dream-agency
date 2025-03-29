@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { authRedirect } from "./middlewares/authRedirect";
 
 export async function middleware(request: NextRequest) {
