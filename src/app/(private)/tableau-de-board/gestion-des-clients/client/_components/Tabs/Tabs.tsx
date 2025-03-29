@@ -38,7 +38,11 @@ const TabsTest = () => {
             </div>
             {CLIENT_TABS_DATA.map((tabs) => (
                 <TabsContent key={tabs.value} value={tabs.value}>
-                    {<PageTemplate title={tabs.title}>{tabs.component ? <tabs.component /> : null}</PageTemplate>}
+                    {
+                        <PageTemplate showPrevButton={false} title={tabs.title}>
+                            {tabs.component ? <tabs.component /> : null}
+                        </PageTemplate>
+                    }
                 </TabsContent>
             ))}
         </Tabs>
