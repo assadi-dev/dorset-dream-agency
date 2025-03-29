@@ -12,10 +12,12 @@ type RemoveButtonProps = {
 export const RemoveButton = ({ onRemoveAction }: RemoveButtonProps) => {
     return (
         <ButtonActionWithTooltip
+            type="button"
             icon={<Trash2 className="w-2.5 h-2.5 scale-75 " />}
             tooltipTitle="Supprimer"
             size="icon"
             className=" grid place-items-center rounded-full h-5 w-5 ring-1  bg-destructive/25 ring-destructive text-destructive transition-all hover:bg-destructive hover:text-white active:scale-90"
+            onClick={onRemoveAction}
         />
     );
 };
@@ -35,6 +37,7 @@ export const EditButton = ({ payload }: EditButtonProps) => {
 
     return (
         <ButtonActionWithTooltip
+            type="button"
             icon={<Pen className="w-2.5 h-2.5 scale-75 " />}
             tooltipTitle="Modifier"
             variant={"ghost"}
