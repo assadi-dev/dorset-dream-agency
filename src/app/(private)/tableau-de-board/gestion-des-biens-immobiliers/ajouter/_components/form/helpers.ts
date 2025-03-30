@@ -1,4 +1,5 @@
 import { API_INSTANCE } from "@/lib/api";
+import { FileObj } from "../../../types";
 
 type variant = {
     id: number | string;
@@ -21,6 +22,14 @@ export const updatePropertyApi = async (id: number | string, data: any) => {
 
 export const updateVariantGalleryApi = async (formData: FormData) => {
     return API_INSTANCE.post("/variants/gallery/update", formData);
+};
+export const updateGalleryApi = async (data: {
+    variantID: number;
+    photoID: number;
+    isCover?: boolean;
+    order?: number;
+}) => {
+    return API_INSTANCE.put("/gallery", data);
 };
 
 export const removeVariantWithGalleryApi = (ids: number[]) => {

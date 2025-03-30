@@ -1,4 +1,4 @@
-import { updateVariantGallery } from "@/database/drizzle/repositories/galleries";
+import { updateGallery, updateVariantGallery } from "@/database/drizzle/repositories/galleries";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {

@@ -42,7 +42,7 @@ const main = async () => {
         bar.increment();
     }
     bar.stop();
-    console.log(chalk.green(" Categories properties done! "));
+    console.log(chalk.green("Categories properties done! "));
 
     console.log("Secteurs creations");
     bar.start(secteursNames.length, 0);

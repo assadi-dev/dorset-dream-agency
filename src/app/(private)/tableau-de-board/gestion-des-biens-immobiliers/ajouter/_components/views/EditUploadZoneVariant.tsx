@@ -1,21 +1,21 @@
 "use client";
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import { Button } from "@/components/ui/button";
-import { CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
 import { cn } from "@/lib/utils";
 import { ImagePlus, Trash2 } from "lucide-react";
 import React from "react";
-import { FieldValues, SubmitHandler, useForm, useFormContext, UseFormReturn } from "react-hook-form";
+import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "../form/propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
-import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
+import { updateGalleryApi } from "../form/helpers";
 
 export type UploadZoneForm = {
     id?: number | string | null;
@@ -132,6 +132,30 @@ const EditUploadZoneVariant = () => {
         form.setValue("files", []);
         form.clearErrors();
     };
+    const handleClickSetCover = async (file: FileObj) => {
+        const allFiles = form.getValues("files");
+        const current = allFiles.find((it) => it.id == file.id);
+        if (!current) return;
+        const updateFiles = allFiles.map((it) => {
+            if (it.id == file.id) {
+                return { ...it, isCover: file.isCover };
+            } else it.isCover = false;
+            return it;
+        }) as FileObj[];
+        form.setValue("files", updateFiles);
+        const variantID = form.getValues("id");
+        if (typeof variantID == "number" && typeof file.id == "number") {
+            try {
+                updateGalleryApi({
+                    variantID,
+                    photoID: file.id,
+                    isCover: file.isCover,
+                }).then(() => ToastSuccessSonner("Vous avez définis une image de couverture"));
+            } catch (error) {
+                if (error instanceof Error) console.error(error.message);
+            }
+        }
+    };
 
     React.useEffect(() => {
         if (fileRejections.length) {
@@ -198,7 +222,14 @@ const EditUploadZoneVariant = () => {
                             {form.watch("files").length > 0 &&
                                 form
                                     .getValues("files")
-                                    .map((file) => <PreviewVarianteUpload key={file?.id} file={file as FileObj} />)}
+                                    .map((file) => (
+                                        <PreviewVarianteUpload
+                                            key={file?.id}
+                                            isCover={file.isCover}
+                                            file={file as FileObj}
+                                            setCover={handleClickSetCover}
+                                        />
+                                    ))}
                         </div>
                     </ScrollArea>
                 </div>

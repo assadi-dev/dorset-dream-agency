@@ -27,7 +27,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
     React.useEffect(() => {
         if (!variant) return;
         if (variant.files) {
-            const file = variant.files[0].file;
+            const file = variant.files.find((f) => f.isCover == true) || variant.files[0];
             if (file instanceof File && !previewUrl) {
                 const link = URL.createObjectURL(file);
                 setPreviewUrl(link);

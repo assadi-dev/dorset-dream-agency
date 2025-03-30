@@ -6,7 +6,7 @@ import { variants } from "@/database/drizzle/schema/variants";
 import { and, asc, count, desc, eq, like, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { getFirstPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
+import { getCoverPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
 import {
     getVariantsProperty,
     getVariantsPropertyNoSoftDelete,
@@ -460,7 +460,8 @@ export const getPropertiesWithCover = async ({
 
     const propertiesWithCover = [];
     for (const property of properties) {
-        const photo = await getFirstPictureFromGallery(property.id);
+        const photo = await getCoverPictureFromGallery(property.id);
+
         const update = { ...property, photo: photo.url || null };
         propertiesWithCover.push(update);
     }

@@ -12,6 +12,8 @@ export type GalleryResponse = {
     size: number;
     type: string;
     url: string;
+    order: number;
+    isCover: boolean;
 };
 
 export type FileObj = {
@@ -21,4 +23,6 @@ export type FileObj = {
     type: string;
     url?: string | null;
     file: File;
+    order: number;
+    isCover: boolean;
 };

@@ -1,27 +1,29 @@
 import React from "react";
 import { FileObj, GalleryResponse } from "../../../types";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { BookImage, Check } from "lucide-react";
 import ButtonActionWithTooltip from "@/components/Buttons/ButtonActionWithTooltip";
 import useBoolean from "@/hooks/useBoolean";
 
 type PreviewVarianteUploadType = {
+    isCover: boolean;
+    order?: number;
     file?: FileObj & { originalName?: string };
-    onRemove?: () => void;
-    setCover?: () => void;
+    onRemove?: (file: FileObj) => void;
+    setCover?: (file: FileObj) => void;
 };
 
-const PreviewVarianteUpload = ({ file, onRemove, setCover }: PreviewVarianteUploadType) => {
-    const { value, toggle } = useBoolean();
+const PreviewVarianteUpload = ({ isCover, file, onRemove, setCover }: PreviewVarianteUploadType) => {
     //onClick={() => onRemove && onRemove()}
-    const handleClickSetCover = () => {
-        setCover && setCover();
-    };
+    const handleClickSetCover = React.useCallback(() => {
+        if (!file) return;
+        file.isCover = !isCover;
+        setCover && setCover(file);
+    }, [file, isCover]);
 
     const IsDefaultCover = () => {
         return (
-            <div className="absolute bg-lime-300 text-green-950 ring-1 ring-green-900 rounded m-1">
+            <div className="absolute bg-lime-300 text-green-950 ring-1 ring-green-900 rounded m-1 z-50">
                 <Check className="h-5 w-5 p-0.5" />{" "}
             </div>
         );
@@ -29,6 +31,7 @@ const PreviewVarianteUpload = ({ file, onRemove, setCover }: PreviewVarianteUplo
 
     return (
         <div className="relative w-full h-[110px] rounded overflow-hidden group z-0">
+            {isCover && <IsDefaultCover />}
             {file && (
                 <Image
                     src={file.url as string}
@@ -43,7 +46,7 @@ const PreviewVarianteUpload = ({ file, onRemove, setCover }: PreviewVarianteUplo
                 <div className="flex justify-end items-center p-2">
                     {
                         <ButtonActionWithTooltip
-                            icon={<BookImage className="p-0.5" />}
+                            icon={<BookImage className="p-0" />}
                             variant={"outline"}
                             type="button"
                             tooltipTitle="Définir cette image en couverture"
