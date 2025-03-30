@@ -9,6 +9,7 @@ import { EditButton, RemoveButton } from "./VaraintCarAction";
 import { FileObj } from "../../../types";
 import DeleteConfirmVariant from "./DeleteConfirmVariant";
 import { UploadZoneForm } from "../form/UploadZoneVariant";
+import { propertyFormType } from "../form/propertySchema";
 
 type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     previewLink?: string | null;
@@ -23,7 +24,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
 
     const { openModal } = useModalState();
 
-    const form = useFormContext<UploadZoneForm>();
+    const form = useFormContext<propertyFormType>();
 
     React.useEffect(() => {
         if (!variant) return;
@@ -38,8 +39,7 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
         return () => {
             previewUrl && URL.revokeObjectURL(previewUrl);
         };
-    }, [variant.files, previewUrl]);
-    //console.log(form.watch());
+    }, [variant.files, previewUrl, form.watch("variants")]);
 
     /* 
     React.useEffect(() => {
