@@ -158,7 +158,7 @@ const AddVariantProperty = () => {
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
                             {form.watch("files").map((file: any) => (
-                                <PreviewVarianteUpload key={file.id} file={file} />
+                                <PreviewVarianteUpload key={file.id} file={file} isCover={file.cover} />
                             ))}
                         </div>
                     </ScrollArea>
