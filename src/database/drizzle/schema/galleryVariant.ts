@@ -1,4 +1,4 @@
-import { index, int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
+import { boolean, index, int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
 import { photos } from "./photos";
 import { variants } from "./variants";
 import { relations } from "drizzle-orm";
@@ -8,6 +8,8 @@ export const galleryVariants = mysqlTable(
     {
         photoID: int("photo_id").references(() => photos.id, { onDelete: "cascade" }),
         variantID: int("variant_id").references(() => variants.id, { onDelete: "cascade" }),
+        isCover: boolean("is_cover").default(false),
+        order: int("position").default(0),
     },
     (t) => ({
         pk: primaryKey({ columns: [t.photoID, t.variantID] }),

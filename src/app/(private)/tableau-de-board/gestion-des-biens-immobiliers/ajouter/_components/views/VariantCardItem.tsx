@@ -8,6 +8,8 @@ import useModalState from "@/hooks/useModalState";
 import { EditButton, RemoveButton } from "./VaraintCarAction";
 import { FileObj } from "../../../types";
 import DeleteConfirmVariant from "./DeleteConfirmVariant";
+import { UploadZoneForm } from "../form/UploadZoneVariant";
+import { propertyFormType } from "../form/propertySchema";
 
 type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     previewLink?: string | null;
@@ -18,16 +20,16 @@ type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     };
 };
 const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProps) => {
-    const [previewUrl, setPreviewUrl] = React.useState<string>("");
+    const [previewUrl, setPreviewUrl] = React.useState<string>(previewLink as string);
 
     const { openModal } = useModalState();
 
-    const form = useFormContext();
+    const form = useFormContext<propertyFormType>();
 
     React.useEffect(() => {
         if (!variant) return;
         if (variant.files) {
-            const file = variant.files[0].file;
+            const file = variant.files.find((f) => f.isCover == true)?.file || variant.files[0].file;
             if (file instanceof File && !previewUrl) {
                 const link = URL.createObjectURL(file);
                 setPreviewUrl(link);
@@ -37,11 +39,12 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
         return () => {
             previewUrl && URL.revokeObjectURL(previewUrl);
         };
-    }, [variant, previewUrl]);
+    }, [variant.files, previewUrl, form.watch("variants")]);
 
+    /* 
     React.useEffect(() => {
         if (previewLink) setPreviewUrl(previewLink);
-    }, [previewLink]);
+    }, []); */
 
     const handleClickRemove = React.useCallback(() => {
         if (!variant && !openModal) return;

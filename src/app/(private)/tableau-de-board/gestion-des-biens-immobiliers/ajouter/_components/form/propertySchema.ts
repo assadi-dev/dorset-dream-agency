@@ -27,10 +27,21 @@ export const propertySchema = z.object({
 
 export type propertyFormType = z.infer<typeof propertySchema>;
 
+export const VariantFileSchema = z.object({
+    id: z.coerce.number().or(z.string()).optional().nullable(),
+    name: z.string().optional(),
+    size: z.number().optional(),
+    type: z.string().optional(),
+    url: z.string().optional(),
+    file: z.any(),
+    order: z.number().optional(),
+    isCover: z.boolean(),
+});
+
 export const variantSchema = z.object({
     id: z.number().or(z.string()).optional().nullable(),
     name: z.string().nullable().optional(),
-    files: z.array(z.any()).min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    files: z.array(VariantFileSchema).min(1, { message: REQUIRE_MESSAGE_ERROR }),
 });
 
 export type VariantFormType = z.infer<typeof variantSchema>;

@@ -1,21 +1,22 @@
 "use client";
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import { Button } from "@/components/ui/button";
-import { CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
 import { cn } from "@/lib/utils";
 import { ImagePlus, Trash2 } from "lucide-react";
 import React from "react";
-import { FieldValues, SubmitHandler, useForm, useFormContext, UseFormReturn } from "react-hook-form";
+import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "../form/propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
-import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
+import { updateCover, updateGalleryApi } from "../form/helpers";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 export type UploadZoneForm = {
     id?: number | string | null;
@@ -26,6 +27,7 @@ export type UploadZoneForm = {
 export type VariantPayload = { id?: number | string | null; name: string; gallery: GalleryResponse[] };
 
 const EditUploadZoneVariant = () => {
+    const { refreshWithParams, refresh } = useRouteRefresh();
     const form = useForm<UploadZoneForm>({
         resolver: zodResolver(variantSchema),
         defaultValues: {
@@ -69,6 +71,7 @@ const EditUploadZoneVariant = () => {
 
         propertyForm.setValue("variants", variantsUpdated);
         closeModal();
+        window.location.reload();
     };
 
     const sizeValidator = (file: File) => {
@@ -93,6 +96,8 @@ const EditUploadZoneVariant = () => {
                     url: URL.createObjectURL(file),
                     file,
                     size: file.size,
+                    isCover: false,
+                    order: 0,
                 };
             }) as FileObj[];
             const updated = [...fileObj, ...currentFiles] as FileObj[] | GalleryResponse[];
@@ -132,6 +137,9 @@ const EditUploadZoneVariant = () => {
         form.setValue("files", []);
         form.clearErrors();
     };
+    const handleClickSetCover = async (file: FileObj) => {
+        updateCover(form, file);
+    };
 
     React.useEffect(() => {
         if (fileRejections.length) {
@@ -152,7 +160,7 @@ const EditUploadZoneVariant = () => {
             <form
                 onSubmit={form.handleSubmit(submitVariant)}
                 className="w-[32vw] p-3 min-h-[25vh] flex flex-col justify-between gap-3"
-                /*  onPaste={handlePast} */
+                /*onPaste={handlePast}*/
             >
                 <FormFieldInput
                     control={form.control}
@@ -194,18 +202,25 @@ const EditUploadZoneVariant = () => {
                         </Button>
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
-                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
+                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,180px))] gap-1 justify-center">
                             {form.watch("files").length > 0 &&
                                 form
                                     .getValues("files")
-                                    .map((file) => <PreviewVarianteUpload key={file?.id} file={file as FileObj} />)}
+                                    .map((file) => (
+                                        <PreviewVarianteUpload
+                                            key={file?.id}
+                                            isCover={file.isCover}
+                                            file={file as FileObj}
+                                            setCover={handleClickSetCover}
+                                        />
+                                    ))}
                         </div>
                     </ScrollArea>
                 </div>
 
                 <div className="mt-8 w-full">
                     <Button className="w-full p-5" type="submit">
-                        Modifier
+                        Valider
                     </Button>
                 </div>
             </form>

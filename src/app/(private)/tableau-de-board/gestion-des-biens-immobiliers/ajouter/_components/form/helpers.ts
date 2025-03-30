@@ -1,4 +1,8 @@
 import { API_INSTANCE } from "@/lib/api";
+import { FileObj } from "../../../types";
+import { UseFormReturn } from "react-hook-form";
+import { ToastSuccessSonner } from "@/components/notify/Sonner";
+import { UploadZoneForm } from "../views/EditUploadZoneVariant";
 
 type variant = {
     id: number | string;
@@ -21,6 +25,14 @@ export const updatePropertyApi = async (id: number | string, data: any) => {
 
 export const updateVariantGalleryApi = async (formData: FormData) => {
     return API_INSTANCE.post("/variants/gallery/update", formData);
+};
+export const updateGalleryApi = async (data: {
+    variantID: number;
+    photoID: number;
+    isCover?: boolean;
+    order?: number;
+}) => {
+    return API_INSTANCE.put("/gallery", data);
 };
 
 export const removeVariantWithGalleryApi = (ids: number[]) => {
@@ -47,3 +59,28 @@ export const STOCKAGE_RADIO_LIST = [
         value: STOCKAGE_VALUE.yes,
     },
 ];
+
+export const updateCover = (form: UseFormReturn<UploadZoneForm>, file: FileObj) => {
+    const allFiles = form.getValues("files");
+    const current = allFiles.find((it) => it.id == file.id);
+    if (!current) return;
+    const updateFiles = allFiles.map((it) => {
+        if (it.id == file.id) {
+            return { ...it, isCover: file.isCover };
+        } else it.isCover = false;
+        return it;
+    }) as FileObj[];
+    form.setValue("files", updateFiles);
+    const variantID = form.getValues("id");
+    if (typeof variantID == "number" && typeof file.id == "number") {
+        try {
+            updateGalleryApi({
+                variantID,
+                photoID: file.id,
+                isCover: file.isCover,
+            }).then(() => ToastSuccessSonner("Vous avez définis une image de couverture"));
+        } catch (error) {
+            if (error instanceof Error) console.error(error.message);
+        }
+    }
+};

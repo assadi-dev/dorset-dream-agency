@@ -4,13 +4,56 @@ import { ENV } from "@/config/global";
 import { galleryVariants } from "@/database/drizzle/schema/galleryVariant";
 import { insertVariant, updateVariant } from "./variants";
 import { variants } from "../schema/variants";
-import { asc, eq, sql } from "drizzle-orm";
+import { and, asc, eq, or, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
 import { removePhotosByAndFile } from "./photos";
 
 export const insertGallery = (variantID: number, photoID: number) => {
     try {
         return db.insert(galleryVariants).values({
+            variantID,
+            photoID,
+        });
+    } catch (error: any) {
+        throw error;
+    }
+};
+
+export const updateGallery = async ({
+    variantID,
+    photoID,
+    isCover,
+    order,
+}: {
+    variantID: number;
+    photoID: number;
+    isCover?: boolean;
+    order?: number;
+}) => {
+    try {
+        const collectionQuery = db
+            .update(galleryVariants)
+            .set({ isCover: false })
+            .where(and(eq(galleryVariants.variantID, sql.placeholder("variantID"))));
+        await collectionQuery.execute({
+            variantID,
+        });
+
+        const query = db
+            .update(galleryVariants)
+            .set({
+                isCover: isCover || false,
+                order: order || 0,
+            })
+            .where(
+                and(
+                    eq(galleryVariants.variantID, sql.placeholder("variantID")),
+                    eq(galleryVariants.photoID, sql.placeholder("photoID")),
+                ),
+            )
+            .prepare();
+
+        await query.execute({
             variantID,
             photoID,
         });
@@ -98,11 +141,13 @@ export const getFirstPictureFromGallery = async (variantID: number) => {
             originalName: photos.originalName,
             size: photos.size,
             type: photos.mimeType,
+            isCover: galleryVariants.isCover,
+            order: galleryVariants.order,
         })
         .from(galleryVariants)
         .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
         .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
-        .orderBy(asc(photos.originalName))
+        .orderBy(asc(galleryVariants.order), asc(photos.originalName))
         .where(eq(variants.id, sql.placeholder("variantID")))
         .limit(1)
         .prepare();
@@ -111,6 +156,36 @@ export const getFirstPictureFromGallery = async (variantID: number) => {
         variantID,
     });
     return result[0];
+};
+/**
+ *
+ * Retourne la premiere photo associer à la variant passer en argument trier par ordre ascendant par le nom du fichier
+ *
+ */
+export const getCoverPictureFromGallery = async (variantID: number) => {
+    const req = db
+        .select({
+            id: photos.id,
+            url: photos.url,
+            originalName: photos.originalName,
+            size: photos.size,
+            type: photos.mimeType,
+            isCover: galleryVariants.isCover,
+            order: galleryVariants.order,
+        })
+        .from(galleryVariants)
+        .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
+        .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
+        .orderBy(asc(galleryVariants.order), asc(photos.originalName))
+        .where(and(eq(variants.id, sql.placeholder("variantID")), eq(galleryVariants.isCover, true)))
+        .limit(1)
+        .prepare();
+
+    const coverPhoto = await req.execute({
+        variantID,
+    });
+    const result = coverPhoto.length ? coverPhoto[0] : await getFirstPictureFromGallery(variantID);
+    return result;
 };
 
 /**
@@ -127,12 +202,14 @@ export const getGalleryCollectionForVariants = async (variantID: number | string
             originalName: photos.originalName,
             size: photos.size,
             type: photos.mimeType,
+            isCover: galleryVariants.isCover,
+            order: galleryVariants.order,
         })
         .from(galleryVariants)
         .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
         .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
         .where(eq(variants.id, sql.placeholder("variantID")))
-        .orderBy(asc(photos.originalName))
+        .orderBy(asc(galleryVariants.order), asc(photos.originalName))
         .prepare();
 
     return await req.execute({

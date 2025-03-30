@@ -47,7 +47,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
             try {
                 if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
                 await wait(1000);
-                console.log(values.stock);
+                // console.log(values.stock);
                 if (Number(values.typeStock) < 1) values.stock = values.typeStock;
 
                 if (values.variants && values.variants.length > 0) {
@@ -66,7 +66,9 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
 
                         if (variant.files) {
                             for (const fileObj of variant.files) {
-                                if (fileObj.file instanceof File) formData.append("files", fileObj.file);
+                                if (fileObj.file instanceof File) {
+                                    formData.append("files", fileObj.file);
+                                }
                             }
                         }
 

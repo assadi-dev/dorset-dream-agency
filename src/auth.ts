@@ -49,6 +49,9 @@ const authOptions = {
 
             return userSession;
         },
+        authorized: async ({ auth }) => {
+            return !!auth;
+        },
     },
 
     pages: {
