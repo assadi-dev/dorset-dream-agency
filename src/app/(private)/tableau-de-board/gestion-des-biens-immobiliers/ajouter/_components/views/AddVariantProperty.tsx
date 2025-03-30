@@ -40,7 +40,9 @@ const AddVariantProperty = () => {
                     {form.watch("variants").length > 0 &&
                         form.watch("variants").map((variant: any) => {
                             const defaultLink =
-                                variant && variant.gallery ? variant.gallery.find((v: any) => v?.isCover)?.url : null;
+                                variant && variant.gallery
+                                    ? variant.gallery.find((v: any) => v?.isCover)?.url || variant.gallery[0]?.url
+                                    : variant.gallery[0]?.url;
                             return <VariantCardItem variant={variant} key={variant?.id} previewLink={defaultLink} />;
                         })}
                 </div>
