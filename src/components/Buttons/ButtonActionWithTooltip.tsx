@@ -33,10 +33,12 @@ const ButtonActionWithTooltip = ({
         delete mergeProps.onPointerLeave;
         delete mergeProps.onPointerMove;
         return (
-            <Button ref={ref} {...mergeProps} className={cn("flex items-center gap-2", props.className)}>
-                {srOnly && <span className="sr-only">{srOnly}</span>}
-                {icon ? icon : null} {label}
-            </Button>
+            <div>
+                <Button ref={ref} {...mergeProps} className={cn("flex items-center gap-2", props.className)}>
+                    {srOnly && <span className="sr-only">{srOnly}</span>}
+                    {icon ? icon : null} {label}
+                </Button>
+            </div>
         );
     });
 

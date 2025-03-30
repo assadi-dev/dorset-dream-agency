@@ -47,9 +47,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
                 <ImagePlus className="mr-2 h-4 w-4" /> Ajouter une variante
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="text-primary">
-                <Link
-                    href={`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${payload.id}&name=${payload.name}&createdAt=${payload.createdAt}&categoryProperty=${payload.categoryID}`}
-                >
+                <Link href={`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${payload.id}`}>
                     <Pen className="mr-2 h-4 w-4" />
                     Modifier
                 </Link>

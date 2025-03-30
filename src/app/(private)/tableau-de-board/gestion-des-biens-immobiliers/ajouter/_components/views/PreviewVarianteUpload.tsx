@@ -4,6 +4,9 @@ import Image from "next/image";
 import { BookImage, Check } from "lucide-react";
 import ButtonActionWithTooltip from "@/components/Buttons/ButtonActionWithTooltip";
 import useBoolean from "@/hooks/useBoolean";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { CoverButton } from "./Button";
 
 type PreviewVarianteUploadType = {
     isCover: boolean;
@@ -42,19 +45,9 @@ const PreviewVarianteUpload = ({ isCover, file, onRemove, setCover }: PreviewVar
                     loading="lazy"
                 />
             )}
-            <div className="absolute top-0 left-0 bottom-0 w-full   group-hover:bg-gradient-to-b from-black/80 to-primary/50 transition-all motion-preset-slide-right ">
+            <div className="absolute top-0 left-0 bottom-0 w-full   group-hover:bg-gradient-to-b from-black/80 to-primary/50 transition-all motion-preset-slide-right z-100">
                 <div className="flex justify-end items-center p-2">
-                    {
-                        <ButtonActionWithTooltip
-                            icon={<BookImage className="p-0" />}
-                            variant={"outline"}
-                            type="button"
-                            tooltipTitle="Définir cette image en couverture"
-                            size={"icon"}
-                            className="rounded-full w-6 h-6 !text-black !bg-gradient-to-br from-primary-accent  text-primary-accent active:scale-110 transition-all  opacity-0 group-hover:opacity-100"
-                            onClick={handleClickSetCover}
-                        />
-                    }
+                    <CoverButton onClick={handleClickSetCover} />
                 </div>
             </div>
         </div>

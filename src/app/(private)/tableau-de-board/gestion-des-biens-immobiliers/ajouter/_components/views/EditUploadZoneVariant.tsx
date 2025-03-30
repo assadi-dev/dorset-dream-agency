@@ -15,7 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "../form/propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { updateGalleryApi } from "../form/helpers";
+import { updateCover, updateGalleryApi } from "../form/helpers";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 export type UploadZoneForm = {
     id?: number | string | null;
@@ -26,6 +27,7 @@ export type UploadZoneForm = {
 export type VariantPayload = { id?: number | string | null; name: string; gallery: GalleryResponse[] };
 
 const EditUploadZoneVariant = () => {
+    const { refreshWithParams, refresh } = useRouteRefresh();
     const form = useForm<UploadZoneForm>({
         resolver: zodResolver(variantSchema),
         defaultValues: {
@@ -69,6 +71,7 @@ const EditUploadZoneVariant = () => {
 
         propertyForm.setValue("variants", variantsUpdated);
         closeModal();
+        window.location.reload();
     };
 
     const sizeValidator = (file: File) => {
@@ -93,6 +96,8 @@ const EditUploadZoneVariant = () => {
                     url: URL.createObjectURL(file),
                     file,
                     size: file.size,
+                    isCover: false,
+                    order: 0,
                 };
             }) as FileObj[];
             const updated = [...fileObj, ...currentFiles] as FileObj[] | GalleryResponse[];
@@ -133,28 +138,7 @@ const EditUploadZoneVariant = () => {
         form.clearErrors();
     };
     const handleClickSetCover = async (file: FileObj) => {
-        const allFiles = form.getValues("files");
-        const current = allFiles.find((it) => it.id == file.id);
-        if (!current) return;
-        const updateFiles = allFiles.map((it) => {
-            if (it.id == file.id) {
-                return { ...it, isCover: file.isCover };
-            } else it.isCover = false;
-            return it;
-        }) as FileObj[];
-        form.setValue("files", updateFiles);
-        const variantID = form.getValues("id");
-        if (typeof variantID == "number" && typeof file.id == "number") {
-            try {
-                updateGalleryApi({
-                    variantID,
-                    photoID: file.id,
-                    isCover: file.isCover,
-                }).then(() => ToastSuccessSonner("Vous avez définis une image de couverture"));
-            } catch (error) {
-                if (error instanceof Error) console.error(error.message);
-            }
-        }
+        updateCover(form, file);
     };
 
     React.useEffect(() => {
@@ -218,7 +202,7 @@ const EditUploadZoneVariant = () => {
                         </Button>
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
-                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-1 justify-center">
+                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,180px))] gap-1 justify-center">
                             {form.watch("files").length > 0 &&
                                 form
                                     .getValues("files")

@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { updateCover } from "./helpers";
 
 export type UploadZoneForm = {
     name: string;
@@ -64,6 +65,7 @@ const UploadZoneVariant = () => {
         const addVariant = [variant, ...currentVariant];
         propertyForm.setValue("variants", addVariant);
         closeModal();
+        window.location.reload();
     };
 
     const sizeValidator = (file: File) => {
@@ -80,7 +82,8 @@ const UploadZoneVariant = () => {
         (acceptedFiles: Array<File>) => {
             // Do something with the files
             const currentFiles = form.getValues("files");
-            const fileObj = acceptedFiles.map((file: File) => {
+
+            const fileObj = acceptedFiles.map((file: File, index) => {
                 const id = uniqid();
                 return {
                     id,
@@ -88,10 +91,19 @@ const UploadZoneVariant = () => {
                     url: URL.createObjectURL(file),
                     file,
                     size: file.size,
+                    isCover: false,
+                    order: 0,
                 };
             }) as FileObj[];
             const updated = [...fileObj, ...currentFiles] as FileObj[] | GalleryResponse[];
-            form.setValue("files", updated);
+            const updateCover = updated.map((it, index) => {
+                it.isCover = index == 0 ? true : false;
+
+                return it;
+            }) as FileObj[];
+            updateCover[0].isCover = true;
+
+            form.setValue("files", updateCover);
         },
         [form],
     );
@@ -103,6 +115,10 @@ const UploadZoneVariant = () => {
         },
         validator: sizeValidator,
     });
+
+    const handleClickSetCover = async (file: FileObj) => {
+        updateCover(form, file);
+    };
 
     const CLASS_DRAG_ACTIVE = isDragActive ? "border-cyan-600 bg-cyan-200 transition text-cyan-600" : "";
     const DROPZONE_TEXT = isDragActive ? "Vous pouvez lâcher" : "Cliquez ou glissez vos photos ici";
@@ -189,11 +205,18 @@ const UploadZoneVariant = () => {
                         </Button>
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
-                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(100px,135px))] gap-1 justify-center">
+                        <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,0.5fr))] gap-1 justify-center">
                             {form.watch("files").length > 0 &&
                                 form
                                     .getValues("files")
-                                    .map((file) => <PreviewVarianteUpload key={file?.id} file={file as FileObj} />)}
+                                    .map((file) => (
+                                        <PreviewVarianteUpload
+                                            isCover={file.isCover}
+                                            key={file?.id}
+                                            file={file as FileObj}
+                                            setCover={handleClickSetCover}
+                                        />
+                                    ))}
                         </div>
                     </ScrollArea>
                 </div>

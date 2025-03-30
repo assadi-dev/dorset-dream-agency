@@ -19,7 +19,7 @@ const useRouteRefresh = () => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
         updatedSearchParams.set(name, value);
         const updatePathName = pathname + "?" + updatedSearchParams.toString();
-        router.push(updatePathName);
+        router.replace(updatePathName);
         router.refresh();
     };
     const updateSearchParamWitObjectAndRefresh = (params: Record<string, string>) => {
@@ -29,13 +29,13 @@ const useRouteRefresh = () => {
             updatedSearchParams.set(key, value);
         });
         const updatePathName = pathname + "?" + updatedSearchParams.toString();
-        router.push(updatePathName);
+        router.replace(updatePathName);
         router.refresh();
     };
     const refreshWithParams = () => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
         const updatePathName = pathname + "?" + updatedSearchParams.toString();
-        router.push(updatePathName);
+        router.replace(updatePathName);
         router.refresh();
     };
 
