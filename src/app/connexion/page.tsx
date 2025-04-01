@@ -17,11 +17,11 @@ const Connexion = async () => {
     return (
         <React.Suspense>
             <main style={backgroundStyle} className="lg:grid lg:grid-cols-[1fr,0.5fr] h-screen">
-                <section className="p-8 grid place-items-center">
+                <section className="hidden p-8 lg:grid place-items-center">
                     {/*  <Image src={backgroundImage} alt="" className="rounded-lg w-[55vw] h-[65vh]" /> */}
                 </section>
                 <section
-                    className=" md:grid md:place-items-center text-secondary "
+                    className=" grid place-items-center text-secondary h-full w-full"
                     style={{
                         background: "rgba(3, 51, 23, 0.85)",
                         backdropFilter: "blur(8px)",

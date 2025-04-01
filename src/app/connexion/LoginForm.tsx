@@ -84,7 +84,7 @@ const LoginForm = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(handleSignIn)}
-                className="login-form md:w-[80%] p-10 "
+                className="login-form w-full md:w-[80%] p-10 "
                 ref={container as any}
             >
                 <div className="text--center w-full flex justify-center mb-10">
