@@ -7,12 +7,19 @@ import { variants } from "../schema/variants";
 import { and, asc, eq, or, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
 import { removePhotosByAndFile } from "./photos";
+import { PhotoInferType } from "@/app/types/photos";
 
-export const insertGallery = (variantID: number, photoID: number) => {
+export const insertGallery = (
+    variantID: number,
+    photoID: number,
+    { isCover, order }: { isCover?: boolean; order?: number },
+) => {
     try {
         return db.insert(galleryVariants).values({
             variantID,
             photoID,
+            isCover: isCover || false,
+            order: order || 0,
         });
     } catch (error: any) {
         throw error;
@@ -66,17 +73,21 @@ export const createVariantGallery = async (formData: FormData) => {
     try {
         const propertyID = Number(formData.get("propertyID"));
         const name = (formData.get("name") as string) || null;
-        const files = formData.getAll("files");
+        const files = formData.getAll("files") as File[];
+        const coverIndex = Number(formData.get("isCoverIndex")) || 0;
+        const coverFile = files[coverIndex];
+
         if (!files) return;
 
         const response = await uploadPhotoProperty(formData);
-
         const variant = await insertVariant(name, propertyID);
-
+        let order = 0;
         for (const photo of response.photos) {
             const variantID = variant.id;
-            const photoID = photo;
-            await insertGallery(variantID, photoID);
+            const photoID = photo.id;
+            const isCover = coverFile.name.toLowerCase() == photo.originalName.toLowerCase();
+            await insertGallery(variantID, photoID, { order, isCover });
+            order++;
         }
     } catch (error: any) {
         throw error;
@@ -88,14 +99,19 @@ export const updateVariantGallery = async (formData: FormData) => {
         const variantID = Number(formData.get("variantID"));
         const propertyID = Number(formData.get("propertyID"));
         const name = (formData.get("name") as string) || null;
-        const files = formData.getAll("files");
+        const files = formData.getAll("files") as File[];
+        const coverIndex = Number(formData.get("isCoverIndex")) || 0;
+        const coverFile = files[coverIndex];
 
         const variant = await updateVariant(variantID, { name, propertyID });
+        let order = 0;
         if (files.length > 0) {
             const response = await uploadPhotoProperty(formData);
             for (const photo of response.photos) {
-                const photoID = photo;
-                if (variant) await insertGallery(variant.id, photoID);
+                const photoID = photo.id;
+                const isCover = coverFile.name.toLowerCase() == photo.originalName.toLowerCase();
+                if (variant) await insertGallery(variant.id, photoID, { order, isCover });
+                order++;
             }
         }
 
@@ -105,7 +121,9 @@ export const updateVariantGallery = async (formData: FormData) => {
     }
 };
 
-export const uploadPhotoProperty = async (formData: FormData): Promise<{ message: string; photos: Array<number> }> => {
+export const uploadPhotoProperty = async (
+    formData: FormData,
+): Promise<{ message: string; photos: Array<PhotoInferType> }> => {
     try {
         const response = await fetch(ENV.DOMAIN + "/api/uploads/photos/properties", {
             method: "POST",
@@ -118,6 +136,7 @@ export const uploadPhotoProperty = async (formData: FormData): Promise<{ message
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+
         return data;
     } catch (error: any) {
         console.error("Error occurred:", error.message || error);

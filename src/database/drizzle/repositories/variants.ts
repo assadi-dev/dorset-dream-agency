@@ -102,9 +102,9 @@ export const getOneVariantWithGallery = async (id: number | string) => {
         .prepare();
     const result = await request.execute({ id });
 
-    const gallery = await getGalleryCollectionForVariants(id);
+    const files = await getGalleryCollectionForVariants(id);
 
-    return { ...result[0], gallery };
+    return { ...result[0], files };
 };
 
 export const updateVariant = async (id: number | string, data: any) => {

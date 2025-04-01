@@ -68,6 +68,8 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
                             for (const fileObj of variant.files) {
                                 if (fileObj.file instanceof File) {
                                     formData.append("files", fileObj.file);
+                                    const indexIsCover = variant.files.findIndex((it) => it.isCover) || "0";
+                                    indexIsCover && formData.append("isCoverIndex", indexIsCover.toString());
                                 }
                             }
                         }

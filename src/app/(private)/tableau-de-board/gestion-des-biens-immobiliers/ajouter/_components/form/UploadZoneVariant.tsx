@@ -16,7 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
-import { updateCover } from "./helpers";
+import { updateCover, VARIANT_EVENT_CUSTOM_NAME } from "./helpers";
+import { dispatchEvent } from "@/lib/event";
 
 export type UploadZoneForm = {
     name: string;
@@ -56,6 +57,7 @@ const UploadZoneVariant = () => {
 
     const submitVariant: SubmitHandler<UploadZoneForm> = async (values) => {
         const currentVariant = propertyForm.getValues("variants") || [];
+
         const variant = {
             id: uniqid(),
             name: values.name,
@@ -65,7 +67,6 @@ const UploadZoneVariant = () => {
         const addVariant = [variant, ...currentVariant];
         propertyForm.setValue("variants", addVariant);
         closeModal();
-        window.location.reload();
     };
 
     const sizeValidator = (file: File) => {
@@ -117,6 +118,7 @@ const UploadZoneVariant = () => {
     });
 
     const handleClickSetCover = async (file: FileObj) => {
+        dispatchEvent(VARIANT_EVENT_CUSTOM_NAME.update_cover, file);
         updateCover(form, file);
     };
 

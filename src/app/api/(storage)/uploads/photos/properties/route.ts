@@ -37,7 +37,7 @@ export async function POST(req: Request) {
                 url: `${ENV.DOMAIN}/api/photo/property/${fileName}`,
             });
 
-            PHOTOS.push(photo?.id);
+            PHOTOS.push(photo);
         }
 
         const FILE_WORD = plural(files.length, "File", "Files");
