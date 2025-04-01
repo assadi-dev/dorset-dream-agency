@@ -3,13 +3,14 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import styles from "../styles.module.css";
 import { useFormContext } from "react-hook-form";
-import { removeVariants } from "../form/helpers";
+import { removeVariants, VARIANT_EVENT_CUSTOM_NAME } from "../form/helpers";
 import useModalState from "@/hooks/useModalState";
 import { EditButton, RemoveButton } from "./VaraintCarAction";
 import { FileObj } from "../../../types";
 import DeleteConfirmVariant from "./DeleteConfirmVariant";
 import { UploadZoneForm } from "../form/UploadZoneVariant";
 import { propertyFormType } from "../form/propertySchema";
+import { subscribe, unsubscribe } from "@/lib/event";
 
 type VariantCardItemProps = React.HTMLAttributes<HTMLElement> & {
     previewLink?: string | null;
@@ -25,26 +26,29 @@ const VariantCardItem = ({ variant, previewLink, ...props }: VariantCardItemProp
     const { openModal } = useModalState();
 
     const form = useFormContext<propertyFormType>();
+    const handPreviewUrl = (event: unknown) => {
+        const data = event as { detail: any };
+
+        setPreviewUrl(data.detail.url);
+    };
 
     React.useEffect(() => {
         if (!variant) return;
         if (variant.files) {
             const file = variant.files.find((f) => f.isCover == true)?.file || variant.files[0].file;
+
             if (file instanceof File && !previewUrl) {
                 const link = URL.createObjectURL(file);
                 setPreviewUrl(link);
             }
         }
 
+        subscribe(VARIANT_EVENT_CUSTOM_NAME.update_cover, handPreviewUrl);
+
         return () => {
-            previewUrl && URL.revokeObjectURL(previewUrl);
+            unsubscribe(VARIANT_EVENT_CUSTOM_NAME.update_cover, handPreviewUrl);
         };
     }, [variant.files, previewUrl, form.watch("variants")]);
-
-    /* 
-    React.useEffect(() => {
-        if (previewLink) setPreviewUrl(previewLink);
-    }, []); */
 
     const handleClickRemove = React.useCallback(() => {
         if (!variant && !openModal) return;

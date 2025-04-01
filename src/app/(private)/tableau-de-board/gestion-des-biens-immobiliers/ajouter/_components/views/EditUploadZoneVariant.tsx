@@ -15,8 +15,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "../form/propertySchema";
 import { FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { updateCover, updateGalleryApi } from "../form/helpers";
+import { updateCover, updateGalleryApi, VARIANT_EVENT_CUSTOM_NAME } from "../form/helpers";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
+import { dispatchEvent } from "@/lib/event";
 
 export type UploadZoneForm = {
     id?: number | string | null;
@@ -24,7 +25,7 @@ export type UploadZoneForm = {
     files: Array<FileObj> | Array<GalleryResponse>;
 };
 
-export type VariantPayload = { id?: number | string | null; name: string; gallery: GalleryResponse[] };
+export type VariantPayload = { id?: number | string | null; name: string; files: GalleryResponse[] };
 
 const EditUploadZoneVariant = () => {
     const { refreshWithParams, refresh } = useRouteRefresh();
@@ -41,10 +42,10 @@ const EditUploadZoneVariant = () => {
 
     React.useEffect(() => {
         if (payload && form) {
-            if (payload?.gallery) {
+            if (payload?.files) {
                 const defaultValues = payload as VariantPayload;
                 form.setValue("id", defaultValues?.id);
-                form.setValue("files", defaultValues?.gallery);
+                form.setValue("files", defaultValues?.files);
                 form.setValue("name", defaultValues?.name);
             }
             if (payload?.files) {
@@ -71,7 +72,7 @@ const EditUploadZoneVariant = () => {
 
         propertyForm.setValue("variants", variantsUpdated);
         closeModal();
-        window.location.reload();
+        refreshWithParams();
     };
 
     const sizeValidator = (file: File) => {
@@ -138,6 +139,7 @@ const EditUploadZoneVariant = () => {
         form.clearErrors();
     };
     const handleClickSetCover = async (file: FileObj) => {
+        dispatchEvent(VARIANT_EVENT_CUSTOM_NAME.update_cover, file);
         updateCover(form, file);
     };
 

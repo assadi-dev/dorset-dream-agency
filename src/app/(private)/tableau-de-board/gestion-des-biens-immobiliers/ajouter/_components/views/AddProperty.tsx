@@ -57,15 +57,18 @@ const AddProperty = () => {
                             for (const file of variant.files) {
                                 if (file.file instanceof File) {
                                     formData.append("files", file.file);
+                                    const indexIsCover = variant.files.findIndex((it) => it.isCover) || "0";
+                                    indexIsCover && formData.append("isCoverIndex", indexIsCover.toString());
                                 }
                             }
+
                             await createVariantGalleryApi(formData);
                         }
                     }
                 }
 
                 ToastSuccessSonner("Le bien immobilier à été créer avec success !");
-                form.reset();
+                // form.reset();
             } catch (error: any) {
                 if (error instanceof Error) ToastErrorSonner(error.message);
             }

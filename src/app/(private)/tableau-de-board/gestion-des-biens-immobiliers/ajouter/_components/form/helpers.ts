@@ -84,3 +84,7 @@ export const updateCover = (form: UseFormReturn<UploadZoneForm>, file: FileObj) 
         }
     }
 };
+
+export enum VARIANT_EVENT_CUSTOM_NAME {
+    update_cover = "update:cover",
+}
