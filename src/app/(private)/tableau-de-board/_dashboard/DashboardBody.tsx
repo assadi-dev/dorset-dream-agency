@@ -12,7 +12,7 @@ const DashboardBody = () => {
                 <Announcement />
                 <IncomeEmployee />
             </section>
-            <section className="my-3  grid grid-rows-2 sm:grid-rows-[auto] lg:grid-cols-2 gap-3 min-h-[300px] w-full">
+            <section className="my-3  grid grid-rows-2 lg:grid-rows-[auto] lg:grid-cols-2 gap-3 min-h-[300px] w-full">
                 <TransactionChart />
                 <PropertiesCountBar />
             </section>
