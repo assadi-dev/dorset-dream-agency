@@ -37,10 +37,10 @@ type AppSidebar = {
 const AppSidebar = ({ role }: AppSidebar) => {
     const SIDEBAR = getSideBar(role);
     return (
-        <Sidebar className="bg-gradient-to-br  from-black from-[5%]   to-primary to-100%    text-white">
+        <Sidebar className="sidebar-custom    text-white">
             <SidebarHeader className="mb-5">
                 <SidebarMenu className="flex justify-end items-center p-3  rounded-xl">
-                    <SidebarMenuItem className="w-[45%vw]  lg:w-[75%] h-[auto]">
+                    <SidebarMenuItem className="w-[75%] h-[auto]">
                         <DashboardLogo />
                     </SidebarMenuItem>
                 </SidebarMenu>

@@ -104,6 +104,9 @@
     .dataTable tbody tr {
         @apply hover:bg-primary hover:text-secondary  data-[state=selected]:bg-primary drop-shadow py-3;
     }
+    .bg-sidebar {
+        @apply bg-gradient-to-br  from-black from-[5%]   to-primary to-100% !border-r-0;
+    }
 }
 
 .slide-in-text {
