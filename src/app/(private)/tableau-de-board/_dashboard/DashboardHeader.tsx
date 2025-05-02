@@ -6,7 +6,7 @@ import ResumeTransactionCard from "./_cards/ResumeTransactionCard";
 
 const DashboardHeader = () => {
     return (
-        <section className="grid gap-4 grid-cols-2  lg:grid-cols-4 mt-3">
+        <section className="grid gap-2 xl:gap-4 grid-cols-2  lg:grid-cols-4 mt-3">
             <IncomeCard />
             <ResumeTransactionCard />
             <ClientsCard />
