@@ -37,11 +37,11 @@ const LastTransaction = () => {
     }, [data]);
 
     return (
-        <Card className="h-full w-full">
+        <Card className="h-full w-full overflow-hidden">
             <CardHeader>
                 <CardTitle>Dernières Locations et Ventes</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="w-full">
                 <div className="flex sm:flex-row sm:justify-between ">
                     <SearchInput onChange={handleSearch} />
                 </div>
