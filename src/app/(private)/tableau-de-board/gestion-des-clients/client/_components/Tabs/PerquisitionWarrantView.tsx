@@ -14,6 +14,8 @@ import AddWarrant from "./views/AddWarrant";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import { USER_QUERY_KEY } from "@/app/types/QueryKeys";
 import useDataCollections from "@/hooks/useDataCollections";
+import { Card, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const PerquisitionWarrantView = () => {
     const searchParams = useSearchParams();
@@ -56,23 +58,26 @@ const PerquisitionWarrantView = () => {
     const WARRANT_DATA = useDataCollections(data);
 
     return (
-        <div className="grid grid-rows-[auto,1fr] mt-3">
-            <section>
-                <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
+        <Card className="px-2 mt-3">
+            <section className="my-5 flex items-center justify-between">
+                <div className="flex items-center gap-2  min-w-[25vw]">
                     <SearchInputDataTable />
-                    <div className="self-end w-full flex justify-end">
-                        {<AddButton title="Ajouter" onClick={handleClickAddWarrant} />}
-                    </div>
+                </div>
+                <div className="self-end w-full flex justify-end">
+                    {<AddButton title="Ajouter" onClick={handleClickAddWarrant} />}
                 </div>
             </section>
-            <section className="min-h-[calc(80vh-220px)]">
-                <div className="flex justify-between">
+            <section className="min-h-[calc(80vh-270px)]">
+                {!error ? <DataTable columns={WARRANT_COLUMNS_ID} data={WARRANT_DATA.data} /> : null}
+            </section>
+            <Separator className="my-3" />
+            <CardFooter>
+                <div className="flex justify-between items-center w-full">
                     <div></div>
                     <SimplePagination limit={limit} totalItems={WARRANT_DATA.totalItems} />
                 </div>
-                {!error ? <DataTable columns={WARRANT_COLUMNS_ID} data={WARRANT_DATA.data} /> : null}
-            </section>
-        </div>
+            </CardFooter>
+        </Card>
     );
 };
 
