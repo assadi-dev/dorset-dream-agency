@@ -31,8 +31,8 @@ const IncomeCard = () => {
 
     return (
         <DashboardCard title="Revenu Total" icon={DollarSign} className="bg-primary text-secondary">
-            <div className="grid grid-rows-[1fr,auto] gap-3.5 justify-content-center">
-                <p className="text-4xl font-bold text-center drop-shadow-lg text-primary-accent">
+            <div className="grid grid-rows-[1fr,auto] gap-1.5 xl:gap-3.5 justify-content-center">
+                <p className="text-3xl xl:text-4xl font-bold text-center drop-shadow-lg text-primary-accent">
                     {formatThousand(data?.sum)}$
                 </p>
 

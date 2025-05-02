@@ -13,7 +13,9 @@ const ResumeTransactionCard = () => {
 
     return (
         <DashboardCard title="Locations - Ventes" icon={Hotel} className="bg-primary text-secondary">
-            <div className="text-4xl font-bold text-center my-1 drop-shadow-lg text-primary-accent">{data?.total}</div>
+            <div className="text-3xl xl:text-4xl font-bold text-center my-1 drop-shadow-lg text-primary-accent">
+                {data?.total}
+            </div>
             <p className="text-xs text-primary-accent drop-shadow-lg"> {data?.rental} Locations</p>
             <p className="text-xs text-primary-accent drop-shadow-lg"> {data?.sales} Ventes</p>
         </DashboardCard>

@@ -12,16 +12,16 @@ const DashboardCard = ({ title, icon, children, ...props }: DashboardCardProps) 
     return (
         <Card {...props}>
             {title ? (
-                <CardHeader className="flex flex-row items-center justify-between text-primary-accent">
+                <CardHeader className="flex flex-row items-center justify-between p-3 xl:p-6 text-primary-accent ">
                     <CardTitle className="text-sm font-medium drop-shadow-sm">{title}</CardTitle>
                     {icon && RenderIcon ? (
-                        <div className="bg-green-950 rounded-full p-3 shadow-lg">
+                        <div className="bg-green-950 rounded-full p-2 xl:p-3 shadow-lg !m-0">
                             <RenderIcon />
                         </div>
                     ) : null}
                 </CardHeader>
             ) : null}
-            <CardContent>{children}</CardContent>
+            <CardContent className="px-3">{children}</CardContent>
         </Card>
     );
 };
