@@ -13,16 +13,16 @@ const ClientCard = ({ client }: { client: ClientType }) => {
     return (
         <Link href={{ pathname: "gestion-des-clients/client", query: { id: client.id } }}>
             <Card className="rounded  bg-white hover:shadow-lg hover:scale-105 transition-all relative">
-                <figure className="w-full h-[150px] relative grid">
+                <figure className="w-full h-[180px] relative grid">
                     <Image
                         width={100}
                         height={100}
                         src={UNKNOWN_IMAGE}
                         alt={`photo of ${client.fullName}`}
-                        className="w-[100px] rounded-l-lg absolute top-[50%] translate-y-[-50%] left-1  z-0 opacity-25"
+                        className="w-[100px] rounded-l-lg absolute top-[50%] translate-y-[-50%] left-1  z-0 opacity-15"
                     />
 
-                    <figcaption className=" text-sm text-center leading-6 w-full  lg:self-center z-10 lg:ml-8">
+                    <figcaption className=" text-sm text-center leading-6 w-full  lg:self-center z-10 lg:ml-8 h-full flex flex-col items-center justify-center">
                         <p className="font-bold">{client.fullName}</p>
                         <p>{client.phone}</p>
                         {client.isDead && (

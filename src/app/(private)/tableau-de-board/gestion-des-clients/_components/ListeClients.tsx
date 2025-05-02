@@ -57,7 +57,7 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
 
     return (
         <>
-            <div className="grid  gap-3 xl:gap-1 grid-cols-[minmax(100px,1fr),auto]   xl:grid-cols-[minmax(200px,0.5fr),1fr]  items-center pt-5">
+            <div className="grid  gap-3 xl:gap-1 grid-cols-[minmax(100px,1fr),auto]  sm:grid-cols-[minmax(200px,0.65fr),auto]  xl:grid-cols-[minmax(200px,0.5fr),1fr]  items-center pt-5">
                 <SearchInputDataTable
                     classNames={{
                         input: "bg-green-950/25 ",
