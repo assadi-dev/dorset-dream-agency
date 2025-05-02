@@ -43,7 +43,7 @@ const PropertiesCountBar = () => {
 
     return (
         <Card>
-            <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+            <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 xl:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-2 px-6 py-5 sm:py-6">
                     <CardTitle>Total des Ventes et Locations</CardTitle>
                     <SelectMonth onValueChange={handleSelectMonth} />
@@ -59,7 +59,7 @@ const PropertiesCountBar = () => {
                                 onClick={() => setActiveChart(chart)}
                             >
                                 <span className="text-xs text-muted-foreground">{chartConfig[chart].label}</span>
-                                <span className="text-lg font-bold leading-none sm:text-3xl">
+                                <span className="text-2xl font-bold leading-none xl:text-3xl text-center">
                                     {TOTAL[key as keyof typeof TOTAL].toLocaleString()}
                                 </span>
                             </button>

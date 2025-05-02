@@ -10,7 +10,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { wait } from "@/lib/utils";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { chartConfig, ServiceLabel } from "./chartConfig";
 import { SelectMonth } from "@/components/forms/SelectMonth";
 import { useQuery } from "@tanstack/react-query";
@@ -54,32 +54,34 @@ const TransactionChart = () => {
     };
 
     return (
-        <Card className="flex flex-col w-full h-full ">
+        <Card className="flex flex-col w-full h-full overflow-hidden">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Chiffre d'affaires de l'agence en $</CardTitle>
                 <SelectMonth onValueChange={handleSelectMonth} />
             </CardHeader>
-            {CHART_DATA.length > 0 && !isFetching && (
-                <ChartContainer config={chartConfig} className="mx-auto h-full">
-                    <BarChart accessibilityLayer data={CHART_DATA}>
-                        <CartesianGrid vertical={false} />
-                        <XAxis
-                            dataKey="secteur"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                            tickFormatter={(value: string) => {
-                                const servicesLabel = ServiceLabel as Record<string, string>;
-                                return servicesLabel[value];
-                            }}
-                        />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent className="min-w-[200px]" />} />
-                        <Bar dataKey="revenus" fill="var(--color-desktop)" radius={5} />
-                        <ChartLegend content={<ChartLegendContent nameKey="secteur" />} />
-                    </BarChart>
-                </ChartContainer>
-            )}
-            {CHART_DATA.length === 0 && !isFetching && <EmptyChart />}
+            <CardContent className="p-6 h-full flex-col items-center justify-center w-full">
+                {CHART_DATA.length > 0 && !isFetching && (
+                    <ChartContainer config={chartConfig} className="mx-auto h-full w-full">
+                        <BarChart accessibilityLayer data={CHART_DATA}>
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="secteur"
+                                tickLine={false}
+                                tickMargin={5}
+                                axisLine={false}
+                                tickFormatter={(value: string) => {
+                                    const servicesLabel = ServiceLabel as Record<string, string>;
+                                    return servicesLabel[value];
+                                }}
+                            />
+                            <ChartTooltip cursor={false} content={<ChartTooltipContent className="min-w-[200px]" />} />
+                            <Bar dataKey="revenus" fill="var(--color-desktop)" radius={5} />
+                            <ChartLegend content={<ChartLegendContent nameKey="secteur" />} />
+                        </BarChart>
+                    </ChartContainer>
+                )}
+                {CHART_DATA.length === 0 && !isFetching && <EmptyChart />}
+            </CardContent>
         </Card>
     );
 };

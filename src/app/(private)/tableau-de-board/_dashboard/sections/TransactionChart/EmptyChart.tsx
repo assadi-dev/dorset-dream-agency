@@ -2,7 +2,7 @@ import React from "react";
 
 const EmptyChart = () => {
     return (
-        <div className="flex flex-1 justify-center items-center">Aucune transaction n'a eu lieu dans cette période</div>
+        <div className="flex h-full justify-center items-center">Aucune transaction n'a eu lieu dans cette période</div>
     );
 };
 
