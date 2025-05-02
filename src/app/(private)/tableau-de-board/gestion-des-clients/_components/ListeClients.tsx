@@ -56,8 +56,8 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
     };
 
     return (
-        <div>
-            <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr]  items-center pt-5">
+        <>
+            <div className="grid  gap-3 xl:gap-1 grid-cols-[minmax(100px,1fr),auto]   xl:grid-cols-[minmax(200px,0.5fr),1fr]  items-center pt-5">
                 <SearchInputDataTable
                     classNames={{
                         input: "bg-green-950/25 ",
@@ -68,7 +68,7 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
                 <ClientPageRightAction />
             </div>
 
-            <div className="my-5 flex justify-between items-center">
+            <div className="my-5  flex flex-col sm:flex-row sm:justify-between items-center gap-3 xl:gap-1">
                 {isAdmin(role) ? (
                     <SelectAction
                         totalCount={totalItems}
@@ -97,7 +97,7 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
                     )}
                 </div>
             </ScrollArea>
-        </div>
+        </>
     );
 };
 

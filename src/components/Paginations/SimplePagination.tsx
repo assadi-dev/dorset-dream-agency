@@ -119,9 +119,9 @@ const SimplePagination = ({
         <div className="flex items-center  px-2 my-3">
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium">{rowLabel}</p>
+                    <p className="hidden xl:block text-xs xl:text-sm font-medium">{rowLabel}</p>
                     <Select value={String(paginationState.limit)} onValueChange={handleSelectLimit}>
-                        <SelectTrigger className="h-8 w-[70px] bg-white">
+                        <SelectTrigger className="h-8 w-[70px] bg-white text-xs xl:text-sm">
                             <SelectValue placeholder={paginationState.limit} />
                         </SelectTrigger>
                         <SelectContent side="bottom">
@@ -133,7 +133,7 @@ const SimplePagination = ({
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                <div className="flex w-[100px] items-center justify-center text-xs xl:text-sm font-medium">
                     Page {page} sur {TOTAL_PAGE}
                 </div>
                 <div className="flex items-center space-x-2">
