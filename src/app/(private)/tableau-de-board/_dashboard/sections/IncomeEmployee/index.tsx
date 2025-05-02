@@ -45,28 +45,26 @@ const IncomeEmployee = () => {
     };
 
     return (
-        <div>
-            <Card className="h-full">
-                <CardHeader>
-                    <CardTitle>Dernières contributions des employés</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex sm:flex-row sm:justify-between items-center">
-                        <SearchInput onChange={handleSearch} />
-                        <SelectMonth onValueChange={handleSelectMonth} />
-                    </div>
-                    <ScrollArea className="py-3 h-[200px] lg:h-[300px]">
-                        <SimpleTable
-                            columns={columns}
-                            data={DATA_TRANSACTIONS}
-                            classNames={{
-                                tableHeaderClassName: "text-center",
-                            }}
-                        />
-                    </ScrollArea>
-                </CardContent>
-            </Card>
-        </div>
+        <Card className="h-full w-full overflow-hidden">
+            <CardHeader>
+                <CardTitle>Dernières contributions des employés</CardTitle>
+            </CardHeader>
+            <CardContent className="w-full">
+                <div className="flex sm:flex-row sm:justify-between items-center">
+                    <SearchInput onChange={handleSearch} />
+                    <SelectMonth onValueChange={handleSelectMonth} />
+                </div>
+                <ScrollArea className="py-3 h-[200px] lg:h-[300px]">
+                    <SimpleTable
+                        columns={columns}
+                        data={DATA_TRANSACTIONS}
+                        classNames={{
+                            tableHeaderClassName: "text-center",
+                        }}
+                    />
+                </ScrollArea>
+            </CardContent>
+        </Card>
     );
 };
 

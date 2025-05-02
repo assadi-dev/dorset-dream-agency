@@ -17,7 +17,7 @@ const Announcement = () => {
     if (isFetching)
         return (
             <Card className="bg-primary text-white overflow-hidden">
-                <Loader />{" "}
+                <Loader />
             </Card>
         );
 
@@ -27,12 +27,12 @@ const Announcement = () => {
                 <embed
                     src={data?.url}
                     type="image/svg+xml"
-                    className="w-full"
+                    className="w-full h-full"
                     role="img"
                     aria-description={`fiche d'annonce intitulé ${data?.title}`}
                 />
             ) : (
-                <div className="h-full flex flex-col justify-center items-center gap-3">
+                <div className="h-full flex flex-col justify-center items-center gap-3 w-full">
                     <p className="text-white text-xl font-bold">Pas d'annonce</p>
                 </div>
             )}

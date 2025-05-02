@@ -8,7 +8,7 @@ import IncomeEmployee from "./sections/IncomeEmployee";
 const DashboardBody = () => {
     return (
         <>
-            <section className="my-3  grid grid-rows-2 sm:grid-rows-[auto]  2xl:grid-cols-[720px,1fr] gap-3 min-h-[300px]">
+            <section className="my-3 w-full grid grid-rows-2 sm:grid-rows-[auto]  2xl:grid-cols-[720px,1fr] gap-3 min-h-[300px]">
                 <Announcement />
                 <IncomeEmployee />
             </section>

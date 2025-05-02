@@ -37,7 +37,7 @@ const LastTransaction = () => {
     }, [data]);
 
     return (
-        <Card className="">
+        <Card className="h-full w-full">
             <CardHeader>
                 <CardTitle>Dernières Locations et Ventes</CardTitle>
             </CardHeader>
@@ -45,7 +45,7 @@ const LastTransaction = () => {
                 <div className="flex sm:flex-row sm:justify-between ">
                     <SearchInput onChange={handleSearch} />
                 </div>
-                <ScrollArea className="py-3 h-[200px] lg:h-[300px]">
+                <ScrollArea className="py-3 h-[300px] lg:h-[400px]">
                     <SimpleTable columns={columns} data={DATA_TRANSACTIONS} />
                 </ScrollArea>
             </CardContent>
