@@ -18,6 +18,7 @@ import gsap from "gsap";
 import Link from "next/link";
 import { Store } from "lucide-react";
 import { handleSignInAction } from "./action";
+import { ERROR_AUTH_MESSAGE, ErrorAuthMessageKey } from "./helpers";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -41,10 +42,9 @@ const LoginForm = () => {
                 router.replace("/tableau-de-board");
             } catch (error: any) {
                 if (error instanceof Error) {
-                    const message =
-                        error.message == "Invalid credential !"
-                            ? "Identifiant ou mot de passe incorrect"
-                            : error.message;
+                    console.error(error.message);
+                    const message = ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] || error.message;
+
                     form.setError("root", { message });
                 }
             }
