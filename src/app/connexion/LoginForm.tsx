@@ -44,7 +44,10 @@ const LoginForm = () => {
                 // console.log(error.name);
                 if (error instanceof Error) {
                     //console.log(error.message);
-                    const message = ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] || UNKNOWN_ERROR;
+                    const message =
+                        ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] ||
+                        ERROR_AUTH_MESSAGE["CredentialsSignin"] ||
+                        UNKNOWN_ERROR;
                     form.setError("root", { message });
                 }
             }
