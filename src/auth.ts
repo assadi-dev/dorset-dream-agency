@@ -3,6 +3,7 @@ import { credentials } from "./app/api/auth/[...nextauth]/providers";
 import { ENV } from "./config/global";
 import { Role } from "./app/types/user";
 import { skipCSRFCheck } from "@auth/core";
+import { decode, encode } from "@auth/core/jwt";
 
 export type UserAdapter = User & {
     role: Role;
@@ -15,6 +16,7 @@ export type UserSession = Session & {
 
 const authOptions = {
     providers: [credentials],
+    useSecureCookies: false,
     callbacks: {
         jwt: async ({ trigger, token, user, account, session }) => {
             if (account?.provider === "credentials") {
@@ -50,21 +52,17 @@ const authOptions = {
 
             return userSession;
         },
+
         authorized: async ({ auth }) => {
             return !!auth;
         },
     },
 
-    pages: {
-        signIn: ENV.NEXT_AUTH_SIGN_IN_PAGE,
-        signOut: ENV.NEXT_AUTH_SIGN_OUT_REDIRECT,
-    },
     secret: ENV.AUTH_SECRET,
     session: {
         maxAge: 86400,
         updateAge: 3600,
     },
-    skipCSRFCheck,
 } satisfies NextAuthConfig;
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth(authOptions);
