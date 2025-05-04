@@ -43,7 +43,9 @@ const LoginForm = () => {
             } catch (error: any) {
                 if (error instanceof Error) {
                     console.error(error.message);
-                    const message = ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] || error.message;
+                    const message =
+                        ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] ||
+                        ERROR_AUTH_MESSAGE["Invalid credential !"];
 
                     form.setError("root", { message });
                 }
