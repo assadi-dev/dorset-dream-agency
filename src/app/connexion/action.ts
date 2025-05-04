@@ -22,15 +22,16 @@ export const handleSignInAction = async (formData: FormData) => {
     const password = formData.get("password");
 
     try {
-        const res = await signIn("credentials", {
+        await signIn("credentials", {
             username,
             password,
             redirect: false,
         });
 
-        if (res?.error) throw new Error(res?.code);
+        //if (res?.error) throw new Error(res.);
     } catch (error: any) {
         console.error(error.message);
+        throw error;
     }
 };
 
