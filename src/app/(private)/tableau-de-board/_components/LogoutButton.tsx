@@ -4,7 +4,7 @@ import React from "react";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { Button } from "@/components/ui/button";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { signOut } from "next-auth/react";
+import { handleLogoutAction } from "@/app/connexion/action";
 
 const LogoutButton = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -12,7 +12,8 @@ const LogoutButton = () => {
     const logout = () => {
         startTransition(async () => {
             try {
-                await signOut();
+                await handleLogoutAction();
+
                 ToastSuccessSonner("Vous êtes déconnecté");
             } catch (error: any) {
                 ToastErrorSonner(`Impossible  de vous déconnecter raison: ${error.message}`);
