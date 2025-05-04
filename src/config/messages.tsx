@@ -13,6 +13,7 @@ export const SERVER_ERROR = "Une erreur est survenu depuis le serveur";
 
 //Authentication Message
 export const ERROR_AUTH_MESSAGE = {
+    CredentialsSignin: "Identifiant ou mot de passe incorrect",
     "Invalid credential !": "Identifiant ou mot de passe incorrect",
     "User no found !": "Ce compte n'existe pas",
 };
