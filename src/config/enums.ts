@@ -1,3 +1,5 @@
+import { ERROR_AUTH_MESSAGE } from "./messages";
+
 export const ROLE_OPTIONS: Record<"label" | "value", string>[] = [
     {
         label: "Utilisateur",
@@ -56,3 +58,5 @@ export const PURCHASE_TYPE = [
         value: "Vente",
     },
 ];
+
+export type ErrorAuthMessageKey = keyof typeof ERROR_AUTH_MESSAGE;

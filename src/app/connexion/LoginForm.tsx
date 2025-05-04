@@ -3,8 +3,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginFormSchema, LoginFormType } from "./schema";
-import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import AlertDestructive from "@/components/notify/AlertDestructive";
 import SubmitButton from "@/components/forms/SubmitButton";
@@ -18,7 +17,8 @@ import gsap from "gsap";
 import Link from "next/link";
 import { Store } from "lucide-react";
 import { handleSignInAction } from "./action";
-import { ERROR_AUTH_MESSAGE, ErrorAuthMessageKey } from "./helpers";
+import { ErrorAuthMessageKey } from "@/config/enums";
+import { ERROR_AUTH_MESSAGE, UNKNOWN_ERROR } from "@/config/messages";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -42,10 +42,8 @@ const LoginForm = () => {
                 router.replace("/tableau-de-board");
             } catch (error: any) {
                 if (error instanceof Error) {
-                    console.error(error.message);
-                    const message =
-                        ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] ||
-                        ERROR_AUTH_MESSAGE["Invalid credential !"];
+                    //  console.error(error.message);
+                    const message = ERROR_AUTH_MESSAGE[error.message as ErrorAuthMessageKey] || UNKNOWN_ERROR;
 
                     form.setError("root", { message });
                 }
