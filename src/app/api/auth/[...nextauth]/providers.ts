@@ -22,7 +22,8 @@ export const credentials = Credentials({
         } catch (error: unknown) {
             const credentialError = new CredentialsSignin();
             if (error instanceof Error) {
-                credentialError.code = error.name;
+                credentialError.type = "CredentialsSignin";
+                credentialError.code = error.message;
                 credentialError.message = error.message;
             }
 
