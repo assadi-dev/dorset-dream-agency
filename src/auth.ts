@@ -3,7 +3,6 @@ import { credentials } from "./app/api/auth/[...nextauth]/providers";
 import { ENV } from "./config/global";
 import { Role } from "./app/types/user";
 import { skipCSRFCheck } from "@auth/core";
-import { decode, encode } from "@auth/core/jwt";
 
 export type UserAdapter = User & {
     role: Role;
@@ -16,7 +15,6 @@ export type UserSession = Session & {
 
 const authOptions = {
     providers: [credentials],
-    useSecureCookies: false,
     callbacks: {
         jwt: async ({ trigger, token, user, account, session }) => {
             if (account?.provider === "credentials") {
