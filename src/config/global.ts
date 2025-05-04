@@ -16,6 +16,7 @@ const EnvSchema = z.object({
     DOMAIN: z.coerce.string(),
     STORAGE_DIR: z.coerce.string(),
     SQLITE_DATABASE_URL: z.coerce.string(),
+    AUTH_DRIZZLE_URL: z.coerce.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;

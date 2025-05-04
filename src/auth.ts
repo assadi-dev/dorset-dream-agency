@@ -2,6 +2,7 @@ import NextAuth, { NextAuthConfig, Session, User } from "next-auth";
 import { credentials } from "./app/api/auth/[...nextauth]/providers";
 import { ENV } from "./config/global";
 import { Role } from "./app/types/user";
+import { skipCSRFCheck } from "@auth/core";
 
 export type UserAdapter = User & {
     role: Role;
@@ -49,14 +50,16 @@ const authOptions = {
 
             return userSession;
         },
+
         authorized: async ({ auth }) => {
             return !!auth;
         },
     },
 
-    pages: {
-        signIn: ENV.NEXT_AUTH_SIGN_IN_PAGE,
-        signOut: ENV.NEXT_AUTH_SIGN_OUT_REDIRECT,
+    secret: ENV.AUTH_SECRET,
+    session: {
+        maxAge: 86400,
+        updateAge: 3600,
     },
 } satisfies NextAuthConfig;
 

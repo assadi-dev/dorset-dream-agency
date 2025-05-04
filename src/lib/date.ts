@@ -153,3 +153,5 @@ export const getCurrentMonth = (date?: string) => {
     const dateTime = date ? new Date(date) : new Date();
     return getMonth(dateTime);
 };
+
+//export const maxAge = params.maxAge || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)

@@ -2,6 +2,7 @@
 
 import { authenticate } from "@/database/drizzle/repositories/users";
 import { LoginFormType } from "./schema";
+import { signIn, signOut } from "@/auth";
 
 export const getUserData = async (values: Partial<LoginFormType> | unknown) => {
     try {
@@ -14,4 +15,25 @@ export const getUserData = async (values: Partial<LoginFormType> | unknown) => {
     } catch (error: any) {
         throw error;
     }
+};
+
+export const handleSignInAction = async (formData: FormData) => {
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    try {
+        const res = await signIn("credentials", {
+            username,
+            password,
+            redirect: false,
+        });
+
+        if (res?.error) throw new Error(res?.code);
+    } catch (error: any) {
+        console.error(error.message);
+    }
+};
+
+export const handleLogoutAction = async () => {
+    await signOut();
 };

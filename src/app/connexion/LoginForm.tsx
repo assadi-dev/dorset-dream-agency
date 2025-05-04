@@ -17,10 +17,10 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
 import { Store } from "lucide-react";
+import { handleSignInAction } from "./action";
 
 const LoginForm = () => {
     const [isPending, startTransition] = React.useTransition();
-    const searchParams = useSearchParams();
 
     const form = useForm<LoginFormType>({
         resolver: zodResolver(LoginFormSchema),
@@ -33,12 +33,11 @@ const LoginForm = () => {
         const password = data.password;
         startTransition(async () => {
             try {
-                const res = await signIn("credentials", {
-                    username,
-                    password,
-                    redirect: false,
-                });
-                if (res?.error) throw new Error(res?.code);
+                const formData = new FormData();
+                formData.append("username", username);
+                formData.append("password", password);
+                const res = await handleSignInAction(formData);
+
                 router.replace("/tableau-de-board");
             } catch (error: any) {
                 if (error instanceof Error) {
