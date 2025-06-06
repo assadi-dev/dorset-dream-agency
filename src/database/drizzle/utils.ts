@@ -133,7 +133,14 @@ export const enum ENTITIES_ENUM {
     TRANSACTIONS = "transactions",
 }
 
-export const PROPERTY_SERVICE = ["Location LS", "Location Favelas", "Ventes LS", "Ventes Favelas"] as const;
+export const PROPERTY_SERVICE = [
+    "Location LS",
+    "Ventes LS",
+    "Location Favelas",
+    "Ventes Favelas",
+    "Location Las Venturas",
+    "Ventes Las Venturas",
+] as const;
 export const EMPLOYEE_POST = [
     "Employée",
     "Manageuse",
@@ -145,10 +152,12 @@ export const EMPLOYEE_POST = [
 enum SaleFilterEnum {
     VENTES_LS = "Ventes LS",
     VENTES_FAVELAS = "Ventes Favelas",
+    Las_Venturas = "Ventes Las Venturas",
 }
 enum RentalFilterEnum {
-    LOCATION_FAVELAS = "Location Favelas",
+    // LOCATION_FAVELAS = "Location Favelas",
     LOCATION_LS = "Location LS",
+    LOCATION_LAS_VENTURAS = "Location Las Venturas",
 }
 
 export const RENTAL_FILTER_ARRAY = Object.entries(RentalFilterEnum).map((item) => item[1]);

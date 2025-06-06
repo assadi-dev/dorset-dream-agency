@@ -15,7 +15,7 @@ export type UserSession = Session & {
 
 const authOptions = {
     providers: [credentials],
-    cookies: {
+    /*     cookies: {
         sessionToken: {
             options: {
                 sameSite: "none",
@@ -23,7 +23,7 @@ const authOptions = {
                 httpOnly: true,
             },
         },
-    },
+    }, */
     callbacks: {
         jwt: async ({ trigger, token, user, account, session }) => {
             if (account?.provider === "credentials") {

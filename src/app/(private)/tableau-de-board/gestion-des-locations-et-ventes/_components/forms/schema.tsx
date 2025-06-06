@@ -1,7 +1,7 @@
 import { REQUIRE_MESSAGE_ERROR } from "@/config/messages";
 import { z } from "zod";
 
-const PROPERTY_TYPE = ["Location LS", "Location Favelas", "Ventes LS", "Ventes Favelas"] as const;
+const PROPERTY_TYPE = ["Location LS", "Ventes LS", "Location Las Venturas", "Ventes Las Venturas"] as const;
 
 export const LocationVentesSchema = z.object({
     client: z.coerce.number().or(z.string()),
