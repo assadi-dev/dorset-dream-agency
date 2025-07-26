@@ -26,7 +26,7 @@ const TabsTest = () => {
                 <TabsList className="bg-primary/25 mx-auto h-auto">
                     {CLIENT_TABS_DATA.map((tabs) => (
                         <TabsTrigger
-                            className=" lg:text-xl data-[state=active]:bg-primary data-[state=active]:text-primary-accent"
+                            className="lg:text-xl data-[state=active]:bg-primary data-[state=active]:text-primary-accent"
                             key={tabs.value}
                             value={tabs.value}
                             onClick={() => handleSelect(tabs.value)}

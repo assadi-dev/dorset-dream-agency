@@ -82,7 +82,7 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
                 <SimplePagination limit={limit} totalItems={totalItems} />
             </div>
             <ScrollArea className="h-[calc(85vh-220px)] rounded ">
-                <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fit,350px)] justify-center gap-x-9 gap-y-9">
+                <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fit,300px)] justify-center  lg:gap-x-9 lg:gap-y-9">
                     {clients.map((client) =>
                         state.mode === "multiple" ? (
                             <ClientCardSelect
