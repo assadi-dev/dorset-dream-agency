@@ -71,7 +71,7 @@ export const getClientsCollections = async (filter: FilterPaginationType) => {
         const query = db
             .select({
                 id: clients.id,
-                fullName: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`.as("fullName"),
+                fullName: sql<string>`CONCAT(${clients.firstName}," ",${clients.lastName})`.as("fullName"),
                 phone: clients.phone,
                 gender: clients.gender,
                 isDead: clients.isDead,
