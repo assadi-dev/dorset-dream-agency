@@ -12,6 +12,7 @@ import { isAdmin } from "@/lib/utils";
 import { Role } from "@/app/types/user";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
 import { FORBIDDEN_ACTION } from "@/config/messages";
+import ClientCardNavigation from "./ClientCardWithNavigation";
 
 type ListeClientsProps = {
     clients: Array<any>;
@@ -92,7 +93,7 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
                                 selectedKeys={state.selected}
                             />
                         ) : (
-                            <ClientCard key={client.id} client={client} selectedKeys={state.selected} />
+                            <ClientCardNavigation key={client.id} client={client} selectedKeys={state.selected} />
                         ),
                     )}
                 </div>
