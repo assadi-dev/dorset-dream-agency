@@ -12,8 +12,8 @@ const CheckBoxCard = ({ id, name, children, ...props }: CheckBoxCardProps) => {
         <label htmlFor={id} className="relative">
             <div
                 className={cn(
-                    "absolute top-1 right-1 p-1 rounded bg-gradient-to-b from-[#05095c] to-[#214583] text-white opacity-15 transition-all",
-                    "has-[:checked]:opacity-100",
+                    "absolute top-1 right-1 p-1 rounded bg-gradient-to-b from-green-900 to-green-950 text-white opacity-0 transition-all",
+                    "has-[:checked]:opacity-100 z-10",
                     props.className,
                 )}
             >

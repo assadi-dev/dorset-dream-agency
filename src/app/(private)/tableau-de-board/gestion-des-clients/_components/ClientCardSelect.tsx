@@ -5,8 +5,9 @@ import React from "react";
 import { ClientType } from "../types";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 import { datetimeFormatFr } from "@/lib/date";
-import { Check, Skull } from "lucide-react";
+import { Check, PhoneCall, Skull } from "lucide-react";
 import CheckBoxCard from "./forms/CheckBoxCard";
+import { cn } from "@/lib/utils";
 
 const ClientCardSelect = ({
     client,
@@ -31,25 +32,35 @@ const ClientCardSelect = ({
     return (
         <Card className="rounded  bg-white hover:shadow-lg  transition-all relative">
             <CheckBoxCard id={`checkbox-${client.id}`} name="isDead" onChange={handleChecked}>
-                <figure className="w-full h-[150px] relative grid">
-                    <Image
-                        width={100}
-                        height={100}
-                        src={UNKNOWN_IMAGE}
-                        alt={`photo of ${client.fullName}`}
-                        className="w-[100px] rounded-l-lg absolute top-[50%] translate-y-[-50%] left-1  z-0 opacity-25"
-                    />
+                <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white">
+                    <div className="bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
+                        <Image
+                            height={400}
+                            width={400}
+                            src={UNKNOWN_IMAGE}
+                            alt={`photo of ${client.fullName}`}
+                            className={cn("object-cover object-center h-full ", {
+                                "brightness-75": client.isDead,
+                            })}
+                        />
 
-                    <figcaption className=" text-sm text-center leading-6 w-full  lg:self-center z-10 lg:ml-8">
-                        <p className="font-bold">{client.fullName}</p>
-                        <p>{client.phone}</p>
-                        {/*   <p>{CLEAN_DATE}</p> */}
                         {client.isDead && (
-                            <p className="font-semibold text-xs flex items-center gap-1 w-fit mx-auto text-slate-600 px-2 bg-slate-300 rounded">
-                                <Skull className="w-3" />
-                                {client.isDead ? "Décédé" : null}
-                            </p>
+                            <div className="flex gap-1 justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold p-3 rounded-lg w-1/2  bg-red-600 shadow-xl z-50">
+                                <Skull className="w-4" /> Décédé
+                            </div>
                         )}
+                    </div>
+                    <figcaption className="flex-1 bg-green-950 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
+                        <p className="text-sm lg:text-[1rem] font-bold max-w-[80%] text-nowrap text-ellipsis overflow-hidden mb-1 truncate max-w-3/4">
+                            {client.fullName}
+                        </p>
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <p className="flex items-center flex-nowrap gap-2 text-xs lg:text-sm text-primary-accent">
+                                    <PhoneCall className="h-3 w-3" /> {client.phone}
+                                </p>
+                            </div>
+                        </div>
                     </figcaption>
                 </figure>
             </CheckBoxCard>
