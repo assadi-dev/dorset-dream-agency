@@ -33,7 +33,7 @@ const ActionDetailClient = ({ client, canDelete, canUpdate }: ActionButtonType) 
         });
     };
     return (
-        <div className="lg:grid lg:grid-rows-2 self-end mb-8 p-3 gap-3">
+        <div className="grid grid-rows-2 self-end mb-8 p-3 gap-3">
             {canUpdate && (
                 <Button variant="outline" className="bg-primary" onClick={handleClickEdit}>
                     Modifier

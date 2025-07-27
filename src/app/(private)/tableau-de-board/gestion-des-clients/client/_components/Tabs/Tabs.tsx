@@ -22,8 +22,8 @@ const TabsTest = () => {
 
     return (
         <Tabs defaultValue={defaultValue} className="w-full">
-            <div className="flex justify-items-center ">
-                <TabsList className="bg-primary/25 mx-auto h-auto">
+            <div className="flex justify-items-center p-3">
+                <TabsList className="bg-primary/25 mx-auto h-auto grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] lg:block w-full lg:w-fit">
                     {CLIENT_TABS_DATA.map((tabs) => (
                         <TabsTrigger
                             className="lg:text-xl data-[state=active]:bg-primary data-[state=active]:text-primary-accent"
