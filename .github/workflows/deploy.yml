@@ -21,5 +21,5 @@ jobs:
                   ssh-keyscan -H 212.227.194.86 >> ~/.ssh/known_hosts
 
             - name: Run deploy.sh on remote server
-              run: ssh root@212.227.194.86 cd /home/assadi/app/dorset-dream-agency /
+              run: ssh root@212.227.194.86 cd /home/assadi/app/dorset-dream-agency &&
                   "bash  ~/deploy.sh"
