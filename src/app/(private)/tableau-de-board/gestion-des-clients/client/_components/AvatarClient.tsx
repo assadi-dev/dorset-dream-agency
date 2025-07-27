@@ -6,6 +6,7 @@ import { PhoneCall, User, User2 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { clientDetailType } from "../actions/actions";
+import { cn } from "@/lib/utils";
 
 type AvatarProps = {
     src?: string;
@@ -20,17 +21,27 @@ const AvatarClient = ({ variant, client }: AvatarProps) => {
         { key: "Téléphone", value: client.phone || "??? ???", icon: PhoneCall },
     ];
     const fullName: string = `${client.firstName} ${client.lastName}`;
+    const isDead = client.isDead ?? false;
     return (
         <figure className="p-3 lg:pt-8 text-black lg:text-primary-accent">
-            <Image
-                placeholder="blur"
-                src={UNKNOWN_IMAGE}
-                alt={`picture of client ${fullName || variant}`}
-                height={400}
-                width={400}
-                style={{ objectFit: "contain" }}
-                className="rounded w-1/2  lg:w-[80%]  mx-auto"
-            />
+            <div className="relative w-1/2  lg:w-[80%]  mx-auto">
+                <Image
+                    placeholder="blur"
+                    src={UNKNOWN_IMAGE}
+                    alt={`picture of client ${fullName || variant}`}
+                    height={400}
+                    width={400}
+                    style={{ objectFit: "contain" }}
+                    className={cn("rounded w-full", {
+                        "brightness-75": isDead,
+                    })}
+                />
+                {isDead && (
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 py-1 min-w-28 text-center text-sm font-bold bg-red-600 shadow rounded text-white">
+                        Décédé
+                    </div>
+                )}
+            </div>
             <figcaption className="mt-3 lg:mt-6 p-3">
                 <div className="w-full mx-auto overflow-x-hidden">
                     {ItemsKeyValue.map((item) => (
