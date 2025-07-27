@@ -12,9 +12,15 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
+            - name: Run build
+              run: npm i && npm run build
 
-            - name: Make deploy.sh executable
-              run: chmod +x ./deploy.sh
+            - name: Set up SSH key
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan -H your.server.ip >> ~/.ssh/known_hosts
 
-            - name: Run deploy script
-              run: ./deploy.sh
+            - name: Run deploy.sh on remote server
+              run: ssh root@212.227.194.86 "bash ~/deploy.sh"
