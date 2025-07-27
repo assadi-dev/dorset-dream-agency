@@ -21,7 +21,7 @@ const ClientCard = ({ disabled, client }: ClientCardProps) => {
     return (
         <Card className="relative">
             <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white">
-                <div className="bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
+                <div className="bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden ">
                     <Image
                         height={400}
                         width={400}
