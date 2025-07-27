@@ -20,5 +20,8 @@ jobs:
                   chmod 600 ~/.ssh/id_rsa
                   ssh-keyscan -H 212.227.194.86 >> ~/.ssh/known_hosts
 
+            - name: Go to directory
+              run: cd /home/assadi/app/dorset-dream-agency
+
             - name: Run deploy.sh on remote server
               run: ssh root@212.227.194.86 "bash ~/deploy.sh"
