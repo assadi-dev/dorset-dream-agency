@@ -41,5 +41,5 @@ jobs:
               run: |
                   curl -H "Content-type: application" \
                   -X POST \
-                  -d '{"content": "❌ Échec du déploiement sur `main`"}' \
+                  -d '"{\"content\": \"❌ Déploiement **échoué** sur \`main\`\n🔗 [Voir le job](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
                   ${{secrets.DISCORD_WEBHOOK_FAIL_URL}}
