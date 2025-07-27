@@ -17,7 +17,7 @@ jobs:
               run: |
                   mkdir -p ~/.ssh
                   echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                  chmod 600 ~/.ssh/id_rsa
+                  chmod 777 ~/.ssh/id_rsa
                   ssh-keyscan -H 212.227.194.86 >> ~/.ssh/known_hosts
 
             - name: Run deploy.sh on remote server
