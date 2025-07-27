@@ -26,3 +26,11 @@ jobs:
 
             - name: Run deploy.sh on remote server
               run: ssh  ${{secrets.SSH_HOST}} "cd /home/assadi/app/dorset-dream-agency && ./deploy.sh"
+
+            # Notification de l'execution des job vers Discord
+
+            - name: Discord notification on success
+              if: success()
+              run: |
+                  curl -H "Content-type: application" \
+                  -X
