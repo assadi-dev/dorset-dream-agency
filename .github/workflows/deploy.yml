@@ -33,4 +33,13 @@ jobs:
               if: success()
               run: |
                   curl -H "Content-type: application" \
-                  -X
+                  -X POST \
+                  -d '{"content": "✅ Déploiement réussi sur `main`"}' \
+                  ${{secrets.DISCORD_WEBHOOK_SUCCESS_URL}}
+            - name: Discord notification on failure
+              if: success()
+              run: |
+                  curl -H "Content-type: application" \
+                  -X POST \
+                  -d '{"content": "❌ Échec du déploiement sur `main`"}' \
+                  ${{secrets.DISCORD_WEBHOOK_FAIL_URL}}
