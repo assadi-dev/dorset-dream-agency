@@ -41,16 +41,16 @@ const SliderItem = ({ property }: SliderItemProps) => {
                     "absolute  absolute-center-y text-white  p-3 slide-in-text mx-auto text-center w-full z-10",
                 )}
             >
-                <p className="text-lg sm:text-2xl lg:text-5xl font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow">
+                <p className="text-lg sm:text-2xl lg:text-5xl 2xl:text-[3.5rem] font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow fade-in-100 fade-out">
                     {property.name.toUpperCase()}
                 </p>
                 {
-                    <p className="block max-w-[95vw] lg:max-w-[50vw] drop-shadow-xl sm:pl-8  slide-in-text text-xs lg:text-2xl mx-auto text-shadow">
-                        <strong>Vente:</strong> <span className="text-green-300">100 000$</span>
+                    <p className="block max-w-[95vw] lg:max-w-[50vw] drop-shadow-xl  slide-in-text-y text-xs lg:text-2xl mx-auto text-shadow">
+                        <strong>Vente:</strong> <span className="text-green-500 font-bold">100 000$</span>
                     </p>
                 }
             </div>
-            <Overlay className="bg-black/25" />
+            <Overlay className="bg-black/35" />
         </>
     );
 };
