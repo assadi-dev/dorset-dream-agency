@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { cleanDataForCarousel, getPropertiesForCarouselApi, getPropertiesPerCategoryApi } from "../../helper";
 import EmptyAvailableProperties from "./EmptyAvailableProperties";
+import Overlay from "@/components/ui/Overlay";
 
 type SliderItemProps = {
     property: {
@@ -33,20 +34,23 @@ const SliderItem = ({ property }: SliderItemProps) => {
                 alt={`cover photo of ${property.name}`}
                 width={1200}
                 height={853}
-                className="h-full w-full object-cover object-center brightness-50"
+                className="h-full w-full object-cover object-center contrast-[80%] brightness-105"
             />
-
-            <div className={clsx("absolute left-10 top-[25%] text-white  p-3 slide-in-text")}>
-                <p className="text-lg pb-3 sm:text-2xl lg:text-4xl font-bold text-white  sm:p-8 drop-shadow-2xl ">
+            <div
+                className={clsx(
+                    "absolute  absolute-center-y text-white  p-3 slide-in-text mx-auto text-center w-full z-10",
+                )}
+            >
+                <p className="text-lg sm:text-2xl lg:text-5xl font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow">
                     {property.name.toUpperCase()}
                 </p>
-                {/*      <small className="block max-w-[95vw] lg:max-w-[50vw] drop-shadow-xl sm:pl-8  slide-in-text text-xs lg:text-sm">
-                    <strong>Déscription:</strong> <br />
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero fugit quod qui nobis autem
-                    perspiciatis atque vel, dignissimos totam error, quaerat nesciunt, vitae earum. Iste tempora
-                    corporis dolore quo aut! Fugiat a, quas corporis accusamus ipsam quasi
-                </small> */}
+                {
+                    <p className="block max-w-[95vw] lg:max-w-[50vw] drop-shadow-xl sm:pl-8  slide-in-text text-xs lg:text-2xl mx-auto text-shadow">
+                        <strong>Vente:</strong> <span className="text-green-300">100 000$</span>
+                    </p>
+                }
             </div>
+            <Overlay className="bg-black/25" />
         </>
     );
 };
@@ -64,7 +68,7 @@ const HeroSection = () => {
     }, [data]);
 
     return (
-        <div className="relative rounded-lg shadow-lg w-full h-[280px]  sm:h-[380px] lg:h-[480px] overflow-hidden">
+        <div className="relative rounded-lg shadow-lg w-full h-[280px]  sm:h-[380px] lg:h-[480px] overflow-hidden mb-12">
             {PROPERTIES.length > 0 ? (
                 <Swiper
                     loop={true}

@@ -107,6 +107,16 @@
     .bg-sidebar {
         @apply bg-gradient-to-br  from-black from-[5%]   to-primary to-100% !border-r-0;
     }
+
+    .absolute-center-y {
+        @apply top-1/2 !translate-y-[-50%];
+    }
+    .absolute-center-x {
+        @apply left-1/2 !translate-x-[-50%];
+    }
+    .text-shadow {
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    }
 }
 
 .slide-in-text {
