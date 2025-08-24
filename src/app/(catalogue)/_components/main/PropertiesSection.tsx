@@ -2,9 +2,10 @@
 import React from "react";
 import PropertiesCardSection from "./PropertiesCardSection";
 import Link from "next/link";
-import { Link2 } from "lucide-react";
+import { Home, Link2 } from "lucide-react";
 import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
 import LoaderSectionProperties from "./LoaderSectionPropertties";
+import { IconForLabelCategorySection } from "./IconForLabelCategorySection";
 
 type categoryMemoType = {
     id: number;
@@ -13,11 +14,21 @@ type categoryMemoType = {
 };
 type GoToListPropertiesByCategoriesProps = { label: string; slug?: string; id: number };
 
-const GoToListPropertiesByCategories = ({ label, id }: GoToListPropertiesByCategoriesProps) => {
+const GoToListPropertiesByCategories = ({ label }: GoToListPropertiesByCategoriesProps) => {
+    const RenderIcon = ({ label }: { label: string }) => {
+        const Icon = IconForLabelCategorySection({ value: label }) ?? Home;
+        return (
+            <span className="p-2.5 rounded-full bg-primary">
+                <Icon className="text-body w-6 h-6" />
+            </span>
+        );
+    };
+
     return (
-        <h2 className="font-semibold  sm:text-lg lg:text-2xl px-5 py-2 rounded-xl  transition-colors duration-200 hover:text-black/60 w-fit ">
+        <h2 className="font-bold  text-4xl lg:text-5xl px-5 py-2 rounded-xl  transition-colors duration-200 hover:text-black/60 w-fit ">
             <Link className="flex items-center gap-3" href={`/properties?category=${label}&order=desc&limit=25`}>
-                <Link2 /> {label}
+                <RenderIcon label={label} />
+                {label}
             </Link>
         </h2>
     );

@@ -1,3 +1,6 @@
+import { LucideProps } from "lucide-react";
+import React from "react";
+
 export type ActionControl = {
     canCreate?: boolean;
     canUpdate: boolean;
@@ -13,3 +16,7 @@ export enum UserActionEnum {
 }
 
 export type UserActionUnion = "create" | "update" | "delete" | "restore";
+
+export type LucidIconProps = React.ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+>;
