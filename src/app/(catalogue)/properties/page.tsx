@@ -11,10 +11,15 @@ type SearchParams = {
         category: string;
         search: string;
         order: "desc" | "asc";
+        availability: string;
+        isAvailable: boolean | null;
     };
 };
 const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
     const ListPropertyResultAsync = async () => {
+        if (searchParams.availability === "yes") searchParams.isAvailable = true;
+        if (searchParams.availability === "no") searchParams.isAvailable = false;
+
         const propertiesResultCollection = await getPropertiesWithCover(searchParams);
         const cleanPropertiesData = propertiesResultCollection.map((item) => cleanDataForCarousel(item));
         return <ListPropertiesResultsSection propertiesCollections={cleanPropertiesData} />;
@@ -25,7 +30,6 @@ const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
             {searchParams.search && (
                 <p className="font-semibold text-2xl mb-1">Recherche de : {searchParams.search} </p>
             )}
-            {/*  <p className="text-sm text-slate-500">Résultat trouvé 0</p> */}
 
             <React.Suspense>
                 <SearchSection />
