@@ -68,7 +68,7 @@ const HeroSection = () => {
     }, [data]);
 
     return (
-        <div className="relative rounded-lg shadow-lg w-full h-[280px]  sm:h-[380px] lg:h-[480px] overflow-hidden mb-12">
+        <div className="relative rounded-lg shadow-lg w-full h-[280px]  sm:h-[70vh] lg:h-[78vh] overflow-hidden mb-12">
             {PROPERTIES.length > 0 ? (
                 <Swiper
                     loop={true}
