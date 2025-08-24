@@ -5,23 +5,42 @@ import React from "react";
 import HeroSelectCategories from "./HeroSelectCategorie";
 import HeroSelectTransaction from "./HeroSelectTransaction";
 import { useRouter } from "next/navigation";
+import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { ZodError } from "zod";
+import { SearchFilterInfer, searchFilterSchema } from "./validation";
+import { Search } from "lucide-react";
 
 const HeroSearchFilter = () => {
-    const [searchState, dispatch] = React.useReducer((prev: any, state: any) => ({ ...prev, ...state }), {
+    const [searchState, dispatch] = React.useReducer((prev: SearchFilterInfer, state: any) => ({ ...prev, ...state }), {
         search: "",
         category: "",
-        transaction: "",
+        available: "all",
     });
+    const validateValue = searchFilterSchema.safeParse(searchState);
     const router = useRouter();
-    const handleSearchSubmit = (e: any) => {
+    const handleSearchSubmit = async (e: any) => {
         e.preventDefault();
-        const { search, category } = searchState;
-        const href = window.location.href;
-        const cleanUrl = new URL(href + "properties");
-        cleanUrl.searchParams.append("category", category);
-        search && cleanUrl.searchParams.append("search", search);
-        router.push(cleanUrl.href);
+
+        const { search, category, available } = searchState;
+        try {
+            if (validateValue.error) throw validateValue.error;
+            const href = window.location.href;
+            const cleanUrl = new URL(href + "properties");
+            cleanUrl.searchParams.append("category", category);
+            search && cleanUrl.searchParams.append("search", search);
+            available && cleanUrl.searchParams.append("available", available);
+            router.push(cleanUrl.href);
+        } catch (error) {
+            if (error instanceof ZodError) {
+                ToastErrorSonner(error.errors[0].message);
+            }
+        }
     };
+
+    const handleChange = ({ name, value }: { name: string; value: any }) => {
+        dispatch({ [name]: value });
+    };
+
     return (
         <form
             onSubmit={handleSearchSubmit}
@@ -31,7 +50,11 @@ const HeroSearchFilter = () => {
                 <label htmlFor="search">
                     <p className="font-bold mb-2 text-slate-500"> Rechercher une propriété</p>
                 </label>
-                <SearchInput name="search" classNames={{ inputWrapper: "max-w-full " }} />
+                <SearchInput
+                    name="search"
+                    classNames={{ inputWrapper: "max-w-full " }}
+                    onChange={({ target }) => handleChange(target)}
+                />
             </div>
             <div className="flex flex-col sm:flex-row w-full gap-3">
                 <div className="w-full">
@@ -42,13 +65,14 @@ const HeroSearchFilter = () => {
                 </div>
                 <div className="w-full lg:w-2/3">
                     <label htmlFor="search-input">
-                        <p className="font-bold mb-2 text-slate-500"> Type</p>
+                        <p className="font-bold mb-2 text-slate-500"> Disponibilité</p>
                     </label>
-                    <HeroSelectTransaction />
+                    <HeroSelectTransaction dispatch={dispatch} />
                 </div>
             </div>
 
-            <Button type="submit" className="w-full lg:w-fit px-5 self-end">
+            <Button type="submit" className="w-full lg:w-fit px-5 self-end flex items-center gap-2">
+                <Search />
                 Rechercher
             </Button>
         </form>
