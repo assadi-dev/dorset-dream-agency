@@ -25,7 +25,7 @@ jobs:
                   ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
 
             - name: Run deploy.sh on remote server
-              run: ssh  ${{secrets.SSH_HOST}} "cd /home/assadi/app/dorset-dream-agency && ./deploy.sh"
+              run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
 
             # Notification de l'execution des job vers Discord
 
