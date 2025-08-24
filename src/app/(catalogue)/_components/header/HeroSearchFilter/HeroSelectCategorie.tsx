@@ -6,19 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useCategoryPropertiesOptions } from "@/hooks/useFetchOptions";
-import { useRouter } from "next/navigation";
 
 export type OptionsType = { label: string; value: any };
-const HeroSelectCategories = () => {
+type HeroSelectCategoriesProps = {
+    dispatch: React.Dispatch<any>;
+    selected?: string;
+};
+const HeroSelectCategories = ({ dispatch }: HeroSelectCategoriesProps) => {
     const categoryQuery = useCategoryPropertiesOptions();
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState<string | null>(null);
     const handleSelect = (currentValue: any) => {
-        setValue(currentValue === value ? "" : currentValue);
+        const selectedValue = currentValue === value ? "" : currentValue;
+        setValue(selectedValue);
+        dispatch({ category: selectedValue });
         setOpen(false);
     };
-
-    const router = useRouter();
 
     const ENUM_PROPERTY_CATEGORIES = React.useMemo(() => {
         if (categoryQuery.data) return categoryQuery.data;

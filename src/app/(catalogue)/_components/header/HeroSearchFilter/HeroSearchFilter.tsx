@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import HeroSelectCategories from "./HeroSelectCategorie";
 import HeroSelectTransaction from "./HeroSelectTransaction";
+import { useRouter } from "next/navigation";
 
 const HeroSearchFilter = () => {
     const [searchState, dispatch] = React.useReducer((prev: any, state: any) => ({ ...prev, ...state }), {
@@ -11,9 +12,21 @@ const HeroSearchFilter = () => {
         category: "",
         transaction: "",
     });
-
+    const router = useRouter();
+    const handleSearchSubmit = (e: any) => {
+        e.preventDefault();
+        const { search, category } = searchState;
+        const href = window.location.href;
+        const cleanUrl = new URL(href + "properties");
+        cleanUrl.searchParams.append("category", category);
+        search && cleanUrl.searchParams.append("search", search);
+        router.push(cleanUrl.href);
+    };
     return (
-        <div className="bg-white w-full lg:w-4/5 mx-auto p-3 lg:p-6 flex flex-col lg:flex-row  justify-center gap-3 items-center rounded-lg lg:min-h-20 lg:translate-y-[-100%] z-10 relative shadow-md">
+        <form
+            onSubmit={handleSearchSubmit}
+            className="bg-white w-full lg:w-4/5 mx-auto p-3 lg:p-6 flex flex-col lg:flex-row  justify-center gap-3 items-center rounded-lg lg:min-h-20 lg:translate-y-[-100%] z-10 relative shadow-md"
+        >
             <div className="w-full">
                 <label htmlFor="search">
                     <p className="font-bold mb-2 text-slate-500"> Rechercher une propriété</p>
@@ -25,7 +38,7 @@ const HeroSearchFilter = () => {
                     <label htmlFor="category">
                         <p className="font-bold mb-2 text-slate-500"> Catégorie</p>
                     </label>
-                    <HeroSelectCategories />
+                    <HeroSelectCategories dispatch={dispatch} />
                 </div>
                 <div className="w-full lg:w-2/3">
                     <label htmlFor="search-input">
@@ -35,8 +48,10 @@ const HeroSearchFilter = () => {
                 </div>
             </div>
 
-            <Button className="w-full lg:w-fit px-5 self-end">Rechercher</Button>
-        </div>
+            <Button type="submit" className="w-full lg:w-fit px-5 self-end">
+                Rechercher
+            </Button>
+        </form>
     );
 };
 
