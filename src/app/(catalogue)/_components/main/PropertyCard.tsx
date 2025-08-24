@@ -89,7 +89,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                     asChild
                     variant={"default"}
                     type="button"
-                    className="bg-gradient-to-br from-black to-primary !text-white lg:bg-background border hover:border-none hover:shadow-lg lg:hover:shadow-blue-950/50 border-input lg:text-black hover:bg-gradient-to-br   duration-300   transition-all  lg:hover:text-white text-xs lg:text-sm w-full "
+                    className="bg-primary !text-white  border hover:border-none hover:shadow-lg lg:hover:shadow-blue-950/50 border-input lg:text-black hover:bg-gradient-to-br   duration-300   transition-all  lg:hover:text-white text-xs lg:text-sm w-full "
                 >
                     <Link href={`property?id=${property.id}&name=${property.name}`}>Plus d'info</Link>
                 </Button>

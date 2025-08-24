@@ -3,6 +3,7 @@ import SearchSection from "./_components/SearchSection";
 import ListPropertiesResultsSection from "./ListPropertiesResults";
 import { getPropertiesWithCover } from "@/database/drizzle/repositories/properties";
 import { cleanDataForCarousel } from "../helper";
+import OrderRowSection from "./_components/OrderSection/OrderRowSection";
 
 type SearchParams = {
     searchParams: {
@@ -28,6 +29,7 @@ const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
 
             <React.Suspense>
                 <SearchSection />
+                <OrderRowSection />
             </React.Suspense>
             <React.Suspense>
                 <ListPropertyResultAsync />

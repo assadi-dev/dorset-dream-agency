@@ -14,21 +14,21 @@ const HeroSearchFilter = () => {
     const [searchState, dispatch] = React.useReducer((prev: SearchFilterInfer, state: any) => ({ ...prev, ...state }), {
         search: "",
         category: "",
-        available: "all",
+        availability: "all",
     });
     const validateValue = searchFilterSchema.safeParse(searchState);
     const router = useRouter();
     const handleSearchSubmit = async (e: any) => {
         e.preventDefault();
 
-        const { search, category, available } = searchState;
+        const { search, category, availability } = searchState;
         try {
             if (validateValue.error) throw validateValue.error;
             const href = window.location.href;
             const cleanUrl = new URL(href + "properties");
             cleanUrl.searchParams.append("category", category);
             search && cleanUrl.searchParams.append("search", search);
-            available && cleanUrl.searchParams.append("available", available);
+            availability && cleanUrl.searchParams.append("availability", availability);
             router.push(cleanUrl.href);
         } catch (error) {
             if (error instanceof ZodError) {

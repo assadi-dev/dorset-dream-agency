@@ -41,7 +41,7 @@ const OrderSelect = () => {
         <React.Suspense>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className="h-8 w-8 p-0">
+                    <Button variant={"outline"} className="">
                         <span className="sr-only">Trier</span>
 
                         <ArrowDownUp className="h-4 w-4" />
