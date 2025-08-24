@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropertyBadges } from "./PropertyBadge";
 import { HandCoins, Handshake } from "lucide-react";
-import formatThousands from "format-thousands";
 import { cn } from "@/lib/utils";
+import { addSpaceThousandsFormat } from "@/lib/format";
 
 type PropertyItemType = {
     id: number;
@@ -29,7 +29,7 @@ type PropertyCardProps = {
 const PropertyCard = ({ property }: PropertyCardProps) => {
     const sellingPrice =
         property.sellingPrice !== -1 ? (
-            formatThousands(property.sellingPrice) + "$"
+            addSpaceThousandsFormat(property.sellingPrice) + "$"
         ) : (
             <span className="text-xs lg:text-sm  font-semibold text-destructive bg-red-100 px-2 border py-0.5 border-red-800 rounded drop-shadow-lg">
                 Non achetable
@@ -74,7 +74,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                                 {" "}
                                 <HandCoins className="w-4 h-4 inline-block mr-1" /> Location:{" "}
                             </span>
-                            <span className="font-semibold">{formatThousands(property.rentalPrice)}$</span>
+                            <span className="font-semibold">{addSpaceThousandsFormat(property.rentalPrice)}$</span>
                         </p>
                         <p className="text-sm text-slate-600 flex justify-between items-center w-full">
                             <span>

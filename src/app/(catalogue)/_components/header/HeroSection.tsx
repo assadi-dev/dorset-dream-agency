@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { cleanDataForCarousel, getPropertiesForCarouselApi, getPropertiesPerCategoryApi } from "../../helper";
 import EmptyAvailableProperties from "./EmptyAvailableProperties";
 import Overlay from "@/components/ui/Overlay";
+import { addSpaceThousandsFormat } from "@/lib/format";
 
 type SliderItemProps = {
     property: {
@@ -31,7 +32,7 @@ type SliderItemProps = {
 const ShowTransaction = ({ label, price }: { label: string; price: number }) => {
     const ShowPrice = ({ price }: { price: number }) => {
         if (price === 0) return <span className="text-shadow text-slate-500">Sur demande</span>;
-        return <span className="text-yellow-500 font-bold">{price}$</span>;
+        return <span className="text-yellow-500 font-bold">{addSpaceThousandsFormat(price)}$</span>;
     };
 
     return (
