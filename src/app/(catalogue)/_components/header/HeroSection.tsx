@@ -31,7 +31,6 @@ type SliderItemProps = {
 
 const ShowTransaction = ({ label, price }: { label: string; price: number }) => {
     const ShowPrice = ({ price }: { price: number }) => {
-        if (price === 0) return <span className="text-shadow text-slate-500">Sur demande</span>;
         return <span className="text-yellow-500 font-bold">{addSpaceThousandsFormat(price)}$</span>;
     };
 
