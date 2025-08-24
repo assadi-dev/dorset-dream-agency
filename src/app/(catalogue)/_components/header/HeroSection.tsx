@@ -23,7 +23,22 @@ type SliderItemProps = {
         };
         photo?: string;
         cover?: string;
+        rentalPrice: number;
+        sellingPrice: number;
     };
+};
+
+const ShowTransaction = ({ label, price }: { label: string; price: number }) => {
+    const ShowPrice = ({ price }: { price: number }) => {
+        if (price === 0) return <span className="text-shadow text-slate-500">Sur demande</span>;
+        return <span className="text-yellow-500 font-bold">{price}$</span>;
+    };
+
+    return (
+        <p className="flex flex-col sm:flex-row w-full justify-center gap-1 drop-shadow-xl text-xs sm:text-sm lg:text-2xl  text-shadow">
+            <span className="block font-bold ">{label}:</span> <ShowPrice price={price} />
+        </p>
+    );
 };
 
 const SliderItem = ({ property }: SliderItemProps) => {
@@ -41,13 +56,14 @@ const SliderItem = ({ property }: SliderItemProps) => {
                     "absolute  absolute-center-y text-white  p-3 slide-in-text mx-auto text-center w-full z-10",
                 )}
             >
-                <p className="text-lg sm:text-2xl lg:text-5xl 2xl:text-[3.5rem] font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow fade-in-100 fade-out">
+                <p className="text-lg sm:text-2xl lg:text-5xl 2xl:text-[3.5rem] font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow mb-5">
                     {property.name.toUpperCase()}
                 </p>
                 {
-                    <p className="block max-w-[95vw] lg:max-w-[50vw] drop-shadow-xl  slide-in-text-y text-xs lg:text-2xl mx-auto text-shadow">
-                        <strong>Vente:</strong> <span className="text-green-500 font-bold">100 000$</span>
-                    </p>
+                    <div className="flex  w-full sm:w-[85vw] lg:max-w-[60vw] drop-shadow-xl  slide-in-text-y  lg:text-2xl mx-auto text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+                        <ShowTransaction label="Prix de Vente" price={property.sellingPrice} />
+                        <ShowTransaction label="Prix de location" price={property.rentalPrice} />
+                    </div>
                 }
             </div>
             <Overlay className="bg-black/35" />
