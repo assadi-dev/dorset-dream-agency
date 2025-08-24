@@ -7,19 +7,18 @@ import Image from "next/image";
 const AboutSection = () => {
     return (
         <section className="my-5">
-            <h2 id="a-propos" className="text-center font-semibold text-3xl mb-8">
-                A Propos
-            </h2>
-
-            <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_auto_0.5fr] gap-6 lg:gap-3 p-3 lg:p-8 min-h-[12vh]  bg-background rounded-lg shadow-lg">
-                <div className="text-slate-600 lg:max-w-[48vw] text-justify lg:text-left p-3">
+            <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 lg:gap-3 min-h-[14vh]  bg-background rounded-lg shadow-lg">
+                <div className="text-slate-600 lg:w-[48vw] text-justify lg:text-left p-5 lg:p-14">
+                    <h2 id="a-propos" className="text-center font-bold text-5xl mb-8">
+                        A Propos de <span className="text-yellow-600"> Nous</span>
+                    </h2>
                     <p className="block  mb-8">
                         Nous souhaitons vous informer qu'à partir d'aujourd'hui, de nouveaux horaires d'ouverture et de
                         fermeture seront instaurés pour l'agence. Afin de mieux structurer nos activités et de faciliter
                         l'organisation de chacun, voici les plages horaires que nous avons définies
                     </p>
-                    <div className="w-fit mx-auto flex flex-col gap-3   text-left ">
-                        <p className="font-bold"> Tout les jours de 21h30 à 00h00</p>
+                    <div className="w-full mx-auto flex flex-col gap-3  bg-yellow-200 text-center p-5  shadow-md border-l-8 border-yellow-600">
+                        <p className="font-bold rounded text-yellow-800 w-full"> Tout les jours de 21h30 à 00h00</p>
                     </div>
 
                     <p className="my-8">
@@ -34,13 +33,14 @@ const AboutSection = () => {
                         coopération et de votre engagement. Si vous avez des questions ou des suggestions concernant ces
                         nouvelles dispositions, n’hésitez pas à nous en faire part.
                     </p>
-                    <p>Cordialement, La direction du Dynasty 8 💫.</p>
+                    <p className="font-bold">
+                        Cordialement,
+                        <br /> La direction du Dynasty 8 💫.
+                    </p>
                 </div>
 
-                <Separator orientation="vertical" />
-
-                <div className="flex flex-col  gap-3 items-center justify-center h-full">
-                    <div className="w-full lg:w-[25rem] lg:h-[25rem] grid place-items-center   rounded-xl shadow-xl bg-gradient-to-br from-black to-primary  p-8 ">
+                <div className="hidden lg:flex flex-col  gap-3 items-center justify-center h-full bg-green-800 w-full rounded-r-lg">
+                    <div className="w-full lg:w-[25rem] lg:h-[25rem] grid place-items-center   p-8 ">
                         <Image
                             src={logo}
                             width={500}

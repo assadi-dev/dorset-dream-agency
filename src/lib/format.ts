@@ -1,3 +1,4 @@
+import formatThousands from "format-thousands";
 export type PluralArg = {
     size: number;
     singular: string;
@@ -23,4 +24,13 @@ export const firstLetterCapitalizeAllWord = (sentence: string) => {
         .split(" ")
         .map((word) => firstLetterCapitalize(word))
         .join(" ");
+};
+
+/**
+ * Ajout des espaces au nombre supérieur à mille
+ * @param number
+ *
+ */
+export const addSpaceThousandsFormat = (number: number) => {
+    return formatThousands(number);
 };

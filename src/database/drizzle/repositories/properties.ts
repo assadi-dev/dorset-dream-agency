@@ -457,7 +457,6 @@ export const getPropertiesWithCover = async ({
     search,
 }: getPropertyPresentationArgs) => {
     const properties = await getPropertyCollections({ limit, category, order, isAvailable, search });
-
     const propertiesWithCover = [];
     for (const property of properties) {
         const photo = await getCoverPictureFromGallery(property.id);

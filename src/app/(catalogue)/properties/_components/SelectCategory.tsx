@@ -44,12 +44,7 @@ const SelectCategory = () => {
         <React.Suspense>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                    <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-full lg:w-[15vw] justify-between"
-                    >
+                    <Button variant="outline" role="combobox" aria-expanded={open} className="w-full  justify-between">
                         {value
                             ? ENUM_PROPERTY_CATEGORIES.find(
                                   (category: OptionsType) => category.value === value || category.label === value,

@@ -24,12 +24,12 @@ const NavbarCatalogue = async () => {
             </Button>
         );
     };
-
+    /*sm:px-8 2xl:max-w-[1800px] mx-auto pt-3 px-3 sm:pt-5 */
     return (
-        <nav className="w-full  min-h-10 sm:px-8 2xl:max-w-[1800px] mx-auto pt-3 px-3 sm:pt-5  ">
-            <div className="shadow bg-[#106835] backdrop-blur-lg transition-all grid grid-cols-[1fr,0.5fr] rounded-lg p-3 items-center">
+        <nav className="w-full  min-h-10 ">
+            <div className="shadow-md bg-white backdrop-blur-lg transition-all grid grid-cols-[1fr,0.5fr] p-3 items-center">
                 <div className="h-[50px] flex items-center">
-                    <Link href="/" className="px-5">
+                    <Link href="/" className="px-5 bg-primary py-3 rounded-md">
                         {/*  <strong>DORSET DREAM</strong> */}
                         <Image
                             src={logo}

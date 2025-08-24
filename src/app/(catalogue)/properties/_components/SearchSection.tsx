@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import SelectCategory from "./SelectCategory";
-import OrderSelect from "./OrderSelect";
+import OrderSelect from "./OrderSection/OrderSelect";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import SelectAvailability from "./SelectAvailability";
 
 const SearchSection = () => {
     const searchParams = useSearchParams();
@@ -45,20 +46,37 @@ const SearchSection = () => {
     return (
         <section className="my-3">
             <div className=" bg-background p-5 flex flex-col gap-3 lg:flex-row items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
-                <SelectCategory />
+                <form onSubmit={submitSearch} className="w-full flex flex-col lg:flex-row gap-3">
+                    <div className="flex gap-3 w-full flex-col sm:flex-row">
+                        <div className="w-full">
+                            <p className="font-semibold text-slate-500">Rechercher une propriété</p>
+                            <Input
+                                type="search"
+                                placeholder="Rechercher"
+                                name="search"
+                                defaultValue={searchTermInParam}
+                            />
+                        </div>
 
-                <form onSubmit={submitSearch} className="flex w-full lg:max-w-sm items-center space-x-1">
-                    <Input type="search" placeholder="Rechercher" name="search" defaultValue={searchTermInParam} />
-                    <Button
-                        type="submit"
-                        className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-black via-green-900 to-primary"
-                    >
-                        <Search />
-                    </Button>
+                        <div className="w-full lg:w-2/3">
+                            <p className="font-semibold text-slate-500">Catégorie</p>
+                            <SelectCategory />
+                        </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-3 items-center w-full">
+                        <div className="w-full">
+                            <p className="font-semibold text-slate-500">Disponibilité</p>
+                            <SelectAvailability />
+                        </div>
+
+                        <Button
+                            type="submit"
+                            className="active:scale-90 transition-all duration-300 bg-primary w-full flex gap-2 items-center self-end"
+                        >
+                            <Search /> Rechercher
+                        </Button>
+                    </div>
                 </form>
-                <div className="px-5">
-                    <OrderSelect />
-                </div>
             </div>
         </section>
     );
