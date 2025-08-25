@@ -18,7 +18,7 @@ const HeroSelectTransaction = ({ dispatch, selected = "all" }: HeroSelectCategor
     const handleSelect = (currentValue: any) => {
         const selectedValue = currentValue === value ? "" : currentValue;
         setValue(selectedValue);
-        dispatch({ transaction: selectedValue });
+        dispatch({ availability: selectedValue });
         setOpen(false);
     };
 
