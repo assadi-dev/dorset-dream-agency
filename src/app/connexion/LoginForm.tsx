@@ -15,7 +15,7 @@ import logo from "@assets/images/logo.png";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
-import { Store } from "lucide-react";
+import { ArrowLeft, Store } from "lucide-react";
 import { handleSignInAction } from "./action";
 import { ErrorAuthMessageKey } from "@/config/enums";
 import { ERROR_AUTH_MESSAGE, UNKNOWN_ERROR } from "@/config/messages";
@@ -86,11 +86,16 @@ const LoginForm = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(handleSignIn)}
-                className="login-form w-full md:w-[80%] p-10 "
+                className="login-form w-full md:w-[75%] p-10 "
                 ref={container as any}
             >
-                <div className="text--center w-full flex justify-center mb-10">
+                <div className="text--center w-fit flex justify-center mb-10  p-5 mx-auto ">
                     <Image src={logo} alt="Logo Dynasty 8" width={200} height={200} />
+                </div>
+                <div className="text-center leading-10">
+                    {" "}
+                    <h2 className="font-bold text-xl lg:text-3xl ">Bienvenue sur votre Dashboard</h2>
+                    <p>Connectez-vous pour acceder à votre espace.</p>
                 </div>
                 <div className="mb-4 min-h-8">
                     <FormFieldInput
@@ -117,7 +122,7 @@ const LoginForm = () => {
                     <SubmitButton
                         isLoading={isPending}
                         variant="default"
-                        className="hover:bg-green-950 ring-1 ring-green-800"
+                        className="hover:bg-green-950 ring-1 ring-green-800 p-6"
                         type="submit"
                     >
                         Connexion
@@ -127,9 +132,9 @@ const LoginForm = () => {
                 <div className="my-6 ">
                     <Link
                         href={"/"}
-                        className="hover:underline underline-offset-2 flex items-center gap-1 mx-auto w-fit text-sm text-primary-accent mb-3"
+                        className="hover:underline underline-offset-2 flex items-center gap-3 mx-auto w-fit text-sm sm:text-md text-secondary font-semibold mb-3"
                     >
-                        <Store className=" h-4 w-4" />
+                        <ArrowLeft className=" h-4 w-4" />
                         Retour vers la page catalogue{" "}
                     </Link>
                     {form.formState.errors.root && (
