@@ -13,7 +13,7 @@ jobs:
             - name: Setup Redis
               uses: shogo82148/actions-setup-redis@v1
               with:
-                redis-version: "7.x"
+                redis-version: "8.x"
         
             - name: Checkout repository
               uses: actions/checkout@v4
