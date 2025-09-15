@@ -10,6 +10,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - name: Setup Redis
+              uses: shogo82148/actions-setup-redis@v1
+              with:
+                redis-version: "7.x"
+        
             - name: Checkout repository
               uses: actions/checkout@v4
 
