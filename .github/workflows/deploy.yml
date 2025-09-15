@@ -14,15 +14,6 @@ jobs:
               uses: shogo82148/actions-setup-redis@v1
               with:
                 redis-version: "8.x"
-
-            - name: Add Redis to PATH
-              run: echo "/opt/hostedtoolcache/redis/*/x64/bin" >> $GITHUB_PATH
-
-            - name: Start Redis server (TCP mode)
-              run: redis-server --port 6379 --daemonize yes
-        
-            - name: Check Redis is up
-              run: redis-cli -h 127.0.0.1 -p 6379 ping
         
             - name: Checkout repository
               uses: actions/checkout@v4
