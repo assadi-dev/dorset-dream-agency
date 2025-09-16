@@ -14,6 +14,14 @@ jobs:
               uses: supercharge/redis-github-action@1.7.0
               with:
                 redis-version: 8
+            - name: Install redis-cli
+               run:|
+                sudo apt-get update
+                sudo apt-get install -y redis-tools || sudo apt-get install -y redis
+        
+            - name: Wait for Redis to be ready
+              run: |
+                redis-cli -h 127.0.0.1 -p 6379 ping
         
             - name: Checkout repository
               uses: actions/checkout@v4
