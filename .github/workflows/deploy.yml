@@ -11,7 +11,7 @@ jobs:
 
         steps:
             - name: Setup Redis
-              uses: shogo82148/actions-setup-redis@v1
+              uses: supercharge/redis-github-action@1.7.0
               with:
                 redis-version: "8.x"
         
