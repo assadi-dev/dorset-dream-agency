@@ -13,7 +13,7 @@ jobs:
             - name: Setup Redis
               uses: supercharge/redis-github-action@1.7.0
               with:
-                redis-version: 7
+                redis-version: 8
         
             - name: Checkout repository
               uses: actions/checkout@v4
