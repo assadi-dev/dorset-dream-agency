@@ -34,6 +34,9 @@ const nextConfig = {
             {
                 hostname: "fonts.googleapis.com",
             },
+            {
+                hostname: "mdt.dynasty8flashback.fr",
+            },
         ],
     },
 };
