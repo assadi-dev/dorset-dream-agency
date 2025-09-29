@@ -84,7 +84,7 @@ const HeroSection = () => {
     }, [data]);
 
     return (
-        <header className="relative  shadow-lg w-full h-[280px] sm:h-[35vh]  landscape:max-lg:h-[70vh]  lg:h-[78vh] overflow-hidden mb-12">
+        <header className="relative  shadow-lg w-full max-w-[1920px] mx-auto h-[280px] sm:h-[35vh]  landscape:max-lg:h-[70vh]  lg:h-[78vh] overflow-hidden mb-12">
             {PROPERTIES.length > 0 ? (
                 <Swiper
                     loop={true}
