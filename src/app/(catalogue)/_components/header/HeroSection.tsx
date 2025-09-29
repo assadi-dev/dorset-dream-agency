@@ -84,7 +84,7 @@ const HeroSection = () => {
     }, [data]);
 
     return (
-        <div className="relative rounded-lg shadow-lg w-full h-[280px] sm:h-[35vh]  landscape:max-lg:h-[70vh]  lg:h-[78vh] overflow-hidden mb-12">
+        <header className="relative  shadow-lg w-full h-[280px] sm:h-[35vh]  landscape:max-lg:h-[70vh]  lg:h-[78vh] overflow-hidden mb-12">
             {PROPERTIES.length > 0 ? (
                 <Swiper
                     loop={true}
@@ -104,7 +104,7 @@ const HeroSection = () => {
             ) : (
                 <EmptyAvailableProperties />
             )}
-        </div>
+        </header>
     );
 };
 

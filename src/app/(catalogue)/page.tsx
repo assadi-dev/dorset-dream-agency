@@ -7,9 +7,11 @@ export default async function CataloguePage() {
     return (
         <>
             <HeroSection />
-            <HeroSearchFilter />
-            <PropertiesSection />
-            <AboutSection />
+            <main className="w-full p-5 sm:p-8 2xl:max-w-[1800px] mx-auto">
+                <HeroSearchFilter />
+                <PropertiesSection />
+                <AboutSection />
+            </main>
         </>
     );
 }

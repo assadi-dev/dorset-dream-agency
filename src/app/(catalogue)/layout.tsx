@@ -15,7 +15,7 @@ const CatalogueLayout = async ({ children }: CatalogueTemplateProps) => {
         <>
             <NavbarCatalogue />
 
-            <main className="w-full p-5 sm:p-8 2xl:max-w-[1800px] mx-auto">{children}</main>
+            {children}
 
             <FooterSection />
         </>
