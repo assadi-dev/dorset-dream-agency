@@ -97,7 +97,7 @@ const SliderItem = ({ property }: SliderItemProps) => {
 
 const BlurWrapper = ({ children }: { children: React.ReactElement }) => {
     return (
-        <div className="flex items-center w-fit px-5 drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+        <div className="flex items-center w-full sm:w-fit px-5 drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
             {children}
         </div>
     );
