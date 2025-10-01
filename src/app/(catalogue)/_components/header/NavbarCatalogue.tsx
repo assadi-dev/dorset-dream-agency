@@ -33,7 +33,7 @@ const NavbarCatalogue = async () => {
     /*sm:px-8 2xl:max-w-[1800px] mx-auto pt-3 px-3 sm:pt-5 */
     return (
         <nav className="w-full  min-h-10 ">
-            <div className=" backdrop-blur-lg transition-all grid grid-cols-[.5fr,1fr,.5fr] p-3 items-center">
+            <div className=" backdrop-blur-lg transition-all grid grid-cols-[.5fr,1fr,.5fr] p-5 items-center">
                 <div className="h-[50px] flex items-center">
                     <Link href="/" className="px-5 bg-primary py-3 rounded-md">
                         {/*  <strong>DORSET DREAM</strong> */}
