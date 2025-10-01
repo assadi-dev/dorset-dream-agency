@@ -3,31 +3,37 @@ import { Button } from "@/components/ui/button";
 import { ENV } from "@/config/global";
 import { PAGES } from "@/config/pages";
 import Link from "next/link";
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import logo from "@assets/images/logo.png";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Globe } from "lucide-react";
 
 const NavbarCatalogue = async () => {
     const session = await auth();
-    const classButton = `bg-gradient-to-br from-black to-primary shadow-lg ring-2 ring-green-900`;
+    const classButton = `bg-primary   rounded-full flex gap-2`;
 
     const ConnectButton = () => {
         if (session)
             return (
                 <Button asChild className={classButton}>
-                    <Link href={PAGES.DASHBOARD}>Tableau de board</Link>
+                    <Link href={PAGES.DASHBOARD}>
+                        <Globe /> Tableau de board
+                    </Link>
                 </Button>
             );
         return (
             <Button asChild className={classButton}>
-                <Link href={ENV.NEXT_AUTH_SIGN_IN_PAGE}>Connexion</Link>
+                <Link href={ENV.NEXT_AUTH_SIGN_IN_PAGE}>
+                    <Globe /> Connexion
+                </Link>
             </Button>
         );
     };
     /*sm:px-8 2xl:max-w-[1800px] mx-auto pt-3 px-3 sm:pt-5 */
     return (
         <nav className="w-full  min-h-10 ">
-            <div className="shadow-md bg-white backdrop-blur-lg transition-all grid grid-cols-[1fr,0.5fr] p-3 items-center">
+            <div className=" backdrop-blur-lg transition-all grid grid-cols-[.5fr,1fr,.5fr] p-3 items-center">
                 <div className="h-[50px] flex items-center">
                     <Link href="/" className="px-5 bg-primary py-3 rounded-md">
                         {/*  <strong>DORSET DREAM</strong> */}
@@ -40,7 +46,8 @@ const NavbarCatalogue = async () => {
                         />
                     </Link>
                 </div>
-                <div className="flex justify-end items-center">
+                <div className="justify-self-center self-center"></div>
+                <div className="flex justify-end items-center justify-self-end self-center">
                     <ConnectButton />
                 </div>
             </div>

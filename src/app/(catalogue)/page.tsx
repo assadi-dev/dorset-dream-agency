@@ -6,8 +6,8 @@ import HeroSearchFilter from "./_components/header/HeroSearchFilter/HeroSearchFi
 export default async function CataloguePage() {
     return (
         <>
-            <HeroSection />
             <main className="w-full p-5 sm:p-8 2xl:max-w-[1800px] mx-auto">
+                <HeroSection />
                 <HeroSearchFilter />
                 <PropertiesSection />
                 <AboutSection />
