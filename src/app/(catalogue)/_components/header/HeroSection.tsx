@@ -56,7 +56,7 @@ const ShowTransaction = ({ label, price, Icon }: { label: string; price: number;
 
 const IconWrapper = ({ children }: { children: React.ReactElement }) => {
     return (
-        <div className=" hidden sm:grid place-items-center rounded-[100%] ring-2 ring-white w-5 h-5 sm:h-10 sm:w-10 p-0 sm:p-2 bg-white/35 shadow-xl">
+        <div className=" hidden sm:grid place-items-center rounded-[100%] ring-2 ring-white w-5 h-5 sm:h-10 sm:w-10 p-0 sm:p-2 bg-slate-300/50  drop-shadow-xl  ">
             {children}
         </div>
     );
