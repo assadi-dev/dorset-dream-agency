@@ -81,17 +81,25 @@ const SliderItem = ({ property }: SliderItemProps) => {
                     {property.name.toUpperCase()}
                 </p>
 
-                <div className="flex flex-col gap-3 sm:flex-row w-[65vw] sm:w-[88vw] lg:max-w-[70vw] mx-auto justify-center items-center ">
-                    <div className="flex items-center w-full   drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+                <div className="flex flex-col gap-3 sm:flex-row w-[65vw] sm:w-[88vw] lg:max-w-[65vw] mx-auto justify-center items-center ">
+                    <BlurWrapper>
                         <ShowTransaction label="Prix de Vente" price={property.sellingPrice} Icon={Handshake} />
-                    </div>
-                    <div className="flex items-center w-full  drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+                    </BlurWrapper>
+                    <BlurWrapper>
                         <ShowTransaction label="Prix de location" price={property.rentalPrice} Icon={HandCoins} />
-                    </div>
+                    </BlurWrapper>
                 </div>
             </div>
             <Overlay className="bg-black/35" />
         </>
+    );
+};
+
+const BlurWrapper = ({ children }: { children: React.ReactElement }) => {
+    return (
+        <div className="flex items-center w-fit px-5 drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+            {children}
+        </div>
     );
 };
 
