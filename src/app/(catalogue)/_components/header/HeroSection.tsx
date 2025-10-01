@@ -39,13 +39,13 @@ const ShowTransaction = ({ label, price, Icon }: { label: string; price: number;
         if (!Icon) return null;
         return (
             <IconWrapper>
-                <Icon className="h-5 w-5 " />
+                <Icon className=" h-3 w-3 lg:h-5 lg:w-5 " />
             </IconWrapper>
         );
     };
     return (
         <p className="flex flex-col sm:flex-row w-full justify-center items-center gap-1 drop-shadow-xl text-xs sm:text-sm lg:text-2xl  text-shadow">
-            <span className="flex items-center w-fit mx-auto gap-3 font-bold ">
+            <span className="flex items-center  gap-3 font-bold ">
                 <IconRender />
                 {label}:
             </span>{" "}
@@ -56,7 +56,7 @@ const ShowTransaction = ({ label, price, Icon }: { label: string; price: number;
 
 const IconWrapper = ({ children }: { children: React.ReactElement }) => {
     return (
-        <div className=" hidden sm:grid place-items-center rounded-[100%] ring-2 ring-white w-5 h-5 sm:h-10 sm:w-10 p-0 sm:p-2 bg-slate-300/50  drop-shadow-xl  ">
+        <div className=" hidden sm:grid place-items-center rounded-[100%] ring-2 ring-white w-5 h-5 lg:h-10 lg:w-10 p-0 lg:p-2 bg-slate-300/50  drop-shadow-xl  ">
             {children}
         </div>
     );
@@ -81,11 +81,11 @@ const SliderItem = ({ property }: SliderItemProps) => {
                     {property.name.toUpperCase()}
                 </p>
 
-                <div className="flex flex-col gap-3 sm:flex-row w-[55vw] sm:w-[88vw] lg:max-w-[60vw] mx-auto justify-center items-center ">
-                    <div className="flex items-center w-full sm:w-fit  drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+                <div className="flex flex-col gap-3 sm:flex-row w-[65vw] sm:w-[88vw] lg:max-w-[70vw] mx-auto justify-center items-center ">
+                    <div className="flex items-center w-full   drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
                         <ShowTransaction label="Prix de Vente" price={property.sellingPrice} Icon={Handshake} />
                     </div>
-                    <div className="flex items-center w-full sm:w-fit drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+                    <div className="flex items-center w-full  drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
                         <ShowTransaction label="Prix de location" price={property.rentalPrice} Icon={HandCoins} />
                     </div>
                 </div>
