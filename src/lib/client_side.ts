@@ -1,5 +1,3 @@
-"use client";
-
 export const safeLoadFile = ({ path }: { path?: string }): string => {
     try {
         if (!path) return "";
