@@ -24,7 +24,7 @@ export async function GET(req: Request, { params: { key } }: Params) {
             "Content-Length": size.toString(),
             /* "Content-Disposition": `attachment; filename="${key}"`, */
         });
-        const response = new NextResponse(imageBuffer, {
+        const response = new NextResponse(imageBuffer as any, {
             status: 200,
             headers,
         });

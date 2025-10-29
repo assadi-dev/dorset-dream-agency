@@ -34,7 +34,7 @@ export async function POST(req: Request) {
                 originaleName: originaleFileName,
                 size: size,
                 mimeType: mimetype,
-                url: `${ENV.DOMAIN}/api/photo/property/${fileName}`,
+                url: `/photo/property/${fileName}`,
             });
 
             PHOTOS.push(photo);

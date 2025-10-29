@@ -26,7 +26,7 @@ export const uploadPhotoEmployee = async (formData: FormData) => {
             originaleName: originaleFileName,
             size: size,
             mimeType: mimetype,
-            url: `${ENV.DOMAIN}/api/photo/employee/${fileName}`,
+            url: `/photo/employee/${fileName}`,
         });
 
         if (photo) {

@@ -90,7 +90,7 @@ export const uploadPhotoPerquisition = async (formData: FormData) => {
             originaleName: originaleFileName,
             size: size,
             mimeType: mimetype,
-            url: `${ENV.DOMAIN}/api/photo/perquisition/${fileName}`,
+            url: `/photo/perquisition/${fileName}`,
         });
 
         if (photo) {
