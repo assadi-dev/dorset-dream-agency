@@ -8,13 +8,13 @@ import LoadingTabs from "./_components/loading/LoadingTabs";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { UserData } from "./type";
 import UploadAccountPhoto from "./_components/form/UploadAccountPhoto";
+import { safeLoadFile } from "@/lib/client_side";
 
 export const metadata = setTitlePage("Mon compte");
 const AccountPage = async () => {
     const session = await auth();
     const id = Number(session?.user?.id);
-
-    const prevImage = session?.user?.image || null;
+    const photo = session?.user?.image ? safeLoadFile({ path: session?.user?.image }) : null;
 
     const ProfilAsync = async () => {
         const userData = await currentUser(id);
@@ -24,7 +24,7 @@ const AccountPage = async () => {
         <ModalProvider>
             <PageTemplate title={session?.user?.name || ""}>
                 <div className="grid sm:grid-cols-[auto,1fr] gap-3 p-3 mt-8">
-                    <UploadAccountPhoto className="w-[20rem] h-[20rem]" photo={prevImage} />
+                    <UploadAccountPhoto className="w-[20rem] h-[20rem]" photo={photo} />
                     <React.Suspense fallback={<LoadingTabs />}>
                         <ProfilAsync />
                     </React.Suspense>
