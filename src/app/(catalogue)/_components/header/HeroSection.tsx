@@ -11,6 +11,7 @@ import EmptyAvailableProperties from "./EmptyAvailableProperties";
 import Overlay from "@/components/ui/Overlay";
 import { addSpaceThousandsFormat } from "@/lib/format";
 import { HandCoins, Handshake } from "lucide-react";
+import { safeLoadFile } from "@/lib/client_side";
 
 type SliderItemProps = {
     property: {
@@ -66,7 +67,7 @@ const SliderItem = ({ property }: SliderItemProps) => {
     return (
         <>
             <Image
-                src={property.cover as string}
+                src={safeLoadFile({ path: property.cover })}
                 alt={`cover photo of ${property.name}`}
                 width={1200}
                 height={853}

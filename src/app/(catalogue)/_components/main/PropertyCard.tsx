@@ -7,6 +7,7 @@ import { PropertyBadges } from "./PropertyBadge";
 import { HandCoins, Handshake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addSpaceThousandsFormat } from "@/lib/format";
+import { safeLoadFile } from "@/lib/client_side";
 
 type PropertyItemType = {
     id: number;
@@ -39,11 +40,13 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
     const IMAGE_CLASS =
         "h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform group-hover:scale-[1.2] group-hover:brightness-75";
 
+    const picture = safeLoadFile({ path: property.cover });
+
     return (
         <Card className="propertyBox group w-full p-1 h-full transition-shadow hover:shadow-lg relative">
             <div className={cn(CONTAINER_IMAGE_CLASS)}>
                 <Image
-                    src={property.cover}
+                    src={picture}
                     alt={`cover of property ${property.name}`}
                     width={1200}
                     height={720}
