@@ -1,45 +1,45 @@
 name: Deploy
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Run build
-              run: npm i && npm run build
+      - name: Run build
+        run: npm i && npm run build
 
-            # Déploiement vers le serveur en SSH
-            - name: Set up SSH key
-              run: |
-                  mkdir -p ~/.ssh
-                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                  chmod 600 ~/.ssh/id_rsa
-                  ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
+      # Déploiement vers le serveur en SSH
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
 
-            - name: Run deploy.sh on remote server
-              run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
+      #- name: Run deploy.sh on remote server
+      #run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
 
-            # Notification de l'execution des job vers Discord
+      # Notification de l'execution des job vers Discord
 
-            - name: Discord notification on success
-              if: success()
-              run: |
-                  curl -s -o /dev/null -w "%{http_code}" -H "Content-type: application/json" \
-                  -X POST \
-                  -d '{"content": "✅ Déploiement réussi sur `main`"}' \
-                  ${{secrets.DISCORD_WEBHOOK_SUCCESS_URL}}
-            - name: Discord notification on failure
-              if: failure()
-              run: |
-                  curl -s -o /dev/null -w   -H "Content-type: application/json" \
-                  -X POST \
-                  -d '"{\"content\": \"❌ Déploiement **échoué** sur \`main\`\n🔗 [Voir le job](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
-                  ${{secrets.DISCORD_WEBHOOK_FAIL_URL}}
+      - name: Discord notification on success
+        if: success()
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" -H "Content-type: application/json" \
+          -X POST \
+          -d '{"content": "✅ Déploiement réussi sur `main`"}' \
+          ${{secrets.DISCORD_WEBHOOK_SUCCESS_URL}}
+      - name: Discord notification on failure
+        if: failure()
+        run: |
+          curl -s -o /dev/null -w   -H "Content-type: application/json" \
+          -X POST \
+          -d '"{\"content\": \"❌ Déploiement **échoué** sur \`main\`\n🔗 [Voir le job](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
+          ${{secrets.DISCORD_WEBHOOK_FAIL_URL}}
