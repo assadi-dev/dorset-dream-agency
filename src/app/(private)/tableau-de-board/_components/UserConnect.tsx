@@ -2,27 +2,19 @@
 
 import { useSession } from "next-auth/react";
 import React from "react";
-/* import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-  } from "@/components/ui/avatar" */
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import { ChevronsUpDown, LogOut, User } from "lucide-react";
+import { User } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 import { RoleEnum } from "@/app/types/user";
 import { safeLoadAvatar } from "@/lib/client_side";
 
