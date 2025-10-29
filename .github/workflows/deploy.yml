@@ -16,8 +16,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      #- name: Run build
-      #  run: npm i && npm run build
+      - name: Run build
+        run: npm i && npm run build
 
       - name: Generate Gitflow tag
         id: tag
@@ -28,7 +28,7 @@ jobs:
           SAFE_BRANCH=$(echo "$BRANCH_NAME" | tr '/' '-')
 
           # Exemple de tag basé sur la branche GitFlow
-          TAG="build-${SAFE_BRANCH}-$(date +'%Y%m%d-%H%M%S')"
+          TAG="build-${SAFE_BRANCH}-$(date +'%Y%m%d%H%M%S')"
 
           echo "TAG=$TAG" >> $GITHUB_ENV
           echo "✅ Generated tag: $TAG"
@@ -41,15 +41,15 @@ jobs:
           git push origin "${{ env.TAG }}"
 
       # Déploiement vers le serveur en SSH
-      #- name: Set up SSH key
-      #  run: |
-      #      mkdir -p ~/.ssh
-      #      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #      chmod 600 ~/.ssh/id_rsa
-      #      ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
-      #
-      #- name: Run deploy.sh on remote server
-      #  run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
+
+      - name: Run deploy.sh on remote server
+        run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
 
       # Notification de l'execution des job vers Discord
 
