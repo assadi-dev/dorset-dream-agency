@@ -6,19 +6,20 @@ import { BriefcaseBusiness, PhoneCall } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import SecteurLogo from "./SecteurLogo";
+import { safeLoadAvatar, safeLoadFile } from "@/lib/client_side";
 
 type EmployeeCardProps = {
     employee: EmployeeBasic;
 };
 
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
-    const image = employee.photoUrl || avatarByGender(employee.gender);
+    const photo = safeLoadAvatar({ path: employee.photoUrl, gender: employee.gender });
 
     return (
         <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white">
             <div className="  bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
                 <Image
-                    src={image}
+                    src={photo}
                     height={400}
                     width={400}
                     alt="photo employee"
