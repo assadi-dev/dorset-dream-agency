@@ -7,6 +7,7 @@ import GalleryLoader from "./GalleryLoader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { safeLoadFile } from "@/lib/client_side";
 
 type GalleryProperty = {
     id: number;
@@ -42,14 +43,15 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
             const imagePromises = property.gallery.map((photo, index) => {
                 return new Promise<void>((resolveImage) => {
                     const img = new Image();
-                    img.src = photo.url;
+                    const photoUrl = safeLoadFile({ path: photo.url });
+                    img.src = photoUrl;
 
                     const setPhoto = () => {
                         photoReady.add({
                             width: img.width,
                             height: img.height,
-                            original: photo.url,
-                            thumbnail: photo.url,
+                            original: photoUrl,
+                            thumbnail: photoUrl,
                             sourceId: photo.id,
                             alt: photo.originalName,
                         });
