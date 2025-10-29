@@ -1,12 +1,9 @@
 import React from "react";
 import { FileObj, GalleryResponse } from "../../../types";
 import Image from "next/image";
-import { BookImage, Check } from "lucide-react";
-import ButtonActionWithTooltip from "@/components/Buttons/ButtonActionWithTooltip";
-import useBoolean from "@/hooks/useBoolean";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import { CoverButton } from "./Button";
+import { LoadPreviewFile } from "@/lib/client_side";
 
 type PreviewVarianteUploadType = {
     isCover: boolean;
@@ -32,12 +29,14 @@ const PreviewVarianteUpload = ({ isCover, file, onRemove, setCover }: PreviewVar
         );
     };
 
+    const cover = LoadPreviewFile(file?.url as string);
+
     return (
         <div className="relative w-full h-[110px] rounded overflow-hidden group z-0">
             {isCover && <IsDefaultCover />}
             {file && (
                 <Image
-                    src={file.url as string}
+                    src={cover}
                     width={200}
                     height={200}
                     alt={`preview of ${file.name || file.originalName || "property variant"}`}

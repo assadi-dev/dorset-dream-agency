@@ -25,3 +25,16 @@ export const safeLoadAvatar = ({
         return avatarByGender(gender);
     }
 };
+export const isHttpUrl = (url: string): boolean => /^http?:\/\//.test(url);
+export const isBlobUrl = (url: string): boolean => /^blob?:\/\//.test(url);
+
+export const LoadPreviewFile = (path: string): string => {
+    try {
+        if (path.startsWith("blob")) return path;
+
+        if (path.startsWith("/")) return safeLoadFile({ path: path });
+    } catch (error) {
+        return "";
+    }
+    return "";
+};

@@ -5,6 +5,7 @@ import { PlusCircleIcon } from "lucide-react";
 import useModalState from "@/hooks/useModalState";
 import { useFormContext } from "react-hook-form";
 import UploadZoneVariant from "../form/UploadZoneVariant";
+import { isBlobUrl, isHttpUrl, LoadPreviewFile, safeLoadFile } from "@/lib/client_side";
 
 const AddVariantProperty = () => {
     const { openModal } = useModalState();
@@ -43,7 +44,9 @@ const AddVariantProperty = () => {
                                 variant && variant.files.length > 0
                                     ? variant.files.find((v: any) => v?.isCover)?.url || variant.files[0]?.url
                                     : variant.files[0]?.url;
-                            return <VariantCardItem variant={variant} key={variant?.id} previewLink={defaultLink} />;
+
+                            const cover = LoadPreviewFile(defaultLink);
+                            return <VariantCardItem variant={variant} key={variant?.id} previewLink={cover} />;
                         })}
                 </div>
                 <div></div>
