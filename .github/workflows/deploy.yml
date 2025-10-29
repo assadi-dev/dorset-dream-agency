@@ -41,15 +41,15 @@ jobs:
           git push origin "${{ env.TAG }}"
 
       # Déploiement vers le serveur en SSH
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
-
-      - name: Run deploy.sh on remote server
-        run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
+      #- name: Set up SSH key
+      #  run: |
+      #    mkdir -p ~/.ssh
+      #    echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #    chmod 600 ~/.ssh/id_rsa
+      #    ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
+      #
+      #- name: Run deploy.sh on remote server
+      #  run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
 
       # Notification de l'execution des job vers Discord
 
