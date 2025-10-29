@@ -6,10 +6,9 @@ import "swiper/css/thumbs";
 import { Thumbs } from "swiper/modules";
 import { GalleryObjectType } from "../../schema";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronLeftCircle, icons } from "lucide-react";
-import { NextButton, PrevButton, SlideButton } from "./SlideActions";
+import { NextButton, PrevButton } from "./SlideActions";
 import { Swiper as SwiperCore } from "swiper/types";
+import { safeLoadFile } from "@/lib/client_side";
 
 type ItemSlideProperty = {
     propertyName: string;
@@ -17,10 +16,12 @@ type ItemSlideProperty = {
 };
 
 const SlideItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
+    const cover = safeLoadFile({ path: photo.url });
+
     return (
         <>
             <Image
-                src={photo.url}
+                src={cover}
                 alt={`photo  ${photo.originalName} of property ${propertyName || "???"}`}
                 width={1200}
                 height={853}
@@ -31,10 +32,11 @@ const SlideItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
 };
 
 const ThumbItemProperty = ({ propertyName, photo }: ItemSlideProperty) => {
+    const cover = safeLoadFile({ path: photo.url });
     return (
         <div className="rounded-lg overflow-hidden relative h-[62px] sm:h-[100px] transition-all">
             <Image
-                src={photo.url}
+                src={cover}
                 alt={`thumb  ${photo.originalName} of property ${propertyName || "???"}`}
                 width={1200}
                 height={853}
