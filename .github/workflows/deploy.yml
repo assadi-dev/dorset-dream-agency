@@ -13,8 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run build
-        run: npm i && npm run build
+      #- name: Run build
+      #  run: npm i && npm run build
 
       - name: Generate Gitflow tag
         id: tag
