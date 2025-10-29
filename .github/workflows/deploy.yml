@@ -16,23 +16,24 @@ jobs:
       - name: Run build
         run: npm i && npm run build
 
+      # Déploiement vers le serveur en SSH
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
       - name: Generate a tag
         id: tag
         run: |
-          TAG="deploy-$(date +'%Y%m%d-%H%M%S')"
-          echo "TAG=$TAG" >> $GITHUB_ENV
-          git tag -a "$TAG" -m "Auto deploy tag from GitHub Actions"
-          git push origin "$TAG"
-          echo "✅ Created tag: $TAG"
+          ssh ${{secrets.SSH_HOST}} "
+            cd /var/www/dorset-dream-agency && \
+            git pull origin main && \
+            TAG=deploy-$(date +'%Y%m%d-%H%M%S') && \
+            git tag -a \$TAG -m 'Deployed from GitHub Actions' && \
+            git push origin \$TAG 
+          "
 
-      # Déploiement vers le serveur en SSH
-      #- name: Set up SSH key
-      #  run: |
-      #      mkdir -p ~/.ssh
-      #      echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #      chmod 600 ~/.ssh/id_rsa
-      #      ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
-      #
       #- name: Run deploy.sh on remote server
       #  run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
 
