@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { AVATAR_FEMALE, AVATAR_MALE } from "@/config/image";
 import { RoleEnum } from "@/app/types/user";
+import { safeLoadFile } from "@/lib/client_side";
 
 type User = {
     name?: string | null;
@@ -48,10 +49,12 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
             picture = AVATAR_MALE;
         }
 
+        const photo = user?.image ? safeLoadFile({ path: user?.image }) : picture;
+
         return (
             <Image
                 className=" h-[2rem] w-[2rem] sm:h-[3.5rem] sm:w-[3.5rem] rounded  shadow-xl "
-                src={user?.image || picture}
+                src={photo}
                 width={80}
                 height={80}
                 priority
