@@ -58,7 +58,7 @@ jobs:
         run: |
           curl -s -o /dev/null -w "%{http_code}" -H "Content-type: application/json" \
           -X POST \
-          -d '{"embeds": [{"title": "Déploiement réussi", "description": "Le déploiement sur `main` a été effectué avec succès.", "fields": [{"name": "TAG de déploiement", "value": "${{ env.TAG }}"}], "color": 5763719}]}' \
+          -d '{"embeds": [{"title": "Déploiement en cours", "description": "Le déploiement sur `main` a été effectué avec succès.", "fields": [{"name": "TAG de déploiement", "value": "${{ env.TAG }}"}], "color": 5763719}]}' \
           ${{secrets.DISCORD_WEBHOOK_SUCCESS_URL}}
       - name: Discord notification on failure
         if: failure()
