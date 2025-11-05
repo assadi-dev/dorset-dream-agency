@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const requestBodySchema = z.object({
-    actions: z.enum(["resume", "rephrase", "correct"]),
-    text: z.string().min(1).max(200),
+    actions: z.enum(["resume", "describe", "rephrase", "correct"]),
+    text: z.string().min(1).max(255),
 });
 
 export const OpenRouterBodySchema = z.object({

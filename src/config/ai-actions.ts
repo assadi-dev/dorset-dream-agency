@@ -1,25 +1,52 @@
 import { ENV } from "./global";
 
-export const SYSTEM_PROMPT = `Vous êtes un assistant IA spécialisé pour les agents immobiliers...`;
+export const SYSTEM_PROMPT = `Tu es un assistant pour agent immobilier`;
 
 export const ACTION_PROMPTS = {
     resume: {
         name: "Résumer",
-        instruction: `Tâche : Créer un résumé concis du texte suivant...`,
+        instruction: `TÂCHE : Résume ce texte en 3-4 phrases maximum.
+
+RÈGLES :
+- Garde prix, superficie, localisation
+- Style professionnel et accrocheur
+- Mets en avant les points forts`,
+        temperature: 0.5,
+        maxTokens: 200,
+    },
+
+    describe: {
+        name: "Description",
+        instruction: `TÂCHE : Génère une fiche descriptif.
+
+RÈGLES :
+- Style professionnel et accrocheur
+- Mets en avant les points forts`,
         temperature: 0.5,
         maxTokens: 200,
     },
 
     rephrase: {
         name: "Reformuler",
-        instruction: `Tâche : Reformuler le texte...`,
+        instruction: `TÂCHE : Reformule ce texte pour le rendre plus professionnel
+        RÈGLES :
+- Améliore la clarté
+- Vocabulaire immobilier approprié
+- Plus vendeur mais honnête
+- Garde TOUS les détails (prix, mesures)`,
         temperature: 0.7,
         maxTokens: 1000,
     },
 
     correct: {
         name: "Corriger",
-        instruction: `Tâche : Corriger les erreurs...`,
+        instruction: `TÂCHE : Corrige uniquement les fautes d'orthographe et de grammaire.
+
+RÈGLES :
+- Ne change PAS le sens
+- Ne change PAS le style
+- Corrige seulement les erreurs
+- Si pas d'erreur, retourne le texte tel quel`,
         temperature: 0.3,
         maxTokens: 1000,
     },
