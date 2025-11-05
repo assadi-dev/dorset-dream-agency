@@ -17,13 +17,12 @@ const EnvSchema = z.object({
     STORAGE_DIR: z.coerce.string(),
     SQLITE_DATABASE_URL: z.coerce.string(),
     AUTH_DRIZZLE_URL: z.coerce.string(),
-    OLLAMA_URL: z.string(),
-    OLLAMA_MODEL: z.string(),
-    LM_STUDIO_URL: z.string(),
-    LM_STUDIO_MODEL: z.string(),
-    OPEN_ROUTER_URL: z.string(),
-    OPEN_ROUTER_API_KEY: z.string(),
-    OPEN_ROUTER_MODEL: z.string(),
+    OLLAMA_URL: z.coerce.string(),
+    OLLAMA_MODEL: z.coerce.string(),
+    LM_STUDIO_URL: z.coerce.string(),
+    LM_STUDIO_MODEL: z.coerce.string(),
+    OPEN_ROUTER_URL: z.coerce.string(),
+    OPEN_ROUTER_API_KEY: z.coerce.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;
