@@ -3,10 +3,11 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { ScrollArea } from "../../ui/scroll-area";
 import HeaderRichtext from "./components/HeaderRichtext";
+import { TiptapContent } from "./type";
 
 interface RichTextEditorProps {
     content: string;
-    onChange: (content: string) => void;
+    onChange: (content: TiptapContent) => void;
 }
 
 export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
@@ -15,7 +16,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         extensions: [StarterKit],
         content,
         onUpdate: ({ editor }) => {
-            onChange(editor.getHTML());
+            onChange(editor.getJSON());
         },
         editorProps: {
             attributes: {

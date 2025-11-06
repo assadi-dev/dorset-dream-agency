@@ -1,5 +1,5 @@
 import { LucidIconProps } from "@/types/global";
-import { Editor } from "@tiptap/react";
+import { DocumentType, Editor, MarkType, NodeType, TextType } from "@tiptap/react";
 
 export type RichTextButtonTitle = "Gras" | "Italique" | "List" | "List ordonné" | "Vider" | "Annuler" | "Rétablir";
 
@@ -14,3 +14,15 @@ export type RichTextButtonProps = {
 };
 
 export type HeaderActionsHandlerReturn = Record<RichTextHandlerName, RichTextButtonProps>;
+
+export type TiptapContent =
+    | DocumentType<
+          Record<string, any> | undefined,
+          NodeType<
+              string,
+              Record<string, any> | undefined,
+              any,
+              (NodeType<any, any, any, any> | TextType<MarkType<any, any>>)[]
+          >[]
+      >
+    | string;
