@@ -12,6 +12,7 @@ import { extractDataForInfo } from "../schema";
 import HeaderRightDetails from "./_components/HeaderRightDetails";
 import DescriptionRightCol from "./_components/DescriptionRightCol";
 import GoBackButton from "@/app/(private)/tableau-de-board/_components/GoBackButton";
+import { redirect } from "next/navigation";
 
 type SearchParams = {
     searchParams: {
@@ -25,6 +26,7 @@ export const metadata = setTitlePage();
 
 const PropertyCatalog = async ({ searchParams }: SearchParams) => {
     const variantID = searchParams.id;
+    if (!variantID) redirect("/properties");
     const property = await getPropertyDetailForCatalogueWithGallery(Number(variantID));
     metadata.title = formatTitlePage(property.name);
 
