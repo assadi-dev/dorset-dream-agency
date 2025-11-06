@@ -173,12 +173,12 @@
     margin: 0.75rem 0;
 }
 
-.ProseMirror h2 {
+/* .ProseMirror h2 {
     font-size: 1.5rem;
     font-weight: 600;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
-}
+} */
 
 .ProseMirror ul,
 .ProseMirror ol {
