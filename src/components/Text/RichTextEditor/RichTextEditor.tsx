@@ -1,11 +1,8 @@
 "use client";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-
-import { Bold, Italic, List, ListOrdered, Heading2 } from "lucide-react";
-import { Button } from "../../ui/button";
 import { ScrollArea } from "../../ui/scroll-area";
-import HeaderRichtext from "./HeaderRichtext";
+import HeaderRichtext from "./components/HeaderRichtext";
 
 interface RichTextEditorProps {
     content: string;
