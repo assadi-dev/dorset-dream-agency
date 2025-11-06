@@ -30,11 +30,11 @@ const HeaderRichtext = ({ editor }: HeaderRichtextProps) => {
 export default HeaderRichtext;
 
 const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerReturn; editor: Editor }) => {
-    return (
-        <>
-            {Object.entries(actions).map(([key, item]) => {
+    const RowTextActions = () => {
+        return Object.entries(actions)
+            .filter(([k, v]) => v.group == "text")
+            .map(([key, item]) => {
                 const isSelected = editor.isActive(key) ?? false;
-
                 return (
                     <HeaderActionsButton
                         key={key}
@@ -44,7 +44,12 @@ const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerRe
                         isSelected={isSelected}
                     />
                 );
-            })}
+            });
+    };
+
+    return (
+        <>
+            <RowTextActions />
         </>
     );
 };

@@ -116,7 +116,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                         type="button"
                         variant="outline"
                         onClick={() => setIsDescriptionModalOpen(true)}
-                        className="w-full md:w-auto"
+                        className="w-full"
                     >
                         <FileText className="mr-2 h-4 w-4" />
                         {watchDescription!.length > 0 ? "Modifier la description" : "Ajouter une description"}
