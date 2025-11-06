@@ -5,7 +5,8 @@ import { Button } from "../../../ui/button";
 import { Editor } from "@tiptap/react";
 import HeaderActionsButton, { HeaderActionSeparator } from "./HeaderActionsButton";
 import { useHeaderActionsHandler } from "../hooks/useRichtextActions";
-import { HeaderActionsHandlerReturn, RichTextHandlerGroup } from "../type";
+import { HeaderActionsHandlerReturn, RichTextHandlerGroup, RichTextHandlerName } from "../type";
+import { isActionSelected } from "../strategy";
 
 type HeaderRichtextProps = {
     editor: Editor | null;
@@ -35,7 +36,7 @@ const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerRe
         return Object.entries(actions)
             .filter(([_, v]) => v.group === group)
             .map(([key, item]) => {
-                const isSelected = editor.isActive(key) ?? false;
+                const isSelected = isActionSelected(editor, key as RichTextHandlerName, item.group) ?? false;
                 return (
                     <HeaderActionsButton
                         key={key}
@@ -50,9 +51,11 @@ const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerRe
 
     return (
         <>
-            <RowGroupActions group="text" />
+            <RowGroupActions group="word-format" />
             <HeaderActionSeparator />
             <RowGroupActions group="list" />
+            <HeaderActionSeparator />
+            <RowGroupActions group="text-align" />
             <HeaderActionSeparator />
             <RowGroupActions group="action" />
         </>

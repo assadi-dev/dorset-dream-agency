@@ -19,7 +19,7 @@ const HeaderActionsButton = ({ icon, handler, isSelected, ...props }: HeaderActi
                 variant="ghost"
                 size="sm"
                 onClick={handler}
-                className={cn({ "bg-primary text-primary-foreground": isSelected }, defaultClassName, props.className)}
+                className={cn({ "bg-primary text-primary-foreground ": isSelected }, defaultClassName, props.className)}
                 {...props}
             >
                 <IconAction className="h-4 w-4" />

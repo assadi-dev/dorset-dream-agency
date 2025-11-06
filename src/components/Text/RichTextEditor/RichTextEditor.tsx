@@ -4,6 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { ScrollArea } from "../../ui/scroll-area";
 import HeaderRichtext from "./components/HeaderRichtext";
 import { TiptapContent } from "./type";
+import TextAlign from "@tiptap/extension-text-align";
 
 interface RichTextEditorProps {
     content: string;
@@ -13,7 +14,13 @@ interface RichTextEditorProps {
 export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
     const editor = useEditor({
         immediatelyRender: false,
-        extensions: [StarterKit],
+        extensions: [
+            StarterKit,
+            TextAlign.configure({
+                defaultAlignment: "left",
+                types: ["heading", "paragraph"],
+            }),
+        ],
         content,
         onUpdate: ({ editor }) => {
             onChange(editor.getJSON());
