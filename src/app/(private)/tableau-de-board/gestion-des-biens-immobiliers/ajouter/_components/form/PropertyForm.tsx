@@ -27,6 +27,15 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
     }, [categoryQuery.data]);
     const [isDescriptionModalOpen, setIsDescriptionModalOpen] = React.useState(false);
     const handleDescriptionSave = (description: string) => {
+        if (description.includes("<p></p>")) {
+            form.setValue("description", "");
+            ToastInfoSonner({
+                title: `Description retiré`,
+                description: `La description de la propriété a été mise à jour.`,
+            });
+            return;
+        }
+
         form.setValue("description", description);
         ToastInfoSonner({
             title: `Description enregistrée`,
@@ -122,7 +131,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
             <DescriptionModal
                 open={isDescriptionModalOpen}
                 onOpenChange={setIsDescriptionModalOpen}
-                initialDescription={watchDescription ?? ""}
+                initialDescription={watchDescription}
                 onSave={handleDescriptionSave}
             />
         </>

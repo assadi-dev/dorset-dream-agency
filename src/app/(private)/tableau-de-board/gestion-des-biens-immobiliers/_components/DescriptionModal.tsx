@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/Text/RichTextEditor/RichTextEditor";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DescriptionModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    initialDescription?: string;
+    initialDescription?: string | null;
     onSave: (description: string) => void;
 }
 
@@ -23,7 +22,7 @@ export function DescriptionModal({ open, onOpenChange, initialDescription = "", 
     const [description, setDescription] = useState(initialDescription);
 
     const handleSave = () => {
-        onSave(description);
+        onSave(description ?? "");
         onOpenChange(false);
     };
 
@@ -37,7 +36,7 @@ export function DescriptionModal({ open, onOpenChange, initialDescription = "", 
                     </DialogDescription>
                 </DialogHeader>
                 <div className="py-4">
-                    <RichTextEditor content={description} onChange={setDescription} />
+                    <RichTextEditor content={description ?? ""} onChange={setDescription} />
                 </div>
                 <DialogFooter>
                     <Button variant="secondary" onClick={() => onOpenChange(false)}>
