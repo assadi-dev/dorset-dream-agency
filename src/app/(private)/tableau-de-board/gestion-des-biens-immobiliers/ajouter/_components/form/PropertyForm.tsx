@@ -111,21 +111,17 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
                     <StockChoice label="Stockage en kg" />
                 </div>
 
-                <div className="mb-3">
-                    <div className="pt-4 border-t">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => setIsDescriptionModalOpen(true)}
-                            className="w-full md:w-auto"
-                        >
-                            <FileText className="mr-2 h-4 w-4" />
-                            {watchDescription!.length > 0 ? "Modifier la description" : "Ajouter une description"}
-                        </Button>
-                        {watchDescription && (
-                            <p className="mt-2 text-sm text-muted-foreground">Description ajoutée ✓</p>
-                        )}
-                    </div>
+                <div className="mb-3 pt-4 border-t">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setIsDescriptionModalOpen(true)}
+                        className="w-full md:w-auto"
+                    >
+                        <FileText className="mr-2 h-4 w-4" />
+                        {watchDescription!.length > 0 ? "Modifier la description" : "Ajouter une description"}
+                    </Button>
+                    {watchDescription && <p className="mt-2 text-sm text-muted-foreground">Description ajoutée ✓</p>}
                 </div>
             </CardContent>
             <DescriptionModal

@@ -42,7 +42,11 @@ const StockChoice = ({ label, className }: StockChoiceProps) => {
                     );
                 })}
             </RadioGroup>
-            {choice > 0 && <FormFieldInput control={control} name="stock" type="number" className="w-full lg:w-1/2" />}
+            <div className="h-16 transition-all">
+                {choice > 0 && (
+                    <FormFieldInput control={control} name="stock" type="number" className="w-full lg:w-1/2" />
+                )}
+            </div>
         </div>
     );
 };
