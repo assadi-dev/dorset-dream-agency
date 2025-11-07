@@ -38,7 +38,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
         }
 
         const cleanValue = description as unknown;
-        form.setValue("description", cleanValue as string);
+        form.setValue("description", JSON.stringify(cleanValue));
         ToastInfoSonner({
             title: `Description enregistrée`,
             description: `La description de la propriété a été mise à jour.`,
@@ -129,7 +129,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
             <DescriptionModal
                 open={isDescriptionModalOpen}
                 onOpenChange={setIsDescriptionModalOpen}
-                initialDescription={watchDescription as any}
+                initialDescription={JSON.parse(watchDescription ?? "") as any}
                 onSave={handleDescriptionSave}
             />
         </>
