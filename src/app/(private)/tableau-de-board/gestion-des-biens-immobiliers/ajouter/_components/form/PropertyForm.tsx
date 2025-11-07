@@ -129,7 +129,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
             <DescriptionModal
                 open={isDescriptionModalOpen}
                 onOpenChange={setIsDescriptionModalOpen}
-                initialDescription={JSON.parse(watchDescription ?? "") as any}
+                initialDescription={watchDescription}
                 onSave={handleDescriptionSave}
             />
         </>

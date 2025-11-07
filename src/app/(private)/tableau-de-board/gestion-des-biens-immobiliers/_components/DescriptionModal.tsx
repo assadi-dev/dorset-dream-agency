@@ -11,16 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/Text/RichTextEditor/RichTextEditor";
 import { TiptapContent } from "@/components/Text/RichTextEditor/type";
+import { parseInitialDescription } from "../helpers";
 
 interface DescriptionModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    initialDescription?: TiptapContent | null;
+    initialDescription?: string | null;
     onSave: (description: TiptapContent | null) => void;
 }
 
 export const DescriptionModal = ({ open, onOpenChange, initialDescription = null, onSave }: DescriptionModalProps) => {
-    const [description, setDescription] = useState<TiptapContent | null>(initialDescription);
+    const parseDescription = parseInitialDescription(initialDescription ?? "");
+    const [description, setDescription] = useState<TiptapContent | null>(parseDescription);
 
     const handleSave = () => {
         onSave(description);
