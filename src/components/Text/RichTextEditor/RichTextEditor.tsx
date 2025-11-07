@@ -39,7 +39,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
     return (
         <div className="border rounded-lg overflow-hidden">
             <ToolbarMenu editor={editor} />
-            <ScrollArea className="h-[35vh] pb-2">
+            <ScrollArea className="h-[45vh] pb-2">
                 <BubbleMenuRow editor={editor} />
                 <EditorContent editor={editor} className="bg-card cursor-text" />
                 <ScrollBar className="h-0.5" orientation="vertical" />
