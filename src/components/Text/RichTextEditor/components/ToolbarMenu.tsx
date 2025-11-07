@@ -22,13 +22,13 @@ const ToolbarMenu = ({ editor }: ToolbarMenuProps) => {
     };
 
     return (
-        <div className="flex gap-1 p-2 border-b bg-muted/30">
-            <div className="flex gap-1 ">
+        <div className="flex gap-1 p-2 border-b bg-muted/30 items-center">
+            <div className="flex gap-1 items-center">
                 {actions && <RowActionButtons actions={actions} editor={editor} />}
                 {actions && <HeaderActionSeparator />}
                 <HeaderActionsButton icon={Trash2} label="Vider" handler={clearContent} isSelected={false} />
             </div>
-            <div className="flex-1 flex justify-end ">
+            <div className="flex-1 flex justify-end items-center">
                 <RowGroupActions group="undoRedo" editor={editor} actions={actions} />
             </div>
         </div>
@@ -65,7 +65,7 @@ export const RowGroupActions = ({
 export const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerReturn; editor: Editor }) => {
     return (
         <>
-            <AskAiButton />
+            <AskAiButton editor={editor} />
             <HeaderActionSeparator />
             <RowGroupActions group="word-format" editor={editor} actions={actions} />
             <HeaderActionSeparator />

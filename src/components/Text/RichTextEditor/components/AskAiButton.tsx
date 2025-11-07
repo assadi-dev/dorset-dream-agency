@@ -9,8 +9,12 @@ import {
 import { Sparkles } from "lucide-react";
 import React from "react";
 import { handleAIAction } from "../utils";
+import { Editor } from "@tiptap/react";
 
-const AskAiButton = () => {
+type AskAiButtonProps = {
+    editor: Editor;
+};
+const AskAiButton = ({ editor }: AskAiButtonProps) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -20,11 +24,15 @@ const AskAiButton = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-                <DropdownMenuItem onClick={() => handleAIAction("Générer une description")}>
+                <DropdownMenuItem onClick={() => handleAIAction({ editor, action: "generate" })}>
                     Générer une description
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleAIAction("Reformuler")}>Reformuler</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleAIAction("Corriger")}>Corriger</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleAIAction({ editor, action: "rephrase" })}>
+                    Reformuler
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleAIAction({ editor, action: "correct" })}>
+                    Corriger
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );
