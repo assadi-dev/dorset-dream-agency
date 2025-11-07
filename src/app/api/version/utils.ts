@@ -1,5 +1,6 @@
-import { createReadStream, createWriteStream } from "fs";
+import { createReadStream, createWriteStream, ReadStream } from "fs";
 import path from "path";
+import { Readable } from "stream";
 
 const resolvePath = path.resolve();
 const packageJsonPath = path.join(resolvePath, "package.json");
@@ -11,11 +12,10 @@ export const updateVersionFile = async (version: string) => {
             readContent = data.toString();
         });
         readStreamContent.on("end", () => {
-            readStreamContent.close();
             //update package.js
             const parseContent = JSON.parse(readContent);
             parseContent.version = version;
-            writePackageJsonFile(parseContent);
+            writePackageJsonFile(readStreamContent, JSON.stringify(parseContent));
         });
     } catch (error) {
         if (error instanceof Error) {
@@ -24,6 +24,8 @@ export const updateVersionFile = async (version: string) => {
     }
 };
 
-export const writePackageJsonFile = (content: any) => {
+export const writePackageJsonFile = (readStreamContent: ReadStream, content: string) => {
+    const readable = Readable.from(content);
     const writeStream = createWriteStream(packageJsonPath);
+    readable.pipe(writeStream);
 };
