@@ -7,6 +7,7 @@ import HeaderActionsButton, { HeaderActionSeparator } from "./HeaderActionsButto
 import { useHeaderActionsHandler } from "../hooks/useRichtextActions";
 import { HeaderActionsHandlerReturn, RichTextHandlerGroup, RichTextHandlerName } from "../type";
 import { isActionSelected } from "../strategy";
+import AskAiButton from "./askAiButton";
 
 type ToolbarMenuProps = {
     editor: Editor | null;
@@ -64,6 +65,8 @@ export const RowGroupActions = ({
 export const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerReturn; editor: Editor }) => {
     return (
         <>
+            <AskAiButton />
+            <HeaderActionSeparator />
             <RowGroupActions group="word-format" editor={editor} actions={actions} />
             <HeaderActionSeparator />
             <RowGroupActions group="list" editor={editor} actions={actions} />
