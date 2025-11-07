@@ -15,7 +15,8 @@ export const updateVersionFile = async (version: string) => {
             //update package.js
             const parseContent = JSON.parse(readContent);
             parseContent.version = version;
-            writePackageJsonFile(readStreamContent, JSON.stringify(parseContent));
+            writePackageJsonFile(JSON.stringify(parseContent));
+            readStreamContent.close();
         });
     } catch (error) {
         if (error instanceof Error) {
@@ -24,7 +25,7 @@ export const updateVersionFile = async (version: string) => {
     }
 };
 
-export const writePackageJsonFile = (readStreamContent: ReadStream, content: string) => {
+export const writePackageJsonFile = (content: string) => {
     const readable = Readable.from(content);
     const writeStream = createWriteStream(packageJsonPath);
     readable.pipe(writeStream);
