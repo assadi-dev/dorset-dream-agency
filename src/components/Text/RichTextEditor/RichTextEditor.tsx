@@ -1,14 +1,15 @@
 "use client";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, findParentNode, posToDOMRect, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { ScrollArea } from "../../ui/scroll-area";
 import HeaderRichtext from "./components/HeaderRichtext";
 import { TiptapContent } from "./type";
 import TextAlign from "@tiptap/extension-text-align";
+import BubbleMenuRow from "./components/BubbleMenu";
 
 interface RichTextEditorProps {
-    content: string;
-    onChange: (content: TiptapContent) => void;
+    content: TiptapContent | null;
+    onChange: (content: TiptapContent | null) => void;
 }
 
 export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
@@ -17,7 +18,6 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         extensions: [
             StarterKit,
             TextAlign.configure({
-                defaultAlignment: "left",
                 types: ["heading", "paragraph"],
             }),
         ],
@@ -40,6 +40,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         <div className="border rounded-lg overflow-hidden">
             <HeaderRichtext editor={editor} />
             <ScrollArea className="max-h-[35vh]">
+                <BubbleMenuRow editor={editor} />
                 <EditorContent editor={editor} className="bg-card" />
             </ScrollArea>
         </div>

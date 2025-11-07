@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { ToastInfoSonner } from "@/components/notify/Sonner";
 import { DescriptionModal } from "../../../_components/DescriptionModal";
+import { TiptapContent } from "@/components/Text/RichTextEditor/type";
 
 type PropertyFormProps = React.HTMLAttributes<HTMLDivElement> & {
     form: UseFormReturn<propertyFormType>;
@@ -26,8 +27,8 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
         return [];
     }, [categoryQuery.data]);
     const [isDescriptionModalOpen, setIsDescriptionModalOpen] = React.useState(false);
-    const handleDescriptionSave = (description: string) => {
-        if (description.includes("<p></p>")) {
+    const handleDescriptionSave = (description: TiptapContent | null) => {
+        if (!description || !description.content[0].content) {
             form.setValue("description", "");
             ToastInfoSonner({
                 title: `Description retiré`,
@@ -36,7 +37,8 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
             return;
         }
 
-        form.setValue("description", description);
+        const cleanValue = description as unknown;
+        form.setValue("description", cleanValue as string);
         ToastInfoSonner({
             title: `Description enregistrée`,
             description: `La description de la propriété a été mise à jour.`,
@@ -127,7 +129,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
             <DescriptionModal
                 open={isDescriptionModalOpen}
                 onOpenChange={setIsDescriptionModalOpen}
-                initialDescription={watchDescription}
+                initialDescription={watchDescription as any}
                 onSave={handleDescriptionSave}
             />
         </>

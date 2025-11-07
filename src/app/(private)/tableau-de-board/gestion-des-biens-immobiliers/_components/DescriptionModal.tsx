@@ -10,19 +10,20 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/Text/RichTextEditor/RichTextEditor";
+import { TiptapContent } from "@/components/Text/RichTextEditor/type";
 
 interface DescriptionModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    initialDescription?: string | null;
-    onSave: (description: string) => void;
+    initialDescription?: TiptapContent | null;
+    onSave: (description: TiptapContent | null) => void;
 }
 
-export function DescriptionModal({ open, onOpenChange, initialDescription = "", onSave }: DescriptionModalProps) {
-    const [description, setDescription] = useState(initialDescription);
+export function DescriptionModal({ open, onOpenChange, initialDescription = null, onSave }: DescriptionModalProps) {
+    const [description, setDescription] = useState<TiptapContent | null>(initialDescription);
 
     const handleSave = () => {
-        onSave(description ?? "");
+        onSave(description);
         onOpenChange(false);
     };
 
@@ -36,7 +37,7 @@ export function DescriptionModal({ open, onOpenChange, initialDescription = "", 
                     </DialogDescription>
                 </DialogHeader>
                 <div className="py-4">
-                    <RichTextEditor content={description ?? ""} onChange={setDescription} />
+                    <RichTextEditor content={description} onChange={setDescription} />
                 </div>
                 <DialogFooter>
                     <Button variant="secondary" onClick={() => onOpenChange(false)}>

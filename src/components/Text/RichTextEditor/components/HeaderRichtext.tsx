@@ -31,33 +31,41 @@ const HeaderRichtext = ({ editor }: HeaderRichtextProps) => {
 
 export default HeaderRichtext;
 
-const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerReturn; editor: Editor }) => {
-    const RowGroupActions = ({ group }: { group: RichTextHandlerGroup }) => {
-        return Object.entries(actions)
-            .filter(([_, v]) => v.group === group)
-            .map(([key, item]) => {
-                const isSelected = isActionSelected(editor, key as RichTextHandlerName, item.group) ?? false;
-                return (
-                    <HeaderActionsButton
-                        key={key}
-                        icon={item.icon}
-                        label={item.title}
-                        handler={item.handler}
-                        isSelected={isSelected}
-                    />
-                );
-            });
-    };
+export const RowGroupActions = ({
+    group,
+    actions,
+    editor,
+}: {
+    editor: Editor;
+    group: RichTextHandlerGroup;
+    actions: HeaderActionsHandlerReturn;
+}) => {
+    return Object.entries(actions)
+        .filter(([_, v]) => v.group === group)
+        .map(([key, item]) => {
+            const isSelected = isActionSelected(editor, key as RichTextHandlerName, item.group) ?? false;
+            return (
+                <HeaderActionsButton
+                    key={key}
+                    icon={item.icon}
+                    label={item.title}
+                    handler={item.handler}
+                    isSelected={isSelected}
+                />
+            );
+        });
+};
 
+export const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHandlerReturn; editor: Editor }) => {
     return (
         <>
-            <RowGroupActions group="word-format" />
+            <RowGroupActions group="word-format" editor={editor} actions={actions} />
             <HeaderActionSeparator />
-            <RowGroupActions group="list" />
+            <RowGroupActions group="list" editor={editor} actions={actions} />
             <HeaderActionSeparator />
-            <RowGroupActions group="text-align" />
+            <RowGroupActions group="text-align" editor={editor} actions={actions} />
             <HeaderActionSeparator />
-            <RowGroupActions group="action" />
+            <RowGroupActions group="action" editor={editor} actions={actions} />
         </>
     );
 };
