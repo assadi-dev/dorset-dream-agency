@@ -9,7 +9,7 @@ import {
 import { ENV } from "@/config/global";
 import { fetchWithAuthorization } from "@/lib/fetcher";
 import { OllamaBodySchema, OpenRouterBodySchema } from "./schema";
-import { OllamaBody } from "./types/ollamaType";
+import { OllamaBody, OllamaPromptReturn } from "./types/ollamaType";
 import { Message } from "./types/openRouterType";
 
 type buildPromptArgs = {
@@ -26,7 +26,7 @@ export const buildPrompt = ({ action, userText }: buildPromptArgs) => {
         maxTokens: actionConfig.maxTokens,
     };
 };
-export const buildPromptFromOllama = ({ action, userText }: buildPromptArgs) => {
+export const buildPromptFromOllama = ({ action, userText }: buildPromptArgs): OllamaPromptReturn => {
     const actionConfig = ACTION_PROMPTS[action];
 
     const fullPrompt = `${SYSTEM_PROMPT}
@@ -43,6 +43,15 @@ ${userText}`;
             num_predict: actionConfig.maxTokens,
         },
     };
+};
+
+export const snapshotOllamaBody = (prompt: OllamaPromptReturn) => {
+    return {
+        options: prompt.options,
+        model: prompt.model,
+        prompt: prompt.prompt,
+        stream: false,
+    } satisfies OllamaBody;
 };
 
 export const fetchOpenRouter = async (content: Message) => {

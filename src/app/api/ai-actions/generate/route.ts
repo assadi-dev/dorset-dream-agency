@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { buildPrompt, buildPromptFromOllama, fetchWithOllama } from "../utils";
+import { buildPromptFromOllama, fetchWithOllama, snapshotOllamaBody } from "../utils";
 import { requestBodySchema } from "../schema";
-import { OllamaBody } from "../types/ollamaType";
 import { OLLAMA_CONFIG } from "@/config/ai-actions";
 import { zodParserError } from "@/lib/parser";
 
@@ -20,13 +19,11 @@ export const POST = async (request: Request) => {
         }
 
         const { actions, text } = isValidate.data;
+
         const prompt = buildPromptFromOllama({ action: actions, userText: text });
-        const ollamaBody = {
-            options: prompt.options,
-            model: prompt.model,
-            prompt: prompt.prompt,
-            stream: false,
-        } satisfies OllamaBody;
+
+        const ollamaBody = snapshotOllamaBody(prompt);
+
         const response = await fetchWithOllama(ollamaBody);
         const data = await response?.json();
 
