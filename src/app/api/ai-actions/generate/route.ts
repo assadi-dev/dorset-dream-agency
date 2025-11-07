@@ -12,7 +12,7 @@ export const POST = async (request: Request) => {
         if (isValidate.error) {
             const parseError = zodParserError(isValidate.error);
             return NextResponse.json(
-                { message: "no valide data", path: parseError },
+                { message: "invalid input", path: parseError },
                 {
                     status: 400,
                 },
