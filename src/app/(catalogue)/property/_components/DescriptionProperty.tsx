@@ -12,7 +12,7 @@ const DescriptionProperty = ({ description }: DescriptionPropertyProps) => {
         immediatelyRender: false,
         editable: false,
         extensions: [StarterKit],
-        content: description,
+        content: JSON.parse(description ?? ""),
     });
 
     const TEXT_STYLE_CLASS = `ProseMirror text-slate-500 my-3 break-words text-sm text-justify sm:text-left whitespace-pre-line rich-text-style`;

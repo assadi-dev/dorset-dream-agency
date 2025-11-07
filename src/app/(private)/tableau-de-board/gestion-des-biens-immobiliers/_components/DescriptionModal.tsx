@@ -19,7 +19,7 @@ interface DescriptionModalProps {
     onSave: (description: TiptapContent | null) => void;
 }
 
-export function DescriptionModal({ open, onOpenChange, initialDescription = null, onSave }: DescriptionModalProps) {
+export const DescriptionModal = ({ open, onOpenChange, initialDescription = null, onSave }: DescriptionModalProps) => {
     const [description, setDescription] = useState<TiptapContent | null>(initialDescription);
 
     const handleSave = () => {
@@ -48,4 +48,4 @@ export function DescriptionModal({ open, onOpenChange, initialDescription = null
             </DialogContent>
         </Dialog>
     );
-}
+};
