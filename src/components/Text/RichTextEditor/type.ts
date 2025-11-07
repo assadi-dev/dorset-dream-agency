@@ -25,7 +25,7 @@ export type RichTextHandlerName =
     | "justify"
     | "undo"
     | "redo";
-export type RichTextHandlerGroup = "word-format" | "text-align" | "list" | "action" | "other" | "file";
+export type RichTextHandlerGroup = "word-format" | "text-align" | "list" | "action" | "other" | "file" | "undoRedo";
 
 export type RichTextButtonProps = {
     icon: LucidIconProps;

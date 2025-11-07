@@ -8,10 +8,10 @@ import { useHeaderActionsHandler } from "../hooks/useRichtextActions";
 import { HeaderActionsHandlerReturn, RichTextHandlerGroup, RichTextHandlerName } from "../type";
 import { isActionSelected } from "../strategy";
 
-type HeaderRichtextProps = {
+type ToolbarMenuProps = {
     editor: Editor | null;
 };
-const HeaderRichtext = ({ editor }: HeaderRichtextProps) => {
+const ToolbarMenu = ({ editor }: ToolbarMenuProps) => {
     const { actions } = useHeaderActionsHandler({ editor });
 
     if (!editor) return null;
@@ -22,14 +22,19 @@ const HeaderRichtext = ({ editor }: HeaderRichtextProps) => {
 
     return (
         <div className="flex gap-1 p-2 border-b bg-muted/30">
-            {actions && <RowActionButtons actions={actions} editor={editor} />}
-            {actions && <HeaderActionSeparator />}
-            <HeaderActionsButton icon={Trash2} label="Vider" handler={clearContent} isSelected={false} />
+            <div className="flex gap-1 ">
+                {actions && <RowActionButtons actions={actions} editor={editor} />}
+                {actions && <HeaderActionSeparator />}
+                <HeaderActionsButton icon={Trash2} label="Vider" handler={clearContent} isSelected={false} />
+            </div>
+            <div className="flex-1 flex justify-end ">
+                <RowGroupActions group="undoRedo" editor={editor} actions={actions} />
+            </div>
         </div>
     );
 };
 
-export default HeaderRichtext;
+export default ToolbarMenu;
 
 export const RowGroupActions = ({
     group,
@@ -64,8 +69,6 @@ export const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHa
             <RowGroupActions group="list" editor={editor} actions={actions} />
             <HeaderActionSeparator />
             <RowGroupActions group="text-align" editor={editor} actions={actions} />
-            <HeaderActionSeparator />
-            <RowGroupActions group="action" editor={editor} actions={actions} />
         </>
     );
 };

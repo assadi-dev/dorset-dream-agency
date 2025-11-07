@@ -70,13 +70,13 @@ export const useHeaderActionsHandler = ({ editor }: HeaderActionsButtonProps) =>
             icon: Undo,
             title: "Annuler",
             handler: () => editor?.chain().focus().undo().run(),
-            group: "action",
+            group: "undoRedo",
         },
         redo: {
             icon: Redo,
             title: "Rétablir",
             handler: () => editor?.chain().focus().redo().run(),
-            group: "action",
+            group: "undoRedo",
         },
     } satisfies Record<RichTextHandlerName, RichTextButtonProps>;
 

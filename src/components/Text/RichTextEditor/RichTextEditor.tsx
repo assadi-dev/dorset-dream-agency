@@ -1,11 +1,11 @@
 "use client";
-import { useEditor, EditorContent, findParentNode, posToDOMRect, useEditorState } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
-import HeaderRichtext from "./components/HeaderRichtext";
 import { TiptapContent } from "./type";
 import TextAlign from "@tiptap/extension-text-align";
 import BubbleMenuRow from "./components/BubbleMenu";
+import ToolbarMenu from "./components/ToolbarMenu";
 
 interface RichTextEditorProps {
     content: TiptapContent | null;
@@ -38,7 +38,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
 
     return (
         <div className="border rounded-lg overflow-hidden">
-            <HeaderRichtext editor={editor} />
+            <ToolbarMenu editor={editor} />
             <ScrollArea className="h-[35vh] pb-2">
                 <BubbleMenuRow editor={editor} />
                 <EditorContent editor={editor} className="bg-card cursor-text" />
