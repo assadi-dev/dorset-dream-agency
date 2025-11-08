@@ -1,15 +1,19 @@
 "use client";
 import React from "react";
-import { AskAICustomEvent } from "../utils";
-import { dispatchEvent } from "@/lib/event";
+import { AskAICustomEvent, insertContent } from "../utils";
+import { dispatchEvent, subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { Transaction } from "@tiptap/pm/state";
+import { UseFormReturn } from "react-hook-form";
+import { AskAISchemaInfer } from "../components/AskAIButton/schema";
+import { AskAiDataEvent } from "../type";
 
 type UseAskAIEventProps = {
     element?: any | null;
     editor: Editor;
+    form: UseFormReturn<AskAISchemaInfer, any, undefined>;
 };
-const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
+const useAskAIEvent = ({ element, editor, form }: UseAskAIEventProps) => {
     const closePopover = () => {
         dispatchEvent(AskAICustomEvent.close, null);
     };
@@ -21,7 +25,6 @@ const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
         const { from, to } = view.state.selection;
         const transaction = ev.transaction as Transaction;
         const text = state.doc.textBetween(from, to, "\n");
-        console.log(text);
     };
 
     const ajusteTextareaAutoSize = (textarea: HTMLTextAreaElement) => {
@@ -36,15 +39,34 @@ const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
         });
     }, [element]);
 
+    const listenOpenModal = React.useCallback(
+        (event: unknown) => {
+            console.log(event);
+
+            let text: string | null = null;
+            if (event instanceof CustomEvent) {
+                text = "Hello world";
+                text && insertContent({ editor, content: text });
+            }
+        },
+        [editor],
+    );
+
+    const cleanListener = React.useCallback(() => {
+        editor.off("focus", closePopover);
+        unsubscribe(AskAICustomEvent.stream, listenOpenModal);
+    }, [editor, listenOpenModal]);
+
     React.useEffect(() => {
         if (!editor) return;
         editor.on("selectionUpdate", handleSelect);
         editor.on("focus", closePopover);
         textareaAutoSize();
+        subscribe(AskAICustomEvent.stream, listenOpenModal);
         return () => {
-            editor.off("focus", closePopover);
+            cleanListener();
         };
-    }, [editor, textareaAutoSize]);
+    }, [editor, textareaAutoSize, listenOpenModal, cleanListener]);
 };
 
 export default useAskAIEvent;

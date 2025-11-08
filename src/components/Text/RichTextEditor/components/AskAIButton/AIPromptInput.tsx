@@ -22,7 +22,6 @@ type AIPromptInputProps = {
 };
 const AIPromptInput = ({ editor }: AIPromptInputProps) => {
     const formNodeRef = React.useRef<HTMLFormElement | null>(null);
-    useAskAIEvent({ element: formNodeRef.current, editor });
 
     const form = useForm<AskAISchemaInfer>({
         resolver: zodResolver(askAISchema),
@@ -31,6 +30,9 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
             content: "",
         },
     });
+
+    useAskAIEvent({ element: formNodeRef.current, editor, form });
+
     const {
         formState: { errors },
     } = form;

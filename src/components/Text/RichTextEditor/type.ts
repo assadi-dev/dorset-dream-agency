@@ -51,3 +51,9 @@ export type AIActionsGenerate = {
     value: string;
     icon: LucidIconProps;
 };
+
+export type AskAiDataEvent = {
+    from: "toolbar" | "bubbleMenu";
+    editor: Editor;
+    text: string | null;
+};

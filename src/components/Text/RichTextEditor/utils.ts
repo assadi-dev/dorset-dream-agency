@@ -4,19 +4,19 @@ import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
 
 type HandleAIActionArg = {
     editor: Editor;
-    action: string;
+    content: string;
 };
-export const handleAIAction = ({ editor, action }: HandleAIActionArg) => {
+export const insertContent = ({ editor, content }: HandleAIActionArg) => {
     const jsonNode = {
         type: "paragraph",
         content: [
             {
                 type: "text",
-                text: "Example Text",
+                text: content,
             },
         ],
     };
-    // editor?.chain().focus().insertContent(jsonNode).run();
+    editor?.chain().focus().insertContent(jsonNode).run();
 };
 
 export const AI_ACTIONS_VALUES = { generate: "generate", rephrase: "rephrase", correct: "correct" };

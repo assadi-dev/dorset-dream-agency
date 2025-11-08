@@ -2,10 +2,12 @@ import React from "react";
 import { AskAICustomEvent } from "../utils";
 import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
+import { AskAiDataEvent } from "../type";
 
-type StateProps = {
+type ReducerProps = {
     isOpen: boolean;
     editor: Editor | null;
+    text: string | null;
 };
 
 type UseAppearAIMenuProps = {
@@ -13,21 +15,33 @@ type UseAppearAIMenuProps = {
 };
 const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
     const [reducer, dispatch] = React.useReducer(
-        (prev: StateProps, next: Partial<StateProps>) => ({ ...prev, ...next }),
+        (prev: ReducerProps, next: Partial<ReducerProps>) => ({ ...prev, ...next }),
         {
             isOpen: false,
             editor: null,
+            text: null,
         },
     );
 
-    const toggleIsOpen = React.useCallback(() => {
-        dispatch({
-            isOpen: !reducer.isOpen,
-        });
-    }, [reducer.isOpen]);
+    const toggleIsOpen = React.useCallback(
+        (event: unknown) => {
+            let text: string | null = null;
+            if (event instanceof CustomEvent) {
+                const data = event.detail as AskAiDataEvent;
+                text = data.text;
+            }
+
+            dispatch({
+                isOpen: !reducer.isOpen,
+                text,
+            });
+        },
+        [reducer.isOpen],
+    );
     const close = React.useCallback(() => {
         dispatch({
             isOpen: false,
+            text: null,
         });
     }, []);
 
@@ -45,6 +59,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
     return {
         isOpen: reducer.isOpen,
         editor: reducer.editor,
+        content: reducer.text,
     };
 };
 

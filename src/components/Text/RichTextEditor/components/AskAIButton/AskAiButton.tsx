@@ -17,11 +17,15 @@ type AskAiButtonProps = {
 };
 const AskAiButton = ({ editor }: AskAiButtonProps) => {
     const handleClickAskAi = () => {
+        const { view, state } = editor;
+        const { from, to } = view.state.selection;
+        const text = state.doc.textBetween(from, to, "\n");
+
         dispatchEvent(AskAICustomEvent.show, {
             from: "toolbar",
             editor,
+            text,
         });
-        console.log("dispatch event:  from toolbar");
     };
 
     return (
