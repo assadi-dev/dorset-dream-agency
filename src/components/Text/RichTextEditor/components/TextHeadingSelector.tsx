@@ -3,10 +3,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import React from "react";
 import { Editor } from "@tiptap/react";
 
-type TextSizeSelector = {
+type TextHeadingSelectorProps = {
     editor: Editor | null;
 };
-const TextSizeSelector = ({ editor }: TextSizeSelector) => {
+const TextHeadingSelector = ({ editor }: TextHeadingSelectorProps) => {
     if (!editor) {
         return null;
     }
@@ -24,4 +24,4 @@ const TextSizeSelector = ({ editor }: TextSizeSelector) => {
     return <div></div>;
 };
 
-export default TextSizeSelector;
+export default TextHeadingSelector;
