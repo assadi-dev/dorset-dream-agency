@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Editor } from "@tiptap/react";
-import { Send, SparklesIcon } from "lucide-react";
+import { ArrowUp, Send, SparklesIcon } from "lucide-react";
 import React from "react";
 import {
     DropdownMenu,
@@ -15,11 +15,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { askAISchema, AskAISchemaInfer } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { dispatchEvent } from "@/lib/event";
+import useAskAIEvent from "../../hooks/useAskAIEvent";
 
 type AIPromptInputProps = {
     editor: Editor;
 };
 const AIPromptInput = ({ editor }: AIPromptInputProps) => {
+    const formNodeRef = React.useRef<HTMLFormElement | null>(null);
+    useAskAIEvent({ element: formNodeRef.current, editor });
+
     const form = useForm<AskAISchemaInfer>({
         resolver: zodResolver(askAISchema),
         defaultValues: {
@@ -35,7 +39,7 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
         if (errors.content || errors.selected) return;
 
         console.log(values);
-        dispatchEvent(AskAICustomEvent.close, null);
+        dispatchEvent(AskAICustomEvent.fetching, null);
     };
 
     const selectAction = (action: AIActionsGenerate | null) => {
@@ -51,16 +55,20 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
     return (
         <div className=" absolute bottom-3 w-full left-0 flex justify-center p-1">
             <div className="w-2/3 mx-auto rounded-lg shadow-lg bg-white border    p-1  text-sm text-slate-500 motion-preset-expand motion-duration-300 ">
-                <form>
-                    <div className="">
+                <form ref={formNodeRef}>
+                    <div className="max-h-[15vh]">
                         <textarea
-                            className={cn("px-2 pt-2 text-sm rounded-md resize-none w-full outline-none ", errorStyle)}
+                            className={cn(
+                                "ai-chat-textarea",
+                                "px-2 pt-2 text-sm rounded-md resize-none w-full outline-none",
+                                errorStyle,
+                            )}
                             id="content"
-                            placeholder="Demander à l'IA ce que vous voulez faire"
+                            placeholder=" Demander à l'IA ce que vous voulez faire"
                             {...form.register("content")}
                         ></textarea>
                     </div>
-                    <div className="grid grid-cols-2 pr-3">
+                    <div className="grid grid-cols-2 pr-3 bg-white">
                         <div>
                             <AISelectPromptAction
                                 editor={editor}
@@ -70,12 +78,12 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
                         </div>
                         <Button
                             type="button"
-                            className="justify-self-end"
+                            className="justify-self-end rounded-full "
                             variant={"ghost"}
                             size={"icon"}
                             onClick={form.handleSubmit(submitAction)}
                         >
-                            <Send className="h-4 w-4" />{" "}
+                            <ArrowUp className="h-4 w-4" />{" "}
                         </Button>
                     </div>
                 </form>

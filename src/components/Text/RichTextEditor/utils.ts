@@ -33,7 +33,7 @@ export const aiActionsGenerate: AIActionsGenerate[] = [
         icon: ListRestart,
     },
     {
-        label: "Générer une description",
+        label: "Corriger",
         value: AI_ACTIONS_VALUES.correct,
         icon: SpellCheck,
     },

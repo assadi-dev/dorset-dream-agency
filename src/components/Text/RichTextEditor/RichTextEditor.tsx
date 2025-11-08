@@ -7,7 +7,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import BubbleMenuRow from "./components/BubbleMenu";
 import ToolbarMenu from "./components/ToolbarMenu";
 import AIPromptInput from "./components/AskAIButton/AIPromptInput";
-import useAppearAIMenu from "./hooks/useAppearAIMenu";
+import useControlAskAIMenu from "./hooks/useControlAskAIMenu";
 
 interface RichTextEditorProps {
     content: TiptapContent | null;
@@ -34,7 +34,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         },
     });
 
-    const { isOpen } = useAppearAIMenu({ editor });
+    const { isOpen } = useControlAskAIMenu({ editor });
 
     if (!editor) {
         return null;
