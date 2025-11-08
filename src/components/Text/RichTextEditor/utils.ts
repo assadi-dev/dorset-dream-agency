@@ -1,4 +1,6 @@
 import { Editor } from "@tiptap/react";
+import { AIActionsGenerate } from "./type";
+import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -15,9 +17,24 @@ export const handleAIAction = ({ editor, action }: HandleAIActionArg) => {
         ],
     };
     // editor?.chain().focus().insertContent(jsonNode).run();
-    const { from, to } = editor.state.selection;
-    const endCoords = editor.view.coordsAtPos(to);
-    const startCoords = editor.view.coordsAtPos(from);
-    const centerX = (startCoords.left + endCoords.right) / 2;
-    console.log(centerX);
 };
+
+export const AI_ACTIONS_VALUES = { generate: "generate", rephrase: "rephrase", correct: "correct" };
+
+export const aiActionsGenerate: AIActionsGenerate[] = [
+    {
+        label: "Générer une description",
+        value: AI_ACTIONS_VALUES.generate,
+        icon: RectangleEllipsis,
+    },
+    {
+        label: "Reformuler",
+        value: AI_ACTIONS_VALUES.rephrase,
+        icon: ListRestart,
+    },
+    {
+        label: "Générer une description",
+        value: AI_ACTIONS_VALUES.correct,
+        icon: SpellCheck,
+    },
+];

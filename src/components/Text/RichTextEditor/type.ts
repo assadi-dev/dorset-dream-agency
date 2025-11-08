@@ -45,3 +45,9 @@ export type TiptapContent = DocumentType<
         (NodeType<any, any, any, any> | TextType<MarkType<any, any>>)[]
     >[]
 >;
+
+export type AIActionsGenerate = {
+    label: string;
+    value: string;
+    icon: LucidIconProps;
+};

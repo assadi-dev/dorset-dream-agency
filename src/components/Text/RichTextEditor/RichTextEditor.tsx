@@ -6,7 +6,7 @@ import { TiptapContent } from "./type";
 import TextAlign from "@tiptap/extension-text-align";
 import BubbleMenuRow from "./components/BubbleMenu";
 import ToolbarMenu from "./components/ToolbarMenu";
-import AIPromptInput from "./components/AIPromptInput";
+import AIPromptInput from "./components/AskAIButton/AIPromptInput";
 
 interface RichTextEditorProps {
     content: TiptapContent | null;

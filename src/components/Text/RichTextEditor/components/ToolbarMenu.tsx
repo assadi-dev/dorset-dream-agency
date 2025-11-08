@@ -6,7 +6,7 @@ import HeaderActionsButton, { HeaderActionSeparator } from "./HeaderActionsButto
 import { useHeaderActionsHandler } from "../hooks/useRichtextActions";
 import { HeaderActionsHandlerReturn, RichTextHandlerGroup, RichTextHandlerName } from "../type";
 import { isActionSelected } from "../strategy";
-import AskAiButton from "./AskAiButton";
+import AskAiButton from "./AskAIButton/AskAiButton";
 
 type ToolbarMenuProps = {
     editor: Editor | null;
