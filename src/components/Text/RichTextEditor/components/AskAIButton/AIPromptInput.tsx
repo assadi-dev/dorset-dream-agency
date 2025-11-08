@@ -19,76 +19,13 @@ import useAskAIEvent from "../../hooks/useAskAIEvent";
 
 type AIPromptInputProps = {
     editor: Editor;
+    text?: string | null;
 };
-const AIPromptInput = ({ editor }: AIPromptInputProps) => {
-    const formNodeRef = React.useRef<HTMLFormElement | null>(null);
-
-    const form = useForm<AskAISchemaInfer>({
-        resolver: zodResolver(askAISchema),
-        defaultValues: {
-            selected: null,
-            content: "",
-        },
-    });
-
-    useAskAIEvent({ element: formNodeRef.current, editor, form });
-
-    const {
-        formState: { errors },
-    } = form;
-
-    const submitAction: SubmitHandler<AskAISchemaInfer> = async (values) => {
-        if (errors.content || errors.selected) return;
-
-        console.log(values);
-        dispatchEvent(AskAICustomEvent.fetching, null);
-    };
-
-    const selectAction = (action: AIActionsGenerate | null) => {
-        if (!action) return;
-        form.setValue("selected", action.value);
-    };
-
-    const errorStyle = {
-        border: errors.content ? true : false,
-        "border-destructive": errors.content ? true : false,
-    } as const;
-
+const AIPromptInput = ({ text, editor }: AIPromptInputProps) => {
     return (
         <div className=" absolute bottom-3 w-full left-0 flex justify-center p-1">
             <div className="w-2/3 mx-auto rounded-lg shadow-lg bg-white border    p-1  text-sm text-slate-500 motion-preset-expand motion-duration-300 ">
-                <form ref={formNodeRef}>
-                    <div className="max-h-[15vh]">
-                        <textarea
-                            className={cn(
-                                "ai-chat-textarea",
-                                "px-2 pt-2 text-sm rounded-md resize-none w-full outline-none",
-                                errorStyle,
-                            )}
-                            id="content"
-                            placeholder=" Demander à l'IA ce que vous voulez faire"
-                            {...form.register("content")}
-                        ></textarea>
-                    </div>
-                    <div className="grid grid-cols-2 pr-3 bg-white">
-                        <div>
-                            <AISelectPromptAction
-                                editor={editor}
-                                error={errors.selected ? true : false}
-                                onSelected={selectAction}
-                            />{" "}
-                        </div>
-                        <Button
-                            type="button"
-                            className="justify-self-end rounded-full "
-                            variant={"ghost"}
-                            size={"icon"}
-                            onClick={form.handleSubmit(submitAction)}
-                        >
-                            <ArrowUp className="h-4 w-4" />{" "}
-                        </Button>
-                    </div>
-                </form>
+                <AskAiForm editor={editor} defaultValues={{ content: text ?? "" }} />
             </div>
         </div>
     );
@@ -140,5 +77,73 @@ export const SelectedAction = ({ action }: { action: AIActionsGenerate }) => {
         <>
             <Icon className="h-4 w-4 mr-1" /> {action.label}
         </>
+    );
+};
+
+export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultValues: AskAISchemaInfer }) => {
+    const formNodeRef = React.useRef<HTMLFormElement | null>(null);
+    const form = useForm<AskAISchemaInfer>({
+        resolver: zodResolver(askAISchema),
+        defaultValues: {
+            ...defaultValues,
+            selected: null,
+        },
+    });
+
+    const {
+        formState: { errors },
+    } = form;
+    useAskAIEvent({ element: formNodeRef.current, editor, form });
+
+    const submitAction: SubmitHandler<AskAISchemaInfer> = async (values) => {
+        if (errors.content || errors.selected) return;
+
+        console.log("start fetching data");
+        dispatchEvent(AskAICustomEvent.fetching, { action: values.selected, content: values.content });
+    };
+
+    const selectAction = (action: AIActionsGenerate | null) => {
+        if (!action) return;
+        form.setValue("selected", action.value);
+    };
+
+    const errorStyle = {
+        border: errors.content ? true : false,
+        "border-destructive": errors.content ? true : false,
+    } as const;
+
+    return (
+        <form ref={formNodeRef}>
+            <div className="max-h-[15vh]">
+                <textarea
+                    className={cn(
+                        "ai-chat-textarea",
+                        "px-2 pt-2 text-sm rounded-md resize-none w-full outline-none",
+                        errorStyle,
+                    )}
+                    id="content"
+                    placeholder=" Demander à l'IA ce que vous voulez faire"
+                    {...form.register("content")}
+                ></textarea>
+            </div>
+            <div className="grid grid-cols-2 pr-3 bg-white">
+                <div>
+                    <AISelectPromptAction
+                        editor={editor}
+                        error={errors.selected ? true : false}
+                        onSelected={selectAction}
+                    />{" "}
+                </div>
+                <Button
+                    type="button"
+                    className="justify-self-end rounded-full "
+                    variant={"ghost"}
+                    size={"icon"}
+                    onClick={form.handleSubmit(submitAction)}
+                >
+                    <ArrowUp className="h-4 w-4" />{" "}
+                </Button>
+            </div>
+        </form>
     );
 };

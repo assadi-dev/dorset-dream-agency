@@ -57,3 +57,8 @@ export type AskAiDataEvent = {
     editor: Editor;
     text: string | null;
 };
+
+export type AskAiDataFetchingEvent = {
+    action: string;
+    text: string;
+};

@@ -8,6 +8,7 @@ type ReducerProps = {
     isOpen: boolean;
     editor: Editor | null;
     text: string | null;
+    isFetching: boolean;
 };
 
 type UseAppearAIMenuProps = {
@@ -20,6 +21,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
             isOpen: false,
             editor: null,
             text: null,
+            isFetching: false,
         },
     );
 
@@ -59,7 +61,8 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
     return {
         isOpen: reducer.isOpen,
         editor: reducer.editor,
-        content: reducer.text,
+        text: reducer.text,
+        isFetching: reducer.isFetching,
     };
 };
 
