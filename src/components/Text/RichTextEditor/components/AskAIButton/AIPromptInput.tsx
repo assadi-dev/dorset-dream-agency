@@ -49,35 +49,37 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
     } as const;
 
     return (
-        <div className="w-2/3 left-1/2 translate-x-[-50%] mx-auto rounded-lg shadow-lg bg-white border  absolute bottom-5  p-1  text-sm text-slate-500 motion-preset-slide-up-sm motion-duration-300 ">
-            <form>
-                <div className="">
-                    <textarea
-                        className={cn("px-2 pt-2 text-sm rounded-md resize-none w-full outline-none ", errorStyle)}
-                        id="content"
-                        placeholder="Demander à l'IA ce que vous voulez faire"
-                        {...form.register("content")}
-                    ></textarea>
-                </div>
-                <div className="grid grid-cols-2 pr-3">
-                    <div>
-                        <AISelectPromptAction
-                            editor={editor}
-                            error={errors.selected ? true : false}
-                            onSelected={selectAction}
-                        />{" "}
+        <div className=" absolute bottom-3 w-full left-0 flex justify-center p-1">
+            <div className="w-2/3 mx-auto rounded-lg shadow-lg bg-white border    p-1  text-sm text-slate-500 motion-preset-expand motion-duration-300 ">
+                <form>
+                    <div className="">
+                        <textarea
+                            className={cn("px-2 pt-2 text-sm rounded-md resize-none w-full outline-none ", errorStyle)}
+                            id="content"
+                            placeholder="Demander à l'IA ce que vous voulez faire"
+                            {...form.register("content")}
+                        ></textarea>
                     </div>
-                    <Button
-                        type="button"
-                        className="justify-self-end"
-                        variant={"ghost"}
-                        size={"icon"}
-                        onClick={form.handleSubmit(submitAction)}
-                    >
-                        <Send className="h-4 w-4" />{" "}
-                    </Button>
-                </div>
-            </form>
+                    <div className="grid grid-cols-2 pr-3">
+                        <div>
+                            <AISelectPromptAction
+                                editor={editor}
+                                error={errors.selected ? true : false}
+                                onSelected={selectAction}
+                            />{" "}
+                        </div>
+                        <Button
+                            type="button"
+                            className="justify-self-end"
+                            variant={"ghost"}
+                            size={"icon"}
+                            onClick={form.handleSubmit(submitAction)}
+                        >
+                            <Send className="h-4 w-4" />{" "}
+                        </Button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
