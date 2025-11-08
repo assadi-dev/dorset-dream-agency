@@ -8,12 +8,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { aiActionsGenerate } from "../../utils";
+import { aiActionsGenerate, AskAICustomEvent } from "../../utils";
 import { AIActionsGenerate } from "../../type";
 import { cn } from "@/lib/utils";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { askAISchema, AskAISchemaInfer } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { dispatchEvent } from "@/lib/event";
 
 type AIPromptInputProps = {
     editor: Editor;
@@ -34,6 +35,7 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
         if (errors.content || errors.selected) return;
 
         console.log(values);
+        dispatchEvent(AskAICustomEvent.close, null);
     };
 
     const selectAction = (action: AIActionsGenerate | null) => {
@@ -47,7 +49,7 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
     } as const;
 
     return (
-        <div className="w-3/4 rounded-lg shadow-lg bg-white border  absolute bottom-5 left-1/2 translate-x-[-50%] p-1  text-sm text-slate-500 motion-preset-slide-up-sm motion-duration-300 ">
+        <div className="w-2/3 left-1/2 translate-x-[-50%] mx-auto rounded-lg shadow-lg bg-white border  absolute bottom-5  p-1  text-sm text-slate-500 motion-preset-slide-up-sm motion-duration-300 ">
             <form>
                 <div className="">
                     <textarea
