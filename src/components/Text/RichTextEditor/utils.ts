@@ -38,3 +38,8 @@ export const aiActionsGenerate: AIActionsGenerate[] = [
         icon: SpellCheck,
     },
 ];
+
+export const AskAICustomEvent = {
+    show: "askAi:show",
+    close: "askAi:close",
+};

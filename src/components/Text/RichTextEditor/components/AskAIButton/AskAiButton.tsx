@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sparkles } from "lucide-react";
 import React from "react";
-import { handleAIAction } from "../../utils";
+import { AskAICustomEvent, handleAIAction } from "../../utils";
 import { Editor } from "@tiptap/react";
 import { dispatchEvent } from "@/lib/event";
 
@@ -17,7 +17,7 @@ type AskAiButtonProps = {
 };
 const AskAiButton = ({ editor }: AskAiButtonProps) => {
     const handleClickAskAi = () => {
-        dispatchEvent("askAi:open", {
+        dispatchEvent(AskAICustomEvent.show, {
             from: "toolbar",
             editor,
         });

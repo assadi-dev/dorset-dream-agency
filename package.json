@@ -101,6 +101,7 @@
         "swiper": "^11.1.14",
         "tailwind-merge": "^2.5.2",
         "tailwindcss-animate": "^1.0.7",
+        "tailwindcss-motion": "^1.1.1",
         "uniqid": "^5.4.0",
         "uuid": "^11.1.0",
         "zod": "^3.23.8"

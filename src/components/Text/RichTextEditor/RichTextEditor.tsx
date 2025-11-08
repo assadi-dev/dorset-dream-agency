@@ -7,6 +7,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import BubbleMenuRow from "./components/BubbleMenu";
 import ToolbarMenu from "./components/ToolbarMenu";
 import AIPromptInput from "./components/AskAIButton/AIPromptInput";
+import useAppearAIMenu from "./hooks/useAppearAIMenu";
 
 interface RichTextEditorProps {
     content: TiptapContent | null;
@@ -33,6 +34,8 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
         },
     });
 
+    const { isOpen } = useAppearAIMenu({ editor });
+
     if (!editor) {
         return null;
     }
@@ -43,7 +46,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
             <ScrollArea className="h-[45vh] pb-2">
                 <BubbleMenuRow editor={editor} />
                 <EditorContent editor={editor} className="bg-card cursor-text relative" />
-                <AIPromptInput editor={editor} />
+                {isOpen && <AIPromptInput editor={editor} />}
                 <ScrollBar className="h-0.5" orientation="vertical" />
             </ScrollArea>
         </div>

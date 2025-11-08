@@ -29,7 +29,6 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
     const {
         formState: { errors },
     } = form;
-    console.log(form.formState.errors);
 
     const submitAction: SubmitHandler<AskAISchemaInfer> = async (values) => {
         if (errors.content || errors.selected) return;
@@ -48,7 +47,7 @@ const AIPromptInput = ({ editor }: AIPromptInputProps) => {
     } as const;
 
     return (
-        <div className="w-3/4 rounded-lg shadow-lg bg-white border  absolute bottom-5 left-1/2 translate-x-[-50%] p-1  text-sm text-slate-500 motion-preset-pop ">
+        <div className="w-3/4 rounded-lg shadow-lg bg-white border  absolute bottom-5 left-1/2 translate-x-[-50%] p-1  text-sm text-slate-500 motion-preset-slide-up-sm motion-duration-300 ">
             <form>
                 <div className="">
                     <textarea
