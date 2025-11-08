@@ -1,13 +1,12 @@
 "use client";
 import React from "react";
-import { Bold, Italic, List, ListOrdered, Trash2, Undo, Redo } from "lucide-react";
-import { Button } from "../../../ui/button";
+import { Trash2 } from "lucide-react";
 import { Editor } from "@tiptap/react";
 import HeaderActionsButton, { HeaderActionSeparator } from "./HeaderActionsButton";
 import { useHeaderActionsHandler } from "../hooks/useRichtextActions";
 import { HeaderActionsHandlerReturn, RichTextHandlerGroup, RichTextHandlerName } from "../type";
 import { isActionSelected } from "../strategy";
-import AskAiButton from "./askAiButton";
+import AskAiButton from "./AskAiButton";
 
 type ToolbarMenuProps = {
     editor: Editor | null;

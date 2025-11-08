@@ -14,5 +14,10 @@ export const handleAIAction = ({ editor, action }: HandleAIActionArg) => {
             },
         ],
     };
-    editor?.chain().focus().insertContent(jsonNode).run();
+    // editor?.chain().focus().insertContent(jsonNode).run();
+    const { from, to } = editor.state.selection;
+    const endCoords = editor.view.coordsAtPos(to);
+    const startCoords = editor.view.coordsAtPos(from);
+    const centerX = (startCoords.left + endCoords.right) / 2;
+    console.log(centerX);
 };

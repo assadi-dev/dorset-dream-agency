@@ -10,13 +10,22 @@ import { Sparkles } from "lucide-react";
 import React from "react";
 import { handleAIAction } from "../utils";
 import { Editor } from "@tiptap/react";
+import { dispatchEvent } from "@/lib/event";
 
 type AskAiButtonProps = {
     editor: Editor;
 };
 const AskAiButton = ({ editor }: AskAiButtonProps) => {
+    const handleClickAskAi = () => {
+        dispatchEvent("askAi:open", {
+            from: "toolbar",
+            editor,
+        });
+        console.log("dispatch event:  from toolbar");
+    };
+
     return (
-        <DropdownMenu>
+        /*         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button type="button" variant="outline" size="sm" title="Demander à l'IA">
                     <Sparkles className="h-3 w-3 mr-1" />
@@ -34,7 +43,11 @@ const AskAiButton = ({ editor }: AskAiButtonProps) => {
                     Corriger
                 </DropdownMenuItem>
             </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */
+        <Button type="button" variant="outline" size="sm" title="Demander à l'IA" onClick={handleClickAskAi}>
+            <Sparkles className="h-3 w-3 mr-1" />
+            Demander à l'IA
+        </Button>
     );
 };
 
