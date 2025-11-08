@@ -1,14 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Sparkles } from "lucide-react";
 import React from "react";
-import { AskAICustomEvent, handleAIAction } from "../../utils";
+import { AskAICustomEvent } from "../../utils";
 import { Editor } from "@tiptap/react";
 import { dispatchEvent } from "@/lib/event";
 

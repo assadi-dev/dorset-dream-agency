@@ -59,7 +59,6 @@ const useAskAIEvent = ({ element, editor, form }: UseAskAIEventProps) => {
 
     React.useEffect(() => {
         if (!editor) return;
-        editor.on("selectionUpdate", handleSelect);
         editor.on("focus", closePopover);
         textareaAutoSize();
         subscribe(AskAICustomEvent.stream, listenOpenModal);
