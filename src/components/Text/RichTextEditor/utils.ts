@@ -42,4 +42,10 @@ export const aiActionsGenerate: AIActionsGenerate[] = [
 export const AskAICustomEvent = {
     show: "askAi:show",
     close: "askAi:close",
+    fetching: "askAi:fetch",
+    error: "askAi:error",
+    stream: "askAi:stream",
+    accept: "askAi:accept",
+    cancel: "askAi:cancel",
+    clear: "askAi:clear",
 };
