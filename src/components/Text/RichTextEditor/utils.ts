@@ -1,6 +1,7 @@
 import { Editor } from "@tiptap/react";
 import { AIActionsGenerate } from "./type";
 import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
+import { wait } from "@/lib/utils";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -48,4 +49,39 @@ export const AskAICustomEvent = {
     accept: "askAi:accept",
     cancel: "askAi:cancel",
     clear: "askAi:clear",
+};
+
+export const fetchAiApi = (data: { action: string; text: string }, signaling: AbortSignal) => {
+    try {
+        const res = fetch("/api/ai-action/generate", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "content-type": "application/json",
+            },
+            signal: signaling,
+        });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log(`An error is occur in fetchAiApi ${error.message}`);
+        }
+    }
+};
+
+export const fetchAiApiMock = async (data: { action: string; text: string }, signaling: AbortSignal) => {
+    try {
+        await wait(3500);
+        return {
+            success: true,
+            originalText: data.text,
+            transformedText:
+                " Titre : Maison exceptionnelle de 25 m² avec une remarquable commodité - 1 parking, 1 salle de bain\n\nDescription :\n\nDécouvrez cette magnifique maison de 25 m², située dans un quartier sécurisé et agréable. Cette propriété offre une excellente commodité avec son espace intérieur bien organisé et son parking privé.\n\nLa maison se distingue par sa belle architecture contemporaine et ses finitions de qualité. L'espace ouvert, lumineux et fonctionnel est idéal pour les activités quotidiennes et la vie familiale.\n\nLe sol en parquet et les murs blancs donnent un aspect élégant à l'intérieur. La cuisine moderne est équipée de tout ce dont vous avez besoin, tandis que le sal",
+            action: data.action,
+            model: "mistral:7b",
+        };
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log(`An error is occur in fetchAiApi ${error.message}`);
+        }
+    }
 };

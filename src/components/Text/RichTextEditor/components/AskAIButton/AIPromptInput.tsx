@@ -16,6 +16,7 @@ import { askAISchema, AskAISchemaInfer } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { dispatchEvent } from "@/lib/event";
 import useAskAIEvent from "../../hooks/useAskAIEvent";
+import AskAiCard from "./AskAiCard";
 
 type AIPromptInputProps = {
     editor: Editor;
@@ -23,11 +24,9 @@ type AIPromptInputProps = {
 };
 const AIPromptInput = ({ text, editor }: AIPromptInputProps) => {
     return (
-        <div className=" absolute bottom-3 w-full left-0 flex justify-center p-1">
-            <div className="w-2/3 mx-auto rounded-lg shadow-lg bg-white border    p-1  text-sm text-slate-500 motion-preset-expand motion-duration-300 ">
-                <AskAiForm editor={editor} defaultValues={{ content: text ?? "" }} />
-            </div>
-        </div>
+        <AskAiCard>
+            <AskAiForm editor={editor} defaultValues={{ content: text ?? "" }} />
+        </AskAiCard>
     );
 };
 
@@ -51,7 +50,7 @@ export const AISelectPromptAction = ({
                     {value ? <SelectedAction action={value} /> : <Placeholder />}
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-[25vw]">
+            <DropdownMenuContent align="start" side="top" className="w-[25vw]">
                 {aiActionsGenerate.map((v) => {
                     const Icon = v.icon;
                     return (
@@ -97,8 +96,6 @@ export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultVa
 
     const submitAction: SubmitHandler<AskAISchemaInfer> = async (values) => {
         if (errors.content || errors.selected) return;
-
-        console.log("start fetching data");
         dispatchEvent(AskAICustomEvent.fetching, { action: values.selected, content: values.content });
     };
 

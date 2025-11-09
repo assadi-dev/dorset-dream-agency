@@ -1,3 +1,4 @@
+import { AskAIActionUnion } from "@/app/api/ai-actions/types/type";
 import { LucidIconProps } from "@/types/global";
 import { DocumentType, Editor, MarkType, NodeType, TextType } from "@tiptap/react";
 
@@ -59,6 +60,14 @@ export type AskAiDataEvent = {
 };
 
 export type AskAiDataFetchingEvent = {
-    action: string;
+    action: AskAIActionUnion;
     text: string;
+};
+
+export type FetchAskAIApiReturn = {
+    success: string;
+    originalText: string;
+    transformedText: string;
+    action: string;
+    model: string;
 };

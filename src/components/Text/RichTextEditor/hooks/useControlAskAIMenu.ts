@@ -1,8 +1,8 @@
 import React from "react";
-import { AskAICustomEvent } from "../utils";
-import { subscribe, unsubscribe } from "@/lib/event";
+import { AskAICustomEvent, fetchAiApiMock, insertContent } from "../utils";
+import { dispatchEvent, subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
-import { AskAiDataEvent } from "../type";
+import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
 
 type ReducerProps = {
     isOpen: boolean;
@@ -47,14 +47,34 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
         });
     }, []);
 
+    const controller = new AbortController();
+
+    const fetchAi = React.useCallback(
+        async (event: unknown) => {
+            dispatch({ isOpen: false, isFetching: true });
+            if (event instanceof CustomEvent) {
+                const data = event.detail as AskAiDataFetchingEvent;
+                const signaling = controller.signal;
+                const res = await fetchAiApiMock(data, signaling);
+                const content = res?.transformedText ?? "";
+                if (editor) insertContent({ editor, content });
+
+                dispatch({ isFetching: false });
+            }
+        },
+        [controller.signal, editor],
+    );
+
     React.useEffect(() => {
         if (editor) dispatch({ editor: editor });
 
         subscribe(AskAICustomEvent.show, toggleIsOpen);
         subscribe(AskAICustomEvent.close, close);
+        subscribe(AskAICustomEvent.fetching, fetchAi);
         return () => {
             unsubscribe(AskAICustomEvent.show, toggleIsOpen);
             unsubscribe(AskAICustomEvent.close, close);
+            unsubscribe(AskAICustomEvent.fetching, fetchAi);
         };
     }, [editor, toggleIsOpen, close]);
 
