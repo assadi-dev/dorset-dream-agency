@@ -22,18 +22,18 @@ export const POST = async (request: Request) => {
 
         const prompt = buildPromptFromOllama({ action: actions, userText: text });
 
-        const ollamaBody = snapshotOllamaBody(prompt);
+        const ollamaBody = snapshotOllamaBody(prompt, true);
 
         const response = await fetchWithOllama(ollamaBody);
-        const data = await response?.json();
 
-        return NextResponse.json({
+        /*  return NextResponse.json({
             success: true,
             originalText: text,
             transformedText: data.response,
             action: actions,
             model: OLLAMA_CONFIG.model,
-        });
+        }); */
+        return response?.body;
     } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json(
