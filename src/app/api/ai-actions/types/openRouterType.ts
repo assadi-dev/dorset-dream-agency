@@ -1,7 +1,9 @@
+import { OpenRouterRole } from "./type";
+
 // Definitions of subtypes are below
-type OpenRouterRequest = {
+export type OpenRouterRequest = {
     // Either "messages" or "prompt" is required
-    messages?: Message[];
+    messages?: OpenRouterMessage[];
     prompt?: string;
 
     // If "model" is unspecified, uses the user's default
@@ -34,7 +36,7 @@ type OpenRouterRequest = {
     presence_penalty?: number; // Range: [-2, 2]
     repetition_penalty?: number; // Range: (0, 2]
     logit_bias?: { [key: number]: number };
-    top_logprobs: number; // Integer only
+    top_logprobs?: number; // Integer only
     min_p?: number; // Range: [0, 1]
     top_a?: number; // Range: [0, 1]
 
@@ -70,20 +72,20 @@ type ImageContentPart = {
 
 type ContentPart = TextContent | ImageContentPart;
 
-export type Message = {
-    role: "user" | "assistant" | "system";
+export type OpenRouterMessage = {
+    role: OpenRouterRole;
     content: string | ContentPart[];
     name?: string;
 };
 
-type MessageTools = {
+type OpenRouterMessageTools = {
     role: "tool";
     content: string;
     tool_call_id: string;
     name?: string;
 };
 
-type FunctionDescription = {
+type OpenRouterFunctionDescription = {
     description?: string;
     name: string;
     parameters: object; // JSON Schema object
@@ -91,7 +93,7 @@ type FunctionDescription = {
 
 type Tool = {
     type: "function";
-    function: FunctionDescription;
+    function: OpenRouterFunctionDescription;
 };
 
 type ToolChoice =
@@ -103,3 +105,27 @@ type ToolChoice =
               name: string;
           };
       };
+
+export interface OpenRouterStreamChunk {
+    id: string;
+    model: string;
+    choices: {
+        index: number;
+        delta: {
+            role?: string;
+            content?: string;
+        };
+        finish_reason: string | null;
+    }[];
+    created: number;
+    object: string;
+}
+
+export type OpenRouterReturn = {
+    model: string;
+    system: string;
+    user: string;
+    maxTokens: number;
+    temperature: number;
+    role: OpenRouterRole;
+};

@@ -23,6 +23,7 @@ const EnvSchema = z.object({
     LM_STUDIO_MODEL: z.coerce.string(),
     OPEN_ROUTER_URL: z.coerce.string(),
     OPEN_ROUTER_API_KEY: z.coerce.string(),
+    OPEN_ROUTER_MODEL: z.coerce.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;

@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
-import { buildPromptFromOllama, fetchWithOllama, snapshotOllamaBody } from "../utils";
+import {
+    buildOpenRouterPrompt,
+    buildPromptFromOllama,
+    fetchOpenRouter,
+    fetchWithOllama,
+    snapshotOllamaBody,
+    snapshotOpenRouterBody,
+} from "../utils";
 import { requestBodySchema } from "../schema";
 import { OLLAMA_CONFIG } from "@/config/ai-actions";
 import { zodParserError } from "@/lib/parser";
@@ -20,20 +27,13 @@ export const POST = async (request: Request) => {
 
         const { action, prompt: userText } = isValidate.data;
 
-        const prompt = buildPromptFromOllama({ action, userText });
+        const prompt = buildOpenRouterPrompt({ action, userText });
 
-        const ollamaBody = snapshotOllamaBody(prompt, true);
+        const openRouterBody = snapshotOpenRouterBody(prompt, true);
 
-        const response = await fetchWithOllama(ollamaBody);
+        const response = await fetchOpenRouter(openRouterBody);
         //  const data = await response?.json();
         return response;
-
-        return NextResponse.json({
-            success: true,
-
-            action,
-            model: OLLAMA_CONFIG.model,
-        });
     } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json(

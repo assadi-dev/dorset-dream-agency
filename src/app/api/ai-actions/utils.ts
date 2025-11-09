@@ -3,6 +3,7 @@ import {
     ACTION_PROMPTS_UNIONS,
     OLLAMA_API_ENDPOINT,
     OLLAMA_CONFIG,
+    OPEN_ROUTER_CONFIG,
     ProviderURL,
     SYSTEM_PROMPT,
 } from "@/config/ai-actions";
@@ -10,7 +11,7 @@ import { ENV } from "@/config/global";
 import { fetchWithAuthorization } from "@/lib/fetcher";
 import { OllamaBodySchema, OpenRouterBodySchema } from "./schema";
 import { OllamaBody, OllamaPromptReturn } from "./types/ollamaType";
-import { Message } from "./types/openRouterType";
+import { OpenRouterRequest, OpenRouterReturn } from "./types/openRouterType";
 
 type buildPromptArgs = {
     action: ACTION_PROMPTS_UNIONS;
@@ -26,9 +27,23 @@ export const buildPrompt = ({ action, userText }: buildPromptArgs) => {
         maxTokens: actionConfig.maxTokens,
     };
 };
-export const buildPromptFromOllama = ({ action, userText }: buildPromptArgs): OllamaPromptReturn => {
+
+export const buildOpenRouterPrompt = ({ action, userText }: buildPromptArgs): OpenRouterReturn => {
     const actionConfig = ACTION_PROMPTS[action];
 
+    return {
+        model: OPEN_ROUTER_CONFIG.model,
+        system: SYSTEM_PROMPT,
+        user: `${actionConfig.instruction} Texte :\n 
+        ${userText}
+        `,
+        maxTokens: actionConfig.maxTokens,
+        temperature: actionConfig.temperature,
+        role: "user",
+    };
+};
+export const buildPromptFromOllama = ({ action, userText }: buildPromptArgs): OllamaPromptReturn => {
+    const actionConfig = ACTION_PROMPTS[action];
     const fullPrompt = `${SYSTEM_PROMPT}
 ${actionConfig.instruction}\n
 Texte :\n
@@ -54,7 +69,21 @@ export const snapshotOllamaBody = (prompt: OllamaPromptReturn, stream?: boolean)
     } satisfies OllamaBody;
 };
 
-export const fetchOpenRouter = async (content: Message) => {
+export const snapshotOpenRouterBody = (prompt: OpenRouterReturn, stream?: boolean) => {
+    return {
+        model: prompt.model,
+        messages: [
+            {
+                role: prompt.role,
+                content: prompt.user,
+            },
+        ],
+        stream: stream ?? false,
+        temperature: prompt.temperature,
+    } satisfies OpenRouterRequest;
+};
+
+export const fetchOpenRouter = async (content: OpenRouterRequest) => {
     try {
         const isValidate = OpenRouterBodySchema.safeParse(content);
 

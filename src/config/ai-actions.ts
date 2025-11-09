@@ -70,3 +70,14 @@ export const OLLAMA_API_ENDPOINT = {
     chat: "/chat",
     generate: "/generate",
 } as const;
+
+export const OPEN_ROUTER_CONFIG = {
+    baseURL: ProviderURL.openRouter,
+    model: ENV.OPEN_ROUTER_MODEL,
+    apiKey: ENV.OPEN_ROUTER_API_KEY,
+    timeout: 30000,
+} as const;
+
+export const OPEN_ROUTER_ENDPOINT = {
+    chat: "/chat/completion",
+} as const;
