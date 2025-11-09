@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { AskAICustomEvent, fetchAiApiMock, insertContent } from "../utils";
 import { dispatchEvent, subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
+import { ToastErrorSonner, ToastInfoSonner } from "@/components/notify/Sonner";
 
 type ReducerProps = {
     isOpen: boolean;
@@ -15,6 +17,8 @@ type UseAppearAIMenuProps = {
     editor: Editor | null;
 };
 const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
+    const controller = React.useRef<AbortController>();
+
     const [reducer, dispatch] = React.useReducer(
         (prev: ReducerProps, next: Partial<ReducerProps>) => ({ ...prev, ...next }),
         {
@@ -47,34 +51,47 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
         });
     }, []);
 
-    const controller = new AbortController();
+    const abortSignal = () => {
+        if (!controller.current) return;
+        controller.current.abort();
+        ToastInfoSonner({ description: `Action annuler` }, 5000);
+    };
 
     const fetchAi = React.useCallback(
         async (event: unknown) => {
-            dispatch({ isOpen: false, isFetching: true });
-            if (event instanceof CustomEvent) {
-                const data = event.detail as AskAiDataFetchingEvent;
-                const signaling = controller.signal;
-                const res = await fetchAiApiMock(data, signaling);
-                const content = res?.transformedText ?? "";
-                if (editor) insertContent({ editor, content });
-
-                dispatch({ isFetching: false });
+            try {
+                controller.current = new AbortController();
+                dispatch({ isOpen: false, isFetching: true });
+                if (event instanceof CustomEvent) {
+                    const data = event.detail as AskAiDataFetchingEvent;
+                    const signaling = controller.current.signal;
+                    const res = (await fetchAiApiMock(data, signaling)) as any;
+                    const content = res?.transformedText ?? "";
+                    if (editor) insertContent({ editor, content });
+                    dispatch({ isFetching: false });
+                }
+            } catch (error) {
+                if (error instanceof Error) {
+                    dispatch({ isFetching: false });
+                    ToastErrorSonner(error.message);
+                }
             }
         },
-        [controller.signal, editor],
+        [editor],
     );
 
     React.useEffect(() => {
         if (editor) dispatch({ editor: editor });
-
         subscribe(AskAICustomEvent.show, toggleIsOpen);
         subscribe(AskAICustomEvent.close, close);
         subscribe(AskAICustomEvent.fetching, fetchAi);
+        subscribe(AskAICustomEvent.abort, abortSignal);
+
         return () => {
             unsubscribe(AskAICustomEvent.show, toggleIsOpen);
             unsubscribe(AskAICustomEvent.close, close);
             unsubscribe(AskAICustomEvent.fetching, fetchAi);
+            unsubscribe(AskAICustomEvent.abort, abortSignal);
         };
     }, [editor, toggleIsOpen, close]);
 
@@ -83,6 +100,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
         editor: reducer.editor,
         text: reducer.text,
         isFetching: reducer.isFetching,
+        cancel: () => controller.current?.abort(),
     };
 };
 

@@ -46,9 +46,10 @@ export const AskAICustomEvent = {
     fetching: "askAi:fetch",
     error: "askAi:error",
     stream: "askAi:stream",
-    accept: "askAi:accept",
-    cancel: "askAi:cancel",
+    accept: "askAi:accept:text",
+    decline: "askAi:cancel:text",
     clear: "askAi:clear",
+    abort: "askAI:fetching:cancel",
 };
 
 export const fetchAiApi = (data: { action: string; text: string }, signaling: AbortSignal) => {
@@ -69,9 +70,10 @@ export const fetchAiApi = (data: { action: string; text: string }, signaling: Ab
 };
 
 export const fetchAiApiMock = async (data: { action: string; text: string }, signaling: AbortSignal) => {
-    try {
-        await wait(3500);
-        return {
+    let timeout: NodeJS.Timeout;
+
+    return new Promise((resolve) => {
+        const response = {
             success: true,
             originalText: data.text,
             transformedText:
@@ -79,9 +81,17 @@ export const fetchAiApiMock = async (data: { action: string; text: string }, sig
             action: data.action,
             model: "mistral:7b",
         };
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            console.log(`An error is occur in fetchAiApi ${error.message}`);
-        }
-    }
+
+        signaling.addEventListener("abort", () => {
+            clearTimeout(timeout);
+            resolve(null);
+            signaling.removeEventListener("abort", () => {});
+        });
+
+        timeout = setTimeout(() => {
+            signaling.removeEventListener("abort", () => {});
+            clearTimeout(timeout);
+            resolve(response);
+        }, 3500);
+    });
 };

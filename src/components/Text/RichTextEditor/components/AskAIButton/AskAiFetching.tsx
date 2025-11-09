@@ -4,8 +4,14 @@ import SpinnerLoading from "@/components/loader/SpinerLoading";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import { Button } from "@/components/ui/button";
 import { Square, StopCircle } from "lucide-react";
+import { dispatchEvent } from "@/lib/event";
+import { AskAICustomEvent } from "../../utils";
 
 const AskAiFetching = () => {
+    const stopFetching = () => {
+        dispatchEvent(AskAICustomEvent.abort, null);
+    };
+
     return (
         <AskAiCard>
             <div className="flex items-center space-between">
@@ -14,7 +20,12 @@ const AskAiFetching = () => {
                     <span className="text-sm  animate-pulse">Génération en cours </span>
                 </div>
                 <div className="flex-1 flex justify-end items-center">
-                    <Button variant={"ghost"} size="icon" className="rounded-full w-7 h-7 motion-preset-slide-right">
+                    <Button
+                        variant={"ghost"}
+                        size="icon"
+                        className="rounded-full w-7 h-7 motion-preset-slide-right"
+                        onClick={stopFetching}
+                    >
                         <Square className="h-1 w-1" />
                     </Button>
                 </div>
