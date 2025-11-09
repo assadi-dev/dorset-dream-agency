@@ -92,7 +92,7 @@ export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultVa
     const {
         formState: { errors },
     } = form;
-    useAskAIEvent({ element: formNodeRef.current, editor, form });
+    useAskAIEvent({ element: formNodeRef.current, editor });
 
     const submitAction: SubmitHandler<AskAISchemaInfer> = async (values) => {
         if (errors.content || errors.selected) return;
