@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { AskAICustomEvent, fetchAiAction, fetchAiApiMock, fetchOllamaStream, insertContent } from "../utils";
+import {
+    AskAICustomEvent,
+    fetchAiAction,
+    fetchAiApiMock,
+    fetchOllamaStream,
+    fetchOpenRouterStream,
+    insertContent,
+} from "../utils";
 import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
@@ -68,7 +75,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     const data = event.detail as AskAiDataFetchingEvent;
                     const signal = abortControllerRef.current.signal;
 
-                    await fetchOllamaStream({
+                    await fetchOpenRouterStream({
                         action: data.action,
                         prompt: data.prompt,
                         signal,

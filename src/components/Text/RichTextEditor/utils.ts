@@ -203,7 +203,7 @@ export const fetchOllamaStream = async ({
 /**
  * Appel à l'API OpenRouter avec streaming
  */
-export async function openRouterGenerate({
+export async function fetchOpenRouterStream({
     action,
     prompt,
     signal,
