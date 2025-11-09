@@ -11,9 +11,8 @@ import { AskAiDataEvent } from "../type";
 type UseAskAIEventProps = {
     element?: any | null;
     editor: Editor;
-    form: UseFormReturn<AskAISchemaInfer, any, undefined>;
 };
-const useAskAIEvent = ({ element, editor, form }: UseAskAIEventProps) => {
+const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
     const closePopover = () => {
         dispatchEvent(AskAICustomEvent.close, null);
     };
