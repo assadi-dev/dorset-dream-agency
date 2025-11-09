@@ -33,6 +33,27 @@ export const currentYear = () => {
     return new Date().getFullYear();
 };
 
+/**
+ * Fonction utilitaire pour les délais avec support d'annulation
+ */
+export const delay = (ms: number, signal?: AbortSignal): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        if (signal?.aborted) {
+            reject(new Error("Canceled"));
+            return;
+        }
+
+        const timeout = setTimeout(resolve, ms);
+
+        const onAbort = () => {
+            clearTimeout(timeout);
+            reject(new Error("Canceled"));
+        };
+
+        signal?.addEventListener("abort", onAbort, { once: true });
+    });
+};
+
 export const wait = (delay: number): Promise<"Ready !"> => {
     return new Promise((resolve) => setTimeout(() => resolve("Ready !"), delay));
 };

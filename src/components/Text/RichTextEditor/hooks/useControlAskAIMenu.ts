@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { AskAICustomEvent, fetchAiAction, fetchAiApiMock, insertContent } from "../utils";
+import { AskAICustomEvent, fetchAiAction, fetchAiApiMock, fetchOllamaStream, insertContent } from "../utils";
 import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
@@ -67,14 +67,12 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                 if (event instanceof CustomEvent) {
                     const data = event.detail as AskAiDataFetchingEvent;
                     const signal = abortControllerRef.current.signal;
-                    const res = await fetchAiAction({ action: data.action, prompt: data.prompt }, signal);
-                    console.log(res);
 
-                    /*   await mockLLMStream({
-                        prompt: data.text ?? "",
+                    await fetchOllamaStream({
+                        action: data.action,
+                        prompt: data.prompt,
                         signal,
                         onChunk: (chunk: string, fullText: string) => {
-                            console.log(chunk);
                             if (editor) {
                                 editor.chain().focus().insertContent(chunk).run();
                             }
@@ -90,7 +88,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                             }
                             dispatch({ isFetching: false });
                         },
-                    }); */
+                    });
                 }
             } catch (error) {
                 dispatch({ isFetching: false });

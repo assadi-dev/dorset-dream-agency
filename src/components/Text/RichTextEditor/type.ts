@@ -73,9 +73,46 @@ export type FetchAskAIApiReturn = {
 };
 
 export interface LLMStreamOptions {
+    action: AskAIActionUnion;
     prompt: string;
-    signal?: AbortSignal;
-    onChunk?: (chunk: string, fullText: string) => void;
+    signal: AbortSignal;
+    /*     onChunk?: (chunk: string, fullText: string) => void;
     onComplete?: (fullText: string) => void;
+    onError?: (error: Error) => void; */
+}
+
+export interface OllamaStreamChunk {
+    model: string;
+    created_at: string;
+    response: string;
+    done: boolean;
+    context?: number[];
+    total_duration?: number;
+    load_duration?: number;
+    prompt_eval_count?: number;
+    prompt_eval_duration?: number;
+    eval_count?: number;
+    eval_duration?: number;
+}
+
+export interface OllamaChunk {
+    model: string;
+    created_at: string;
+    response: string;
+    done: boolean;
+}
+
+export interface OllamaFinalMessage extends OllamaChunk {
+    total_duration: number;
+    load_duration: number;
+    prompt_eval_count: number;
+    prompt_eval_duration: number;
+    eval_count: number;
+    eval_duration: number;
+}
+
+export interface OllamaStreamOptions extends LLMStreamOptions {
+    onChunk?: (chunk: string, fullText: string) => void;
+    onComplete?: (fullText: string, metadata: OllamaStreamChunk) => void;
     onError?: (error: Error) => void;
 }

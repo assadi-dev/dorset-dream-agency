@@ -1,7 +1,7 @@
 import { Editor } from "@tiptap/react";
-import { AIActionsGenerate } from "./type";
+import { AIActionsGenerate, LLMStreamOptions, OllamaChunk, OllamaStreamChunk, OllamaStreamOptions } from "./type";
 import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
-import { wait } from "@/lib/utils";
+import { delay, wait } from "@/lib/utils";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -52,7 +52,7 @@ export const AskAICustomEvent = {
     abort: "askAI:fetching:cancel",
 };
 
-export const fetchAiAction = (data: { action: string; prompt: string }, signaling: AbortSignal) => {
+export const fetchAiAction = (data: { action: string; prompt: string; stream: boolean }, signaling: AbortSignal) => {
     try {
         return fetch("/api/ai-actions/generate", {
             method: "POST",
@@ -69,7 +69,7 @@ export const fetchAiAction = (data: { action: string; prompt: string }, signalin
     }
 };
 
-export const fetchAiApiMock = async (data: { action: string; text: string }, signaling: AbortSignal) => {
+export const fetchAiApiMock = async (data: { action: string; text: string }, signal: AbortSignal) => {
     let timeout: NodeJS.Timeout;
 
     return new Promise((resolve) => {
@@ -82,19 +82,112 @@ export const fetchAiApiMock = async (data: { action: string; text: string }, sig
             model: "mistral:7b",
         };
 
-        signaling.addEventListener("abort", () => {
+        signal.addEventListener("abort", () => {
             clearTimeout(timeout);
 
-            signaling.removeEventListener("abort", () => {});
+            signal.removeEventListener("abort", () => {});
             throw new Error("Canceled");
         });
 
         timeout = setTimeout(() => {
-            signaling.removeEventListener("abort", () => {});
+            signal.removeEventListener("abort", () => {});
             clearTimeout(timeout);
             resolve(response);
         }, 3500);
     });
 };
 
-export const llmStreaming = (prompt: string, signal?: AbortSignal) => {};
+export const fetchOllamaStream = async ({
+    action,
+    prompt,
+    signal,
+    onChunk,
+    onComplete,
+    onError,
+}: OllamaStreamOptions) => {
+    try {
+        // Vérifier si déjà annulé
+        if (signal?.aborted) {
+            throw new Error("Canceled");
+        }
+
+        // Délai de 3 secondes avant de commencer
+        await delay(3000, signal);
+
+        // Vérifier à nouveau après le délai
+        if (signal?.aborted) {
+            throw new Error("Canceled");
+        }
+        const response = await fetchAiAction({ action, prompt, stream: true }, signal);
+
+        if (!response?.ok) {
+            throw new Error(`An error is occur in fetchLLmStream : ${response.status} ${response.statusText}`);
+        }
+
+        if (!response.body) {
+            throw new Error("Response body is null");
+        }
+
+        // Lecture du stream
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let fullResponse = "";
+        let finalMetadata: OllamaStreamChunk | undefined;
+
+        while (true) {
+            if (signal?.aborted) {
+                reader.cancel();
+                throw new Error("Canceled");
+            }
+
+            const { done, value } = await reader.read();
+
+            if (done) break;
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split("\n").filter((line) => line.trim());
+            for (const line of lines) {
+                try {
+                    const data: OllamaChunk = JSON.parse(line);
+                    if (!data.done) {
+                        // Ajouter la réponse au texte complet
+                        fullResponse += data.response;
+
+                        // Appeler le callback avec le chunk
+                        if (onChunk) {
+                            onChunk(data.response, fullResponse);
+                        }
+                    } else {
+                        // C'est le message final avec les métadonnées
+                        finalMetadata = data;
+                    }
+                } catch (parseError) {
+                    console.error("Erreur de parsing JSON:", parseError);
+                }
+            }
+        }
+
+        if (onComplete) {
+            onComplete(fullResponse, finalMetadata as OllamaStreamChunk);
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            // Si c'est une erreur d'annulation, la propager
+            if (error.name === "AbortError" || error.message === "Canceled") {
+                const cancelError = new Error("Canceled");
+                if (onError) {
+                    onError(cancelError);
+                } else {
+                    throw cancelError;
+                }
+                return;
+            }
+        }
+
+        // Autres erreurs
+        if (onError) {
+            onError(error instanceof Error ? error : new Error(String(error)));
+        } else {
+            throw error;
+        }
+    }
+};

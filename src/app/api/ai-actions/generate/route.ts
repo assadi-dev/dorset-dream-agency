@@ -26,8 +26,6 @@ export const POST = async (request: Request) => {
 
         const response = await fetchWithOllama(ollamaBody);
         //  const data = await response?.json();
-
-        console.log(response);
         return response;
 
         return NextResponse.json({
