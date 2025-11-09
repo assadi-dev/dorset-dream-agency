@@ -45,12 +45,12 @@ ${userText}`;
     };
 };
 
-export const snapshotOllamaBody = (prompt: OllamaPromptReturn) => {
+export const snapshotOllamaBody = (prompt: OllamaPromptReturn, stream?: boolean) => {
     return {
         options: prompt.options,
         model: prompt.model,
         prompt: prompt.prompt,
-        stream: false,
+        stream: stream ?? false,
     } satisfies OllamaBody;
 };
 

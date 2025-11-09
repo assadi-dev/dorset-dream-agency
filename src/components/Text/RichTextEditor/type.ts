@@ -61,7 +61,7 @@ export type AskAiDataEvent = {
 
 export type AskAiDataFetchingEvent = {
     action: AskAIActionUnion;
-    text: string;
+    prompt: string;
 };
 
 export type FetchAskAIApiReturn = {
@@ -71,3 +71,11 @@ export type FetchAskAIApiReturn = {
     action: string;
     model: string;
 };
+
+export interface LLMStreamOptions {
+    prompt: string;
+    signal?: AbortSignal;
+    onChunk?: (chunk: string, fullText: string) => void;
+    onComplete?: (fullText: string) => void;
+    onError?: (error: Error) => void;
+}

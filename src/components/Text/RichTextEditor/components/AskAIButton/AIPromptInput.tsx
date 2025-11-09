@@ -96,7 +96,7 @@ export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultVa
 
     const submitAction: SubmitHandler<AskAISchemaInfer> = async (values) => {
         if (errors.content || errors.selected) return;
-        dispatchEvent(AskAICustomEvent.fetching, { action: values.selected, content: values.content });
+        dispatchEvent(AskAICustomEvent.fetching, { action: values.selected, prompt: values.content });
     };
 
     const selectAction = (action: AIActionsGenerate | null) => {

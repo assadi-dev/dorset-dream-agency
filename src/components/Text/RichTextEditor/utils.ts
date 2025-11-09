@@ -20,12 +20,12 @@ export const insertContent = ({ editor, content }: HandleAIActionArg) => {
     editor?.chain().focus().insertContent(jsonNode).run();
 };
 
-export const AI_ACTIONS_VALUES = { generate: "generate", rephrase: "rephrase", correct: "correct" };
+export const AI_ACTIONS_VALUES = { describe: "describe", rephrase: "rephrase", correct: "correct" };
 
 export const aiActionsGenerate: AIActionsGenerate[] = [
     {
         label: "Générer une description",
-        value: AI_ACTIONS_VALUES.generate,
+        value: AI_ACTIONS_VALUES.describe,
         icon: RectangleEllipsis,
     },
     {
@@ -52,9 +52,9 @@ export const AskAICustomEvent = {
     abort: "askAI:fetching:cancel",
 };
 
-export const fetchAiApi = (data: { action: string; text: string }, signaling: AbortSignal) => {
+export const fetchAiAction = (data: { action: string; prompt: string }, signaling: AbortSignal) => {
     try {
-        const res = fetch("/api/ai-action/generate", {
+        return fetch("/api/ai-actions/generate", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -77,7 +77,7 @@ export const fetchAiApiMock = async (data: { action: string; text: string }, sig
             success: true,
             originalText: data.text,
             transformedText:
-                " Titre : Maison exceptionnelle de 25 m² avec une remarquable commodité - 1 parking, 1 salle de bain\n\nDescription :\n\nDécouvrez cette magnifique maison de 25 m², située dans un quartier sécurisé et agréable. Cette propriété offre une excellente commodité avec son espace intérieur bien organisé et son parking privé.\n\nLa maison se distingue par sa belle architecture contemporaine et ses finitions de qualité. L'espace ouvert, lumineux et fonctionnel est idéal pour les activités quotidiennes et la vie familiale.\n\nLe sol en parquet et les murs blancs donnent un aspect élégant à l'intérieur. La cuisine moderne est équipée de tout ce dont vous avez besoin, tandis que le sal",
+                " Maison exceptionnelle de 25 m² avec une remarquable commodité - 1 parking, 1 salle de bain\n\nDescription :\n\nDécouvrez cette magnifique maison de 25 m², située dans un quartier sécurisé et agréable. Cette propriété offre une excellente commodité avec son espace intérieur bien organisé et son parking privé.\n\nLa maison se distingue par sa belle architecture contemporaine et ses finitions de qualité. L'espace ouvert, lumineux et fonctionnel est idéal pour les activités quotidiennes et la vie familiale.\n\nLe sol en parquet et les murs blancs donnent un aspect élégant à l'intérieur. La cuisine moderne est équipée de tout ce dont vous avez besoin, tandis que le sal",
             action: data.action,
             model: "mistral:7b",
         };
@@ -96,3 +96,5 @@ export const fetchAiApiMock = async (data: { action: string; text: string }, sig
         }, 3500);
     });
 };
+
+export const llmStreaming = (prompt: string, signal?: AbortSignal) => {};
