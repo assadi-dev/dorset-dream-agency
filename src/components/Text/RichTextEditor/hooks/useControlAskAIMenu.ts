@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { AskAICustomEvent, fetchAiApiMock, insertContent } from "../utils";
-import { dispatchEvent, subscribe, unsubscribe } from "@/lib/event";
+import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
 import { ToastErrorSonner, ToastInfoSonner } from "@/components/notify/Sonner";
+import { mockLLMStream } from "../ollamaMock";
 
 type ReducerProps = {
     isOpen: boolean;
@@ -17,7 +18,7 @@ type UseAppearAIMenuProps = {
     editor: Editor | null;
 };
 const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
-    const controller = React.useRef<AbortController>();
+    const abortControllerRef = React.useRef<AbortController | null>(null);
 
     const [reducer, dispatch] = React.useReducer(
         (prev: ReducerProps, next: Partial<ReducerProps>) => ({ ...prev, ...next }),
@@ -52,24 +53,41 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
     }, []);
 
     const abortSignal = () => {
-        if (!controller.current) return;
-        controller.current.abort();
-        ToastInfoSonner({ description: `Action annuler` }, 5000);
+        if (!abortControllerRef.current) return;
+        abortControllerRef.current.abort();
+        ToastInfoSonner({ description: `Génération annulée par l'utilisateur` }, 5000);
         dispatch({ isFetching: false });
     };
 
     const fetchAi = React.useCallback(
         async (event: unknown) => {
             try {
-                controller.current = new AbortController();
                 dispatch({ isOpen: false, isFetching: true });
+                abortControllerRef.current = new AbortController();
                 if (event instanceof CustomEvent) {
                     const data = event.detail as AskAiDataFetchingEvent;
-                    const signaling = controller.current.signal;
-                    const res = (await fetchAiApiMock(data, signaling)) as any;
-                    const content = res?.transformedText ?? "";
-                    if (editor) insertContent({ editor, content });
-                    dispatch({ isFetching: false });
+                    const signal = abortControllerRef.current.signal;
+                    await mockLLMStream({
+                        prompt: data.text ?? "",
+                        signal,
+                        onChunk: (chunk: string, fullText: string) => {
+                            console.log(chunk);
+                            if (editor) {
+                                editor.chain().focus().insertContent(chunk).run();
+                            }
+                        },
+                        onComplete(fullText) {
+                            dispatch({ isFetching: false });
+                        },
+                        onError: (error: Error) => {
+                            console.error("Erreur de streaming:", error);
+                            if (error.message === "Canceled") {
+                                console.log("Génération annulée par l'utilisateur");
+                                abortControllerRef.current = null;
+                            }
+                            dispatch({ isFetching: false });
+                        },
+                    });
                 }
             } catch (error) {
                 dispatch({ isFetching: false });
@@ -101,7 +119,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
         editor: reducer.editor,
         text: reducer.text,
         isFetching: reducer.isFetching,
-        cancel: () => controller.current?.abort(),
+        cancel: () => abortControllerRef.current?.abort(),
     };
 };
 
