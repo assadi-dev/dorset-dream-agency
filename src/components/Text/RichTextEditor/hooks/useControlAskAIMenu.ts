@@ -55,6 +55,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
         if (!controller.current) return;
         controller.current.abort();
         ToastInfoSonner({ description: `Action annuler` }, 5000);
+        dispatch({ isFetching: false });
     };
 
     const fetchAi = React.useCallback(
@@ -71,8 +72,8 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     dispatch({ isFetching: false });
                 }
             } catch (error) {
+                dispatch({ isFetching: false });
                 if (error instanceof Error) {
-                    dispatch({ isFetching: false });
                     ToastErrorSonner(error.message);
                 }
             }

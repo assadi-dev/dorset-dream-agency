@@ -84,8 +84,9 @@ export const fetchAiApiMock = async (data: { action: string; text: string }, sig
 
         signaling.addEventListener("abort", () => {
             clearTimeout(timeout);
-            resolve(null);
+
             signaling.removeEventListener("abort", () => {});
+            throw new Error("Canceled");
         });
 
         timeout = setTimeout(() => {
