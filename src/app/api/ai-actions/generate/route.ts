@@ -18,22 +18,24 @@ export const POST = async (request: Request) => {
             );
         }
 
-        const { actions, text } = isValidate.data;
+        const { action, prompt: userText } = isValidate.data;
 
-        const prompt = buildPromptFromOllama({ action: actions, userText: text });
+        const prompt = buildPromptFromOllama({ action, userText });
 
         const ollamaBody = snapshotOllamaBody(prompt, true);
 
         const response = await fetchWithOllama(ollamaBody);
+        //  const data = await response?.json();
 
-        /*  return NextResponse.json({
+        console.log(response);
+        return response;
+
+        return NextResponse.json({
             success: true,
-            originalText: text,
-            transformedText: data.response,
-            action: actions,
+
+            action,
             model: OLLAMA_CONFIG.model,
-        }); */
-        return response?.body;
+        });
     } catch (error: any) {
         if (error instanceof Error) {
             return NextResponse.json(
