@@ -32,7 +32,7 @@ export const POST = async (request: Request) => {
         const openRouterBody = snapshotOpenRouterBody(prompt, true);
 
         const response = await fetchOpenRouter(openRouterBody);
-        //  const data = await response?.json();
+
         return response;
     } catch (error: any) {
         if (error instanceof Error) {

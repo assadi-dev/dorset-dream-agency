@@ -5,6 +5,7 @@ type FetchWithAuthorizationArgs = {
 };
 export const fetchWithAuthorization = ({ input, init, Authorization }: FetchWithAuthorizationArgs) => {
     return fetch(input, {
+        ...init,
         headers: {
             ...init?.headers,
             ["Content-Type"]: "application/json",

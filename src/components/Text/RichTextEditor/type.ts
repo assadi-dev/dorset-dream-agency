@@ -117,6 +117,12 @@ export interface OllamaStreamOptions extends LLMStreamOptions {
     onError?: (error: Error) => void;
 }
 
+export interface OpenRouterStreamOptions extends LLMStreamOptions {
+    onChunk?: (chunk: string, fullText: string) => void;
+    onComplete?: (fullText: string) => void;
+    onError?: (error: Error) => void;
+}
+
 /**
  * Types pour l'API OpenRouter
  */
@@ -147,18 +153,6 @@ export interface OpenRouterStreamChunk {
     }[];
     created: number;
     object: string;
-}
-
-export interface OpenRouterStreamOptions {
-    model?: string;
-    messages: OpenRouterMessage[];
-    apiKey: string;
-    signal?: AbortSignal;
-    temperature?: number;
-    maxTokens?: number;
-    onChunk?: (chunk: string, fullText: string) => void;
-    onComplete?: (fullText: string) => void;
-    onError?: (error: Error) => void;
 }
 
 /**

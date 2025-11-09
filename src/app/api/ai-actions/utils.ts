@@ -4,6 +4,7 @@ import {
     OLLAMA_API_ENDPOINT,
     OLLAMA_CONFIG,
     OPEN_ROUTER_CONFIG,
+    OPEN_ROUTER_ENDPOINT,
     ProviderURL,
     SYSTEM_PROMPT,
 } from "@/config/ai-actions";
@@ -93,7 +94,7 @@ export const fetchOpenRouter = async (content: OpenRouterRequest) => {
         const Authorization = `Bearer ${TOKEN}`;
         const body = JSON.stringify(isValidate.data);
         return fetchWithAuthorization({
-            input: ProviderURL.openRouter,
+            input: ProviderURL.openRouter + OPEN_ROUTER_ENDPOINT.chat,
             Authorization,
             init: { method: "POST", body },
         });

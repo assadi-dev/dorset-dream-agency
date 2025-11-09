@@ -79,5 +79,5 @@ export const OPEN_ROUTER_CONFIG = {
 } as const;
 
 export const OPEN_ROUTER_ENDPOINT = {
-    chat: "/chat/completion",
+    chat: "/chat/completions",
 } as const;

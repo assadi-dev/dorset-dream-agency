@@ -1,7 +1,14 @@
 import { Editor } from "@tiptap/react";
-import { AIActionsGenerate, LLMStreamOptions, OllamaChunk, OllamaStreamChunk, OllamaStreamOptions } from "./type";
+import {
+    AIActionsGenerate,
+    OllamaChunk,
+    OllamaStreamChunk,
+    OllamaStreamOptions,
+    OpenRouterStreamOptions,
+} from "./type";
 import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
-import { delay, wait } from "@/lib/utils";
+import { delay } from "@/lib/utils";
+import { OpenRouterRequest, OpenRouterStreamChunk } from "@/app/api/ai-actions/types/openRouterType";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -59,6 +66,7 @@ export const fetchAiAction = (data: { action: string; prompt: string; stream: bo
             body: JSON.stringify(data),
             headers: {
                 "content-type": "application/json",
+                "HTTP-Referer": window.location.origin,
             },
             signal: signaling,
         });
@@ -121,7 +129,7 @@ export const fetchOllamaStream = async ({
         const response = await fetchAiAction({ action, prompt, stream: true }, signal);
 
         if (!response?.ok) {
-            throw new Error(`An error is occur in fetchLLmStream : ${response.status} ${response.statusText}`);
+            throw new Error(`An error is occur from fetchLLmStream : ${response?.status} ${response?.statusText}`);
         }
 
         if (!response.body) {
@@ -191,3 +199,128 @@ export const fetchOllamaStream = async ({
         }
     }
 };
+
+/**
+ * Appel à l'API OpenRouter avec streaming
+ */
+export async function openRouterGenerate({
+    action,
+    prompt,
+    signal,
+    onChunk,
+    onComplete,
+    onError,
+}: OpenRouterStreamOptions): Promise<void> {
+    try {
+        // Vérifier si déjà annulé
+        if (signal?.aborted) {
+            throw new Error("Canceled");
+        }
+
+        // Délai de 3 secondes avant de commencer
+        await delay(3000, signal);
+
+        // Vérifier à nouveau après le délai
+        if (signal?.aborted) {
+            throw new Error("Canceled");
+        }
+        const response = await fetchAiAction({ action, prompt, stream: true }, signal);
+        if (!response?.ok) {
+            const errorData = await response?.json().catch(() => null);
+            throw new Error(
+                `An error is occur from fetchAiAction: ${response?.status} ${response?.statusText}${
+                    errorData?.error?.message ? ` - ${errorData.error.message}` : ""
+                }`,
+            );
+        }
+
+        if (!response.body) {
+            throw new Error("Response body is null");
+        }
+
+        // Lire le stream
+        const reader = response.body.getReader();
+        console.log(reader);
+
+        const decoder = new TextDecoder();
+        let fullResponse = "";
+        let buffer = "";
+
+        while (true) {
+            // Vérifier l'annulation
+            if (signal?.aborted) {
+                reader.cancel();
+                throw new Error("Canceled");
+            }
+
+            const { done, value } = await reader.read();
+
+            if (done) break;
+
+            // Décoder le chunk
+            buffer += decoder.decode(value, { stream: true });
+
+            // OpenRouter envoie les données au format SSE (Server-Sent Events)
+            const lines = buffer.split("\n");
+            buffer = lines.pop() || ""; // Garder la dernière ligne incomplète dans le buffer
+
+            for (const line of lines) {
+                const trimmedLine = line.trim();
+
+                // Ignorer les lignes vides et les commentaires
+                if (!trimmedLine || trimmedLine.startsWith(":")) continue;
+
+                // Les données SSE commencent par "data: "
+                if (trimmedLine.startsWith("data: ")) {
+                    const data = trimmedLine.slice(6); // Enlever "data: "
+
+                    // "[DONE]" indique la fin du stream
+                    if (data === "[DONE]") {
+                        break;
+                    }
+
+                    try {
+                        const parsed: OpenRouterStreamChunk = JSON.parse(data);
+                        const content = parsed.choices[0]?.delta?.content;
+
+                        if (content) {
+                            fullResponse += content;
+
+                            // Appeler le callback avec le chunk
+                            if (onChunk) {
+                                onChunk(content, fullResponse);
+                            }
+                        }
+                    } catch (parseError) {
+                        console.error("Erreur de parsing JSON:", parseError);
+                    }
+                }
+            }
+        }
+
+        // Appeler le callback de complétion
+        if (onComplete) {
+            onComplete(fullResponse);
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            // Si c'est une erreur d'annulation, la propager
+            if (error.name === "AbortError" || error.message === "Canceled") {
+                const cancelError = new Error("Canceled");
+                if (onError) {
+                    onError(cancelError);
+                } else {
+                    throw cancelError;
+                }
+                return;
+            }
+        }
+
+        // Autres erreurs
+        if (onError) {
+            onError(error instanceof Error ? error : new Error(String(error)));
+        } else {
+            throw error;
+        }
+    }
+}
