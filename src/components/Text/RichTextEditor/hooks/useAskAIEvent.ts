@@ -1,12 +1,8 @@
 "use client";
 import React from "react";
 import { AskAICustomEvent, insertContent } from "../utils";
-import { dispatchEvent, subscribe, unsubscribe } from "@/lib/event";
+import { ajusteTextareaAutoSize, dispatchEvent, subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
-import { Transaction } from "@tiptap/pm/state";
-import { UseFormReturn } from "react-hook-form";
-import { AskAISchemaInfer } from "../components/AskAIButton/schema";
-import { AskAiDataEvent } from "../type";
 
 type UseAskAIEventProps = {
     element?: any | null;
@@ -15,20 +11,6 @@ type UseAskAIEventProps = {
 const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
     const closePopover = () => {
         dispatchEvent(AskAICustomEvent.close, null);
-    };
-
-    const handleClickListener = (ev: PointerEvent) => {};
-    const handleSelect = (ev: any) => {
-        const editor = ev.editor as Editor;
-        const { view, state } = editor;
-        const { from, to } = view.state.selection;
-        const transaction = ev.transaction as Transaction;
-        const text = state.doc.textBetween(from, to, "\n");
-    };
-
-    const ajusteTextareaAutoSize = (textarea: HTMLTextAreaElement) => {
-        textarea.style.height = "auto";
-        textarea.style.height = textarea.scrollHeight + "px";
     };
 
     const textareaAutoSize = React.useCallback(() => {
