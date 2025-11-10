@@ -1,14 +1,13 @@
 "use client";
 import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import { TiptapContent } from "./type";
-import TextAlign from "@tiptap/extension-text-align";
 import BubbleMenuRow from "./components/BubbleMenu";
 import ToolbarMenu from "./components/ToolbarMenu";
 import AIPromptInput from "./components/AskAIButton/AIPromptInput";
 import useControlAskAIMenu from "./hooks/useControlAskAIMenu";
 import AskAiFetching from "./components/AskAIButton/AskAiFetching";
+import { extensions } from "./extensions";
 
 interface RichTextEditorProps {
     content: TiptapContent | null;
@@ -18,19 +17,14 @@ interface RichTextEditorProps {
 export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
     const editor = useEditor({
         immediatelyRender: false,
-        extensions: [
-            StarterKit,
-            TextAlign.configure({
-                types: ["heading", "paragraph"],
-            }),
-        ],
+        extensions,
         content,
         onUpdate: ({ editor }) => {
             onChange(editor.getJSON());
         },
         editorProps: {
             attributes: {
-                class: "prose prose-sm max-w-full  focus:outline-none min-h-[300px] px-4",
+                class: "prose prose-sm max-w-full  focus:outline-none min-h-[300px] px-4 border-none",
             },
         },
     });

@@ -241,7 +241,6 @@ export async function fetchOpenRouterStream({
 
         // Lire le stream
         const reader = response.body.getReader();
-        console.error(reader);
 
         const decoder = new TextDecoder();
         let fullResponse = "";
