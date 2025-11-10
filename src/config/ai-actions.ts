@@ -10,7 +10,8 @@ export const ACTION_PROMPTS = {
 RÈGLES :
 - Garde prix, superficie, localisation
 - Style professionnel et accrocheur
-- Mets en avant les points forts`,
+- Mets en avant les points forts
+- Pas de style dans text`,
         temperature: 0.5,
         maxTokens: 200,
     },
@@ -21,7 +22,9 @@ RÈGLES :
 
 RÈGLES :
 - Style professionnel et accrocheur
-- Mets en avant les points forts`,
+- Mets en avant les points forts
+- Passer à la ligne après chaque paragraphe(s)  
+`,
         temperature: 0.5,
         maxTokens: 200,
     },
@@ -33,7 +36,9 @@ RÈGLES :
 - Améliore la clarté
 - Vocabulaire immobilier approprié
 - Plus vendeur mais honnête
-- Garde TOUS les détails (prix, mesures)`,
+- Garde TOUS les détails (prix, mesures)
+- Passer à la ligne après chaque paragraphe(s) 
+`,
         temperature: 0.7,
         maxTokens: 1000,
     },
