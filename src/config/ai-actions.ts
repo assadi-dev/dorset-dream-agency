@@ -11,7 +11,9 @@ RÈGLES :
 - Garde prix, superficie, localisation
 - Style professionnel et accrocheur
 - Mets en avant les points forts
-- Pas de style dans text`,
+- Pas de style dans le text
+- Pas de markdwon ou html 
+`,
         temperature: 0.5,
         maxTokens: 200,
     },
@@ -23,7 +25,9 @@ RÈGLES :
 RÈGLES :
 - Style professionnel et accrocheur
 - Mets en avant les points forts
-- Passer à la ligne après chaque paragraphe(s)  
+- Passer à la ligne après chaque paragraphe(s)
+- Pas de style dans le text
+- Pas de markdwon ou html 
 `,
         temperature: 0.5,
         maxTokens: 200,
