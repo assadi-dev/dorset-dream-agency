@@ -132,7 +132,7 @@ export const uploadPhotoProperty = async (
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.log(errorData);
+            console.error(errorData);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();

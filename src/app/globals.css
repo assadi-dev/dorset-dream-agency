@@ -169,8 +169,11 @@
     outline: none;
 }
 
-.ProseMirror p {
+.ProseMirror,
+.ProseMirror p,
+.ProseMirror-trailingBreak {
     margin: 0.75rem 0;
+    border-color: transparent !important;
 }
 
 /* .ProseMirror h2 {

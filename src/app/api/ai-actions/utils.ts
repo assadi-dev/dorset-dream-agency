@@ -100,7 +100,7 @@ export const fetchOpenRouter = async (content: OpenRouterRequest) => {
         });
     } catch (error) {
         if (error instanceof Error) {
-            console.log(`An Error is occurred in fetchOpenRouter ${error.message}`);
+            console.error(`An Error is occurred in fetchOpenRouter ${error.message}`);
         }
     }
 };
@@ -120,7 +120,7 @@ export const fetchWithOllama = (content: OllamaBody) => {
         });
     } catch (error) {
         if (error instanceof Error) {
-            console.log(`An Error is occurred in fetchWithOllama ${error.message}`);
+            console.error(`An Error is occurred in fetchWithOllama ${error.message}`);
         }
     }
 };
