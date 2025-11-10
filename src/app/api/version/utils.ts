@@ -20,7 +20,7 @@ export const updateVersionFile = async (version: string) => {
         });
     } catch (error) {
         if (error instanceof Error) {
-            console.log(`An error is occur in updateVersionFile: ${error.message}`);
+            console.error(`An error is occur in updateVersionFile: ${error.message}`);
         }
     }
 };

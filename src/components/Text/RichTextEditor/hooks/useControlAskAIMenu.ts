@@ -90,7 +90,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                         onError: (error: Error) => {
                             console.error("Erreur de streaming:", error);
                             if (error.message === "Canceled") {
-                                console.log("Génération annulée par l'utilisateur");
+                                console.error("Génération annulée par l'utilisateur");
                                 abortControllerRef.current = null;
                             }
                             dispatch({ isFetching: false });

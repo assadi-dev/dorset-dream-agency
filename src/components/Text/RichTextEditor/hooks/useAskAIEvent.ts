@@ -40,8 +40,6 @@ const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
 
     const listenOpenModal = React.useCallback(
         (event: unknown) => {
-            console.log(event);
-
             let text: string | null = null;
             if (event instanceof CustomEvent) {
                 text = "Hello world";

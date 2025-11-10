@@ -73,7 +73,7 @@ export const fetchAiAction = (data: { action: string; prompt: string; stream: bo
         });
     } catch (error: unknown) {
         if (error instanceof Error) {
-            console.log(`An error is occur in fetchAiApi ${error.message}`);
+            console.error(`An error is occur in fetchAiApi ${error.message}`);
         }
     }
 };
@@ -241,7 +241,7 @@ export async function fetchOpenRouterStream({
 
         // Lire le stream
         const reader = response.body.getReader();
-        console.log(reader);
+        console.error(reader);
 
         const decoder = new TextDecoder();
         let fullResponse = "";
