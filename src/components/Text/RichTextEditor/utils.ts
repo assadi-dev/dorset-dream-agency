@@ -28,6 +28,7 @@ export const insertContent = ({ editor, content }: HandleAIActionArg) => {
 };
 
 export const AI_ACTIONS_VALUES = { describe: "describe", rephrase: "rephrase", correct: "correct" };
+export const PROMPT_INPUT_SIZE_LIMIT = 200;
 
 export const aiActionsGenerate: AIActionsGenerate[] = [
     {

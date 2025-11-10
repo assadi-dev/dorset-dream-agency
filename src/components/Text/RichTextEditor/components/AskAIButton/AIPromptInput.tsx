@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { dispatchEvent } from "@/lib/event";
 import useAskAIEvent from "../../hooks/useAskAIEvent";
 import AskAiCard from "./AskAiCard";
+import CharacterCount from "./CharacterCount";
 
 type AIPromptInputProps = {
     editor: Editor;
@@ -124,12 +125,13 @@ export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultVa
                 ></textarea>
             </div>
             <div className="grid grid-cols-2 pr-3 bg-white">
-                <div>
+                <div className="flex gap-1 items-center">
                     <AISelectPromptAction
                         editor={editor}
                         error={errors.selected ? true : false}
                         onSelected={selectAction}
                     />{" "}
+                    <CharacterCount form={form} />
                 </div>
                 <Button
                     type="button"
