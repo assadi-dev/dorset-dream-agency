@@ -9,6 +9,7 @@ import {
 import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
 import { delay } from "@/lib/utils";
 import { OpenRouterRequest, OpenRouterStreamChunk } from "@/app/api/ai-actions/types/openRouterType";
+import { EditorView } from "@tiptap/pm/view";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -324,3 +325,40 @@ export async function fetchOpenRouterStream({
         }
     }
 }
+
+export const handlePastText = (view: EditorView, event: ClipboardEvent) => {
+    const text = event.clipboardData?.getData("text/plain") || "";
+
+    if (!text) return false;
+
+    // détecte si c’est probablement du markdown
+    if (/[#*_`\[\]\(\)>-]/.test(text)) {
+        event.preventDefault();
+
+        // `editor` est parfois undefined au moment du collage → on vérifie
+        const instance = view?.state?.schema ? view : null;
+        if (!instance) return false;
+
+        // On peut accéder à l'éditeur depuis view
+        const tiptapEditor = (view as any).props.editor;
+        const markdownStorage = tiptapEditor?.markdown;
+        if (!markdownStorage) return false;
+
+        const doc = markdownStorage.parser.parse(text);
+        tiptapEditor.chain().focus().insertContent(doc.toJSON()).run();
+        return true;
+    }
+
+    return false;
+};
+
+export const getEditorTextSelection = (editor: Editor) => {
+    const { view, state } = editor;
+    const { from, to } = view.state.selection;
+    const text = state.doc.textBetween(from, to, "\n");
+    return {
+        from,
+        to,
+        text,
+    };
+};
