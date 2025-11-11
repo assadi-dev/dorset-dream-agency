@@ -10,6 +10,7 @@ import {
 import { requestBodySchema } from "../schema";
 import { OLLAMA_CONFIG } from "@/config/ai-actions";
 import { zodParserError } from "@/lib/parser";
+import { generateFromProvider } from "./utils";
 
 export const POST = async (request: Request) => {
     try {
@@ -27,11 +28,7 @@ export const POST = async (request: Request) => {
 
         const { action, prompt: userText } = isValidate.data;
 
-        const prompt = buildOpenRouterPrompt({ action, userText });
-
-        const openRouterBody = snapshotOpenRouterBody(prompt, true);
-
-        const response = await fetchOpenRouter(openRouterBody);
+        const response = await generateFromProvider({ provider: "ollama", action, userText });
 
         return response;
     } catch (error: any) {
