@@ -1,7 +1,7 @@
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
-import { Markdown, MarkdownOptions } from "tiptap-markdown";
+import { Markdown, MarkdownOptions } from "tiptap-markdown-3";
 
 export const MARKDOWN_CONFIGURE: MarkdownOptions = {
     html: true,

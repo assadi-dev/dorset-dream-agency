@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 import { Sparkles } from "lucide-react";
 import React from "react";
-import { AskAICustomEvent } from "../../utils";
+import { AskAICustomEvent, getEditorTextSelection } from "../../utils";
 import { Editor } from "@tiptap/react";
 import { dispatchEvent } from "@/lib/event";
 
@@ -12,9 +12,7 @@ type AskAiButtonProps = {
 };
 const AskAiButton = ({ editor }: AskAiButtonProps) => {
     const handleClickAskAi = () => {
-        const { view, state } = editor;
-        const { from, to } = view.state.selection;
-        const text = state.doc.textBetween(from, to, "\n");
+        const text = getEditorTextSelection(editor).text;
 
         dispatchEvent(AskAICustomEvent.show, {
             from: "toolbar",
