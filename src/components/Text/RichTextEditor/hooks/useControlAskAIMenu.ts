@@ -76,7 +76,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     const data = event.detail as AskAiDataFetchingEvent;
                     const signal = abortControllerRef.current.signal;
 
-                    await fetchOllamaStream({
+                    await fetchOpenRouterStream({
                         action: data.action,
                         prompt: data.prompt,
                         signal,
