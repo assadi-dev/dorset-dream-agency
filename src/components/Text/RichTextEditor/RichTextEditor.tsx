@@ -8,6 +8,7 @@ import AIPromptInput from "./components/AskAIButton/AIPromptInput";
 import useControlAskAIMenu from "./hooks/useControlAskAIMenu";
 import AskAiFetching from "./components/AskAIButton/AskAiFetching";
 import { extensions } from "./extensions";
+import { handlePastText } from "./utils";
 
 interface RichTextEditorProps {
     content: TiptapContent | null;

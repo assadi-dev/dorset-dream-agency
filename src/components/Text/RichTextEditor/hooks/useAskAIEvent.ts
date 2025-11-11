@@ -24,7 +24,7 @@ const useAskAIEvent = ({ element, editor }: UseAskAIEventProps) => {
         (event: unknown) => {
             let text: string | null = null;
             if (event instanceof CustomEvent) {
-                text = "Hello world";
+                text = "";
                 text && insertContent({ editor, content: text });
             }
         },

@@ -6,6 +6,7 @@ import {
     fetchAiApiMock,
     fetchOllamaStream,
     fetchOpenRouterStream,
+    getEditorTextSelection,
     insertContent,
 } from "../utils";
 import { subscribe, unsubscribe } from "@/lib/event";
@@ -75,16 +76,17 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     const data = event.detail as AskAiDataFetchingEvent;
                     const signal = abortControllerRef.current.signal;
 
-                    await fetchOpenRouterStream({
+                    await fetchOllamaStream({
                         action: data.action,
                         prompt: data.prompt,
                         signal,
-                        onChunk: (chunk: string, fullText: string) => {
-                            if (editor) {
-                                editor.chain().focus().insertContent(chunk).run();
-                            }
+                        onChunk: (chunk, fullText) => {
+                            if (!editor || signal.aborted) return;
+                            editor.commands.setContent(fullText);
                         },
+
                         onComplete(fullText) {
+                            if (!editor || signal.aborted) return;
                             dispatch({ isFetching: false });
                         },
                         onError: (error: Error) => {
