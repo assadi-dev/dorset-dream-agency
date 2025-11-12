@@ -24,6 +24,9 @@ const EnvSchema = z.object({
     OPEN_ROUTER_URL: z.coerce.string(),
     OPEN_ROUTER_API_KEY: z.coerce.string(),
     OPEN_ROUTER_MODEL: z.coerce.string(),
+    NTFY_URL: z.coerce.string(),
+    NTFY_TOKEN: z.coerce.string(),
+    NTFY_MESSAGE_TEMPLATE: z.coerce.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;
