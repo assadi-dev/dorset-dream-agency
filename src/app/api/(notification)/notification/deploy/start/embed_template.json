@@ -1,0 +1,35 @@
+{
+    "content": "🚀 **MDT Dynasty 8 — Déploiement démarré**",
+    "embeds": [
+        {
+            "title": "🔵 Build Started — Déploiement en cours",
+            "description": "Le déploiement de la version 1.4.0 du  **MDT Dynasty 8** vient de commencer.",
+            "color": 3447003,
+            "fields": [
+                {
+                    "name": "📦 Informations du build",
+                    "value": "• **Version :** `v1.4.0`\n• **Branche :** `main`\n• **Commit :** `9c3e7b1 - Improve AI prompts`"
+                },
+                {
+                    "name": "🗺️ Pipeline",
+                    "value": "1) Tests ⏳\n2) Build ⏳\n3) Déploiement ⏳\n4) Vérifs post-déploiement ⏳"
+                },
+                {
+                    "name": "📎 Liens utiles",
+                    "value": "• ⚙️ [Logs CI/CD](https://mdt.dynasty8flashback.fr/ci)\n• 🧩 [Commit](https://github.com/dynasty8/mdt/commit/9c3e7b1)\n• 🌍 [Production](https://mdt.dynasty8flashback.fr)"
+                }
+            ],
+            "author": {
+                "name": "Dynasty 8 Deployment Sentinel",
+                "url": "https://mdt.dynasty8flashback.fr",
+                "icon_url": "https://i.imgur.com/AfFp7pu.png"
+            },
+            "footer": {
+                "text": "Déploiement lancé — surveillance active",
+                "icon_url": "https://i.imgur.com/AfFp7pu.png"
+            },
+            "timestamp": "2025-11-02T14:30:00.000Z"
+        }
+    ],
+    "attachments": []
+}
