@@ -16,11 +16,12 @@ export const GET = async (request: NextRequest) => {
                 Authorization: `Bearer ${ENV.NTFY_TOKEN}`,
                 Cache: "no",
                 "X-Template": `${ENV.NTFY_MESSAGE_TEMPLATE}`,
+                actions: `view, Open ${ENV.APP_TITLE}, ${ENV.DOMAIN}`,
             },
             method: "POST",
             body: JSON.stringify({
                 version: version,
-                project: `MDT DYNASTY 8`,
+                project: `${ENV.APP_TITLE}`,
                 date: format(new Date(date), "dd/MM/yyyy HH:mm:ss"),
             }),
         });
