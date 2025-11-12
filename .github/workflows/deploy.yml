@@ -47,4 +47,4 @@ jobs:
         run: |
           curl -s -o /dev/null -w "%{http_code}" -H "Content-type: application/json" \
           -X GET \
-          ${{secrets.PROJECT_API}}?version=${{env.VERSION}}
+          ${{secrets.PROJECT_API}}/api/notification/deploy/start?version=${{env.VERSION}}
