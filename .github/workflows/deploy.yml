@@ -16,13 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run build
-        run: npm i && npm run build
-
-      - name: Read version with Node
-        id: nodepkg
+      - name: Export package.json version
+        shell: bash
         run: |
-          echo "VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_ENV
+          node -e "console.log('VERSION=' + require('./package.json').version)" >> "$GITHUB_ENV"
 
       - name: Generate Gitflow tag
         id: tag
