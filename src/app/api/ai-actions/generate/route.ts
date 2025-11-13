@@ -28,7 +28,7 @@ export const POST = async (request: Request) => {
 
         const { action, prompt: userText } = isValidate.data;
 
-        const response = await generateFromProvider({ provider: "openRouter", action, userText });
+        const response = await generateFromProvider({ provider: "ollama", action, userText });
 
         return response;
     } catch (error: any) {

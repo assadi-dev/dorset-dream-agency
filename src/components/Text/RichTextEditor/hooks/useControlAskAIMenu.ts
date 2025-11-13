@@ -27,6 +27,7 @@ type UseAppearAIMenuProps = {
 };
 const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
     const abortControllerRef = React.useRef<AbortController | null>(null);
+    const bufferRef = React.useRef<string>("");
 
     const [reducer, dispatch] = React.useReducer(
         (prev: ReducerProps, next: Partial<ReducerProps>) => ({ ...prev, ...next }),

@@ -1,8 +1,14 @@
 import { z } from "zod";
 
+export const ChatConversationSchema = z.object({
+    role: z.enum(["system", "user", "assistant"]),
+    content: z.string(),
+});
+
 export const requestBodySchema = z.object({
     action: z.enum(["resume", "describe", "rephrase", "correct"]),
     prompt: z.string().min(1).max(255),
+    chat: z.array(ChatConversationSchema),
 });
 
 const OPEN_ROUTER_ROLE = ["user", "assistant", "system"];
