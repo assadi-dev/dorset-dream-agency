@@ -11,12 +11,10 @@ RÈGLES :
 - Garde prix, superficie, localisation
 - Style professionnel et accrocheur
 - Mets en avant les points forts
-- Pas de style dans le text
-- Pas de markdwon ou html
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
 `,
         temperature: 0.5,
-        maxTokens: 200,
+        maxTokens: 400,
     },
 
     describe: {
@@ -27,12 +25,10 @@ RÈGLES :
 - Style professionnel et accrocheur
 - Mets en avant les points forts
 - Passer à la ligne après chaque paragraphe(s)
-- Pas de style dans le text
-- Pas de markdwon ou html
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
 `,
         temperature: 0.5,
-        maxTokens: 200,
+        maxTokens: 4200,
     },
 
     rephrase: {
@@ -47,7 +43,7 @@ RÈGLES :
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
 `,
         temperature: 0.7,
-        maxTokens: 1000,
+        maxTokens: 400,
     },
 
     continue: {
