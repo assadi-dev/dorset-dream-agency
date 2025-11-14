@@ -6,6 +6,7 @@ import {
     fetchAiApiMock,
     fetchOllamaStream,
     fetchOpenRouterStream,
+    generateConversionId,
     getEditorTextSelection,
     insertContent,
 } from "../utils";
@@ -27,7 +28,7 @@ type UseAppearAIMenuProps = {
 };
 const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
     const abortControllerRef = React.useRef<AbortController | null>(null);
-    const bufferRef = React.useRef<string>("");
+    const conversationIdRef = React.useRef<string | null>(null);
 
     const [reducer, dispatch] = React.useReducer(
         (prev: ReducerProps, next: Partial<ReducerProps>) => ({ ...prev, ...next }),
@@ -38,6 +39,13 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
             isFetching: false,
         },
     );
+
+    const initConversations = React.useCallback(async () => {
+        if (conversationIdRef.current) return conversationIdRef.current;
+        const title = `generate-description-conversation-${Date.now()}`;
+        const response = await generateConversionId(title);
+        conversationIdRef.current = response.id;
+    }, []);
 
     const toggleIsOpen = React.useCallback(
         (event: unknown) => {
@@ -76,10 +84,12 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                 if (event instanceof CustomEvent) {
                     const data = event.detail as AskAiDataFetchingEvent;
                     const signal = abortControllerRef.current.signal;
+                    if (!conversationIdRef.current) throw Error(`Conversation id missing !`);
 
-                    await fetchOpenRouterStream({
+                    await fetchOllamaStream({
                         action: data.action,
                         prompt: data.prompt,
+                        conversationId: conversationIdRef.current,
                         signal,
                         onChunk: (chunk, fullText) => {
                             if (!editor || signal.aborted) return;
@@ -112,6 +122,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
 
     React.useEffect(() => {
         if (editor) dispatch({ editor: editor });
+        initConversations();
         subscribe(AskAICustomEvent.show, toggleIsOpen);
         subscribe(AskAICustomEvent.close, close);
         subscribe(AskAICustomEvent.fetching, fetchAi);

@@ -10,6 +10,8 @@ import { ListRestart, RectangleEllipsis, SpellCheck } from "lucide-react";
 import { delay } from "@/lib/utils";
 import { OpenRouterRequest, OpenRouterStreamChunk } from "@/app/api/ai-actions/types/openRouterType";
 import { EditorView } from "@tiptap/pm/view";
+import { ENV } from "@/config/global";
+import { API_INSTANCE } from "@/lib/api";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -61,7 +63,10 @@ export const AskAICustomEvent = {
     abort: "askAI:fetching:cancel",
 };
 
-export const fetchAiAction = (data: { action: string; prompt: string; stream: boolean }, signaling: AbortSignal) => {
+export const fetchAiAction = (
+    data: { action: string; prompt: string; conversationId: string; stream: boolean },
+    signaling: AbortSignal,
+) => {
     try {
         return fetch("/api/ai-actions/generate", {
             method: "POST",
@@ -79,7 +84,10 @@ export const fetchAiAction = (data: { action: string; prompt: string; stream: bo
     }
 };
 
-export const fetchAiApiMock = async (data: { action: string; text: string }, signal: AbortSignal) => {
+export const fetchAiApiMock = async (
+    data: { action: string; text: string; conversationId: string },
+    signal: AbortSignal,
+) => {
     let timeout: NodeJS.Timeout;
 
     return new Promise((resolve) => {
@@ -111,6 +119,7 @@ export const fetchOllamaStream = async ({
     action,
     prompt,
     signal,
+    conversationId,
     onChunk,
     onComplete,
     onError,
@@ -128,7 +137,7 @@ export const fetchOllamaStream = async ({
         if (signal?.aborted) {
             throw new Error("Canceled");
         }
-        const response = await fetchAiAction({ action, prompt, stream: true }, signal);
+        const response = await fetchAiAction({ action, prompt, conversationId, stream: true }, signal);
 
         if (!response?.ok) {
             throw new Error(`An error is occur from fetchLLmStream : ${response?.status} ${response?.statusText}`);
@@ -160,11 +169,11 @@ export const fetchOllamaStream = async ({
                     const data: OllamaChunk = JSON.parse(line);
                     if (!data.done) {
                         // Ajouter la réponse au texte complet
-                        fullResponse += data.response;
+                        fullResponse += data.message?.content;
 
                         // Appeler le callback avec le chunk
                         if (onChunk) {
-                            onChunk(data.response, fullResponse);
+                            onChunk(data.message?.content as string, fullResponse);
                         }
                     } else {
                         // C'est le message final avec les métadonnées
@@ -209,6 +218,7 @@ export async function fetchOpenRouterStream({
     action,
     prompt,
     signal,
+    conversationId,
     onChunk,
     onComplete,
     onError,
@@ -226,7 +236,7 @@ export async function fetchOpenRouterStream({
         if (signal?.aborted) {
             throw new Error("Canceled");
         }
-        const response = await fetchAiAction({ action, prompt, stream: true }, signal);
+        const response = await fetchAiAction({ action, prompt, conversationId, stream: true }, signal);
         if (!response?.ok) {
             const errorData = await response?.json().catch(() => null);
             throw new Error(
@@ -361,4 +371,20 @@ export const getEditorTextSelection = (editor: Editor) => {
         to,
         text,
     };
+};
+
+export const generateConversionId = async (title: string) => {
+    try {
+        const res = await API_INSTANCE.post("ai-actions/conversation", { title });
+        return {
+            id: res.data._id,
+        };
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+        }
+        return {
+            id: `conversation-${Date.now()}`,
+        };
+    }
 };
