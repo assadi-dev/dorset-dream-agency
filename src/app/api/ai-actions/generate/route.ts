@@ -11,6 +11,8 @@ import { requestBodySchema } from "../schema";
 import { OLLAMA_CONFIG } from "@/config/ai-actions";
 import { zodParserError } from "@/lib/parser";
 import { generateFromProvider } from "./utils";
+import { messagesRepository } from "@/database/nedb/chats/messagesRepository";
+import { AiMessageSchemaInfer } from "@/database/nedb/chats/dto/schema";
 
 export const POST = async (request: Request) => {
     try {
@@ -26,9 +28,11 @@ export const POST = async (request: Request) => {
             );
         }
 
-        const { action, prompt: userText } = isValidate.data;
+        const { action, prompt: userText, conversationId } = isValidate.data;
 
-        const response = await generateFromProvider({ provider: "ollama", action, userText });
+        const conversations = (await messagesRepository.byConversation(conversationId)) as AiMessageSchemaInfer[];
+        const history = conversations.map((item) => ({ role: item.role, content: item.content }));
+        const response = await generateFromProvider({ provider: "ollama", action, userText, history });
 
         return response;
     } catch (error: any) {

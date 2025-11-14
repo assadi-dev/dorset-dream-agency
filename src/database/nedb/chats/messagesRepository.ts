@@ -2,7 +2,7 @@ import { ZodError } from "zod";
 import { messageDB } from "../initialisation";
 import { zodParserError } from "@/lib/parser";
 import { InsertMessage, UpdateMessage } from "./model";
-import { aiMessageSchemaParser } from "./dto/schema";
+import { AiMessageSchemaInfer } from "./dto/schema";
 
 export const createMessage = async (inputs: InsertMessage) => {
     try {
@@ -29,7 +29,7 @@ export const getMessagesByConversation = async (conversationId: string) => {
         return new Promise((resolve, reject) => {
             messageDB
                 .find({ conversationId })
-                .sort({ timestamp: 1 })
+                .sort({ createdAt: 1 })
                 .exec((err, docs) => {
                     if (err) reject(err);
                     else resolve(docs);

@@ -10,7 +10,7 @@ import {
 } from "@/config/ai-actions";
 import { ENV } from "@/config/global";
 import { fetchWithAuthorization } from "@/lib/fetcher";
-import { OllamaBodySchema, OpenRouterBodySchema } from "./schema";
+import { ChatConversationSchemaInfer, OllamaBodySchema, OpenRouterBodySchema } from "./schema";
 import { OllamaBody, OllamaPromptReturn } from "./types/ollamaType";
 import { OpenRouterRequest, OpenRouterReturn } from "./types/openRouterType";
 
@@ -54,6 +54,7 @@ ${userText}`;
         model: OLLAMA_CONFIG.model,
         prompt: fullPrompt,
         stream: false,
+        role: "user",
         options: {
             temperature: actionConfig.temperature,
             num_predict: actionConfig.maxTokens,
@@ -61,24 +62,32 @@ ${userText}`;
     };
 };
 
-export const snapshotOllamaBody = (prompt: OllamaPromptReturn, stream?: boolean) => {
+export const snapshotOllamaBody = (
+    prompt: OllamaPromptReturn,
+    history: ChatConversationSchemaInfer[],
+    stream?: boolean,
+) => {
+    const messages = [...history];
+    messages.push({ role: prompt.role, content: prompt.prompt ?? "" } as ChatConversationSchemaInfer);
+
     return {
         options: prompt.options,
         model: prompt.model,
-        prompt: prompt.prompt,
+        messages,
         stream: stream ?? false,
     } satisfies OllamaBody;
 };
 
-export const snapshotOpenRouterBody = (prompt: OpenRouterReturn, stream?: boolean) => {
+export const snapshotOpenRouterBody = (
+    prompt: OpenRouterReturn,
+    history: ChatConversationSchemaInfer[],
+    stream?: boolean,
+) => {
+    const messages = [...history];
+    messages.push({ role: prompt.role, content: prompt.user ?? "" });
     return {
         model: prompt.model,
-        messages: [
-            {
-                role: prompt.role,
-                content: prompt.user,
-            },
-        ],
+        messages,
         stream: stream ?? false,
         temperature: prompt.temperature,
     } satisfies OpenRouterRequest;
@@ -113,7 +122,7 @@ export const fetchWithOllama = (content: OllamaBody) => {
 
         const body = JSON.stringify(isValidate.data);
 
-        return fetch(OLLAMA_CONFIG.baseURL + OLLAMA_API_ENDPOINT.generate, {
+        return fetch(OLLAMA_CONFIG.baseURL + OLLAMA_API_ENDPOINT.chat, {
             method: "POST",
             body,
             signal: AbortSignal.timeout(OLLAMA_CONFIG.timeout),

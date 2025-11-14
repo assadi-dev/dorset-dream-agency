@@ -5,10 +5,12 @@ export const ChatConversationSchema = z.object({
     content: z.string(),
 });
 
+export type ChatConversationSchemaInfer = z.infer<typeof ChatConversationSchema>;
+
 export const requestBodySchema = z.object({
     action: z.enum(["resume", "describe", "rephrase", "correct"]),
     prompt: z.string().min(1).max(255),
-    chat: z.array(ChatConversationSchema),
+    conversationId: z.string(),
 });
 
 const OPEN_ROUTER_ROLE = ["user", "assistant", "system"];
@@ -28,7 +30,7 @@ export const OpenRouterBodySchema = z.object({
 
 export const OllamaBodySchema = z.object({
     model: z.string(),
-    prompt: z.string(),
+    messages: z.array(ChatConversationSchema).min(1),
     stream: z.boolean(),
     options: z.object({
         temperature: z.number(),
