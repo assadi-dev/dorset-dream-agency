@@ -39,7 +39,6 @@ export const createConversation = ({
             conversationDB.insert(result.data, (err, doc) => {
                 if (err) reject(err);
                 else {
-                    console.log(doc);
                     resolve(doc);
                 }
             });

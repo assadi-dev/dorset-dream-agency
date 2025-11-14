@@ -1,14 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-    buildOpenRouterPrompt,
-    buildPromptFromOllama,
-    fetchOpenRouter,
-    fetchWithOllama,
-    snapshotOllamaBody,
-    snapshotOpenRouterBody,
-} from "../utils";
 import { requestBodySchema } from "../schema";
-import { OLLAMA_CONFIG } from "@/config/ai-actions";
 import { zodParserError } from "@/lib/parser";
 import { generateFromProvider } from "./utils";
 import { messagesRepository } from "@/database/nedb/chats/messagesRepository";

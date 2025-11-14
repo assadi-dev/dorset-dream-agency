@@ -46,8 +46,6 @@ export const fetchFromOllama = async ({
 }) => {
     const prompt = buildPromptFromOllama({ action, userText });
     const ollamaBody = snapshotOllamaBody(prompt, history, true);
-    console.log(ollamaBody);
-
     return fetchWithOllama(ollamaBody);
 };
 

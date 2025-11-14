@@ -426,7 +426,6 @@ export const generatePrompt = (action: AskAIActionUnion, editor: Editor, userTex
                 prompt = userText;
                 break;
         }
-        console.log(prompt);
 
         return prompt;
     } catch (error) {
