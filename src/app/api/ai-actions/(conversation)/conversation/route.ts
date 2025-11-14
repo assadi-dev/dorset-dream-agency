@@ -9,8 +9,10 @@ export const POST = async (request: NextRequest) => {
         const requestBody = await request.json();
         const model = ENV.OLLAMA_MODEL;
         const validate = createConversationParser.validate(requestBody);
-        zodJsonResponse(validate.error);
-        const title = validate.data?.title ?? "conv-" + Date.now();
+        if (validate.error) {
+            return zodJsonResponse(validate.error);
+        }
+        const title = validate.data.title ?? "conv-" + Date.now();
         const conversation = await conversationRepository.create({ model, title });
         return NextResponse.json(conversation);
     } catch (error) {
