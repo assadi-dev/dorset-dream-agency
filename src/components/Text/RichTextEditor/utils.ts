@@ -12,6 +12,7 @@ import { OpenRouterRequest, OpenRouterStreamChunk } from "@/app/api/ai-actions/t
 import { EditorView } from "@tiptap/pm/view";
 import { ENV } from "@/config/global";
 import { API_INSTANCE } from "@/lib/api";
+import { AskAIActionUnion } from "@/app/api/ai-actions/types/type";
 
 type HandleAIActionArg = {
     editor: Editor;
@@ -30,7 +31,12 @@ export const insertContent = ({ editor, content }: HandleAIActionArg) => {
     editor?.chain().focus().insertContent(jsonNode).run();
 };
 
-export const AI_ACTIONS_VALUES = { describe: "describe", rephrase: "rephrase", correct: "correct" };
+export const AI_ACTIONS_VALUES = {
+    describe: "describe",
+    rephrase: "rephrase",
+    correct: "correct",
+    continue: "continue",
+};
 export const PROMPT_INPUT_SIZE_LIMIT = 200;
 
 export const aiActionsGenerate: AIActionsGenerate[] = [
@@ -40,8 +46,8 @@ export const aiActionsGenerate: AIActionsGenerate[] = [
         icon: RectangleEllipsis,
     },
     {
-        label: "Reformuler",
-        value: AI_ACTIONS_VALUES.rephrase,
+        label: "Continuer",
+        value: AI_ACTIONS_VALUES.continue,
         icon: ListRestart,
     },
     {
@@ -399,5 +405,31 @@ export const saveAnswer = async (role: "assistant" | "user", conversationId: str
         if (error instanceof Error) {
             console.error(error.message);
         }
+    }
+};
+
+export const generatePrompt = (action: AskAIActionUnion, editor: Editor, userText: string): string => {
+    try {
+        const editorContent = editor.getText();
+        let prompt = "";
+        switch (action) {
+            case "continue":
+                prompt = editorContent + " \n\n continue ";
+                break;
+            case "rephrase":
+                prompt = `Mon paragraphe : ${editorContent} \n texte à reformuler et remplacer dans le Mon paragraphe : ${userText}`;
+                break;
+            case "describe":
+                prompt = userText;
+                break;
+            case "correct":
+                prompt = userText;
+                break;
+        }
+        console.log(prompt);
+
+        return prompt;
+    } catch (error) {
+        return userText;
     }
 };

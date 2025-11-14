@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { AskAICustomEvent, fetchOllamaStream, generateConversionId, saveAnswer } from "../utils";
+import { AskAICustomEvent, fetchOllamaStream, generateConversionId, generatePrompt, saveAnswer } from "../utils";
 import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
@@ -76,13 +76,17 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     const signal = abortControllerRef.current.signal;
                     if (!conversationIdRef.current) throw Error(`Conversation id missing !`);
                     await saveAnswer("user", conversationIdRef.current, data.prompt);
+                    if (!editor) throw Error("Editor no initialize !");
+                    const prompt = generatePrompt(data.action, editor, data.prompt);
+                    const contentEditor = editor.getText();
                     await fetchOllamaStream({
                         action: data.action,
-                        prompt: data.prompt,
+                        prompt: prompt,
                         conversationId: conversationIdRef.current,
                         signal,
                         onChunk: (chunk, fullText) => {
                             if (!editor || signal.aborted) return;
+
                             if (data.action === "describe") editor.commands.setContent(fullText);
                         },
 
@@ -90,6 +94,9 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                             if (!editor || signal.aborted) return;
                             if (data.action == "correct" || data.action === "rephrase") {
                                 editor.chain().focus().insertContent(fullText).run();
+                            }
+                            if (data.action == "continue") {
+                                editor.commands.insertContent(fullText);
                             }
                             if (conversationIdRef.current) saveAnswer("assistant", conversationIdRef.current, fullText);
                             dispatch({ isFetching: false });
