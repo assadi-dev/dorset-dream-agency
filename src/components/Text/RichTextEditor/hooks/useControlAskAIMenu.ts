@@ -95,9 +95,8 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                             if (data.action == "correct" || data.action === "rephrase") {
                                 editor.chain().focus().insertContent(fullText).run();
                             }
-                            if (data.action == "continue") {
-                                editor.commands.insertContent(fullText);
-                            }
+                            if (data.action == "continue") editor.commands.insertContent(fullText);
+
                             if (conversationIdRef.current) saveAnswer("assistant", conversationIdRef.current, fullText);
                             dispatch({ isFetching: false });
                         },
