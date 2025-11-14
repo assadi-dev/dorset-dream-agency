@@ -1,3 +1,4 @@
+import { AI_ACTIONS_VALUES } from "@/components/Text/RichTextEditor/utils";
 import { z } from "zod";
 
 export const ChatConversationSchema = z.object({
@@ -6,10 +7,11 @@ export const ChatConversationSchema = z.object({
 });
 
 export type ChatConversationSchemaInfer = z.infer<typeof ChatConversationSchema>;
+const actionsEnum = Object.keys(AI_ACTIONS_VALUES) as any;
 
 export const requestBodySchema = z.object({
-    action: z.enum(["resume", "describe", "rephrase", "correct"]),
-    prompt: z.string().min(1).max(255),
+    action: z.enum(actionsEnum),
+    prompt: z.string().min(1),
     conversationId: z.string(),
 });
 
