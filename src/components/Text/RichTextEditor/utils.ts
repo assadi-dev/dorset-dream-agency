@@ -388,3 +388,16 @@ export const generateConversionId = async (title: string) => {
         };
     }
 };
+
+export const saveAnswer = async (role: "assistant" | "user", conversationId: string, content: string) => {
+    try {
+        await API_INSTANCE.post("ai-actions/message", { role, conversationId, content });
+        return {
+            message: "AI answer has been save !",
+        };
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+        }
+    }
+};

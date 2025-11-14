@@ -77,9 +77,6 @@ export interface LLMStreamOptions {
     prompt: string;
     conversationId: string;
     signal: AbortSignal;
-    /*     onChunk?: (chunk: string, fullText: string) => void;
-    onComplete?: (fullText: string) => void;
-    onError?: (error: Error) => void; */
 }
 export type OllamaMessage = {
     role: string;
