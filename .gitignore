@@ -34,6 +34,9 @@ yarn-error.log*
 /src/database/drizzle/sqlite/migrations/*
 /src/database/drizzle/sqlite/sqlite.db
 
+#Nedb
+/src/database/nedb/saves
+
 # vercel
 .vercel
 
