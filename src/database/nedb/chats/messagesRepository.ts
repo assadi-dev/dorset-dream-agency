@@ -82,11 +82,27 @@ export const deleteMessage = async (id: string) => {
     }
 };
 
+export const getOneMessage = async (id: string) => {
+    try {
+        return new Promise((resolve, reject) => {
+            messageDB.remove({ _id: id }, (err, doc) => {
+                if (err) reject(err);
+                else resolve(doc);
+            });
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+            throw error;
+        }
+    }
+};
+
 export const messagesRepository = {
     all: null,
     byConversation: getMessagesByConversation,
     create: createMessage,
-    findOne: null,
+    findOne: getOneMessage,
     update: updateMessage,
     delete: deleteMessage,
 };
