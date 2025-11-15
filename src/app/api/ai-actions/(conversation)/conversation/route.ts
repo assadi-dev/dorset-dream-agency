@@ -3,11 +3,12 @@ import { conversationRepository } from "@/database/nedb/chats/conversationReposi
 import { NextRequest, NextResponse } from "next/server";
 import { createConversationParser } from "../schema";
 import { zodJsonResponse } from "@/lib/apihelpers";
+import { obtainDefaultModel } from "../../utils";
 
 export const POST = async (request: NextRequest) => {
     try {
         const requestBody = await request.json();
-        const model = ENV.OLLAMA_MODEL;
+        const model = obtainDefaultModel();
         const validate = createConversationParser.validate(requestBody);
         if (validate.error) {
             return zodJsonResponse(validate.error);

@@ -13,6 +13,8 @@ import { fetchWithAuthorization } from "@/lib/fetcher";
 import { ChatConversationSchemaInfer, OllamaBodySchema, OpenRouterBodySchema } from "./schema";
 import { OllamaBody, OllamaPromptReturn } from "./types/ollamaType";
 import { OpenRouterRequest, OpenRouterReturn } from "./types/openRouterType";
+import { MODEL_BY_PROVIDER } from "@/config/llm";
+import { ModelProviderKeys } from "@/types/llm";
 
 type buildPromptArgs = {
     action: ACTION_PROMPTS_UNIONS;
@@ -132,4 +134,11 @@ export const fetchWithOllama = (content: OllamaBody) => {
             console.error(`An Error is occurred in fetchWithOllama ${error.message}`);
         }
     }
+};
+
+export const obtainDefaultModel = () => {
+    const provider = ENV.DEFAULT_LLM__MODEL_PROVIDER as ModelProviderKeys;
+    const model = MODEL_BY_PROVIDER[provider];
+    if (!model) return ENV.OLLAMA_MODEL;
+    return model;
 };
