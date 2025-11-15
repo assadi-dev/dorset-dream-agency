@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { AskAICustomEvent, fetchOllamaStream, generateConversionId, generatePrompt, saveAnswer } from "../utils";
+import {
+    AskAICustomEvent,
+    fetchOllamaStream,
+    fetchOpenRouterStream,
+    generateConversionId,
+    generatePrompt,
+    saveAnswer,
+} from "../utils";
 import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
@@ -78,8 +85,8 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     await saveAnswer("user", conversationIdRef.current, data.prompt);
                     if (!editor) throw Error("Editor no initialize !");
                     const prompt = generatePrompt(data.action, editor, data.prompt);
-                    const contentEditor = editor.getText();
-                    await fetchOllamaStream({
+
+                    await fetchOpenRouterStream({
                         action: data.action,
                         prompt: prompt,
                         conversationId: conversationIdRef.current,

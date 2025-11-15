@@ -23,7 +23,7 @@ export const POST = async (request: Request) => {
 
         const conversations = (await messagesRepository.byConversation(conversationId)) as AiMessageSchemaInfer[];
         const history = conversations.map((item) => ({ role: item.role, content: item.content }));
-        const response = await generateFromProvider({ provider: "ollama", action, userText, history });
+        const response = await generateFromProvider({ provider: "openRouter", action, userText, history });
 
         return response;
     } catch (error: any) {
