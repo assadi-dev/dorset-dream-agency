@@ -35,7 +35,7 @@ yarn-error.log*
 /src/database/drizzle/sqlite/sqlite.db
 
 #Nedb
-/src/database/nedb/saves
+/src/database/nedb/saves/*
 
 # vercel
 .vercel
