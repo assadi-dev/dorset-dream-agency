@@ -1,10 +1,13 @@
 import { ZodError } from "zod";
-import { conversationDB } from "../initialisation";
+import Datastore from "nedb";
+import { initConversationDatastore } from "../initialisation";
 import { aiConversationSchemaParser } from "./dto/schema";
 import { ConversationInfer, InsertConversationInfer } from "./model";
 import { zodParserError } from "@/lib/parser";
 
 export const getAllConversation = () => {
+    const conversationDB: Datastore<ConversationInfer> | undefined = initConversationDatastore();
+    if (!conversationDB) return;
     try {
         return new Promise((resolve, reject) => {
             conversationDB
@@ -31,6 +34,8 @@ export const createConversation = ({
     model: string;
 }): Promise<ConversationInfer> | undefined => {
     try {
+        const conversationDB: Datastore<ConversationInfer> | undefined = initConversationDatastore();
+        if (!conversationDB) return;
         const generateInput = aiConversationSchemaParser.generateData({ title, model });
         const result = aiConversationSchemaParser.validate(generateInput);
         if (result.error) throw result.error;
@@ -58,6 +63,8 @@ export const createConversation = ({
 
 export const findConversation = (id: string): Promise<ConversationInfer> | null | undefined => {
     try {
+        const conversationDB: Datastore<ConversationInfer> | undefined = initConversationDatastore();
+        if (!conversationDB) return;
         return new Promise((resolve, reject) => {
             conversationDB.findOne({ _id: id }, (err, doc) => {
                 if (err) reject(err);
@@ -74,6 +81,8 @@ export const findConversation = (id: string): Promise<ConversationInfer> | null 
 
 export const updateConversation = async (id: string, updates: Partial<InsertConversationInfer>) => {
     try {
+        const conversationDB: Datastore<ConversationInfer> | undefined = initConversationDatastore();
+        if (!conversationDB) return;
         return new Promise((resolve, reject) => {
             conversationDB.update(
                 { _id: id },
@@ -95,6 +104,8 @@ export const updateConversation = async (id: string, updates: Partial<InsertConv
 };
 export const deleteConversation = async (id: string) => {
     try {
+        const conversationDB: Datastore<ConversationInfer> | undefined = initConversationDatastore();
+        if (!conversationDB) return;
         return new Promise((resolve, reject) => {
             conversationDB.remove({ _id: id }, {}, (err, numRemoved) => {
                 if (err) reject(err);
