@@ -27,6 +27,7 @@ const EnvSchema = z.object({
     NTFY_URL: z.coerce.string(),
     NTFY_TOKEN: z.coerce.string(),
     NTFY_MESSAGE_TEMPLATE: z.coerce.string(),
+    DEFAULT_LLM__MODEL_PROVIDER: z.coerce.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;

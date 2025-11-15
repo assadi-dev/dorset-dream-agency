@@ -12,5 +12,4 @@ export const zodJsonResponse = (zodError: unknown) => {
             { status: 400 },
         );
     }
-    return null;
 };
