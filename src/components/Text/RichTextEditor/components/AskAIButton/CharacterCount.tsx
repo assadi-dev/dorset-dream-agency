@@ -6,7 +6,7 @@ import { AskAISchemaInfer } from "./schema";
 
 type CharacterCountProps = { form: UseFormReturn<AskAISchemaInfer> };
 const CharacterCount = ({ form }: CharacterCountProps) => {
-    const textLength = form.watch("content").length ?? 0;
+    const textLength = form.watch("content")?.length ?? 0;
     const limit = textLength >= 200;
     return (
         <div

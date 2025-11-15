@@ -24,7 +24,9 @@ export const createMessage = async (inputs: InsertMessage) => {
     }
 };
 
-export const getMessagesByConversation = async (conversationId: string) => {
+export const getMessagesByConversation = async (
+    conversationId: string,
+): Promise<AiMessageSchemaInfer[] | undefined> => {
     try {
         return new Promise((resolve, reject) => {
             messageDB
