@@ -1,19 +1,22 @@
 import React from "react";
-import { Editor, useEditorState } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
-import { Card } from "@/components/ui/card";
 import HeaderActionsButton from "./HeaderActionsButton";
 import { RichTextHandlerGroup, RichTextHandlerName } from "../type";
 import { useHeaderActionsHandler } from "../hooks/useRichtextActions";
 import { isActionSelected } from "../strategy";
+import { AskAiBubleAction } from "./AskAIButton/AskAiButton";
 
-type BubbleMenuProps = {
+type BubbleMenuRowProps = {
     editor: Editor;
 };
-const BubbleMenuRow = ({ editor }: BubbleMenuProps) => {
+const BubbleMenuRow = ({ editor }: BubbleMenuRowProps) => {
+    const BubbleMenuRef = React.useRef<any>();
+
     return (
-        <BubbleMenu editor={editor} options={{ placement: "top", offset: 8, flip: true }}>
+        <BubbleMenu ref={BubbleMenuRef} editor={editor} options={{ placement: "top", offset: 8, flip: true }}>
             <div className="flex gap-1  border rounded shadow bg-white px-3 py-1.5 ">
+                {BubbleMenuRef.current && <AskAiBubleAction editor={editor} bubbleMenuRef={BubbleMenuRef.current} />}
                 <RowGroupActions group="word-format" editor={editor} />
 
                 <RowGroupActions group="list" editor={editor} />

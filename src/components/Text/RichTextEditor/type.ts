@@ -75,16 +75,19 @@ export type FetchAskAIApiReturn = {
 export interface LLMStreamOptions {
     action: AskAIActionUnion;
     prompt: string;
+    conversationId: string;
     signal: AbortSignal;
-    /*     onChunk?: (chunk: string, fullText: string) => void;
-    onComplete?: (fullText: string) => void;
-    onError?: (error: Error) => void; */
 }
+export type OllamaMessage = {
+    role: string;
+    content: string;
+};
 
 export interface OllamaStreamChunk {
     model: string;
     created_at: string;
-    response: string;
+    response?: string;
+    message?: OllamaMessage;
     done: boolean;
     context?: number[];
     total_duration?: number;
@@ -99,6 +102,7 @@ export interface OllamaChunk {
     model: string;
     created_at: string;
     response: string;
+    message?: OllamaMessage;
     done: boolean;
 }
 
