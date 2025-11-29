@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export const CoverButton = ({ isCover, onClick }: { isCover: boolean; onClick: () => void }) => {
     const BTN_CLASS =
         "rounded-full w-6 h-6 !text-black !bg-gradient-to-br from-primary-accent  text-primary-accent active:scale-110 transition-all  opacity-0 group-hover:opacity-100";
-
+    const TOOLTIP_LABEL = isCover ? "Supprimer la couverture" : "Définir comme couverture";
     return (
         <Tooltip>
             <TooltipTrigger asChild>
@@ -34,7 +34,7 @@ export const CoverButton = ({ isCover, onClick }: { isCover: boolean; onClick: (
                 className="bg-white text-secondary ring-1 ring-slate-200 shadow-lg text-black"
                 side="bottom"
             >
-                Définir cette image en couverture
+                {TOOLTIP_LABEL}
             </TooltipContent>
         </Tooltip>
     );
