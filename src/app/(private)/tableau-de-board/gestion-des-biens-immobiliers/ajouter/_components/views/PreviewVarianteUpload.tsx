@@ -14,7 +14,7 @@ type PreviewVarianteUploadType = {
     file?: FileObj & { originalName?: string };
     onRemove?: (file: FileObj) => void;
     setCover?: (file: FileObj) => void;
-    onSelected?: (id: number) => void;
+    onSelect?: (id: string) => void;
 };
 
 const PreviewVarianteUpload = ({
@@ -24,7 +24,7 @@ const PreviewVarianteUpload = ({
     file,
     onRemove,
     setCover,
-    onSelected,
+    onSelect,
 }: PreviewVarianteUploadType) => {
     //onClick={() => onRemove && onRemove()}
     const handleClickSetCover = React.useCallback(() => {
@@ -45,12 +45,12 @@ const PreviewVarianteUpload = ({
     const cover = LoadPreviewFile(file?.url as string);
 
     const handleSelected = React.useCallback(
-        (id: number) => {
-            if (onSelected) {
-                onSelected(id);
+        (id: string) => {
+            if (onSelect) {
+                onSelect(id);
             }
         },
-        [onSelected],
+        [onSelect],
     );
 
     return (
@@ -80,10 +80,10 @@ const PreviewVarianteUpload = ({
 
 export default PreviewVarianteUpload;
 
-type SelectModeProps = { id: string; isSelected: boolean; onSelected?: (id: number) => void };
+type SelectModeProps = { id: string; isSelected: boolean; onSelected?: (id: string) => void };
 const SelectMode = ({ id, isSelected, onSelected }: SelectModeProps) => {
     const handleSelected = React.useCallback(
-        (id: number) => {
+        (id: string) => {
             if (onSelected) {
                 onSelected(id);
             }
@@ -97,7 +97,7 @@ const SelectMode = ({ id, isSelected, onSelected }: SelectModeProps) => {
                 type="checkbox"
                 id={`select-${id}`}
                 checked={isSelected}
-                onChange={() => handleSelected(Number(id))}
+                onChange={() => handleSelected(String(id))}
                 className="w-5 h-5 rounded-full border-2 border-white bg-transparent checked:bg-primary checked:border-primary"
             />
         </div>
