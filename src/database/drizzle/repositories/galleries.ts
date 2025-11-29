@@ -109,7 +109,7 @@ export const updateVariantGallery = async (formData: FormData) => {
             const response = await uploadPhotoProperty(formData);
             for (const photo of response.photos) {
                 const photoID = photo.id;
-                const isCover = coverFile.name.toLowerCase() == photo.originalName.toLowerCase();
+                const isCover = coverFile ? coverFile.name.toLowerCase() == photo.originalName.toLowerCase() : false;
                 if (variant) await insertGallery(variant.id, photoID, { order, isCover });
                 order++;
             }
