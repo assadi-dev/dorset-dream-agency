@@ -205,6 +205,14 @@ const EditUploadZoneVariant = () => {
 
                 <div className="Dropzone-preview">
                     <div className="flex justify-end">
+                        {/*
+                        TODO Faire un menu déroulant des actions selection 
+                        - Supprimer les fichiers sélectionnés
+                        - Sélectionner tous les fichiers
+                        - Tout Supprimer
+                        - Annuler la sélection
+
+                         */}
                         <Button
                             type="button"
                             variant="ghost"
