@@ -78,8 +78,8 @@ const PreviewVarianteUpload = ({
 
 export default PreviewVarianteUpload;
 
-type SelectModeProps = { id: string; isSelected: boolean };
-const SelectMode = ({ id, isSelected }: SelectModeProps) => {
+type SelectModeProps = { id?: string; isSelected: boolean };
+const SelectMode = ({ isSelected }: SelectModeProps) => {
     const CHECKBOX_CLASS = "absolute bg-white text-green-950 ring-2 ring-green-900 rounded m-1 z-50 ";
 
     return (
