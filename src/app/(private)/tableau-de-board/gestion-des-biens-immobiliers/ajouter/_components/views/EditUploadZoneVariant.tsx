@@ -158,6 +158,7 @@ const EditUploadZoneVariant = () => {
     }, [fileRejections]);
 
     const [selectedFiles, setSelectedFiles] = React.useState<string[]>([]);
+    const [selectMode, setSelectMode] = React.useReducer((state: boolean) => !state, false);
 
     const handleSelect = (id: string) => {
         const newSelectedFiles = selectedFiles.includes(id)
@@ -204,23 +205,29 @@ const EditUploadZoneVariant = () => {
                 </div>
 
                 <div className="Dropzone-preview">
-                    <div className="flex justify-end">
+                    <div className="flex justify-between">
                         {/*
                         TODO Faire un menu déroulant des actions selection 
                         - Supprimer les fichiers sélectionnés
                         - Sélectionner tous les fichiers
                         - Tout Supprimer
                         - Annuler la sélection
-
                          */}
-                        <Button
-                            type="button"
-                            variant="ghost"
-                            className="text-xs active:scale-90 transition-all duration-75"
-                            onClick={clearAllFile}
-                        >
-                            <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
-                        </Button>
+                        <div>
+                            <Button variant="ghost" type="button" onClick={setSelectMode}>
+                                Sélectionner
+                            </Button>
+                        </div>
+                        <div className="w-full flex justify-end">
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                className="text-xs active:scale-90 transition-all duration-75"
+                                onClick={clearAllFile}
+                            >
+                                <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
+                            </Button>
+                        </div>
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,180px))] gap-1 justify-center">
@@ -232,7 +239,7 @@ const EditUploadZoneVariant = () => {
                                             key={file?.id}
                                             isCover={file.isCover}
                                             file={file as FileObj}
-                                            selectMode={true}
+                                            selectMode={selectMode}
                                             isSelected={isIncludesSelectedFiles(String(file.id))}
                                             setCover={handleClickSetCover}
                                             onSelect={handleSelect}

@@ -80,17 +80,15 @@ export default PreviewVarianteUpload;
 
 type SelectModeProps = { id: string; isSelected: boolean };
 const SelectMode = ({ id, isSelected }: SelectModeProps) => {
-    const CHECKBOX_CLASS = "absolute bg-white text-green-950  rounded m-1 z-50 ";
+    const CHECKBOX_CLASS = "absolute bg-white text-green-950 ring-2 ring-green-900 rounded m-1 z-50 ";
 
     return (
-        <div
-            className={cn(CHECKBOX_CLASS, {
-                "bg-lime-500": isSelected,
-                "ring-2": isSelected,
-                "ring-green-900": isSelected,
-            })}
-        >
-            {isSelected && <Check className="h-4 w-4 p-0.5" />}
+        <div className={cn(CHECKBOX_CLASS, { "bg-lime-500": isSelected, "ring-2": isSelected })}>
+            <Check
+                className={cn("h-4 w-4 p-0.5 opacity-0 transition-all", {
+                    "opacity-100": isSelected,
+                })}
+            />
         </div>
     );
 };
