@@ -157,6 +157,17 @@ const EditUploadZoneVariant = () => {
         }
     }, [fileRejections]);
 
+    const [selectedFiles, setSelectedFiles] = React.useState<string[]>([]);
+
+    const handleSelect = (id: string) => {
+        const newSelectedFiles = selectedFiles.includes(id)
+            ? selectedFiles.filter((fileId) => fileId !== id)
+            : [...selectedFiles, id];
+        setSelectedFiles(newSelectedFiles);
+    };
+
+    const isIncludesSelectedFiles = (id: string) => selectedFiles.includes(id);
+
     return (
         <Form {...form}>
             <form
@@ -213,7 +224,10 @@ const EditUploadZoneVariant = () => {
                                             key={file?.id}
                                             isCover={file.isCover}
                                             file={file as FileObj}
+                                            selectMode={true}
+                                            isSelected={isIncludesSelectedFiles(String(file.id))}
                                             setCover={handleClickSetCover}
+                                            onSelect={handleSelect}
                                         />
                                     ))}
                         </div>

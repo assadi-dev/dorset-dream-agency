@@ -5,9 +5,10 @@ import { Check } from "lucide-react";
 import { CoverButton } from "./Button";
 import { LoadPreviewFile } from "@/lib/client_side";
 import { is } from "drizzle-orm";
+import { cn } from "@/lib/utils";
 
 type PreviewVarianteUploadType = {
-    selectedMode: boolean;
+    selectMode: boolean;
     isSelected: boolean;
     isCover: boolean;
     order?: number;
@@ -18,7 +19,7 @@ type PreviewVarianteUploadType = {
 };
 
 const PreviewVarianteUpload = ({
-    selectedMode,
+    selectMode,
     isSelected,
     isCover,
     file,
@@ -27,37 +28,30 @@ const PreviewVarianteUpload = ({
     onSelect,
 }: PreviewVarianteUploadType) => {
     //onClick={() => onRemove && onRemove()}
+
     const handleClickSetCover = React.useCallback(() => {
         if (!file) return;
         file.isCover = !isCover;
         setCover && setCover(file);
-    }, [file, isCover]);
-
-    const IsDefaultCover = () => {
-        return (
-            <div className="absolute bg-lime-300 text-green-950 ring-1 ring-green-900 rounded m-1 z-50">
-                {/*  <Check className="h-5 w-5 p-0.5" />{" "} */}
-                cover
-            </div>
-        );
-    };
+    }, [file, isCover, setCover]);
 
     const cover = LoadPreviewFile(file?.url as string);
 
     const handleSelected = React.useCallback(
         (id: string) => {
-            if (onSelect) {
+            if (onSelect && id && selectMode) {
                 onSelect(id);
             }
         },
-        [onSelect],
+        [onSelect, selectMode],
     );
 
     return (
-        <div className="relative w-full h-[110px] rounded overflow-hidden group z-0">
-            {selectedMode && file?.id && (
-                <SelectMode id={String(file?.id)} isSelected={isSelected} onSelected={handleSelected} />
-            )}
+        <div
+            className="relative w-full h-[110px] rounded overflow-hidden group z-0"
+            onClick={() => handleSelected(String(file?.id))}
+        >
+            {selectMode && file?.id && <SelectMode id={String(file?.id)} isSelected={isSelected} />}
 
             {file && (
                 <Image
@@ -65,41 +59,38 @@ const PreviewVarianteUpload = ({
                     width={200}
                     height={200}
                     alt={`preview of ${file.name || file.originalName || "property variant"}`}
-                    className="w-full h-full object-cover object-center group-hover:grayscale"
+                    className={cn("w-full h-full object-cover object-center ", {
+                        "group-hover:grayscale": !selectMode,
+                    })}
                     loading="lazy"
                 />
             )}
-            <div className="absolute top-0 left-0 bottom-0 w-full   group-hover:bg-gradient-to-b from-black/80 to-primary/50 transition-all motion-preset-slide-right z-100">
-                <div className="flex justify-end items-center p-2">
-                    <CoverButton isCover={isCover ?? false} onClick={handleClickSetCover} />
+            {!selectMode && (
+                <div className="absolute top-0 left-0 bottom-0 w-full   group-hover:bg-gradient-to-b from-black/80 to-primary/50  z-100">
+                    <div className="flex justify-end items-center p-2">
+                        <CoverButton isCover={isCover ?? false} onClick={handleClickSetCover} />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
 
 export default PreviewVarianteUpload;
 
-type SelectModeProps = { id: string; isSelected: boolean; onSelected?: (id: string) => void };
-const SelectMode = ({ id, isSelected, onSelected }: SelectModeProps) => {
-    const handleSelected = React.useCallback(
-        (id: string) => {
-            if (onSelected) {
-                onSelected(id);
-            }
-        },
-        [onSelected],
-    );
+type SelectModeProps = { id: string; isSelected: boolean };
+const SelectMode = ({ id, isSelected }: SelectModeProps) => {
+    const CHECKBOX_CLASS = "absolute bg-white text-green-950  rounded m-1 z-50 ";
 
     return (
-        <div className="absolute top-0 left-0 bottom-0 w-full h-full flex justify-center items-center z-50">
-            <input
-                type="checkbox"
-                id={`select-${id}`}
-                checked={isSelected}
-                onChange={() => handleSelected(String(id))}
-                className="w-5 h-5 rounded-full border-2 border-white bg-transparent checked:bg-primary checked:border-primary"
-            />
+        <div
+            className={cn(CHECKBOX_CLASS, {
+                "bg-lime-500": isSelected,
+                "ring-2": isSelected,
+                "ring-green-900": isSelected,
+            })}
+        >
+            {isSelected && <Check className="h-4 w-4 p-0.5" />}
         </div>
     );
 };

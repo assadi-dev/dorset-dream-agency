@@ -166,8 +166,8 @@ const AddVariantProperty = () => {
                                     key={file.id}
                                     file={file}
                                     isCover={file.cover}
-                                    selectedMode={true}
-                                    isSelected={selectedIds.includes(file.id)}
+                                    selectMode={true}
+                                    isSelected={true}
                                     onSelect={handleSelect}
                                 />
                             ))}
