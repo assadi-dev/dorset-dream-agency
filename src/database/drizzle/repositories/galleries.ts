@@ -102,8 +102,14 @@ export const updateVariantGallery = async (formData: FormData) => {
         const files = formData.getAll("files") as File[];
         const coverIndex = Number(formData.get("isCoverIndex")) || 0;
         const coverFile = files[coverIndex];
+        const photosToRemove = formData.getAll("toRemove").map((file: any) => Number(file));
 
         const variant = await updateVariant(variantID, { name, propertyID });
+
+        if (photosToRemove.length > 0) {
+            await removePhotosGalleryFromVariantID(variantID, photosToRemove);
+        }
+
         let order = 0;
         if (files.length > 0) {
             const response = await uploadPhotoProperty(formData);
@@ -234,6 +240,45 @@ export const getGalleryCollectionForVariants = async (variantID: number | string
     return await req.execute({
         variantID,
     });
+};
+
+const removeToGallery = async ({ photoID, variantId }: { photoID: number; variantId: number }) => {
+    const request = db
+        .delete(galleryVariants)
+        .where(
+            and(
+                eq(galleryVariants.photoID, sql.placeholder("photo_id")),
+                eq(galleryVariants.variantID, sql.placeholder("variant_id")),
+            ),
+        )
+        .prepare();
+    await request.execute({
+        photo_id: photoID,
+        variant_id: variantId,
+    });
+};
+
+/**
+ *
+ * Suppression multiple des photos associées à la variante
+ * @param id id de la variante
+ */
+export const removePhotosGalleryFromVariantID = async (id: number, photosIDs: number[]) => {
+    const galleries = await getGalleryCollectionForVariants(id);
+
+    for (const photo of galleries) {
+        if (photosIDs.includes(photo.id)) {
+            try {
+                await removeToGallery({ photoID: photo.id, variantId: id });
+                await removePhotosByAndFile([photo.id], "properties");
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.error(error);
+                    continue;
+                }
+            }
+        }
+    }
 };
 
 /**
