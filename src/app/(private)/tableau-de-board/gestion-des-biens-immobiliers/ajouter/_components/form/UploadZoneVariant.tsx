@@ -6,7 +6,7 @@ import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
 import { cn } from "@/lib/utils";
-import { ImagePlus, Trash2 } from "lucide-react";
+import { Check, ImagePlus, Trash2 } from "lucide-react";
 import React from "react";
 import { FieldValues, SubmitHandler, useForm, useFormContext, UseFormReturn } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
@@ -14,19 +14,38 @@ import uniqid from "uniqid";
 import PreviewVarianteUpload from "../views/PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { variantSchema } from "./propertySchema";
-import { FileObj, GalleryResponse } from "../../../types";
+import { ActionComponentListArgs, FileObj, GalleryResponse } from "../../../types";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
 import { updateCover, VARIANT_EVENT_CUSTOM_NAME } from "./helpers";
 import { dispatchEvent } from "@/lib/event";
+import VariantSelectActions from "../views/VariantSelectActions";
 
 export type UploadZoneForm = {
     name: string;
     files: Array<FileObj> | Array<GalleryResponse>;
+    toRemove?: string[];
 };
 
 export type VariantPayload = { name: string; gallery: GalleryResponse[] };
 
 const UploadZoneVariant = () => {
+    const [selectedFiles, setSelectedFiles] = React.useState<string[]>([]);
+    const [selectMode, setSelectMode] = React.useReducer((state: boolean) => !state, false);
+
+    const handleSelect = (id: string) => {
+        const newSelectedFiles = selectedFiles.includes(id)
+            ? selectedFiles.filter((fileId) => fileId !== id)
+            : [...selectedFiles, id];
+        setSelectedFiles(newSelectedFiles);
+    };
+    const isIncludesSelectedFiles = (id: string) => selectedFiles.includes(id);
+    const handleSelectedMode = React.useCallback(() => {
+        if (selectMode) {
+            setSelectedFiles([]);
+        }
+        setSelectMode();
+    }, [selectMode]);
+
     const form = useForm<UploadZoneForm>({
         resolver: zodResolver(variantSchema),
         defaultValues: {
@@ -160,6 +179,34 @@ const UploadZoneVariant = () => {
         }
     }, [fileRejections]);
 
+    const addToRemove = () => {
+        const currentFiles = form.getValues("files");
+        const fileToRemoveFiltered = currentFiles.filter((file) => !selectedFiles.includes(String(file.id)));
+        form.setValue("files", fileToRemoveFiltered as any);
+        const toRemove = selectedFiles;
+        form.setValue("toRemove", toRemove);
+    };
+
+    const ACTION_LISTS: ActionComponentListArgs[] = [
+        {
+            lucidIcon: Check,
+            label: "Tout décoché",
+            handler: () => setSelectedFiles([]),
+        },
+        {
+            lucidIcon: Trash2,
+            label: "Supprimer",
+            handler: addToRemove,
+            isDanger: false,
+        },
+        {
+            lucidIcon: Trash2,
+            label: "Tout Supprimer",
+            handler: clearAllFile,
+            isDanger: true,
+        },
+    ];
+
     return (
         <Form {...form}>
             <form
@@ -196,15 +243,17 @@ const UploadZoneVariant = () => {
                 </div>
 
                 <div className="Dropzone-preview">
-                    <div className="flex justify-end">
-                        <Button
-                            type="button"
-                            variant="ghost"
-                            className="text-xs active:scale-90 transition-all duration-75"
-                            onClick={clearAllFile}
-                        >
-                            <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
-                        </Button>
+                    <div className="flex justify-between">
+                        <div>
+                            <Button variant="ghost" type="button" onClick={handleSelectedMode}>
+                                {selectMode ? "Annuler la selection" : "Sélectionner"}
+                            </Button>
+                        </div>
+                        <div className="w-full flex justify-end">
+                            {selectMode && selectedFiles.length > 0 && (
+                                <VariantSelectActions actionListHandlers={ACTION_LISTS} />
+                            )}
+                        </div>
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,0.5fr))] gap-1 justify-center">
@@ -217,6 +266,9 @@ const UploadZoneVariant = () => {
                                             key={file?.id}
                                             file={file as FileObj}
                                             setCover={handleClickSetCover}
+                                            selectMode={selectMode}
+                                            isSelected={isIncludesSelectedFiles(String(file.id))}
+                                            onSelect={handleSelect}
                                         />
                                     ))}
                         </div>
