@@ -250,13 +250,6 @@ const EditUploadZoneVariant = () => {
 
                 <div className="Dropzone-preview">
                     <div className="flex justify-between">
-                        {/*
-                        TODO Faire un menu déroulant des actions selection 
-                        - Supprimer les fichiers sélectionnés
-                        - Sélectionner tous les fichiers
-                        - Tout Supprimer
-                        - Annuler la sélection
-                         */}
                         <div>
                             <Button variant="ghost" type="button" onClick={handleSelectedMode}>
                                 {selectMode ? "Annuler la selection" : "Sélectionner"}
