@@ -1,0 +1,10 @@
+[
+    {
+        "name": "✨ Nouvelles fonctionnalités",
+        "value": "- Selections des photo à supprimer à l'edition d'une variante\n- Génération par IA d'une description d'une variante (beta);"
+    },
+    {
+        "name": "🧩 Correctifs",
+        "value": "- Fix de l'erreur lorsqu'on modifie une variante.\n- Fix Affichage des couverture lorsque'on sélectionne une nouvelle dans la modal d'edition."
+    }
+]
