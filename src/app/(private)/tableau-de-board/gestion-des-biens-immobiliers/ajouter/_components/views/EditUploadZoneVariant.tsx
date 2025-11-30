@@ -87,7 +87,7 @@ const EditUploadZoneVariant = () => {
 
         propertyForm.setValue("variants", variantsUpdated);
         closeModal();
-        refreshWithParams();
+        // refreshWithParams();
     };
 
     const sizeValidator = (file: File) => {

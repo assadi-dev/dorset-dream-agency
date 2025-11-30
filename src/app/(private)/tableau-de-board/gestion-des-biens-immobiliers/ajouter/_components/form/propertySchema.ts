@@ -21,6 +21,7 @@ export const propertySchema = z.object({
             name: z.string().nullable().optional(),
             files: z.array(z.any()).nullable().optional(),
             url: z.string().nullable().optional(),
+            toRemove: z.array(z.string()).optional().nullable(),
         }),
     ),
 });

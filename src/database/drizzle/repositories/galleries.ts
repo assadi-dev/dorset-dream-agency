@@ -94,6 +94,29 @@ export const createVariantGallery = async (formData: FormData) => {
     }
 };
 
+export const extractIdsToRemove = async (formData: FormData): Promise<number[]> => {
+    const cleanResult: number[] = [];
+    try {
+        const data = await formData.getAll("toRemove");
+        if (!data) return [];
+        const parseData = JSON.parse(String(data));
+
+        for (const id of parseData) {
+            try {
+                const parseToNumber = Number(id);
+                cleanResult.push(parseToNumber);
+            } catch (error) {
+                continue;
+            }
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+        }
+    }
+    return cleanResult;
+};
+
 export const updateVariantGallery = async (formData: FormData) => {
     try {
         const variantID = Number(formData.get("variantID"));
@@ -102,7 +125,7 @@ export const updateVariantGallery = async (formData: FormData) => {
         const files = formData.getAll("files") as File[];
         const coverIndex = Number(formData.get("isCoverIndex")) || 0;
         const coverFile = files[coverIndex];
-        const photosToRemove = formData.getAll("toRemove").map((file: any) => Number(file));
+        const photosToRemove = await extractIdsToRemove(formData);
 
         const variant = await updateVariant(variantID, { name, propertyID });
 
