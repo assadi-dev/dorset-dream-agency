@@ -15,9 +15,10 @@ export const GET = async () => {
             version: packageJson.version,
             release: [],
         };
+        const buildInfo = { name: `📦 Informations du build`, value: `**Version :** \`${packageJson.version}\`` };
         //Récupérations des release depuis le fichier json
         const releaseField = await readReleaseJsonContent();
-        if (releaseField.length) packageVersions.release = releaseField;
+        if (releaseField.length) packageVersions.release = [...releaseField, buildInfo];
 
         return NextResponse.json(packageVersions);
     } catch (error) {
