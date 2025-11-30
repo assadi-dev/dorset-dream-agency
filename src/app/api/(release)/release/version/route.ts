@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import packageJson from "../../../../package.json";
+import packageJson from "../../../../../../package.json";
 import { validateVersionSchema } from "./schema";
 import { zodParserError } from "@/lib/parser";
-import { updateVersionFile } from "./utils";
+import { readReleaseJsonContent, updateVersionFile } from "./utils";
 
 export const GET = async () => {
     try {
-        const packageVersions = {
+        const packageVersions: {
+            name: string;
+            version: string;
+            release?: any[];
+        } = {
             name: packageJson.name,
             version: packageJson.version,
+            release: [],
         };
+        //Récupérations des release depuis le fichier json
+        const releaseField = await readReleaseJsonContent();
+        if (releaseField.length) packageVersions.release = releaseField;
 
         return NextResponse.json(packageVersions);
     } catch (error) {
