@@ -1,6 +1,6 @@
 {
     "name": "dynasty8",
-    "version": "1.4.2bis",
+    "version": "1.4.2",
     "private": true,
     "engines": {
         "node": "22"
