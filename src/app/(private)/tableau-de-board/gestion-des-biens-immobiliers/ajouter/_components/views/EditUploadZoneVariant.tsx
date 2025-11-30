@@ -5,36 +5,50 @@ import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useModalState from "@/hooks/useModalState";
 import { cn } from "@/lib/utils";
-import { ImagePlus, Trash2 } from "lucide-react";
+import { Check, ImagePlus, Trash2 } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import uniqid from "uniqid";
 import PreviewVarianteUpload from "./PreviewVarianteUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { variantSchema } from "../form/propertySchema";
-import { FileObj, GalleryResponse } from "../../../types";
-import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import { updateCover, updateGalleryApi, VARIANT_EVENT_CUSTOM_NAME } from "../form/helpers";
+import { VariantFormType, variantSchema } from "../form/propertySchema";
+import { ActionComponentListArgs, FileObj, GalleryResponse } from "../../../types";
+import { ToastErrorSonner } from "@/components/notify/Sonner";
+import { updateCover, VARIANT_EVENT_CUSTOM_NAME } from "../form/helpers";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
 import { dispatchEvent } from "@/lib/event";
+import VariantSelectActions from "./VariantSelectActions";
 
 export type UploadZoneForm = {
     id?: number | string | null;
     name: string;
     files: Array<FileObj> | Array<GalleryResponse>;
+    toRemove?: string[];
 };
 
 export type VariantPayload = { id?: number | string | null; name: string; files: GalleryResponse[] };
 
 const EditUploadZoneVariant = () => {
     const { refreshWithParams, refresh } = useRouteRefresh();
+
+    const [selectedFiles, setSelectedFiles] = React.useState<string[]>([]);
+    const [selectMode, setSelectMode] = React.useReducer((state: boolean) => !state, false);
+
+    const handleSelect = (id: string) => {
+        const newSelectedFiles = selectedFiles.includes(id)
+            ? selectedFiles.filter((fileId) => fileId !== id)
+            : [...selectedFiles, id];
+        setSelectedFiles(newSelectedFiles);
+    };
+
     const form = useForm<UploadZoneForm>({
         resolver: zodResolver(variantSchema),
         defaultValues: {
             id: null,
             name: "",
             files: [],
+            toRemove: [],
         },
     });
 
@@ -66,13 +80,14 @@ const EditUploadZoneVariant = () => {
             if (v.id == values.id) {
                 v.name = values.name;
                 v.files = values.files;
+                v.toRemove = values.toRemove;
             }
             return v;
         });
 
         propertyForm.setValue("variants", variantsUpdated);
         closeModal();
-        refreshWithParams();
+        // refreshWithParams();
     };
 
     const sizeValidator = (file: File) => {
@@ -135,9 +150,21 @@ const EditUploadZoneVariant = () => {
     }; */
 
     const clearAllFile = () => {
+        const currentFiles = form.getValues("files");
         form.setValue("files", []);
         form.clearErrors();
+        const toRemove = currentFiles.map((file) => String(file.id));
+        form.setValue("toRemove", toRemove);
     };
+
+    const addToRemove = () => {
+        const currentFiles = form.getValues("files");
+        const fileToRemoveFiltered = currentFiles.filter((file) => !selectedFiles.includes(String(file.id)));
+        form.setValue("files", fileToRemoveFiltered as any);
+        const toRemove = selectedFiles;
+        form.setValue("toRemove", toRemove);
+    };
+
     const handleClickSetCover = async (file: FileObj) => {
         dispatchEvent(VARIANT_EVENT_CUSTOM_NAME.update_cover, file);
         updateCover(form, file);
@@ -156,6 +183,35 @@ const EditUploadZoneVariant = () => {
             }
         }
     }, [fileRejections]);
+
+    const handleSelectedMode = React.useCallback(() => {
+        if (selectMode) {
+            setSelectedFiles([]);
+        }
+        setSelectMode();
+    }, [selectMode]);
+
+    const isIncludesSelectedFiles = (id: string) => selectedFiles.includes(id);
+
+    const ACTION_LISTS: ActionComponentListArgs[] = [
+        {
+            lucidIcon: Check,
+            label: "Tout décoché",
+            handler: () => setSelectedFiles([]),
+        },
+        {
+            lucidIcon: Trash2,
+            label: "Supprimer",
+            handler: addToRemove,
+            isDanger: false,
+        },
+        {
+            lucidIcon: Trash2,
+            label: "Tout Supprimer",
+            handler: clearAllFile,
+            isDanger: true,
+        },
+    ];
 
     return (
         <Form {...form}>
@@ -193,15 +249,17 @@ const EditUploadZoneVariant = () => {
                 </div>
 
                 <div className="Dropzone-preview">
-                    <div className="flex justify-end">
-                        <Button
-                            type="button"
-                            variant="ghost"
-                            className="text-xs active:scale-90 transition-all duration-75"
-                            onClick={clearAllFile}
-                        >
-                            <Trash2 className="w-4 h-4 mr-1" /> Tout Retirer
-                        </Button>
+                    <div className="flex justify-between">
+                        <div>
+                            <Button variant="ghost" type="button" onClick={handleSelectedMode}>
+                                {selectMode ? "Annuler la selection" : "Sélectionner"}
+                            </Button>
+                        </div>
+                        <div className="w-full flex justify-end">
+                            {selectMode && selectedFiles.length > 0 && (
+                                <VariantSelectActions actionListHandlers={ACTION_LISTS} />
+                            )}
+                        </div>
                     </div>
                     <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,180px))] gap-1 justify-center">
@@ -213,7 +271,10 @@ const EditUploadZoneVariant = () => {
                                             key={file?.id}
                                             isCover={file.isCover}
                                             file={file as FileObj}
+                                            selectMode={selectMode}
+                                            isSelected={isIncludesSelectedFiles(String(file.id))}
                                             setCover={handleClickSetCover}
+                                            onSelect={handleSelect}
                                         />
                                     ))}
                         </div>

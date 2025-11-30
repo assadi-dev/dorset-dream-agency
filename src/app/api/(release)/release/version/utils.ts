@@ -30,3 +30,37 @@ export const writePackageJsonFile = (content: string) => {
     const writeStream = createWriteStream(packageJsonPath);
     readable.pipe(writeStream);
 };
+
+type releaseField = { name: string; value: string | number };
+export const readReleaseJsonContent = (): Promise<releaseField[]> => {
+    const releaseContentPromise = new Promise<releaseField[] | []>((resolve) => {
+        try {
+            const releasePath = path.join(
+                resolvePath,
+                "src",
+                "app",
+                "api",
+                "(release)",
+                "release",
+                "generate",
+                "release.json",
+            );
+            let readContent: string = "";
+            const readStream = createReadStream(releasePath);
+            readStream.on("data", (data) => {
+                readContent = data.toString();
+            });
+            readStream.once("error", (error) => {
+                console.error(error);
+                resolve([]);
+            });
+            readStream.once("end", () => {
+                const parseData = JSON.parse(readContent);
+                resolve(parseData);
+            });
+        } catch (error) {
+            resolve([]);
+        }
+    });
+    return releaseContentPromise;
+};
