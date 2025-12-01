@@ -1,10 +1,6 @@
 [
   {
-    "name": "✨ Nouvelles fonctionnalités",
-    "value": "- Intregration d'un editeur de texte dans champs description.\n- Génération par IA d'une description d'une variante (beta).\n- Selections des photo à supprimer à l'edition d'une variante.\n"
-  },
-  {
-    "name": "🧩 Correctifs",
-    "value": "- Fix de l'erreur lorsqu'on modifie une variante.\n- Fix Affichage des couverture lorsque'on sélectionne une nouvelle dans la modal d'edition."
+    "name": "⚙️ Amélioration",
+    "value": "- Les personnes avec le role managers peuvent modifier la disponibilité des prestiges. \n"
   }
 ]
