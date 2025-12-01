@@ -109,8 +109,8 @@ export const getOneVariantWithGallery = async (id: number | string) => {
 
 export const updateVariant = async (id: number | string, data: any) => {
     const findVariant = await getOneVariant(id);
-
     if (findVariant) {
+        data.name = data.name || findVariant?.name;
         const request = db
             .update(variants)
             .set({
@@ -137,7 +137,7 @@ export const updateVariant = async (id: number | string, data: any) => {
                 entity: ENTITIES_ENUM.VARIANTS,
             });
         }
-        return await getOneVariant(findVariant.id);
+        return await getOneVariant(id);
     } else {
         if (!data.propertyID) throw new Error("propertyID missing!");
         const newVariant = await insertVariant(data.name, data.propertyID);

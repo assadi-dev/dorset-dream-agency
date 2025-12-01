@@ -64,6 +64,12 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
                         formData.append("variantID", variant.id as string);
                         values.id && formData.append("propertyID", String(values.id));
 
+                        //Traitements des photo à supprimer de la gallery
+                        if (variant.toRemove) {
+                            formData.append("toRemove", JSON.stringify(variant.toRemove));
+                        }
+
+                        //Traitement des photos à ajouter dans la gallérie
                         if (variant.files) {
                             for (const fileObj of variant.files) {
                                 if (fileObj.file instanceof File) {
