@@ -16,8 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run build
-        run: npm i && npm run build
+      - name: Export package.json version
+        shell: bash
+        run: |
+          node -e "console.log('VERSION=' + require('./package.json').version)" >> "$GITHUB_ENV"
 
       - name: Generate Gitflow tag
         id: tag
@@ -28,7 +30,7 @@ jobs:
           SAFE_BRANCH=$(echo "$BRANCH_NAME" | tr '/' '-')
 
           # Exemple de tag basé sur la branche GitFlow
-          TAG="build-${SAFE_BRANCH}-$(date +'%Y%m%d%H%M%S')"
+          TAG="v${VERSION}"
 
           echo "TAG=$TAG" >> $GITHUB_ENV
           echo "✅ Generated tag: $TAG"
@@ -40,30 +42,9 @@ jobs:
           git tag -a "${{ env.TAG }}" -m "Auto tag from GitFlow branch $GITHUB_REF_NAME"
           git push origin "${{ env.TAG }}"
 
-      # Déploiement vers le serveur en SSH
-      #- name: Set up SSH key
-      #  run: |
-      #    mkdir -p ~/.ssh
-      #    echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #    chmod 600 ~/.ssh/id_rsa
-      #    ssh-keyscan -H ${{secrets.SERVER_IP}} >> ~/.ssh/known_hosts
-      #
-      #- name: Run deploy.sh on remote server
-      #  run: ssh  ${{secrets.SSH_HOST}} "cd /var/www/dorset-dream-agency && ./deploy.sh"
-
-      # Notification de l'execution des job vers Discord
-
-      - name: Discord notification on success
+      - name: Send Notification
         if: success()
         run: |
           curl -s -o /dev/null -w "%{http_code}" -H "Content-type: application/json" \
-          -X POST \
-          -d '{"embeds": [{"title": "Déploiement réussi", "description": "Le déploiement sur `main` a été effectué avec succès.", "fields": [{"name": "TAG de déploiement", "value": "${{ env.TAG }}"}], "color": 5763719}]}' \
-          ${{secrets.DISCORD_WEBHOOK_SUCCESS_URL}}
-      - name: Discord notification on failure
-        if: failure()
-        run: |
-          curl -s -o /dev/null -w   -H "Content-type: application/json" \
-          -X POST \
-          -d '"{\"content\": \"❌ Déploiement **échoué** sur \`main\`\n🔗 [Voir le job](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\"}" \
-          ${{secrets.DISCORD_WEBHOOK_FAIL_URL}}
+          -X GET \
+          ${{secrets.PROJECT_API}}/api/notification/deploy/start?version=${{env.VERSION}}

@@ -25,4 +25,13 @@ export type FileObj = {
     file: File;
     order: number;
     isCover: boolean;
+    toRemove?: boolean;
 };
+
+export type ActionComponentsProps = {
+    label: string;
+    lucidIcon: any;
+    handler: () => void;
+    isDanger?: boolean;
+};
+export type ActionComponentListArgs = ActionComponentsProps;

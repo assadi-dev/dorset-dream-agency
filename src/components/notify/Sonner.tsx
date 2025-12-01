@@ -1,4 +1,4 @@
-import { ERROR_TITLE_NOTIFY, SUCCESS_TITLE_NOTIFY } from "@/config/messages";
+import { ERROR_TITLE_NOTIFY, INFO_TITLE_NOTIFY, SUCCESS_TITLE_NOTIFY } from "@/config/messages";
 import { toast } from "sonner";
 
 export function ToastSuccessSonner(message: string) {
@@ -14,9 +14,9 @@ export function ToastErrorSonner(message: string, duration?: number) {
     });
 }
 
-export function ToastInfoSonner(message: string, duration?: number) {
-    toast.info(ERROR_TITLE_NOTIFY, {
-        description: message,
+export function ToastInfoSonner({ title, description }: { title?: string; description: string }, duration?: number) {
+    toast.info(title ?? INFO_TITLE_NOTIFY, {
+        description,
         duration: duration || 8000,
     });
 }

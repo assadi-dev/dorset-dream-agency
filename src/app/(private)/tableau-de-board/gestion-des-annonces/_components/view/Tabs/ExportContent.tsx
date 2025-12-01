@@ -33,7 +33,7 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
         if (!canvas) return;
         const objectsLength = canvas.getObjects().length;
         if (objectsLength === 0) {
-            ToastInfoSonner("Pas d'objet à exporter");
+            ToastInfoSonner({ description: "Pas d'objet à exporter" });
             return false;
         }
         return true;

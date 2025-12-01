@@ -1,3 +1,5 @@
+import { buttonVariants } from "@/components/ui/button";
+import { VariantProps } from "class-variance-authority";
 import { LucideProps } from "lucide-react";
 import React from "react";
 
@@ -20,3 +22,9 @@ export type UserActionUnion = "create" | "update" | "delete" | "restore";
 export type LucidIconProps = React.ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
 >;
+
+export interface ButtonProps
+    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+        VariantProps<typeof buttonVariants> {
+    asChild?: boolean;
+}

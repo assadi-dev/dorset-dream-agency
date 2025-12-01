@@ -94,6 +94,29 @@ export const createVariantGallery = async (formData: FormData) => {
     }
 };
 
+export const extractIdsToRemove = async (formData: FormData): Promise<number[]> => {
+    const cleanResult: number[] = [];
+    try {
+        const data = await formData.getAll("toRemove");
+        if (!data) return [];
+        const parseData = JSON.parse(String(data));
+
+        for (const id of parseData) {
+            try {
+                const parseToNumber = Number(id);
+                cleanResult.push(parseToNumber);
+            } catch (error) {
+                continue;
+            }
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error);
+        }
+    }
+    return cleanResult;
+};
+
 export const updateVariantGallery = async (formData: FormData) => {
     try {
         const variantID = Number(formData.get("variantID"));
@@ -102,14 +125,20 @@ export const updateVariantGallery = async (formData: FormData) => {
         const files = formData.getAll("files") as File[];
         const coverIndex = Number(formData.get("isCoverIndex")) || 0;
         const coverFile = files[coverIndex];
+        const photosToRemove = await extractIdsToRemove(formData);
 
         const variant = await updateVariant(variantID, { name, propertyID });
+
+        if (photosToRemove.length > 0) {
+            await removePhotosGalleryFromVariantID(variantID, photosToRemove);
+        }
+
         let order = 0;
         if (files.length > 0) {
             const response = await uploadPhotoProperty(formData);
             for (const photo of response.photos) {
                 const photoID = photo.id;
-                const isCover = coverFile.name.toLowerCase() == photo.originalName.toLowerCase();
+                const isCover = coverFile ? coverFile.name.toLowerCase() == photo.originalName.toLowerCase() : false;
                 if (variant) await insertGallery(variant.id, photoID, { order, isCover });
                 order++;
             }
@@ -132,7 +161,7 @@ export const uploadPhotoProperty = async (
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.log(errorData);
+            console.error(errorData);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
@@ -234,6 +263,45 @@ export const getGalleryCollectionForVariants = async (variantID: number | string
     return await req.execute({
         variantID,
     });
+};
+
+const removeToGallery = async ({ photoID, variantId }: { photoID: number; variantId: number }) => {
+    const request = db
+        .delete(galleryVariants)
+        .where(
+            and(
+                eq(galleryVariants.photoID, sql.placeholder("photo_id")),
+                eq(galleryVariants.variantID, sql.placeholder("variant_id")),
+            ),
+        )
+        .prepare();
+    await request.execute({
+        photo_id: photoID,
+        variant_id: variantId,
+    });
+};
+
+/**
+ *
+ * Suppression multiple des photos associées à la variante
+ * @param id id de la variante
+ */
+export const removePhotosGalleryFromVariantID = async (id: number, photosIDs: number[]) => {
+    const galleries = await getGalleryCollectionForVariants(id);
+
+    for (const photo of galleries) {
+        if (photosIDs.includes(photo.id)) {
+            try {
+                await removeToGallery({ photoID: photo.id, variantId: id });
+                await removePhotosByAndFile([photo.id], "properties");
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.error(error);
+                    continue;
+                }
+            }
+        }
+    }
 };
 
 /**

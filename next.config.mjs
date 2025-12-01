@@ -37,6 +37,9 @@ const nextConfig = {
             {
                 hostname: "mdt.dynasty8flashback.fr",
             },
+            {
+                hostname: "dev.dynasty8flashback.fr",
+            },
         ],
     },
 };
