@@ -130,7 +130,7 @@ export const canUpdate = (role: Role) => {
 };
 
 export const canAction = (role: Role) => {
-    return [RoleEnum.admin as string, RoleEnum.patron as string].includes(role);
+    return [RoleEnum.admin as string, RoleEnum.patron as string, RoleEnum.manager as string].includes(role);
 };
 
 export const loadGoogleFont = async () => {
