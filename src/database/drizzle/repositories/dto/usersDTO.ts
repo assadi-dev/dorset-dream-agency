@@ -40,7 +40,7 @@ export const userUpdateSchema = z.object({
         .string({ message: REQUIRE_MESSAGE_ERROR })
         .email(EMAIL_INVALID)
         .min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    role: z.enum(["user", "patron", "admin"]).optional(),
+    role: z.enum(ROLE_ENTITY_ARRAY).optional(),
 });
 
 export type UserUpdateInputDto = z.infer<typeof userUpdateSchema>;
