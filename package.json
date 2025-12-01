@@ -8,18 +8,19 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "prebuild": "npm run db:generate && npm run db:migrate",
+        "prebuild": "npm run db:generate && npm run db:push",
         "start": "next start",
         "lint": "next lint",
         "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
-        "drizzle:push": "drizzle-kit push",
+        "db:push": "drizzle-kit push",
         "db:drop": "drizzle-kit drop",
         "drizzle:studio": "drizzle-kit studio",
         "drizzle:seed": "node -r esbuild-register ./src/database/drizzle/seed.ts",
         "sqlite:db:generate": "npx drizzle-kit generate --config=drizzle-sqlite.config.ts",
         "sqlite:db:migrate": "npx drizzle-kit migrate --config=drizzle-sqlite.config.ts",
+        "sqlite:db:push": "npx drizzle-kit push --config=drizzle-sqlite.config.ts",
         "sqlite:drizzle:studio": "npx drizzle-kit studio --config=drizzle-sqlite.config.ts"
     },
     "dependencies": {
