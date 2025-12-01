@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ["nodejs", "npm"]
+
+[phases.install]
+cmds = [
+"npm ci",    
+"npm run db:generate && npm run db:migrate",
+"npm run sqlite:db:generate && npm run sqlite:db:migrate"
+]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm start"
