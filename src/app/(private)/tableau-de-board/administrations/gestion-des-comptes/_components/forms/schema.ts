@@ -1,7 +1,8 @@
 import { EMAIL_INVALID, REQUIRE_MESSAGE_ERROR } from "@/config/messages";
+import { ROLE_ENTITY_ARRAY } from "@/database/drizzle/utils";
 import { z } from "zod";
 
-const roles = ["user", "admin", "patron"] as const;
+const roles = ROLE_ENTITY_ARRAY;
 
 export const gestionAccountEmployeeSchema = z
     .object({

@@ -8,21 +8,9 @@
         ".vscode-insiders",
         "package.json"
     ],
-    "cSpell.ignoreRegExpList": [
-        "/import\\s+[^;]*;/"
-    ],
+    "cSpell.ignoreRegExpList": ["/import\\s+[^;]*;/"],
     "cSpell.language": "en,fr",
-    "cSpell.words": [
-        "andreas",
-        "dorset",
-        "employes",
-        "galapagos",
-        "iban",
-        "iles",
-        "Iles",
-        "Manageuse",
-        "sqlite"
-    ],
+    "cSpell.words": ["andreas", "dorset", "employes", "galapagos", "iban", "iles", "Iles", "Manageuse", "sqlite"],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "prettier.bracketSameLine": true,

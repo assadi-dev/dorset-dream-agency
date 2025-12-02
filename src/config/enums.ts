@@ -2,6 +2,10 @@ import { ERROR_AUTH_MESSAGE } from "./messages";
 
 export const ROLE_OPTIONS: Record<"label" | "value", string>[] = [
     {
+        label: "Admin",
+        value: "admin",
+    },
+    {
         label: "Utilisateur",
         value: "user",
     },
@@ -10,8 +14,8 @@ export const ROLE_OPTIONS: Record<"label" | "value", string>[] = [
         value: "patron",
     },
     {
-        label: "Admin",
-        value: "admin",
+        label: "Manageur",
+        value: "manager",
     },
 ];
 

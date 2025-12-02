@@ -16,8 +16,6 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar";
 import UserConnect from "./UserConnect";
-import { isAdmin } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 import { Role, RoleEnum } from "@/app/types/user";
 
 const getSideBar = (role: Role) => {
@@ -25,6 +23,8 @@ const getSideBar = (role: Role) => {
         case RoleEnum.admin:
             return dashboardNavigation;
         case RoleEnum.patron:
+            return dashboardNavigationPatron;
+        case RoleEnum.manager:
             return dashboardNavigationPatron;
         default:
             return dashboardNavigationUser;
