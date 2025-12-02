@@ -1,2 +1,2 @@
 [start]
-cmd = "npm start -p ${PORT}"
+cmd = "PORT=${APP_PORT} npm start"
