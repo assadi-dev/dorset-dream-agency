@@ -1,6 +1,10 @@
 [
     {
+        "name": "🧩 Correctifs",
+        "value": "- Fix retour texte vide généré par l'ia"
+    },
+    {
         "name": "⚙️ Amélioration",
-        "value": "- Ajout d'un nouveau role Mangeurs. \n- Les personnes avec le role managers peuvent acceder vers la page prestige prestiges. \n - Les personnes avec le role managers peuvent modifier la disponibilité des prestiges. \n"
+        "value": "- Implementation d'un system d'envoie  de log d'erreur dans le code. "
     }
 ]
