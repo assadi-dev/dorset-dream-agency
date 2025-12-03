@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createMessageParser } from "../schema";
 import { messagesRepository } from "@/database/nedb/chats/messagesRepository";
 import { aiMessageSchemaParser } from "@/database/nedb/chats/dto/schema";
+import { captureException } from "@/lib/logger";
 
 export const GET = async () => {
     try {
@@ -22,6 +23,7 @@ export const POST = async (request: NextRequest) => {
         return NextResponse.json(message);
     } catch (error: unknown) {
         if (error instanceof Error) {
+            captureException(error);
             return NextResponse.json({
                 message: error.message,
             });
