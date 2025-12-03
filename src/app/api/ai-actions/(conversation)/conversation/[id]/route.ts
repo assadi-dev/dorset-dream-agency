@@ -1,5 +1,5 @@
 import { conversationRepository } from "@/database/nedb/chats/conversationRepository";
-import { captureException } from "@/lib/logger";
+import { reportException } from "@/lib/logger";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,7 +15,7 @@ export const GET = async (request: NextRequest, { params: { id } }: Params) => {
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
-            captureException(error);
+            reportException(error);
             return NextResponse.json({
                 success: false,
                 message: error.message,
@@ -32,7 +32,7 @@ export const DELETE = async (request: NextRequest, { params: { id } }: Params) =
         });
     } catch (error) {
         if (error instanceof Error) {
-            captureException(error);
+            reportException(error);
             return NextResponse.json({
                 success: false,
                 message: error.message,

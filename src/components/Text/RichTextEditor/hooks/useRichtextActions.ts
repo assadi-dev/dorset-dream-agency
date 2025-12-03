@@ -10,6 +10,8 @@ import {
     List,
     ListOrdered,
     Redo,
+    Strikethrough,
+    Underline,
     Undo,
 } from "lucide-react";
 import { RichTextButtonProps, RichTextHandlerName } from "../type";
@@ -28,6 +30,18 @@ export const useHeaderActionsHandler = ({ editor }: HeaderActionsButtonProps) =>
             icon: Italic,
             title: "Italique",
             handler: () => editor?.chain().focus().toggleItalic().run(),
+            group: "word-format",
+        },
+        underline: {
+            icon: Underline,
+            title: "Souligner",
+            handler: () => editor?.chain().focus().toggleUnderline().run(),
+            group: "word-format",
+        },
+        strike: {
+            icon: Strikethrough,
+            title: "Barrer",
+            handler: () => editor?.chain().focus().toggleStrike().run(),
             group: "word-format",
         },
         left: {

@@ -18,10 +18,7 @@ const BubbleMenuRow = ({ editor }: BubbleMenuRowProps) => {
             <div className="flex gap-1  border rounded shadow bg-white px-3 py-1.5 ">
                 {BubbleMenuRef.current && <AskAiBubleAction editor={editor} bubbleMenuRef={BubbleMenuRef.current} />}
                 <RowGroupActions group="word-format" editor={editor} />
-
                 <RowGroupActions group="list" editor={editor} />
-
-                <RowGroupActions group="text-align" editor={editor} />
             </div>
         </BubbleMenu>
     );

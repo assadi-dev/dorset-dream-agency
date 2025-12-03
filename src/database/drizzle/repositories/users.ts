@@ -21,11 +21,10 @@ import { generateDescription, selectWithSoftDelete, setDeletedAt, withPagination
 import { photos } from "../schema/photos";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
-import { deleteEmployee } from "./employee";
 import { FORBIDDEN_ACTION } from "@/config/messages";
 import { auth } from "@/auth";
 import { isAdmin } from "@/lib/utils";
-import { captureException } from "@/lib/logger";
+import { reportException } from "@/lib/logger";
 
 /**
  * Filtre par la colonne deletedAt
@@ -362,7 +361,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
             grade: String(user.grade),
         };
     } catch (error: any) {
-        captureException(error);
+        reportException(error);
         throw error;
     }
 };

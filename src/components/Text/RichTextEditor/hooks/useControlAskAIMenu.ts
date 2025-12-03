@@ -12,7 +12,7 @@ import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
 import { ToastErrorSonner, ToastInfoSonner } from "@/components/notify/Sonner";
-import { captureException } from "@/lib/logger";
+import { reportException } from "@/lib/logger";
 
 type ReducerProps = {
     isOpen: boolean;
@@ -112,7 +112,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                         },
                         onError: (error: Error) => {
                             console.error("Erreur de streaming:", error);
-                            captureException(error);
+                            reportException(error);
                             if (error.message === "Canceled") {
                                 console.error("Génération annulée par l'utilisateur");
                                 abortControllerRef.current = null;
@@ -123,7 +123,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                 }
             } catch (error) {
                 if (error instanceof Error) {
-                    captureException(error);
+                    reportException(error);
                     ToastErrorSonner(error.message);
                 }
                 dispatch({ isFetching: false });
