@@ -25,6 +25,7 @@ import { deleteEmployee } from "./employee";
 import { FORBIDDEN_ACTION } from "@/config/messages";
 import { auth } from "@/auth";
 import { isAdmin } from "@/lib/utils";
+import { captureException } from "@/lib/logger";
 
 /**
  * Filtre par la colonne deletedAt
@@ -361,6 +362,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
             grade: String(user.grade),
         };
     } catch (error: any) {
+        captureException(error);
         throw error;
     }
 };

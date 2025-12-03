@@ -4,6 +4,7 @@ import { authenticate } from "@/database/drizzle/repositories/users";
 import { LoginFormType } from "./schema";
 import { signIn, signOut } from "@/auth";
 import { CredentialsSignin } from "next-auth";
+import { captureException } from "@/lib/logger";
 
 export const getUserData = async (values: Partial<LoginFormType> | unknown) => {
     try {
@@ -14,6 +15,7 @@ export const getUserData = async (values: Partial<LoginFormType> | unknown) => {
             role: user.role || "user",
         };
     } catch (error: any) {
+        captureException(error);
         throw error;
     }
 };
@@ -39,6 +41,7 @@ export const handleSignInAction = async (formData: FormData) => {
         }
 
         if (error instanceof Error) {
+            captureException(error);
             throw error;
         }
     }
