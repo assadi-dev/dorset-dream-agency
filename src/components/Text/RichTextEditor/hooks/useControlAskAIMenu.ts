@@ -12,6 +12,7 @@ import { subscribe, unsubscribe } from "@/lib/event";
 import { Editor } from "@tiptap/react";
 import { AskAiDataEvent, AskAiDataFetchingEvent } from "../type";
 import { ToastErrorSonner, ToastInfoSonner } from "@/components/notify/Sonner";
+import { captureException } from "@/lib/logger";
 
 type ReducerProps = {
     isOpen: boolean;
@@ -94,11 +95,13 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                         onChunk: (chunk, fullText) => {
                             if (!editor || signal.aborted) return;
 
-                            if (data.action === "describe") editor.commands.setContent(fullText);
+                            // if (data.action === "describe") editor.commands.setContent(fullText);
                         },
 
                         onComplete(fullText) {
                             if (!editor || signal.aborted) return;
+
+                            if (data.action === "describe") editor.commands.setContent(fullText);
                             if (data.action == "correct" || data.action === "rephrase") {
                                 editor.chain().focus().insertContent(fullText).run();
                             }
@@ -109,6 +112,7 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                         },
                         onError: (error: Error) => {
                             console.error("Erreur de streaming:", error);
+                            captureException(error);
                             if (error.message === "Canceled") {
                                 console.error("Génération annulée par l'utilisateur");
                                 abortControllerRef.current = null;
@@ -118,10 +122,11 @@ const useControlAskAIMenu = ({ editor }: UseAppearAIMenuProps) => {
                     });
                 }
             } catch (error) {
-                dispatch({ isFetching: false });
                 if (error instanceof Error) {
+                    captureException(error);
                     ToastErrorSonner(error.message);
                 }
+                dispatch({ isFetching: false });
             }
         },
         [editor],
