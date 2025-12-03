@@ -15,7 +15,6 @@ import { OllamaBody, OllamaPromptReturn } from "./types/ollamaType";
 import { OpenRouterRequest, OpenRouterReturn } from "./types/openRouterType";
 import { MODEL_BY_PROVIDER } from "@/config/llm";
 import { ModelProviderKeys } from "@/types/llm";
-import { captureException } from "@/lib/logger";
 
 type buildPromptArgs = {
     action: ACTION_PROMPTS_UNIONS;
