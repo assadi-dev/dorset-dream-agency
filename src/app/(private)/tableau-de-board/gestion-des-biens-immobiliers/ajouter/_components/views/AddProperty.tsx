@@ -15,6 +15,7 @@ import { createPropertyDto } from "../../actions/dto/propertyDTO";
 import { insertProperty } from "@/database/drizzle/repositories/properties";
 import { createVariantGalleryApi } from "../form/helpers";
 import { Card } from "@/components/ui/card";
+import { sentrySpy } from "@/lib/sentry";
 
 const AddProperty = () => {
     const [isPending, startTransition] = React.useTransition();
@@ -38,41 +39,43 @@ const AddProperty = () => {
     });
 
     const processing: SubmitHandler<propertyFormType> = (values) => {
-        startTransition(async () => {
-            try {
-                if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
-                if (Number(values.typeStock) < 1) values.stock = values.typeStock;
-                await wait(1000);
-                if (values.variants && values.variants.length > 0) {
-                    const validateInputs = await createPropertyDto(values);
-                    if (validateInputs.error) throw validateInputs.error;
-                    const property = await insertProperty(validateInputs.data);
-                    const propertyID = String(property.id);
-                    for (const variant of values.variants) {
-                        const formData = new FormData();
-                        variant.name && formData.append("name", variant.name);
-                        formData.append("propertyID", propertyID);
+        sentrySpy("Enregistrement d'un bien page création", () =>
+            startTransition(async () => {
+                try {
+                    if (values.variants.length === 0) throw new Error("Vous devais mettre au minimum 1 variante");
+                    if (Number(values.typeStock) < 1) values.stock = values.typeStock;
+                    await wait(1000);
+                    if (values.variants && values.variants.length > 0) {
+                        const validateInputs = await createPropertyDto(values);
+                        if (validateInputs.error) throw validateInputs.error;
+                        const property = await insertProperty(validateInputs.data);
+                        const propertyID = String(property.id);
+                        for (const variant of values.variants) {
+                            const formData = new FormData();
+                            variant.name && formData.append("name", variant.name);
+                            formData.append("propertyID", propertyID);
 
-                        if (variant.files && variant.files.length > 0) {
-                            for (const file of variant.files) {
-                                if (file.file instanceof File) {
-                                    formData.append("files", file.file);
-                                    const indexIsCover = variant.files.findIndex((it) => it.isCover) || "0";
-                                    indexIsCover && formData.append("isCoverIndex", indexIsCover.toString());
+                            if (variant.files && variant.files.length > 0) {
+                                for (const file of variant.files) {
+                                    if (file.file instanceof File) {
+                                        formData.append("files", file.file);
+                                        const indexIsCover = variant.files.findIndex((it) => it.isCover) || "0";
+                                        indexIsCover && formData.append("isCoverIndex", indexIsCover.toString());
+                                    }
                                 }
-                            }
 
-                            await createVariantGalleryApi(formData);
+                                await createVariantGalleryApi(formData);
+                            }
                         }
                     }
-                }
 
-                ToastSuccessSonner("Le bien immobilier à été créer avec success !");
-                // form.reset();
-            } catch (error: any) {
-                if (error instanceof Error) ToastErrorSonner(error.message);
-            }
-        });
+                    ToastSuccessSonner("Le bien immobilier à été créer avec success !");
+                    // form.reset();
+                } catch (error: any) {
+                    if (error instanceof Error) ToastErrorSonner(error.message);
+                }
+            }),
+        );
     };
 
     const SUBMIT_BUTTON = isPending ? "Enregistrement en cours..." : "Enregistrer";

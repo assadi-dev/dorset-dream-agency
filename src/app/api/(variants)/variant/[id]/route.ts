@@ -1,4 +1,5 @@
 import { getOneVariantWithGallery } from "@/database/drizzle/repositories/variants";
+import { reportException } from "@/lib/logger";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ export const GET = async (req: Request, { params: { id } }: Params) => {
         return NextResponse.json(variantFound);
     } catch (error) {
         if (error instanceof Error) {
+            reportException(error);
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
     }
