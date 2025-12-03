@@ -4,6 +4,7 @@ import { zodParserError } from "@/lib/parser";
 import { generateFromProvider } from "./utils";
 import { messagesRepository } from "@/database/nedb/chats/messagesRepository";
 import { AiMessageSchemaInfer } from "@/database/nedb/chats/dto/schema";
+import { captureException } from "@/lib/logger";
 
 export const POST = async (request: Request) => {
     try {
@@ -28,6 +29,7 @@ export const POST = async (request: Request) => {
         return response;
     } catch (error: any) {
         if (error instanceof Error) {
+            captureException(error);
             return NextResponse.json(
                 {
                     message: error.message,
