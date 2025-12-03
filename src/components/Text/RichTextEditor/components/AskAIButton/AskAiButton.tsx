@@ -26,7 +26,6 @@ const AskAiButton = ({ editor }: AskAiButtonProps) => {
     return (
         <Button type="button" variant="outline" size="sm" title="Demander à l'IA" onClick={handleClickAskAi}>
             <Sparkles className="h-3 w-3 mr-1" />
-            Demander à l'IA
         </Button>
     );
 };

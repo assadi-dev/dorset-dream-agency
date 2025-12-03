@@ -66,6 +66,8 @@ export const RowActionButtons = ({ actions, editor }: { actions: HeaderActionsHa
         <>
             <AskAiButton editor={editor} />
             <HeaderActionSeparator />
+            <RowGroupActions group="word-format" editor={editor} actions={actions} />
+            <HeaderActionSeparator />
             <RowGroupActions group="list" editor={editor} actions={actions} />
             <HeaderActionSeparator />
             <RowGroupActions group="text-align" editor={editor} actions={actions} />
