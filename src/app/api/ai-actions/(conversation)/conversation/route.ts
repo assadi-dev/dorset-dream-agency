@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createConversationParser } from "../schema";
 import { zodJsonResponse } from "@/lib/apihelpers";
 import { obtainDefaultModel } from "../../utils";
+import { reportException } from "@/lib/logger";
 
 export const POST = async (request: NextRequest) => {
     try {
@@ -18,7 +19,7 @@ export const POST = async (request: NextRequest) => {
         return NextResponse.json(conversation);
     } catch (error) {
         if (error instanceof Error) {
-            console.error(error.message);
+            reportException(error);
             return NextResponse.json({
                 success: false,
                 message: error.message,
@@ -32,7 +33,7 @@ export const GET = async (request: NextRequest) => {
         return NextResponse.json(conversation);
     } catch (error) {
         if (error instanceof Error) {
-            console.error(error.message);
+            reportException(error);
             return NextResponse.json({
                 success: false,
                 message: error.message,

@@ -50,3 +50,6 @@ package-lock.json
 /src/storage/images/perquisitions/*
 /src/storage/announcements/creations/*
 /src/storage/announcements/saves/*
+
+# Sentry Config File
+.env.sentry-build-plugin

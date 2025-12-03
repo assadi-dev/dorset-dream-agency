@@ -76,13 +76,11 @@ const UploadZoneVariant = () => {
 
     const submitVariant: SubmitHandler<UploadZoneForm> = async (values) => {
         const currentVariant = propertyForm.getValues("variants") || [];
-
         const variant = {
             id: uniqid(),
             name: values.name,
             files: values.files,
         };
-
         const addVariant = [variant, ...currentVariant];
         propertyForm.setValue("variants", addVariant);
         closeModal();

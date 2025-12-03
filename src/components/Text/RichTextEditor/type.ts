@@ -5,6 +5,8 @@ import { DocumentType, Editor, MarkType, NodeType, TextType } from "@tiptap/reac
 export type RichTextButtonTitle =
     | "Gras"
     | "Italique"
+    | "Barrer"
+    | "Souligner"
     | "List"
     | "List ordonné"
     | "Alignement  à gauche"
@@ -18,6 +20,8 @@ export type RichTextButtonTitle =
 export type RichTextHandlerName =
     | "bold"
     | "italic"
+    | "underline"
+    | "strike"
     | "bulletList"
     | "orderedList"
     | "left"

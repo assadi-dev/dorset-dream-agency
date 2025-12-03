@@ -1,4 +1,6 @@
 import { conversationRepository } from "@/database/nedb/chats/conversationRepository";
+import { reportException } from "@/lib/logger";
+
 import { NextRequest, NextResponse } from "next/server";
 
 type Params = {
@@ -13,6 +15,7 @@ export const GET = async (request: NextRequest, { params: { id } }: Params) => {
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
+            reportException(error);
             return NextResponse.json({
                 success: false,
                 message: error.message,
@@ -29,7 +32,7 @@ export const DELETE = async (request: NextRequest, { params: { id } }: Params) =
         });
     } catch (error) {
         if (error instanceof Error) {
-            console.error(error.message);
+            reportException(error);
             return NextResponse.json({
                 success: false,
                 message: error.message,

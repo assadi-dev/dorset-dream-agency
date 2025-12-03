@@ -9,12 +9,13 @@ type HeaderActionsButtonProps = {
     isSelected: boolean;
     label?: string;
 } & ButtonProps;
-const HeaderActionsButton = ({ icon, handler, isSelected, ...props }: HeaderActionsButtonProps) => {
+const HeaderActionsButton = ({ label, icon, handler, isSelected, ...props }: HeaderActionsButtonProps) => {
     const IconAction = icon;
     const defaultClassName = "hover:bg-primary hover:text-primary-foreground transition-all";
     return (
         <>
             <Button
+                title={label}
                 type="button"
                 variant="ghost"
                 size="sm"
