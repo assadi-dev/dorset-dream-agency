@@ -470,7 +470,8 @@ export const getPropertiesWithCover = async ({
 
     // Map the cover photos to properties
     const propertiesWithCover = properties.map((property) => {
-        const photo = coverPhotosMap.get(property.id);
+        let photo = null;
+        if (coverPhotosMap instanceof Map) photo = coverPhotosMap.get(property.id);
         return { ...property, photo: photo?.url || null };
     });
 
