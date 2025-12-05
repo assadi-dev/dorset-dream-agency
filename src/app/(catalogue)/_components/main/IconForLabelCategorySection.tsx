@@ -11,7 +11,6 @@ export const IconForLabelCategorySection = ({ value }: IconForLabelCategorySecti
     IconMapCollections.set("Bureau", BriefcaseBusiness);
     IconMapCollections.set("Entrepot", Warehouse);
     IconMapCollections.set("Garage", Home);
-    IconMapCollections.set("Sou sol", Home);
-
+    IconMapCollections.set("Sous sol", Home);
     return IconMapCollections.get(value);
 };
