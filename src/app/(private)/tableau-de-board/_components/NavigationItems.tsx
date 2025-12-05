@@ -43,7 +43,7 @@ const NavigationItems = ({ route }: NavigationProps) => {
 
         if (searchParam.size > 0) {
             const pathArrayWithoutParams = pathname.split("/").slice(-searchParam.size);
-            const lastPath = pathArrayWithoutParams.values().toArray().slice(-1);
+            const lastPath = [...pathArrayWithoutParams].slice(-1);
             if (path.includes(lastPath.join("/"))) {
                 return true;
             }

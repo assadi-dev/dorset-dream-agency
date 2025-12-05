@@ -25,9 +25,9 @@ const CheckBoxColumn = ({ onCheckedChange, onCheckedAllChange, selected }: Check
             if (onCheckedAllChange) {
                 const old = selected ? [...selected] : [];
                 const addUniqueItem = new Set([...old, ...objects])
-                    .entries()
-                    .toArray()
-                    .map((it) => it[0]);
+                    ?.entries()
+                    ?.toArray()
+                    ?.map((it) => it[0]);
 
                 onCheckedAllChange(addUniqueItem);
             }
