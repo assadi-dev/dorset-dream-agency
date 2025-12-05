@@ -4,7 +4,7 @@ import { ENV } from "@/config/global";
 import { galleryVariants } from "@/database/drizzle/schema/galleryVariant";
 import { insertVariant, updateVariant } from "./variants";
 import { variants } from "../schema/variants";
-import { and, asc, eq, or, sql } from "drizzle-orm";
+import { and, asc, eq, or, sql, inArray } from "drizzle-orm";
 import { photos } from "../schema/photos";
 import { removePhotosByAndFile } from "./photos";
 import { PhotoInferType } from "@/app/types/photos";
@@ -234,6 +234,77 @@ export const getCoverPictureFromGallery = async (variantID: number) => {
     });
     const result = coverPhoto.length ? coverPhoto[0] : await getFirstPictureFromGallery(variantID);
     return result;
+};
+
+/**
+ *
+ * Retourne les photos de couverture pour plusieurs variants en une seule requête
+ * Optimisation pour éviter le N+1 query problem
+ *
+ */
+export const getCoverPicturesForMultipleVariants = async (variantIDs: number[]) => {
+    if (variantIDs.length === 0) return [];
+
+    // Get all cover photos for the variant IDs
+    const coverPhotos = await db
+        .select({
+            variantID: variants.id,
+            id: photos.id,
+            url: photos.url,
+            originalName: photos.originalName,
+            size: photos.size,
+            type: photos.mimeType,
+            isCover: galleryVariants.isCover,
+            order: galleryVariants.order,
+        })
+        .from(galleryVariants)
+        .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
+        .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
+        .where(and(inArray(variants.id, variantIDs), eq(galleryVariants.isCover, true)))
+        .orderBy(asc(galleryVariants.order), asc(photos.originalName));
+
+    // Get first photos for variants that don't have a cover photo
+    const variantsWithCover = new Set(coverPhotos.map((photo) => photo.variantID));
+    const variantsWithoutCover = variantIDs.filter((id) => !variantsWithCover.has(id));
+
+    let firstPhotos: any[] = [];
+    if (variantsWithoutCover.length > 0) {
+        firstPhotos = await db
+            .select({
+                variantID: variants.id,
+                id: photos.id,
+                url: photos.url,
+                originalName: photos.originalName,
+                size: photos.size,
+                type: photos.mimeType,
+                isCover: galleryVariants.isCover,
+                order: galleryVariants.order,
+            })
+            .from(galleryVariants)
+            .innerJoin(variants, eq(variants.id, galleryVariants.variantID))
+            .innerJoin(photos, eq(photos.id, galleryVariants.photoID))
+            .where(inArray(variants.id, variantsWithoutCover))
+            .orderBy(asc(galleryVariants.order), asc(photos.originalName));
+    }
+
+    // Combine results and create a map of variantID to photo
+    const photoMap = new Map<number, any>();
+
+    // Add cover photos first (they take priority)
+    coverPhotos.forEach((photo) => {
+        if (!photoMap.has(photo.variantID)) {
+            photoMap.set(photo.variantID, photo);
+        }
+    });
+
+    // Add first photos for variants without covers
+    firstPhotos.forEach((photo) => {
+        if (!photoMap.has(photo.variantID)) {
+            photoMap.set(photo.variantID, photo);
+        }
+    });
+
+    return photoMap;
 };
 
 /**
