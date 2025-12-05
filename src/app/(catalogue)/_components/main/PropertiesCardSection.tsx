@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper as SwiperCore } from "swiper/types";
 import { NextButton, PrevButton } from "../../property/_components/SlideActions";
 import { cn } from "@/lib/utils";
+import EmptyPropertiesCard from "./EmptyPropertiesCard";
 
 export type PropertiesCardSectionType = {
     id: number;
@@ -42,7 +43,7 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         return data.map((item: any) => cleanDataForSlides(item));
     }, [data]);
 
-    return <div>{PROPERTIES.length ? <SlideProperties properties={PROPERTIES} /> : <>Empty</>}</div>;
+    return <div>{PROPERTIES.length ? <SlideProperties properties={PROPERTIES} /> : <EmptyPropertiesCard />}</div>;
 };
 
 export default PropertiesCardSection;
