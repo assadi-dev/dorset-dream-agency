@@ -43,7 +43,9 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         return data.map((item: any) => cleanDataForSlides(item));
     }, [data]);
 
-    return <div>{PROPERTIES.length ? <SlideProperties properties={PROPERTIES} /> : <EmptyPropertiesCard />}</div>;
+    if (PROPERTIES.length === 0 && !isFetching) return <EmptyPropertiesCard />;
+
+    return <div>{<SlideProperties properties={PROPERTIES} />}</div>;
 };
 
 export default PropertiesCardSection;
