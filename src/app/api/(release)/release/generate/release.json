@@ -1,10 +1,10 @@
 [
     {
         "name": "🧩 Correctifs",
-        "value": "- Fix retour texte vide généré par l'ia"
+        "value": "- Fix redirection vers la page de connexion au moment de l'authentification dans un iframe coté FiveM"
     },
     {
         "name": "⚙️ Amélioration",
-        "value": "- Implementation d'un system d'envoie  de log d'erreur dans le code. "
+        "value": "- Connexion sur les navigateurs fiveM "
     }
 ]
