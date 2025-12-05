@@ -6,7 +6,11 @@ import { variants } from "@/database/drizzle/schema/variants";
 import { and, asc, count, desc, eq, like, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { getCoverPictureFromGallery, getGalleryCollectionForVariants } from "./galleries";
+import {
+    getCoverPictureFromGallery,
+    getCoverPicturesForMultipleVariants,
+    getGalleryCollectionForVariants,
+} from "./galleries";
 import {
     getVariantsProperty,
     getVariantsPropertyNoSoftDelete,
@@ -457,13 +461,19 @@ export const getPropertiesWithCover = async ({
     search,
 }: getPropertyPresentationArgs) => {
     const properties = await getPropertyCollections({ limit, category, order, isAvailable, search });
-    const propertiesWithCover = [];
-    for (const property of properties) {
-        const photo = await getCoverPictureFromGallery(property.id);
 
-        const update = { ...property, photo: photo.url || null };
-        propertiesWithCover.push(update);
-    }
+    // Extract all variant IDs
+    const variantIDs = properties.map((property) => property.id);
+
+    // Fetch all cover pictures in a single batch query
+    const coverPhotosMap = await getCoverPicturesForMultipleVariants(variantIDs);
+
+    // Map the cover photos to properties
+    const propertiesWithCover = properties.map((property) => {
+        const photo = coverPhotosMap.get(property.id);
+        return { ...property, photo: photo?.url || null };
+    });
+
     return propertiesWithCover;
 };
 

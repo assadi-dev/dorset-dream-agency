@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper as SwiperCore } from "swiper/types";
 import { NextButton, PrevButton } from "../../property/_components/SlideActions";
 import { cn } from "@/lib/utils";
+import EmptyPropertiesCard from "./EmptyPropertiesCard";
 
 export type PropertiesCardSectionType = {
     id: number;
@@ -36,12 +37,26 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         queryFn: () => getPropertiesPerCategoryApi(category, 10),
         refetchInterval: 10 * 60 * 1000,
     });
-    const swiperRef = React.useRef<any>(null);
 
     const PROPERTIES = React.useMemo<PropertyMemoType[]>(() => {
         if (!data) return [];
         return data.map((item: any) => cleanDataForSlides(item));
     }, [data]);
+
+    return <div>{PROPERTIES.length ? <SlideProperties properties={PROPERTIES} /> : <EmptyPropertiesCard />}</div>;
+};
+
+export default PropertiesCardSection;
+
+type SlidePropertiesProps = {
+    properties: PropertyMemoType[];
+};
+export const SlideProperties = ({ properties }: SlidePropertiesProps) => {
+    const swiperRef = React.useRef<any>(null);
+    const container = React.useRef<HTMLDivElement>();
+    gsap.registerPlugin(ScrollTrigger);
+
+    const PROPERTIES = properties;
 
     const breakTest = {
         586: {
@@ -57,9 +72,6 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
             spaceBetween: 5,
         },
     };
-
-    const container = React.useRef<HTMLDivElement>();
-    gsap.registerPlugin(ScrollTrigger);
 
     useGSAP(
         () => {
@@ -98,7 +110,6 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
     };
 
     const SIZE_ICON = `h-[2.5em] w-[2.5rem] lg:h-[3rem] lg:w-[3rem]`;
-
     return (
         <div className="relative rounded-lg w-full group/parent" ref={container as any}>
             <Swiper
@@ -127,5 +138,3 @@ const PropertiesCardSection = ({ category }: PropertiesCardSectionType) => {
         </div>
     );
 };
-
-export default PropertiesCardSection;
