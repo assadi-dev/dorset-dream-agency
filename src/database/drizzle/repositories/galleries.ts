@@ -243,7 +243,7 @@ export const getCoverPictureFromGallery = async (variantID: number) => {
  *
  */
 export const getCoverPicturesForMultipleVariants = async (variantIDs: number[]) => {
-    if (variantIDs.length === 0) return [];
+    if (variantIDs.length === 0) return new Map();
 
     // Get all cover photos for the variant IDs
     const coverPhotos = await db
