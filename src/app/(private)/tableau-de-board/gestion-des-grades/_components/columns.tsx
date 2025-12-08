@@ -22,7 +22,7 @@ export const columns: ColumnDef<GradeColumn>[] = [
     },
     {
         accessorKey: "usersTotalCount",
-        header: "Nombre de d'employé associé",
+        header: "Nombre d'employé associés",
     },
 
     {
