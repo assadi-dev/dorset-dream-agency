@@ -58,6 +58,10 @@ export const dashboardNavigation: DashboardNavigationType[] = [
                 title: "Employés",
                 path: "/tableau-de-board/gestion-des-employes",
             },
+            {
+                title: "Grades",
+                path: "/tableau-de-board/gestion-des-grades",
+            },
         ],
     },
     {
@@ -69,13 +73,21 @@ export const dashboardNavigation: DashboardNavigationType[] = [
                 path: "/tableau-de-board/administrations/gestion-des-comptes",
             },
             {
+                title: "Rôles",
+                path: "/tableau-de-board/administrations/gestion-des-roles",
+            },
+            {
+                title: "Permissions",
+                path: "/tableau-de-board/administrations/gestion-des-permissions",
+            },
+            {
                 title: "Historiques des actions",
                 path: "/tableau-de-board/administrations/historiques-des-actions",
             },
-            {
+            /*   {
                 title: "Corbeille",
                 path: "/tableau-de-board/administrations/corbeille",
-            },
+            }, */
         ],
     },
     {

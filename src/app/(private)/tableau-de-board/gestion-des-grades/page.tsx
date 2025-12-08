@@ -3,11 +3,11 @@ import React from "react";
 
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { PaginationSearchParams } from "@/app/types";
-import { getAccountCollections } from "@/database/drizzle/repositories/users";
-import PageTemplate from "../../_components/PageTemplate";
+
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import ListGrades from "./_components/ListGrades";
+import PageTemplate from "../_components/PageTemplate";
 
 export const metadata = setTitlePage("Gestion des grades");
 type GestionGradePageParams = {
