@@ -72,10 +72,10 @@ export const dashboardNavigation: DashboardNavigationType[] = [
                 title: "Comptes",
                 path: "/tableau-de-board/administrations/gestion-des-comptes",
             },
-            {
+            /*            {
                 title: "Rôles",
                 path: "/tableau-de-board/administrations/gestion-des-roles",
-            },
+            }, */
             {
                 title: "Permissions",
                 path: "/tableau-de-board/administrations/gestion-des-permissions",
