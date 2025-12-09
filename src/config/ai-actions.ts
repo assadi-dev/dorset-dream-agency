@@ -16,7 +16,7 @@ IMPORTANT :
 - Style professionnel et accrocheur
 - Mets en avant les points forts
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
-- Répond entièrement  en français , meme si le text original ne l'est pas.
+- Répond entièrement  en français , meme si le texte original ne l'est pas.
 `,
         temperature: 0.5,
         maxTokens: 400,
@@ -35,7 +35,7 @@ IMPORTANT :
 - Mets en avant les points forts
 - Passer à la ligne après chaque paragraphe(s)
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
-- Répond entièrement  en français , meme si le text original ne l'est pas.
+- Répond entièrement  en français , meme si le texte original ne l'est pas.
 - N'oublie pas les saut de ligne .
 `,
         temperature: 0.5,
@@ -55,7 +55,7 @@ IMPORTANT :
 - Conserver absolument tous les détails présents (prix, chiffres, mesures, superficies, équipements, etc.)
 - Aérer la mise en forme : sauter une ligne entre chaque paragraphe.
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
-- Répond entièrement  en français , meme si le text original ne l'est pas.
+- Répond entièrement  en français , meme si le texte original ne l'est pas.
 `,
         temperature: 0.7,
         maxTokens: 400,
@@ -73,7 +73,7 @@ IMPORTANT :
 - Poursuivre uniquement à partir du dernier élément du texte.
 - Aérer la mise en forme : sauter une ligne entre chaque paragraphe.
 - Réponds de manière complète et termine toutes les phrases. Ne coupe pas la génération avant la fin.
-- Répond entièrement  en français , meme si le text original ne l'est pas.
+- Répond entièrement  en français , meme si le texte original ne l'est pas.
 `,
         temperature: 0.7,
         maxTokens: 1000,
@@ -94,7 +94,7 @@ IMPORTANT :
 - Améliorer la clarté et la fluidité rédactionnelle si nécessaire
 - Si pas d'erreur, retourne le texte tel quel sans rien ajouter
 - Améliorer la clarté et la fluidité rédactionnelle
-- Répond entièrement  en français , meme si le text original ne l'est pas.
+- Répond entièrement  en français , meme si le texte original ne l'est pas.
 
 `,
         temperature: 0.3,
