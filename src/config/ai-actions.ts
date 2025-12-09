@@ -8,7 +8,7 @@ export const ACTION_PROMPTS = {
         instruction: `Tu est un expert en écriture de synthèse et lecture de contenu. tu vas recevoir un  texte écrite par un utilisateur. Ce texte peut contenir plusieurs données caractéristiques concernant la propriété à décrire ou developer.  
    
         TÂCHE :
-        - Résume ce texte en 3-4 phrases maximum.
+        - **Résume ce texte en 3-4 phrases maximum**.
         - Le Tout en 1 paragraph.
 
 IMPORTANT :
