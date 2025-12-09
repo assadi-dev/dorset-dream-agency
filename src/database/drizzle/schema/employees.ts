@@ -5,12 +5,14 @@ import { users } from "./users";
 import { employeesToSecteurs } from "./employeesToSecteurs";
 import { photos } from "./photos";
 import { announcements } from "./announcements";
+import { grades } from "./grades";
 
 export const employees = mysqlTable("employees", {
     id: int("id").autoincrement().primaryKey(),
     lastName: varchar("last_name", { length: 100 }).notNull(),
     firstName: varchar("first_name", { length: 100 }).notNull(),
     post: mysqlEnum("post", EMPLOYEE_POST),
+    grade: int("grade_id").references(() => grades.id, { onDelete: "set null" }),
     iban: varchar("iban", { length: 100 }),
     phone: varchar("phone", { length: 15 }),
     gender: mysqlEnum("gender", ["Male", "Female"]),
@@ -28,4 +30,5 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
     secteurs: many(employeesToSecteurs),
     photo: one(photos),
     announcements: many(announcements),
+    grade: one(grades),
 }));

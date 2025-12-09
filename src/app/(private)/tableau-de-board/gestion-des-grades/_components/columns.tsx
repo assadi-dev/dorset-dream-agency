@@ -14,20 +14,21 @@ export type GradeColumn = {
 export const columns: ColumnDef<GradeColumn>[] = [
     {
         accessorKey: "name",
-        header: "Nome du grade",
+        header: "Nom du grade",
     },
-    {
-        accessorKey: "description",
-        header: "Description",
-    },
+
     {
         accessorKey: "usersTotalCount",
         header: "Nombre d'employé associés",
     },
+    {
+        accessorKey: "permissions",
+        header: "Permissions",
+    },
 
     {
         accessorKey: "createdAt",
-        header: "Crée le",
+        header: "Créer le",
         cell(props: any) {
             return datetimeFormatFr(props.getValue());
         },
