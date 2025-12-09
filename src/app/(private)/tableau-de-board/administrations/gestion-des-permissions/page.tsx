@@ -35,7 +35,10 @@ const GestionGradePage = async ({ searchParams }: GestionGradePageParams) => {
 
     return (
         <ModalProvider>
-            <PageTemplate title="Permissions" description="Gestion des permissions">
+            <PageTemplate
+                title="Gestion des permissions"
+                description="Attribuez des permissions de création, d'édition et de suppression pour different grades"
+            >
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center">
                         <div></div>
