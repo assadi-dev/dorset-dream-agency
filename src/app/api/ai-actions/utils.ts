@@ -38,7 +38,8 @@ export const buildOpenRouterPrompt = ({ action, userText }: buildPromptArgs): Op
     return {
         model: OPEN_ROUTER_CONFIG.model,
         system: SYSTEM_PROMPT,
-        user: `${actionConfig.instruction} Texte :\n 
+        user: `${actionConfig.instruction} \n 
+        Texte :\n 
         ${userText}
         `,
         maxTokens: actionConfig.maxTokens,
