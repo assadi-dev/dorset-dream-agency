@@ -10,8 +10,6 @@ export const DEFAULT_ROLES = {
     VIEWER: "viewer",
 } as const;
 
-export type RoleName = (typeof DEFAULT_ROLES)[keyof typeof DEFAULT_ROLES];
-
 // Définition des rôles par défaut
 export const defaultRoles = [
     {
@@ -63,7 +61,12 @@ export const RESOURCES = {
     PERMISSIONS: "permissions",
 } as const;
 
-// Helper pour générer le nom de permission
+/**
+ * Generation permission action
+ * @param resource
+ * @param action
+ * @returns {string} ressource:action
+ */
 export const getPermissionName = (resource: Resource, action: Action): string => {
     return `${resource}:${action}`;
 };

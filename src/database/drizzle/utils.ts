@@ -120,6 +120,20 @@ export const ACTION_NAMES = {
         restore: "Restauration d'une transaction",
         clean: "Suppression de tous les transactions",
     },
+    grades: {
+        create: "Ajout d'un nouveau grade",
+        update: "Modification de grade",
+        delete: "Suppression de grade",
+        restore: "Restauration de grade",
+        clean: "Suppression de tous les grade",
+    },
+    roles: {
+        create: "Ajout d'un nouveau rôle",
+        update: "Modification de rôle",
+        delete: "Suppression de rôle",
+        restore: "Restauration d'une role",
+        clean: "Suppression de tous les role",
+    },
 };
 
 export const enum ENTITIES_ENUM {
@@ -131,6 +145,9 @@ export const enum ENTITIES_ENUM {
     VARIANTS = "variants",
     PRESTIGES = "prestige",
     TRANSACTIONS = "transactions",
+    GRADES = "grades",
+    ROLES = "role",
+    PERMISSIONS = "permissions",
 }
 
 export const PROPERTY_SERVICE = [

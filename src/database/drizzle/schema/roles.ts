@@ -12,7 +12,7 @@ export const roles = mysqlTable("grades", {
     ...deletedAt,
 });
 
-export const rolesRelations = relations(roles, ({ many }) => ({
-    gradeRoles: many(gradeRoles),
+/* export const rolesRelations = relations(roles, ({ many }) => ({
+    userRoles: many(gradeRoles),
     rolePermissions: many(rolePermissions),
-}));
+})); */
