@@ -81,7 +81,7 @@ IMPORTANT :
 
     correct: {
         name: "Corriger",
-        instruction: `Tu est un expert en écriture de synthèse et lecture de contenu. tu vas recevoir un  texte écrite par un utilisateur. Ce texte peut contenir plusieurs données caractéristiques concernant la propriété à décrire ou developer.
+        instruction: `Tu est un expert en écriture de synthèse et lecture de contenu et specialist de la langue française. tu vas recevoir un  texte écrite par un utilisateur. Ce texte peut contenir plusieurs données caractéristiques concernant la propriété à décrire ou developer.
         TÂCHE :
         - Corrige  les fautes d'orthographe.
         - Corrige  les fautes de  grammaire.
