@@ -65,12 +65,14 @@ ${userText}`;
     };
 };
 
+export const SYSTEM_PROMPT_CONTENT: ChatConversationSchemaInfer = { role: "system", content: SYSTEM_PROMPT };
+
 export const snapshotOllamaBody = (
     prompt: OllamaPromptReturn,
     history: ChatConversationSchemaInfer[],
     stream?: boolean,
 ) => {
-    const messages = [...history];
+    const messages = [SYSTEM_PROMPT_CONTENT, ...history];
     messages.push({ role: prompt.role, content: prompt.prompt ?? "" } as ChatConversationSchemaInfer);
 
     return {
@@ -86,8 +88,8 @@ export const snapshotOpenRouterBody = (
     history: ChatConversationSchemaInfer[],
     stream?: boolean,
 ) => {
-    const messages = [...history];
-    messages.push({ role: prompt.role, content: prompt.user ?? "" });
+    const messages = [SYSTEM_PROMPT_CONTENT, ...history];
+    messages.push({ role: "user", content: prompt.user ?? "" });
     return {
         model: prompt.model,
         messages,
