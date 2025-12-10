@@ -10,7 +10,6 @@ import { CreateRoleInputs, UpdateRoleInputs } from "./dto/roleDTO";
 export const createRole = async (inputs: CreateRoleInputs) => {
     try {
         const result = await db.insert(roles).values(inputs);
-
         const role = await findRoleByID(result[0].insertId);
         if (role) {
             const descriptionMessage = `Création du rôle ${role.name}`;

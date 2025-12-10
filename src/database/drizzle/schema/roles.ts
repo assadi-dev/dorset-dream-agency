@@ -7,9 +7,9 @@ export const roles = mysqlTable("grades", {
     id: int("id").autoincrement().primaryKey(),
     name: varchar("name", { length: 50 }).notNull(),
     displayName: varchar("display_name", { length: 100 }).notNull(),
+    level: int("level").notNull().unique("level"),
     description: text("description"),
     ...updatedAndCreatedAt,
-    ...deletedAt,
 });
 
 /* export const rolesRelations = relations(roles, ({ many }) => ({

@@ -13,6 +13,7 @@ export const roleSchema = z.object({
     name: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     displayName: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     description: z.string().optional().nullable(),
+    level: z.coerce.number().min(1, { message: REQUIRE_MESSAGE_ERROR }).gt(0).lte(100),
 });
 
 export const roleValidations = (inputs: unknown) => roleSchema.safeParse(inputs);

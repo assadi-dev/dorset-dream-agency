@@ -125,14 +125,21 @@ export const ACTION_NAMES = {
         update: "Modification de grade",
         delete: "Suppression de grade",
         restore: "Restauration de grade",
-        clean: "Suppression de tous les grade",
+        clean: "Suppression de tous les grades",
     },
     roles: {
         create: "Ajout d'un nouveau rôle",
         update: "Modification de rôle",
         delete: "Suppression de rôle",
-        restore: "Restauration d'une role",
-        clean: "Suppression de tous les role",
+        restore: "Restauration de rôle",
+        clean: "Suppression de tous les rôles",
+    },
+    permissions: {
+        create: "Ajout d'une nouvelle permission",
+        update: "Modification d'une permission",
+        delete: "Suppression d'une permission",
+        restore: "Restauration d'une permission",
+        clean: "Suppression de tous les permissions",
     },
 };
 
