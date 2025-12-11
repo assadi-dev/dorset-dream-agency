@@ -34,7 +34,7 @@ export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
                 end: "Secteurs done!",
             },
             handler: () => seedSecteurs(db),
-        },
+        },*/
         {
             entity: "roles",
             message: {
@@ -43,7 +43,7 @@ export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
             },
             handler: () => seedRoles(db),
         },
-         */
+
         {
             entity: "permissions",
             message: {

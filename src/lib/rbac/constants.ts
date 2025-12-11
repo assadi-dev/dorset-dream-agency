@@ -1,3 +1,4 @@
+import { ENTITIES_ENUM } from "@/database/drizzle/utils";
 import { getPermissionName } from "./utils";
 
 // Constantes des rôles par défaut
@@ -48,14 +49,38 @@ export const ACTIONS = {
 } as const;
 
 // Ressources ou entité de l'application
-export const RESOURCES = {
-    PROPERTIES: "properties",
-    VARIANTS: "variants",
-    EMPLOYEES: "employees",
-    CLIENTS: "clients",
-    USERS: "users",
-    GRADES: "grades",
-    TRANSACTIONS: "transactions",
-    ROLES: "roles",
-    PERMISSIONS: "permissions",
-} as const;
+export const RESOURCES = ENTITIES_ENUM;
+export const EMPLOYEE_POST = [
+    "Employée",
+    "Manageuse",
+    "Patron",
+    "Employé San Andreas",
+    "Employé îles Galapagos",
+] as const;
+
+export const DEFAULT_GRADES = [
+    {
+        name: "Patron",
+        description: "Responsable de la société",
+    },
+    {
+        name: "Manager",
+        description: "",
+    },
+    {
+        name: "Manageuse",
+        description: "",
+    },
+    {
+        name: "Employée",
+        description: "",
+    },
+    {
+        name: "Employé San Andreas",
+        description: "",
+    },
+    {
+        name: "Employé-iles-galapagos",
+        description: "",
+    },
+];

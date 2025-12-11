@@ -143,7 +143,7 @@ export const ACTION_NAMES = {
     },
 };
 
-export const enum ENTITIES_ENUM {
+/* export enum ENTITIES_ENUM {
     ANNOUNCEMENTS = "announcements",
     USERS = "users",
     EMPLOYEES = "employees",
@@ -155,7 +155,21 @@ export const enum ENTITIES_ENUM {
     GRADES = "grades",
     ROLES = "role",
     PERMISSIONS = "permissions",
-}
+} */
+
+export const ENTITIES_ENUM = {
+    ANNOUNCEMENTS: "announcements",
+    USERS: "users",
+    EMPLOYEES: "employees",
+    CLIENTS: "clients",
+    PROPERTIES: "properties",
+    VARIANTS: "variants",
+    PRESTIGES: "prestige",
+    TRANSACTIONS: "transactions",
+    GRADES: "grades",
+    ROLES: "role",
+    PERMISSIONS: "permissions",
+} as const;
 
 export const PROPERTY_SERVICE = [
     "Location LS",

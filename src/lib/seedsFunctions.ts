@@ -4,10 +4,12 @@ import cliProgress from "cli-progress";
 import { MysqlDatabase } from "@/types/database";
 import { secteurs } from "@/database/drizzle/schema/secteurs";
 import { categoryProperties } from "@/database/drizzle/schema/categoryProperties";
-import { defaultRoles } from "./rbac/constants";
+import { DEFAULT_GRADES, defaultRoles } from "./rbac/constants";
 import { roles } from "@/database/drizzle/schema/roles";
 import { generatePermissions } from "./rbac/permissionsMocks";
 import { permissions } from "@/database/drizzle/schema/permissions";
+import { EMPLOYEE_POST } from "@/database/drizzle/utils";
+import { grades } from "@/database/drizzle/schema/grades";
 
 //Tableau des categories
 const categories = ["Prestige", "Appartement", "Bureau", "Entrepot", "Garage", "Sous sol"];
@@ -73,4 +75,14 @@ export const seedRolePermissions = async (db: MysqlDatabase) => {
 
 export const seedGrades = async (db: MysqlDatabase) => {
     //TODO à implementer le seed grades
+    const size = DEFAULT_GRADES.length;
+    bar.start(size, 0);
+    for (const grade of DEFAULT_GRADES) {
+        await db.insert(grades).values({
+            name: grade.name,
+            description: grade.description,
+        });
+        bar.increment();
+    }
+    bar.stop();
 };

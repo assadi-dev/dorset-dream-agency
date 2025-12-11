@@ -139,7 +139,7 @@ export const getAnnounceCollections = async (filter: FilterPaginationType) => {
                   like(announcements.title, sql.placeholder("search")),
                   like(employees.lastName, sql.placeholder("search")),
                   like(employees.firstName, sql.placeholder("search")),
-                  like(employees.post, sql.placeholder("search")),
+                  //like(employees.post, sql.placeholder("search")),
                   like(employees.phone, sql.placeholder("search")),
               )
             : undefined;

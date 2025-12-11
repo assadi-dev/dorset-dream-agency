@@ -12,6 +12,8 @@ export const resourceLabels: Record<string, string> = {
     [RESOURCES.EMPLOYEES]: "Employées",
     [RESOURCES.PERMISSIONS]: "Permissions",
     [RESOURCES.TRANSACTIONS]: "Transactions",
+    [RESOURCES.ANNOUNCEMENTS]: "Annonces",
+    [RESOURCES.PRESTIGES]: "Prestiges",
 };
 
 export const actionLabels: Record<string, string> = {
