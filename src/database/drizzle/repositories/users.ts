@@ -336,7 +336,7 @@ export const authenticate = async (values: Partial<userCredentialType> | unknown
                 role: users.role,
                 employeeID: employees.id,
                 name: sql<string>`CONCAT(${employees.firstName}," ",${employees.lastName})`,
-                grade: employees.post,
+                grade: sql<string>`"N/A" AS grade`,
                 photoUrl: photos.url,
             })
             .from(users)
@@ -376,7 +376,7 @@ export const currentUser = async (idUser: number) => {
             lastName: employees.lastName,
             firstName: employees.firstName,
             gender: employees.gender,
-            grade: employees.post,
+            grade: sql<string>`N/A`,
             phone: employees.phone,
             createdAt: users.createdAt,
         })
