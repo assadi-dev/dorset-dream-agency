@@ -11,7 +11,7 @@ export const createPermission = async (inputs: CreatePermissionInputs) => {
     const permission = await findPermissionById(result[0].insertId);
     if (permission) {
         const descriptionMessage = `Ajout permission ${permission.displayName}`;
-        registerPermissionAction("create", descriptionMessage, ACTION_NAMES.permissions.create);
+        registerLogPermissionAction("create", descriptionMessage, ACTION_NAMES.permissions.create);
     }
 };
 export const findPermissionById = async (id: number) => {
@@ -28,15 +28,22 @@ export const findPermissionById = async (id: number) => {
         throw error;
     }
 };
-export const updatePermission = async (id: number, inputs: UpdatePermissionInputs) => {
+export const updatePermission = async (id: number, values: UpdatePermissionInputs) => {
     const permission = await findPermissionById(id);
     if (!permission) throw Error("permission no found");
 
-    const query = db.update(permissions);
+    const query = db
+        .update(permissions)
+        .set(values)
+        .where(eq(permissions.id, sql.placeholder("id")))
+        .prepare();
+    query.execute({
+        id,
+    });
 
     if (permission) {
         const descriptionMessage = `Modification de la permission ${permission.displayName}`;
-        registerPermissionAction("delete", descriptionMessage, ACTION_NAMES.permissions.delete);
+        registerLogPermissionAction("delete", descriptionMessage, ACTION_NAMES.permissions.update);
     }
 };
 export const deletePermission = async (id: number) => {
@@ -45,7 +52,7 @@ export const deletePermission = async (id: number) => {
     await db.delete(permissions).where(eq(permissions.id, sql.placeholder("id")));
     if (permission) {
         const descriptionMessage = `Suppression de la permission ${permission.displayName}`;
-        registerPermissionAction("delete", descriptionMessage, ACTION_NAMES.permissions.delete);
+        registerLogPermissionAction("delete", descriptionMessage, ACTION_NAMES.permissions.delete);
     }
 };
 export const deleteMultiplePermission = async (ids: number[]) => {
@@ -58,7 +65,7 @@ export const deleteMultiplePermission = async (ids: number[]) => {
     }
 };
 
-const registerPermissionAction = async (
+const registerLogPermissionAction = async (
     action: "create" | "update" | "delete" | "restore",
     message: string,
     name: string,

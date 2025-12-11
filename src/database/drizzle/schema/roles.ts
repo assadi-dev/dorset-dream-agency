@@ -2,6 +2,8 @@ import { relations } from "drizzle-orm";
 import { deletedAt, updatedAndCreatedAt } from "../utils";
 import { int, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 import { employees } from "./employees";
+import { rolePermissions } from "./rolePermissions";
+import { userRoles } from "./userRoles";
 
 export const roles = mysqlTable("grades", {
     id: int("id").autoincrement().primaryKey(),
@@ -12,7 +14,7 @@ export const roles = mysqlTable("grades", {
     ...updatedAndCreatedAt,
 });
 
-/* export const rolesRelations = relations(roles, ({ many }) => ({
-    userRoles: many(gradeRoles),
+export const rolesRelations = relations(roles, ({ many }) => ({
+    userRoles: many(userRoles),
     rolePermissions: many(rolePermissions),
-})); */
+}));
