@@ -1,5 +1,4 @@
-import { Action } from "sonner";
-import { Resource } from "./type";
+import { getPermissionName } from "./utils";
 
 // Constantes des rôles par défaut
 export const DEFAULT_ROLES = {
@@ -60,13 +59,3 @@ export const RESOURCES = {
     ROLES: "roles",
     PERMISSIONS: "permissions",
 } as const;
-
-/**
- * Generation permission action
- * @param resource
- * @param action
- * @returns {string} ressource:action
- */
-export const getPermissionName = (resource: Resource, action: Action): string => {
-    return `${resource}:${action}`;
-};

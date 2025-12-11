@@ -17,5 +17,8 @@ export const announcements = mysqlTable("announcements", {
 });
 
 export const announcementsRelation = relations(announcements, ({ one }) => ({
-    author: one(employees),
+    author: one(employees, {
+        fields: [announcements.author],
+        references: [employees.id],
+    }),
 }));

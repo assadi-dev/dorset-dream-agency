@@ -1,4 +1,4 @@
-import { int, mysqlTable, timestamp } from "drizzle-orm/mysql-core";
+import { datetime, int, mysqlTable } from "drizzle-orm/mysql-core";
 import { users } from "./users";
 import { roles } from "./roles";
 import { relations } from "drizzle-orm";
@@ -10,7 +10,9 @@ export const userRoles = mysqlTable("user_roles", {
     roleId: int("role_id")
         .notNull()
         .references(() => roles.id, { onDelete: "cascade" }),
-    assignedAt: timestamp("assigned_at").defaultNow().notNull(),
+    assignedAt: datetime("assigned_at")
+        .$default(() => new Date())
+        .notNull(),
     assignedBy: int("assigned_by")
         .notNull()
         .references(() => users.id, { onDelete: "cascade" }),

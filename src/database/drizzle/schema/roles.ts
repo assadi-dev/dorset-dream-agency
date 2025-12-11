@@ -5,7 +5,7 @@ import { employees } from "./employees";
 import { rolePermissions } from "./rolePermissions";
 import { userRoles } from "./userRoles";
 
-export const roles = mysqlTable("grades", {
+export const roles = mysqlTable("roles", {
     id: int("id").autoincrement().primaryKey(),
     name: varchar("name", { length: 50 }).notNull(),
     displayName: varchar("display_name", { length: 100 }).notNull(),

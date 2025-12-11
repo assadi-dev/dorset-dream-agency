@@ -5,6 +5,8 @@ import { categoryProperties } from "./schema/categoryProperties";
 import chalk from "chalk";
 import cliProgress from "cli-progress";
 import { secteurs } from "./schema/secteurs";
+import { MysqlDatabase } from "@/types/database";
+import { SEEDS_FUNCTIONS } from "@/lib/seeds";
 dotenv.config();
 
 const ENV = {
@@ -14,11 +16,6 @@ const ENV = {
     MYSQL_DB_PORT: Number(process.env.MYSQL_DB_PORT),
     MYSQL_DB_NAME: process.env.MYSQL_DB_NAME,
 };
-
-//Tableau des categories
-const categories = ["Prestige", "Appartement", "Bureau", "Entrepot", "Garage", "Sous sol"];
-const secteursNames = ["Iles Galapagos", "San Andreas"];
-const bar = new cliProgress.SingleBar({ format: "{bar} {value}/{total}" });
 
 const main = async () => {
     const client = createPool({
@@ -32,28 +29,13 @@ const main = async () => {
     const db = drizzle(client);
 
     console.log(terminal.info(" Seed start "));
-    console.log("Categories properties creations");
-    bar.start(categories.length, 0);
-    for (const cat of categories) {
-        await db.insert(categoryProperties).values({
-            name: cat,
-        });
 
-        bar.increment();
+    const handlers = SEEDS_FUNCTIONS(db);
+    for (const seed of handlers) {
+        console.log(`${seed.message.start}`);
+        await seed.handler();
+        console.log(`${seed.message.end}`);
     }
-    bar.stop();
-    console.log(chalk.green("Categories properties done! "));
-
-    console.log("Secteurs creations");
-    bar.start(secteursNames.length, 0);
-    for (const sect of secteursNames) {
-        await db.insert(secteurs).values({
-            name: sect,
-        });
-        bar.increment();
-    }
-    bar.stop();
-    console.log(chalk.green(` Secteurs done! `));
 
     console.log(terminal.success(" Seed done "));
 };

@@ -1,4 +1,4 @@
-import { int, mysqlTable, timestamp } from "drizzle-orm/mysql-core";
+import { datetime, int, mysqlTable } from "drizzle-orm/mysql-core";
 import { employees } from "./employees";
 import { grades } from "./grades";
 import { relations } from "drizzle-orm";
@@ -10,7 +10,9 @@ export const employeesGrades = mysqlTable("employee_grade", {
     gradeId: int("grade_id")
         .notNull()
         .references(() => grades.id, { onDelete: "cascade" }),
-    assignedAt: timestamp("assigned_at").defaultNow().notNull(),
+    assignedAt: datetime("assigned_at")
+        .$default(() => new Date())
+        .notNull(),
     assignedBy: int("assigned_by")
         .notNull()
         .references(() => employees.id, { onDelete: "cascade" }),

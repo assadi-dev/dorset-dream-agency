@@ -1,4 +1,4 @@
-import { int, json, mysqlTable, primaryKey, timestamp } from "drizzle-orm/mysql-core";
+import { datetime, int, json, mysqlTable, primaryKey, timestamp } from "drizzle-orm/mysql-core";
 import { roles } from "./roles";
 import { relations } from "drizzle-orm";
 import { permissions } from "./permissions";
@@ -12,7 +12,9 @@ export const rolePermissions = mysqlTable(
         permissionId: int("permission_id")
             .notNull()
             .references(() => permissions.id, { onDelete: "cascade" }),
-        grantedAt: timestamp("granted_at").defaultNow().notNull(),
+        grantedAt: datetime("granted_at")
+            .$default(() => new Date())
+            .notNull(),
     },
     (table) => ({
         pk: primaryKey({ columns: [table.roleId, table.permissionId] }),
