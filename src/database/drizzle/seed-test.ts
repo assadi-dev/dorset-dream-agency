@@ -21,7 +21,7 @@ const main = async () => {
 
     const db = drizzle(client);
 
-    console.log(terminal.info(" Seed TEST Start "));
+    console.log(terminal.info("Seed TEST Start"));
 
     const handlers = SEEDS_FUNCTIONS(db);
     for (const seed of handlers) {
@@ -30,7 +30,7 @@ const main = async () => {
         console.log(`${seed.message.end}`);
     }
 
-    console.log(terminal.success(" Seed TEST Done !"));
+    console.log(terminal.success("Seed TEST Done !"));
 };
 
 const terminal = {
