@@ -7,8 +7,6 @@ import z from "zod";
 import { zodParserError } from "@/lib/parser";
 config();
 
-//expect.extend(matchers);
-
 export const envTestSchema = z.object({
     MYSQL_DB_HOST_TEST: z.coerce.string(),
     MYSQL_DB_PORT_TEST: z.coerce.number(),
