@@ -11,11 +11,9 @@ export const userRoles = mysqlTable("user_roles", {
         .notNull()
         .references(() => roles.id, { onDelete: "cascade" }),
     assignedAt: datetime("assigned_at")
-        .$default(() => new Date())
+        .$onUpdate(() => new Date())
         .notNull(),
-    assignedBy: int("assigned_by")
-        .notNull()
-        .references(() => users.id, { onDelete: "cascade" }),
+    assignedBy: int("assigned_by").references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const userRoleRelations = relations(userRoles, ({ one }) => ({
