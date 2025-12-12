@@ -11,43 +11,12 @@ import { permissions } from "@/database/drizzle/schema/permissions";
 import bcrypt from "bcrypt";
 import { grades } from "@/database/drizzle/schema/grades";
 import { SALT_ROUNDS } from "@/config/security";
-import { ENV_TEST } from "~/vitest.setup";
 import { users } from "@/database/drizzle/schema/users";
 import { employees } from "@/database/drizzle/schema/employees";
+import { categories, secteursNames } from "@/mocks/categoriesMock";
+import { accountEmployeeMocks } from "@/mocks/accountEmployees";
 
-//Tableau des categories
-const categories = ["Prestige", "Appartement", "Bureau", "Entrepot", "Garage", "Sous sol"];
-const secteursNames = ["Iles Galapagos", "San Andreas"];
 const bar = new cliProgress.SingleBar({ format: "{bar} {value}/{total}" });
-const accountEmployeeMocks = [
-    {
-        username: `admin@${ENV_TEST.EMAIL_DNS}`,
-        password: "password",
-        lastName: "Celer",
-        firstName: "Jack",
-        gender: "Male",
-        phone: `${ENV_TEST.PHONE_COUNTRY_CODE}-1234`,
-        role: "admin",
-    },
-    {
-        username: `nick-fury@${ENV_TEST.EMAIL_DNS}`,
-        password: "password",
-        lastName: "Fury",
-        firstName: "Nick",
-        gender: "Male",
-        phone: `${ENV_TEST.PHONE_COUNTRY_CODE}-4367`,
-        role: "user",
-    },
-    {
-        username: `sarah-morgan@${ENV_TEST.EMAIL_DNS}`,
-        password: "password",
-        lastName: "Morgan",
-        firstName: "Sarah",
-        gender: "Female",
-        phone: `${ENV_TEST.PHONE_COUNTRY_CODE}-2298`,
-        role: "user",
-    },
-];
 
 export const seedCategoryProperty = async (db: MysqlDatabase) => {
     bar.start(categories.length, 0);

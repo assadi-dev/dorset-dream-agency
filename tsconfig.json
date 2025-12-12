@@ -37,6 +37,9 @@
             "@lottieFiles/*": [
                 "./src/assets/lottieFiles/*"
             ],
+            "@mocks/*": [
+                "./src/mocks/*"
+            ],
             "~/*": [
                 "./*"
             ]
