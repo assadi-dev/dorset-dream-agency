@@ -28,11 +28,13 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env*.test
 
 # Drizzle
 /src/database/drizzle/migrations/*
 /src/database/drizzle/sqlite/migrations/*
 /src/database/drizzle/sqlite/sqlite.db
+/src/database/drizzle/__tests__/*
 
 #Nedb
 /src/database/nedb/saves/*
