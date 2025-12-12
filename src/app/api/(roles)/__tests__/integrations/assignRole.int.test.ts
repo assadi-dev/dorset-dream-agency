@@ -1,5 +1,5 @@
 import { SALT_ROUNDS } from "@/config/security";
-import { afterAll, beforeAll, describe, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import bcrypt from "bcrypt";
 import { users } from "@/database/drizzle/schema/users";
 import { roles } from "@/database/drizzle/schema/roles";
@@ -12,9 +12,12 @@ let userId: number;
 let roleId: number;
 export const generateUser = async (inputs: { username: string; password: string }) => {
     const { password, username } = inputs;
-    /**
-     * Mot de passe crypté
-     */
+    const exist = await db.select().from(users).where(eq(users.username, username));
+    if (exist[0]) {
+        userId = exist[0].id;
+        return;
+    }
+
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const request = await db
         .insert(users)
@@ -27,8 +30,14 @@ export const generateUser = async (inputs: { username: string; password: string 
     userId = request[0].id;
 };
 
-export const generateRole = async (inputs: { name: string; displayName: string }) => {
-    const { name, displayName } = inputs;
+export const generateRole = async (inputs: { name: string; displayName: string; level: number }) => {
+    const { name, displayName, level } = inputs;
+
+    const exist = await db.select().from(roles).where(eq(roles.name, name));
+    if (exist[0]) {
+        roleId = exist[0].id;
+        return;
+    }
 
     const request = await db
         .insert(roles)
@@ -36,7 +45,7 @@ export const generateRole = async (inputs: { name: string; displayName: string }
             name: name,
             displayName: displayName,
             description: `role description`,
-            level: 100,
+            level,
         })
         .$returningId();
     roleId = request[0].id;
@@ -54,13 +63,17 @@ describe("API Assign Role Integration", () => {
         // création d'un user de test
         await generateUser({ username: "johndoe@test.com", password: "password@123" });
         // création des role de test
-        await generateRole({ name: "moderator", displayName: "Modérateur" });
-        await generateRole({ name: "helper", displayName: "Support technique" });
+        await generateRole({ name: "moderator", displayName: "Modérateur", level: 100 });
+        await generateRole({ name: "helper", displayName: "Support technique", level: 99 });
     });
     describe("Assign  user without role", () => {
         it("Should be have a role moderator and status 200", async () => {
+            console.log(userId);
+
             const assignReq = mockRequest({ users: [userId], roleId });
             const assignRes = await assignRole(assignReq);
+
+            expect(assignRes?.status).toBe(200);
         });
     });
 

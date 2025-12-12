@@ -11,11 +11,11 @@ export default defineConfig({
             provider: "v8",
             reporter: ["text", "json", "html"],
         },
-        include: ["./src/*"],
     },
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src"),
+            "~": resolve(__dirname, "./"),
         },
     },
 });
