@@ -1,6 +1,7 @@
 import { MysqlDatabase } from "@/types/database";
 import {
     seedCategoryProperty,
+    seedEmployeeAccounts,
     seedGrades,
     seedPermissions,
     seedRolePermissions,
@@ -19,7 +20,16 @@ type SeedEntity = {
 };
 export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
     return [
-        /*    {
+        {
+            entity: "users + employees",
+            message: {
+                start: "Employees accounts creations",
+                end: "Employees account done!",
+            },
+            handler: () => seedEmployeeAccounts(db),
+        },
+
+        {
             entity: "categoryProperties",
             message: {
                 start: "Categories properties creations",
@@ -34,7 +44,7 @@ export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
                 end: "Secteurs done!",
             },
             handler: () => seedSecteurs(db),
-        },*/
+        },
         {
             entity: "roles",
             message: {

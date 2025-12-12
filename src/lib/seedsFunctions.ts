@@ -8,13 +8,46 @@ import { DEFAULT_GRADES, defaultRoles } from "./rbac/constants";
 import { roles } from "@/database/drizzle/schema/roles";
 import { generatePermissions } from "./rbac/permissionsMocks";
 import { permissions } from "@/database/drizzle/schema/permissions";
-import { EMPLOYEE_POST } from "@/database/drizzle/utils";
+import bcrypt from "bcrypt";
 import { grades } from "@/database/drizzle/schema/grades";
+import { SALT_ROUNDS } from "@/config/security";
+import { ENV_TEST } from "~/vitest.setup";
+import { users } from "@/database/drizzle/schema/users";
+import { employees } from "@/database/drizzle/schema/employees";
 
 //Tableau des categories
 const categories = ["Prestige", "Appartement", "Bureau", "Entrepot", "Garage", "Sous sol"];
 const secteursNames = ["Iles Galapagos", "San Andreas"];
 const bar = new cliProgress.SingleBar({ format: "{bar} {value}/{total}" });
+const accountEmployeeMocks = [
+    {
+        username: `admin@${ENV_TEST.EMAIL_DNS}`,
+        password: "password",
+        lastName: "Celer",
+        firstName: "Jack",
+        gender: "Male",
+        phone: `${ENV_TEST.PHONE_COUNTRY_CODE}-1234`,
+        role: "admin",
+    },
+    {
+        username: `nick-fury@${ENV_TEST.EMAIL_DNS}`,
+        password: "password",
+        lastName: "Fury",
+        firstName: "Nick",
+        gender: "Male",
+        phone: `${ENV_TEST.PHONE_COUNTRY_CODE}-4367`,
+        role: "user",
+    },
+    {
+        username: `sarah-morgan@${ENV_TEST.EMAIL_DNS}`,
+        password: "password",
+        lastName: "Morgan",
+        firstName: "Sarah",
+        gender: "Female",
+        phone: `${ENV_TEST.PHONE_COUNTRY_CODE}-2298`,
+        role: "user",
+    },
+];
 
 export const seedCategoryProperty = async (db: MysqlDatabase) => {
     bar.start(categories.length, 0);
@@ -83,6 +116,32 @@ export const seedGrades = async (db: MysqlDatabase) => {
             description: grade.description,
         });
         bar.increment();
+    }
+    bar.stop();
+};
+
+export const seedEmployeeAccounts = async (db: MysqlDatabase) => {
+    const size = accountEmployeeMocks.length;
+    bar.start(size, 0);
+    for (const account of accountEmployeeMocks) {
+        try {
+            const hashPassword = bcrypt.hashSync(account.password, SALT_ROUNDS);
+            const user = await db
+                .insert(users)
+                .values({ username: account.username, password: hashPassword, role: account.role as any });
+            const userID = user[0].insertId;
+
+            await db.insert(employees).values({
+                lastName: account.lastName,
+                firstName: account.firstName,
+                gender: account.gender as any,
+                phone: account.phone,
+                userID,
+            });
+            bar.increment();
+        } catch (error) {
+            continue;
+        }
     }
     bar.stop();
 };
