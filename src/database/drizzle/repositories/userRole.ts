@@ -24,7 +24,10 @@ export const insertUserRole = async (values: CreateUserRoleInputs) => {
         return findOneUserRole({ userId: values.userId, roleId: values.roleId });
     } catch (error) {
         if (error) {
-            throw error;
+            if (error instanceof Error) {
+                reportException(error);
+                throw error;
+            }
         }
     }
 };
@@ -59,8 +62,8 @@ export const findOneUserRole = async ({ userId, roleId }: { userId: number; role
     try {
         const request = db
             .select({
-                roleId: roles.id,
-                userId: users.id,
+                roleId: userRoles.roleId,
+                userId: userRoles.userId,
                 assignedAt: userRoles.assignedAt,
             })
             .from(userRoles)
@@ -129,9 +132,21 @@ export const assigneRoleToUser = async (values: UpdateUserRoleInputs) => {
             roleId: validateParams.data.roleId,
             assignedBy: validateParams.data.assignedBy || null,
         });
-    } catch (error) {}
+    } catch (error) {
+        throw error;
+    }
 
     //reportLogAction()
+};
+
+export const assignMultipleUser = async (values: UpdateUserRoleInputs[]) => {
+    for (const value of values) {
+        try {
+            await assigneRoleToUser(value);
+        } catch (error) {
+            continue;
+        }
+    }
 };
 
 export const reportLogAction = () => {};

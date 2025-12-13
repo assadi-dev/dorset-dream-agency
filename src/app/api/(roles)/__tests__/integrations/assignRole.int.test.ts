@@ -68,12 +68,14 @@ describe("API Assign Role Integration", () => {
     });
     describe("Assign  user without role", () => {
         it("Should be have a role moderator and status 200", async () => {
-            console.log(userId);
-
             const assignReq = mockRequest({ users: [userId], roleId });
             const assignRes = await assignRole(assignReq);
 
+            const json = await assignRes?.json();
+
             expect(assignRes?.status).toBe(200);
+            expect(json).toHaveProperty("message");
+            expect(json.message).toEqual("role assigned");
         });
     });
 

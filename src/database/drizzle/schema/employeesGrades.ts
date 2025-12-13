@@ -13,9 +13,7 @@ export const employeesGrades = mysqlTable("employee_grade", {
     assignedAt: datetime("assigned_at")
         .$default(() => new Date())
         .notNull(),
-    assignedBy: int("assigned_by")
-        .notNull()
-        .references(() => employees.id, { onDelete: "cascade" }),
+    assignedBy: int("assigned_by").references(() => employees.id, { onDelete: "cascade" }),
 });
 
 export const employeesGradesRelation = relations(employeesGrades, ({ one }) => ({
