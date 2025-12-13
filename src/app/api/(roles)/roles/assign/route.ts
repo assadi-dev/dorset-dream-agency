@@ -12,17 +12,17 @@ export const PATCH = async (request: NextRequest) => {
         if (validate.error) {
             return zodJsonResponse(validate.error);
         }
-        const { roleId, users, assignerId } = validate.data;
+        const { roleId, users, assignerId, newRoleId } = validate.data;
         const values: UpdateUserRoleInputs[] = users.map((id) => ({
             userId: id,
             roleId,
             assignedBy: assignerId,
-            newRoleId: roleId,
+            newRoleId: newRoleId,
         }));
 
         await assignMultipleUser(values);
 
-        return NextResponse.json({ message: "role assigned" }, { status: 200 });
+        return NextResponse.json({ message: "role assigned", rows: values.length }, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {
             reportException(error);

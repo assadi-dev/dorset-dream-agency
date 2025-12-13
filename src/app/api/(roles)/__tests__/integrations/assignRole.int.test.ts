@@ -1,21 +1,23 @@
 import { SALT_ROUNDS } from "@/config/security";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import bcrypt from "bcrypt";
 import { users } from "@/database/drizzle/schema/users";
 import { roles } from "@/database/drizzle/schema/roles";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { PATCH as assignRole } from "../../roles/assign/route";
 import { NextRequest } from "next/server";
 import { db } from "~/vitest.setup";
+import { userRoles } from "@/database/drizzle/schema/userRoles";
+import { findOneUserRole, insertUserRole } from "@/database/drizzle/repositories/userRole";
+import { AssignRequestBodyInfer } from "../../schema";
 
-let userId: number;
-let roleId: number;
+const userIds: number[] = [];
+const roleIds: number[] = [];
 export const generateUser = async (inputs: { username: string; password: string }) => {
     const { password, username } = inputs;
     const exist = await db.select().from(users).where(eq(users.username, username));
     if (exist[0]) {
-        userId = exist[0].id;
-        return;
+        return exist[0].id;
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -27,7 +29,7 @@ export const generateUser = async (inputs: { username: string; password: string 
             role: "user",
         })
         .$returningId();
-    userId = request[0].id;
+    return request[0].id;
 };
 
 export const generateRole = async (inputs: { name: string; displayName: string; level: number }) => {
@@ -35,8 +37,7 @@ export const generateRole = async (inputs: { name: string; displayName: string; 
 
     const exist = await db.select().from(roles).where(eq(roles.name, name));
     if (exist[0]) {
-        roleId = exist[0].id;
-        return;
+        return exist[0].id;
     }
 
     const request = await db
@@ -48,41 +49,108 @@ export const generateRole = async (inputs: { name: string; displayName: string; 
             level,
         })
         .$returningId();
-    roleId = request[0].id;
+    return request[0].id;
 };
 
-function mockRequest(body: any) {
+function mockRequest(body: AssignRequestBodyInfer) {
     return new NextRequest("http://localhost", {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify(body),
     });
 }
 
+const cleanDatabase = async () => {
+    await db.delete(users).where(inArray(users.id, userIds));
+    await db.delete(roles).where(inArray(roles.id, roleIds));
+    await db.delete(userRoles);
+};
+
 describe("API Assign Role Integration", () => {
     beforeAll(async () => {
-        // création d'un user de test
-        await generateUser({ username: "johndoe@test.com", password: "password@123" });
         // création des role de test
-        await generateRole({ name: "moderator", displayName: "Modérateur", level: 100 });
-        await generateRole({ name: "helper", displayName: "Support technique", level: 99 });
+        const roleId = await generateRole({ name: "moderator", displayName: "Modérateur", level: 99 });
+        const newRoleId = await generateRole({ name: "helper", displayName: "Support technique", level: 98 });
+        roleIds.push(roleId);
+        roleIds.push(newRoleId);
     });
-    describe("Assign  user without role", () => {
-        it("Should be have a role moderator and status 200", async () => {
-            const assignReq = mockRequest({ users: [userId], roleId });
+    describe("Assign  user without role and without assigner", async () => {
+        it("Should be have assignedAt and status 200", async () => {
+            const userId = await generateUser({ username: "johndoe@test.com", password: "password@123" });
+            const newRoleId = userId;
+            userIds.push(userId);
+            const users = [userIds[0]];
+            const roleId = roleIds[0];
+            const assignReq = mockRequest({ users, roleId, newRoleId });
             const assignRes = await assignRole(assignReq);
 
             const json = await assignRes?.json();
 
             expect(assignRes?.status).toBe(200);
             expect(json).toHaveProperty("message");
+            expect(json).toHaveProperty("rows");
             expect(json.message).toEqual("role assigned");
+            //check in database
+            const resultDb = await findOneUserRole({ roleId, userId });
+            expect(resultDb?.assignedAt).toBeDefined();
+        });
+
+        it("Should be have assignedBy and status 200", async () => {
+            const userId = await generateUser({ username: "helloworld@test.com", password: "password@123" });
+            userIds.push(userId);
+            const users = [userIds[1]];
+            const roleId = roleIds[0];
+            const newRoleId = roleId;
+            const assignReq = mockRequest({ users, roleId, newRoleId, assignerId: 1 });
+            const assignRes = await assignRole(assignReq);
+
+            const json = await assignRes?.json();
+
+            expect(assignRes?.status).toBe(200);
+            expect(json).toHaveProperty("message");
+            expect(json).toHaveProperty("rows");
+            expect(json.message).toEqual("role assigned");
+            //connect db
+            const resultDb = await findOneUserRole({ roleId: newRoleId, userId });
+            expect(resultDb?.assignedAt).toBeDefined();
+            expect(resultDb?.assignedBy).toEqual(1);
         });
     });
 
-    // describe("ReAssigne  user",()=>{})
+    describe("Reassign new Role to user", () => {
+        it("Role  should be different to older for the user", async () => {
+            const userId = userIds[1];
+            const roleId = roleIds[0];
 
+            const users = [userId];
+            const newRoleId = roleIds[1];
+
+            const assignReq = mockRequest({ users, roleId, newRoleId, assignerId: 1 });
+            const assignRes = await assignRole(assignReq);
+            const json = await assignRes?.json();
+            expect(assignRes?.status).toBe(200);
+            expect(json).toHaveProperty("message");
+            expect(json).toHaveProperty("rows");
+            expect(json.message).toEqual("role assigned");
+            const findUserRole = await findOneUserRole({ roleId: newRoleId, userId });
+            expect(findUserRole?.roleId).not.toEqual(roleId);
+        });
+    });
+
+    describe("Unique user key by role", () => {
+        it("Should be include Duplicate entry in error message", async () => {
+            const userId = userIds[1];
+            const roleId = roleIds[0];
+            try {
+                await insertUserRole({ userId, roleId, assignedBy: 1 });
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.log(error.message);
+                    expect(error.message).toContain("Duplicate entry");
+                }
+            }
+        });
+    });
     afterAll(async () => {
-        db.delete(users).where(eq(users.id, userId));
-        db.delete(roles).where(eq(roles.id, roleId));
+        await cleanDatabase();
     });
 });

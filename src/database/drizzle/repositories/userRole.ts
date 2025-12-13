@@ -64,6 +64,7 @@ export const findOneUserRole = async ({ userId, roleId }: { userId: number; role
                 roleId: userRoles.roleId,
                 userId: userRoles.userId,
                 assignedAt: userRoles.assignedAt,
+                assignedBy: userRoles.assignedBy,
             })
             .from(userRoles)
             .where(whereCondition)
