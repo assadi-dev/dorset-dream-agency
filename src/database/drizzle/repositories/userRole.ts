@@ -25,7 +25,6 @@ export const insertUserRole = async (values: CreateUserRoleInputs) => {
     } catch (error) {
         if (error) {
             if (error instanceof Error) {
-                reportException(error);
                 throw error;
             }
         }
@@ -144,6 +143,9 @@ export const assignMultipleUser = async (values: UpdateUserRoleInputs[]) => {
         try {
             await assigneRoleToUser(value);
         } catch (error) {
+            if (error instanceof Error) {
+                reportException(error);
+            }
             continue;
         }
     }
