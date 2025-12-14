@@ -146,7 +146,6 @@ describe("API Assign Role Integration", () => {
                 await insertUserRole({ userId, roleId, assignedBy: 1 });
             } catch (error) {
                 if (error instanceof Error) {
-                    console.log(error.message);
                     expect(error.message).toContain("Duplicate entry");
                 }
             }
