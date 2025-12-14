@@ -10,6 +10,8 @@ import { db } from "~/vitest.setup";
 import { userRoles } from "@/database/drizzle/schema/userRoles";
 import { findOneUserRole, insertUserRole } from "@/database/drizzle/repositories/userRole";
 import { AssignRequestBodyInfer } from "../../schema";
+import { ROLE_MOCK_DATA } from "@/mocks/actionsPermissionGranted";
+import { USERS_MOCK_DATA } from "@/mocks/usersMock";
 
 const userIds: number[] = [];
 const roleIds: number[] = [];
@@ -68,14 +70,14 @@ const cleanDatabase = async () => {
 describe("API Assign Role Integration", () => {
     beforeAll(async () => {
         // création des role de test
-        const roleId = await generateRole({ name: "moderator", displayName: "Modérateur", level: 99 });
-        const newRoleId = await generateRole({ name: "helper", displayName: "Support technique", level: 98 });
+        const roleId = await generateRole(ROLE_MOCK_DATA[0]);
+        const newRoleId = await generateRole(ROLE_MOCK_DATA[1]);
         roleIds.push(roleId);
         roleIds.push(newRoleId);
     });
     describe("Assign  user without role and without assigner", async () => {
         it("Should be have assignedAt and status 200", async () => {
-            const userId = await generateUser({ username: "johndoe@test.com", password: "password@123" });
+            const userId = await generateUser(USERS_MOCK_DATA[0]);
             const newRoleId = userId;
             userIds.push(userId);
             const users = [userIds[0]];
@@ -95,7 +97,7 @@ describe("API Assign Role Integration", () => {
         });
 
         it("Should be have assignedBy and status 200", async () => {
-            const userId = await generateUser({ username: "helloworld@test.com", password: "password@123" });
+            const userId = await generateUser(USERS_MOCK_DATA[1]);
             userIds.push(userId);
             const users = [userIds[1]];
             const roleId = roleIds[0];
