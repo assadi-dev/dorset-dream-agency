@@ -40,7 +40,7 @@ export const defaultRoles = [
 ];
 
 // Actions CRUD
-export const ACTIONS = {
+export const RESSOURCE_ACTIONS = {
     CREATE: "create",
     READ: "read",
     UPDATE: "update",

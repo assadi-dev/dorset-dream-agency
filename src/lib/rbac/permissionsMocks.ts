@@ -1,5 +1,5 @@
-import { ACTIONS, RESOURCES } from "./constants";
-import { Action } from "./type";
+import { RESSOURCE_ACTIONS, RESOURCES } from "./constants";
+import { RessourceActionUnion } from "./type";
 import { getPermissionName } from "./utils";
 
 export const resourceLabels: Record<string, string> = {
@@ -17,11 +17,11 @@ export const resourceLabels: Record<string, string> = {
 };
 
 export const actionLabels: Record<string, string> = {
-    [ACTIONS.CREATE]: "Créer",
-    [ACTIONS.READ]: "Consulter",
-    [ACTIONS.UPDATE]: "Modifier",
-    [ACTIONS.DELETE]: "Supprimer",
-    [ACTIONS.ALL]: "Tout permis",
+    [RESSOURCE_ACTIONS.CREATE]: "Créer",
+    [RESSOURCE_ACTIONS.READ]: "Consulter",
+    [RESSOURCE_ACTIONS.UPDATE]: "Modifier",
+    [RESSOURCE_ACTIONS.DELETE]: "Supprimer",
+    [RESSOURCE_ACTIONS.ALL]: "Tout permis",
 };
 
 // Définition des permissions par défaut
@@ -34,9 +34,9 @@ export const generatePermissions = () => {
         action: string;
     }> = [];
     for (const resource of Object.values(RESOURCES)) {
-        for (const action of Object.values(ACTIONS)) {
+        for (const action of Object.values(RESSOURCE_ACTIONS)) {
             perms.push({
-                name: getPermissionName(resource, action as Action),
+                name: getPermissionName(resource, action as RessourceActionUnion),
                 displayName: `${actionLabels[action]} ${resourceLabels[resource]}`,
                 description: `Permet de ${actionLabels[action]?.toLowerCase()} les ${resourceLabels[resource]?.toLowerCase()}`,
                 resource,

@@ -1,5 +1,5 @@
 import { SALT_ROUNDS } from "@/config/security";
-import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import bcrypt from "bcrypt";
 import { users } from "@/database/drizzle/schema/users";
 import { roles } from "@/database/drizzle/schema/roles";
@@ -74,6 +74,10 @@ describe("API Assign Role Integration", () => {
         const newRoleId = await generateRole(ROLE_MOCK_DATA[1]);
         roleIds.push(roleId);
         roleIds.push(newRoleId);
+    });
+
+    beforeEach(async () => {
+        vi.clearAllMocks();
     });
     describe("Assign  user without role and without assigner", async () => {
         it("Should be have assignedAt and status 200", async () => {

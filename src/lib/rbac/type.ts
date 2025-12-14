@@ -1,7 +1,7 @@
-import { ACTIONS, DEFAULT_ROLES, RESOURCES } from "./constants";
+import { RESSOURCE_ACTIONS, DEFAULT_ROLES, RESOURCES } from "./constants";
 
-export type Action = (typeof ACTIONS)[keyof typeof ACTIONS];
+export type RessourceActionUnion = (typeof RESSOURCE_ACTIONS)[keyof typeof RESSOURCE_ACTIONS];
 
-export type Resource = (typeof RESOURCES)[keyof typeof RESOURCES];
+export type ResourcesUnion = (typeof RESOURCES)[keyof typeof RESOURCES];
 
 export type RoleName = (typeof DEFAULT_ROLES)[keyof typeof DEFAULT_ROLES];

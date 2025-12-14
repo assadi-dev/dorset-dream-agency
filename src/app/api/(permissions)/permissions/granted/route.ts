@@ -6,6 +6,7 @@ import { actionPermissionParser } from "../../schema";
 export const PATCH = async (request: NextRequest) => {
     try {
         const requestBody = await request.json();
+
         const validate = actionPermissionParser.validateBody(requestBody);
         if (validate.error) {
             return zodJsonResponse(validate.error);
