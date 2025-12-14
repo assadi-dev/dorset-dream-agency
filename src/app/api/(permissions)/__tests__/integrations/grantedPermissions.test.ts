@@ -21,21 +21,39 @@ describe("API granted Permissions Integration", () => {
         vi.clearAllMocks();
     });
     describe("Granted  action to à ressource without assigner", () => {
-        it("Should have ressource client and action create", async () => {
+        it("Should have ressource client and action create, actionsToAdd must contain create", async () => {
             const create_clients = GRANTED_ACTION_PERMISSIONS_MOCK.clients.create;
             const requestBody = { actionPermissions: [create_clients as any] };
             const request = mockRequest(requestBody);
 
             const actionPermissionsReq = requestBody.actionPermissions[0];
+
             expect(actionPermissionsReq.ressource).toEqual("clients");
-            expect(actionPermissionsReq.actions).toContain("create");
+            expect(actionPermissionsReq.actionsToAdd).toContain("create");
+            expect(actionPermissionsReq.actionsToRemove.length).toBeFalsy();
             const actionPermissionsRes = await grantedRessourcePermission(request);
             expect(actionPermissionsRes?.status).toEqual(200);
             const json = await actionPermissionsRes?.json();
             expect(json).toHaveProperty("message");
         });
     });
-    //describe("Remove action to à ressource without assigner", () => {});
+    describe("Remove action to à ressource without assigner", () => {
+        it("Should have ressource client and action, actionsToRemove must contain create", async () => {
+            const remove_create_clients = GRANTED_ACTION_PERMISSIONS_MOCK.clients.removeCreate;
+            const requestBody = { actionPermissions: [remove_create_clients as any] };
+            const request = mockRequest(requestBody);
+
+            const actionPermissionsReq = requestBody.actionPermissions[0];
+
+            expect(actionPermissionsReq.ressource).toEqual("clients");
+            expect(actionPermissionsReq.actionsToAdd.length).toBeFalsy();
+            expect(actionPermissionsReq.actionsToRemove).toContain("delete");
+            const actionPermissionsRes = await grantedRessourcePermission(request);
+            expect(actionPermissionsRes?.status).toEqual(200);
+            const json = await actionPermissionsRes?.json();
+            expect(json).toHaveProperty("message");
+        });
+    });
     /*     describe("Granted  action to à ressource with assigner", () => {});
     describe("Remove action to à ressource with assigner", () => {}); */
 
