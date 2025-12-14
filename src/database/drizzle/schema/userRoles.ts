@@ -16,7 +16,7 @@ export const userRoles = mysqlTable(
         assignedAt: datetime("assigned_at")
             .$onUpdate(() => new Date())
             .notNull(),
-        assignedBy: int("assigned_by").references(() => users.id, { onDelete: "cascade" }),
+        assignedBy: int("assigned_by").references(() => users.id, { onDelete: "set null" }),
     },
     (table) => ({
         pk: primaryKey({ columns: [table.roleId, table.userId] }),

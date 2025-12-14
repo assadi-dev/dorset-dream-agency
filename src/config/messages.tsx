@@ -1,6 +1,7 @@
 export const REQUIRE_MESSAGE_ERROR = "Champs obligatoire";
 export const EMAIL_INVALID = "Format email invalide !";
 export const MIN_LENGTH_MESSAGE = "Vous devais saisir au moins {{length}} caractères";
+export const MIN_ARRAY_LENGTH_MESSAGE = "Vous devez définir au moins un élément de la sélection";
 export const MAX_LENGTH_MESSAGE = "Vous avez atteint la taille maximale de caractère";
 export const SUCCESS_TITLE_NOTIFY = "Opération réussie !";
 export const ERROR_TITLE_NOTIFY = "Oops! une erreur est survenue";
