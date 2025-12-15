@@ -62,7 +62,7 @@ export const seedPermissions = async (db: MysqlDatabase) => {
     for (const permission of permissionsList) {
         await db.insert(permissions).values({
             name: permission.name,
-            ressource: permission.resource,
+            resource: permission.resource,
             action: permission.action,
             displayName: permission.displayName,
             description: permission.description,

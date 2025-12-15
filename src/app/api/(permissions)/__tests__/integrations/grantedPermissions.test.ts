@@ -22,15 +22,15 @@ describe("API granted Permissions Integration", () => {
     beforeEach(async () => {
         vi.clearAllMocks();
     });
-    describe("Granted  action to à ressource without assigner", () => {
-        it("Should have ressource client and action create, actionsToAdd must contain create", async () => {
+    describe("Granted  action to à resource without assigner", () => {
+        it("Should have resource client and action create, actionsToAdd must contain create", async () => {
             const create_clients = GRANTED_ACTION_PERMISSIONS_MOCK.clients.create;
             const requestBody = { actionPermissions: [create_clients as any] };
             const request = mockRequest(requestBody);
 
             const actionPermissionsReq = requestBody.actionPermissions[0];
 
-            expect(actionPermissionsReq.ressource).toEqual("clients");
+            expect(actionPermissionsReq.resource).toEqual("clients");
             expect(actionPermissionsReq.actionsToAdd).toContain("create");
             expect(actionPermissionsReq.actionsToRemove.length).toBeFalsy();
             const actionPermissionsRes = await grantedRessourcePermission(request);
@@ -39,15 +39,15 @@ describe("API granted Permissions Integration", () => {
             expect(json).toHaveProperty("message");
         });
     });
-    describe("Remove action to à ressource without assigner", () => {
-        it("Should have ressource client and action, actionsToRemove must contain create", async () => {
+    describe("Remove action to à resource without assigner", () => {
+        it("Should have resource client and action, actionsToRemove must contain create", async () => {
             const remove_create_clients = GRANTED_ACTION_PERMISSIONS_MOCK.clients.removeCreate;
             const requestBody = { actionPermissions: [remove_create_clients as any] };
             const request = mockRequest(requestBody);
 
             const actionPermissionsReq = requestBody.actionPermissions[0];
 
-            expect(actionPermissionsReq.ressource).toEqual("clients");
+            expect(actionPermissionsReq.resource).toEqual("clients");
             expect(actionPermissionsReq.actionsToAdd.length).toBeFalsy();
             expect(actionPermissionsReq.actionsToRemove).toContain("delete");
             const actionPermissionsRes = await grantedRessourcePermission(request);
@@ -56,8 +56,8 @@ describe("API granted Permissions Integration", () => {
             expect(json).toHaveProperty("message");
         });
     });
-    /*     describe("Granted  action to à ressource with assigner", () => {});
-    describe("Remove action to à ressource with assigner", () => {}); */
+    /*     describe("Granted  action to à resource with assigner", () => {});
+    describe("Remove action to à resource with assigner", () => {}); */
 
     afterAll(async () => {
         await cleanDatabase();

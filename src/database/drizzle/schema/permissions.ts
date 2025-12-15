@@ -8,7 +8,7 @@ export const permissions = mysqlTable("permissions", {
     name: varchar("name", { length: 100 }).notNull(),
     displayName: varchar("display_name", { length: 100 }).notNull(),
     description: text("description"),
-    ressource: varchar("ressource", { length: 50 }).notNull(), //Entity: properties,users,etc
+    resource: varchar("resource", { length: 50 }).notNull(), //Entity: properties,users,etc
     action: varchar("action", { length: 100 }).notNull(), //Actions : read,create, update,delete
     ...updatedAndCreatedAt,
 });

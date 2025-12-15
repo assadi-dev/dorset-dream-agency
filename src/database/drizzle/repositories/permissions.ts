@@ -41,6 +41,22 @@ export const findPermissionByName = async (name: string) => {
         return null;
     }
 };
+
+export const findPermissionsByRessource = async (resource: string) => {
+    try {
+        const query = db
+            .select()
+            .from(permissions)
+            .where(eq(permissions.resource, sql.placeholder("resource")))
+            .prepare();
+        const result = await query.execute({ resource });
+
+        return result;
+    } catch (error: any) {
+        return [];
+    }
+};
+
 export const updatePermission = async (id: number, values: UpdatePermissionInputs) => {
     const permission = await findPermissionById(id);
     if (!permission) throw Error("permission no found");

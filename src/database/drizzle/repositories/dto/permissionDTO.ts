@@ -13,7 +13,7 @@ export const permissionSchema = z.object({
     name: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     displayName: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     description: z.string().optional().nullable(),
-    ressource: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    resource: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     action: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
 });
 

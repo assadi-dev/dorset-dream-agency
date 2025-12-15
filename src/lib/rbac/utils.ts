@@ -1,10 +1,10 @@
-import { Action, Resource } from "./type";
+import { RessourceActionUnion, ResourcesUnion } from "./type";
 /**
  * Generation permission action
  * @param resource
  * @param action
- * @returns {string} ressource:action
+ * @returns {string} resource:action
  */
-export const getPermissionName = (resource: Resource, action: Action): string => {
+export const getPermissionName = (resource: ResourcesUnion, action: RessourceActionUnion): string => {
     return `${resource}:${action}`;
 };

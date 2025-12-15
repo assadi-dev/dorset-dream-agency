@@ -6,7 +6,7 @@ import { rolePermissions } from "../../schema/rolePermissions";
 
 export const rolePermissionSchema = z.object({
     roleId: z.coerce.number().min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    ressource: z.custom<ResourcesUnion>(),
+    resource: z.custom<ResourcesUnion>(),
     actionsToAdd: z.array(z.custom<RessourceActionUnion>()),
     actionsToRemove: z.array(z.custom<RessourceActionUnion>()),
     grantedBy: z.number().optional().nullable(),
