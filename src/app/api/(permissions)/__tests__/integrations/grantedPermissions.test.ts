@@ -6,12 +6,12 @@ import { db } from "~/vitest.setup";
 import { rolePermissions } from "@/database/drizzle/schema/rolePermissions";
 import { NextRequest } from "next/server";
 
-const mockRequest = (body: PermissionGrantedRequestBodyInfer) => {
-    return new NextRequest("http://localhost", {
+function mockRequest(body: PermissionGrantedRequestBodyInfer) {
+    return new NextRequest("http://localhost/api", {
         method: "PATCH",
         body: JSON.stringify(body),
     });
-};
+}
 
 const cleanDatabase = async () => {
     db.delete(rolePermissions);

@@ -55,7 +55,7 @@ export const generateRole = async (inputs: { name: string; displayName: string; 
 };
 
 function mockRequest(body: AssignRequestBodyInfer) {
-    return new NextRequest("http://localhost", {
+    return new NextRequest("http://localhost/api", {
         method: "PATCH",
         body: JSON.stringify(body),
     });
