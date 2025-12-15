@@ -32,7 +32,7 @@ export const rolePermissionsRelations = relations(rolePermissions, ({ one }) => 
         fields: [rolePermissions.permissionId],
         references: [permissions.id],
     }),
-    assigner: one(users, {
+    grantedBy: one(users, {
         fields: [rolePermissions.grantedBy],
         references: [users.id],
     }),

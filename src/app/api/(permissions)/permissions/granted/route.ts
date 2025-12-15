@@ -10,8 +10,6 @@ export const PATCH = async (request: NextRequest) => {
 
         const validate = actionPermissionParser.validateBody(requestBody);
         if (validate.error) {
-            console.log(validate.error);
-
             return zodJsonResponse(validate.error);
         }
         const { assigner, actionPermissions } = validate.data;
