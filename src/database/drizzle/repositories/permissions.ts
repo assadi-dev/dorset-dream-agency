@@ -1,3 +1,4 @@
+"use server";
 import { db } from "@/database";
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
@@ -24,8 +25,20 @@ export const findPermissionById = async (id: number) => {
         const result = await query.execute({ id });
         if (!result[0]) return null;
         return result[0];
+    } catch (error: any) {}
+};
+export const findPermissionByName = async (name: string) => {
+    try {
+        const query = db
+            .select()
+            .from(permissions)
+            .where(eq(permissions.name, sql.placeholder("name")))
+            .prepare();
+        const result = await query.execute({ name });
+        if (!result[0]) return null;
+        return result[0];
     } catch (error: any) {
-        throw error;
+        return null;
     }
 };
 export const updatePermission = async (id: number, values: UpdatePermissionInputs) => {

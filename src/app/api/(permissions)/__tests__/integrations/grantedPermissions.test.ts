@@ -1,8 +1,10 @@
 import { GRANTED_ACTION_PERMISSIONS_MOCK } from "@/mocks/actionsPermissionGranted";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { PermissionGrantedRequestBodyInfer } from "../../schema";
-import { NextRequest } from "next/server";
 import { PATCH as grantedRessourcePermission } from "../../permissions/granted/route";
+import { db } from "~/vitest.setup";
+import { rolePermissions } from "@/database/drizzle/schema/rolePermissions";
+import { NextRequest } from "next/server";
 
 const mockRequest = (body: PermissionGrantedRequestBodyInfer) => {
     return new NextRequest("http://localhost", {
@@ -12,7 +14,7 @@ const mockRequest = (body: PermissionGrantedRequestBodyInfer) => {
 };
 
 const cleanDatabase = async () => {
-    //TODO Implements clean database
+    db.delete(rolePermissions);
 };
 
 describe("API granted Permissions Integration", () => {

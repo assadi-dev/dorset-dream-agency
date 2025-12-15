@@ -2,6 +2,7 @@ import { zodJsonResponse } from "@/lib/apihelpers";
 import { reportException } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { actionPermissionParser } from "../../schema";
+import { grantedActionsToRoleMultiple } from "@/database/drizzle/repositories/rolePermission";
 
 export const PATCH = async (request: NextRequest) => {
     try {
@@ -14,8 +15,8 @@ export const PATCH = async (request: NextRequest) => {
             return zodJsonResponse(validate.error);
         }
         const { assigner, actionPermissions } = validate.data;
-
-        //TODO Implement logic of granted permission actions to ressources
+        const result = await grantedActionsToRoleMultiple(actionPermissions);
+        console.log(result);
 
         return NextResponse.json({ message: "permissions granted !" }, { status: 200 });
     } catch (error) {
