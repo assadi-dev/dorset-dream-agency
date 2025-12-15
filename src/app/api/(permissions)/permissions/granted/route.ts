@@ -3,6 +3,7 @@ import { reportException } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { actionPermissionParser } from "../../schema";
 import { grantedActionsToRoleMultiple } from "@/database/drizzle/repositories/rolePermission";
+export const dynamic = "force-dynamic";
 
 export const PATCH = async (request: NextRequest) => {
     try {

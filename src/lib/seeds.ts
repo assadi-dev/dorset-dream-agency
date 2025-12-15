@@ -20,7 +20,7 @@ type SeedEntity = {
 };
 export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
     return [
-        {
+        /*     {
             entity: "users + employees",
             message: {
                 start: "Employees accounts creations",
@@ -52,7 +52,7 @@ export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
                 end: "Roles done!",
             },
             handler: () => seedRoles(db),
-        },
+        }, */
 
         {
             entity: "permissions",
@@ -62,7 +62,7 @@ export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
             },
             handler: () => seedPermissions(db),
         },
-        {
+        /*         {
             entity: "rolePermissions",
             message: {
                 start: "RolePermissions  creation",
@@ -77,6 +77,6 @@ export const SEEDS_FUNCTIONS = (db: MysqlDatabase): SeedEntity[] => {
                 end: "Grades done!",
             },
             handler: () => seedGrades(db),
-        },
+        }, */
     ];
 };

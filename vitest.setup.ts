@@ -1,11 +1,9 @@
-import { expect, vi } from "vitest";
-import matchers from "@testing-library/jest-dom/matchers";
+//import { vi } from "vitest";
 import { config } from "dotenv";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
 import z from "zod";
 import { zodParserError } from "@/lib/parser";
-
 config();
 
 export const envTestSchema = z.object({
@@ -31,8 +29,9 @@ const client = createPool({
 });
 export const db = drizzle(client);
 
-vi.mock("@/database", async () => {
+/* vi.mock("@/database", async () => {
     return {
         db: drizzle(client),
     };
 });
+ */

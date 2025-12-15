@@ -1,11 +1,7 @@
 import * as dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
-import { categoryProperties } from "./schema/categoryProperties";
 import chalk from "chalk";
-import cliProgress from "cli-progress";
-import { secteurs } from "./schema/secteurs";
-import { MysqlDatabase } from "@/types/database";
 import { SEEDS_FUNCTIONS } from "@/lib/seeds";
 import { ENV } from "@/config/global";
 dotenv.config();
@@ -40,6 +36,3 @@ const terminal = {
 };
 
 main();
-
-//INSERT INTO `users` (`id`, `username`, `password`, `avatar`, `role`, `created_at`, `updated_at`) VALUES (NULL, 'admin@dorsetdreamagency.com', '$2b$10$c.YmxSMgZTumDHmb.rIWGO5DBylL9Tz/jkw13Ik28dWVa02Es5s2q', NULL, 'admin', NULL, NULL);
-//INSERT INTO `employees` (`id`, `last_name`, `first_name`, `post`, `iban`, `phone`, `gender`, `user_id`, `created_at`, `updated_at`) VALUES (NULL, 'Jack', 'Celer', 'Patron', '123456', '555-1234', 'Male', '2', CURRENT_DATE(), CURRENT_DATE());

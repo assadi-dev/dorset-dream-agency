@@ -14,10 +14,6 @@ const whereConditionForFind = and(
     eq(rolePermissions.roleId, sql.placeholder("roleId")),
     eq(rolePermissions.permissionId, sql.placeholder("permissionId")),
 );
-const whereConditionForDelete = and(
-    eq(rolePermissions.roleId, sql.placeholder("roleId")),
-    inArray(rolePermissions.permissionId, sql.placeholder("permissionIds")),
-);
 
 export const insertRolePermission = async ({ permissionId, roleId, grantedBy }: CreateRolePermissionBaseInputs) => {
     try {
@@ -30,20 +26,40 @@ export const insertRolePermission = async ({ permissionId, roleId, grantedBy }: 
     }
 };
 
-export const grantedActionsToRole = async ({
-    actionsToAdd,
-    actionsToRemove,
+const processRolePermissionToRemove = async ({
     roleId,
-    grantedBy,
     resource,
-}: GrantedRolePermissionBaseInputs) => {
+    actionsToRemove,
+}: Omit<GrantedRolePermissionBaseInputs, "actionsToAdd" | "grantedBy">) => {
+    const permissionIdsToRemove: number[] = [];
+
+    for (const action of actionsToRemove) {
+        try {
+            if (action === "all") {
+                await removeAllPermissionToRessource({ roleId, resource });
+                break;
+            }
+            const name = `${resource}:${action}`;
+            const permissions = await findPermissionByName(name);
+            permissions && permissionIdsToRemove.push(permissions.id);
+            await removeRolePermission({ roleId, permissionIds: permissionIdsToRemove });
+        } catch (error) {
+            continue;
+        }
+    }
+    permissionIdsToRemove.length && removeRolePermission({ roleId, permissionIds: permissionIdsToRemove });
+};
+
+const processRolePermissionToAdd = async ({
+    roleId,
+    resource,
+    actionsToAdd,
+    grantedBy,
+}: Omit<GrantedRolePermissionBaseInputs, "actionsToRemove">) => {
     const success = { resource, actions: [] } as { resource: string; actions: string[] };
+
     for (const action of actionsToAdd) {
         try {
-            if (actionsToRemove.length) {
-                action === "all" && removeAllPermissionToRessource({ roleId, resource });
-            }
-
             const findAction = await findPermissionByName(`${resource}:${action}`);
             if (!findAction) throw new Error(`action ${action} no found for resource ${resource}`);
             const permissionId = findAction.id;
@@ -56,6 +72,17 @@ export const grantedActionsToRole = async ({
         }
     }
     return success;
+};
+
+export const grantedActionsToRole = async ({
+    actionsToAdd,
+    actionsToRemove,
+    roleId,
+    grantedBy,
+    resource,
+}: GrantedRolePermissionBaseInputs) => {
+    await processRolePermissionToRemove({ actionsToRemove, resource, roleId });
+    return await processRolePermissionToAdd({ actionsToAdd, resource, roleId });
 };
 
 export const findRoleOneRolePermission = async ({ roleId, permissionId }: FindOneRolePermissionField) => {
@@ -90,10 +117,13 @@ export const removeAllPermissionToRessource = async ({ roleId, resource }: { rol
 
 export const removeRolePermission = async ({ roleId, permissionIds }: { roleId: number; permissionIds: number[] }) => {
     try {
+        const whereConditionForDelete = and(
+            eq(rolePermissions.roleId, sql.placeholder("roleId")),
+            inArray(rolePermissions.permissionId, permissionIds),
+        );
         const request = db.delete(rolePermissions).where(whereConditionForDelete).prepare();
         await request.execute({
             roleId,
-            permissionIds,
         });
     } catch (error) {
         if (error instanceof Error) {
@@ -108,6 +138,7 @@ export const grantedActionsToRoleMultiple = async (inputs: GrantedRolePermission
     for (const grantedRolePermission of inputs) {
         try {
             const result = await grantedActionsToRole(grantedRolePermission);
+
             if (result) success.push(result);
         } catch (error) {
             continue;
