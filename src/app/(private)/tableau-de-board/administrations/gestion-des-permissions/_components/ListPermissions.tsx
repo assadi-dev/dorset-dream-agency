@@ -27,30 +27,13 @@ const ListPermissions = ({ permissions, totalItems, limit }: ListPermissionsProp
 
     const resourcesCollections = useGetResourcesLabels({ limit });
 
-    const actions = {
-        id: "actions",
-        enableHiding: false,
-        cell({ row }: CellColumn) {
-            return (
-                <DropdownActions>
-                    <PermissionsMoreAction
-                        payload={row.original}
-                        canUpdate={ACTIONS_CONTROL_PERMISSION.canAction(role)}
-                        canChangePassword={ACTIONS_CONTROL_PERMISSION.canAction(role)}
-                        canDelete={ACTIONS_CONTROL_PERMISSION.canAction(role)}
-                    />
-                </DropdownActions>
-            );
-        },
-    };
-
     const SelectColumns = CheckBoxColumn({
         onCheckedChange: handleSelectedRow,
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
     const roleColumns = ACTIONS_CONTROL_PERMISSION.canAction(role)
-        ? [SelectColumns, ...columns, actions]
+        ? [SelectColumns, ...columns]
         : [SelectColumns, ...columns];
     return (
         <>
