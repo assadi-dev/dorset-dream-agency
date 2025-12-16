@@ -12,7 +12,7 @@ export const getEmployeeCollections = async () => {
             .select({
                 id: employees.id,
                 name: sql<string>`CONCAT(${employees.lastName}," ",${employees.firstName})`,
-                grade: employees.post,
+                grade: sql<string>`N/A`,
                 iban: employees.iban,
                 secteur: sql<string>`"inconnue"`,
             })

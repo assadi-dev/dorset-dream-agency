@@ -11,9 +11,20 @@ export type GradeColumn = {
     updatedAt: string;
 };
 
-export const columns: ColumnDef<GradeColumn>[] = [
+export type ResourceColumn = {
+    id: string;
+    label: string;
+    value: string;
+    resource: string;
+    create: boolean;
+    update: boolean;
+    delete: boolean;
+    all: boolean;
+};
+
+export const columns: ColumnDef<ResourceColumn>[] = [
     {
-        accessorKey: "entity",
+        accessorKey: "label",
         header: "Ressources",
     },
 

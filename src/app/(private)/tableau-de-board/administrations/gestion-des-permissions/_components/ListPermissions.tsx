@@ -13,15 +13,19 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import DataTable from "@/components/Datatable/Datatable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import PermissionsMoreAction from "./PermissionsMoreAction";
+import useGetResourcesLabels from "../_hooks/useGetResourcesLabels";
+import { useSearchParams } from "next/navigation";
 
 type ListPermissionsProps = {
-    permissions: { name: string; description: string; createdAt: string; updatedAt: string }[];
+    permissions: { name: string; description: string; action: string; createdAt: string; updatedAt: string }[];
     limit: number;
     totalItems: number;
 };
 const ListPermissions = ({ permissions, totalItems, limit }: ListPermissionsProps) => {
     const role = useGetRoleUser();
     const { itemChecked, handleSelectedRow, handleSelectedAllRow, reset } = useSelectTableRow();
+
+    const resourcesCollections = useGetResourcesLabels({ limit });
 
     const actions = {
         id: "actions",
@@ -61,11 +65,11 @@ const ListPermissions = ({ permissions, totalItems, limit }: ListPermissionsProp
                     )} */}
                     </div>
                 </div>
-                <DataTable columns={roleColumns} data={permissions} />
+                <DataTable columns={roleColumns} data={resourcesCollections.collections} />
                 <CardFooter>
                     <div className="flex items-center justify-between w-full">
                         <div></div>
-                        <SimplePagination limit={limit} totalItems={totalItems} />
+                        {<SimplePagination limit={limit} totalItems={resourcesCollections.totalCount} />}
                     </div>
                 </CardFooter>
             </Card>

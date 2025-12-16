@@ -1,4 +1,4 @@
-//import { vi } from "vitest";
+import { vi } from "vitest";
 import { config } from "dotenv";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
@@ -29,9 +29,8 @@ const client = createPool({
 });
 export const db = drizzle(client);
 
-/* vi.mock("@/database", async () => {
+vi.mock("@/database", async () => {
     return {
         db: drizzle(client),
     };
 });
- */
