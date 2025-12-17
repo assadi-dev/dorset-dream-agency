@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
 import chalk from "chalk";
 import { SEEDS_FUNCTIONS } from "@/lib/seeds";
-import { ENV_TEST } from "@/config/global";
+import { ENV_TEST } from "@/config/globalTest";
 
 dotenv.config();
 

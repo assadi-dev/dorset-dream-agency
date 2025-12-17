@@ -5,7 +5,8 @@ import { createPool } from "mysql2";
 import z from "zod";
 import { zodParserError } from "@/lib/parser";
 import { UserAdapter } from "@/auth";
-import { ENV_TEST } from "@/config/global";
+import { ENV_TEST } from "@/config/globalTest";
+
 config();
 
 const client = createPool({
@@ -22,7 +23,7 @@ vi.mock("@/database", async () => {
         db: drizzle(client),
     };
 });
-/* const userSessionMock = {
+const userSessionMock = {
     id: "13",
     name: "john Doe",
     email: "johndoe@gmail.com",
@@ -55,4 +56,3 @@ vi.mock("next-auth", async () => {
         unstable_update: vi.fn(),
     };
 });
- */

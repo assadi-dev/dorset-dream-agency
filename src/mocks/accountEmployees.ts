@@ -1,4 +1,4 @@
-import { ENV_TEST } from "~/vitest.setup";
+import { ENV_TEST } from "@/config/globalTest";
 
 export const accountEmployeeMocks = [
     {

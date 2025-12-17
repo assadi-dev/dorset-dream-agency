@@ -10,6 +10,6 @@ export type EmployeeBasic = {
     phone: string;
     gender: GenderType;
     secteur: SecteurType;
-    grade: GradeType;
+    grade?: string;
     photoUrl?: string | null;
 };

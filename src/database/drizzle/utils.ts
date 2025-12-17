@@ -1,3 +1,4 @@
+"use server";
 import { datetime } from "drizzle-orm/mysql-core";
 import { OrderType } from "../types";
 import { Session } from "next-auth";

@@ -101,7 +101,7 @@ export async function generateDescription(message: string, extras?: any) {
 type insertUserActionArgs = {
     message: string;
     action: UserActionUnion;
-    entity: ENTITIES_ENUM;
+    entity: string;
     actionName: string;
     extras?: any;
 };
