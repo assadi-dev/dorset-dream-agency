@@ -1,4 +1,3 @@
-"use server";
 import { db } from "@/database";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { reportException } from "@/lib/logger";
