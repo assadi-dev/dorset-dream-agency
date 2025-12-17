@@ -60,9 +60,13 @@ const processRolePermissionToAdd = async ({
 
     for (const action of actionsToAdd) {
         try {
-            const findAction = await findPermissionByName(`${resource}:${action}`);
+            const name = `${resource}:${action}`;
+
+            const findAction = await findPermissionByName(name);
+            console.log(findAction);
             if (!findAction) throw new Error(`action ${action} no found for resource ${resource}`);
             const permissionId = findAction.id;
+
             if (permissionId) {
                 await insertRolePermission({ permissionId, roleId, grantedBy });
                 success.actions.push(findAction.action);
