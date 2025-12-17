@@ -8,6 +8,8 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import ListPermissions from "./_components/ListPermissions";
 import SaverActionsPermissions from "./_components/SaverActionsPermissions";
+import { getRoleOptions } from "@/database/drizzle/repositories/roles";
+import SelectRoleCombobox from "./_components/SelectRoleCombobox";
 
 export const metadata = setTitlePage("Gestion des grades");
 type GestionGradePageParams = {
@@ -33,6 +35,11 @@ const GestionGradePage = async ({ searchParams }: GestionGradePageParams) => {
         );
     };
 
+    const RolesSelect = async () => {
+        const rolesOptions = await getRoleOptions();
+        return <SelectRoleCombobox roles={rolesOptions} />;
+    };
+
     return (
         <ModalProvider>
             <PageTemplate
@@ -42,10 +49,7 @@ const GestionGradePage = async ({ searchParams }: GestionGradePageParams) => {
                 <section className="my-3">
                     <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] pb-6 items-center w-full ">
                         <div className="w-full">
-                            <select name="" id="">
-                                <option>Administrateur</option>
-                                <option>Utilisateur</option>
-                            </select>
+                            <RolesSelect />
                         </div>
                         <div className="items-center w-full flex justify-end">
                             <SaverActionsPermissions />

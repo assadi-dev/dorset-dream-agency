@@ -119,3 +119,19 @@ export const deleteMultipleRole = async (ids: number[]) => {
         throw error;
     }
 };
+
+export const getRoleOptions = async () => {
+    try {
+        const request = await db
+            .select({
+                id: roles.id,
+                label: roles.displayName,
+                value: roles.name,
+                description: roles.description,
+            })
+            .from(roles);
+        return request;
+    } catch (error) {
+        return [];
+    }
+};
