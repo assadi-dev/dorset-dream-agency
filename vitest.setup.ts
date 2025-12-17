@@ -4,6 +4,8 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
 import z from "zod";
 import { zodParserError } from "@/lib/parser";
+import { User } from "next-auth";
+import { UserAdapter, UserSession } from "@/auth";
 config();
 
 export const envTestSchema = z.object({
@@ -32,5 +34,38 @@ export const db = drizzle(client);
 vi.mock("@/database", async () => {
     return {
         db: drizzle(client),
+    };
+});
+const userSessionMock = {
+    id: "13",
+    name: "john Doe",
+    email: "johndoe@gmail.com",
+    image: "",
+    role: "admin",
+    employeeID: 13,
+    grade: "Patron",
+} satisfies UserAdapter;
+
+vi.mock("next-auth", async () => {
+    return {
+        default: vi.fn(() => ({
+            handlers: { GET: vi.fn(), POST: vi.fn() },
+            signIn: vi.fn(),
+            signOut: vi.fn(),
+            auth: vi.fn(() => ({
+                user: userSessionMock,
+                expires: "1",
+            })),
+            unstable_update: vi.fn(),
+        })),
+        // Export the properties that are destructured from NextAuth
+        handlers: { GET: vi.fn(), POST: vi.fn() },
+        signIn: vi.fn(),
+        signOut: vi.fn(),
+        auth: vi.fn(() => ({
+            user: userSessionMock,
+            expires: "1",
+        })),
+        unstable_update: vi.fn(),
     };
 });
