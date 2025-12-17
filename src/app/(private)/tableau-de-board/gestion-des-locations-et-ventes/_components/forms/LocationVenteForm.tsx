@@ -92,8 +92,9 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                             name="client"
                             options={CLIENT_OPTIONS}
                             placeholder="Sélectionnez un clients"
-                            classNameButton="w-full"
+                            classNameButton="w-full text-xs "
                             emptyMessage="Pas de clients enregistré"
+                            classNameListOptions="lg:w-[300px] text-nowrap text-xs"
                         />
                     </div>
                     <div className="mb-4">
@@ -104,8 +105,9 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                             name="property"
                             options={PROPERTY_OPTIONS}
                             placeholder="Sélectionnez un Biens immobilier"
-                            classNameButton="w-full"
+                            classNameButton="w-full text-xs"
                             emptyMessage="Pas de biens enregistré"
+                            classNameListOptions="lg:w-[300px] text-nowrap text-xs"
                         />
                     </div>
                 </div>

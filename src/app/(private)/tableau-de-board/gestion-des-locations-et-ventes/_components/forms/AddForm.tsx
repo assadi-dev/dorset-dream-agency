@@ -29,7 +29,7 @@ const AddForm = () => {
         <>
             {userData?.employeeID && (
                 <LocationVenteForm
-                    className="w-full lg:w-[32vw] min-h-[420px]"
+                    className="w-full !sm:w-[34vw] min-h-[420px]"
                     defaultFormValues={{ employee: userData.employeeID }}
                     save={creteLocationVente}
                 />

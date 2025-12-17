@@ -42,7 +42,7 @@ const EditModal = () => {
         <>
             {defaultValues && (
                 <LocationVenteForm
-                    className="w-full lg:w-[32vw] min-h-[420px]"
+                    className="w-full !sm:w-[34vw] min-h-[420px]"
                     save={saveUpdateLocationVente}
                     defaultFormValues={defaultValues}
                 />

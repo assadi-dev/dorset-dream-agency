@@ -3,7 +3,7 @@ import { Role } from "@/app/types/user";
 import { datetimeFormatFr, datetimeFormatFr2, datetimeFormatWithoutSecISO8601 } from "@/lib/date";
 import { showRole } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import ActionPermissionSwitcher from "./views/ActionPermissionSwitcher";
+import ActionPermissionSwitcher from "./ActionPermissionSwitcher";
 
 export type GradeColumn = {
     name: string;
