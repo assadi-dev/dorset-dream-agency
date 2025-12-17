@@ -4,23 +4,9 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
 import z from "zod";
 import { zodParserError } from "@/lib/parser";
-import { User } from "next-auth";
-import { UserAdapter, UserSession } from "@/auth";
+import { UserAdapter } from "@/auth";
+import { ENV_TEST } from "@/config/global";
 config();
-
-export const envTestSchema = z.object({
-    MYSQL_DB_HOST_TEST: z.coerce.string(),
-    MYSQL_DB_PORT_TEST: z.coerce.number(),
-    MYSQL_DB_USER_TEST: z.coerce.string(),
-    MYSQL_DB_PASSWORD_TEST: z.coerce.string(),
-    MYSQL_DB_NAME_TEST: z.coerce.string(),
-    EMAIL_DNS: z.coerce.string(),
-    PHONE_COUNTRY_CODE: z.coerce.string(),
-});
-
-const envParseResult = envTestSchema.safeParse(process.env);
-if (envParseResult.error) throw zodParserError(envParseResult.error);
-export const ENV_TEST = envParseResult.data;
 
 const client = createPool({
     host: ENV_TEST.MYSQL_DB_HOST_TEST,
@@ -36,7 +22,7 @@ vi.mock("@/database", async () => {
         db: drizzle(client),
     };
 });
-const userSessionMock = {
+/* const userSessionMock = {
     id: "13",
     name: "john Doe",
     email: "johndoe@gmail.com",
@@ -69,3 +55,4 @@ vi.mock("next-auth", async () => {
         unstable_update: vi.fn(),
     };
 });
+ */

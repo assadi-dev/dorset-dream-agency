@@ -1,3 +1,4 @@
+import { zodParserError } from "@/lib/parser";
 import { z } from "zod";
 
 const EnvSchema = z.object({
@@ -28,6 +29,8 @@ const EnvSchema = z.object({
     NTFY_TOKEN: z.coerce.string(),
     NTFY_MESSAGE_TEMPLATE: z.coerce.string(),
     DEFAULT_LLM__MODEL_PROVIDER: z.coerce.string(),
+    EMAIL_DNS: z.coerce.string(),
+    PHONE_COUNTRY_CODE: z.coerce.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;
@@ -36,3 +39,18 @@ ENV.MYSQL_DB_PORT = Number(ENV.MYSQL_DB_PORT);
 
 export const GOOGLE_FONT_URL =
     "https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Cinzel+Decorative:wght@400;700;900&family=Monsieur+La+Doulaise&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap";
+
+//ENVIRONNEMENT DE TEST
+export const envTestSchema = z.object({
+    MYSQL_DB_HOST_TEST: z.coerce.string(),
+    MYSQL_DB_PORT_TEST: z.coerce.number(),
+    MYSQL_DB_USER_TEST: z.coerce.string(),
+    MYSQL_DB_PASSWORD_TEST: z.coerce.string(),
+    MYSQL_DB_NAME_TEST: z.coerce.string(),
+    EMAIL_DNS: z.coerce.string(),
+    PHONE_COUNTRY_CODE: z.coerce.string(),
+});
+
+const envParseResult = envTestSchema.safeParse(process.env);
+if (envParseResult.error) throw zodParserError(envParseResult.error);
+export const ENV_TEST = envParseResult.data;

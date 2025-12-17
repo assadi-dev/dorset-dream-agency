@@ -14,7 +14,7 @@ function mockRequest(body: PermissionGrantedRequestBodyInfer) {
 }
 
 const cleanDatabase = async () => {
-    db.delete(rolePermissions);
+    // db.delete(rolePermissions);
 };
 
 describe("API granted Permissions Integration", () => {

@@ -1,13 +1,10 @@
 import * as dotenv from "dotenv";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
-import { categoryProperties } from "./schema/categoryProperties";
 import chalk from "chalk";
-import cliProgress from "cli-progress";
-import { secteurs } from "./schema/secteurs";
-import { MysqlDatabase } from "@/types/database";
 import { SEEDS_FUNCTIONS } from "@/lib/seeds";
-import { ENV_TEST } from "~/vitest.setup";
+import { ENV_TEST } from "@/config/global";
+
 dotenv.config();
 
 const main = async () => {
