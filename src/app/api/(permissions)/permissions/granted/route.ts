@@ -14,7 +14,10 @@ export const PATCH = async (request: NextRequest) => {
             return zodJsonResponse(validate.error);
         }
         const { assigner, actionPermissions } = validate.data;
-        await grantedActionsToRoleMultiple(actionPermissions);
+
+        const actionRolePermission = actionPermissions.map((permission) => ({ ...permission, grantedBy: assigner }));
+
+        await grantedActionsToRoleMultiple(actionRolePermission);
 
         return NextResponse.json({ message: "permissions granted !" }, { status: 200 });
     } catch (error) {

@@ -47,7 +47,7 @@ const processRolePermissionToRemove = async ({
             continue;
         }
     }
-    permissionIdsToRemove.length && removeRolePermission({ roleId, permissionIds: permissionIdsToRemove });
+    // permissionIdsToRemove.length && removeRolePermission({ roleId, permissionIds: permissionIdsToRemove });
 };
 
 const processRolePermissionToAdd = async ({
@@ -63,10 +63,8 @@ const processRolePermissionToAdd = async ({
             const name = `${resource}:${action}`;
 
             const findAction = await findPermissionByName(name);
-            console.log(findAction);
             if (!findAction) throw new Error(`action ${action} no found for resource ${resource}`);
             const permissionId = findAction.id;
-
             if (permissionId) {
                 await insertRolePermission({ permissionId, roleId, grantedBy });
                 success.actions.push(findAction.action);
@@ -86,7 +84,7 @@ export const grantedActionsToRole = async ({
     resource,
 }: GrantedRolePermissionBaseInputs) => {
     await processRolePermissionToRemove({ actionsToRemove, resource, roleId });
-    return await processRolePermissionToAdd({ actionsToAdd, resource, roleId });
+    return await processRolePermissionToAdd({ actionsToAdd, resource, roleId, grantedBy });
 };
 
 export const findRoleOneRolePermission = async ({ roleId, permissionId }: FindOneRolePermissionField) => {

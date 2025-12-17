@@ -77,16 +77,22 @@ export const GRANTED_ACTION_PERMISSIONS_MOCK = {
             actionsToRemove: [],
         },
         createAndUpdate: {
-            roleId: 2,
+            roleId: 1,
             resource: RESOURCES.CLIENTS,
             actionsToAdd: [PERMISSIONS_MOCK[2].action, PERMISSIONS_MOCK[3].action],
             actionsToRemove: [],
         },
         removeCreate: {
-            roleId: 2,
+            roleId: 1,
             resource: RESOURCES.CLIENTS,
             actionsToAdd: [],
-            actionsToRemove: [PERMISSIONS_MOCK[4].action],
+            actionsToRemove: [PERMISSIONS_MOCK[2].action],
+        },
+        removeAll: {
+            roleId: 1,
+            resource: RESOURCES.CLIENTS,
+            actionsToAdd: [],
+            actionsToRemove: [PERMISSIONS_MOCK[0].action],
         },
     },
 };
