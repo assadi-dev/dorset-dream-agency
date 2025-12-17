@@ -1,5 +1,6 @@
-import { zodParserError } from "@/lib/parser";
 import { z } from "zod";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const EnvSchema = z.object({
     APP_TITLE: z.coerce.string(),

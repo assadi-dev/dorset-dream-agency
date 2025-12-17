@@ -2,8 +2,6 @@ import { vi } from "vitest";
 import { config } from "dotenv";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2";
-import z from "zod";
-import { zodParserError } from "@/lib/parser";
 import { UserAdapter } from "@/auth";
 import { ENV_TEST } from "@/config/globalTest";
 

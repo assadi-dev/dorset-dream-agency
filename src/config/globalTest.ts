@@ -1,4 +1,5 @@
 import z from "zod";
+import { zodParserError } from "@/lib/parser";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -13,9 +14,8 @@ export const envTestSchema = z.object({
     PHONE_COUNTRY_CODE: z.coerce.string(),
 });
 
-const envParseResult = envTestSchema.parse(process.env);
-type envTestSchemaInfer = z.infer<typeof envTestSchema>;
+const envParseResult = envTestSchema.safeParse(process.env);
 
-export const ENV_TEST: envTestSchemaInfer = envParseResult;
+if (envParseResult.error) throw zodParserError(envParseResult.error);
 
-ENV_TEST.MYSQL_DB_PORT_TEST = Number(ENV_TEST.MYSQL_DB_PORT_TEST);
+export const ENV_TEST = envParseResult.data;
