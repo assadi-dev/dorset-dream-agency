@@ -36,7 +36,7 @@ const LocationStatusForm = ({ defaultValues, onConfirmSubmit }: LocationStatusFo
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(submit)} className="min-w-[32rem] space-y-2">
+            <form onSubmit={form.handleSubmit(submit)} className="min-w-[32vw] space-y-2">
                 <FormFieldSelect control={form.control} name="status" options={STATUS_OPTIONS} />
                 <div>
                     <SubmitButton isLoading={isSubmitting} className="w-full">
