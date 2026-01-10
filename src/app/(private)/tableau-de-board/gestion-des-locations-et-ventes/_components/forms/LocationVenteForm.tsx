@@ -13,6 +13,7 @@ import useClientOptions from "@/hooks/useClientOptions";
 import FormFieldComboBox from "@/components/forms/FormFieldComboBox";
 import usePropertyWithVariantOptions from "@/hooks/usePropertyWithVariantOption";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
+import { STATUS_OPTIONS } from "../../helpers";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     defaultFormValues?: Partial<LocationVentesFormType>;
@@ -130,11 +131,21 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         className="text-black opacity-100 font-semibold"
                     />
                 </div>
-                <div className="mb-4">
-                    <FormFieldInput control={form.control} label="Nombre de clé(s)" name="keyQuantity" type="number" />
+                <div className="mb-4 grid gap-2 grid-cols-2">
+                    <div>
+                        <FormFieldInput
+                            control={form.control}
+                            label="Nombre de clé(s)"
+                            name="keyQuantity"
+                            type="number"
+                        />
+                    </div>
+                    <div>
+                        <FormFieldInput control={form.control} label="Numéro de la clé" name="keyNumber" />
+                    </div>
                 </div>
                 <div className="mb-4">
-                    <FormFieldInput control={form.control} label="Numéro de la clé" name="keyNumber" />
+                    <FormFieldSelect control={form.control} label="Status" name="status" options={STATUS_OPTIONS} />
                 </div>
                 <DialogFooter className="pt-3">
                     <SubmitButton isLoading={isPending} className="mx-auto w-full" type="submit">

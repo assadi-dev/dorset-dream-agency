@@ -1,4 +1,5 @@
 import { UserActionEnum } from "@/types/global";
+import { LOCATION_STATUS } from "./drizzle/utils";
 
 export type OrderType = "desc" | "asc";
 
@@ -16,3 +17,5 @@ export type StartDateEnDateType = {
     startDate: string;
     endDate: string;
 };
+
+export type LocationStatusType = "death" | "disappearance" | "investigation" | "ongoing" | "cancelled";

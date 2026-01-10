@@ -1,10 +1,6 @@
 [
     {
-        "name": "🧩 Correctifs",
-        "value": "- Fix redirection vers la page de connexion au moment de l'authentification dans un iframe coté FiveM"
-    },
-    {
-        "name": "⚙️ Amélioration",
-        "value": "- Connexion sur les navigateurs fiveM "
+        "name": "✨ Nouvelles fonctionnalités",
+        "value": "- Possibilité de définir et mettre à jour le statut d'une location/vente"
     }
 ]

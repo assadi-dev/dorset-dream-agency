@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { LocationColumnType } from "../types";
 import { datetimeFormatFr } from "@/lib/date";
 import { CellColumn } from "@/app/types/ReactTable";
+import StatusLocationVente from "./StatusLocationVente";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
@@ -39,9 +40,15 @@ export const columns: ColumnDef<LocationColumnType>[] = [
         accessorKey: "keyNumber",
         header: "N° clé",
     },
+
     {
         accessorKey: "transactionDate",
         header: "Date",
         cell: ({ row }: CellColumn) => datetimeFormatFr(row.getValue("transactionDate")),
+    },
+    {
+        accessorKey: "status",
+        header: () => <div className="text-center">Statut</div>,
+        cell: ({ row }: CellColumn) => <StatusLocationVente item={row.original} />,
     },
 ];

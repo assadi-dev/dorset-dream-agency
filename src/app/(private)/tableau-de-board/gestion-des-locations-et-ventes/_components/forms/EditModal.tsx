@@ -29,6 +29,7 @@ const EditModal = () => {
         keyNumber: String(payload.keyNumber),
         phone: payload.phone,
         propertyService: payload.propertyService,
+        status: payload.status,
     } satisfies LocationVentesFormType;
 
     const saveUpdateLocationVente = async (values: LocationVentesFormType) => {

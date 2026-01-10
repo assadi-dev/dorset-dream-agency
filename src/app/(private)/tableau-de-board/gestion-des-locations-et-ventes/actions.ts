@@ -18,6 +18,7 @@ export const createTransaction = async (formData: FormData) => {
         sellingPrice: formData.get("price"),
         keyQuantity: formData.get("keyQuantity"),
         keyNumber: formData.get("keyNumber"),
+        status: formData.get("status"),
     };
 
     await insertTransaction(cleanValues);
@@ -41,6 +42,7 @@ export const ediTransaction = async (id: number, values: Partial<LocationVentesF
         sellingPrice: values.price,
         keyQuantity: values.keyQuantity,
         keyNumber: values.keyNumber,
+        status: values.status,
     };
 
     await updateTransaction(id, cleanValues);

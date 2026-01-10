@@ -7,6 +7,9 @@ import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
 import { useSession } from "next-auth/react";
 import { UserSession } from "@/auth";
 import { Role } from "@/app/types/user";
+import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { IterationCcw, Pen, Trash } from "lucide-react";
+import ChangeStatusModal from "./forms/ChangeStatusModal";
 
 type TransactionActionsProps = {
     payload: any;
@@ -16,6 +19,7 @@ const TransactionActions = ({ payload }: TransactionActionsProps) => {
     const session = data as UserSession;
     const role = session?.user?.role as Role;
     const { openModal } = useModalState();
+    const CAN_DELETE = ACTIONS_CONTROL_PERMISSION.isAdmin(role);
 
     const handleEdit = () => {
         openModal({
@@ -33,13 +37,36 @@ const TransactionActions = ({ payload }: TransactionActionsProps) => {
         });
     };
 
+    const handleChangeStatus = () => {
+        openModal({
+            title: "Mise à jour du statut",
+            component: ChangeStatusModal,
+            payload: payload,
+        });
+    };
+
     return (
-        <ActionColumnButton
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            canUpdate={true}
-            canDelete={ACTIONS_CONTROL_PERMISSION.isAdmin(role)}
-        />
+        <div>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem onClick={handleChangeStatus} className="text-blue-500">
+                <IterationCcw className="mr-2 h-4 w-4" />
+                Changer de status
+            </DropdownMenuItem>
+
+            <DropdownMenuItem onClick={handleEdit} className="text-primary">
+                <Pen className="mr-2 h-4 w-4" />
+                Modifier
+            </DropdownMenuItem>
+
+            {CAN_DELETE && (
+                <DropdownMenuItem onClick={handleDelete} className="!text-red-600 hover:!bg-destructive/20">
+                    <Trash className="mr-2 h-4 w-4" />
+                    Supprimer
+                </DropdownMenuItem>
+            )}
+        </div>
     );
 };
 
