@@ -29,7 +29,7 @@ const ChangeStatusModal = () => {
                     Changer le status de la transaction <span className="font-semibold">{payload.property}</span>
                 </p>
                 <p>
-                    <span className="font-semibold mr-1">Statut:</span>
+                    <span className="font-semibold mr-1">Statut actuel:</span>
                     {STATUS_DISPLAY_NAME[payload.status as LocationStatusType]}
                 </p>
             </div>
