@@ -1,5 +1,4 @@
 import React from "react";
-import ButtonActionWithTooltip from "@/components/Buttons/ButtonActionWithTooltip";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,7 +6,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { IterationCcw, Trash2 } from "lucide-react";
 import TextWithTooltip from "@/components/Text/TextWithTooltip";
 import useModalState from "@/hooks/useModalState";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
@@ -16,6 +15,7 @@ import DeleteTransaction from "./forms/DeleteTransaction";
 import { plural } from "@/lib/format";
 import { FORBIDDEN_ACTION } from "@/config/messages";
 import { SelectionAction } from "@/app/types/generic";
+import UpdateModalMultipleStatus from "./forms/UpdateModalMultipleStatus";
 
 type SelectionActionButtonProps = SelectionAction;
 
@@ -39,6 +39,15 @@ const SelectionActionButton = ({ selectedItems, resetSelected }: SelectionAction
 
     const TOOLTIP_MESSAGE = CAN_DELETE ? "Supprimer les éléments sélectionnés" : FORBIDDEN_ACTION;
 
+    const handleClickChangeStatus = () => {
+        openModal({
+            title: "Mise à jour du status des des locations - ventes sélectionnée(s)",
+            description: `${ids?.length} ${plural(ids?.length, "élément", "éléments")} ${plural(ids?.length, "sélectionné", "sélectionnés")}    `,
+            component: UpdateModalMultipleStatus,
+            payload: { ids, resetSelected },
+        });
+    };
+
     return (
         <>
             <DropdownMenu>
@@ -48,6 +57,13 @@ const SelectionActionButton = ({ selectedItems, resetSelected }: SelectionAction
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
+                    <DropdownMenuItem onClick={handleClickChangeStatus}>
+                        <TextWithTooltip tooltipTitle={"Mettre à jour le statut"}>
+                            <p className="flex gap-2 items-center">
+                                <IterationCcw width={"1rem"} height={"1rem"} /> Statut
+                            </p>
+                        </TextWithTooltip>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleClickDelete} disabled={!CAN_DELETE}>
                         <TextWithTooltip tooltipTitle={TOOLTIP_MESSAGE}>
                             {" "}

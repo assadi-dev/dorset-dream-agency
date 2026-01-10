@@ -13,3 +13,31 @@ export const STATUS_DISPLAY_NAME = {
     ongoing: "En cours",
     cancelled: "Annulé",
 };
+
+export const STATUS_OPTIONS = [
+    {
+        id: 1,
+        label: STATUS_DISPLAY_NAME.ongoing,
+        value: "ongoing",
+    },
+    {
+        id: 2,
+        label: STATUS_DISPLAY_NAME.cancelled,
+        value: "cancelled",
+    },
+    {
+        id: 3,
+        label: STATUS_DISPLAY_NAME.investigation,
+        value: "investigation",
+    },
+    {
+        id: 4,
+        label: STATUS_DISPLAY_NAME.disappearance,
+        value: "disappearance",
+    },
+    {
+        id: 5,
+        label: STATUS_DISPLAY_NAME.death,
+        value: "death",
+    },
+];

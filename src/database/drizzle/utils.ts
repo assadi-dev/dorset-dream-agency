@@ -119,6 +119,7 @@ export const ACTION_NAMES = {
         delete: "Suppression d'une transaction",
         restore: "Restauration d'une transaction",
         clean: "Suppression de tous les transactions",
+        status: "Mise à jour du status de la transaction",
     },
 };
 
