@@ -7,3 +7,7 @@
 
 -   Selections des photo à supprimer à l'edition d'une variante
 -   Génération par IA d'une description d'une variante (beta);
+
+### ⚙️ Amélioration
+
+-   Connexion sur les navigateurs fiveM
