@@ -33,7 +33,7 @@ yarn-error.log*
 /src/database/drizzle/migrations/*
 /src/database/drizzle/sqlite/migrations/*
 /src/database/drizzle/sqlite/sqlite.db
-/src/database/drizzle/sqlite/__tests__/*
+/src/database/drizzle/sqlite/__tests__/migrations/*
 
 #Nedb
 /src/database/nedb/saves/*
