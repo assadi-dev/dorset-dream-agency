@@ -1,4 +1,4 @@
-import { deletedAt, PROPERTY_SERVICE, updatedAndCreatedAt } from "../utils";
+import { deletedAt, LOCATION_STATUS, PROPERTY_SERVICE, updatedAndCreatedAt } from "../utils";
 import { int, mysqlEnum, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 import { clients } from "./client";
 import { employees } from "./employees";
@@ -14,6 +14,7 @@ export const transactions = mysqlTable("transactions", {
     keyQuantity: int("key_quantity").default(0),
     keyNumber: varchar("key_number", { length: 100 }),
     propertyService: mysqlEnum("property_service", PROPERTY_SERVICE),
+    status: mysqlEnum("status", LOCATION_STATUS).default("ongoing"),
     ...updatedAndCreatedAt,
     ...deletedAt,
 });

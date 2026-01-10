@@ -36,7 +36,6 @@ export const handleSignInAction = async (formData: FormData) => {
         if (error instanceof CredentialsSignin) {
             const credentialError = new CredentialsSignin(error.message);
             credentialError.message = CredentialsSignin.name;
-
             throw credentialError;
         }
 

@@ -149,6 +149,8 @@ export const EMPLOYEE_POST = [
     "Employé îles Galapagos",
 ] as const;
 
+export const LOCATION_STATUS = ["death", "disappearance", "investigation", "ongoing", "cancelled"] as const;
+
 enum SaleFilterEnum {
     VENTES_LS = "Ventes LS",
     VENTES_FAVELAS = "Ventes Favelas",

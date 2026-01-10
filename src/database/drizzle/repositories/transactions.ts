@@ -66,6 +66,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                   like(variants.name, sql.placeholder("search")),
                   like(categoryProperties.name, sql.placeholder("search")),
                   like(transactions.propertyService, sql.placeholder("search")),
+                  like(transactions.status, sql.placeholder("search")),
               )
             : undefined;
 
@@ -85,6 +86,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                 keyNumber: transactions.keyNumber,
                 transactionDate: transactions.createdAt,
                 category: categoryProperties.name,
+                status: transactions.status,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))
