@@ -8,7 +8,7 @@ import { properties } from "../schema/properties";
 import { variants } from "../schema/variants";
 import { decodeTransactionInput } from "./dto/transactionsDTO";
 import { categoryProperties } from "../schema/categoryProperties";
-import { BindParameters, FilterPaginationType, StartDateEnDateType } from "@/database/types";
+import { BindParameters, FilterPaginationType, LocationStatusType, StartDateEnDateType } from "@/database/types";
 import {
     rowCount,
     rowSum,
@@ -17,7 +17,8 @@ import {
     setDeletedAt,
     withPagination,
 } from "./utils/entity";
-import { ACTION_NAMES, ENTITIES_ENUM, RENTAL_FILTER_ARRAY, SALES_FILTER_ARRAY } from "../utils";
+import { ACTION_NAMES, ENTITIES_ENUM, LOCATION_STATUS, RENTAL_FILTER_ARRAY, SALES_FILTER_ARRAY } from "../utils";
+import { STATUS_DISPLAY_NAME } from "@/app/(private)/tableau-de-board/gestion-des-locations-et-ventes/helpers";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 /**
@@ -66,6 +67,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                   like(variants.name, sql.placeholder("search")),
                   like(categoryProperties.name, sql.placeholder("search")),
                   like(transactions.propertyService, sql.placeholder("search")),
+                  like(transactions.status, sql.placeholder("search")),
               )
             : undefined;
 
@@ -85,6 +87,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                 keyNumber: transactions.keyNumber,
                 transactionDate: transactions.createdAt,
                 category: categoryProperties.name,
+                status: transactions.status,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))
@@ -166,6 +169,7 @@ export const findOneTransaction = async (id: number) => {
                 phone: clients.phone,
                 price: transactions.sellingPrice,
                 propertyService: transactions.propertyService,
+                status: transactions.status,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))
@@ -201,6 +205,40 @@ export const updateTransaction = async (id: number, values: Partial<insertTransa
         });
     } catch (error: any) {
         throw error;
+    }
+};
+
+export const updateTransactionStatus = async (id: number, status: LocationStatusType) => {
+    const transaction = await findOneTransaction(id);
+    if (!transaction) throw new Error("Transaction no found");
+
+    const request = db
+        .update(transactions)
+        .set({ status })
+        .where(eq(transactions.id, sql.placeholder("id")))
+        .prepare();
+    await request.execute({ id });
+
+    const status_name_old = STATUS_DISPLAY_NAME[transaction.status as LocationStatusType];
+    const status_name_new = STATUS_DISPLAY_NAME[status];
+
+    const message = `Le status de la transaction ${transaction.propertyService} - ${transaction.property} à été modifié. \n Le statut est passé de ${status_name_old} à ${status_name_new}.`;
+    await sendToUserActions({
+        message,
+        action: "update",
+        actionName: ACTION_NAMES.transactions.update,
+        entity: ENTITIES_ENUM.TRANSACTIONS,
+    });
+};
+
+export const updateMultipleTransactionStatus = async (ids: number[], status: LocationStatusType) => {
+    for (const id of ids) {
+        try {
+            await updateTransactionStatus(id, status);
+        } catch (error) {
+            reportError(error);
+            continue;
+        }
     }
 };
 
