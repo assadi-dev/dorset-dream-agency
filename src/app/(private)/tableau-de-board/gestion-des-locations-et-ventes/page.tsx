@@ -7,18 +7,20 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import GestionLocationRightAction from "./_components/GestionLocationRightAction";
 import { getTransactions } from "./actions";
 import { PaginationSearchParams } from "@/app/types";
+import { ALL_STATUS } from "./helpers";
 
 export const metadata = setTitlePage("Location & Ventes");
 
 type TransactionPageParams = {
-    searchParams: PaginationSearchParams;
+    searchParams: PaginationSearchParams & { status: string };
 };
 
 const TransactionPage = async ({ searchParams }: TransactionPageParams) => {
     const page = Number(searchParams.page) || 1;
     const limit = Number(searchParams.limit) || 5;
     const search = searchParams.search || "";
-    const transactionsCollections = await getTransactions({ page, limit, search });
+    const status = searchParams.status?.split(",") ?? ALL_STATUS;
+    const transactionsCollections = await getTransactions({ page, limit, search, status });
 
     return (
         <ModalProvider>
