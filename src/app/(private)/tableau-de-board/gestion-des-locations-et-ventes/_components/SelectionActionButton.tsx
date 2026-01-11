@@ -6,7 +6,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { IterationCcw, Trash2 } from "lucide-react";
+import { Check, IterationCcw, Trash2 } from "lucide-react";
 import TextWithTooltip from "@/components/Text/TextWithTooltip";
 import useModalState from "@/hooks/useModalState";
 import { ACTIONS_CONTROL_PERMISSION } from "@/lib/access";
@@ -57,6 +57,13 @@ const SelectionActionButton = ({ selectedItems, resetSelected }: SelectionAction
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
+                    <DropdownMenuItem onClick={resetSelected}>
+                        <TextWithTooltip tooltipTitle={"Annuler les éléments sélectionnés"}>
+                            <p className="flex gap-2 items-center">
+                                <Check width={"1rem"} height={"1rem"} /> Annuler la selection
+                            </p>
+                        </TextWithTooltip>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleClickChangeStatus}>
                         <TextWithTooltip tooltipTitle={"Mettre à jour le statut"}>
                             <p className="flex gap-2 items-center">

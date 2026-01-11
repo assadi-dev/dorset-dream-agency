@@ -1,32 +1,22 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Filter } from "lucide-react";
 import React from "react";
 import { LocationStatus } from "../types";
-import { STATUS_DISPLAY_NAME, STATUS_OPTIONS } from "../helpers";
+import { ALL_STATUS, STATUS_DISPLAY_NAME, STATUS_OPTIONS } from "../helpers";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ToastErrorSonner } from "@/components/notify/Sonner";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 const FilterSection = () => {
-    const { updateSearchParamWitObjectAndRefresh } = useRouteRefresh();
+    const { updateSearchParamWitObjectAndRefresh, searchParams } = useRouteRefresh();
 
-    const [selectedStatuses, setSelectedStatuses] = React.useState<LocationStatus[]>([
-        "ongoing",
-        "investigation",
-        "disappearance",
-        "cancelled",
-        "death",
-    ]);
+    const selectedTemplate: LocationStatus[] =
+        (searchParams.get("status")?.split(",") as LocationStatus[]) ?? ALL_STATUS;
+
+    const [selectedStatuses, setSelectedStatuses] = React.useState<LocationStatus[]>(selectedTemplate);
 
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 

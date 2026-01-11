@@ -3,14 +3,13 @@ import React from "react";
 import { STATUS_DISPLAY_NAME } from "../../helpers";
 import { LocationStatusType } from "@/database/types";
 import LocationStatusForm from "./LocationStatusForm";
-import { usePathname, useRouter } from "next/navigation";
 import { LocationStatusFormSchemaInfer } from "./schema";
 import { updateMultipleTransactionStatus } from "@/database/drizzle/repositories/transactions";
+import useRouteRefresh from "@/hooks/useRouteRefresh";
 
 const ChangeStatusModal = () => {
     const { payload, closeModal } = useModalState();
-    const router = useRouter();
-    const pathname = usePathname();
+    const { refreshWithParams } = useRouteRefresh();
 
     const ids = [payload.id] as number[];
 
@@ -18,8 +17,7 @@ const ChangeStatusModal = () => {
         const { ids, status } = values;
         await updateMultipleTransactionStatus(ids, status);
         closeModal();
-        router.push(pathname);
-        router.refresh();
+        refreshWithParams();
     };
 
     return (
