@@ -17,8 +17,11 @@ import {
     setDeletedAt,
     withPagination,
 } from "./utils/entity";
-import { ACTION_NAMES, ENTITIES_ENUM, LOCATION_STATUS, RENTAL_FILTER_ARRAY, SALES_FILTER_ARRAY } from "../utils";
-import { STATUS_DISPLAY_NAME } from "@/app/(private)/tableau-de-board/gestion-des-locations-et-ventes/helpers";
+import { ACTION_NAMES, ENTITIES_ENUM, RENTAL_FILTER_ARRAY, SALES_FILTER_ARRAY } from "../utils";
+import {
+    ALL_STATUS,
+    STATUS_DISPLAY_NAME,
+} from "@/app/(private)/tableau-de-board/gestion-des-locations-et-ventes/helpers";
 
 export type insertTransactionType = typeof transactions.$inferInsert;
 /**
@@ -51,9 +54,9 @@ export const insertTransaction = async (values: unknown) => {
     }
 };
 
-export const getTransactionCollection = async (filter: FilterPaginationType) => {
+export const getTransactionCollection = async (filter: FilterPaginationType & { status?: string[] }) => {
     try {
-        const { page, limit, order, search } = filter;
+        const { page, limit, order, search, status } = filter;
 
         const searchCondition = search
             ? or(
@@ -70,6 +73,10 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
                   like(transactions.status, sql.placeholder("search")),
               )
             : undefined;
+
+        const statusFilter = status && !status?.includes("all") ? (status as LocationStatusType[]) : ALL_STATUS;
+
+        const statusFilterCondition = inArray(transactions.status, statusFilter);
 
         const query = db
             .select({
@@ -95,9 +102,10 @@ export const getTransactionCollection = async (filter: FilterPaginationType) => 
             .leftJoin(variants, eq(variants.id, transactions.variantID))
             .leftJoin(properties, eq(properties.id, variants.propertyID))
             .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-            .where(and(softDeleteCondition, searchCondition));
+            .where(and(softDeleteCondition, statusFilterCondition, searchCondition));
         const parameters: BindParameters = {
             search: `%${search}%`,
+            status,
         };
 
         const rowsCount = await query.execute({

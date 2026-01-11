@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import FilterSection from "./FilterSection";
 
 type ListLocationProps = {
     transactions: any[];
@@ -57,6 +58,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                         <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
                     </div>
                 )}
+                <FilterSection />
             </div>
             <DataTable columns={transactionsColumn} data={transactions} />
             <Separator className="my-3" />

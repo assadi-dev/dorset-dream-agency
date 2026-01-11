@@ -1,3 +1,5 @@
+import { LocationStatusType } from "@/database/types";
+
 export const STATUS_STYLES = {
     death: "",
     disappearance: "ring-warning bg-warning/20 text-orange-800",
@@ -41,3 +43,5 @@ export const STATUS_OPTIONS = [
         value: "death",
     },
 ];
+
+export const ALL_STATUS = Object.keys(STATUS_DISPLAY_NAME).map((it) => it) as LocationStatusType[];
