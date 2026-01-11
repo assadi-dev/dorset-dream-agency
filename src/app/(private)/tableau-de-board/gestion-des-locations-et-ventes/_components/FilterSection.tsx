@@ -55,7 +55,7 @@ const FilterSection = () => {
     return (
         <Popover open={isPopoverOpen} onOpenChange={handleOpenChange}>
             <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 bg-transparent">
+                <Button variant="outline" size="sm" className="gap-2 bg-transparent px-5 w-full md:w-fit">
                     <Filter className="h-4 w-4" />
                     Status
                     {selectedStatuses.length < 4 && (
