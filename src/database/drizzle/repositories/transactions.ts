@@ -308,6 +308,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
                 keyNumber: transactions.keyNumber,
                 transactionDate: transactions.createdAt,
                 category: categoryProperties.name,
+                status: transactions.status,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))
