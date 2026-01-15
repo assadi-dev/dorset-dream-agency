@@ -310,6 +310,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
                 keyNumber: transactions.keyNumber,
                 transactionDate: transactions.createdAt,
                 category: categoryProperties.name,
+                invoice: transactions.invoice,
                 status: transactions.status,
             })
             .from(transactions)

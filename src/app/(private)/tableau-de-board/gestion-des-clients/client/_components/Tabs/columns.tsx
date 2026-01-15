@@ -36,6 +36,10 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
         header: "Prix",
     },
     {
+        accessorKey: "invoice",
+        header: "N° Facture",
+    },
+    {
         accessorKey: "status",
         header: () => <div className="text-center">Statut</div>,
         cell: ({ row }: CellColumn) => <StatusLocationVente item={row.original as any} />,
