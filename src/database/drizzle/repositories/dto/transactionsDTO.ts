@@ -9,6 +9,7 @@ export const transactionSchema = z.object({
     keyQuantity: z.coerce.number(),
     keyNumber: z.string(),
     sellingPrice: z.coerce.number(),
+    invoice: z.string().optional().nullable(),
     status: z.enum(LOCATION_STATUS).default("ongoing"),
 });
 

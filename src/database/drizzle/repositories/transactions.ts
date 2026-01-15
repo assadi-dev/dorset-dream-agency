@@ -70,7 +70,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType & { 
                   like(variants.name, sql.placeholder("search")),
                   like(categoryProperties.name, sql.placeholder("search")),
                   like(transactions.propertyService, sql.placeholder("search")),
-                  like(transactions.status, sql.placeholder("search")),
+                  like(transactions.invoice, sql.placeholder("search")),
               )
             : undefined;
 
@@ -94,6 +94,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType & { 
                 keyNumber: transactions.keyNumber,
                 transactionDate: transactions.createdAt,
                 category: categoryProperties.name,
+                invoice: transactions.invoice,
                 status: transactions.status,
             })
             .from(transactions)
@@ -177,6 +178,7 @@ export const findOneTransaction = async (id: number) => {
                 phone: clients.phone,
                 price: transactions.sellingPrice,
                 propertyService: transactions.propertyService,
+                invoice: transactions.invoice,
                 status: transactions.status,
             })
             .from(transactions)
@@ -234,7 +236,7 @@ export const updateTransactionStatus = async (id: number, status: LocationStatus
     await sendToUserActions({
         message,
         action: "update",
-        actionName: ACTION_NAMES.transactions.update,
+        actionName: ACTION_NAMES.transactions.status,
         entity: ENTITIES_ENUM.TRANSACTIONS,
     });
 };
