@@ -3,6 +3,7 @@ import { GradeType, SecteurType } from "@/app/types/employee";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellColumn } from "@/app/types/ReactTable";
 import { datetimeFormatFr, datetimeFormatFr2 } from "@/lib/date";
+import StatusLocationVente from "@/app/(private)/tableau-de-board/gestion-des-locations-et-ventes/_components/StatusLocationVente";
 
 export type LocationType = {
     property: string;
@@ -33,6 +34,11 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
     {
         accessorKey: "price",
         header: "Prix",
+    },
+    {
+        accessorKey: "status",
+        header: () => <div className="text-center">Statut</div>,
+        cell: ({ row }: CellColumn) => <StatusLocationVente item={row.original as any} />,
     },
     {
         accessorKey: "transactionDate",

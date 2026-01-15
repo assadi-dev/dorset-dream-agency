@@ -13,7 +13,7 @@ export const STATUS_DISPLAY_NAME = {
     disappearance: "Disparition",
     investigation: "Perquisition",
     ongoing: "En cours",
-    cancelled: "Annulé",
+    cancelled: "Résilié",
 };
 
 export const STATUS_OPTIONS = [
