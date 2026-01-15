@@ -1,6 +1,6 @@
 [
     {
         "name": "✨ Nouvelles fonctionnalités",
-        "value": "- Possibilité de définir et mettre à jour le statut d'une location/vente \n - Possibilité de filtrer les location/vente par statut \n"
+        "value": "- Affichage du statut des biens des clients dans la page detail d'un client"
     }
 ]
