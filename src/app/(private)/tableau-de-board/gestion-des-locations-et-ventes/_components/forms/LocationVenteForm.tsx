@@ -144,7 +144,8 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         <FormFieldInput control={form.control} label="Numéro de la clé" name="keyNumber" />
                     </div>
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 grid grid-cols-2 gap-1">
+                    <FormFieldInput control={form.control} label="Numéro de facture (optionnel)" name="invoice" />
                     <FormFieldSelect control={form.control} label="Status" name="status" options={STATUS_OPTIONS} />
                 </div>
                 <DialogFooter className="pt-3">
