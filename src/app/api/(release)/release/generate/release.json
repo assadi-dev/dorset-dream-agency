@@ -1,6 +1,6 @@
 [
     {
         "name": "✨ Nouvelles fonctionnalités",
-        "value": "- Affichage du statut des biens des clients dans la page detail d'un client"
+        "value": "- Ajout d'un champs de saisie numéro de facture dans le formulaire de creation et modification d'une location/vente \n - Affichage du numéro de facture dans le tableau + recherche pas numéro de facture \n"
     }
 ]

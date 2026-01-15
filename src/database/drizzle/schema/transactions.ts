@@ -14,6 +14,7 @@ export const transactions = mysqlTable("transactions", {
     keyQuantity: int("key_quantity").default(0),
     keyNumber: varchar("key_number", { length: 100 }),
     propertyService: mysqlEnum("property_service", PROPERTY_SERVICE),
+    invoice: varchar("invoice", { length: 18 }),
     status: mysqlEnum("status", LOCATION_STATUS).default("ongoing"),
     ...updatedAndCreatedAt,
     ...deletedAt,

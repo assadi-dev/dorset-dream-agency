@@ -1,6 +1,6 @@
 {
     "name": "dynasty8",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "private": true,
     "engines": {
         "node": "22"
@@ -12,10 +12,11 @@
         "lint": "next lint",
         "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
         "db:introspect": "npx drizzle-kit introspect",
-        "db:generate": "drizzle-kit generate",
-        "db:migrate": "drizzle-kit migrate",
-        "db:push": "drizzle-kit push",
-        "db:drop": "drizzle-kit drop",
+        "db:generate": "npx drizzle-kit generate",
+        "db:sync": "npm run db:generate && npm run db:migrate",
+        "db:migrate": "npx drizzle-kit migrate",
+        "db:push": "npx drizzle-kit push",
+        "db:drop": "npx drizzle-kit drop",
         "drizzle:studio": "drizzle-kit studio",
         "drizzle:seed": "node -r esbuild-register ./src/database/drizzle/seed.ts",
         "sqlite:db:generate": "npx drizzle-kit generate --config=drizzle-sqlite.config.ts",

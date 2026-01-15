@@ -13,6 +13,7 @@ export const LocationVentesSchema = z.object({
     price: z.coerce.number(),
     keyQuantity: z.coerce.number(),
     keyNumber: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    invoice: z.string().optional().nullable(),
     status: z.enum(LOCATION_STATUS).default("ongoing"),
 });
 
