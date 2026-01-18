@@ -32,6 +32,10 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
         header: "Catégorie",
     },
     {
+        accessorKey: "keyNumber",
+        header: "N° de clé",
+    },
+    {
         accessorKey: "price",
         header: "Prix",
     },
