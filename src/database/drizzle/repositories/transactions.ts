@@ -275,6 +275,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
                   like(employees.lastName, sql.placeholder("search")),
                   like(categoryProperties.name, sql.placeholder("search")),
                   like(transactions.keyNumber, sql.placeholder("search")),
+                  like(transactions.invoice, sql.placeholder("search")),
               )
             : undefined;
 
