@@ -1,6 +1,6 @@
 [
     {
-        "name": "✨ Nouvelles fonctionnalités",
-        "value": "- Ajout d'un champs de saisie numéro de facture dans le formulaire de creation et modification d'une location/vente \n - Affichage du numéro de facture dans le tableau + recherche pas numéro de facture \n"
+        "name": "🧩 Correctifs",
+        "value": "- Synchronisation des suppressions des villas dans les location/ventes et la page du client"
     }
 ]
