@@ -319,7 +319,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
             .leftJoin(variants, eq(variants.id, transactions.variantID))
             .leftJoin(properties, eq(properties.id, variants.propertyID))
             .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-            .where(and(clientCondition, locationTypeCondition, searchCondition))
+            .where(and(softDeleteCondition, clientCondition, locationTypeCondition, searchCondition))
             .$dynamic();
         const parameters: BindParameters = {
             id,
