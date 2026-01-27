@@ -69,7 +69,7 @@ export const getOneVariant = async (id: number | string) => {
 export const getOneByName = async (name: string) => {
     try {
         const request = await db.select().from(variants).where(eq(variants.name, name));
-        return request;
+        return request[0];
     } catch (error) {
         return null;
     }
