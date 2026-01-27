@@ -22,7 +22,7 @@ export const GET = async (req: Request, { params: { id } }: Params) => {
     }
 };
 
-export const UPDATE = async (req: NextRequest, { params: { id } }: Params) => {
+export const PUT = async (req: NextRequest, { params: { id } }: Params) => {
     try {
         const body = await req.json();
         const variantFound = await updateVariant(id, body);
