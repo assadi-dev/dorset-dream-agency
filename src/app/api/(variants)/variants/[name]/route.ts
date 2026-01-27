@@ -1,11 +1,14 @@
-import { getVariantsCollections } from "@/database/drizzle/repositories/variants";
+import { getOneByName } from "@/database/drizzle/repositories/variants";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async (req: Request) => {
+type GetParams = {
+    params: { name: string };
+};
+export const GET = async (req: Request, { params: { name } }: GetParams) => {
     try {
-        const variants = await getVariantsCollections();
+        const variants = await getOneByName(name);
         return NextResponse.json(variants);
     } catch (error: any) {
         return NextResponse.json(
