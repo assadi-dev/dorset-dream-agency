@@ -7,6 +7,7 @@ import DeleteProperty from "./forms/DeleteProperty";
 import AddVariantProperty from "./forms/AddVariantProperty";
 import EditFormProperty from "./forms/EditFormProperty";
 import Link from "next/link";
+import DuplicateProperty from "./forms/DuplicateProperty";
 
 type ActionsImmobilierProps = {
     payload: any;
@@ -38,7 +39,14 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             component: DeleteProperty,
         });
     };
-    const handleClickDuplicate = () => {};
+    const handleClickDuplicate = () => {
+        openModal({
+            title: `Dupliquer un bien immobilier`,
+            description: `${payload.name}`,
+            payload: { id: payload.id, name: payload.name },
+            component: DuplicateProperty,
+        });
+    };
 
     return (
         <>
@@ -53,9 +61,9 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
                     Modifier
                 </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-primary" onClick={handleClickDuplicate} disabled>
+            <DropdownMenuItem className="text-primary" onClick={handleClickDuplicate}>
                 <Copy className="mr-2 h-4 w-4" />
-                Dupliquer (Bientôt disponnible)
+                Dupliquer
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
                 <Trash className="mr-2 h-4 w-4" />
