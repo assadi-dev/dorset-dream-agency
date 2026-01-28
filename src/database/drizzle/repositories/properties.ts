@@ -92,15 +92,15 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
             isFurnish: properties.isFurnish,
             isAvailable: properties.isAvailable,
             variants: sql<(typeof variants.$inferSelect)[]>`
-            COALESCE(
-                JSON_ARRAYAGG(
+            JSON_ARRAYAGG(
+                IF(${variants.deletedAt} IS NULL AND ${variants.id} IS NOT NULL,
                     JSON_OBJECT(
                         'id', ${variants.id},
                         'name', ${variants.name},
                         'propertyID', ${variants.propertyID}
-                    )
-                ),
-                JSON_ARRAY()
+                    ),
+                    NULL
+                )
             )
         `,
             createdAt: properties.createdAt,
