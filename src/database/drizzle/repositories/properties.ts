@@ -91,10 +91,24 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
             stock: properties.stock,
             isFurnish: properties.isFurnish,
             isAvailable: properties.isAvailable,
+            variants: sql<(typeof variants.$inferSelect)[]>`
+            COALESCE(
+                JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id', ${variants.id},
+                        'name', ${variants.name},
+                        'propertyID', ${variants.propertyID}
+                    )
+                ),
+                JSON_ARRAY()
+            )
+        `,
             createdAt: properties.createdAt,
         })
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .leftJoin(variants, eq(variants.propertyID, properties.id))
+        .groupBy(properties.id, categoryProperties.name)
         .where(and(softDeleteCondition, searchCondition));
 
     const columnToOrder = "createdAt";

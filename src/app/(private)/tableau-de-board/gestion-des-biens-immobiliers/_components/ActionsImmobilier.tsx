@@ -2,7 +2,7 @@ import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/co
 import useModalState from "@/hooks/useModalState";
 import React from "react";
 import { datetimeFormatFr, datetimeFormatFr2, formatFullDateShortTextWitHours } from "@/lib/date";
-import { Pen, Trash, ImagePlus } from "lucide-react";
+import { Pen, Trash, ImagePlus, Copy } from "lucide-react";
 import DeleteProperty from "./forms/DeleteProperty";
 import AddVariantProperty from "./forms/AddVariantProperty";
 import EditFormProperty from "./forms/EditFormProperty";
@@ -38,6 +38,7 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
             component: DeleteProperty,
         });
     };
+    const handleClickDuplicate = () => {};
 
     return (
         <>
@@ -51,6 +52,10 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
                     <Pen className="mr-2 h-4 w-4" />
                     Modifier
                 </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-primary" onClick={handleClickDuplicate} disabled>
+                <Copy className="mr-2 h-4 w-4" />
+                Dupliquer (Bientôt disponnible)
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
                 <Trash className="mr-2 h-4 w-4" />
