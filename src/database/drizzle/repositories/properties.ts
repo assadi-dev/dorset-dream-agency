@@ -109,7 +109,6 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
         })
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .leftJoin(variants, eq(variants.propertyID, properties.id))
         .where(and(softDeleteCondition, searchCondition));
 
     const columnToOrder = "createdAt";
