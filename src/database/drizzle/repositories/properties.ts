@@ -92,15 +92,17 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
             isFurnish: properties.isFurnish,
             isAvailable: properties.isAvailable,
             variants: sql<(typeof variants.$inferSelect)[]>`
-            JSON_ARRAYAGG(
-                IF(${variants.deletedAt} IS NULL AND ${variants.id} IS NOT NULL,
+            (
+                SELECT COALESCE(JSON_ARRAYAGG(
                     JSON_OBJECT(
-                        'id', ${variants.id},
-                        'name', ${variants.name},
-                        'propertyID', ${variants.propertyID}
-                    ),
-                    NULL
-                )
+                        'id', v.id,
+                        'name', v.name,
+                        'propertyID', v.property_id
+                    )
+                ), JSON_ARRAY())
+                FROM ${variants} as v
+                WHERE v.property_id = ${properties.id}
+                AND v.deleted_at IS NULL
             )
         `,
             createdAt: properties.createdAt,
@@ -108,7 +110,6 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
         .leftJoin(variants, eq(variants.propertyID, properties.id))
-        .groupBy(properties.id, categoryProperties.name)
         .where(and(softDeleteCondition, searchCondition));
 
     const columnToOrder = "createdAt";
