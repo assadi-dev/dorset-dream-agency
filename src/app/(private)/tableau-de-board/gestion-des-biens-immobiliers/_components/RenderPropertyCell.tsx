@@ -51,7 +51,7 @@ export const BadgeRender = ({
                         {variants?.map((v) => (
                             <DropdownMenuItem
                                 key={v.id}
-                                className="text-nowrap w-full focus:!bg-transparent bg-secondary my-1 text-xs"
+                                className="text-nowrap w-full focus:!bg-secondary hover:!bg-secondary bg-secondary my-1 text-xs"
                             >
                                 {v.name ? v.name : "anonyme"}{" "}
                             </DropdownMenuItem>
