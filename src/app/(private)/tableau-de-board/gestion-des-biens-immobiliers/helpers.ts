@@ -16,6 +16,14 @@ export const fetchPropertiesCollections = async (filter: FilterPaginationType) =
 };
 
 export const createVarianteApi = (formData: FormData) => {};
+export const duplicateVarianteApi = async (entries: { id: number; name: string }) => {
+    try {
+        const result = await API_INSTANCE.post("/property/duplicate", entries);
+        return result.data;
+    } catch (error: any) {
+        throw error;
+    }
+};
 
 export const parseInitialDescription = (initialDescription: string) => {
     try {

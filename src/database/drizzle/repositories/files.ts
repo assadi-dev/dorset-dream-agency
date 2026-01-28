@@ -90,6 +90,8 @@ export const deleteFileByID = async (id: number | string) => {
     }
 };
 
+const urlToBuffer = async (urls: string[]) => {};
+
 type contextFilesPathType = "announcements/saves" | "announcements/creations";
 
 /**

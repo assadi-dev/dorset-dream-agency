@@ -3,9 +3,12 @@ import AlertModalContent from "@/components/Modals/AlertModalContent";
 import useModalState from "@/hooks/useModalState";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import { duplicateVarianteApi } from "../../helpers";
+import { useRouter } from "next/navigation";
 
 const DuplicateProperty = () => {
     const { payload, closeModal } = useModalState();
+    const router = useRouter();
 
     payload as unknown as { id: number; name: string };
 
@@ -13,12 +16,18 @@ const DuplicateProperty = () => {
 
     const handleConfirm = async () => {
         try {
-            /*             const formData = new FormData();
-            const ids = payload.ids as number[];
-
-            queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
-            payload?.resetSelected && payload?.resetSelected(); */
+            /*            
+                const formData = new FormData();
+                const ids = payload.ids as number[];
+                queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
+                payload?.resetSelected && payload?.resetSelected(); 
+            */
+            const result = await duplicateVarianteApi({
+                id: payload.id,
+                name: payload.name,
+            });
             closeModal();
+            router.push(`/gestion-des-biens-immobiliers/modifier?property=${result.id}`);
         } catch (error: any) {
             throw error;
         }

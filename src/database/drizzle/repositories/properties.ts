@@ -10,10 +10,12 @@ import {
     getCoverPictureFromGallery,
     getCoverPicturesForMultipleVariants,
     getGalleryCollectionForVariants,
+    insertGallery,
 } from "./galleries";
 import {
     getVariantsProperty,
     getVariantsPropertyNoSoftDelete,
+    insertVariant,
     removeVariantsWithGallery,
     restoreVariants,
 } from "./variants";
@@ -28,6 +30,7 @@ import {
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { clients } from "../schema/client";
+import { generatePhotoByKey, insertPhoto } from "./photos";
 
 /**
  * Filtre par la colonne deletedAt
@@ -535,6 +538,59 @@ export const setAvailableProperties = async (id: number, value: boolean) => {
         entity: ENTITIES_ENUM.PROPERTIES,
     });
     return await getOnePropertyByID(id);
+};
+
+/**
+ * Duplication d'une propriété à partir de son id
+ *
+ */
+export const duplicateProperty = async (entries: { id: number; name: string }) => {
+    const findProperty = await getOnePropertyByID(entries.id);
+    if (!findProperty) throw new Error(`Property not found`);
+    const propertyID = findProperty.id;
+
+    const validateInput = await createPropertyDto({ ...findProperty, categoryProperty: findProperty.categoryID });
+
+    if (validateInput.error) throw validateInput.error;
+    const newProperty = await insertProperty(validateInput.data);
+    const newPropertyId = newProperty.id;
+
+    const variantsFound = await getVariantsProperty(propertyID);
+    if (variantsFound.length > 0) {
+        for (const variant of variantsFound) {
+            try {
+                if (variant) {
+                    await insertVariantToGalleryForDuplicate(variant, newPropertyId);
+                }
+            } catch (error) {
+                continue;
+            }
+        }
+    }
+
+    return newProperty;
+};
+
+const insertVariantToGalleryForDuplicate = async (variant: any, newPropertyId: number) => {
+    const newVariant = await insertVariant(variant.name, newPropertyId);
+    const galleryPictures = await getGalleryCollectionForVariants(variant.id);
+    let index: number = 0;
+    for (const galleryPicture of galleryPictures) {
+        try {
+            if (galleryPicture) {
+                const photo = await generatePhotoByKey("properties", galleryPicture);
+                const newPhoto = await insertPhoto(photo);
+                if (!newPhoto) continue;
+                await insertGallery(newVariant.id, newPhoto.id, {
+                    isCover: galleryPicture.isCover ?? false,
+                    order: galleryPicture.order ?? index,
+                });
+                index++;
+            }
+        } catch (error) {
+            continue;
+        }
+    }
 };
 
 /**

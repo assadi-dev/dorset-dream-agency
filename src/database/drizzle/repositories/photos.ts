@@ -3,7 +3,8 @@ import { photos } from "../schema/photos";
 import { eq, sql } from "drizzle-orm";
 import { extractIdFromUrl, removeFile, UPLOAD_DIR_PROPERTIES } from "@/lib/fileSystem";
 import path from "path";
-import { UPLOAD_DIR_IMAGES } from "@/config/dir";
+import { PROPERTIES_DIR, UPLOAD_DIR_IMAGES } from "@/config/dir";
+import { createReadStream, createWriteStream } from "fs";
 
 export const insertPhoto = async (data: any) => {
     const prepare = db
@@ -88,5 +89,43 @@ export const remove = async (key: string, folder: string) => {
         await removeFile(filepath);
     } catch (error: any) {
         throw new Error(error.message);
+    }
+};
+
+type genPhoto = {
+    url: string;
+    originalName: string;
+    size: number;
+    type: string;
+};
+
+/**
+ * Copy du fichier dans l'espace de stockage à partir de la key puis génération de l'entité photo
+ *
+ */
+export const generatePhotoByKey = async (dir: string, photo: genPhoto) => {
+    try {
+        const { url, ...photoRest } = photo;
+        const key = url.split("/photo/property/").slice(-1).join("").trim();
+        const sourcePath = path.join(UPLOAD_DIR_IMAGES, dir, key);
+        const extension = url.split(".").slice(-1).join("").trim();
+        const fileName = `${Date.now()}.${extension}`;
+        const destinationPath = path.join(UPLOAD_DIR_IMAGES, dir, `${fileName}`);
+        // Créer les flux
+        const readStream = createReadStream(sourcePath);
+        const writeStream = createWriteStream(destinationPath);
+        readStream.pipe(writeStream);
+        return new Promise((resolve, reject) => {
+            writeStream.on("finish", () => {
+                resolve({
+                    ...photoRest,
+                    url: `/photo/property/${fileName}`,
+                });
+            });
+            writeStream.on("error", reject);
+        });
+    } catch (error) {
+        console.error("Erreur:", error);
+        throw error;
     }
 };
