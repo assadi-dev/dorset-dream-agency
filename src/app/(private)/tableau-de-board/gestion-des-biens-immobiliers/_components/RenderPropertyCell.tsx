@@ -15,23 +15,28 @@ type RenderPropertyCellProps = {
     property: PropertiesColumn;
 };
 const RenderPropertyCell = ({ property }: RenderPropertyCellProps) => {
-    return (
-        <div className="flex flex-col relative gap-1">
-            {property.name} <BadgeRender variants={property.variants} />
-        </div>
-    );
+    return <BadgeRender property={property} variants={property.variants} />;
 };
 
 export default RenderPropertyCell;
 
-export const BadgeRender = ({ variants }: { variants: { id: number; name: string }[] }) => {
+export const BadgeRender = ({
+    property,
+    variants,
+}: {
+    property: { name: string };
+    variants: { id: number; name: string }[];
+}) => {
     const item = variants.length ?? 0;
     if (item > 0) {
         return (
             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <div className="rounded-full text-xs  text-slate-400 cursor-pointer">
-                        {item} variante{item > 1 ? "s" : null}
+                <DropdownMenuTrigger asChild disabled={item < 1}>
+                    <div className="flex flex-col relative gap-1">
+                        {property.name}
+                        <div className="rounded-full text-xs  text-slate-400 cursor-pointer">
+                            {item} variante{item > 1 ? "s" : null}
+                        </div>
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="max-w-[52vw]">
