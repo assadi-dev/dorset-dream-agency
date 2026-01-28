@@ -578,8 +578,17 @@ const insertVariantToGalleryForDuplicate = async (variant: any, newPropertyId: n
     for (const galleryPicture of galleryPictures) {
         try {
             if (galleryPicture) {
-                const photo = await generatePhotoByKey("properties", galleryPicture);
+                const photo = await generatePhotoByKey("properties", {
+                    url: galleryPicture.url,
+                    originalName: galleryPicture.originalName,
+                    size: galleryPicture.size,
+                    type: galleryPicture.type,
+                    mimeType: galleryPicture.type,
+                });
+
                 const newPhoto = await insertPhoto(photo);
+                console.log("photo");
+                console.dir(photo);
                 if (!newPhoto) continue;
                 await insertGallery(newVariant.id, newPhoto.id, {
                     isCover: galleryPicture.isCover ?? false,

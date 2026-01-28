@@ -97,6 +97,7 @@ type genPhoto = {
     originalName: string;
     size: number;
     type: string;
+    mimeType: string;
 };
 
 /**
