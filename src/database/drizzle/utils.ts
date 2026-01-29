@@ -141,6 +141,8 @@ export const PROPERTY_SERVICE = [
     "Ventes Favelas",
     "Location Las Venturas",
     "Ventes Las Venturas",
+    "Location Blaine County",
+    "Ventes Blaine County",
 ] as const;
 export const EMPLOYEE_POST = [
     "Employée",
@@ -156,11 +158,13 @@ enum SaleFilterEnum {
     VENTES_LS = "Ventes LS",
     VENTES_FAVELAS = "Ventes Favelas",
     Las_Venturas = "Ventes Las Venturas",
+    VENTES_BLAINE_COUNTY = "Ventes Blaine County",
 }
 enum RentalFilterEnum {
     // LOCATION_FAVELAS = "Location Favelas",
     LOCATION_LS = "Location LS",
     LOCATION_LAS_VENTURAS = "Location Las Venturas",
+    LOCATION_BLAINE_COUNTY = "Location Blaine County",
 }
 
 export const RENTAL_FILTER_ARRAY = Object.entries(RentalFilterEnum).map((item) => item[1]);
