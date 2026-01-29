@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { and, asc, count, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, isNull, like, not, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import {
@@ -550,7 +550,15 @@ export const duplicateProperty = async (entries: { id: number; name: string }) =
     if (!findProperty) throw new Error(`Property not found`);
     const propertyID = findProperty.id;
 
-    const validateInput = await createPropertyDto({ ...findProperty, categoryProperty: findProperty.categoryID });
+    const cleanName = entries.name.split("-copy")[0].trim();
+
+    const duplicateName = `${cleanName}-copy-${Date.now()}`;
+
+    const validateInput = await createPropertyDto({
+        ...findProperty,
+        name: duplicateName,
+        categoryProperty: findProperty.categoryID,
+    });
 
     if (validateInput.error) throw validateInput.error;
     const newProperty = await insertProperty(validateInput.data);
