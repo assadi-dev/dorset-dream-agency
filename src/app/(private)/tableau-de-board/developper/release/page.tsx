@@ -1,6 +1,6 @@
 import ModalProvider from "@/components/Modals/ModalProvider";
 import PageTemplate from "../../_components/PageTemplate";
-import ReleaseCard from "./ReleaseCard";
+import ReleaseCard from "./_components/ReleaseCard";
 
 const ReleasePage = () => {
     return (

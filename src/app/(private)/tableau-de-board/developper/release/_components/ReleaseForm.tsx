@@ -1,7 +1,7 @@
 "use client";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Edit, Plus, PlusCircle, Trash } from "lucide-react";
+import { Check, Edit, Lock, Pen, Plus, PlusCircle, Trash, Unlink, Unlock } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FieldSchemaInfer, ReleaseFormInfer, releaseFormSchema } from "./schema";
@@ -15,6 +15,7 @@ import { cn, wait } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
 import EmptyRelease from "./EmptyRelease";
+import { Input } from "@/components/ui/input";
 
 type ReleaseForm = {
     defaultValues?: Partial<ReleaseFormInfer>;
@@ -22,6 +23,13 @@ type ReleaseForm = {
 };
 const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
     const [isSubmitting, startSubmitting] = React.useTransition();
+
+    const form = useForm<ReleaseFormInfer>({
+        resolver: zodResolver(releaseFormSchema),
+        defaultValues: {
+            ...defaultValues,
+        },
+    });
 
     const handleSubmit: SubmitHandler<ReleaseFormInfer> = async (values) => {
         startSubmitting(async () => {
@@ -37,23 +45,16 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
         });
     };
 
-    const form = useForm<ReleaseFormInfer>({
-        resolver: zodResolver(releaseFormSchema),
-        defaultValues: {
-            ...defaultValues,
-            fields: [],
-        },
-    });
-
     const fieldsWatch = form.watch("fields");
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
-                <div className="flex justify-end items-center mb-5 px-5">
-                    <SubmitButton isLoading={isSubmitting} type="button">
-                        Enregistrer
-                    </SubmitButton>
+                <div className="flex justify-between items-center mb-5 px-5">
+                    <VersionInput form={form} />
+                    <div className="flex justify-end items-center">
+                        <SubmitButton isLoading={isSubmitting}>Enregistrer</SubmitButton>
+                    </div>
                 </div>
                 <Button
                     variant="link"
@@ -66,7 +67,7 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
                 </Button>
                 <ScrollArea className="flex flex-col gap-3 h-[55vh] p-5 rounded-lg">
                     {fieldsWatch.length === 0 ? (
-                        <EmptyRelease></EmptyRelease>
+                        <EmptyRelease />
                     ) : (
                         fieldsWatch.map((f) => <ReleaseFieldPreview key={f.id} field={f} />)
                     )}
@@ -108,5 +109,59 @@ export const ReleaseFieldPreview = ({ field }: { field: FieldSchemaInfer }) => {
                 />
             </div>
         </Card>
+    );
+};
+
+export const VersionInput = ({ form }: { form: any }) => {
+    const [state, dispatch] = React.useReducer((prev: any, next: any) => ({ ...prev, ...next }), {
+        enabled: false,
+        value: form.getValues("version") ?? "",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        dispatch({ value });
+    };
+
+    const toggleEnableInput = () => {
+        dispatch({ enabled: !state.enabled });
+    };
+    const handleClickValidate = () => {
+        form.setValue("version", state.value);
+        toggleEnableInput();
+    };
+
+    return (
+        <div className="flex gap-2 items-center group">
+            {state.enabled ? (
+                <div className="">
+                    <Input
+                        value={state.value}
+                        onChange={handleChange}
+                        className="px-5 py-1 text-x"
+                        placeholder="Numero de version"
+                    />
+                </div>
+            ) : (
+                <div>version : {form.watch("version")}</div>
+            )}
+            <div className="flex gap-1">
+                {state.enabled ? (
+                    <Button type="button" size="icon" variant="default" onClick={handleClickValidate}>
+                        <Check className="h-2 w-2" />
+                    </Button>
+                ) : (
+                    <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        onClick={toggleEnableInput}
+                        className="hidden group-hover:flex"
+                    >
+                        <Pen className="h-2 w-2" />
+                    </Button>
+                )}
+            </div>
+        </div>
     );
 };

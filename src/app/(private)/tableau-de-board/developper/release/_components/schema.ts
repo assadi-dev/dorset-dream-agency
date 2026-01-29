@@ -6,6 +6,7 @@ const fieldSchema = z.object({
     value: z.string().min(1),
 });
 export const releaseFormSchema = z.object({
+    version: z.string(),
     fields: z.array(fieldSchema).length(1),
 });
 
