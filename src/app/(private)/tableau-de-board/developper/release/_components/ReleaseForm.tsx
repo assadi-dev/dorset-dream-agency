@@ -3,7 +3,7 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Edit, Plus, PlusCircle, Trash } from "lucide-react";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { FieldSchemaInfer, ReleaseFormInfer, releaseFormSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
@@ -11,24 +11,37 @@ import { Button } from "@/components/ui/button";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { parseInitialDescription } from "../../../gestion-des-biens-immobiliers/helpers";
 import { extensions } from "@/components/Text/RichTextEditor/extensions";
-import { cn } from "@/lib/utils";
+import { cn, wait } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
+import EmptyRelease from "./EmptyRelease";
 
 type ReleaseForm = {
-    defaultValues: Partial<ReleaseFormInfer>;
+    defaultValues?: Partial<ReleaseFormInfer>;
+    onSubmit: (values: ReleaseFormInfer) => Promise<void>;
 };
-const ReleaseForm = ({ defaultValues }: ReleaseForm) => {
+const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
+    const [isSubmitting, startSubmitting] = React.useTransition();
+
+    const handleSubmit: SubmitHandler<ReleaseFormInfer> = async (values) => {
+        startSubmitting(async () => {
+            try {
+                await wait(1000);
+                await onSubmit(values);
+                ToastSuccessSonner("Texte release généré avec succès");
+            } catch (error) {
+                if (error instanceof Error) {
+                    ToastErrorSonner("Erreur lors de la génération de texte de la release");
+                }
+            }
+        });
+    };
+
     const form = useForm<ReleaseFormInfer>({
         resolver: zodResolver(releaseFormSchema),
         defaultValues: {
             ...defaultValues,
-            fields: [
-                {
-                    id: "123456",
-                    name: "✨ Nouvelles fonctionnalités",
-                    value: "- Ajout de l'action dupliquer dans la page gestion des biens immobiliers \n - Affichage des variantes au clique sur les noms de biens immo ",
-                },
-            ],
+            fields: [],
         },
     });
 
@@ -36,9 +49,9 @@ const ReleaseForm = ({ defaultValues }: ReleaseForm) => {
 
     return (
         <Form {...form}>
-            <form>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <div className="flex justify-end items-center mb-5 px-5">
-                    <SubmitButton isLoading={true} type="button">
+                    <SubmitButton isLoading={isSubmitting} type="button">
                         Enregistrer
                     </SubmitButton>
                 </div>
@@ -52,9 +65,11 @@ const ReleaseForm = ({ defaultValues }: ReleaseForm) => {
                     <span>Ajouter une entrée</span>
                 </Button>
                 <ScrollArea className="flex flex-col gap-3 h-[55vh] p-5 rounded-lg">
-                    {fieldsWatch.map((f) => (
-                        <ReleaseFieldPreview key={f.id} field={f} />
-                    ))}
+                    {fieldsWatch.length === 0 ? (
+                        <EmptyRelease></EmptyRelease>
+                    ) : (
+                        fieldsWatch.map((f) => <ReleaseFieldPreview key={f.id} field={f} />)
+                    )}
                 </ScrollArea>
             </form>
         </Form>
@@ -75,14 +90,14 @@ export const ReleaseFieldPreview = ({ field }: { field: FieldSchemaInfer }) => {
     });
     return (
         <Card className="mb-3 p-3 relative group">
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-3 min-h-11">
                 <p className="text-lg font-semibold ">{field.name}</p>
-                <div className="flex group-hover:flex group-hover:motion-preset-fade-lg justify-end gap-2">
-                    <Button variant="outline" size="icon">
-                        <Edit className="h-3 w-3" />
+                <div className="hidden group-hover:flex group-hover:motion-preset-fade-lg justify-end gap-2">
+                    <Button variant="outline" size="icon" type="button">
+                        <Edit className="h-2 w-2" />
                     </Button>
-                    <Button variant="destructive" size="icon">
-                        <Trash className="h-3 w-3" />
+                    <Button variant="destructive" size="icon" type="button">
+                        <Trash className="h-2 w-2" />
                     </Button>
                 </div>
             </div>
