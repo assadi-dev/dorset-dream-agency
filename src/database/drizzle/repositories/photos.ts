@@ -23,6 +23,7 @@ export const insertPhoto = async (data: any) => {
         mimeType: data.mimeType,
         url: data.url,
     });
+
     const photo = await getOnePhotosByID(result[0].insertId);
     return photo;
 };
@@ -94,7 +95,7 @@ export const remove = async (key: string, folder: string) => {
 
 type genPhoto = {
     url: string;
-    originalName: string;
+    originaleName: string;
     size: number;
     type: string;
     mimeType: string;
@@ -108,10 +109,11 @@ export const generatePhotoByKey = async (dir: string, photo: genPhoto) => {
     try {
         const { url, ...photoRest } = photo;
         const key = url.split("/photo/property/").slice(-1).join("").trim();
-        const sourcePath = path.join(UPLOAD_DIR_IMAGES, dir, key);
+        const sourcePath = path.join(path.resolve(), UPLOAD_DIR_IMAGES, dir, key);
         const extension = url.split(".").slice(-1).join("").trim();
         const fileName = `${Date.now()}.${extension}`;
-        const destinationPath = path.join(UPLOAD_DIR_IMAGES, dir, `${fileName}`);
+        const destinationPath = path.join(path.resolve(), UPLOAD_DIR_IMAGES, dir, `${fileName}`);
+
         // Créer les flux
         const readStream = createReadStream(sourcePath);
         const writeStream = createWriteStream(destinationPath);

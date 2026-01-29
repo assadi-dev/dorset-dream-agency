@@ -1,4 +1,5 @@
 import { duplicateProperty } from "@/database/drizzle/repositories/properties";
+import { reportException } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +20,7 @@ export const POST = async (request: NextRequest) => {
         );
     } catch (error) {
         if (error instanceof Error) {
+            reportException(error);
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
     }

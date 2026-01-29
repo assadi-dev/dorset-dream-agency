@@ -16,18 +16,13 @@ const DuplicateProperty = () => {
 
     const handleConfirm = async () => {
         try {
-            /*            
-                const formData = new FormData();
-                const ids = payload.ids as number[];
-                queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
-                payload?.resetSelected && payload?.resetSelected(); 
-            */
+            queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
             const result = await duplicateVarianteApi({
                 id: payload.id,
                 name: payload.name,
             });
             closeModal();
-            router.push(`/gestion-des-biens-immobiliers/modifier?property=${result.id}`);
+            router.push(`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${result.id}`);
         } catch (error: any) {
             throw error;
         }

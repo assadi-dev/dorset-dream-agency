@@ -31,6 +31,7 @@ import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { clients } from "../schema/client";
 import { generatePhotoByKey, insertPhoto } from "./photos";
+import { reportException } from "@/lib/logger";
 
 /**
  * Filtre par la colonne deletedAt
@@ -563,6 +564,7 @@ export const duplicateProperty = async (entries: { id: number; name: string }) =
                     await insertVariantToGalleryForDuplicate(variant, newPropertyId);
                 }
             } catch (error) {
+                reportException(error as Error);
                 continue;
             }
         }
@@ -574,21 +576,20 @@ export const duplicateProperty = async (entries: { id: number; name: string }) =
 const insertVariantToGalleryForDuplicate = async (variant: any, newPropertyId: number) => {
     const newVariant = await insertVariant(variant.name, newPropertyId);
     const galleryPictures = await getGalleryCollectionForVariants(variant.id);
+
     let index: number = 0;
     for (const galleryPicture of galleryPictures) {
         try {
             if (galleryPicture) {
                 const photo = await generatePhotoByKey("properties", {
                     url: galleryPicture.url,
-                    originalName: galleryPicture.originalName,
+                    originaleName: galleryPicture.originalName,
                     size: galleryPicture.size,
                     type: galleryPicture.type,
                     mimeType: galleryPicture.type,
                 });
 
                 const newPhoto = await insertPhoto(photo);
-                console.log("photo");
-                console.dir(photo);
                 if (!newPhoto) continue;
                 await insertGallery(newVariant.id, newPhoto.id, {
                     isCover: galleryPicture.isCover ?? false,
@@ -597,6 +598,8 @@ const insertVariantToGalleryForDuplicate = async (variant: any, newPropertyId: n
                 index++;
             }
         } catch (error) {
+            reportException(error as Error);
+            console.error(error);
             continue;
         }
     }
