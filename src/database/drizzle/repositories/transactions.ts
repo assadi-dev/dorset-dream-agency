@@ -483,10 +483,10 @@ export const employeesContribution = async ({
         .select({
             seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`.as("seller"),
             totalPrice: sum(transactions.sellingPrice).as("totalSales"),
-            totalSalesPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" THEN ${transactions.sellingPrice}  END )`,
-            totalRentPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" THEN ${transactions.sellingPrice}  END )`,
-            totalSales: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" THEN ${transactions.propertyService}  END )`,
-            totalRent: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" THEN ${transactions.propertyService}  END )`,
+            totalSalesPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" OR ${transactions.propertyService} = "Ventes Blaine County" THEN ${transactions.sellingPrice}  END )`,
+            totalRentPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" OR ${transactions.propertyService} = "Location Blaine County" THEN ${transactions.sellingPrice}  END )`,
+            totalSales: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" OR ${transactions.propertyService} = "Ventes Blaine County" THEN ${transactions.propertyService}  END )`,
+            totalRent: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" OR ${transactions.propertyService} = "Location Blaine County" THEN ${transactions.propertyService}  END )`,
         })
         .from(transactions)
         .leftJoin(employees, eq(employees.id, transactions.employeeID))
