@@ -1,5 +1,6 @@
 import ModalProvider from "@/components/Modals/ModalProvider";
 import PageTemplate from "../../_components/PageTemplate";
+import ReleaseCard from "./ReleaseCard";
 
 const ReleasePage = () => {
     return (
@@ -10,7 +11,9 @@ const ReleasePage = () => {
                         <div></div>
                     </div>
                 </section>
-                <section></section>
+                <section>
+                    <ReleaseCard />
+                </section>
             </PageTemplate>
         </ModalProvider>
     );
