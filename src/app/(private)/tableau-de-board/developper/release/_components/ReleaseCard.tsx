@@ -1,11 +1,11 @@
 "use client";
-import { RichTextEditor } from "@/components/Text/RichTextEditor/RichTextEditor";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
-import ReleaseForm from "./ReleaseForm";
 import { ReleaseFormInfer } from "./schema";
 import { useReleaseApi } from "../_hooks/useReleaseApi";
 import LoadingReleaseData from "./Loading";
+import ReleaseForm from "./forms/ReleaseForm";
+import uniqid from "uniqid";
 
 const ReleaseCard = () => {
     const { data, isLoading, updateVersion, updateVersionFields } = useReleaseApi();
@@ -25,7 +25,7 @@ const ReleaseCard = () => {
         version: data?.version ?? "",
         fields:
             data?.release?.slice(0, releaseSize - 1)?.map((f) => ({
-                id: Date.now().toString(),
+                id: uniqid(),
                 ...f,
             })) ?? [],
     } satisfies ReleaseFormInfer;

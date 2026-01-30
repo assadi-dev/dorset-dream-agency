@@ -3,19 +3,26 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Check, Edit, Lock, Pen, Plus, PlusCircle, Trash, Unlink, Unlock } from "lucide-react";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FieldSchemaInfer, ReleaseFormInfer, releaseFormSchema } from "./schema";
+import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { parseInitialDescription } from "../../../gestion-des-biens-immobiliers/helpers";
+
 import { extensions } from "@/components/Text/RichTextEditor/extensions";
 import { cn, wait } from "@/lib/utils";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
-import EmptyRelease from "./EmptyRelease";
+
 import { Input } from "@/components/ui/input";
+import { FieldSchemaInfer, ReleaseFormInfer, releaseFormSchema } from "../schema";
+import EmptyRelease from "../EmptyRelease";
+import { parseInitialDescription } from "@/app/(private)/tableau-de-board/gestion-des-biens-immobiliers/helpers";
+import useModalState from "@/hooks/useModalState";
+import AddFieldRelease from "../modals/AddFieldRelease";
+import EditFieldRelease from "../modals/EditFieldRelease";
+import DeleteFieldRelease from "../modals/DeleteFieldRelease";
 
 type ReleaseForm = {
     defaultValues?: Partial<ReleaseFormInfer>;
@@ -23,6 +30,7 @@ type ReleaseForm = {
 };
 const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
     const [isSubmitting, startSubmitting] = React.useTransition();
+    const { openModal } = useModalState();
 
     const form = useForm<ReleaseFormInfer>({
         resolver: zodResolver(releaseFormSchema),
@@ -47,6 +55,14 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
 
     const fieldsWatch = form.watch("fields");
 
+    const handleClickAddEntry = () => {
+        openModal({
+            title: `Nouvelle entrée`,
+            component: AddFieldRelease,
+            payload: { form },
+        });
+    };
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -60,6 +76,7 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
                     variant="link"
                     type="button"
                     className="relative py-2 px-11 group  rounded-lg p-3 flex gap-2 items-center text-xs lg:text-sm active:opacity-50 "
+                    onClick={handleClickAddEntry}
                 >
                     <PlusCircle className="h-4 w-4" />
 
@@ -69,7 +86,7 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
                     {fieldsWatch.length === 0 ? (
                         <EmptyRelease />
                     ) : (
-                        fieldsWatch.map((f) => <ReleaseFieldPreview key={f.id} field={f} />)
+                        fieldsWatch.map((f) => <ReleaseFieldPreview key={f.id + f.name} form={form} field={f} />)
                     )}
                 </ScrollArea>
             </form>
@@ -79,7 +96,13 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
 
 export default ReleaseForm;
 
-export const ReleaseFieldPreview = ({ field }: { field: FieldSchemaInfer }) => {
+export const ReleaseFieldPreview = ({
+    field,
+    form,
+}: {
+    field: FieldSchemaInfer;
+    form: UseFormReturn<ReleaseFormInfer>;
+}) => {
     const parseDescription = parseInitialDescription(field.value ?? "");
     const TEXT_STYLE_CLASS = `ProseMirror text-slate-500 my-3 break-words text-sm text-justify sm:text-left whitespace-pre-line rich-text-style`;
 
@@ -89,24 +112,42 @@ export const ReleaseFieldPreview = ({ field }: { field: FieldSchemaInfer }) => {
         extensions: extensions,
         content: parseDescription,
     });
+
+    const { openModal } = useModalState();
+
+    const handleClickEditEntry = () => {
+        openModal({
+            title: `Modifier l'entrée`,
+            component: EditFieldRelease,
+            payload: { form, field },
+        });
+    };
+    const handleClickDeleteEntry = () => {
+        openModal({
+            title: `Supprimer l'entrée`,
+            description: `Êtes vous sure de supprimer l'entrée ${field.name}`,
+            component: DeleteFieldRelease,
+            payload: { form, field },
+        });
+    };
+
     return (
         <Card className="mb-3 p-3 relative group">
             <div className="flex justify-between items-center mb-3 min-h-11">
                 <p className="text-lg font-semibold ">{field.name}</p>
                 <div className="hidden group-hover:flex group-hover:motion-preset-fade-lg justify-end gap-2">
-                    <Button variant="outline" size="icon" type="button">
+                    <Button variant="outline" size="icon" type="button" onClick={handleClickEditEntry}>
                         <Edit className="h-2 w-2" />
                     </Button>
-                    <Button variant="destructive" size="icon" type="button">
+                    <Button variant="destructive" size="icon" type="button" onClick={handleClickDeleteEntry}>
                         <Trash className="h-2 w-2" />
                     </Button>
                 </div>
             </div>
             <div className="border bg-secondary px-3 py-1 rounded-lg">
-                <EditorContent
-                    editor={editor}
-                    className={cn(TEXT_STYLE_CLASS, "[&_p]:whitespace-pre-line [&_p]:break-words")}
-                />
+                <div className={cn(TEXT_STYLE_CLASS, "[&_p]:whitespace-pre-line [&_p]:break-words")}>
+                    {field.value ?? ""}
+                </div>
             </div>
         </Card>
     );

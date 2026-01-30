@@ -39,3 +39,21 @@ export const updateVersionFieldsApi = async (data: { fields: { name: string; val
         throw error;
     }
 };
+
+export const NAMES_OPTIONS = [
+    {
+        id: 1,
+        name: `🧩 Correctifs`,
+        value: `🧩 Correctifs`,
+    },
+    {
+        id: 2,
+        name: `✨ Nouvelles fonctionnalités`,
+        value: `✨ Nouvelles fonctionnalités`,
+    },
+    {
+        id: 3,
+        name: `⚙️ Amélioration`,
+        value: `⚙️ Amélioration`,
+    },
+];

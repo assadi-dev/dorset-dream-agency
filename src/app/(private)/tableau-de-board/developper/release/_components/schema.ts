@@ -7,7 +7,7 @@ const fieldSchema = z.object({
 });
 export const releaseFormSchema = z.object({
     version: z.string(),
-    fields: z.array(fieldSchema).length(1),
+    fields: z.array(fieldSchema).min(1),
 });
 
 export type FieldSchemaInfer = z.infer<typeof fieldSchema>;

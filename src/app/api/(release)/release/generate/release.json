@@ -1,6 +1,1 @@
-[
-    {
-        "name": "✨ Nouvelles fonctionnalités",
-        "value": "- Ajout de l'action dupliquer dans la page gestion des biens immobiliers \n - Affichage des variantes au clique sur les noms de biens immo.\n - Ajout Location Blain County et Ventes Blain County.\n - Possibilité de modifier le prix dans le formulaire de location/vente. \n "
-    }
-]
+[{"name":"✨ Nouvelles fonctionnalités","value":"- Ajout de l'action dupliquer dans la page gestion des biens immobiliers \n - Affichage des variantes au clique sur les noms de biens immo.\n - Ajout Location Blain County et Ventes Blain County.\n - Possibilité de modifier le prix dans le formulaire de location/vente. \n "},{"name":"🧩 Correctifs","value":"- Fix affichage des données dans la page d'accueil"}]
