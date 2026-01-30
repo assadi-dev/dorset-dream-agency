@@ -5,6 +5,8 @@ export enum ServiceLabel {
     locationFavelas = "Location Favelas",
     ventesLS = "Ventes LS",
     ventesFavelas = "Ventes Favelas",
+    ventesBlaineCounty = "Ventes Blaine County",
+    locationBlaineCounty = "Location Blaine County",
 }
 
 export const chartConfig = {
@@ -22,6 +24,14 @@ export const chartConfig = {
     },
     ventesFavelas: {
         label: ServiceLabel.ventesFavelas,
+        color: "hsl(var(--chart-4))",
+    },
+    locationBlaineCounty: {
+        label: ServiceLabel.locationBlaineCounty,
+        color: "hsl(var(--chart-2))",
+    },
+    ventesBlaineCounty: {
+        label: ServiceLabel.ventesBlaineCounty,
         color: "hsl(var(--chart-4))",
     },
     other: {

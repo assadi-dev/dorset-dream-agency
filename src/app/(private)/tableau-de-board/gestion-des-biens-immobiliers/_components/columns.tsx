@@ -2,11 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { PropertiesColumn } from "../types";
+import RenderPropertyCell from "./RenderPropertyCell";
 
 export const columns: ColumnDef<PropertiesColumn>[] = [
     {
         accessorKey: "name",
         header: "Nom du bien",
+        cell: ({ row: { original } }) => <RenderPropertyCell property={original} />,
     },
     {
         accessorKey: "rentalPrice",

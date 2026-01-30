@@ -4,6 +4,7 @@ export type PropertiesColumn = {
     sellingPrice: number;
     isAvailable: boolean;
     isFurnished: boolean;
+    variants: { id: number; name: string }[];
 };
 
 export type GalleryResponse = {

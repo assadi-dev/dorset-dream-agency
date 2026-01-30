@@ -3,17 +3,19 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { and, asc, count, desc, eq, like, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, isNull, like, not, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import {
     getCoverPictureFromGallery,
     getCoverPicturesForMultipleVariants,
     getGalleryCollectionForVariants,
+    insertGallery,
 } from "./galleries";
 import {
     getVariantsProperty,
     getVariantsPropertyNoSoftDelete,
+    insertVariant,
     removeVariantsWithGallery,
     restoreVariants,
 } from "./variants";
@@ -28,6 +30,8 @@ import {
 import { insertUserAction } from "../sqlite/repositories/usersAction";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { clients } from "../schema/client";
+import { generatePhotoByKey, insertPhoto } from "./photos";
+import { reportException } from "@/lib/logger";
 
 /**
  * Filtre par la colonne deletedAt
@@ -91,6 +95,20 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
             stock: properties.stock,
             isFurnish: properties.isFurnish,
             isAvailable: properties.isAvailable,
+            variants: sql<(typeof variants.$inferSelect)[]>`
+            (
+                SELECT COALESCE(JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id', v.id,
+                        'name', v.name,
+                        'propertyID', v.property_id
+                    )
+                ), JSON_ARRAY())
+                FROM ${variants} as v
+                WHERE v.property_id = ${properties.id}
+                AND v.deleted_at IS NULL
+            )
+        `,
             createdAt: properties.createdAt,
         })
         .from(properties)
@@ -521,6 +539,78 @@ export const setAvailableProperties = async (id: number, value: boolean) => {
         entity: ENTITIES_ENUM.PROPERTIES,
     });
     return await getOnePropertyByID(id);
+};
+
+/**
+ * Duplication d'une propriété à partir de son id
+ *
+ */
+export const duplicateProperty = async (entries: { id: number; name: string }) => {
+    const findProperty = await getOnePropertyByID(entries.id);
+    if (!findProperty) throw new Error(`Property not found`);
+    const propertyID = findProperty.id;
+
+    const cleanName = entries.name.split("-copy")[0].trim();
+
+    const duplicateName = `${cleanName}-copy-${Date.now()}`;
+
+    const validateInput = await createPropertyDto({
+        ...findProperty,
+        name: duplicateName,
+        categoryProperty: findProperty.categoryID,
+    });
+
+    if (validateInput.error) throw validateInput.error;
+    const newProperty = await insertProperty(validateInput.data);
+    const newPropertyId = newProperty.id;
+
+    const variantsFound = await getVariantsProperty(propertyID);
+    if (variantsFound.length > 0) {
+        for (const variant of variantsFound) {
+            try {
+                if (variant) {
+                    await insertVariantToGalleryForDuplicate(variant, newPropertyId);
+                }
+            } catch (error) {
+                reportException(error as Error);
+                continue;
+            }
+        }
+    }
+
+    return newProperty;
+};
+
+const insertVariantToGalleryForDuplicate = async (variant: any, newPropertyId: number) => {
+    const newVariant = await insertVariant(variant.name, newPropertyId);
+    const galleryPictures = await getGalleryCollectionForVariants(variant.id);
+
+    let index: number = 0;
+    for (const galleryPicture of galleryPictures) {
+        try {
+            if (galleryPicture) {
+                const photo = await generatePhotoByKey("properties", {
+                    url: galleryPicture.url,
+                    originaleName: galleryPicture.originalName,
+                    size: galleryPicture.size,
+                    type: galleryPicture.type,
+                    mimeType: galleryPicture.type,
+                });
+
+                const newPhoto = await insertPhoto(photo);
+                if (!newPhoto) continue;
+                await insertGallery(newVariant.id, newPhoto.id, {
+                    isCover: galleryPicture.isCover ?? false,
+                    order: galleryPicture.order ?? index,
+                });
+                index++;
+            }
+        } catch (error) {
+            reportException(error as Error);
+            console.error(error);
+            continue;
+        }
+    }
 };
 
 /**

@@ -19,16 +19,30 @@ import { DASHBOARD_CARD_QUERY, fetchTransactionPerServiceStat } from "../../help
 import { getCurrentMonth, getNbOfDayInMonth, MONTHS_OF_YEAR } from "@/lib/date";
 import EmptyChart from "./EmptyChart";
 
+const currentMonth = getCurrentMonth();
+const currentYear = new Date().getFullYear();
+const defaultDate = () => {
+    const date = new Date(new Date().setDate(1)).setHours(0, 0, 0, 0);
+    const days = getNbOfDayInMonth(currentMonth, currentYear);
+    const endDate = new Date(new Date(date).setDate(days)).setHours(23, 59, 59, 999);
+
+    return {
+        starDate: new Date(date).toISOString(),
+        endDate: new Date(endDate).toISOString(),
+    };
+};
+
 const TransactionChart = () => {
-    const currentMonth = getCurrentMonth();
-    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth + 1);
-    const currentYear = new Date().getFullYear();
-    const startDate = `${currentYear}-${selectedMonth}-01 00:00`;
-    const endDate = `${currentYear}-${selectedMonth}-${getNbOfDayInMonth(selectedMonth, currentYear)} 23:59`;
-    const filter = { startDate, endDate };
+    const initialiseDate = defaultDate();
+
+    const [state, setState] = React.useState({
+        startDate: initialiseDate.starDate,
+        endDate: initialiseDate.endDate,
+    });
+
     const { data, isFetching } = useQuery({
-        queryKey: [DASHBOARD_CARD_QUERY.DASHBOARD_STATS_TRANSACTION_PER_SERVICES, filter],
-        queryFn: () => fetchTransactionPerServiceStat(filter),
+        queryKey: [DASHBOARD_CARD_QUERY.DASHBOARD_STATS_TRANSACTION_PER_SERVICES, state],
+        queryFn: () => fetchTransactionPerServiceStat(state),
     });
 
     const CHART_DATA = React.useMemo(() => {
@@ -40,6 +54,8 @@ const TransactionChart = () => {
             if (v.service === "Location LS") secteur = "locationLS";
             if (v.service === "Ventes Favelas") secteur = "ventesFavelas";
             if (v.service === "Ventes LS") secteur = "ventesLS";
+            if (v.service === "Location Blaine County") secteur = "locationBlaineCounty";
+            if (v.service === "Ventes Blaine County") secteur = "ventesBlaineCounty";
             return {
                 secteur,
                 revenus: v.total,
@@ -50,7 +66,19 @@ const TransactionChart = () => {
 
     const handleSelectMonth = (value: string) => {
         const monthIndex = MONTHS_OF_YEAR.findIndex((m) => m === value);
-        setSelectedMonth(monthIndex + 1);
+        const date = new Date(new Date().setMonth(monthIndex, 1)).setHours(0, 0, 0, 0);
+        const days = getNbOfDayInMonth(monthIndex, currentYear);
+        const endDate = new Date(new Date(date).setDate(days)).setHours(23, 59, 59, 999);
+
+        const initialiseDate = {
+            startDate: new Date(date).toISOString(),
+            endDate: new Date(endDate).toISOString(),
+        };
+        setState((current) => ({
+            ...current,
+            selectedMonth: monthIndex,
+            ...initialiseDate,
+        }));
     };
 
     return (

@@ -14,6 +14,8 @@ import FormFieldComboBox from "@/components/forms/FormFieldComboBox";
 import usePropertyWithVariantOptions from "@/hooks/usePropertyWithVariantOption";
 import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { STATUS_OPTIONS } from "../../helpers";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     defaultFormValues?: Partial<LocationVentesFormType>;
@@ -22,6 +24,7 @@ type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
 const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
     const modalState = useModalState();
     const [isPending, startTransition] = React.useTransition();
+    const [disablePrice, setDisablePrice] = React.useState(false);
 
     const clientOptions = useClientOptions();
     const propertyOptions = usePropertyWithVariantOptions();
@@ -122,14 +125,25 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         options={PROPERTY_TYPE_ENUM}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 relative">
                     <FormFieldInput
                         control={form.control}
                         label="Prix de la location - Vente"
                         name="price"
-                        disabled
+                        disabled={disablePrice}
                         className="text-black opacity-100 font-semibold"
                     />
+
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        className="flex justify-center items-center absolute right-0 top-0 !bg-transparent active:scale-90"
+                        type="button"
+                        onClick={() => setDisablePrice(!disablePrice)}
+                    >
+                        {" "}
+                        <Pencil className="w-4 h-4" />
+                    </Button>
                 </div>
                 <div className="mb-4 grid gap-2 grid-cols-2">
                     <div>
