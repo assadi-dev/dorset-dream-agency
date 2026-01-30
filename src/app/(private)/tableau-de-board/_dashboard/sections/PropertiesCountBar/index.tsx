@@ -9,18 +9,32 @@ import { useQuery } from "@tanstack/react-query";
 import { DASHBOARD_CARD_QUERY, fetchTransactionCountPerWeek, fetchTransactionPerServiceStat } from "../../helper";
 import { chartConfig } from "./chartConfig";
 
+const currentMonth = getCurrentMonth();
+const currentYear = new Date().getFullYear();
+const defaultDate = () => {
+    const date = new Date(new Date().setDate(1)).setHours(0, 0, 0, 0);
+    const days = getNbOfDayInMonth(currentMonth, currentYear);
+    const endDate = new Date(new Date(date).setDate(days)).setHours(23, 59, 59, 999);
+
+    return {
+        starDate: new Date(date).toISOString(),
+        endDate: new Date(endDate).toISOString(),
+    };
+};
+
 const PropertiesCountBar = () => {
     const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("rental");
 
-    const currentMonth = getCurrentMonth();
-    const [selectedMonth, setSelectedMonth] = React.useState<number>(currentMonth + 1);
-    const currentYear = new Date().getFullYear();
-    const startDate = `${currentYear}-${selectedMonth}-01 00:00`;
-    const endDate = `${currentYear}-${selectedMonth}-${getNbOfDayInMonth(selectedMonth, currentYear)} 23:59`;
-    const filter = { startDate, endDate };
+    const initialiseDate = defaultDate();
+
+    const [state, setState] = React.useState({
+        startDate: initialiseDate.starDate,
+        endDate: initialiseDate.endDate,
+    });
+
     const { data, isFetching } = useQuery({
-        queryKey: [DASHBOARD_CARD_QUERY.DASHBOARD_STATS_TRANSACTION_PER_WEEK, filter],
-        queryFn: () => fetchTransactionCountPerWeek(filter),
+        queryKey: [DASHBOARD_CARD_QUERY.DASHBOARD_STATS_TRANSACTION_PER_WEEK, state],
+        queryFn: () => fetchTransactionCountPerWeek(state),
     });
 
     const CHART_DATA = React.useMemo(() => {
@@ -38,7 +52,19 @@ const PropertiesCountBar = () => {
 
     const handleSelectMonth = (value: string) => {
         const monthIndex = MONTHS_OF_YEAR.findIndex((m) => m === value);
-        setSelectedMonth(monthIndex + 1);
+        const date = new Date(new Date().setMonth(monthIndex, 1)).setHours(0, 0, 0, 0);
+        const days = getNbOfDayInMonth(monthIndex, currentYear);
+        const endDate = new Date(new Date(date).setDate(days)).setHours(23, 59, 59, 999);
+
+        const initialiseDate = {
+            startDate: new Date(date).toISOString(),
+            endDate: new Date(endDate).toISOString(),
+        };
+        setState((current) => ({
+            ...current,
+            selectedMonth: monthIndex,
+            ...initialiseDate,
+        }));
     };
 
     return (
