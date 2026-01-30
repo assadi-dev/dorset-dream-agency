@@ -1,7 +1,7 @@
 "use client";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Check, Edit, Lock, Pen, Plus, PlusCircle, Trash, Unlink, Unlock } from "lucide-react";
+import { Check, Cross, Edit, Lock, Pen, Plus, PlusCircle, Trash, Unlink, Unlock, X } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 
@@ -188,9 +188,14 @@ export const VersionInput = ({ form }: { form: any }) => {
             )}
             <div className="flex gap-1">
                 {state.enabled ? (
-                    <Button type="button" size="icon" variant="default" onClick={handleClickValidate}>
-                        <Check className="h-2 w-2" />
-                    </Button>
+                    <div className="flex gap-1 item-center">
+                        <Button type="button" size="icon" variant="outline" onClick={() => toggleEnableInput()}>
+                            <X className="h-2 w-2" />
+                        </Button>
+                        <Button type="button" size="icon" variant="default" onClick={handleClickValidate}>
+                            <Check className="h-2 w-2" />
+                        </Button>
+                    </div>
                 ) : (
                     <Button
                         type="button"
