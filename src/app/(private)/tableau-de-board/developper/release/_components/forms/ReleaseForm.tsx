@@ -39,6 +39,8 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
         },
     });
 
+
+
     const handleSubmit: SubmitHandler<ReleaseFormInfer> = async (values) => {
         startSubmitting(async () => {
             try {
@@ -52,6 +54,20 @@ const ReleaseForm = ({ defaultValues, onSubmit }: ReleaseForm) => {
             }
         });
     };
+
+    React.useEffect(() => {
+        const save = (e: any) => {
+            if (e.ctrlKey && e.key === "s") {
+                e.preventDefault();
+                if (isSubmitting) return;
+                form.handleSubmit(handleSubmit)();
+            }
+        }
+        document.addEventListener("keydown", save);
+        return () => {
+            document.removeEventListener("keydown", save);
+        };
+    }, [form, handleSubmit, isSubmitting]);
 
     const fieldsWatch = form.watch("fields");
 

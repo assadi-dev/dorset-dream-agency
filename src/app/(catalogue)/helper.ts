@@ -1,4 +1,6 @@
 import { API_INSTANCE } from "@/lib/api";
+import { getApplyPrice } from "@/lib/calculatePrice";
+import { PropertyInfoType } from "./schema";
 
 type PropertyCarouselResponse = {
     id: number;
@@ -96,4 +98,13 @@ export const cleanPropertyWithGallery = (
         isAvailable: inputs.isAvailable,
         stock: inputs.stock,
     };
+};
+
+
+export const calculatePrice = (propertyInfo: PropertyInfoType, typeService: string) => {
+
+    const rentalPrice = getApplyPrice(typeService, propertyInfo.rentalPrice ?? 0);
+    const sellingPrice = getApplyPrice(typeService, propertyInfo.sellingPrice ?? 0);
+
+    return { rentalPrice, sellingPrice };
 };

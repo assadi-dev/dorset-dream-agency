@@ -16,6 +16,7 @@ type FormFieldInputProps<T extends FieldValues> = {
     placeholder?: string;
     classNameFormItem?: string;
     options: SelectOptionsType[];
+    onChange?: (value: any) => void;
 };
 
 const FormFieldSelect = <T extends FieldValues>({
@@ -26,6 +27,7 @@ const FormFieldSelect = <T extends FieldValues>({
     placeholder,
     options,
     classNameFormItem,
+    onChange,
 }: FormFieldInputProps<T>) => {
     return (
         <FormField
@@ -34,7 +36,10 @@ const FormFieldSelect = <T extends FieldValues>({
             render={({ field }) => (
                 <FormItem className={classNameFormItem}>
                     <FormLabel>{label}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={(value) =>{
+                        onChange?.(value);
+                        field.onChange(value);
+                    }} defaultValue={field.value}>
                         <FormControl>
                             <SelectTrigger>
                                 <SelectValue placeholder={placeholder} {...field} />

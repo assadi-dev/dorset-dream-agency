@@ -92,12 +92,9 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                 const tl = gsap.timeline({
                     repeat: 0,
                     duration: 0.35,
-                    scrollTrigger: {
-                        trigger: boxes,
-                        start: "top 95%",
-                        end: "bottom 200%",
-                        scrub: false,
-                    },
+                    autoRemoveChildren: true,
+
+           
                 });
                 tl.fromTo(
                     boxes,
@@ -105,7 +102,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
                     {
                         opacity: 1,
                         scale: 1,
-                        ease: "expo.out",
+                        ease: "back.inOut",
                         x: 0,
                         stagger: {
                             each: 0.15,

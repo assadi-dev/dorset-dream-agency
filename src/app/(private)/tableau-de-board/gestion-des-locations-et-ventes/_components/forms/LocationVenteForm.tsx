@@ -16,6 +16,7 @@ import FormFieldSelect from "@/components/forms/FormFieldSelect";
 import { STATUS_OPTIONS } from "../../helpers";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
+import { setClientSync, setPriceSync, setPropertySync } from "./helper";
 
 type FormType = React.FormHTMLAttributes<HTMLFormElement> & {
     defaultFormValues?: Partial<LocationVentesFormType>;
@@ -42,30 +43,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
         defaultValues: { ...defaultFormValues },
     });
 
-    React.useEffect(() => {
-        if (!form.getValues("client") && !CLIENT_OPTIONS) return;
-        const findClient = CLIENT_OPTIONS.find((client: any) => client.value === form.getValues("client"));
 
-        if (findClient) {
-            form.setValue("phone", findClient.phone);
-        }
-    }, [form.watch("client"), CLIENT_OPTIONS]);
-
-    React.useEffect(() => {
-        if (!form.getValues("propertyService") && !form.getValues("property")) return;
-        const findProperty = PROPERTY_OPTIONS.find((property: any) => property.value === form.getValues("property"));
-        if (!findProperty) return;
-
-        const typeService = form.getValues("propertyService").toLowerCase();
-        let vente = 0;
-
-        if (typeService.includes("vente")) {
-            vente = findProperty.sellingPrice;
-        } else if (typeService.includes("location")) {
-            vente = findProperty.rentalPrice;
-        }
-        form.setValue("price", vente);
-    }, [form.watch("propertyService")]);
 
     const processing = async (values: LocationVentesFormType) => {
         try {
@@ -98,6 +76,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                             placeholder="Sélectionnez un clients"
                             classNameButton="w-full"
                             emptyMessage="Pas de clients enregistré"
+                            onChange={(value) => setClientSync(form, value,CLIENT_OPTIONS)}
                         />
                     </div>
                     <div className="mb-4">
@@ -110,6 +89,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                             placeholder="Sélectionnez un Biens immobilier"
                             classNameButton="w-full"
                             emptyMessage="Pas de biens enregistré"
+                            onChange={(value) => setPropertySync(form, value,PROPERTY_OPTIONS)}
                         />
                     </div>
                 </div>
@@ -123,6 +103,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         label="Type de service"
                         name="propertyService"
                         options={PROPERTY_TYPE_ENUM}
+                        onChange={(value) => setPriceSync(form, value,PROPERTY_OPTIONS)}
                     />
                 </div>
                 <div className="mb-4 relative">
@@ -132,6 +113,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         name="price"
                         disabled={disablePrice}
                         className="text-black opacity-100 font-semibold"
+                       
                     />
 
                     <Button
