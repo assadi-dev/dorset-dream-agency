@@ -1,27 +1,27 @@
+import { getApplyPrice, isLocation, isVente } from "@/lib/calculatePrice";
 import { UseFormReturn } from "react-hook-form";
 
 
-const isLocation = (propertyService: string) => {
-    return propertyService.toLowerCase().includes("location");
-}
-
-const isVente = (propertyService: string) => {
-    return propertyService.toLowerCase().includes("vente");
-}
 
 /**
  * Synchronise le prix en fonction du type de service et de la propriété
  */
 export const setPriceSync = (form:UseFormReturn<any>, propertyService: string,propertyOptions:any[]) => {
-    if(isLocation(propertyService.toLowerCase())){
+    const typePropertyService = propertyService.toLowerCase();
+  
+    if(isLocation(typePropertyService)){
         const findProperty = propertyOptions.find((property: any) => property.value === form.getValues("property"));
         if(!findProperty) return;
-        form.setValue("price", findProperty?.rentalPrice);
+
+          const applyPrice = getApplyPrice(typePropertyService,findProperty?.rentalPrice);
+        form.setValue("price", applyPrice);
     }
-    if(isVente(propertyService.toLowerCase())){
+    if(isVente(typePropertyService)){
         const findProperty = propertyOptions.find((property: any) => property.value === form.getValues("property"));
         if(!findProperty) return;
-        form.setValue("price", findProperty?.sellingPrice);
+
+          const applyPrice = getApplyPrice(typePropertyService,findProperty?.sellingPrice);
+        form.setValue("price", applyPrice);
     }
 }
 
