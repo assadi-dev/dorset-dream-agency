@@ -20,6 +20,7 @@ type FormFieldComboBoxProps<T extends FieldValues> = {
     emptyMessage?: string;
     classNameButton?: string;
     classNameListOptions?: string;
+    onChange?: (value: any) => void;
 };
 const FormFieldComboBox = <T extends FieldValues>({
     form,
@@ -33,7 +34,8 @@ const FormFieldComboBox = <T extends FieldValues>({
     options,
     emptyMessage,
     classNameListOptions,
-    ...props
+    onChange,
+    ...props    
 }: FormFieldComboBoxProps<T>) => {
     return (
         <FormField
@@ -74,6 +76,7 @@ const FormFieldComboBox = <T extends FieldValues>({
                                                 key={option.value}
                                                 onSelect={() => {
                                                     form.setValue(name, option.value);
+                                                    onChange?.(option.value);
                                                 }}
                                             >
                                                 <Check
