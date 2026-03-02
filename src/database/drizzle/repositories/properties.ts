@@ -32,6 +32,7 @@ import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { clients } from "../schema/client";
 import { generatePhotoByKey, insertPhoto } from "./photos";
 import { reportException } from "@/lib/logger";
+import { sq } from "date-fns/locale";
 
 /**
  * Filtre par la colonne deletedAt
@@ -76,11 +77,15 @@ export const insertProperty = async (values: any) => {
 
 export const getPropertiesCollections = async (filter: FilterPaginationType) => {
     const { page, order, limit, search } = filter;
+    // the query alias `name` is simply properties.name here, but we define it
+
+
     const searchCondition = search
         ? or(
               like(properties.name, sql.placeholder("search")),
               like(properties.address, sql.placeholder("search")),
               like(categoryProperties.name, sql.placeholder("search")),
+              like(variants.name, sql.placeholder("search")),
           )
         : undefined;
 
@@ -281,7 +286,7 @@ export const removeVariantOfProperties = async (ids: number[] | string[]) => {
             const property = await getOnePropertyByID(id);
             if (!property) throw new Error("property not found");
             const variants = await getVariantsProperty(property.id);
-            const variantsIDs = variants.map((v) => v.id);
+            const variantsIDs = variants.map((v: any) => v.id);
             await removeVariantsWithGallery(variantsIDs);
         }
     }
@@ -310,11 +315,18 @@ export const getPropertiesWithVariantsCollections = async (
     filter: FilterPaginationType & getPropertiesWithVariantsArgs,
 ) => {
     const { categoryName, search, page, limit, order } = filter;
+
+    
+    // search should also look at the computed alias used in the result set
+    const computedName = sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`;
+
     const searchCondition = search
         ? or(
               like(properties.name, sql.placeholder("search")),
               like(properties.address, sql.placeholder("search")),
               like(categoryProperties.name, sql.placeholder("search")),
+              like(variants.name, sql.placeholder("search")),
+              sql`${computedName} like ${sql.placeholder("search")}`,
           )
         : undefined;
     const categoryCondition = categoryName ? eq(categoryProperties.name, sql.placeholder("categoryName")) : undefined;
@@ -328,7 +340,7 @@ export const getPropertiesWithVariantsCollections = async (
         .select({
             id: variants.id,
             propertyID: properties.id,
-            name: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
+            name: computedName,
             address: properties.address,
             rentalPrice: properties.rentalPrice,
             sellingPrice: properties.sellingPrice,
@@ -407,12 +419,16 @@ export const getPropertyCollections = async ({
     isAvailable,
     search,
 }: getPropertyPresentationArgs) => {
+
+        // include the derived "name" alias in the filter as well (built with COALESCE/CONCAT above)
+    const computedName = sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`;
+
     const result = db
         .select({
             id: variants.id,
             propertyID: properties.id,
-            name: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
-            label: sql<string>`COALESCE(CONCAT(${properties.name}, " - " ,${variants.name}),${properties.name})`,
+            name: computedName,
+            label: computedName,
             description: properties.description,
             rentalPrice: properties.rentalPrice,
             sellingPrice: properties.sellingPrice,
@@ -438,8 +454,14 @@ export const getPropertyCollections = async ({
 
     if (limit) result.limit(limit);
 
+
+
     const searchCondition = search
-        ? or(like(properties.name, sql.placeholder("search")), like(variants.name, sql.placeholder("search")))
+        ? or(
+              like(properties.name, sql.placeholder("search")),
+              like(variants.name, sql.placeholder("search")),
+              sql`${computedName} like ${sql.placeholder("search")}`,
+          )
         : undefined;
 
     const isAvailableCondition =
@@ -481,13 +503,13 @@ export const getPropertiesWithCover = async ({
     const properties = await getPropertyCollections({ limit, category, order, isAvailable, search });
 
     // Extract all variant IDs
-    const variantIDs = properties.map((property) => property.id);
+    const variantIDs = properties.map((property: any) => property.id);
 
     // Fetch all cover pictures in a single batch query
     const coverPhotosMap = await getCoverPicturesForMultipleVariants(variantIDs);
 
     // Map the cover photos to properties
-    const propertiesWithCover = properties.map((property) => {
+    const propertiesWithCover = properties.map((property: any) => {
         let photo = null;
         if (coverPhotosMap instanceof Map) photo = coverPhotosMap.get(property.id);
         return { ...property, photo: photo?.url || null };
@@ -666,7 +688,7 @@ export const propertyParser = async (property: any): Promise<PropertyParser> => 
 export const restoreProperty = async (id: number) => {
     const variantsOfProperty = await getVariantsPropertyNoSoftDelete(id);
     if (variantsOfProperty.length) {
-        const variantIds = variantsOfProperty.map((v) => v.id);
+        const variantIds = variantsOfProperty.map((v: any) => v.id);
 
         await restoreVariants(variantIds);
     }
