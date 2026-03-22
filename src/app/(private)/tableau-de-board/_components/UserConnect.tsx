@@ -11,7 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import { User } from "lucide-react";
+import { BookOpen, User } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import Image from "next/image";
@@ -109,6 +109,13 @@ const UserConnect = () => {
                             <Link href={"/tableau-de-board/account"} className=" w-full">
                                 <DropdownMenuItem className="justify-start gap-3 w-full">
                                     <User /> <span>Mon Compte</span>
+                                </DropdownMenuItem>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link href={"https://formad8polo.lovable.app"} target="_blank" className=" w-full">
+                                <DropdownMenuItem className="justify-start gap-3 w-full">
+                                    <BookOpen /> <span>Mes Formations</span>
                                 </DropdownMenuItem>
                             </Link>
                         </DropdownMenuItem>
