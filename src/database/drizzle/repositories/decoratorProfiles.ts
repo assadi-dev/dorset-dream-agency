@@ -1,22 +1,36 @@
 import { db } from "@/database";
-import { decoratorProfiles } from "../schema/decoratorProfile";
+import { decoratorProfileInsertEntity, decoratorProfiles } from "../schema/decoratorProfile";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { FilterPaginationType } from "@/database/types";
 import { asc, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
+import { insertPhoto } from "./photos";
 
 
 
-export const createDecoratorProfile = async (inputs: any) => {
-    const newDecoratorProfile = await db.insert(decoratorProfiles).values(inputs);
+export const createDecoratorProfile = async (inputs: decoratorProfileInsertEntity) => {
+    const newDecoratorProfile = await db.insert(decoratorProfiles).values(inputs).$returningId();
     await sendToUserActions({
         message: `Ajout du profil de décorateur ${inputs.firstName} ${inputs.lastName}`,
         action: "create",
         entity: ENTITIES_ENUM.DECORATOR_PROFILES,
         actionName: ACTION_NAMES.decoratorProfiles.create,
     });
-    return newDecoratorProfile;
+    const decoratorProfile = await getOneDecoratorProfile(newDecoratorProfile[0].id);
+    return decoratorProfile;
+}
+
+export const createDecoratorProfileWithPhoto = async (inputs: decoratorProfileInsertEntity & {photo: number}) => {
+    const photo = await insertPhoto(inputs.photo);
+    const newDecoratorProfile = await db.insert(decoratorProfiles).values({...inputs, photoID: photo?.id});
+    await sendToUserActions({
+        message: `Ajout du profil de décorateur ${inputs.firstName} ${inputs.lastName}`,
+        action: "create",
+        entity: ENTITIES_ENUM.DECORATOR_PROFILES,
+        actionName: ACTION_NAMES.decoratorProfiles.create,
+    });
+    return newDecoratorProfile[0];
 }
 
 export const getDecoratorProfileCollections = async (filter: FilterPaginationType) => {
@@ -88,7 +102,7 @@ export const deleteMultipleDecoratorProfiles = async (ids: number[]) => {
 }
 
 
-export const updateDecoratorProfile = async (id: number, values: any) => {
+export const updateDecoratorProfile = async (id: number, values: Partial<decoratorProfileInsertEntity>) => {
     const decoratorProfile = await getOneDecoratorProfile(id);
     if (!decoratorProfile) throw new Error("decorator profile not found");
     await db.update(decoratorProfiles).set(values).where(eq(decoratorProfiles.id, id));

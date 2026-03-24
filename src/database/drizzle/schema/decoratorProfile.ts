@@ -9,9 +9,9 @@ export const decoratorProfiles = mysqlTable("decorator_profiles", {
     lastName: varchar("last_name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
     phone: varchar("phone", { length: 255 }).notNull(),
-    yearOfExperience: int("year_of_experience").notNull(),
-    speciality: varchar("speciality", { length: 255 }).notNull(),
-    averageCreationTime: int("average_creation_time").notNull(),
+    yearOfExperience: int("year_of_experience"),
+    speciality: varchar("speciality", { length: 255 }),
+    averageCreationTime: int("average_creation_time"),
     photoID: int("photo_id").references(() => photos.id, { onDelete: "set null" }),
     ...updatedAndCreatedAt,
     ...deletedAt,
@@ -24,3 +24,5 @@ export const decoratorProfilesRelations = relations(decoratorProfiles, ({ one })
     }),
 }));
 
+export type decoratorProfileEntity = typeof decoratorProfiles.$inferSelect;
+export type decoratorProfileInsertEntity = typeof decoratorProfiles.$inferInsert;
