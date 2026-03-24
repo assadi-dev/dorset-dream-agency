@@ -121,6 +121,13 @@ export const ACTION_NAMES = {
         clean: "Suppression de tous les transactions",
         status: "Mise à jour du status de la transaction",
     },
+    decoratorProfiles: {
+        create: "Création d'un profil de décorateur",
+        update: "Modification d'un profil de décorateur",
+        delete: "Suppression d'un profil de décorateur",
+        restore: "Restauration d'un profil de décorateur",
+        clean: "Suppression de tous les profils de décorateurs",
+    },
 };
 
 export const enum ENTITIES_ENUM {
@@ -132,6 +139,7 @@ export const enum ENTITIES_ENUM {
     VARIANTS = "variants",
     PRESTIGES = "prestige",
     TRANSACTIONS = "transactions",
+    DECORATOR_PROFILES = "decoratorProfiles",
 }
 
 export const PROPERTY_SERVICE = [
