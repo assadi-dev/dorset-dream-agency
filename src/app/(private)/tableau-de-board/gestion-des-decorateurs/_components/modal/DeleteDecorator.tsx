@@ -3,9 +3,11 @@ import AlertModalContent from '@/components/Modals/AlertModalContent';
 import useModalState from '@/hooks/useModalState';
 import React from 'react'
 import { deleteDecorator } from '../../actions';
+import useRouteRefresh from '@/hooks/useRouteRefresh';
 
 const DeleteDecorator = () => {
     const { payload, closeModal } = useModalState();
+    const refresh = useRouteRefresh();
 
 
 
@@ -17,6 +19,8 @@ const DeleteDecorator = () => {
             await deleteDecorator(ids)
             payload?.resetSelected && payload?.resetSelected();
             closeModal();
+            refresh.refreshWithParams();
+
         } catch (error: any) {
             throw error;
         }
