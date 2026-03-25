@@ -53,6 +53,7 @@ export const getDecoratorProfileCollections = async (filter: FilterPaginationTyp
                       like(decoratorProfiles.firstName, sql.placeholder("search")),
                       like(decoratorProfiles.email, sql.placeholder("search")),
                       like(decoratorProfiles.phone, sql.placeholder("search")),
+             
                   )
                 : undefined;
 
