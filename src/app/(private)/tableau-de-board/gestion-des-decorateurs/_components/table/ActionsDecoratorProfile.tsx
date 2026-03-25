@@ -27,7 +27,7 @@ const ActionsDecoratorProfile = ({ payload }: ActionsDecoratorProfileProps) => {
         openModal({
             title: `Supprimer un decorateur`,
             description: `${payload.name}`,
-            payload: { ids: [payload.id] },
+            payload: { ids: [payload.id], name: payload.name },
             component: DeleteDecorator,
         });
     };

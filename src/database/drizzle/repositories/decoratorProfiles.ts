@@ -44,7 +44,11 @@ export const getDecoratorProfileCollections = async (filter: FilterPaginationTyp
         phone: decoratorProfiles.phone,
         email: decoratorProfiles.email,
         photoUrl: photos.url,
-        
+        photoID: decoratorProfiles.photoID,
+        speciality: decoratorProfiles.speciality,
+        experience: decoratorProfiles.experience,
+        averageTime: decoratorProfiles.averageTime,
+        createdAt: decoratorProfiles.createdAt,
       
     }).from(decoratorProfiles).leftJoin(photos, eq(photos.id, decoratorProfiles.photoID)).$dynamic();
             const searchCondition = search

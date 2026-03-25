@@ -8,14 +8,16 @@ import { SUBMIT_IDLE_MESSAGE, SUBMIT_PROCESS_MESSAGE } from '@/config/messages';
 import useModalState from '@/hooks/useModalState';
 import { cn } from '@/lib/utils';
 import React from 'react'
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import UploadPhoto from './UploadPhoto';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DecoratorFormType } from '../schema';
+import { ToastErrorSonner, ToastSuccessSonner } from '@/components/notify/Sonner';
 
 
 type DecoratorFormProps = {
-    defaultValues?: any;
-    handleOnSubmit: (data: any) => Promise<void>;
+    defaultValues?: Partial<DecoratorFormType>;
+    handleOnSubmit: (data: DecoratorFormType) => Promise<void>;
     labelButton?: string;
     className?: string;
 }
@@ -25,7 +27,7 @@ const DecoratorForm = ({ defaultValues, handleOnSubmit, labelButton = SUBMIT_IDL
 
     const SUBMIT_LABEL = isPending ? SUBMIT_PROCESS_MESSAGE : labelButton;
 
-    const form = useForm<any>({
+    const form = useForm<DecoratorFormType>({
 
         defaultValues: {
             lastName: "",
@@ -33,21 +35,35 @@ const DecoratorForm = ({ defaultValues, handleOnSubmit, labelButton = SUBMIT_IDL
             phone: "",
             email: "",
             speciality: "",
-
-
+            experience: "",
+            averageTime: "",
+            photoID: null,
+            photo: undefined,
             ...defaultValues,
         },
     });
 
+    const processing = async (values: DecoratorFormType) => {
+        try {
+            await handleOnSubmit(values);
+            ToastSuccessSonner("Le decorateur à bien été créer avec success");
+            modalState.closeModal();
+        } catch (error: any) {
+            const message = `Raison: ${error.message}`;
+            ToastErrorSonner(message);
+        }
+    };
 
+
+    const submitData: SubmitHandler<DecoratorFormType> = async (values) => {
+        startTransition(async () => await processing(values));
+    };
 
 
 
     return (
         <Form {...form}>
-
-
-            <form className={cn('flex flex-col gap-4', className)} onSubmit={handleOnSubmit}>
+            <form className={cn('flex flex-col gap-4', className)} onSubmit={form.handleSubmit(submitData)}>
                 <Tabs defaultValue="form" className="w-full">
                     <TabsList>
                         <TabsTrigger value="form">Formulaire</TabsTrigger>
