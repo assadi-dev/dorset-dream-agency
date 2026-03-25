@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const AboutSection = () => {
     return (
-        <section className="my-5">
+        <section className="py-8">
             <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 lg:gap-3 min-h-[14vh]  bg-background rounded-lg shadow-lg">
                 <div className="text-slate-600 lg:w-[48vw] text-justify lg:text-left p-5 lg:p-14">
                     <h2 id="a-propos" className="text-center font-bold text-5xl mb-8">
