@@ -15,16 +15,18 @@ const {data,isLoading,isError} = useQuery({
     queryFn: async () =>fetchDecorators(params),
     initialData:{
         data:[],
-        total:0
+        totalItems:0,
+        page:1,
+        limit:10
     },
     
 })
 
   return {
-   collection:data?.data,
+   collections:data?.data,
    isLoading,
    isError,
-   total:data?.total ?? 0,
+   total:data?.totalItems ?? 0,
    
   }
 }

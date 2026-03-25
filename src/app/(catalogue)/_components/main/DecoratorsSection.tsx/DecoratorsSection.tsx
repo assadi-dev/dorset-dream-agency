@@ -2,10 +2,14 @@
 import React from 'react'
 import useDecoratorApi from './hooks/useDecoratorApi'
 import DecoratorCard from './DecoratorCard'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import EmptyDecorator from './EmptyDecorator'
 
 const DecoratorsSection = () => {
 
-    const { collection, isLoading, isError, total } = useDecoratorApi()
+    const { collections, isLoading, isError, total } = useDecoratorApi()
+    const array = Array.from({ length: 10 }, (_, i) => i + 1)
 
     return (
         <section className='main my-8' >
@@ -13,20 +17,22 @@ const DecoratorsSection = () => {
                 <h3 className='text-4xl font-bold text-center'>Nos Decorateurs</h3>
                 <p className='text-muted-foreground text-center'>Decouvrez nos decorateurs</p>
             </div>
-            <div className="my-8 grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-4" >
-                <DecoratorCard decorator={{
-                    id: 1,
-                    name: "Sonia Petit",
-                    phone: "555-56239",
-                    email: "soniaP@dynasty8.fb",
-                    speciality: "Speciality 1",
-                    photoUrl: "https://images.unsplash.com/photo-1482482097755-0b595893ba63?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    experience: 8,
-                    averageTime: 2,
-                    createdAt: new Date(),
-                }} />
+            <div className="my-8 grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(22rem,1fr))] gap-4 justify-center items-center" >
+                {collections.length === 0 ? (
+                    <EmptyDecorator />
+                ) : (
+                    collections.map((item) => (
+                        <DecoratorCard key={item.id} decorator={item} />
+                    ))
+                )}
             </div>
-
+            {
+                collections.length > 0 && <div className='flex justify-center items-center'>
+                    <Button className='bg-primary text-white hover:bg-primary/80' size="lg" asChild >
+                        <Link href="/decorators">Voir Plus</Link>
+                    </Button>
+                </div>
+            }
         </section>
     )
 }
