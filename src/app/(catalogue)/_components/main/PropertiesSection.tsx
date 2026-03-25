@@ -43,6 +43,7 @@ const PropertiesSection = () => {
 
     const array = Array.from({ length: 6 }, (_, i) => i + 1);
 
+
     return (
         <>
             {!categoryQuery.isFetching &&
