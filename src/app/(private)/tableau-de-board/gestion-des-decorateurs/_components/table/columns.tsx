@@ -1,6 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DecoratorData } from "../../type";
 import DecoratorCell from "./DecoratorCell";
+import { CellColumn } from "@/app/types/ReactTable";
+import DropdownActions from "@/components/Datatable/DropdownActions";
+import ActionsDecoratorProfile from "./ActionsDecoratorProfile";
 
 
 export const DecoratorProfileColumns: ColumnDef<DecoratorData>[] = [
@@ -17,3 +20,14 @@ export const DecoratorProfileColumns: ColumnDef<DecoratorData>[] = [
 
 ]
 
+
+
+export const DecoratorProfileActionsColumn: ColumnDef<DecoratorData> = {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }: CellColumn) => (
+        <DropdownActions>
+            <ActionsDecoratorProfile payload={row.original} />
+        </DropdownActions>
+    ),
+};
