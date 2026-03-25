@@ -9,7 +9,7 @@ import EmptyDecorator from './EmptyDecorator'
 const DecoratorsSection = () => {
 
     const { collections, isLoading, isError, total } = useDecoratorApi()
-    const array = Array.from({ length: 10 }, (_, i) => i + 1)
+
 
     return (
         <section className='main my-8' >

@@ -65,7 +65,10 @@ export const getDecoratorProfileCollections = async (filter: FilterPaginationTyp
                 : undefined;
         const parameters: BindParameters = {
             search: `%${search}%`,
+    
         };
+
+        console.log(limit);
 
 
         query.where(searchCondition);
