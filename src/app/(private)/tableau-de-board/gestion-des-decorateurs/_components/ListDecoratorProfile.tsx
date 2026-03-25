@@ -17,6 +17,7 @@ import useSelectTableRow from '@/hooks/useSelectTableRow';
 import { ACTIONS_CONTROL_PERMISSION } from '@/lib/access';
 import CheckBoxColumn from '@/components/Datatable/CheckBoxColumn';
 import AddDecoratorButton from './table/AddDecoratorButton';
+import SearchInputDataTable from '@/components/Datatable/SearchInputDataTable';
 
 type ListDecoratorProfileProps = {
     decorators: Array<DecoratorData>;
@@ -48,7 +49,7 @@ type ListDecoratorProfileProps = {
             </div>
             <Card className='p-3 w-full bg-white'>
                 <div className='flex justify-between items-center my-3'>
-                    <SearchInput placeholder='Rechercher un decorateur' />
+                    <SearchInputDataTable />
                     <div>
 
                     </div>

@@ -2,7 +2,7 @@ import { db } from "@/database";
 import { decoratorProfileInsertEntity, decoratorProfiles } from "../schema/decoratorProfile";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
-import { FilterPaginationType } from "@/database/types";
+import { BindParameters, FilterPaginationType } from "@/database/types";
 import { asc, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
 import { insertPhoto } from "./photos";
@@ -56,16 +56,24 @@ export const getDecoratorProfileCollections = async (filter: FilterPaginationTyp
                       like(decoratorProfiles.lastName, sql.placeholder("search")),
                       like(decoratorProfiles.firstName, sql.placeholder("search")),
                       like(decoratorProfiles.email, sql.placeholder("search")),
+                      like(decoratorProfiles.speciality, sql.placeholder("search")),
                       like(decoratorProfiles.phone, sql.placeholder("search")),
+                      like(decoratorProfiles.experience, sql.placeholder("search")),
+                      like(decoratorProfiles.averageTime, sql.placeholder("search")),
              
                   )
                 : undefined;
+        const parameters: BindParameters = {
+            search: `%${search}%`,
+        };
+
 
         query.where(searchCondition);
         const orderbyColumn = order === "asc" ? asc(decoratorProfiles.createdAt) : desc(decoratorProfiles.createdAt);
         const rowsCount = db.select({ count: sql<number>`COUNT(*)` }).from(decoratorProfiles).where(searchCondition);
-        const totalItems = (await rowsCount)[0].count || 0;
-        const data = await withPagination(query, orderbyColumn, page, limit);
+        const totalItems = (await rowsCount.execute(parameters))[0].count || 0;
+ 
+        const data = await withPagination(query.$dynamic(), orderbyColumn, page, limit, parameters);
         return {
             page,
             totalItems,
