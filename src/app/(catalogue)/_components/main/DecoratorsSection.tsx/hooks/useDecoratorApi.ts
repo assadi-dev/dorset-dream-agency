@@ -10,7 +10,7 @@ const useDecoratorApi = () => {
         limit: 10,
         order: 'desc'
     }
-const {data,isLoading,isError} = useQuery({
+const {data,isLoading,error} = useQuery({
     queryKey:['decorators',params],
     queryFn: async () =>fetchDecorators(params),
     initialData:{
@@ -25,7 +25,7 @@ const {data,isLoading,isError} = useQuery({
   return {
    collections:data?.data,
    isLoading,
-   isError,
+   error,
    total:data?.totalItems ?? 0,
    
   }

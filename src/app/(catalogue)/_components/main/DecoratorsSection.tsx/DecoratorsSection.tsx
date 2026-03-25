@@ -8,7 +8,7 @@ import EmptyDecorator from './EmptyDecorator'
 
 const DecoratorsSection = () => {
 
-    const { collections, isLoading, isError, total } = useDecoratorApi()
+    const { collections, isLoading, error, total } = useDecoratorApi()
 
 
     return (
