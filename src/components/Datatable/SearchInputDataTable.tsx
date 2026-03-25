@@ -9,13 +9,14 @@ import React from "react";
 type SearchInputDataTableType = {
     value?: string | null;
     onSearch?: (value: string | null) => void;
+    placeholder?: string;
     classNames?: {
         container?: string;
         input?: string;
         icon?: string;
     };
 };
-const SearchInputDataTable = ({ value, onSearch, classNames }: SearchInputDataTableType) => {
+const SearchInputDataTable = ({ value, onSearch, classNames, placeholder }: SearchInputDataTableType) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -61,6 +62,7 @@ const SearchInputDataTable = ({ value, onSearch, classNames }: SearchInputDataTa
                 value={searchTerm || ""}
                 onChange={handleInputChange}
                 className={cn("pr-10", classNames?.input)}
+                placeholder={placeholder}
             />
             <Search
                 className={cn("absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500", classNames?.icon)}
