@@ -2,6 +2,7 @@ import React from 'react'
 import { DecoratorData } from '../../type';
 import { AVATAR_MALE } from '@/config/image';
 import Image from 'next/image';
+import { safeLoadAvatar } from '@/lib/client_side';
 
 type DecoratorCellProps = {
     decorator: DecoratorData;
@@ -10,7 +11,7 @@ type DecoratorCellProps = {
 const DecoratorCell = ({ decorator }: DecoratorCellProps) => {
 
     const UNKNOWN_IMAGE = AVATAR_MALE;
-    const photoUrl = /* decorator.photoUrl ?? */ UNKNOWN_IMAGE;
+    const photoUrl = safeLoadAvatar({ path: decorator.photoUrl, gender: "Male" }) ?? UNKNOWN_IMAGE;
     //const CLEAN_DATE = datetimeFormatFr(client.createdAt);
     return (
         <div className='flex items-center gap-3 py-3'>
