@@ -1,3 +1,4 @@
+"use client"
 import AlertModalContent from '@/components/Modals/AlertModalContent';
 import useModalState from '@/hooks/useModalState';
 import React from 'react'

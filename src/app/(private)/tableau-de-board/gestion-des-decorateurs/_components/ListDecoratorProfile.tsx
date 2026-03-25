@@ -16,6 +16,7 @@ import useGetRoleUser from '@/hooks/useRoleUser';
 import useSelectTableRow from '@/hooks/useSelectTableRow';
 import { ACTIONS_CONTROL_PERMISSION } from '@/lib/access';
 import CheckBoxColumn from '@/components/Datatable/CheckBoxColumn';
+import AddDecoratorButton from './table/AddDecoratorButton';
 
 type ListDecoratorProfileProps = {
     decorators: Array<DecoratorData>;
@@ -42,7 +43,7 @@ type ListDecoratorProfileProps = {
             <div className='flex justify-between items-center my-3'>
                 <div></div>
                 <div>
-                    <Button type='button'><Plus className='h-4 w-4 mr-1' /> Ajouter un decorateur</Button>
+                    <AddDecoratorButton />
                 </div>
             </div>
             <Card className='p-3 w-full bg-white'>
@@ -52,7 +53,7 @@ type ListDecoratorProfileProps = {
 
                     </div>
                 </div>
-                <DataTable columns={columns} data={decoratorProfileCollections} isLoading={false} />
+                <DataTable columns={columns} data={decorators} isLoading={false} />
                 <CardFooter>
                     <div className="flex justify-between items-center w-full">
                         <div></div>
