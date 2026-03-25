@@ -16,7 +16,7 @@ export const DecoratorProfileColumns: ColumnDef<DecoratorData>[] = [
     },
     { id: "email", header: "Email", accessorKey: "email" },
     { id: "phone", header: "Téléphone", accessorKey: "phone" },
-    { id: "specialite", header: "Specialité", accessorKey: "specialite" },
+    { id: "speciality", header: "Specialité", accessorKey: "speciality" },
 
 ]
 

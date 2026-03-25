@@ -2,6 +2,7 @@
 import AlertModalContent from '@/components/Modals/AlertModalContent';
 import useModalState from '@/hooks/useModalState';
 import React from 'react'
+import { deleteDecorator } from '../../actions';
 
 const DeleteDecorator = () => {
     const { payload, closeModal } = useModalState();
@@ -9,19 +10,18 @@ const DeleteDecorator = () => {
 
 
     const handleConfirm = async () => {
-        /*        try {
-                   const formData = new FormData();
-                   const ids = payload.ids as number[];
-       
-                   ids.forEach((id) => formData.append("ids", String(id)));
-                   await removePropertiesAction(formData);
-                   queryClient.refetchQueries({ queryKey: ["LIST_IMMOBILIER_GESTION"] });
-                   payload?.resetSelected && payload?.resetSelected();
-                   closeModal();
-               } catch (error: any) {
-                   throw error;
-               } */
-    };
+        try {
+            const formData = new FormData();
+            const ids = payload.ids as number[];
+            ids.forEach((id) => formData.append("ids", String(id)));
+            await deleteDecorator(ids)
+            payload?.resetSelected && payload?.resetSelected();
+            closeModal();
+        } catch (error: any) {
+            throw error;
+        }
+    }
+
 
     const handleCancel = async () => {
         closeModal();

@@ -5,19 +5,28 @@ import useRouteRefresh from '@/hooks/useRouteRefresh';
 
 import { DecoratorData } from '../../type';
 import useModalState from '@/hooks/useModalState';
+import { updateDecoratorAction } from '../../actions';
+import { DecoratorFormType } from '../schema';
 
 const EditDecorator = () => {
 
     const refresh = useRouteRefresh();
     const { payload } = useModalState();
 
-    const handleOnSubmit = async (values: any) => {
+    const handleOnSubmit = async (values: DecoratorFormType) => {
         const formData = new FormData();
-        for (const [key, value] of values.entries()) {
-            formData.append(key, value);
+        formData.append("id", payload?.id.toString());
+        for (const [key, value] of Object.entries(values)) {
+            if (value instanceof File) {
+                formData.append(key, value);
+            } else {
+                if (value) {
+                    formData.append(key, value?.toString());
+                }
+            }
         }
 
-
+        await updateDecoratorAction(formData)
         refresh.refreshWithParams();
     }
 
@@ -35,7 +44,7 @@ const EditDecorator = () => {
 
     return (
         <div>
-            <DecoratorForm defaultValues={defaultValues} handleOnSubmit={handleOnSubmit} labelButton="Ajouter" className='w-full xl:w-[32vw]' />
+            <DecoratorForm defaultValues={defaultValues} handleOnSubmit={handleOnSubmit} labelButton="Modifier" className='w-full xl:w-[32vw]' />
         </div>
     )
 }

@@ -17,10 +17,13 @@ const AddDecorator = () => {
                 if (value instanceof File) {
                     formData.append(key, value);
                 } else {
-                    formData.append(key, value.toString());
+                    if (value) {
+                        formData.append(key, value?.toString());
+                    }
                 }
             }
         }
+
 
         await createdecoratorAction(formData);
         refresh.refreshWithParams();
