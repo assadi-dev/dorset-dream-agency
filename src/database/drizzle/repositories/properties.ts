@@ -405,6 +405,7 @@ type getPropertyPresentationArgs = {
     order?: OrderType;
     isAvailable?: boolean | null;
     search?: string | null;
+    page?: number;
 };
 /**
  * Récupérations des propriétés avec filtre pour catalogue
@@ -418,6 +419,7 @@ export const getPropertyCollections = async ({
     order,
     isAvailable,
     search,
+    page,
 }: getPropertyPresentationArgs) => {
 
         // include the derived "name" alias in the filter as well (built with COALESCE/CONCAT above)
@@ -443,14 +445,7 @@ export const getPropertyCollections = async ({
         .leftJoin(properties, eq(properties.id, variants.propertyID))
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID));
 
-    switch (order) {
-        case "desc":
-            result.orderBy(desc(properties.createdAt));
-            break;
-        case "asc":
-            result.orderBy(asc(properties.createdAt));
-            break;
-    }
+
 
     if (limit) result.limit(limit);
 
@@ -479,15 +474,36 @@ export const getPropertyCollections = async ({
     result.where(
         and(softDeleteCondition, variantSoftDeleteCondition, searchCondition, categoryCondition, isAvailableCondition),
     );
-
-    result.prepare();
-
-    return await result.execute({
+    const parameters = {
         categoryID: category,
         category,
         isAvailable,
         search: `%${search}%`,
-    });
+    }
+    const orderby = order === "asc" ? asc(properties.createdAt) : desc(properties.createdAt);
+    const data = await withPagination(result.$dynamic(), orderby, page, limit, parameters);
+
+    const countQuery = db.select({
+        count: sql<number>`count(*)`,
+    })
+        .from(variants)
+        .leftJoin(properties, eq(properties.id, variants.propertyID))
+        .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .where(
+            and(softDeleteCondition, variantSoftDeleteCondition, searchCondition, categoryCondition, isAvailableCondition),
+        );
+
+    const totalItems = await countQuery.execute(parameters).then((res) => res[0].count);
+
+
+    return {
+        collections:data,
+        totalItems,
+        limit,
+        page,
+
+
+    }
 };
 /**
  * Récupérations des propriétés pour accompagné de l'image de couverture
@@ -499,23 +515,30 @@ export const getPropertiesWithCover = async ({
     order,
     isAvailable,
     search,
+    page,
 }: getPropertyPresentationArgs) => {
-    const properties = await getPropertyCollections({ limit, category, order, isAvailable, search });
+    const properties = await getPropertyCollections({ limit, category, order, isAvailable, search, page });
 
     // Extract all variant IDs
-    const variantIDs = properties.map((property: any) => property.id);
+    const variantIDs = properties.collections.map((property: any) => property.id);
 
     // Fetch all cover pictures in a single batch query
     const coverPhotosMap = await getCoverPicturesForMultipleVariants(variantIDs);
 
     // Map the cover photos to properties
-    const propertiesWithCover = properties.map((property: any) => {
+    const propertiesWithCover = properties.collections.map((property: any) => {
         let photo = null;
         if (coverPhotosMap instanceof Map) photo = coverPhotosMap.get(property.id);
         return { ...property, photo: photo?.url || null };
     });
 
-    return propertiesWithCover;
+    return {
+        collections:propertiesWithCover,
+        totalItems:properties.totalItems,
+        limit:properties.limit,
+        page:properties.page,
+  
+    };
 };
 
 export const getOnePropertyByVariantID = async (variantID: number) => {

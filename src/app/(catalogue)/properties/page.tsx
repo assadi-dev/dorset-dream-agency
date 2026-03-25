@@ -13,16 +13,21 @@ type SearchParams = {
         order: "desc" | "asc";
         availability: string;
         isAvailable: boolean | null;
+        limit: number;
+        page: number;
     };
 };
 const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
     const ListPropertyResultAsync = async () => {
         if (searchParams.availability === "yes") searchParams.isAvailable = true;
         if (searchParams.availability === "no") searchParams.isAvailable = false;
+        searchParams.limit = Number(searchParams.limit) || 15;
+        searchParams.page = Number(searchParams.page) || 1;
+
 
         const propertiesResultCollection = await getPropertiesWithCover(searchParams);
-        const cleanPropertiesData = propertiesResultCollection.map((item) => cleanDataForCarousel(item));
-        return <ListPropertiesResultsSection propertiesCollections={cleanPropertiesData} />;
+        const cleanPropertiesData = propertiesResultCollection.collections.map((item) => cleanDataForCarousel(item));
+        return <ListPropertiesResultsSection propertiesCollections={cleanPropertiesData} totalItems={propertiesResultCollection.totalItems} limit={searchParams.limit} />;
     };
 
     return (

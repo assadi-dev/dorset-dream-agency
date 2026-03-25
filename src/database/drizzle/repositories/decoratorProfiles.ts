@@ -68,7 +68,6 @@ export const getDecoratorProfileCollections = async (filter: FilterPaginationTyp
     
         };
 
-        console.log(limit);
 
 
         query.where(searchCondition);
