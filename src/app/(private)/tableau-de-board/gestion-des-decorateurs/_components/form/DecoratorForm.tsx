@@ -69,7 +69,7 @@ const DecoratorForm = ({ defaultValues, handleOnSubmit, labelButton = SUBMIT_IDL
                         <TabsTrigger value="form">Formulaire</TabsTrigger>
                         <TabsTrigger value="photo">Photo</TabsTrigger>
                     </TabsList>
-                    <TabsContent className='lg:h-[45vh]' value="photo"> <UploadPhoto control={form.control} name="photo" label="Photo" /></TabsContent>
+                    <TabsContent className='lg:h-[45vh]' value="photo"> <UploadPhoto control={form.control} name="photo" /></TabsContent>
                     <TabsContent className='lg:h-[45vh]' value="form">
 
                         <div className="mb-4 grid grid-cols-2 gap-3">

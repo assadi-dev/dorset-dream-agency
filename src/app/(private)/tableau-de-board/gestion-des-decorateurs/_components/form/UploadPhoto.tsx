@@ -5,6 +5,7 @@ import { CircleAlert, Image, ImagePlus, Upload, X } from 'lucide-react';
 import React from 'react'
 import { useDropzone } from 'react-dropzone';
 import { Control, useController } from 'react-hook-form';
+import { DecoratorFormType } from '../schema';
 
 
 const MAX_FILE_SIZE = 500 * 1024; // 500 KB
@@ -15,11 +16,10 @@ type UploadState = {
 
 };
 type UploadPhotoProps = {
-    control: Control<any>;
-    name: string;
-    label?: string;
+    control: Control<DecoratorFormType>;
+    name: keyof DecoratorFormType;
 }
-const UploadPhoto = ({ control, name, label }: UploadPhotoProps) => {
+const UploadPhoto = ({ control, name }: UploadPhotoProps) => {
 
     const [state, setState] = React.useReducer((prev: UploadState, next: any) => ({ ...prev, ...next }), {
         preview: null,
