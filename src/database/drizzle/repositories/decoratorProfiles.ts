@@ -5,7 +5,8 @@ import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { asc, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
-import { insertPhoto } from "./photos";
+import { deletePhotoByID, insertPhoto } from "./photos";
+import { shouldRemovePhotoDecorator } from "./decoratorProfilesUploadFile";
 
 
 
@@ -94,7 +95,9 @@ export const getOneDecoratorProfile = async (id: number) => {
 export const deleteDecoratorProfile = async (id: number) => {
       const decoratorProfile = await getOneDecoratorProfile(id);
         if (!decoratorProfile) throw new Error("decorator profile not found");
+          await shouldRemovePhotoDecorator({photoID: decoratorProfile.photoID as number});
   await db.delete(decoratorProfiles).where(eq(decoratorProfiles.id, id));
+
     await sendToUserActions({
         message: `Suppression du profil de décorateur ${decoratorProfile.firstName} ${decoratorProfile.lastName}`,
         action: "delete",
@@ -106,14 +109,20 @@ export const deleteDecoratorProfile = async (id: number) => {
 
 
 export const deleteMultipleDecoratorProfiles = async (ids: number[]) => {
-  await db.delete(decoratorProfiles).where(inArray(decoratorProfiles.id, ids));
+    for (const id of ids) {
+        try {
+            await deleteDecoratorProfile(id);
+        } catch (error) {
+            continue;
+        }
+    }
     await sendToUserActions({
         message: `Suppression de ${ids.length} profils de décorateurs`,
         action: "delete",
         entity: ENTITIES_ENUM.DECORATOR_PROFILES,
         actionName: ACTION_NAMES.decoratorProfiles.delete,
     });
-    return decoratorProfiles;
+  
 }
 
 

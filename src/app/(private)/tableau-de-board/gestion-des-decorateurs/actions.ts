@@ -1,7 +1,7 @@
 "use server";
 
 import { createDecoratorProfile, createDecoratorProfileWithPhoto, deleteMultipleDecoratorProfiles, updateDecoratorProfile } from "@/database/drizzle/repositories/decoratorProfiles";
-import { uploadPhotoDecorator } from "@/database/drizzle/repositories/decoratorProfilesUploadFile";
+import { shouldRemovePhotoDecorator, uploadPhotoDecorator } from "@/database/drizzle/repositories/decoratorProfilesUploadFile";
 
 
 export const createdecoratorAction = async (formData: FormData)=>{
@@ -26,6 +26,7 @@ export const createdecoratorAction = async (formData: FormData)=>{
 export const updateDecoratorAction = async (formData: FormData)=>{
       const file = formData.get("photo");
       const id = Number(formData.get("id")) ;
+      const photoID = Number(formData.get("photoID")) ;
       const data = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
@@ -38,6 +39,9 @@ export const updateDecoratorAction = async (formData: FormData)=>{
     }
    const profile = await updateDecoratorProfile(id, data)
    if(file instanceof File){
+    if(photoID){
+        await shouldRemovePhotoDecorator({photoID});
+    }
     await uploadPhotoDecorator({files: [file], decoratorProfileID: profile.id});
  }
 }

@@ -1,4 +1,4 @@
-import { insertPhoto } from "./photos";
+import { deletePhotoByID, getOnePhotosByID, insertPhoto } from "./photos";
 import { UPLOAD_DIR_DECORATORS } from "@/lib/fileSystem";
 import * as fs from "fs";
 import path from "path";
@@ -42,4 +42,27 @@ export const uploadPhotoDecorator = async ({
             throw new Error("Error saving photo");
         }
     }
+};
+
+
+export const shouldRemovePhotoDecorator = async ({
+    photoID
+}: {
+    photoID: number;
+}) => {
+   try {
+    const photo = await getOnePhotosByID(photoID);
+    if (photo) {
+        const fileName = photo.url.split("/").slice(-1)[0];
+        const pathPhoto = path.join(UPLOAD_DIR_DECORATORS,fileName);
+        console.log(pathPhoto);
+        if (fs.existsSync(pathPhoto)) {
+            await fs.promises.unlink(pathPhoto);
+        }
+        await deletePhotoByID(photoID);
+    }
+   } catch (error) {
+    console.log(error);
+   }
+  
 };
