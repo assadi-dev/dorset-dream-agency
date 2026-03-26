@@ -27,16 +27,16 @@ const NavigationItems = ({ route }: NavigationProps) => {
         group: "",
     });
 
-    useEffect(() => {
-        if (localStorage && localStorage.getItem(SIDEBAR_STORAGE)) {
-            const storedSidebarState = localStorage.getItem(SIDEBAR_STORAGE) as string;
-            const parse = JSON.parse(storedSidebarState) as { isOpen: boolean; group: string };
-            setState({
-                isOpen: parse.isOpen,
-                group: parse.group,
-            });
-        }
-    }, []);
+    /*  useEffect(() => {
+         if (localStorage && localStorage.getItem(SIDEBAR_STORAGE)) {
+             const storedSidebarState = localStorage.getItem(SIDEBAR_STORAGE) as string;
+             const parse = JSON.parse(storedSidebarState) as { isOpen: boolean; group: string };
+             setState({
+                 isOpen: parse.isOpen,
+                 group: parse.group,
+             });
+         }
+     }, []); */
 
     const isActive = (path: string) => {
         searchParam.size;
@@ -57,9 +57,9 @@ const NavigationItems = ({ route }: NavigationProps) => {
     };
 
     const childrenActive = (title: string) => {
-        localStorage.setItem(SIDEBAR_STORAGE, JSON.stringify({ group: title, isOpen: !state.isOpen }));
         setState((current) => {
-            return { ...current, group: title, isOpen: !current.isOpen };
+            const isOpen = !current.isOpen;
+            return { ...current, group: title, isOpen };
         });
     };
 
