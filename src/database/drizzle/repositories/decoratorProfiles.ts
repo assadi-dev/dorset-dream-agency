@@ -5,7 +5,7 @@ import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { asc, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { photos } from "../schema/photos";
-import { deletePhotoByID, insertPhoto } from "./photos";
+import { insertPhoto } from "./photos";
 import { shouldRemovePhotoDecorator } from "./decoratorProfilesUploadFile";
 
 
@@ -36,7 +36,7 @@ export const createDecoratorProfileWithPhoto = async (inputs: decoratorProfileIn
 
 export const getDecoratorProfileCollections = async (filter: FilterPaginationType) => {
      const { page, limit, order, search } = filter;
-     const profilName = sql<string>`CONCAT(${decoratorProfiles.lastName}," ",${decoratorProfiles.firstName})`;
+     const profilName = sql<string>`CONCAT(${decoratorProfiles.firstName}," ",${decoratorProfiles.lastName})`;
     const query = db.select({
         id: decoratorProfiles.id,
         name: profilName,
@@ -61,6 +61,7 @@ export const getDecoratorProfileCollections = async (filter: FilterPaginationTyp
                       like(decoratorProfiles.phone, sql.placeholder("search")),
                       like(decoratorProfiles.experience, sql.placeholder("search")),
                       like(decoratorProfiles.averageTime, sql.placeholder("search")),
+                     sql<string>`CONCAT(${decoratorProfiles.firstName}," ",${decoratorProfiles.lastName}) LIKE ${sql.placeholder("search")}`,
              
                   )
                 : undefined;
