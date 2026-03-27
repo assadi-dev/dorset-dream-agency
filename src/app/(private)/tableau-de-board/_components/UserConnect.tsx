@@ -108,14 +108,14 @@ const UserConnect = () => {
                         <DropdownMenuItem>
                             <Link href={"/tableau-de-board/account"} className=" w-full">
                                 <DropdownMenuItem className="justify-start gap-3 w-full">
-                                    <User /> <span>Mon Compte</span>
+                                    <User className="h-4 w-4" /> <span>Mon Compte</span>
                                 </DropdownMenuItem>
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <Link href={"https://formad8polo.lovable.app"} target="_blank" className=" w-full">
                                 <DropdownMenuItem className="justify-start gap-3 w-full">
-                                    <BookOpen /> <span>Mes Formations</span>
+                                    <BookOpen className="h-4 w-4" /> <span>Mes Formations</span>
                                 </DropdownMenuItem>
                             </Link>
                         </DropdownMenuItem>

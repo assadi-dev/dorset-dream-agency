@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import React from "react"
 import { Moon, Settings, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -11,6 +11,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
 
 const THEME_OPTIONS = [
     { value: "light", label: "Clair", icon: <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" /> },
@@ -18,13 +19,17 @@ const THEME_OPTIONS = [
     { value: "system", label: "Système", icon: <Settings className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" /> },
 ]
 
-export function ModeToggle() {
+type ModeToggleProps = {
+    className?: string;
+    variant?: "default" | "outline" | "link" | "destructive" | "secondary" | "ghost" | null | undefined;
+}
+export function ModeToggle({ className, variant = "outline" }: ModeToggleProps) {
     const { setTheme } = useTheme()
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant={variant} size="icon" className={cn("rounded-full", className)}>
                     <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                     <span className="sr-only">Mode du thème</span>
@@ -32,7 +37,7 @@ export function ModeToggle() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 {THEME_OPTIONS.map((theme) => (
-                    <DropdownMenuItem key={theme.value} onClick={() => setTheme(theme.value)}>
+                    <DropdownMenuItem key={theme.value} onClick={() => setTheme(theme.value)} className="flex items-center gap-2 text-sm">
                         {theme.label}
                     </DropdownMenuItem>
                 ))}

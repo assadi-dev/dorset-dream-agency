@@ -8,6 +8,7 @@ import logo from "@assets/images/logo.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Globe } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const NavbarCatalogue = async () => {
     const session = await auth();
@@ -47,7 +48,8 @@ const NavbarCatalogue = async () => {
                     </Link>
                 </div>
                 <div className="justify-self-center self-center"></div>
-                <div className="flex justify-end items-center justify-self-end self-center">
+                <div className="flex justify-end items-center justify-self-end self-center gap-3">
+                    <ModeToggle variant="default" />
                     <ConnectButton />
                 </div>
             </div>
