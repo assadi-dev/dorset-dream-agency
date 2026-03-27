@@ -14,10 +14,18 @@ type EmployeeCardProps = {
 
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
     const photo = safeLoadAvatar({ path: employee.photoUrl, gender: employee.gender });
+    const CONTAINER_STYLE = {
+        dark: "dark:bg-gradient-to-br dark:from-secondary dark:to-secondary/80 dark:text-white dark:rounded-lg dark:shadow-inner dark:shadow-white",
+        light: "bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white",
+    }
+    const DATA_CARD_STYLE = {
+        dark: "dark:bg-background shadow-inner shadow-white/65 backdrop-blur-lg ",
+        light: "bg-green-950 shadow-inner shadow-white/65 backdrop-blur-lg",
+    }
 
     return (
-        <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white">
-            <div className="  bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
+        <figure className={`grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full ${CONTAINER_STYLE.dark} ${CONTAINER_STYLE.light}`}>
+            <div className=" dark:bg-background bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
                 <Image
                     src={photo}
                     height={400}
@@ -26,7 +34,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
                     className="object-cover object-center h-full "
                 />
             </div>
-            <figcaption className="flex-1 bg-green-950 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
+            <figcaption className={`flex-1 py-2 px-3 rounded-lg h-fit self-end overflow-hidden ${DATA_CARD_STYLE.dark} ${DATA_CARD_STYLE.light}`}>
                 <p className="text-sm lg:text-[1rem] font-bold max-w-[80%] text-nowrap text-ellipsis overflow-hidden">
                     {employee.name}
                 </p>
