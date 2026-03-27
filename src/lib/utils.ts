@@ -29,6 +29,15 @@ export const setTitlePage = (title?: string) => {
     return metadata;
 };
 
+export const generateMetadata = (title?: string) => {
+    const metadata: Metadata = {
+        title: title ? `${title} - ${ENV.APP_TITLE}` : ENV.APP_TITLE,
+        description: `Panel d'administration de l'agence immobilier ${ENV.APP_TITLE}`,
+    };
+
+    return metadata;
+};
+
 export const currentYear = () => {
     return new Date().getFullYear();
 };

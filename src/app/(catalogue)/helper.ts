@@ -28,7 +28,7 @@ export const getPropertiesForCarouselApi = async (): Promise<PropertyCarouselRes
         },
     });
 
-    return result.data;
+    return result.data.collections;
 };
 
 export const getPropertiesPerCategoryApi = async (category: string, limit = 25) => {
@@ -40,7 +40,7 @@ export const getPropertiesPerCategoryApi = async (category: string, limit = 25) 
         },
     });
 
-    return result.data;
+    return result.data.collections;
 };
 
 export const cleanDataForCarousel = (inputs: PropertyCarouselResponse | any) => {

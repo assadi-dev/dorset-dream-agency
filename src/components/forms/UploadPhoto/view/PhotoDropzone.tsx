@@ -24,7 +24,7 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
     const [isPending, startTransition] = useTransition();
     payload as UploadState;
     const [state, setState] = React.useReducer((prev: UploadState, next: any) => ({ ...prev, ...next }), {
-        preview: preview || payload.preview,
+        preview: preview || payload.preview || null,
         file: null,
     });
 
