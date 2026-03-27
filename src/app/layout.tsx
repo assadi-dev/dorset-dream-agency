@@ -16,6 +16,7 @@ import "swiper/css/a11y";
 import "swiper/css/controller";
 import "swiper/css/autoplay";
 import "swiper/css/zoom";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -43,9 +44,16 @@ export default function RootLayout({
     return (
         <html lang="fr">
             <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased `}>
-                <PageTopLoader />
-                <QueryClientProvider>{children}</QueryClientProvider>
-                <Toaster theme="light" richColors closeButton />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+
+                >
+                    <PageTopLoader />
+                    <QueryClientProvider>{children}</QueryClientProvider>
+                    <Toaster theme="light" richColors closeButton />
+                </ThemeProvider>
             </body>
         </html>
     );
