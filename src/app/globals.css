@@ -125,7 +125,7 @@
         @apply hover:bg-primary/10   data-[state=selected]:bg-primary/10 drop-shadow py-3;
     }
     .bg-sidebar {
-        @apply bg-gradient-to-br  from-black from-[5%]   to-primary to-100% !border-r-0;
+        @apply bg-gradient-to-br  from-black from-[5%]   to-primary to-100% !border-r-0  dark:from-background dark:to-card;
     }
 
     .absolute-center-y {

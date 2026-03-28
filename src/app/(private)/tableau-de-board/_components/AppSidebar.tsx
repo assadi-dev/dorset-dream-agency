@@ -37,7 +37,7 @@ type AppSidebar = {
 const AppSidebar = ({ role }: AppSidebar) => {
     const SIDEBAR = getSideBar(role);
     return (
-        <Sidebar className="sidebar-custom    text-white">
+        <Sidebar className="sidebar-custom">
             <SidebarHeader className="mb-5">
                 <SidebarMenu className="flex justify-end items-center p-3  rounded-xl">
                     <SidebarMenuItem className="w-[75%] h-[auto]">
