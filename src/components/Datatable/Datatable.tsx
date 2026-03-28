@@ -20,7 +20,7 @@ function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<T
     });
 
     return (
-        <ScrollArea className="h-[calc(80vh-280px)] rounded-md  bg-white">
+        <ScrollArea className="h-[calc(80vh-280px)] rounded-md  bg-dynasty-table">
             <Table className="dataTable relative">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
