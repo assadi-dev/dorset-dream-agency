@@ -15,7 +15,7 @@ type EmployeeCardProps = {
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
     const photo = safeLoadAvatar({ path: employee.photoUrl, gender: employee.gender });
     const CONTAINER_STYLE = {
-        dark: "dark:bg-gradient-to-br dark:from-secondary dark:to-secondary/80 dark:text-white dark:rounded-lg dark:shadow-inner dark:shadow-white",
+        dark: "dark:bg-gradient-to-br dark:from-dynasty-card dark:to-dynasty-card/80 dark:text-white dark:rounded-lg dark:shadow-inner dark:shadow-white",
         light: "bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white",
     }
     const DATA_CARD_STYLE = {

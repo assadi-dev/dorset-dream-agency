@@ -15,7 +15,7 @@ const DashboardNavbar = async () => {
                 <header
                     className={cn(styles.dashboardHeader, "p-3")}
                 >
-                    <div className={cn("bg-white dark:bg-secondary shadow flex justify-between items-center z-[10] rounded-full border  p-1 px-5")}>
+                    <div className={cn("bg-dynasty-card shadow flex justify-between items-center z-[10] rounded-full border  p-1 px-5")}>
                         <BreadcrumbTheme />
                         <div className="flex items-center gap-3 justify-end px-5">
                             <ModeToggle variant="ghost" />

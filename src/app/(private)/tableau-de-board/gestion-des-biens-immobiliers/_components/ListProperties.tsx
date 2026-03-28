@@ -62,7 +62,7 @@ const ListProperties = () => {
         : columns;
 
     return (
-        <Card className="px-2 bg-white">
+        <Card className="px-2 bg-dynasty-card">
             {/*       {error && (
                 <Alert variant="destructive">
                     <Terminal className="h-4 w-4" />
