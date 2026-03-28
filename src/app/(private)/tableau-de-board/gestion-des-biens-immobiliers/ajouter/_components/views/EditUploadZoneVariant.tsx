@@ -218,7 +218,7 @@ const EditUploadZoneVariant = () => {
             <form
                 onSubmit={form.handleSubmit(submitVariant)}
                 className="w-[32vw] p-3 min-h-[25vh] flex flex-col justify-between gap-3"
-                /*onPaste={handlePast}*/
+            /*onPaste={handlePast}*/
             >
                 <FormFieldInput
                     control={form.control}
@@ -231,7 +231,7 @@ const EditUploadZoneVariant = () => {
                     <div
                         {...getRootProps()}
                         className={cn(
-                            "border border-primary border-dashed rounded-xl h-[16vh] grid place-items-center  hover:cursor-pointer text-[rgba(0,0,0,0.6)]",
+                            "border dark:border-slate-500 border-primary border-dashed rounded-xl h-[16vh] grid place-items-center  hover:cursor-pointer bg-card dark:text-white/60 text-black/60",
                             CLASS_DRAG_ACTIVE,
                         )}
                     >
@@ -261,12 +261,12 @@ const EditUploadZoneVariant = () => {
                             )}
                         </div>
                     </div>
-                    <ScrollArea className="mt-4 h-[25vh] bg-slate-100 rounded-xl pb-3">
+                    <ScrollArea className="mt-4 h-[25vh] dark:bg-card bg-slate-100 rounded-xl pb-3">
                         <div className="p-3 grid grid-cols-[repeat(auto-fit,minmax(180px,180px))] gap-1 justify-center">
                             {form.watch("files").length > 0 &&
                                 form
                                     .getValues("files")
-                                    .map((file) => (
+                                    .map((file: any) => (
                                         <PreviewVarianteUpload
                                             key={file?.id}
                                             isCover={file.isCover}

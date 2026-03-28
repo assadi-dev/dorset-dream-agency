@@ -117,7 +117,7 @@ const EditProperty = ({ propertyID, defaultValues }: EditPropertyProps) => {
                         <SubmitButton isLoading={isPending}>{SUBMIT_BUTTON}</SubmitButton>
                     </div>
                     <div className="lg:grid lg:grid-cols-[0.82fr,1fr] h-[78vh] gap-5 items-center py-5">
-                        <Card className="bg-white shadow-lg h-full">
+                        <Card className="bg-dynasty-card shadow-lg h-full">
                             <ScrollArea className="w-full h-full">
                                 <PropertyForm form={form} className="h-full p-5" />
                             </ScrollArea>

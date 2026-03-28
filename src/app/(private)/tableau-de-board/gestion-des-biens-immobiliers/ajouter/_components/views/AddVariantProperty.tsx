@@ -34,7 +34,7 @@ const AddVariantProperty = () => {
     };
 
     return (
-        <div className="h-full  rounded-xl p-3 text-secondary bg-primary/50 ">
+        <div className="h-full  rounded-xl p-3 text-secondary bg-card dark:border">
             <AddVariantCard />
             <ScrollArea className="p-3 lg:h-[calc(55vh-50px)]">
                 <div className="w-full  grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(150px,250px))] gap-3">
