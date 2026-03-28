@@ -52,20 +52,20 @@ const ActionsImmobilier = ({ payload }: ActionsImmobilierProps) => {
         <>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleClickNewVariant} className="text-dropdown-action">
+            <DropdownMenuItem onClick={handleClickNewVariant} className="dropdown-action-item">
                 <ImagePlus className="mr-2 h-4 w-4" /> Ajouter une variante
             </DropdownMenuItem>
-            <DropdownMenuItem asChild className="text-dropdown-action">
+            <DropdownMenuItem asChild className="dropdown-action-item">
                 <Link href={`/tableau-de-board/gestion-des-biens-immobiliers/modifier?property=${payload.id}`}>
                     <Pen className="mr-2 h-4 w-4" />
                     Modifier
                 </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClickDuplicate} className="text-dropdown-action">
+            <DropdownMenuItem onClick={handleClickDuplicate} className="dropdown-action-item">
                 <Copy className="mr-2 h-4 w-4" />
                 Dupliquer
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClickDelete} className="dropdown-action-delete">
+            <DropdownMenuItem onClick={handleClickDelete} className="dropdown-action-danger">
                 <Trash className="mr-2 h-4 w-4" />
                 Supprimer
             </DropdownMenuItem>

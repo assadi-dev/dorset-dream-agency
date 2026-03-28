@@ -141,9 +141,20 @@
     .green-gradient {
         @apply bg-gradient-to-br from-black via-green-900 to-primary;
     }
-    .dropdown-action-delete {
+    .dropdown-action-item{
+        @apply dark:text-slate-300 text-muted-foreground;
+    }
+    .dropdown-action-danger {
         @apply text-red-600 hover:!text-red-600 hover:!bg-red-600/10;
     }
+
+    .modal-variant-card{
+        @apply bg-card;
+    }
+    .upload-variant-zone{
+        @apply bg-card border border-primary dark:border-slate-500  border-dashed rounded-xl  grid place-items-center  hover:cursor-pointer text-black/60 dark:text-white/60;
+    }
+
 .card-variant {
     @apply bg-slate-200 dark:bg-card;
 }

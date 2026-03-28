@@ -47,7 +47,7 @@ type ListDecoratorProfileProps = {
                     <AddDecoratorButton />
                 </div>
             </div>
-            <Card className='p-3 w-full bg-white'>
+            <Card className='p-3 w-full bg-dynasty-card'>
                 <div className='flex justify-between items-center my-3'>
                     <SearchInputDataTable placeholder='Rechercher un decorateur' classNames={{ container: "w-full lg:w-1/2" }} />
                     <div>

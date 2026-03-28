@@ -231,7 +231,7 @@ const EditUploadZoneVariant = () => {
                     <div
                         {...getRootProps()}
                         className={cn(
-                            "border dark:border-slate-500 border-primary border-dashed rounded-xl h-[16vh] grid place-items-center  hover:cursor-pointer bg-card dark:text-white/60 text-black/60",
+                            "upload-variant-zone h-[16vh]",
                             CLASS_DRAG_ACTIVE,
                         )}
                     >
