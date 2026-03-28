@@ -49,7 +49,7 @@ const NavbarCatalogue = async () => {
                 </div>
                 <div className="justify-self-center self-center"></div>
                 <div className="flex justify-end items-center justify-self-end self-center gap-3">
-                    <ModeToggle variant="default" />
+                    <ModeToggle variant="ghost" />
                     <ConnectButton />
                 </div>
             </div>
