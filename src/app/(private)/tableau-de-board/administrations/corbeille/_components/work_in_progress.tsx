@@ -15,7 +15,7 @@ const WorkInProgress = () => {
     });
 
     return (
-        <div className=" bg-white rounded-xl shadow-lg w-fit py-5 px-10 mx-auto mt-10">
+        <div className=" bg-card rounded-xl shadow-lg w-fit py-5 px-10 mx-auto mt-10">
             <div className="text-center font-semibold text-2xl animate-bounce">En cours de développement</div>
             {View}
         </div>
