@@ -32,7 +32,7 @@ const EditorContent = () => {
     const type = selected?.type as FabricFormType;
 
     return (
-        <div className="w-fit bg-white rounded-xl shadow-lg">
+        <div className="w-fit bg-white dark:bg-card rounded-xl shadow-lg">
             {" "}
             <ScrollArea className="h-[72vh] py-3 ">
                 <div className="flex flex-col gap-2  p-3 xl:p-5  h-full  text-sm ">
@@ -52,8 +52,8 @@ const EditorContent = () => {
                         </div>
                     )}
                     {
-                        <fieldset className="mb-3 p-3 border border-slate-300 rounded">
-                            <legend className="text-xs xl:text-[0.875rem] font-semibold bg-white px-3">Bordure</legend>
+                        <fieldset className="mb-3 p-3 border border-slate-300 dark:border-slate-600 rounded">
+                            <legend className="text-xs xl:text-[0.875rem] font-semibold bg-white dark:bg-card px-3">Bordure</legend>
                             <BordureSelect />
                         </fieldset>
                     }
