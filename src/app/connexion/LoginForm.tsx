@@ -69,8 +69,8 @@ const LoginForm = () => {
                     opacity: 1,
                     repeat: 0,
                     x: 0,
-                    ease: "expo.out",
-                    duration: 2.5,
+                    ease: "circ.out",
+                    duration: 0.3,
                     stagger: {
                         each: 0.25,
                     },
@@ -130,7 +130,7 @@ const LoginForm = () => {
                 <div className="my-6 ">
                     <Link
                         href={"/"}
-                        className="hover:underline underline-offset-2 flex items-center gap-3 mx-auto w-fit text-sm sm:text-md text-secondary font-semibold mb-3"
+                        className="hover:underline underline-offset-2 flex items-center gap-3 mx-auto w-fit text-sm sm:text-md text-secondary dark:text-white font-semibold mb-3"
                     >
                         <ArrowLeft className=" h-4 w-4" />
                         Retour vers la page catalogue{" "}

@@ -49,7 +49,7 @@ const NavbarCatalogue = async () => {
                 </div>
                 <div className="justify-self-center self-center"></div>
                 <div className="flex justify-end items-center justify-self-end self-center gap-3">
-                    <ModeToggle variant="secondary" className="dark:bg-card dark:text-white dark:border" />
+                    <ModeToggle variant="default" className="text-white dark:bg-card dark:text-white dark:border" />
                     <ConnectButton />
                 </div>
             </div>
