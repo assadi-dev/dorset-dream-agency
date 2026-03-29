@@ -114,7 +114,7 @@
 
     @media (prefers-color-scheme: dark) {
         body {
-            @apply bg-background text-white
+            @apply dark:bg-background dark:text-white
         }
     }
 
