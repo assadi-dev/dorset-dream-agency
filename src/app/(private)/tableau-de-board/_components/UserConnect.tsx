@@ -17,6 +17,7 @@ import LogoutButton from "./LogoutButton";
 import Image from "next/image";
 import { RoleEnum } from "@/app/types/user";
 import { safeLoadAvatar } from "@/lib/client_side";
+import { cn } from "@/lib/utils";
 
 type User = {
     name?: string | null;
@@ -82,9 +83,12 @@ const UserConnect = () => {
     const session = useSession();
     const user = session ? (session?.data?.user as User) : null;
 
+    const bgSidebar = "border-green-900 dark:border-border bg-gradient-to-r from-black  to-primary dark:from-background dark:to-card";
+
+
     return (
         <SidebarMenu>
-            <SidebarMenuItem className="rounded-lg border border-green-900 bg-gradient-to-r from-black  to-primary  transition-all shadow-lg">
+            <SidebarMenuItem className={cn("rounded-lg border transition-all shadow-lg", bgSidebar)}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
@@ -108,14 +112,14 @@ const UserConnect = () => {
                         <DropdownMenuItem>
                             <Link href={"/tableau-de-board/account"} className=" w-full">
                                 <DropdownMenuItem className="justify-start gap-3 w-full">
-                                    <User /> <span>Mon Compte</span>
+                                    <User className="h-4 w-4" /> <span>Mon Compte</span>
                                 </DropdownMenuItem>
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                             <Link href={"https://formad8polo.lovable.app"} target="_blank" className=" w-full">
                                 <DropdownMenuItem className="justify-start gap-3 w-full">
-                                    <BookOpen /> <span>Mes Formations</span>
+                                    <BookOpen className="h-4 w-4" /> <span>Mes Formations</span>
                                 </DropdownMenuItem>
                             </Link>
                         </DropdownMenuItem>

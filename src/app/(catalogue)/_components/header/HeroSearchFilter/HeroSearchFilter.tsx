@@ -44,7 +44,7 @@ const HeroSearchFilter = () => {
     return (
         <form
             onSubmit={handleSearchSubmit}
-            className="bg-white w-full lg:w-4/5 mx-auto p-3 lg:p-6 flex flex-col lg:flex-row  justify-center gap-3 items-center rounded-lg lg:min-h-20 lg:translate-y-[-100%] z-10 relative shadow-md"
+            className="bg-dynasty-card border w-full lg:w-4/5 mx-auto p-3 lg:p-6 flex flex-col lg:flex-row  justify-center gap-3 items-center rounded-lg lg:min-h-20 lg:translate-y-[-100%] z-10 relative shadow-md"
         >
             <div className="w-full">
                 <label htmlFor="search">

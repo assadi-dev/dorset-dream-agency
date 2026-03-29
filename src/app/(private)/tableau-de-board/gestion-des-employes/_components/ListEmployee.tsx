@@ -50,7 +50,7 @@ const ListEmployee = ({ employees, totalItems, limit }: ListEmployeeProps) => {
     const EmployeesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, actions] : columns;
 
     return (
-        <Card className="  px-2 bg-white">
+        <Card className="  px-2 bg-dynasty-card">
             <div className="my-5 flex justify-between items-center">
                 <div className="min-w-[25vw]">
                     {" "}

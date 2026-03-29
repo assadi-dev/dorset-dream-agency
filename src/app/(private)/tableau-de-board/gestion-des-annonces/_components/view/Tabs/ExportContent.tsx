@@ -146,7 +146,7 @@ const ExportContent = ({ isEdit, defaultValues }: ExportContentProps) => {
     };
 
     return (
-        <div className="flex flex-col gap-2  h-full  bg-white p-5 rounded-xl shadow-lg w-full text-xs">
+        <div className="flex flex-col gap-2  h-full  bg-white dark:bg-card p-5 rounded-xl shadow-lg w-full text-xs">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(saveAnnounce)}>
                     <div className="my-3">

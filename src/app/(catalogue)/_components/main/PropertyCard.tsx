@@ -72,19 +72,19 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 />
                 <div className="flex flex-col lg:flex-row items-center justify-between  p-2 rounded-sm backdrop-blur-md w-full gap-3">
                     <div className="flex flex-col gap-1 w-full">
-                        <p className="text-sm text-slate-600 flex justify-between items-center w-full">
+                        <p className="text-sm text-slate-600 dark:text-slate-300 flex justify-between items-center w-full">
                             <span>
                                 {" "}
                                 <HandCoins className="w-4 h-4 inline-block mr-1" /> Location:{" "}
                             </span>
-                            <span className="font-semibold">{addSpaceThousandsFormat(property.rentalPrice)}$</span>
+                            <span className="font-semibold dark:text-white">{addSpaceThousandsFormat(property.rentalPrice)}$</span>
                         </p>
-                        <p className="text-sm text-slate-600 flex justify-between items-center w-full">
+                        <p className="text-sm text-slate-600 dark:text-slate-300 flex justify-between items-center w-full">
                             <span>
                                 {" "}
                                 <Handshake className="w-4 h-4 inline-block mr-1" /> Vente:{" "}
                             </span>
-                            <span className="font-semibold">{sellingPrice}</span>
+                            <span className="font-semibold dark:text-white">{sellingPrice}</span>
                         </p>
                     </div>
                 </div>

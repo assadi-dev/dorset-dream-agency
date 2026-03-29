@@ -16,7 +16,7 @@ const ClientDetailCard = async ({ client }: ClientDetailCardType) => {
     const role = session?.user.role;
 
     return (
-        <Card className="bg-transparent border-none shadow-none lg:border lg:shadow  lg:bg-primary text-primary-accent lg:grid lg:grid-rows-[auto,1fr,auto] lg:gap-4">
+        <Card className="bg-transparent shadow-none lg:border lg:shadow  lg:bg-primary lg:dark:bg-card text-primary-accent lg:grid lg:grid-rows-[auto,1fr,auto] lg:gap-4 h-full">
             {client && <AvatarClient variant={client.gender || "Male"} client={client} />}
 
             <ActionDetailClient

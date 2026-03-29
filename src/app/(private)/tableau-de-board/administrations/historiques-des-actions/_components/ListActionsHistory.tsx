@@ -58,7 +58,7 @@ const ListActionsHistory = () => {
             <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] py-6 items-center gap-3">
                 <div></div>
             </div>
-            <Card className="px-2 bg-white">
+            <Card className="px-2 bg-dynasty-card">
                 <div className="my-5 flex justify-between items-center">
                     <div className="min-w-[25vw]">
                         <SearchInputDataTable />

@@ -32,8 +32,8 @@ const GestionAnnouncementPage = async ({ searchParams }: GestionAnnouncementPage
                 <div className="md:grid md:grid-cols-[minmax(100px,0.5fr),1fr] p-3 items-center">
                     <SearchInputDataTable
                         classNames={{
-                            input: "bg-green-950/25 ",
-                            icon: "!text-primary-accent",
+                            input: "bg-green-950/25 dark:bg-background",
+                            icon: "!text-primary-accent dark:!text-muted-foreground",
                         }}
                     />
                     <div className="justify-self-end ">

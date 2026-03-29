@@ -49,7 +49,7 @@ const SelectionActions = ({ selectedItems, resetSelected }: SelectionActionButto
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem onClick={handleClickDelete} disabled={!CAN_DELETE}>
+                    <DropdownMenuItem onClick={handleClickDelete} disabled={!CAN_DELETE} className="dropdown-action-danger">
                         <TextWithTooltip tooltipTitle={TOOLTIP_MESSAGE}>
                             {" "}
                             <p className="flex gap-2 items-center">

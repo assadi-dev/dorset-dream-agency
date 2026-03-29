@@ -41,7 +41,7 @@ export function RichTextEditor({ content, onChange }: RichTextEditorProps) {
             <ToolbarMenu editor={editor} />
             <ScrollArea className="h-[45vh] pb-2">
                 <BubbleMenuRow editor={editor} />
-                <EditorContent editor={editor} className="bg-card cursor-text relative" />
+                <EditorContent editor={editor} className="cursor-text relative" />
                 {isOpen && <AIPromptInput editor={editor} text={text} />}
                 {isFetching && <AskAiFetching />}
 

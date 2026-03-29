@@ -16,6 +16,8 @@ import "swiper/css/a11y";
 import "swiper/css/controller";
 import "swiper/css/autoplay";
 import "swiper/css/zoom";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Metadata } from "next";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -35,6 +37,15 @@ const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
 });
 
+export const metadata: Metadata = {
+
+    themeColor: [
+        { media: "(prefers-color-scheme: light)", color: "#106835" },
+        { media: "(prefers-color-scheme: dark)", color: "#070a12" },
+    ],
+
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -43,9 +54,16 @@ export default function RootLayout({
     return (
         <html lang="fr">
             <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased `}>
-                <PageTopLoader />
-                <QueryClientProvider>{children}</QueryClientProvider>
-                <Toaster theme="light" richColors closeButton />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+
+                >
+                    <PageTopLoader />
+                    <QueryClientProvider>{children}</QueryClientProvider>
+                    <Toaster theme="light" richColors closeButton />
+                </ThemeProvider>
             </body>
         </html>
     );

@@ -36,11 +36,11 @@ const ActionUserDropdown = ({ userActionItem }: ActionUserDropdownProps) => {
 
     return (
         <>
-            <DropdownMenuItem onClick={handleClickDetailView} className="text-primary">
+            <DropdownMenuItem onClick={handleClickDetailView} className="dropdown-action-item">
                 <Info className="mr-2 h-4 w-4" /> Description détaillé
             </DropdownMenuItem>
             {userActionItem.action === "delete" && (
-                <DropdownMenuItem onClick={handleClickRestore} className="text-red-600" disabled={!description.extras}>
+                <DropdownMenuItem onClick={handleClickRestore} className="dropdown-action-danger" disabled={!description.extras}>
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Restaurer
                 </DropdownMenuItem>

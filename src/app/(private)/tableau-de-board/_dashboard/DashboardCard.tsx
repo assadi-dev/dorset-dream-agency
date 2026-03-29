@@ -15,7 +15,7 @@ const DashboardCard = ({ title, icon, children, ...props }: DashboardCardProps) 
                 <CardHeader className="flex flex-row items-center justify-between p-3 xl:p-6 text-primary-accent ">
                     <CardTitle className="text-sm font-medium drop-shadow-sm">{title}</CardTitle>
                     {icon && RenderIcon ? (
-                        <div className="bg-green-950 rounded-full p-2 xl:p-3 shadow-lg !m-0">
+                        <div className="bg-green-950 rounded-full p-2 xl:p-3 shadow-lg !m-0 dark:bg-secondary dark:border">
                             <RenderIcon className="w-4 h-4 xl:h-6 xl:w-6" />
                         </div>
                     ) : null}

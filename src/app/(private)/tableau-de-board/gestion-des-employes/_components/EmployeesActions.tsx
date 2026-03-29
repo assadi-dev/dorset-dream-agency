@@ -54,19 +54,19 @@ const EmployeesActions = ({ payload, canDelete, canUpdate, canUpload }: Employee
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {canUpload && (
-                <DropdownMenuItem onClick={handleClickUploadPhoto} className="text-primary">
+                <DropdownMenuItem onClick={handleClickUploadPhoto} className="dropdown-action-item">
                     <ImagePlus className="mr-2 h-4 w-4" />
                     Changer la photo
                 </DropdownMenuItem>
             )}
             {canUpdate && (
-                <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
+                <DropdownMenuItem onClick={handleClickEdit} className="dropdown-action-item">
                     <Pen className="mr-2 h-4 w-4" />
                     Modifier
                 </DropdownMenuItem>
             )}
             {canDelete && (
-                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
+                <DropdownMenuItem onClick={handleClickDelete} className="dropdown-action-danger">
                     <Trash className="mr-2 h-4 w-4" />
                     Supprimer
                 </DropdownMenuItem>
