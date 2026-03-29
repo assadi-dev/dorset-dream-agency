@@ -1,6 +1,6 @@
 import React from "react";
 import { auth } from "@/auth";
-import NavbarComponent from "./NavbarClient";
+import NavbarContents from "./NavbarContents";
 
 const DashboardNavbar = async () => {
     const session = await auth();
@@ -9,7 +9,7 @@ const DashboardNavbar = async () => {
     return (
         <>
             {session && (
-                <NavbarComponent session={session} />
+                <NavbarContents session={session} />
             )}
         </>
     );

@@ -7,7 +7,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import styles from "../styles.module.css";
 
-const NavbarComponent = ({ session }: { session: Session | null }) => {
+const NavbarContents = ({ session }: { session: Session | null }) => {
     const navbarContainerRef = React.useRef<HTMLDivElement>(null);
     const navbarContentRef = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
@@ -46,4 +46,4 @@ const NavbarComponent = ({ session }: { session: Session | null }) => {
     );
 }
 
-export default NavbarComponent;
+export default NavbarContents;

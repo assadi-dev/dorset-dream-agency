@@ -112,6 +112,12 @@
         @apply bg-body text-foreground;
     }
 
+    @media (prefers-color-scheme: dark) {
+        body {
+            @apply bg-background text-white
+        }
+    }
+
     .dataTable thead {
         @apply bg-primary;
     }
@@ -249,3 +255,13 @@
 .ProseMirror em {
     font-style: italic;
 }
+
+
+
+/* @media (prefers-color-scheme: dark) {
+  body {
+    background: #070a12;
+    color: #f8f9fa;
+  }
+}
+ */

@@ -24,6 +24,10 @@ export const setTitlePage = (title?: string) => {
     const metadata: Metadata = {
         title: title ? `${title} - ${ENV.APP_TITLE}` : ENV.APP_TITLE,
         description: `Panel d'administration de l'agence immobilier ${ENV.APP_TITLE}`,
+        themeColor: [
+            { media: "(prefers-color-scheme: light)", color: "#106835" },
+            { media: "(prefers-color-scheme: dark)", color: "#070a12" },
+        ],
     };
 
     return metadata;
@@ -33,6 +37,10 @@ export const generateMetadata = (title?: string) => {
     const metadata: Metadata = {
         title: title ? `${title} - ${ENV.APP_TITLE}` : ENV.APP_TITLE,
         description: `Panel d'administration de l'agence immobilier ${ENV.APP_TITLE}`,
+        themeColor: [
+            { media: "(prefers-color-scheme: light)", color: "#106835" },
+            { media: "(prefers-color-scheme: dark)", color: "#070a12" },
+        ],
     };
 
     return metadata;
