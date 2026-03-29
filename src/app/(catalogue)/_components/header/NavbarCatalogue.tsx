@@ -12,7 +12,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 
 const NavbarCatalogue = async () => {
     const session = await auth();
-    const classButton = `bg-primary   rounded-full flex gap-2`;
+    const classButton = `bg-primary dark:bg-card dark:text-white dark:border  rounded-full flex gap-2`;
 
     const ConnectButton = () => {
         if (session)
@@ -36,7 +36,7 @@ const NavbarCatalogue = async () => {
         <nav className="w-full  min-h-10 ">
             <div className=" backdrop-blur-lg transition-all grid grid-cols-[.5fr,1fr,.5fr] p-5 items-center">
                 <div className="h-[50px] flex items-center">
-                    <Link href="/" className="px-5 bg-primary py-3 rounded-md">
+                    <Link href="/" className="px-5 bg-primary dark:bg-background dark:text-white  py-3 rounded-md">
                         {/*  <strong>DORSET DREAM</strong> */}
                         <Image
                             src={logo}
@@ -49,7 +49,7 @@ const NavbarCatalogue = async () => {
                 </div>
                 <div className="justify-self-center self-center"></div>
                 <div className="flex justify-end items-center justify-self-end self-center gap-3">
-                    <ModeToggle variant="ghost" />
+                    <ModeToggle variant="secondary" className="dark:bg-card dark:text-white dark:border" />
                     <ConnectButton />
                 </div>
             </div>
