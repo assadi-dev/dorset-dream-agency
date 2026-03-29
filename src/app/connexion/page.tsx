@@ -17,7 +17,7 @@ const Connexion = async () => {
 
     return (
         <React.Suspense>
-            <main className="lg:grid lg:grid-cols-[1fr,.75fr] h-screen bg-white">
+            <main className="lg:grid lg:grid-cols-[1fr,.75fr] h-screen bg-dynasty-card dark:bg-background">
                 <section className="relative overflow-hidden hidden p-3 lg:grid place-items-center h-full ">
                     <Image
                         src={backgroundImage}
@@ -35,12 +35,8 @@ const Connexion = async () => {
                     </div>
                 </section>
                 <section
-                    className=" grid place-items-center text-secondary h-full w-full"
-                    style={{
-                        background: "rgba(3, 51, 23, 0.85)",
-                        backdropFilter: "blur(8px)",
-                        borderLeft: "1px solid rgba(255,255,255,0.3)",
-                    }}
+                    className=" grid place-items-center text-secondary dark:text-white h-full w-full  lg:border-l backdrop-blur-[8px] bg-[rgba(3,51,23,0.85)] dark:bg-card "
+
                 >
                     <LoginForm />
                 </section>

@@ -29,7 +29,7 @@ export function ModeToggle({ className, variant = "outline" }: ModeToggleProps) 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant={variant} size="icon" className={cn("rounded-full", className)}>
+                <Button variant={variant} size="icon" className={cn("rounded-full transition-all duration-300 ease-in-out", className)}>
                     <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                     <span className="sr-only">Mode du thème</span>
