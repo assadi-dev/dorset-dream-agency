@@ -120,7 +120,7 @@ const LoginForm = () => {
                     <SubmitButton
                         isLoading={isPending}
                         variant="default"
-                        className="hover:bg-green-950 ring-1 ring-green-800 p-6"
+                        className="hover:bg-green-950 ring-1 ring-green-800 p-6 dark:hover:bg-primary dark:hover:ring-none"
                         type="submit"
                     >
                         Connexion
