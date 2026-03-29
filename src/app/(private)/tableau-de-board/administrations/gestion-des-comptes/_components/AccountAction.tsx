@@ -45,18 +45,18 @@ const AccountAction = ({ payload, canUpdate, canDelete, canChangePassword }: Acc
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {canChangePassword && (
-                <DropdownMenuItem onClick={handleClickNewPassword} className="text-primary">
+                <DropdownMenuItem onClick={handleClickNewPassword} className="dropdown-action-item">
                     <LockKeyhole className="mr-2 h-4 w-4" /> Nouveau mot de passe
                 </DropdownMenuItem>
             )}
             {canUpdate && (
-                <DropdownMenuItem onClick={handleClickEdit} className="text-primary">
+                <DropdownMenuItem onClick={handleClickEdit} className="dropdown-action-item">
                     <Pen className="mr-2 h-4 w-4" />
                     Modifier
                 </DropdownMenuItem>
             )}
             {canDelete && (
-                <DropdownMenuItem onClick={handleClickDelete} className="text-red-600">
+                <DropdownMenuItem onClick={handleClickDelete} className="dropdown-action-danger">
                     <Trash className="mr-2 h-4 w-4" />
                     Supprimer
                 </DropdownMenuItem>

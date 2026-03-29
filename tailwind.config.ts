@@ -73,6 +73,11 @@ const config: Config = {
                     border: "hsl(var(--sidebar-border))",
                     ring: "hsl(var(--sidebar-ring))",
                 },
+                dynasty: {
+                    DEFAULT: "hsl(var(--dynasty))",
+                    card: "hsl(var(--dynasty-card))",
+                    table: "hsl(var(--dynasty-table))",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",

@@ -26,7 +26,7 @@ const DescriptionProperty = ({ description }: DescriptionPropertyProps) => {
             <h2 className=" lg:text-2xl font-bold">Description</h2>
             <EditorContent
                 editor={editor}
-                className={cn(TEXT_STYLE_CLASS, "[&_p]:whitespace-pre-line [&_p]:break-words")}
+                className={cn(TEXT_STYLE_CLASS, "[&_p]:whitespace-pre-line [&_p]:break-words dark:text-slate-300")}
             />
         </>
     );

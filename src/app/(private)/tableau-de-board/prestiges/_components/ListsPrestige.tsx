@@ -31,7 +31,7 @@ const ListsPrestige = () => {
     const PRESTIGE_COLLECTION = useDataCollections(data);
 
     return (
-        <Card className="bg-white px-2">
+        <Card className="bg-dynasty-card px-2">
             {/*   <div className="my-3">{error ? <AlertDestructive title="Erreur" description={error.message} /> : null}</div> */}
             <div className="my-5 flex justify-between items-center">
                 <div className="flex items-center gap-2  min-w-[25vw]">

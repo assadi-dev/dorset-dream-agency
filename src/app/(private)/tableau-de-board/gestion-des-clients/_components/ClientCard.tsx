@@ -18,9 +18,11 @@ const ClientCard = ({ disabled, client }: ClientCardProps) => {
     const UNKNOWN_IMAGE = client.gender === "Female" ? AVATAR_FEMALE : AVATAR_MALE;
     const CLEAN_DATE = datetimeFormatFr(client.createdAt);
 
+    const CARD_COLOR = `bg-gradient-to-br from-green-900 to-green-950 dark:from-card dark:to-secondary`;
+
     return (
         <Card className="relative">
-            <figure className="grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full bg-gradient-to-br from-green-900 to-green-950 text-white rounded-lg shadow-inner shadow-white">
+            <figure className={cn(`grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full text-white rounded-lg shadow-inner shadow-white`, CARD_COLOR)}>
                 <div className="bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden ">
                     <Image
                         height={400}
@@ -38,7 +40,7 @@ const ClientCard = ({ disabled, client }: ClientCardProps) => {
                         </div>
                     )}
                 </div>
-                <figcaption className="flex-1 bg-green-950 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
+                <figcaption className="flex-1 bg-green-950 dark:bg-background dark:border shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
                     <p className="text-sm lg:text-[1rem] font-bold max-w-[80%] text-nowrap text-ellipsis overflow-hidden mb-1 truncate max-w-3/4">
                         {client.fullName}
                     </p>

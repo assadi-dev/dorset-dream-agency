@@ -16,7 +16,7 @@ const Announcement = () => {
 
     if (isFetching)
         return (
-            <Card className="bg-primary text-white overflow-hidden">
+            <Card className="bg-primary dark:bg-card text-white overflow-hidden">
                 <Loader />
             </Card>
         );

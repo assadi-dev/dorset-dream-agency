@@ -19,6 +19,7 @@ import useRouteRefresh from "@/hooks/useRouteRefresh";
 import useModalState from "@/hooks/useModalState";
 import ConfirmDeleteAnnonce from "../modal/ConfrmDeleteAnnonce";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 type AnnouncementCardProps = {
     announce: AnnouncementType;
@@ -51,10 +52,12 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
         });
     };
 
+    const CARD_BACKGROUND_COLOR = "bg-gradient-to-br from-primary to-green-950 text-white dark:from-card dark:to-card";
+
     return (
         <>
-            <Card className=" grid grid-rows-[1fr,auto] gap-3 p-2 w-full bg-gradient-to-br from-primary to-green-950 text-white rounded-lg shadow-inner shadow-white   transition-all">
-                <div className="  bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden">
+            <Card className={cn(` grid grid-rows-[1fr,auto] gap-3 p-2 w-full  rounded-lg shadow-inner shadow-white   transition-all`, CARD_BACKGROUND_COLOR)}>
+                <div className="  bg-green-950 dark:bg-card backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden">
                     <div className="w-full absolute top-0 left-0 py-1"></div>
                     <embed
                         src={img}
@@ -64,7 +67,7 @@ const AnnouncementCard = ({ announce }: AnnouncementCardProps) => {
                         type="image/svg+xml"
                     />
                 </div>
-                <div className="flex flex-col gap-1 min-h-[45px] relative bg-green-950 shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
+                <div className="flex flex-col gap-1 min-h-[45px] relative bg-green-950 dark:bg-background shadow-inner shadow-white/65 backdrop-blur-lg py-2 px-3 rounded-lg h-fit self-end overflow-hidden">
                     <div className="flex gap-2 items-center">
                         {announce.isPublish && <AnnouncementBadges />}
                         <p className="text-xs lg:text-sm font-bold max-w-[80%] text-nowrap text-ellipsis overflow-x-hidden flex gap-1 items-center">

@@ -12,7 +12,7 @@ const GoBackButton = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => router.back()}
-                className="bg-gradient-to-br from-primary-accent to-white shadow-lg flex items-center border border-black/25 hover:underline"
+                className="dark:from-secondary dark:to-accent dark:border-slate-500  bg-gradient-to-br from-primary-accent to-white shadow-lg flex items-center border border-black/25 hover:underline"
             >
                 <ChevronLeftCircle className="h-10 w-10" /> Précédent
             </Button>

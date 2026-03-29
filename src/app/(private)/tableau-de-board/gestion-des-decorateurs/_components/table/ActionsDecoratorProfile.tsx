@@ -36,7 +36,7 @@ const ActionsDecoratorProfile = ({ payload }: ActionsDecoratorProfileProps) => {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem asChild className="text-primary">
+            <DropdownMenuItem asChild className="dropdown-action-item">
                 <Button
                     type='button'
                     variant="ghost"
@@ -48,7 +48,7 @@ const ActionsDecoratorProfile = ({ payload }: ActionsDecoratorProfileProps) => {
                 </Button>
 
             </DropdownMenuItem>
-            <DropdownMenuItem asChild className="text-red-600">
+            <DropdownMenuItem asChild className="dropdown-action-danger">
                 <Button
                     type='button'
                     variant="ghost"

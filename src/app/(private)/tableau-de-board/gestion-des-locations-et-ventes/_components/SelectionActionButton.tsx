@@ -57,21 +57,21 @@ const SelectionActionButton = ({ selectedItems, resetSelected }: SelectionAction
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem onClick={resetSelected}>
+                    <DropdownMenuItem onClick={resetSelected} className="dropdown-action-item">
                         <TextWithTooltip tooltipTitle={"Annuler les éléments sélectionnés"}>
                             <p className="flex gap-2 items-center">
                                 <Check width={"1rem"} height={"1rem"} /> Annuler la selection
                             </p>
                         </TextWithTooltip>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleClickChangeStatus}>
+                    <DropdownMenuItem onClick={handleClickChangeStatus} className="dropdown-action-item">
                         <TextWithTooltip tooltipTitle={"Mettre à jour le statut"}>
                             <p className="flex gap-2 items-center">
                                 <IterationCcw width={"1rem"} height={"1rem"} /> Statut
                             </p>
                         </TextWithTooltip>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleClickDelete} disabled={!CAN_DELETE}>
+                    <DropdownMenuItem onClick={handleClickDelete} disabled={!CAN_DELETE} className="dropdown-action-danger">
                         <TextWithTooltip tooltipTitle={TOOLTIP_MESSAGE}>
                             {" "}
                             <p className="flex gap-2 items-center">

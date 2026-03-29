@@ -106,6 +106,7 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
                 <div
                     {...getRootProps()}
                     className={cn(
+                        "dark:text-slate-300",
                         "border-2 rounded",
                         "rounded relative  w-full grid place-items-center  p-3 text-sm",
                         {

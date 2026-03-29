@@ -16,7 +16,7 @@ const DescriptionLeftCol = ({ property }: DescriptionLeftColProps) => {
     return (
         <div className="w-full flex flex-col gap-5">
             <HeaderPhotoSlides propertyName={property.name} gallery={property.gallery} />
-            <Card className="shadow-xl bg-white">
+            <Card className="shadow-xl bg-card dark:border">
                 <CardHeader className="mt-6">
                     <h1 className="text-lg md:text-2xl lg:text-3xl font-bold ">{property.name}</h1>
                     <p className="text-slate-500 text-xs lg:text-lg mt-1">

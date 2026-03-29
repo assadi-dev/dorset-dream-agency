@@ -12,7 +12,7 @@ export const FurnishBadge = ({ isFurnish }: { isFurnish: boolean }) => {
     const FURNISH_LABEL_ = isFurnish ? "Meublé" : "Vide";
 
     return (
-        <p className="flex items-center gap-1  text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded  border border-gray-400">
+        <p className="flex items-center gap-1  text-gray-800 dark:text-slate-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded  border border-gray-400">
             <SofaIcon className="h-3.5 w-3.5 inline-block" />
             <span> {FURNISH_LABEL_}</span>
         </p>
@@ -42,7 +42,7 @@ export const AvailableBadge = ({ isAvailable }: { isAvailable: boolean }) => {
 export const StockageBadges = ({ stock }: { stock: number | null }) => {
     const STOCK_LABEL = (stock && stock > 0 && `${formatThousands(stock)} kg`) || "Pas de coffre";
     return (
-        <p className="flex items-center gap-1  text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded border border-gray-400">
+        <p className="flex items-center gap-1  text-gray-800 dark:text-slate-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded border border-gray-400">
             <Weight className="w-3 h-3" />
             <span>{STOCK_LABEL}</span>
         </p>

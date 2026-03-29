@@ -59,7 +59,7 @@ const CanvasContainer = ({ canvasObject }: CanvasContainerProps) => {
                 {<Toolbar />}
                 <canvas
                     id="canvas"
-                    className={`canvas-container__canvas border  shadow mx-auto `}
+                    className={`canvas-container__canvas border  shadow mx-auto rounded-lg`}
                     ref={canvasRef}
                     width={CANVAS_VALUES.width}
                     height={CANVAS_VALUES.height}

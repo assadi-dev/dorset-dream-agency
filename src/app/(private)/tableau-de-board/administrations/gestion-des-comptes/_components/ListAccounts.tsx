@@ -51,7 +51,7 @@ const ListAccounts = ({ accounts, limit, totalItems }: ListAccountsProps) => {
         : [SelectColumns, ...columns];
 
     return (
-        <Card className="px-2 bg-white">
+        <Card className="px-2 bg-dynasty-card">
             <div className="my-5 flex justify-between items-center">
                 <div className="min-w-[25vw]">
                     <SearchInputDataTable />

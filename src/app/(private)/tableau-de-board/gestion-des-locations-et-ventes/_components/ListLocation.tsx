@@ -45,7 +45,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
     const transactionsColumn = (IS_ADMIN && [SelectColumns, ...columns, actions]) || [...columns, actions];
 
     return (
-        <Card className="px-2 bg-white">
+        <Card className="px-2 bg-dynasty-card">
             <div className="my-5 flex flex-col md:flex-row justify-between items-center gap-3">
                 <div className="flex items-center gap-2  w-full md:max-w-[35vw] xl:max-w-[25vw] ">
                     <SearchInputDataTable />

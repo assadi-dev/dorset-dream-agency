@@ -1,12 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import ClientCard from "./ClientCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ClientPageRightAction from "./ClientPageRightAction";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import SimplePagination from "@/components/Paginations/SimplePagination";
 import ClientCardSelect from "./ClientCardSelect";
-import { Button } from "@/components/ui/button";
 import SelectAction from "./SelectAction";
 import { isAdmin } from "@/lib/utils";
 import { Role } from "@/app/types/user";
@@ -61,8 +59,8 @@ const ListeClients = ({ clients, totalItems, limit, role }: ListeClientsProps) =
             <div className="grid  gap-3 xl:gap-1 grid-cols-[minmax(100px,1fr),auto]  sm:grid-cols-[minmax(200px,0.65fr),auto]  xl:grid-cols-[minmax(200px,0.5fr),1fr]  items-center pt-5">
                 <SearchInputDataTable
                     classNames={{
-                        input: "bg-green-950/25 ",
-                        icon: "!text-primary-accent",
+                        input: "bg-green-950/25 dark:bg-background",
+                        icon: "!text-primary-accent dark:!text-muted-foreground",
                     }}
                 />
 
