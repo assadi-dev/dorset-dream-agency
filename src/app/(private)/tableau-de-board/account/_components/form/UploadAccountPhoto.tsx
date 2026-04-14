@@ -58,7 +58,7 @@ const UploadAccountPhoto = ({ photo, onUpload, ...props }: UploadPhotoProps) => 
             {...props}
             className={cn(
                 photo ? "bg-gradient-to-br to-green-950 from-primary dark:from-secondary dark:to-card border rounded-lg" : "border-2 rounded border-dashed",
-                "rounded relative  w-full grid place-items-center  text-[rgba(0,0,0,0.6)] p-3 text-sm",
+                "rounded relative  w-full grid place-items-center  text-[rgba(0,0,0,0.6)] dark:text-[rgba(255,255,255,0.6)] p-3 text-sm",
                 "group-hover:bg-red-200",
                 props.className,
             )}
