@@ -47,7 +47,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
                             <PhoneCall className="h-3 w-3" /> {employee.phone}
                         </p>
                     </div>
-                    {employee.secteur && <SecteurLogo secteurs={employee.secteur?.split(",") as SecteurType[]} />}
+
                 </div>
             </figcaption>
         </figure>
