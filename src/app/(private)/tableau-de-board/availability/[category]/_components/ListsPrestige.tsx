@@ -11,8 +11,15 @@ import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { fetch_by_category } from "../helper";
+import SelecteCategory from "./SelecteCategory";
+import { CategoryOption } from "../../type";
 
-const ListsPrestige = ({ categoryID }: { categoryID: number }) => {
+
+type LissteCategoriesProps = {
+    categoryID?: number;
+    categoriesoptions: CategoryOption[];
+}
+const ListsPrestige = ({ categoryID, categoriesoptions }: LissteCategoriesProps) => {
     const searchParams = useSearchParams();
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 5;
@@ -35,6 +42,9 @@ const ListsPrestige = ({ categoryID }: { categoryID: number }) => {
             <div className="my-5 flex justify-between items-center">
                 <div className="flex items-center gap-2  min-w-[25vw]">
                     <SearchInputDataTable />
+                </div>
+                <div className="flex items-center justify-end gap-2">
+                    <SelecteCategory defaultValue={categoryID?.toString() || "all"} categoriesoptions={categoriesoptions} />
                 </div>
             </div>
 
