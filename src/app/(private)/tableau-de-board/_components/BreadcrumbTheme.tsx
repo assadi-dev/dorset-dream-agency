@@ -17,7 +17,7 @@ const BreadcrumbTheme = () => {
     const allPathNames = paths.split("/").filter((path) => path);
 
     // Regex or strings to exclude from breadcrumbs
-    const excludePatterns = [/availability/i];
+    const excludePatterns = [/availability/i, /administrations/i];
 
     const breadcrumbItems = allPathNames
         .map((item, index) => {
