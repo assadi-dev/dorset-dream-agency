@@ -33,6 +33,12 @@ const ListActionsHistory = () => {
         queryKey: [QUERY_USERS_ACTIONS.GET_USERS_ACTION_COLLECTIONS, page, limit, search, actions, from, to],
         queryFn: () => fetchUserActionCollection({ page, limit, search, actions, from, to }),
         refetchOnMount: true,
+        initialData: {
+            data: [],
+            totalItems: 0,
+            totalPages: 0,
+            currentPage: 0,
+        }
     });
 
     const collections = React.useMemo(() => {
