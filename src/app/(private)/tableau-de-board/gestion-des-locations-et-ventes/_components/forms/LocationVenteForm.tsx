@@ -76,7 +76,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                             placeholder="Sélectionnez un clients"
                             classNameButton="w-full"
                             emptyMessage="Pas de clients enregistré"
-                            onChange={(value) => setClientSync(form, value,CLIENT_OPTIONS)}
+                            onChange={(value) => setClientSync(form, value, CLIENT_OPTIONS)}
                         />
                     </div>
                     <div className="mb-4">
@@ -89,7 +89,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                             placeholder="Sélectionnez un Biens immobilier"
                             classNameButton="w-full"
                             emptyMessage="Pas de biens enregistré"
-                            onChange={(value) => setPropertySync(form, value,PROPERTY_OPTIONS)}
+                            onChange={(value) => setPropertySync(form, value, PROPERTY_OPTIONS)}
                         />
                     </div>
                 </div>
@@ -103,7 +103,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         label="Type de service"
                         name="propertyService"
                         options={PROPERTY_TYPE_ENUM}
-                        onChange={(value) => setPriceSync(form, value,PROPERTY_OPTIONS)}
+                        onChange={(value) => setPriceSync(form, value, PROPERTY_OPTIONS)}
                     />
                 </div>
                 <div className="mb-4 relative">
@@ -112,8 +112,8 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                         label="Prix de la location - Vente"
                         name="price"
                         disabled={disablePrice}
-                        className="text-black opacity-100 font-semibold"
-                       
+                        className=" opacity-100 font-semibold"
+
                     />
 
                     <Button
