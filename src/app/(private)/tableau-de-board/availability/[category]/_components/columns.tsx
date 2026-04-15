@@ -4,8 +4,9 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { datetimeFormatFr } from "@/lib/date";
 import { CellColumn } from "@/app/types/ReactTable";
-import { LocationColumnType } from "../../gestion-des-locations-et-ventes/types";
+
 import SwitchAvailable from "./SwitchAvailable";
+import { LocationColumnType } from "../../../gestion-des-locations-et-ventes/types";
 
 export const columns: ColumnDef<LocationColumnType>[] = [
     {
