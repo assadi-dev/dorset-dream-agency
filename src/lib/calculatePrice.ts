@@ -20,8 +20,8 @@ export const isVente = (propertyService: string) => {
 }
 
 export const getApplyPrice = (typePropertyService: string,price:number) => {
-    if(typePropertyService.toLowerCase().includes(APPLY_PRICE_OPTIONS.blaine_county.name.toLowerCase())){
+/*     if(typePropertyService.toLowerCase().includes(APPLY_PRICE_OPTIONS.blaine_county.name.toLowerCase())){
         return applyPercentage(price,APPLY_PRICE_OPTIONS.blaine_county.percentage);
-    }
+    } */
     return price;
 }

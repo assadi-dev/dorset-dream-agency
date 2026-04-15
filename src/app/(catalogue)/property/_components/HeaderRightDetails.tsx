@@ -88,28 +88,20 @@ const Price = ({ price, mode }: { price?: number; mode: "location" | "vente" }) 
 
 
 export const PriceCardSection = ({ propertyInfo }: { propertyInfo: PropertyInfoType }) => {
-    const [state, dispatch] = React.useReducer((prev: any, action: any) => ({ ...prev, ...action }), { blaineCounty: false, sellingPrice: propertyInfo.sellingPrice, rentalPrice: propertyInfo.rentalPrice });
-    const handleSwitchBlainCounty = (checked: boolean) => {
-        const blaineCountyPrice = calculatePrice(propertyInfo, "Blaine County");
-        const sellingPrice = checked ? blaineCountyPrice.sellingPrice : propertyInfo.sellingPrice;
-        const rentalPrice = checked ? blaineCountyPrice.rentalPrice : propertyInfo.rentalPrice;
-        dispatch({ blaineCounty: checked, sellingPrice, rentalPrice });
-
-    };
 
     return (
-        <CardDetail icon={<DollarSign className="h-5 w-5" />} title="Tarifs" actions={<label htmlFor="blaineCounty" className="text-sm font-semibold p-3 text-muted-foreground flex items-center gap-2 justify-self-end cursor-pointer hover:bg-secondary/50 rounded-lg transition-colors">Blaine County <Switch id="blaineCounty" checked={state.blaineCounty} onCheckedChange={handleSwitchBlainCounty} className="h-3.5 w-8 shadow-lg" /></label>}>
+        <CardDetail icon={<DollarSign className="h-5 w-5" />} title="Tarifs">
             <p className="flex items-center justify-between w-full">
                 <span>Prix de vente:</span>
                 <strong className="text-muted-foreground">
-                    {<Price price={state.sellingPrice} mode="vente" />}
+                    {<Price price={propertyInfo.sellingPrice} mode="vente" />}
                 </strong>
             </p>
 
             <p className="flex items-center w-full justify-between">
                 <span>Prix de location:</span>
                 <strong className="text-muted-foreground">
-                    {<Price price={state.rentalPrice} mode="location" />}
+                    {<Price price={propertyInfo.rentalPrice} mode="location" />}
                 </strong>
             </p>
         </CardDetail>
