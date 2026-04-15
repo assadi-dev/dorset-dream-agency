@@ -75,8 +75,8 @@ export const insertProperty = async (values: any) => {
     }
 };
 
-export const getPropertiesCollections = async (filter: FilterPaginationType) => {
-    const { page, order, limit, search } = filter;
+export const getPropertiesCollections = async (filter: FilterPaginationType &{category?: number}) => {
+    const { page, order, limit, search,category } = filter;
     // the query alias `name` is simply properties.name here, but we define it
 
 
@@ -87,6 +87,10 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
               like(categoryProperties.name, sql.placeholder("search")),
               like(variants.name, sql.placeholder("search")),
           )
+        : undefined;
+
+    const categoryCondition = category
+        ? eq(properties.categoryID, sql.placeholder("category"))
         : undefined;
 
     const query = db
@@ -118,13 +122,14 @@ export const getPropertiesCollections = async (filter: FilterPaginationType) => 
         })
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-        .where(and(softDeleteCondition, searchCondition));
+        .where(and(softDeleteCondition, searchCondition, categoryCondition));
 
     const columnToOrder = "createdAt";
     const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);
 
     const parameters: Record<string, string> | undefined = {
         search: `%${search}%`,
+        category: `${category}`,
     };
 
     const rowsCount = await query.execute({

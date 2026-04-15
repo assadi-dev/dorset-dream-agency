@@ -14,12 +14,26 @@ import { usePathname } from "next/navigation";
 
 const BreadcrumbTheme = () => {
     const paths = usePathname();
-    const pathNames = paths.split("/").filter((path) => path);
+    const allPathNames = paths.split("/").filter((path) => path);
+
+    // Regex or strings to exclude from breadcrumbs
+    const excludePatterns = [/availability/i, /administrations/i];
+
+    const breadcrumbItems = allPathNames
+        .map((item, index) => {
+            const href = `/${allPathNames.slice(0, index + 1).join("/")}`;
+            return { item, href };
+        })
+        .filter(({ item }) => {
+            return !excludePatterns.some((pattern) =>
+                pattern instanceof RegExp ? pattern.test(item) : pattern === item
+            );
+        });
 
     const BreadcrumbLinkItem = ({ item, href }: { item: string; href: string }) => {
         return (
             <BreadcrumbLink asChild>
-                <Link href={href}>{item}</Link>
+                <Link href={href}>{decodeURIComponent(item)}</Link>
             </BreadcrumbLink>
         );
     };
@@ -27,18 +41,18 @@ const BreadcrumbTheme = () => {
     return (
         <Breadcrumb className="rounded w-fit py-1  ">
             <BreadcrumbList>
-                {pathNames?.map((item, index) => {
-                    const href = `/${pathNames.slice(0, index + 1).join("/")}`;
+                {breadcrumbItems?.map((breadcrumb, index) => {
+                    const { item, href } = breadcrumb;
                     return (
-                        <React.Fragment key={item}>
+                        <React.Fragment key={href}>
                             <BreadcrumbItem>
                                 {paths === href ? (
-                                    <BreadcrumbPage>{item}</BreadcrumbPage>
+                                    <BreadcrumbPage>{decodeURIComponent(item)}</BreadcrumbPage>
                                 ) : (
                                     <BreadcrumbLinkItem item={item} href={href} />
                                 )}
                             </BreadcrumbItem>
-                            {pathNames.length !== index + 1 && <BreadcrumbSeparator />}
+                            {breadcrumbItems.length !== index + 1 && <BreadcrumbSeparator />}
                         </React.Fragment>
                     );
                 })}

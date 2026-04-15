@@ -10,6 +10,7 @@ import {
     Settings,
     Shield,
     SquareUser,
+    Calendar,
 } from "lucide-react";
 
 export const dashboardNavigation: DashboardNavigationType[] = [
@@ -33,9 +34,9 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         ],
     },
     {
-        title: "Prestiges",
-        path: "/tableau-de-board/prestiges",
-        icon: Gem,
+        title: "Disponibilités",
+        path: "/tableau-de-board/availability",
+        icon: Calendar,
     },
     {
         title: "Trombinoscope",

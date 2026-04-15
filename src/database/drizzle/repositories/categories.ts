@@ -31,3 +31,17 @@ export const getCategoryByName = async (name: string) => {
     if (result.length > 0) return result[0];
     throw new Error(`Category ${name} is not found in database`);
 };
+
+
+export const getCategoryByID = async (id: string) => {
+    const prepare = db
+        .select()
+        .from(categoryProperties)
+        .where(eq(categoryProperties.id, sql.placeholder("id")))
+        .prepare();
+    const result = await prepare.execute({
+        id,
+    });
+    if (result.length > 0) return result[0];
+    throw new Error(`Category ${id} is not found in database`);
+};
