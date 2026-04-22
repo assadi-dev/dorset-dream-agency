@@ -1,12 +1,9 @@
 "use client";
 import React from "react";
-import { Separator } from "@/components/ui/separator";
 import { PropertyInfoType } from "../../schema";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CircleDollarSignIcon, DollarSign, Home, Sofa, Weight } from "lucide-react";
+import { DollarSign, Sofa, Weight } from "lucide-react";
 import formatThousands from "format-thousands";
-import { Switch } from "@/components/ui/switch";
-import { calculatePrice } from "../../helper";
 
 type CardRightDetailProps = {
     title: string;

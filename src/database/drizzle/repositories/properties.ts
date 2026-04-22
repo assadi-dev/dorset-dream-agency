@@ -122,7 +122,10 @@ export const getPropertiesCollections = async (filter: FilterPaginationType &{ca
         })
         .from(properties)
         .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
+        .leftJoin(variants, eq(variants.propertyID, properties.id))
+        .groupBy(properties.id)
         .where(and(softDeleteCondition, searchCondition, categoryCondition));
+
 
     const columnToOrder = "createdAt";
     const orderby = order === "asc" ? asc(properties[columnToOrder]) : desc(properties[columnToOrder]);

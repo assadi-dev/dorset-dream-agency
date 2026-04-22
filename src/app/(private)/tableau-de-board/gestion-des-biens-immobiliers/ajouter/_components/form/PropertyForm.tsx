@@ -45,7 +45,7 @@ const PropertyForm = ({ form, ...props }: PropertyFormProps) => {
         });
     };
 
-    const watchDescription = form.watch("description");
+    const watchDescription = form.watch("description") ?? "";
     return (
         <>
             <CardContent {...props} className={cn("h-full", props.className)}>
