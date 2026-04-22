@@ -5,7 +5,7 @@ export const propertySchema = z.object({
     id: z.number().nullable().optional(),
     name: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
     resume: z.string().max(250, { message: MAX_LENGTH_MESSAGE }).nullable().optional(),
-    description: z.string().nullable(),
+    description: z.string().nullable().default(""),
     address: z.string().nullable(),
     factoryPrice: z.number().optional().nullable(),
     sellingPrice: z.coerce.number({ message: REQUIRE_MESSAGE_ERROR }),
