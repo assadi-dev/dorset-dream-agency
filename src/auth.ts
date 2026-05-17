@@ -64,7 +64,7 @@ const authOptions = {
     secret: ENV.AUTH_SECRET,
     session: {
         maxAge: 86400,
-        updateAge: 3600,
+        updateAge:300,
     },
 } satisfies NextAuthConfig;
 
