@@ -5,31 +5,33 @@ import ListDecorators from './_components/ListDecorators';
 import { getDecoratorProfileCollections } from '@/database/drizzle/repositories/decoratorProfiles';
 
 type SearchParams = {
-    searchParams: {
+    searchParams: Promise<{
         search: string;
         limit: number;
         page: number;
 
-    };
+    }>;
+};
+
+const ListDecoratorAsync = async ({ filter }: { filter: { limit: number; page: number; search: string } }) => {
+
+    const decoratorsResultCollection = await getDecoratorProfileCollections(filter);
+    return <ListDecorators decorators={decoratorsResultCollection.data as any[] || []} totalItems={decoratorsResultCollection.totalItems} limit={filter.limit} />;
 };
 const DecoratorPage = async ({ searchParams }: SearchParams) => {
 
-    const ListDecoratorAsync = async () => {
-        const limit = Number(searchParams.limit) || 15;
-        const page = Number(searchParams.page) || 1;
-        const search = searchParams.search || "";
-        const decoratorsResultCollection = await getDecoratorProfileCollections({ limit, page, search });
-        return <ListDecorators decorators={decoratorsResultCollection.data as any[] || []} totalItems={decoratorsResultCollection.totalItems} limit={searchParams.limit} />;
-    };
+    const { limit, page, search } = await searchParams;
+    const filter = { limit: Number(limit) || 15, page: Number(page) || 1, search: search || "" };
     return (
+
         <div className='h-full min-h-screen'>
-            {searchParams.search && (
-                <p className="font-semibold text-2xl mb-1">Recherche de : {searchParams.search} </p>
+            {filter.search && (
+                <p className="font-semibold text-2xl mb-1">Recherche de : {filter.search} </p>
             )}
 
             <SearchSection />
             <React.Suspense>
-                <ListDecoratorAsync />
+                <ListDecoratorAsync filter={filter} />
             </React.Suspense>
         </div>
     )

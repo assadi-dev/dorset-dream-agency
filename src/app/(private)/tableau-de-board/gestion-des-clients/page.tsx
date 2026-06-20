@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getClientsCollections } from "@/database/drizzle/repositories/clients";
 import { PaginationSearchParams } from "@/app/types";
 import { auth, UserSession } from "@/auth";
+export const dynamic = "force-dynamic";
 
 export const metadata = setTitlePage("Clients");
 

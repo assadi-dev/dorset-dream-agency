@@ -30,7 +30,7 @@ export const createAccount = async (
     await insertEmployee({ ...values, secteursIds });
 };
 
-export const removeUsersAccounts = (usersIds: Array<number>) => {
+export const removeUsersAccounts = async(usersIds: Array<number>) => {
     return deleteAccounts(usersIds);
 };
 

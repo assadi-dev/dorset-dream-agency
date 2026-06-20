@@ -1,6 +1,5 @@
 import { setTitlePage } from "@/lib/utils";
 
-import PageTemplate from "../../_components/PageTemplate";
 import EditorPanel from "../_components/EditorPanel";
 import CanvasContainer from "../_components/CanvasContainer";
 import ModalProvider from "@/components/Modals/ModalProvider";
@@ -10,6 +9,7 @@ import { adminAccess } from "@/lib/security";
 import { findOneByID } from "@/database/drizzle/repositories/announcements";
 import { datetimeFormatFr, datetimeFormatFr2 } from "@/lib/date";
 import { loadAnnounceSaves } from "./helpers";
+import PageTemplate from "../../../_components/PageTemplate";
 
 export const metadata = setTitlePage("Éditeur d' annonce");
 

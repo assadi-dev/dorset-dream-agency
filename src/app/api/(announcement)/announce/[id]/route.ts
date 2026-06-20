@@ -4,13 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
-        id: string;
-    };
+    params: Promise<{ id: string }>;
 };
 
-export async function GET(req: NextRequest, { params: { id } }: Params) {
+export async function GET(req: NextRequest, { params }: Params) {
     try {
+        const { id } = await params;
         if (!id) throw new Error("id missing");
         const announce = await findOneByID(Number(id));
         return NextResponse.json(announce);

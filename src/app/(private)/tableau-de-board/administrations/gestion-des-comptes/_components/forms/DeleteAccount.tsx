@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 import AlertModalContent from "@/components/Modals/AlertModalContent";
 import { removeUsersAccounts } from "../../action";
 import { FORBIDDEN_ACTION } from "@/config/messages";
-import { RoleEnum } from "@/app/types/user";
 import { isAdmin } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 

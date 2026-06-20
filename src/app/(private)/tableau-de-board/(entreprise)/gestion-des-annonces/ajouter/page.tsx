@@ -1,12 +1,12 @@
 import { setTitlePage } from "@/lib/utils";
 
-import PageTemplate from "../../_components/PageTemplate";
 import EditorPanel from "../_components/EditorPanel";
 import CanvasContainer from "../_components/CanvasContainer";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import ElementsPanel from "../_components/ElementsPanel";
 import FabricProvider from "../_components/fabric/FabricProvider";
 import { adminAccess } from "@/lib/security";
+import PageTemplate from "../../../_components/PageTemplate";
 
 export const metadata = setTitlePage("Éditeur d' annonce");
 const CreateAnnouncementPage = async () => {
