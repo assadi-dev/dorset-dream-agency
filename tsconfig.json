@@ -1,6 +1,10 @@
 {
     "compilerOptions": {
-        "lib": ["dom", "dom.iterable", "esnext"],
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
@@ -18,11 +22,21 @@
             }
         ],
         "paths": {
-            "@/*": ["./src/*"],
-            "@assets/*": ["./src/assets/*"],
-            "@components/*": ["./src/components/*"],
-            "@types/*": ["./src/types/*"],
-            "@lottieFiles/*": ["./src/assets/lottieFiles/*"]
+            "@/*": [
+                "./src/*"
+            ],
+            "@assets/*": [
+                "./src/assets/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ],
+            "@types/*": [
+                "./src/types/*"
+            ],
+            "@lottieFiles/*": [
+                "./src/assets/lottieFiles/*"
+            ]
         }
     },
     "include": [
@@ -30,7 +44,11 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "src/database/drizzle/drizzle..config.ts"
+        "src/database/drizzle/drizzle..config.ts",
+        "src/app/(private)/tableau-de-board/(entreprise)/gestion-des-categories/_components/CategoriesAction.stsx"
     ],
-    "exclude": ["node_modules", "src/database/nedb/saves"]
+    "exclude": [
+        "node_modules",
+        "src/database/nedb/saves"
+    ]
 }
