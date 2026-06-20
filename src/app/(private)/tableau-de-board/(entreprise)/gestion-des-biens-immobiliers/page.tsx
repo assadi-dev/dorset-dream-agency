@@ -1,6 +1,6 @@
 import { setTitlePage } from "@/lib/utils";
 import React from "react";
-import PageTemplate from "../_components/PageTemplate";
+import PageTemplate from "../../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import ListProperties from "./_components/ListProperties";
 import ModalProvider from "@/components/Modals/ModalProvider";

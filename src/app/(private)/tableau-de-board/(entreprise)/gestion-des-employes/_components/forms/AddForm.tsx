@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { GestionEmployeeFormType } from "../../../administrations/gestion-des-comptes/_components/forms/schema";
-import GestionAccountEmployeeForm from "../../../administrations/gestion-des-comptes/_components/forms/GestionAccountEmployeeForm";
+import { GestionEmployeeFormType } from "../../../../administrations/gestion-des-comptes/_components/forms/schema";
+import GestionAccountEmployeeForm from "../../../../administrations/gestion-des-comptes/_components/forms/GestionAccountEmployeeForm";
 import { insertUserAccount } from "@/database/drizzle/repositories/users";
 import { insertEmployee } from "@/database/drizzle/repositories/employee";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import PageTemplate from "../../_components/PageTemplate";
+import PageTemplate from "../../../_components/PageTemplate";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import AddProperty from "./_components/views/AddProperty";
 import { setTitlePage } from "@/lib/utils";

@@ -1,7 +1,7 @@
 import { setTitlePage } from "@/lib/utils";
 import React from "react";
 import ListEmployee from "./_components/ListEmployee";
-import PageTemplate from "../_components/PageTemplate";
+import PageTemplate from "../../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import { getEmployeeCollections } from "@/database/drizzle/repositories/employee";

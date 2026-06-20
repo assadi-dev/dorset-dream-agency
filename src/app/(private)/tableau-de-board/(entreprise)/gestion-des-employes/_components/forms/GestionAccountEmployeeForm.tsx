@@ -17,7 +17,7 @@ import useFetchSecteursOptions from "@/hooks/useFetchSecteurOptions";
 import {
     gestionAccountEmployeeSchema,
     GestionEmployeeFormType,
-} from "../../../administrations/gestion-des-comptes/_components/forms/schema";
+} from "../../../../administrations/gestion-des-comptes/_components/forms/schema";
 
 type GestionAccountFormProps = React.FormHTMLAttributes<HTMLFormElement> & {
     save: (values: GestionEmployeeFormType) => Promise<any>;

@@ -18,7 +18,7 @@ import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner
 import { Input } from "@/components/ui/input";
 import { FieldSchemaInfer, ReleaseFormInfer, releaseFormSchema } from "../schema";
 import EmptyRelease from "../EmptyRelease";
-import { parseInitialDescription } from "@/app/(private)/tableau-de-board/gestion-des-biens-immobiliers/helpers";
+import { parseInitialDescription } from "@/app/(private)/tableau-de-board/(entreprise)/gestion-des-biens-immobiliers/helpers";
 import useModalState from "@/hooks/useModalState";
 import AddFieldRelease from "../modals/AddFieldRelease";
 import EditFieldRelease from "../modals/EditFieldRelease";

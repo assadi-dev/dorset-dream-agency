@@ -1,6 +1,6 @@
 import { ENV } from "@/config/global";
 import { Metadata } from "next";
-import PageTemplate from "../_components/PageTemplate";
+import PageTemplate from "../../_components/PageTemplate";
 import ModalProvider from "@/components/Modals/ModalProvider";
 import ListDecoratorProfile from "./_components/ListDecoratorProfile";
 import { getDecoratorProfileCollections } from "@/database/drizzle/repositories/decoratorProfiles";
