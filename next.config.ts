@@ -1,13 +1,12 @@
 import {withSentryConfig} from "@sentry/nextjs";
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { NextConfig } from "next";
+
+const nextConfig:NextConfig = {
     env: {
         API_URL: "http://localhost:3000/api",
     },
 
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
+  reactCompiler: true,
     reactStrictMode: false,
     images: {
         remotePatterns: [

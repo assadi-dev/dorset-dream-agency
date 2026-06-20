@@ -1,5 +1,4 @@
 import { setTitlePage, wait } from "@/lib/utils";
-import PageTemplate from "../_components/PageTemplate";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { adminAccess } from "@/lib/security";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import ListAnnouncements from "./_components/view/ListAnnouncements";
 import React from "react";
 import LoadingAnnounce from "./_components/view/ListAnnouncements/LoadingAnnounce";
 import { getAnnounceCollections } from "@/database/drizzle/repositories/announcements";
+import PageTemplate from "../../_components/PageTemplate";
 
 export const metadata = setTitlePage("Gestion des annonces");
 

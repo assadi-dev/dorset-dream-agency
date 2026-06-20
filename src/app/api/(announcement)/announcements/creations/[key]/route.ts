@@ -7,13 +7,14 @@ import { findFileByPath } from "@/database/drizzle/repositories/files";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
+    params: Promise<{
         key: string;
-    };
+    }>;
 };
 
-export async function GET(req: Request, { params: { key } }: Params) {
+export async function GET(req: Request, { params }: Params) {
     try {
+        const { key } = await params;
         if (!key) throw new Error("Key undefined");
 
         const filePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_CREATIONS, key);
