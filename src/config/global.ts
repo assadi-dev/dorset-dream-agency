@@ -12,7 +12,7 @@ const EnvSchema = z.object({
     MYSQL_DB_USER: z.coerce.string().default("root"),
     MYSQL_DB_PASSWORD: z.coerce.string().default("mysql"),
     MYSQL_DB_NAME: z.coerce.string().default("dynasty8"),
-    MYSQL_DB_PORT: z.coerce.string().transform((val) => parseInt(val)).default("3306"),
+    MYSQL_DB_PORT: z.coerce.string().transform((val) => parseInt(val)).default(3306),
     DOMAIN: z.coerce.string().default("http://localhost:3000"),
     STORAGE_DIR: z.coerce.string().default("src/storage"),
     SQLITE_DATABASE_URL: z.coerce.string().default("src/database/drizzle/sqlite/sqlite.db"),

@@ -19,15 +19,13 @@ const CategoriesCollection = async ({ filter }: any) => {
 export const metadata = setTitlePage("Gestion des catégories");
 
 type GestionDesCategoriesProps = {
-    searchParams: PaginationSearchParams;
+    searchParams: Promise<PaginationSearchParams>;
 };
-export default function GestionDesCategories({ searchParams }: GestionDesCategoriesProps) {
+export default async function GestionDesCategories({ searchParams }: GestionDesCategoriesProps) {
 
+    const { page, limit, search } = await searchParams;
 
-    const page = Number(searchParams.page) || 1;
-    const limit = Number(searchParams.limit) || 15;
-    const search = searchParams.search || "";
-    const filter = { search, page, limit };
+    const filter = { search: search || "", page: Number(page) || 1, limit: Number(limit) || 15 };
     return (
         <ModalProvider>
             <PageTemplate title="Categories" description="Gestion des categories des biens immobiliers">

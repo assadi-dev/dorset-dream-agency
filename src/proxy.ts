@@ -3,7 +3,7 @@ import { authRedirect } from "./middlewares/authRedirect";
 import { adminRedirect } from "./middlewares/adminRedirect";
 import { auth } from "./auth";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     await authRedirect(request);
     await adminRedirect(request);
 }
