@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getPropertyDetailForCatalogueWithGallery } from "@/database/drizzle/repositories/properties";
-import { formatTitlePage, setTitlePage } from "@/lib/utils";
+import { setTitlePage } from "@/lib/utils";
 import DescriptionLeftCol from "./_components/DescriptionLeftCol";
 import DescriptionRightCol from "./_components/DescriptionRightCol";
 import GoBackButton from "@/app/(private)/tableau-de-board/_components/GoBackButton";
