@@ -11,23 +11,21 @@ import { auth, UserSession } from "@/auth";
 export const metadata = setTitlePage("Clients");
 
 type ClientPageParams = {
-    searchParams: PaginationSearchParams;
+    searchParams: Promise<PaginationSearchParams>;
 };
 const ClientPage = async ({ searchParams }: ClientPageParams) => {
-    const page = Number(searchParams.page) || 1;
-    const limit = Number(searchParams.limit) || 15;
-    const search = searchParams.search || "";
+    const { page, limit, search } = await searchParams;
 
     const session = (await auth()) as UserSession;
     const ClientCollections = async () => {
-        const filter = { page, limit, search };
+        const filter = { page: Number(page) || 1, limit: Number(limit) || 15, search: search || "" };
         const clients = await getClientsCollections(filter);
         if (!clients) return notFound();
 
         return (
             <ListeClients
                 clients={clients.data}
-                limit={limit}
+                limit={filter.limit}
                 totalItems={clients.totalItems}
                 role={session.user.role}
             />
