@@ -12,6 +12,7 @@ import {
 } from "@/database/drizzle/repositories/clients";
 import { FilterPaginationType } from "@/database/types";
 import { isAdmin } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 export const saveClient = async (values: any) => {
     try {
@@ -42,6 +43,7 @@ export const editClient = async (id: string | number, values: any) => {
 export const removeClient = async (ids: Array<number>) => {
     try {
         await deleteClients(ids);
+        revalidatePath("/tableau-de-board/gestion-des-clients");
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
