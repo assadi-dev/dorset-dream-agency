@@ -55,7 +55,7 @@ type SlidePropertiesProps = {
 };
 export const SlideProperties = ({ properties }: SlidePropertiesProps) => {
     const swiperRef = React.useRef<any>(null);
-    const container = React.useRef<HTMLDivElement>();
+    const container = React.useRef<HTMLDivElement>(null);
     gsap.registerPlugin(ScrollTrigger);
 
     const PROPERTIES = properties;

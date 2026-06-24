@@ -20,9 +20,10 @@ const EmployeeCollection = async ({ filter }: any) => {
 
 export const metadata = setTitlePage("Gestion des employés");
 type GestionEmployeePageProps = {
-    searchParams: PaginationSearchParams;
+    searchParams: Promise<PaginationSearchParams>;
 };
-const GestionEmployeePage = async ({ searchParams }: GestionEmployeePageProps) => {
+const GestionEmployeePage = async (props: GestionEmployeePageProps) => {
+    const searchParams = await props.searchParams;
     const page = Number(searchParams.page) || 1;
     const limit = Number(searchParams.limit) || 15;
     const search = searchParams.search || "";

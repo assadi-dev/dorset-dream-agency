@@ -52,7 +52,7 @@ const LoginForm = () => {
         });
     };
 
-    const container = React.useRef<HTMLDivElement>();
+    const container = React.useRef<HTMLDivElement>(null);
 
     useGSAP(
         () => {

@@ -11,7 +11,7 @@ type BubbleMenuRowProps = {
     editor: Editor;
 };
 const BubbleMenuRow = ({ editor }: BubbleMenuRowProps) => {
-    const BubbleMenuRef = React.useRef<any>();
+    const BubbleMenuRef = React.useRef<any>(null);
 
     return (
         <BubbleMenu ref={BubbleMenuRef} editor={editor} options={{ placement: "top", offset: 8, flip: true }}>

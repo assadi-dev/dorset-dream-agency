@@ -12,10 +12,11 @@ import { ALL_STATUS } from "./helpers";
 export const metadata = setTitlePage("Location & Ventes");
 
 type TransactionPageParams = {
-    searchParams: PaginationSearchParams & { status: string };
+    searchParams: Promise<PaginationSearchParams & { status: string }>;
 };
 
-const TransactionPage = async ({ searchParams }: TransactionPageParams) => {
+const TransactionPage = async (props: TransactionPageParams) => {
+    const searchParams = await props.searchParams;
     const page = Number(searchParams.page) || 1;
     const limit = Number(searchParams.limit) || 5;
     const search = searchParams.search || "";

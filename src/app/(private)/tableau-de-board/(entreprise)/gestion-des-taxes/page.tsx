@@ -10,7 +10,7 @@ import ListTaxes from "./_components/table/ListTaxes";
 export const metadata = setTitlePage("Gestion des taxes");
 
 type GestionDesTaxesProps = {
-    searchParams: PaginationSearchParams;
+    searchParams: Promise<PaginationSearchParams>;
 };
 
 const TaxesCollection = async ({ filter }: any) => {
@@ -22,10 +22,10 @@ const TaxesCollection = async ({ filter }: any) => {
     );
 };
 export default async function GestionDesTaxes({ searchParams }: GestionDesTaxesProps) {
-
-    const page = Number(searchParams.page) || 1;
-    const limit = Number(searchParams.limit) || 15;
-    const search = searchParams.search || "";
+    const { page: pageParam, limit: limitParam, search: searchParam } = await searchParams;
+    const page = Number(pageParam) || 1;
+    const limit = Number(limitParam) || 15;
+    const search = searchParam || "";
     const filter = { search, page, limit };
 
     return (

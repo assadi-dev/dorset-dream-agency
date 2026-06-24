@@ -4,10 +4,11 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 type GetParams = {
-    params: { name: string };
+    params: Promise<{ name: string }>;
 };
-export const GET = async (req: Request, { params: { name } }: GetParams) => {
+export const GET = async (req: Request, { params }: GetParams) => {
     try {
+        const { name } = await params;
         const variants = await getOneByName(name);
         return NextResponse.json(variants);
     } catch (error: any) {

@@ -4,12 +4,13 @@ import { reportException } from "@/lib/logger";
 import { NextRequest, NextResponse } from "next/server";
 
 type Params = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
-export const GET = async (request: NextRequest, { params: { id } }: Params) => {
+export const GET = async (request: NextRequest, { params }: Params) => {
     try {
+        const { id } = await params;
         const conversation = await conversationRepository.findOne(id);
         return NextResponse.json(conversation);
     } catch (error) {
@@ -24,8 +25,9 @@ export const GET = async (request: NextRequest, { params: { id } }: Params) => {
     }
 };
 
-export const DELETE = async (request: NextRequest, { params: { id } }: Params) => {
+export const DELETE = async (request: NextRequest, { params }: Params) => {
     try {
+        const { id } = await params;
         await conversationRepository.delete(id);
         return NextResponse.json({
             message: `the conversation has been successfully deleted !`,

@@ -32,7 +32,7 @@ const HeroSearchFilter = () => {
             router.push(cleanUrl.href);
         } catch (error) {
             if (error instanceof ZodError) {
-                ToastErrorSonner(error.errors[0].message);
+                ToastErrorSonner(error.issues[0].message);
             }
         }
     };

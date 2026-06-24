@@ -6,12 +6,13 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
-export const GET = async (req: Request, { params: { id } }: Params) => {
+export const GET = async (req: Request, { params }: Params) => {
     try {
+        const { id } = await params;
         const propertyFound = await getOnePropertyWithVariant(id);
         const retrieveGallery: any[] = [];
 
@@ -33,8 +34,9 @@ export const GET = async (req: Request, { params: { id } }: Params) => {
     }
 };
 
-export const PUT = async (req: NextRequest, { params: { id } }: Params) => {
+export const PUT = async (req: NextRequest, { params }: Params) => {
     try {
+        const { id } = await params;
         const body = await req.json();
         const response = await updateProperty(id, body);
         return NextResponse.json(response);
@@ -46,8 +48,9 @@ export const PUT = async (req: NextRequest, { params: { id } }: Params) => {
     }
 };
 
-export const DELETE = async (req: NextRequest, { params: { id } }: Params) => {
+export const DELETE = async (req: NextRequest, { params }: Params) => {
     try {
+        const { id } = await params;
         await deleteProperty(id);
         return NextResponse.json(null, { status: 204 });
     } catch (error) {

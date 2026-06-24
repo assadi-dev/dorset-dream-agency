@@ -8,7 +8,7 @@ export const metadata = setTitlePage("Catalogue");
 metadata.description = `Consulter le catalogue des biens immobilier proposer par l'agence ${ENV.APP_TITLE}`;
 
 type CatalogueTemplateProps = {
-    children: React.ReactElement;
+    children: React.ReactNode;
 };
 const CatalogueLayout = async ({ children }: CatalogueTemplateProps) => {
     return (

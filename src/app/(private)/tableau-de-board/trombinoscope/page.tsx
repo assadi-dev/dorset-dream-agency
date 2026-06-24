@@ -10,9 +10,10 @@ import SimplePagination from "@/components/Paginations/SimplePagination";
 
 export const metadata = setTitlePage("Prestige");
 type TrombinoscopePageProps = {
-    searchParams: { search: string; limit: string; page: string };
+    searchParams: Promise<{ search: string; limit: string; page: string }>;
 };
-const TrombinoscopePage = async ({ searchParams }: TrombinoscopePageProps) => {
+const TrombinoscopePage = async (props: TrombinoscopePageProps) => {
+    const searchParams = await props.searchParams;
     const search = searchParams.search || "";
     const limit = Number(searchParams.limit) || 15;
     const page = Number(searchParams.page) || 1;

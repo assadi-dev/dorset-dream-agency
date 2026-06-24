@@ -8,16 +8,16 @@ import { propertyFormType } from "../ajouter/_components/form/propertySchema";
 import { getOneVariantWithGallery } from "@/database/drizzle/repositories/variants";
 
 type Params = {
-    searchParams: {
+    searchParams: Promise<{
         property?: string;
         name?: string;
         createdAt?: string;
         categoryProperty?: string;
-    };
+    }>;
 };
 export const metadata = setTitlePage("Edition d'un biens immobiliers");
 const EditPropertyPage = async ({ searchParams }: Params) => {
-    const { property, name, createdAt, categoryProperty } = searchParams;
+    const { property, name, createdAt, categoryProperty } = await searchParams;
 
     const EditPropertyAsync = async () => {
         if (!property) throw "Property not found";

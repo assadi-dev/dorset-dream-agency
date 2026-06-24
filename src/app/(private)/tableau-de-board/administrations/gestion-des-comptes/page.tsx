@@ -14,9 +14,10 @@ import { notFound } from "next/navigation";
 
 export const metadata = setTitlePage("Gestion des comptes");
 type GestionEmployeeParams = {
-    searchParams: PaginationSearchParams;
+    searchParams: Promise<PaginationSearchParams>;
 };
-const GestionEmployeePage = async ({ searchParams }: GestionEmployeeParams) => {
+const GestionEmployeePage = async (props: GestionEmployeeParams) => {
+    const searchParams = await props.searchParams;
     const search = searchParams.search;
     const limit = Number(searchParams.limit) || 5;
     const page = Number(searchParams.page) || 1;

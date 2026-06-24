@@ -12,10 +12,11 @@ import PageTemplate from "../../_components/PageTemplate";
 export const metadata = setTitlePage("Gestion des annonces");
 
 type GestionAnnouncementPageProps = {
-    searchParams: { search: string; limit: string; page: string };
+    searchParams: Promise<{ search: string; limit: string; page: string }>;
 };
 
-const GestionAnnouncementPage = async ({ searchParams }: GestionAnnouncementPageProps) => {
+const GestionAnnouncementPage = async (props: GestionAnnouncementPageProps) => {
+    const searchParams = await props.searchParams;
     const ListAnnouncementsAsync = async () => {
         const search = searchParams.search || "";
         const limit = Number(searchParams.limit) || 15;

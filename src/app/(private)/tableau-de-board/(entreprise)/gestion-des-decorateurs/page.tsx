@@ -17,11 +17,12 @@ export const generateMetadata = () => {
 
 
 type DecoratorCollectionsPageParams = {
-    searchParams: PaginationSearchParams
+    searchParams: Promise<PaginationSearchParams>
 };
 
 
-const GestionDecorateurPage = async ({ searchParams }: DecoratorCollectionsPageParams) => {
+const GestionDecorateurPage = async (props: DecoratorCollectionsPageParams) => {
+    const searchParams = await props.searchParams;
 
     const DecoratorCollections = async () => {
         const page = Number(searchParams.page) || 1;

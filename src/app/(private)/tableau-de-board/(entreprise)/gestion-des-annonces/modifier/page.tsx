@@ -14,12 +14,13 @@ import PageTemplate from "../../../_components/PageTemplate";
 export const metadata = setTitlePage("Éditeur d' annonce");
 
 type EditAnnouncementPageProps = {
-    searchParams: {
+    searchParams: Promise<{
         id?: string;
-    };
+    }>;
 };
 
-const EditAnnouncementPage = async ({ searchParams: { id } }: EditAnnouncementPageProps) => {
+const EditAnnouncementPage = async ({ searchParams }: EditAnnouncementPageProps) => {
+    const { id } = await searchParams;
     if (!id) throw new Error("id missing !");
     const announce = await findOneByID(Number(id));
     if (!announce) throw new Error("Annonce introuvable");

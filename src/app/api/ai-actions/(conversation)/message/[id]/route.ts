@@ -2,12 +2,13 @@ import { messagesRepository } from "@/database/nedb/chats/messagesRepository";
 import { NextRequest, NextResponse } from "next/server";
 
 type Params = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
-export const GET = async (req: NextRequest, { params: { id } }: Params) => {
+export const GET = async (req: NextRequest, { params }: Params) => {
     try {
+        const { id } = await params;
         const result = await messagesRepository.findOne(id);
         if (!result) return NextResponse.json({ message: "message not found" });
 

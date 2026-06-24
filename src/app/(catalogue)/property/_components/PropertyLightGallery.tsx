@@ -79,7 +79,7 @@ const PropertyLightGallery = ({ property }: PropertyLightGalleryProps) => {
             });
         }
     }, [property.gallery]);
-    const container = React.useRef<HTMLDivElement>();
+    const container = React.useRef<HTMLDivElement>(null);
 
     gsap.registerPlugin(ScrollTrigger);
 
