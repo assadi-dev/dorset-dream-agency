@@ -96,7 +96,6 @@ export const getClientsCollections = async (filter: FilterPaginationType) => {
         return {
             totalItems,
             limit,
-            order,
             data,
         };
     } catch (error: any) {

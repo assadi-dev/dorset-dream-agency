@@ -128,6 +128,13 @@ export const ACTION_NAMES = {
         restore: "Restauration d'un profil de décorateur",
         clean: "Suppression de tous les profils de décorateurs",
     },
+    categoryProperties: {
+        create: "Création d'une catégorie",
+        update: "Modification d'une catégorie",
+        delete: "Suppression d'une catégorie",
+        restore: "Restauration d'une catégorie",
+        clean: "Suppression de tous les catégories",
+    },
 };
 
 export const enum ENTITIES_ENUM {
@@ -140,6 +147,7 @@ export const enum ENTITIES_ENUM {
     PRESTIGES = "prestige",
     TRANSACTIONS = "transactions",
     DECORATOR_PROFILES = "decoratorProfiles",
+    CATEGORY_PROPERTIES = "categoryProperties",
 }
 
 export const PROPERTY_SERVICE = [
