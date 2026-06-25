@@ -9,13 +9,13 @@ import { canAction } from "@/lib/utils";
 
 type SwitchAvailableProps = {
     property?:
-        | {
-              id: number;
-              isAvailable: boolean;
-              name: string;
-              propertyID: number;
-          }
-        | any;
+    | {
+        id: number;
+        isAvailable: boolean;
+        name: string;
+        propertyID: number;
+    }
+    | any;
 };
 const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
     const [checked, setChecked] = React.useState(property?.isAvailable);
@@ -23,16 +23,20 @@ const SwitchAvailable = ({ property }: SwitchAvailableProps) => {
 
     const canUpdateSwitch = !ACTIONS_CONTROL_PERMISSION.canAction(role);
 
+
     const handleChange = async (checked: boolean) => {
         try {
             if (canUpdateSwitch) throw new Error(FORBIDDEN_ACTION);
             setChecked(checked);
             const state = checked ? "disponible" : "non disponible";
             const MESSAGE_SUCCESS = `La propriété ${property?.name} est maintenant ${state}`;
-            if (property?.propertyID) {
-                await setAvailableProperty(property.propertyID, checked);
+            if (!property?.id) {
+                throw new Error("Property ID is required");
             }
+
+            await setAvailableProperty(property.id, checked);
             ToastSuccessSonner(MESSAGE_SUCCESS);
+
         } catch (error: any) {
             if (error instanceof Error) {
                 ToastErrorSonner(error.message);

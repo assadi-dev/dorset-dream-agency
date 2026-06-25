@@ -8,6 +8,7 @@ import {
 } from "@/database/drizzle/repositories/transactions";
 import { LocationVentesFormType } from "./_components/forms/schema";
 import { FilterPaginationType } from "@/database/types";
+import { revalidatePath } from "next/cache";
 
 export const createTransaction = async (formData: FormData) => {
     const cleanValues = {
@@ -48,4 +49,5 @@ export const ediTransaction = async (id: number, values: Partial<LocationVentesF
     };
 
     await updateTransaction(id, cleanValues);
+    revalidatePath(`/tableau-de-board/gestion-des-locations-et-ventes`);
 };
