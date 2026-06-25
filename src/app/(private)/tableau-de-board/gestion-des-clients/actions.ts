@@ -14,9 +14,12 @@ import { FilterPaginationType } from "@/database/types";
 import { isAdmin } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
+const PATH_CLIENTS = "/tableau-de-board/gestion-des-clients";
+
 export const saveClient = async (values: any) => {
     try {
         const newClient = await insertClient(values);
+        revalidatePath(PATH_CLIENTS);
         return newClient;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
@@ -43,7 +46,7 @@ export const editClient = async (id: string | number, values: any) => {
 export const removeClient = async (ids: Array<number>) => {
     try {
         await deleteClients(ids);
-        revalidatePath("/tableau-de-board/gestion-des-clients");
+        revalidatePath(PATH_CLIENTS);
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }

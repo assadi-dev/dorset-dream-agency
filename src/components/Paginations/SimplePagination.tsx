@@ -48,7 +48,7 @@ const SimplePagination = ({
     const [paginationState, setPaginationState] = React.useReducer(
         (prev: paginationStateType, next: any) => ({ ...prev, ...next }),
         {
-            page: page || 1,
+            page: Number(page) || 1,
             limit,
             canNextPage: true,
             canPreviousPage: false,
