@@ -25,7 +25,7 @@ export const columns: ColumnDef<Category>[] = [
         accessorKey: "count",
         header: () => (
 
-            <p className="text-center">Nombre de biens</p>
+            <p className="text-center">Proprieté associées</p>
 
         ),
         cell: ({ row }) => {
