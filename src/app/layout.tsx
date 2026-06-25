@@ -18,6 +18,7 @@ import "swiper/css/autoplay";
 import "swiper/css/zoom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Metadata } from "next";
+import NuqsProvider from "@/components/providers/NuqsProvider";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -59,9 +60,12 @@ export default function RootLayout({
                     defaultTheme="system"
                     enableSystem
 
-                >
-                    <PageTopLoader />
-                    <QueryClientProvider>{children}</QueryClientProvider>
+                >   <NuqsProvider>
+                        <PageTopLoader />
+                        <QueryClientProvider>
+                            {children}
+                        </QueryClientProvider>
+                    </NuqsProvider>
                     <Toaster theme="light" richColors closeButton />
                 </ThemeProvider>
             </body>

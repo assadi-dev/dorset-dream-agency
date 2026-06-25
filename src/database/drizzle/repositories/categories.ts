@@ -5,6 +5,7 @@ import { FilterPaginationType } from "@/database/types";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 import { UserActionUnion } from "@/types/global";
+import { properties } from "../schema/properties";
 
 type CategoryPropertyInputsType = {
     name: string;
@@ -38,9 +39,14 @@ export const getCategoriesPaginate = async (filter: FilterPaginationType) => {
     const query =  db.select({
         id: categoryProperties.id,
         name: categoryProperties.name,
+        count: sql<number>`count(${properties.id})`.mapWith(Number),
         createdAt: categoryProperties.createdAt,
 
-    }).from(categoryProperties).where(and(searchCondition))
+    })
+        .from(categoryProperties)
+        .leftJoin(properties, eq(properties.categoryID, categoryProperties.id))
+        .where(and(searchCondition))
+        .groupBy(categoryProperties.id)
 
     const order = desc(categoryProperties.createdAt);
 

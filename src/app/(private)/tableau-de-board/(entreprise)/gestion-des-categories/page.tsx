@@ -3,18 +3,9 @@ import PageTemplate from "../../_components/PageTemplate";
 import GestionCategoriesRightAction from "./_components/GestionCategoriesRightAction";
 import { PaginationSearchParams } from "@/app/types";
 import { setTitlePage } from "@/lib/utils";
-import { getCategoriesCollectionsMocks } from "./mocks/categoriesData";
-import ListCategories from "./_components/table/ListCategories";
+import CategoriesCollection from "./_components/table/CategoriesCollection";
 
 
-const CategoriesCollection = async ({ filter }: any) => {
-    const categories = await getCategoriesCollectionsMocks();
-    return (
-        categories && (
-            <ListCategories categories={categories?.data || []} limit={filter.limit} totalItems={categories?.totalItems} />
-        )
-    );
-};
 
 export const metadata = setTitlePage("Gestion des catégories");
 
@@ -23,9 +14,6 @@ type GestionDesCategoriesProps = {
 };
 export default async function GestionDesCategories({ searchParams }: GestionDesCategoriesProps) {
 
-    const { page, limit, search } = await searchParams;
-
-    const filter = { search: search || "", page: Number(page) || 1, limit: Number(limit) || 15 };
     return (
         <ModalProvider>
             <PageTemplate title="Categories" description="Gestion des categories des biens immobiliers">
@@ -34,7 +22,7 @@ export default async function GestionDesCategories({ searchParams }: GestionDesC
                         <div></div>
                         <GestionCategoriesRightAction />
                     </div>
-                    <CategoriesCollection filter={filter} />
+                    <CategoriesCollection />
 
                 </section>
             </PageTemplate>

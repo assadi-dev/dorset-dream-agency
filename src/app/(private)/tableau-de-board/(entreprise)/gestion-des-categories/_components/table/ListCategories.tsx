@@ -26,7 +26,6 @@ type ListCategoriesProps = {
 const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) => {
     const role = useGetRoleUser();
     const { itemChecked, handleSelectedAllRow, handleSelectedRow, reset } = useSelectTableRow();
-
     const actions = {
         id: "actions",
         enableHiding: false,
