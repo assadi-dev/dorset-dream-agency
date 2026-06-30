@@ -4,10 +4,11 @@ import {
     getTransactionCollection,
     insertTransaction,
     insertTransactionType,
+    updateMultipleTransactionStatus,
     updateTransaction,
 } from "@/database/drizzle/repositories/transactions";
 import { LocationVentesFormType } from "./_components/forms/schema";
-import { FilterPaginationType } from "@/database/types";
+import { FilterPaginationType, LocationStatusType } from "@/database/types";
 import { revalidatePath } from "next/cache";
 
 export const createTransaction = async (formData: FormData) => {
@@ -49,5 +50,11 @@ export const ediTransaction = async (id: number, values: Partial<LocationVentesF
     };
 
     await updateTransaction(id, cleanValues);
+    revalidatePath(`/tableau-de-board/gestion-des-locations-et-ventes`);
+};
+
+
+export const updateTransactionStatus = async (ids: number[], status: LocationStatusType) => {
+    await updateMultipleTransactionStatus(ids, status);
     revalidatePath(`/tableau-de-board/gestion-des-locations-et-ventes`);
 };

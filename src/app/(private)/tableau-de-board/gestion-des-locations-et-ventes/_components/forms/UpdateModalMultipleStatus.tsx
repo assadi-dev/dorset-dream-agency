@@ -2,8 +2,8 @@ import React from "react";
 import LocationStatusForm from "./LocationStatusForm";
 import useModalState from "@/hooks/useModalState";
 import { LocationStatusFormSchemaInfer } from "./schema";
-import { updateMultipleTransactionStatus } from "@/database/drizzle/repositories/transactions";
 import useRouteRefresh from "@/hooks/useRouteRefresh";
+import { updateTransactionStatus } from "../../actions";
 const UpdateModalMultipleStatus = () => {
     const { closeModal, payload } = useModalState();
     const { refreshWithParams } = useRouteRefresh();
@@ -12,7 +12,7 @@ const UpdateModalMultipleStatus = () => {
 
     const saveMultipleStatus = async (values: LocationStatusFormSchemaInfer) => {
         const { ids, status } = values;
-        await updateMultipleTransactionStatus(ids, status);
+        await updateTransactionStatus(ids, status);
 
         closeModal();
         refreshWithParams();
