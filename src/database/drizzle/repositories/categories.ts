@@ -1,6 +1,6 @@
 import { db } from "@/database";
 import { categoryProperties } from "../schema/categoryProperties";
-import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { FilterPaginationType } from "@/database/types";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
@@ -33,7 +33,7 @@ export const getCategoriesPaginate = async (filter: FilterPaginationType) => {
     const {page,limit,search} = filter;
     const searchCondition = search
             ? or(
-                  ilike(categoryProperties.name, sql.placeholder("search")),
+                  like(categoryProperties.name, sql.placeholder("search")),
               )
             : undefined;
     const query =  db.select({

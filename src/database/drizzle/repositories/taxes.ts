@@ -1,6 +1,6 @@
 import { db } from "@/database";
 import { taxes } from "../schema/taxes";
-import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, like, or, sql } from "drizzle-orm";
 import { BindParameters, FilterPaginationType } from "@/database/types";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
@@ -86,7 +86,7 @@ export const getTaxesCollections = async (filter: FilterPaginationType) => {
         const totalItemsQury = db.select({count: sql<number>`COUNT(*)`}).from(taxes).$dynamic()
 
         const searchCondition = search
-            ? or(ilike(taxes.name, sql.placeholder("search")),)
+            ? or(like(taxes.name, sql.placeholder("search")),)
             : undefined;
 
         const parameters: BindParameters = {
