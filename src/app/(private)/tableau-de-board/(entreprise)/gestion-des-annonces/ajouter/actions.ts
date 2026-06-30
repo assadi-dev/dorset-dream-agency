@@ -4,16 +4,23 @@ import { uploadAnnounceFile, uploadSaveFile } from "@/database/drizzle/repositor
 import { AnnouncementFormType } from "../schema";
 import { deleteAnnouncements, insertAnnounce, updateAnnounce } from "@/database/drizzle/repositories/announcements";
 import { auth, UserSession } from "@/auth";
+import { revalidatePath } from "next/cache";
+
+const PATH_ANNOUNCEMENT = "/tableau-de-board/gestion-des-annonces";
 
 export const saveAnnonceCreation = async (formData: FormData, values: AnnouncementFormType) => {
     if (values.id) {
         return await updateSaveAnnonce(formData, values);
     }
-    return await createSaveAnnounce(formData, values);
+
+    const result = await createSaveAnnounce(formData, values);
+    revalidatePath(PATH_ANNOUNCEMENT);
+    return result;
 };
 
 export const removeAnnounce = async (id: number) => {
     await deleteAnnouncements([id]);
+    revalidatePath(PATH_ANNOUNCEMENT);
 };
 
 export const createSaveAnnounce = async (formData: FormData, values: AnnouncementFormType) => {
@@ -24,12 +31,14 @@ export const createSaveAnnounce = async (formData: FormData, values: Announcemen
     annonceFile = await uploadAnnounceFile(formData);
     settingsFile = await uploadSaveFile(formData);
 
-    return await insertAnnounce({
+    const result = await insertAnnounce({
         ...values,
         path: annonceFile?.path || null,
         settings: settingsFile?.path || null,
         author: Number(session.user.employeeID),
     });
+    revalidatePath(PATH_ANNOUNCEMENT);
+    return result;
 };
 
 export const updateSaveAnnonce = async (formData: FormData, values: AnnouncementFormType) => {
@@ -42,11 +51,15 @@ export const updateSaveAnnonce = async (formData: FormData, values: Announcement
     if (values.id) {
         annonceFile = await uploadAnnounceFile(formData);
         settingsFile = await uploadSaveFile(formData);
-        return await updateAnnounce(values.id, {
+  
+        const result = await updateAnnounce(values.id, {
             ...values,
             path: annonceFile?.path,
             settings: settingsFile?.path,
             author: Number(session.user.employeeID),
         });
+        revalidatePath(PATH_ANNOUNCEMENT);
+        return result;
     }
+ 
 };
