@@ -6,6 +6,7 @@ export const taxes = mysqlTable("taxes", {
     id: int("id").autoincrement().primaryKey(),
     name: varchar("name", { length: 100 }),
     rate: int("rate"),
+    description: varchar("description", { length: 100 }),
     ...updatedAndCreatedAt,
 
 });

@@ -1,28 +1,30 @@
+"use client"
 import FormFieldInput from "@/components/forms/FormFieldInput";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { Form } from "@/components/ui/form";
-import { categoriesSchema, CategoryInputsType } from "@/database/drizzle/repositories/dto/categoriesDTO";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { TaxeInputsType, taxesSchema } from "@/database/drizzle/repositories/dto/taxesDTO";
+import { useTransition } from "react";
 
 type Props = {
-    defaultValues?: CategoryInputsType;
-    onSubmit: (data: CategoryInputsType) => Promise<void>;
+    defaultValues?: TaxeInputsType;
+    onSubmit: (data: TaxeInputsType) => Promise<void>;
 }
-export const CategoryForm = ({ defaultValues, onSubmit }: Props) => {
+const TaxesForm = ({ defaultValues, onSubmit }: Props) => {
 
     const [isPending, startTransition] = useTransition();
 
     const form = useForm({
-        resolver: zodResolver(categoriesSchema),
+        resolver: zodResolver(taxesSchema),
         defaultValues: {
             name: "",
+            rate: 0,
             ...defaultValues,
         },
     });
 
-    const submit: SubmitHandler<CategoryInputsType> = async (data) => {
+    const submit: SubmitHandler<TaxeInputsType> = async (data) => {
         try {
             startTransition(async () => {
                 try {
@@ -32,25 +34,40 @@ export const CategoryForm = ({ defaultValues, onSubmit }: Props) => {
                 }
             })
         } catch (error) {
-            console.log(error);
             throw error;
         }
     }
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(submit)} className="flex flex-col gap-4 justify-between w-full">
-                <div className="w-full min-h-10">
+                <div className="w-full flex flex-col gap-4">
                     <FormFieldInput
                         control={form.control}
                         name="name"
                         label="Nom"
                         placeholder="Nom"
                     />
+                    <FormFieldInput
+                        control={form.control}
+                        name="rate"
+                        label="Taux"
+                        placeholder="Taux"
+                    />
+
+                    <FormFieldInput
+                        control={form.control}
+                        name="description"
+                        label="Description (optionnel)"
+                        placeholder="Description"
+                        description="Description de la taxe 100 caracteres maximum"
+                    />
                 </div>
                 <div className="py-3 w-full">
-                    <SubmitButton className="w-full" isLoading={isPending} type="submit">Enregistrer</SubmitButton>
+                    <SubmitButton className="w-full" isLoading={form.formState.isSubmitting} type="submit">Enregistrer</SubmitButton>
                 </div>
             </form>
         </Form>
     );
 }
+
+export default TaxesForm;

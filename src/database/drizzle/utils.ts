@@ -135,6 +135,13 @@ export const ACTION_NAMES = {
         restore: "Restauration d'une catégorie",
         clean: "Suppression de tous les catégories",
     },
+    taxes: {
+        create: "Création d'une taxe",
+        update: "Modification d'une taxe",
+        delete: "Suppression d'une taxe",
+        restore: "Restauration d'une taxe",
+        clean: "Suppression de tous les taxes",
+    },
 };
 
 export const enum ENTITIES_ENUM {
@@ -148,6 +155,7 @@ export const enum ENTITIES_ENUM {
     TRANSACTIONS = "transactions",
     DECORATOR_PROFILES = "decoratorProfiles",
     CATEGORY_PROPERTIES = "categoryProperties",
+    TAXES = "taxes",
 }
 
 export const PROPERTY_SERVICE = [

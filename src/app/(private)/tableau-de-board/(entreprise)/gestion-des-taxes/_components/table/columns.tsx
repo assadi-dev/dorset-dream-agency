@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 export type TaxeColumnData = {
     id: string;
     name: string;
-    price: number;
+    rate: number;
     description: string;
     createdAt: Date;
 
@@ -23,16 +23,16 @@ export const columns: ColumnDef<TaxeColumnData>[] = [
         },
     },
     {
-        accessorKey: "price",
+        accessorKey: "rate",
         header: () => (
 
-            <p className="text-center">Prix</p>
+            <p className="text-center">Taux</p>
 
         ),
         cell: ({ row }) => {
             return (
 
-                <p className="text-center">${row.getValue("price")}</p>
+                <p className="text-center">{row.getValue("rate") ?? "0"}$</p>
 
 
             );

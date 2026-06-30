@@ -2,22 +2,59 @@ import { db } from "@/database";
 import { taxes } from "../schema/taxes";
 import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 import { BindParameters, FilterPaginationType } from "@/database/types";
-import { withPagination } from "./utils/entity";
+import { sendToUserActions, withPagination } from "./utils/entity";
+import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
 
 
 export const insertTaxe = async (data: any) => {
-    return await db.insert(taxes).values(data);
+  const result =  await db.insert(taxes).values(data);
+   await sendToUserActions({
+          message:"Ajout d'une nouvelle taxe",
+          action: "create",
+          entity: ENTITIES_ENUM.TAXES,
+          actionName: ACTION_NAMES.taxes.create,
+      });
+  return result;
 }
 
 export const updateTaxe = async (id: number, data: any) => {
-    return await db.update(taxes).set(data).where(eq(taxes.id, id));
+    const result = await db.update(taxes).set(data).where(eq(taxes.id, id));
+       await sendToUserActions({
+          message:"Modification d'une taxe",
+          action: "update",
+          entity: ENTITIES_ENUM.TAXES,
+          actionName: ACTION_NAMES.taxes.update,
+          extras:{
+            id,
+            data,
+          }
+      });
+    return result;
 }
 
 export const deleteTaxe = async (id: number) => {
     await db.delete(taxes).where(eq(taxes.id, id));
+           await sendToUserActions({
+          message:"Suppression d'une taxe",
+          action: "delete",
+          entity: ENTITIES_ENUM.TAXES,
+          actionName: ACTION_NAMES.taxes.delete,
+          extras:{
+            id,
+          }
+      });
 }
 export const deleteManyTaxe = async (ids: number[]) => {
     await db.delete(taxes).where(inArray(taxes.id, ids));
+           await sendToUserActions({
+          message:"Suppression de plusieurs taxes",
+          action: "delete",
+          entity: ENTITIES_ENUM.TAXES,
+          actionName: ACTION_NAMES.taxes.delete,
+          extras:{
+            ids,
+          }
+      });
 }
 
 export const getAllTaxes = async () => {
