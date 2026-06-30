@@ -135,15 +135,11 @@ export const deleteCategory = async (id: number) => {
 };
 
 export const deleteManyCategory = async (ids: Array<number>) => {
-    const prepare = db
+    await db
         .delete(categoryProperties)
-        .where(inArray(categoryProperties.id, sql.placeholder("ids")))
-        .prepare();
-    await prepare.execute({
-        ids,
-    });
+        .where(inArray(categoryProperties.id, ids))
 
-        const result = await prepare.execute();
+
     const message = `Suppression des catégories`;
     const extras = { ids };
     await sendToUserActions({

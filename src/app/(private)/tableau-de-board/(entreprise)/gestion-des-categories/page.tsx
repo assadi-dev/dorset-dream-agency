@@ -23,7 +23,6 @@ export default async function GestionDesCategories({ searchParams }: GestionDesC
                         <GestionCategoriesRightAction />
                     </div>
                     <CategoriesCollection />
-
                 </section>
             </PageTemplate>
         </ModalProvider>
