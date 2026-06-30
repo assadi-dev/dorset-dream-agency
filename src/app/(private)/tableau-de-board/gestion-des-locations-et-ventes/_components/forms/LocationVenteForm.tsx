@@ -46,7 +46,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
 
     const form = useForm<LocationVentesFormType>({
         resolver: zodResolver(LocationVentesFormSchema),
-        defaultValues: { ...defaultFormValues },
+        defaultValues: { status: "ongoing", ...defaultFormValues },
     });
 
 
