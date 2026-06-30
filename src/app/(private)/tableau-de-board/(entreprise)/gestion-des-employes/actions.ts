@@ -3,8 +3,13 @@ import { db } from "@/database";
 import { employees } from "@/database/drizzle/schema/employees";
 import { sql } from "drizzle-orm";
 import { gestionEmployeeSchemaType } from "./_components/forms/schema";
-import { updateEmployee } from "@/database/drizzle/repositories/employee";
+import { deleteEmployee, insertEmployee, updateEmployee } from "@/database/drizzle/repositories/employee";
 import { uploadPhotoEmployee } from "@/database/drizzle/repositories/employeeFIle";
+import { revalidatePath } from "next/cache";
+import { insertUserAccount } from "@/database/drizzle/repositories/users";
+import { GestionEmployeeFormType } from "../../administrations/gestion-des-comptes/_components/forms/schema";
+
+const PATH_EMPLOYEE = "/tableau-de-board/gestion-des-employes";
 
 export const getEmployeeCollections = async () => {
     try {
@@ -26,9 +31,29 @@ export const getEmployeeCollections = async () => {
 
 export const editEmployeeData = async (id: number, values: any) => {
     await updateEmployee(id, values);
+    revalidatePath(PATH_EMPLOYEE);
     return;
 };
 
 export const uploadEmployeePhoto = async (formData: FormData) => {
+    revalidatePath(PATH_EMPLOYEE);
     return await uploadPhotoEmployee(formData);
+};
+
+
+export const createEmployee = async (values: GestionEmployeeFormType & {
+    userID?: any;
+},) => {
+    const newUser = await insertUserAccount(values);
+    values.userID = newUser?.id;
+    const secteursIds = values.secteur.map((secteur) => Number(secteur.value));
+    await insertEmployee({ ...values, secteursIds });
+    revalidatePath(PATH_EMPLOYEE);
+    return;
+};
+
+export const deleteEmployeeAction = async (ids: number[]) => {
+    await deleteEmployee(ids);
+    revalidatePath(PATH_EMPLOYEE);
+    return;
 };

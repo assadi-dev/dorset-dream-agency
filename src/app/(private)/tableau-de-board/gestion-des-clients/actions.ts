@@ -29,6 +29,7 @@ export const saveClient = async (values: any) => {
 export const getClientsPaginations = async (filter: FilterPaginationType) => {
     try {
         const collections = await getClientsCollections(filter);
+        return collections;
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }
@@ -53,6 +54,7 @@ export const removeClient = async (ids: Array<number>) => {
 };
 
 export const setIsDeadClient = async (ids: number[], value: boolean) => {
+    revalidatePath(PATH_CLIENTS);
     return declareDeceased(ids, value);
 };
 
@@ -62,6 +64,7 @@ export const emptyClientAction = async () => {
     try {
         if (!isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
         await deleteAllClient();
+        revalidatePath(PATH_CLIENTS);
     } catch (error: any) {
         if (error instanceof Error) throw new Error(error.message);
     }

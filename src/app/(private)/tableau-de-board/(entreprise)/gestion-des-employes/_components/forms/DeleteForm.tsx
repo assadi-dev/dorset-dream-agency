@@ -6,6 +6,7 @@ import { isAdmin } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { deleteEmployeeAction } from "../../actions";
 
 const DeleteForm = () => {
     const { payload, closeModal } = useModalState();
@@ -22,7 +23,7 @@ const DeleteForm = () => {
             if (isAdmin(payload.role) && !isAdmin(role)) throw new Error(FORBIDDEN_ACTION);
 
             const ids = payload.ids;
-            await deleteEmployee(ids);
+            await deleteEmployeeAction(ids);
             closeModal();
             payload?.resetSelected && payload.resetSelected();
             router.push(pathname);
