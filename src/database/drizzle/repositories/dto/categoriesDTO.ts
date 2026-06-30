@@ -17,9 +17,9 @@ export const categoriesValidator  = {
     update: (data: unknown) => {
         return categoriesSchema.safeParse(data);
     },
-    deleteMany: (ids: number[]) => {
+    deleteMany: (data: unknown) => {
         return z.object({
             ids: idsSchema,
-        }).safeParse(ids);
+        }).safeParse(data);
     },
 }

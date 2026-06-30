@@ -100,7 +100,7 @@ export const getCategoryByID = async (id: string) => {
     throw new Error(`Category ${id} is not found in database`);
 };
 
-export const updateCategory = async (id: string, inputs: Partial<CategoryPropertyInputsType>) => {
+export const updateCategory = async (id: number, inputs: Partial<CategoryPropertyInputsType>) => {
     const prepare = db
         .update(categoryProperties)
         .set(inputs)
@@ -122,7 +122,7 @@ export const updateCategory = async (id: string, inputs: Partial<CategoryPropert
     throw new Error(`Category ${id} is not found in database`);
 };
 
-export const deleteCategory = async (id: string) => {
+export const deleteCategory = async (id: number) => {
     const prepare = db
         .delete(categoryProperties)
         .where(eq(categoryProperties.id, sql.placeholder("id")))
@@ -134,7 +134,7 @@ export const deleteCategory = async (id: string) => {
     throw new Error(`Category ${id} is not found in database`);
 };
 
-export const deleteManyCategory = async (ids: Array<string>) => {
+export const deleteManyCategory = async (ids: Array<number>) => {
     const prepare = db
         .delete(categoryProperties)
         .where(inArray(categoryProperties.id, sql.placeholder("ids")))
