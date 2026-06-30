@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { categoryPropertyWriteService } from "../../_services/categoryPropertyWrite";
+import { categoryPropertyWriteService } from "../../../_services/categoryPropertyWrite";
 import { handleApiError } from "@/lib/handler";
+export const dynamic = "force-dynamic";
 
 type Props = {
     params: Promise<{ id: string }>;
