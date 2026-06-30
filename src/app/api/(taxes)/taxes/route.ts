@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { taxesReadService } from "../_services/taxesRead";
 import { handleApiError } from "@/lib/handler";
 import { taxesWriteService } from "../_services/taxeWrite";
+import { ExtractFilterParams } from "@/database/drizzle/utils";
 export const dynamic = "force-dynamic";
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
     try {
-        const result = await taxesReadService.collections();
+        const { nextUrl: { searchParams } } = request;
+        const filter = ExtractFilterParams(searchParams);
+        const result = await taxesReadService.collections(filter);
         return NextResponse.json(result);
     } catch (error: any) {
         return handleApiError(error);
