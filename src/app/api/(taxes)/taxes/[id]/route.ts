@@ -5,7 +5,7 @@ import { taxesWriteService } from "../../_services/taxeWrite";
 type Props = {
     params: Promise<{ id: string }>;
 };
-export const PUT = async ({ params }: Props, req: NextRequest) => {
+export const PUT = async (req: NextRequest, { params }: Props) => {
     try {
         const { id } = await params;
         const body = await req.json();

@@ -29,8 +29,8 @@ export const POST = async (req: NextRequest) => {
 export const DELETE = async (req: NextRequest) => {
     try {
         const body = await req.json();
-        const result = await taxesWriteService.delete(body);
-        return NextResponse.json(result);
+        await taxesWriteService.delete(body);
+        return NextResponse.json({ message: "Taxe supprimée avec succès" });
     } catch (error: any) {
         return handleApiError(error);
     }

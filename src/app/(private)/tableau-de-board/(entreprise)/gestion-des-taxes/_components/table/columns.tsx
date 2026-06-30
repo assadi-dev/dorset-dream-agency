@@ -3,7 +3,7 @@ import { datetimeFormatFr3 } from "@/lib/date";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TaxeColumnData = {
-    id: string;
+    id: number;
     name: string;
     rate: number;
     description: string;

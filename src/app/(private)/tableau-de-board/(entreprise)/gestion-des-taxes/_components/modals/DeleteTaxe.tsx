@@ -1,18 +1,17 @@
-
 "use client"
 
-import AlertModalContent from "@/components/Modals/AlertModalContent";
 import { FORBIDDEN_ACTION } from "@/config/messages";
 import useModalState from "@/hooks/useModalState";
 import { isAdmin } from "@/lib/utils";
 import { useSession } from "next-auth/react";
-import { useCategoriesMutation } from "../../_hooks/useCategoriesMutation";
+import { useTaxesMutation } from "../../_hook/useTaxeMutation";
+import AlertModalContent from "@/components/Modals/AlertModalContent";
 
-export default function DeleteCategoryView() {
+export default function DeleteTaxe() {
 
 
     const { payload, closeModal } = useModalState();
-    const { remove } = useCategoriesMutation();
+    const { remove } = useTaxesMutation();
 
     const session = useSession();
     const role = session.data?.user?.role;
@@ -32,16 +31,12 @@ export default function DeleteCategoryView() {
         }
     };
 
-
-
-
     return (
-        <div>
-            <AlertModalContent
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
-                className="flex justify-end gap-3 lg:w-[25vw]"
-            />
+        <div>   <AlertModalContent
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            className="flex justify-end gap-3 lg:w-[25vw]"
+        />
         </div>
     );
 }
