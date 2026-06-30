@@ -14,3 +14,12 @@ export const fetchCategoriesCollections = async ({page,limit,search}: {page: num
     throw error;
    }
 };
+
+export const createCategory = async (data: CategoryPropertyInputsType) => {
+    try {
+        const response = await API_INSTANCE.post("/categories", data);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
