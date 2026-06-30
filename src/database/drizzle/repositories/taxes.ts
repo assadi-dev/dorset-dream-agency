@@ -64,8 +64,9 @@ export const getAllTaxes = async () => {
 export const getListTaxes = async () => {
     return await db.select({
         id: taxes.id,
-        label: taxes.name,
-        value: taxes.rate,
+        name: taxes.name,
+        rate: taxes.rate,
+        description: taxes.description,
     }).from(taxes).orderBy(desc(taxes.createdAt));
 }
 
