@@ -18,7 +18,7 @@ export default function TaxesSelectedActions({ itemSelected, resetSelectedRow }:
     const { handleClickDelete, canDelete } = useTaxeSelectedActions({ selectedItems: itemSelected, resetSelected: resetSelectedRow })
     const TOOLTIP_MESSAGE = canDelete ? "Supprimer les éléments sélectionnés" : FORBIDDEN_ACTION;
     return (
-        <div>
+        <>
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Button size={"sm"} variant={"outline"}>
@@ -37,6 +37,6 @@ export default function TaxesSelectedActions({ itemSelected, resetSelectedRow }:
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-        </div>
+        </>
     );
 }
