@@ -22,9 +22,21 @@ export const LocationVentesSchema = z.object({
     keyNumber: z.string().min(1, { message: REQUIRE_MESSAGE_ERROR }),
     invoice: z.string().optional().nullable(),
     status: z.enum(LOCATION_STATUS).default("ongoing"),
+
 });
 
-export type LocationVentesFormType = z.infer<typeof LocationVentesSchema>;
+
+const taxeItemSchema = z.object({
+    key: z.string().optional().nullable(),
+    id: z.coerce.string().optional().nullable(),
+    rate: z.coerce.number().optional().nullable(),
+})
+
+export const LocationVentesFormSchema = LocationVentesSchema.extend({
+    taxes: z.array(taxeItemSchema).optional().nullable(),
+})
+
+export type LocationVentesFormType = z.infer<typeof LocationVentesFormSchema>;
 
 export const PROPERTY_TYPE_ENUM = PROPERTY_TYPE.map((v) => ({ label: v, value: v }));
 
