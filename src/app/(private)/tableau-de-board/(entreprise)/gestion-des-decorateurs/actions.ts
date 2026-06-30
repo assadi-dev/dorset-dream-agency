@@ -2,7 +2,9 @@
 
 import { createDecoratorProfile, createDecoratorProfileWithPhoto, deleteMultipleDecoratorProfiles, updateDecoratorProfile } from "@/database/drizzle/repositories/decoratorProfiles";
 import { shouldRemovePhotoDecorator, uploadPhotoDecorator } from "@/database/drizzle/repositories/decoratorProfilesUploadFile";
+import { revalidatePath } from "next/cache";
 
+const PATH_DECORATOR = "/tableau-de-board/gestion-des-decorateurs";
 
 export const createdecoratorAction = async (formData: FormData)=>{
     const file = formData.get("photo");
@@ -21,6 +23,7 @@ export const createdecoratorAction = async (formData: FormData)=>{
       if(file instanceof File){
        await uploadPhotoDecorator({files: [file], decoratorProfileID: profile.id});
     }
+    revalidatePath(PATH_DECORATOR);
 }
 
 export const updateDecoratorAction = async (formData: FormData)=>{
@@ -44,9 +47,11 @@ export const updateDecoratorAction = async (formData: FormData)=>{
     }
     await uploadPhotoDecorator({files: [file], decoratorProfileID: profile.id});
  }
+ revalidatePath(PATH_DECORATOR);
 }
 
 export const deleteDecorator =async (ids:number[])=>{
     await deleteMultipleDecoratorProfiles(ids)
+    revalidatePath(PATH_DECORATOR);
 }
 
