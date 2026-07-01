@@ -101,7 +101,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                                         options={CLIENT_OPTIONS}
                                         placeholder="Sélectionnez un clients"
                                         classNameButton="w-full"
-                                        classNameListOptions="sm:min-w-[22rem]"
+                                        classNameListOptions="w-full sm:min-w-[18rem] text-nowrap"
                                         emptyMessage="Pas de clients enregistré"
                                         onChange={(value) => setClientSync(form, value, CLIENT_OPTIONS)}
                                     />
@@ -115,7 +115,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                                         options={PROPERTY_OPTIONS}
                                         placeholder="Sélectionnez un Biens immobilier"
                                         classNameButton="w-full"
-                                        classNameListOptions="sm:min-w-[22rem]"
+                                        classNameListOptions="w-full sm:min-w-[18rem] text-nowrap"
                                         emptyMessage="Pas de biens enregistré"
                                         onChange={(value) => setPropertySync(form, value, PROPERTY_OPTIONS)}
                                     />

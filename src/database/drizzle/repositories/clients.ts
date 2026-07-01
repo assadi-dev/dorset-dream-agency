@@ -107,7 +107,7 @@ export const getClientsOptions = async () => {
         const response = await db
             .select({
                 id: clients.id,
-                label: sql<string>`CONCAT(${clients.lastName}," ",${clients.firstName})`,
+                label: sql<string>`CONCAT(${clients.firstName}," ",${clients.lastName})`,
                 value: clients.id,
                 phone: clients.phone,
             })
