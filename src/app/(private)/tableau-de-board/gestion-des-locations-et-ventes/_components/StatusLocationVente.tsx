@@ -18,7 +18,7 @@ const StatusLocationVente = ({ item }: StatusLocationVenteProps) => {
             <div className="text-center">
                 <span
                     className={cn(
-                        "ring-1 ring-gray-500 bg-gray-500/10 rounded-full px-3 py-0.5 text-xs lg:text-sm",
+                        "ring-1 ring-gray-500 bg-gray-500/10 rounded-full px-3 py-0.5 text-xs lg:text-sm text-nowrap",
                         STATUS_STYLES[status],
                     )}
                 >
