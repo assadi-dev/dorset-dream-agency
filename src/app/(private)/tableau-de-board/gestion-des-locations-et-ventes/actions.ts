@@ -10,20 +10,49 @@ import {
 import { LocationVentesFormType } from "./_components/forms/schema";
 import { FilterPaginationType, LocationStatusType } from "@/database/types";
 import { revalidatePath } from "next/cache";
+import { taxSchema } from "@/database/drizzle/repositories/dto/transactionsDTO";
 
 const TRANSACTION_PATH = "/tableau-de-board/gestion-des-locations-et-ventes";
 
+
+const parseTaxes = (formData: FormData) => {
+
+    if (!formData.get("taxes")) return [];
+    const taxes = []
+    for (const tax of formData.getAll("taxes")) {
+        try {
+            const taxObj = taxSchema.safeParse(JSON.parse(tax as string));
+            if (taxObj.success) {
+                taxes.push(taxObj.data);
+            }
+        } catch {
+            continue;
+        }
+    }
+    return taxes;
+}
+
+const  sumTaxes = (taxes: Array<{ id: number; name: string; rate: number }>) => {
+    return taxes.reduce((acc, tax) => Number(acc) + Number(tax.rate || 0), 0);
+}
+
+
+
 export const createTransaction = async (formData: FormData) => {
+    const taxes = parseTaxes(formData);
+    const totalTaxes = sumTaxes(taxes);
     const cleanValues = {
         employeeID: formData.get("employee"),
         clientID: formData.get("client"),
         variantID: formData.get("property"),
         propertyService: formData.get("propertyService"),
-        sellingPrice: formData.get("price"),
+        sellingPrice: Number(formData.get("unitPrice")) + Number(totalTaxes),
         keyQuantity: formData.get("keyQuantity"),
         keyNumber: formData.get("keyNumber"),
         invoice: formData.get("invoice"),
         status: formData.get("status"),
+        unitPrice: formData.get("unitPrice"),
+        taxes: taxes,
     };
 
     revalidatePath(TRANSACTION_PATH);

@@ -29,6 +29,7 @@ export const LocationVentesSchema = z.object({
 const taxeItemSchema = z.object({
     key: z.string().optional().nullable(),
     id: z.coerce.string().optional().nullable(),
+    name: z.string().optional().nullable(),
     rate: z.coerce.number().optional().nullable(),
 })
 

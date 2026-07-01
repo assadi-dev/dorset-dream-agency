@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { User } from "next-auth";
 import { UserCredential } from "@/app/types";
+import { parseTaxesForm } from "../../helpers";
 
 const EditModal = () => {
     const { payload, closeModal } = useModalState();
@@ -20,16 +21,20 @@ const EditModal = () => {
 
     const employee = userData?.employeeID;
 
+    const taxes = parseTaxesForm(payload.taxes);
+
+
     const defaultValues = {
         client: String(payload.clientID),
         employee,
         property: String(payload.variantID),
-        price: payload.price,
+        price: payload.unitPrice,
         keyQuantity: Number(payload.keyQuantity),
         keyNumber: String(payload.keyNumber),
         phone: payload.phone,
         propertyService: payload.propertyService,
         status: payload.status,
+        taxes: taxes as any,
     } satisfies LocationVentesFormType;
 
     const saveUpdateLocationVente = async (values: LocationVentesFormType) => {

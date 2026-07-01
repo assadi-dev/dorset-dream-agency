@@ -15,7 +15,8 @@ const TaxeTabsView = ({ form }: { form: UseFormReturn<LocationVentesFormType> })
     const [taxesRows, setTaxesRow] = React.useState(taxesWatch);
 
     const handleClickAddTax = () => {
-        const newRow = { key: `taxes-${taxesRows.length}`, id: "none", value: "none", name: "Aucune", rate: 0 }
+        const label = "Aucune";
+        const newRow = { key: `taxes-${taxesRows.length}`, id: "none", value: "none", label, name: label, rate: 0 }
         setTaxesRow((prev) => [...prev, newRow]);
     };
 
@@ -25,12 +26,13 @@ const TaxeTabsView = ({ form }: { form: UseFormReturn<LocationVentesFormType> })
     };
 
     const handleTaxChange = (key: string, value: TaxOptionType) => {
+
         const taxes = taxesRows || [];
         const exist = taxes.find((t) => t.key === key);
         if (exist) {
             const newTaxes = taxes.map((t) => {
                 if (t.key === key) {
-                    return { ...t, ...value, id: value.id, rate: value.rate };
+                    return { ...t, ...value, id: value.id, name: value.label, rate: value.rate };
                 }
                 return t;
             });
@@ -38,7 +40,7 @@ const TaxeTabsView = ({ form }: { form: UseFormReturn<LocationVentesFormType> })
             setTaxesRow(newTaxes);
             return;
         } else {
-            const newTaxes = [...taxes, { key, ...value }];
+            const newTaxes = [...taxes, { key, ...value, name: value.label }];
             form.setValue("taxes", newTaxes);
             setTaxesRow(newTaxes);
         }

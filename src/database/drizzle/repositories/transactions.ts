@@ -89,6 +89,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType & { 
                 clientID: clients.id,
                 phone: clients.phone,
                 price: transactions.sellingPrice,
+                unitPrice: transactions.unitPrice,
                 propertyService: transactions.propertyService,
                 keyQuantity: transactions.keyQuantity,
                 keyNumber: transactions.keyNumber,
@@ -96,6 +97,7 @@ export const getTransactionCollection = async (filter: FilterPaginationType & { 
                 category: categoryProperties.name,
                 invoice: transactions.invoice,
                 status: transactions.status,
+                taxes: transactions.taxes,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))
@@ -306,6 +308,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
                 clientID: clients.id,
                 phone: clients.phone,
                 price: transactions.sellingPrice,
+                unitPrice: transactions.unitPrice,
                 propertyService: transactions.propertyService,
                 keyQuantity: transactions.keyQuantity,
                 keyNumber: transactions.keyNumber,
@@ -313,6 +316,7 @@ export const getLocationByPropertyType = async ({ id, type, filters }: getLocati
                 category: categoryProperties.name,
                 invoice: transactions.invoice,
                 status: transactions.status,
+                taxes: transactions.taxes,
             })
             .from(transactions)
             .leftJoin(clients, eq(clients.id, transactions.clientID))

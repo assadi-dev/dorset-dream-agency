@@ -18,6 +18,14 @@ const AddForm = () => {
             if (value) formData.append(key, value as any);
         }
 
+        formData.append("unitPrice", values.price.toString());
+        if (values.taxes) {
+            values.taxes.forEach((tax) => {
+                if (tax.id !== "none") {
+                    formData.append("taxes", JSON.stringify(tax));
+                }
+            });
+        }
         await createTransaction(formData);
         router.push(pathname);
         router.refresh();
