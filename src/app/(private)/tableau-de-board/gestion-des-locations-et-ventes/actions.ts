@@ -11,6 +11,8 @@ import { LocationVentesFormType } from "./_components/forms/schema";
 import { FilterPaginationType, LocationStatusType } from "@/database/types";
 import { revalidatePath } from "next/cache";
 
+const TRANSACTION_PATH = "/tableau-de-board/gestion-des-locations-et-ventes";
+
 export const createTransaction = async (formData: FormData) => {
     const cleanValues = {
         employeeID: formData.get("employee"),
@@ -24,6 +26,7 @@ export const createTransaction = async (formData: FormData) => {
         status: formData.get("status"),
     };
 
+    revalidatePath(TRANSACTION_PATH);
     await insertTransaction(cleanValues);
 };
 
@@ -33,6 +36,7 @@ export const getTransactions = async (filter: FilterPaginationType & { status?: 
 };
 
 export const removeTransaction = async (listIds: Array<number>) => {
+    revalidatePath(TRANSACTION_PATH);
     await deleteTransactions(listIds);
 };
 
@@ -49,12 +53,13 @@ export const ediTransaction = async (id: number, values: Partial<LocationVentesF
         status: values.status,
     };
 
+    revalidatePath(TRANSACTION_PATH);
     await updateTransaction(id, cleanValues);
-    revalidatePath(`/tableau-de-board/gestion-des-locations-et-ventes`);
 };
 
 
 export const updateTransactionStatus = async (ids: number[], status: LocationStatusType) => {
+    revalidatePath(TRANSACTION_PATH);
     await updateMultipleTransactionStatus(ids, status);
-    revalidatePath(`/tableau-de-board/gestion-des-locations-et-ventes`);
+
 };
