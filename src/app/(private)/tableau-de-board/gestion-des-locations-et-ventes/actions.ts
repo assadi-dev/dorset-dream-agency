@@ -70,16 +70,27 @@ export const removeTransaction = async (listIds: Array<number>) => {
 };
 
 export const ediTransaction = async (id: number, values: Partial<LocationVentesFormType>) => {
+        const taxes = values.taxes?.map((tax) => {
+            return {
+                id: Number(tax.id),
+                name: tax.name,
+                rate: Number(tax.rate),
+            };
+        }) as {id: number; name: string; rate: number}[] || [];
+    const totalTaxes = sumTaxes(taxes);
+
     const cleanValues: insertTransactionType = {
         employeeID: values.employee,
         clientID: Number(values.client),
         variantID: Number(values.property),
         propertyService: values.propertyService,
-        sellingPrice: values.price,
+        sellingPrice: Number(values.price) + Number(totalTaxes),
+        unitPrice: values.price,
         keyQuantity: values.keyQuantity,
         keyNumber: values.keyNumber,
         invoice: values.invoice,
         status: values.status,
+        taxes: taxes,
     };
 
     revalidatePath(TRANSACTION_PATH);
