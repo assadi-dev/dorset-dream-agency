@@ -21,8 +21,20 @@ export async function GET(req: Request, { params }: Params) {
         const imageBuffer = fs.readFileSync(filePath);
         const { size } = fs.statSync(filePath);
 
+        const ext = path.extname(key).toLowerCase();
+        const mimeTypes: Record<string, string> = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".webp": "image/webp",
+            ".gif": "image/gif",
+            ".svg": "image/svg+xml",
+            ".avif": "image/avif",
+        };
+        const contentType = mimeTypes[ext] || "application/octet-stream";
+
         const headers = new Headers({
-            "Content-Type": "image/png",
+            "Content-Type": contentType,
             "Content-Length": size.toString(),
             /* "Content-Disposition": `attachment; filename="${key}"`, */
         });
