@@ -1,5 +1,5 @@
 import React from "react";
-import { LocationVentesFormSchema, LocationVentesFormType, LocationVentesSchema, PROPERTY_TYPE_ENUM } from "./schema";
+import { LocationVentesFormSchema, LocationVentesFormType, PROPERTY_TYPE_ENUM } from "./schema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner";
@@ -17,7 +17,6 @@ import { STATUS_OPTIONS } from "../../helpers";
 import { Button } from "@/components/ui/button";
 import { Coins, Info, Pencil, Plus } from "lucide-react";
 import { setClientSync, setPriceSync, setPropertySync } from "./helper";
-import SelectTaxes from "./SelectTaxes";
 import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { TabsList } from "@radix-ui/react-tabs";
 import { Separator } from "@radix-ui/react-separator";
@@ -102,6 +101,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                                         options={CLIENT_OPTIONS}
                                         placeholder="Sélectionnez un clients"
                                         classNameButton="w-full"
+                                        classNameListOptions="sm:min-w-[22rem]"
                                         emptyMessage="Pas de clients enregistré"
                                         onChange={(value) => setClientSync(form, value, CLIENT_OPTIONS)}
                                     />
@@ -115,6 +115,7 @@ const LocationVenteForm = ({ defaultFormValues, save, ...props }: FormType) => {
                                         options={PROPERTY_OPTIONS}
                                         placeholder="Sélectionnez un Biens immobilier"
                                         classNameButton="w-full"
+                                        classNameListOptions="sm:min-w-[22rem]"
                                         emptyMessage="Pas de biens enregistré"
                                         onChange={(value) => setPropertySync(form, value, PROPERTY_OPTIONS)}
                                     />
