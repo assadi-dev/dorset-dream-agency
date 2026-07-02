@@ -5,8 +5,11 @@ import { getPropertiesWithCover } from "@/database/drizzle/repositories/properti
 import { cleanDataForCarousel } from "../helper";
 import OrderRowSection from "./_components/OrderSection/OrderRowSection";
 
+
+
+
 type SearchParams = {
-    searchParams: {
+    searchParams: Promise<{
         id: string;
         category: string;
         search: string;
@@ -15,25 +18,32 @@ type SearchParams = {
         isAvailable: boolean | null;
         limit: number;
         page: number;
-    };
+    }>;
 };
-const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
-    const ListPropertyResultAsync = async () => {
-        if (searchParams.availability === "yes") searchParams.isAvailable = true;
-        if (searchParams.availability === "no") searchParams.isAvailable = false;
-        searchParams.limit = Number(searchParams.limit) || 15;
-        searchParams.page = Number(searchParams.page) || 1;
+
+const ListPropertyResultAsync = async ({ filter }: { filter: { limit: number; page: number; search: string; availability: string; isAvailable: boolean | null; } }) => {
+    if (filter.availability === "yes") filter.isAvailable = true;
+    if (filter.availability === "no") filter.isAvailable = false;
+    filter.limit = Number(filter.limit) || 15;
+    filter.page = Number(filter.page) || 1;
 
 
-        const propertiesResultCollection = await getPropertiesWithCover(searchParams);
-        const cleanPropertiesData = propertiesResultCollection.collections.map((item) => cleanDataForCarousel(item));
-        return <ListPropertiesResultsSection propertiesCollections={cleanPropertiesData} totalItems={propertiesResultCollection.totalItems} limit={searchParams.limit} />;
-    };
+    const propertiesResultCollection = await getPropertiesWithCover(filter);
+    const cleanPropertiesData = propertiesResultCollection.collections.map((item) => cleanDataForCarousel(item));
+    return <ListPropertiesResultsSection propertiesCollections={cleanPropertiesData} totalItems={propertiesResultCollection.totalItems} limit={filter.limit} />;
+};
+
+const PropertiesSearchPage = async ({ searchParams }: SearchParams) => {
+
+    const { id, category, search, order, availability, isAvailable, limit, page } = await searchParams;
+    const filter = { id, category, search, order, availability, isAvailable, limit, page };
+
+
 
     return (
         <div className="min-h-screen w-full">
-            {searchParams.search && (
-                <p className="font-semibold text-2xl mb-1">Recherche de : {searchParams.search} </p>
+            {filter.search && (
+                <p className="font-semibold text-2xl mb-1">Recherche de : {filter.search} </p>
             )}
 
             <React.Suspense>
@@ -41,7 +51,7 @@ const PropertiesSearchPage = ({ searchParams }: SearchParams) => {
                 <OrderRowSection />
             </React.Suspense>
             <React.Suspense>
-                <ListPropertyResultAsync />
+                <ListPropertyResultAsync filter={filter} />
             </React.Suspense>
         </div>
     );

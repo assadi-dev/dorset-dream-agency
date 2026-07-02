@@ -8,12 +8,13 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
 
-export async function GET(req: NextRequest, { params: { id } }: Params) {
+export async function GET(req: NextRequest, { params }: Params) {
+    const { id } = await params;
     const searchParams = req.nextUrl.searchParams;
 
     const filters = ExtractFilterParams(searchParams);

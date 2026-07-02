@@ -9,13 +9,14 @@ import ModalProvider from "@/components/Modals/ModalProvider";
 import { notFound } from "next/navigation";
 
 type DetailClientPageType = {
-    searchParams: {
+    searchParams: Promise<{
         id?: string;
-    };
+    }>;
 };
 
 export const metadata = setTitlePage("Info client");
-const DetailClientPage = async ({ searchParams: { id } }: DetailClientPageType) => {
+const DetailClientPage = async ({ searchParams }: DetailClientPageType) => {
+    const { id } = await searchParams;
     const ClientDetailCardAsync = async () => {
         if (!id) return notFound();
         const client = await getClientDetails(id);

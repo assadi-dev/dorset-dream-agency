@@ -81,7 +81,7 @@ const PhotoDropzone = ({ preview, onUpload }: UploadState) => {
     const process = () => {
         startTransition(async () => {
             try {
-                if (onUpload) await onUpload(state.file);
+                if (onUpload && state.file) await onUpload(state.file);
 
                 closeModal();
                 router.push(pathname);

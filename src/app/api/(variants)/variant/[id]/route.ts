@@ -5,12 +5,13 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
-export const GET = async (req: Request, { params: { id } }: Params) => {
+export const GET = async (req: Request, { params }: Params) => {
     try {
+        const { id } = await params;
         const variantFound = await getOneVariantWithGallery(id);
 
         return NextResponse.json(variantFound);
@@ -22,8 +23,9 @@ export const GET = async (req: Request, { params: { id } }: Params) => {
     }
 };
 
-export const PUT = async (req: NextRequest, { params: { id } }: Params) => {
+export const PUT = async (req: NextRequest, { params }: Params) => {
     try {
+        const { id } = await params;
         const body = await req.json();
         const variantFound = await updateVariant(id, body);
 

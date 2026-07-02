@@ -4,12 +4,13 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
+    params: Promise<{
         variantID: string;
-    };
+    }>;
 };
-export const GET = async (req: Request, { params: { variantID } }: Params) => {
+export const GET = async (req: Request, { params }: Params) => {
     try {
+        const { variantID } = await params;
         const property = await getPropertyDetailForCatalogueWithGallery(Number(variantID));
         return NextResponse.json(property);
     } catch (error: any) {

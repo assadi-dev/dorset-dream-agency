@@ -4,6 +4,7 @@ import { db } from "@/database";
 import { clients } from "@/database/drizzle/schema/client";
 import { wait } from "@/lib/utils";
 import { eq, sql } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export type clientsType = Omit<typeof clients.$inferSelect, "createdAt" | "updatedAt" | "deletedAt">;
 
@@ -22,7 +23,6 @@ export const getClientDetails = async (id: string | number) => {
         .prepare();
 
     const result = await prepare.execute({ id });
-
     return result[0];
 };
 

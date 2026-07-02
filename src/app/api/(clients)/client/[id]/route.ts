@@ -14,8 +14,7 @@ export async function GET() {
 export async function PUT(req: Request, ctx: any) {
     try {
         const body = await req.json();
-        const id = ctx.params.id;
-
+        const {id} = await ctx.params;
         await updateClient(id, body);
 
         const success = { message: "client has been update" };

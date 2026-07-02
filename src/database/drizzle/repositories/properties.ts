@@ -3,7 +3,7 @@
 import { db } from "@/database";
 import { properties } from "@/database/drizzle/schema/properties";
 import { variants } from "@/database/drizzle/schema/variants";
-import { and, asc, count, desc, eq, ilike, isNull, like, not, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, isNull, like, not, or, sql } from "drizzle-orm";
 import { createPropertyDto } from "./dto/propertiesDTO";
 import { categoryProperties } from "../schema/categoryProperties";
 import {

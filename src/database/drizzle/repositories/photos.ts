@@ -1,9 +1,9 @@
 import { db } from "@/database";
 import { photos } from "../schema/photos";
 import { eq, sql } from "drizzle-orm";
-import { extractIdFromUrl, removeFile, UPLOAD_DIR_PROPERTIES } from "@/lib/fileSystem";
+import { extractIdFromUrl, removeFile } from "@/lib/fileSystem";
 import path from "path";
-import { PROPERTIES_DIR, UPLOAD_DIR_IMAGES } from "@/config/dir";
+import { UPLOAD_DIR_IMAGES } from "@/config/dir";
 import { createReadStream, createWriteStream } from "fs";
 
 export const insertPhoto = async (data: any) => {
@@ -109,10 +109,10 @@ export const generatePhotoByKey = async (dir: string, photo: genPhoto) => {
     try {
         const { url, ...photoRest } = photo;
         const key = url.split("/photo/property/").slice(-1).join("").trim();
-        const sourcePath = path.join(path.resolve(), UPLOAD_DIR_IMAGES, dir, key);
+        const sourcePath = path.join(process.cwd(), UPLOAD_DIR_IMAGES, dir, key);
         const extension = url.split(".").slice(-1).join("").trim();
         const fileName = `${Date.now()}.${extension}`;
-        const destinationPath = path.join(path.resolve(), UPLOAD_DIR_IMAGES, dir, `${fileName}`);
+        const destinationPath = path.join(process.cwd(), UPLOAD_DIR_IMAGES, dir, `${fileName}`);
 
         // Créer les flux
         const readStream = createReadStream(sourcePath);

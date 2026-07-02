@@ -36,7 +36,7 @@ const FormFieldSelect = <T extends FieldValues>({
             render={({ field }) => (
                 <FormItem className={classNameFormItem}>
                     <FormLabel>{label}</FormLabel>
-                    <Select onValueChange={(value) =>{
+                    <Select onValueChange={(value) => {
                         onChange?.(value);
                         field.onChange(value);
                     }} defaultValue={field.value}>

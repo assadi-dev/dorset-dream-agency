@@ -8,7 +8,7 @@ type WithTooltipProps = {
     tooltipContentChildren: React.ReactNode;
 };
 const withTooltip = (Component: any, props: WithTooltipProps) => {
-    const NewComponent = (p: any, ref: any) => {
+    const NewComponent = (p: any) => {
         return <Component {...p} />;
     };
 

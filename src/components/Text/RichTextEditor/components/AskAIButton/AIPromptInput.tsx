@@ -80,7 +80,7 @@ export const SelectedAction = ({ action }: { action: AIActionsGenerate }) => {
     );
 };
 
-export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultValues: AskAISchemaInfer }) => {
+export const AskAiForm = ({ editor, defaultValues }: { editor: Editor; defaultValues: Partial<AskAISchemaInfer> }) => {
     const formNodeRef = React.useRef<HTMLFormElement | null>(null);
     const form = useForm<AskAISchemaInfer>({
         resolver: zodResolver(askAISchema),

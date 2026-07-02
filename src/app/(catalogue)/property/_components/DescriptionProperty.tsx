@@ -3,7 +3,7 @@ import React from "react";
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { parseInitialDescription } from "@/app/(private)/tableau-de-board/gestion-des-biens-immobiliers/helpers";
+import { parseInitialDescription } from "@/app/(private)/tableau-de-board/(entreprise)/gestion-des-biens-immobiliers/helpers";
 import { cn } from "@/lib/utils";
 import { extensions } from "@/components/Text/RichTextEditor/extensions";
 

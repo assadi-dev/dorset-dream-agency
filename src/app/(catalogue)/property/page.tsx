@@ -1,34 +1,34 @@
 import React from "react";
-import HeaderSection from "./_components/HeaderSection";
-import DescriptionProperty from "./_components/DescriptionProperty";
-import { Separator } from "@/components/ui/separator";
+
 import { getPropertyDetailForCatalogueWithGallery } from "@/database/drizzle/repositories/properties";
-import { formatTitlePage, setTitlePage } from "@/lib/utils";
-import { LucideMapPin } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import HeaderPhotoSlides from "./_components/HeaderPhotoSlides";
+import { setTitlePage } from "@/lib/utils";
 import DescriptionLeftCol from "./_components/DescriptionLeftCol";
-import { extractDataForInfo } from "../schema";
-import HeaderRightDetails from "./_components/HeaderRightDetails";
 import DescriptionRightCol from "./_components/DescriptionRightCol";
 import GoBackButton from "@/app/(private)/tableau-de-board/_components/GoBackButton";
 import { redirect } from "next/navigation";
 
 type SearchParams = {
-    searchParams: {
+    searchParams: Promise<{
         id: string;
         category: string;
         search: string;
-    };
+    }>;
 };
 
-export const metadata = setTitlePage();
+
+
+export async function generateMetadata({ searchParams }: SearchParams) {
+    const { id } = await searchParams;
+    if (!id) redirect("/properties");
+    const property = await getPropertyDetailForCatalogueWithGallery(Number(id));
+    return setTitlePage(property.name);
+}
 
 const PropertyCatalog = async ({ searchParams }: SearchParams) => {
-    const variantID = searchParams.id;
-    if (!variantID) redirect("/properties");
-    const property = await getPropertyDetailForCatalogueWithGallery(Number(variantID));
-    metadata.title = formatTitlePage(property.name);
+    const { id, category, search } = await searchParams;
+    if (!id) redirect("/properties");
+    const property = await getPropertyDetailForCatalogueWithGallery(Number(id));
+
 
     return (
         <>

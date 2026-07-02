@@ -18,6 +18,14 @@ const AddForm = () => {
             if (value) formData.append(key, value as any);
         }
 
+        formData.append("unitPrice", values.price.toString());
+        if (values.taxes) {
+            values.taxes.forEach((tax) => {
+                if (tax.id !== "none") {
+                    formData.append("taxes", JSON.stringify(tax));
+                }
+            });
+        }
         await createTransaction(formData);
         router.push(pathname);
         router.refresh();
@@ -29,7 +37,7 @@ const AddForm = () => {
         <>
             {userData?.employeeID && (
                 <LocationVenteForm
-                    className="w-full lg:w-[32vw] min-h-[420px]"
+                    className="w-full sm:w-[580px] xl:w-[42vw] min-h-[420px]"
                     defaultFormValues={{ employee: userData.employeeID }}
                     save={creteLocationVente}
                 />

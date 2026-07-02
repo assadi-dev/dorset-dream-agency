@@ -6,13 +6,14 @@ import { BACKGROUND_DIR_IMAGES } from "@/config/dir";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
+    params: Promise<{
         key: string;
-    };
+    }>;
 };
 
-export async function GET(req: Request, { params: { key } }: Params) {
+export async function GET(req: Request, { params }: Params) {
     try {
+        const { key } = await params;
         if (!key) throw new Error("Key undefined");
 
         const filePath = path.join(BACKGROUND_DIR_IMAGES, key);
@@ -20,8 +21,20 @@ export async function GET(req: Request, { params: { key } }: Params) {
         const imageBuffer = fs.readFileSync(filePath);
         const { size } = fs.statSync(filePath);
 
+        const ext = path.extname(key).toLowerCase();
+        const mimeTypes: Record<string, string> = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".webp": "image/webp",
+            ".gif": "image/gif",
+            ".svg": "image/svg+xml",
+            ".avif": "image/avif",
+        };
+        const contentType = mimeTypes[ext] || "application/octet-stream";
+
         const headers = new Headers({
-            "Content-Type": "image/png",
+            "Content-Type": contentType,
             "Content-Length": size.toString(),
             /* "Content-Disposition": `attachment; filename="${key}"`, */
         });

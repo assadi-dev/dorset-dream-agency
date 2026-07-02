@@ -45,3 +45,18 @@ export const STATUS_OPTIONS = [
 ];
 
 export const ALL_STATUS = Object.keys(STATUS_DISPLAY_NAME).map((it) => it) as LocationStatusType[];
+
+
+export const parseTaxesForm = (taxes: any[]) => {
+    if (!taxes) return [];
+    return taxes.map((it,index) => {
+        return {
+            key: `taxes-${index}`,
+            id: String(it.id),
+            label: it.name,
+            name: it.name,
+            value: String(it.id),
+            rate: String(it.rate),
+        };
+    });
+};

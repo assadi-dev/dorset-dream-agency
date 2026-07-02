@@ -2,13 +2,12 @@ import { updateDecoratorProfile } from "@/database/drizzle/repositories/decorato
 import { NextResponse } from "next/server";
 
 type Params = {
-    params: {
-        id: string;
-    };
+    params: Promise<{ id: string }>;
 };
 
-export const PUT = async (req: Request, { params: { id } }: Params) => {
+export const PUT = async (req: Request, { params }: Params) => {
     try {
+        const { id } = await params;
         const body = await req.json();
         const decoratorProfile = await updateDecoratorProfile(Number(id), body);
         return NextResponse.json(decoratorProfile);

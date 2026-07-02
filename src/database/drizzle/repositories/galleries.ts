@@ -9,7 +9,7 @@ import { photos } from "../schema/photos";
 import { removePhotosByAndFile } from "./photos";
 import { PhotoInferType } from "@/app/types/photos";
 
-export const insertGallery = (
+export const insertGallery = async (
     variantID: number,
     photoID: number,
     { isCover, order }: { isCover?: boolean; order?: number },

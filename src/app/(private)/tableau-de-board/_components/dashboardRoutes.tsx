@@ -48,20 +48,28 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         icon: Building2,
         children: [
             {
-                title: "Annonces",
-                path: "/tableau-de-board/gestion-des-annonces",
+                title: "Employés",
+                path: "/tableau-de-board/gestion-des-employes",
             },
             {
                 title: "Immobiliers",
                 path: "/tableau-de-board/gestion-des-biens-immobiliers",
             },
             {
-                title: "Employés",
-                path: "/tableau-de-board/gestion-des-employes",
+                title: "Categories",
+                path: "/tableau-de-board/gestion-des-categories",
+            },
+            {
+                title: "Taxes",
+                path: "/tableau-de-board/gestion-des-taxes",
             },
             {
                 title: "Decorateurs",
                 path: "/tableau-de-board/gestion-des-decorateurs",
+            },
+            {
+                title: "Annonces",
+                path: "/tableau-de-board/gestion-des-annonces",
             },
         ],
     },

@@ -10,15 +10,18 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     {
         accessorKey: "property",
         header: "Bien",
+        cell: ({ row }: CellColumn) => <p className="text-nowrap">{row.getValue("property")}</p>,
     },
 
     {
         accessorKey: "seller",
         header: "Vendeur",
+        cell: ({ row }: CellColumn) => <p className="text-nowrap">{row.getValue("seller")}</p>,
     },
     {
         accessorKey: "client",
         header: "Client",
+        cell: ({ row }: CellColumn) => <p className="text-nowrap">{row.getValue("client")}</p>,
     },
     {
         accessorKey: "phone",
@@ -27,6 +30,7 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     {
         accessorKey: "propertyService",
         header: "Type",
+        cell: ({ row }: CellColumn) => <p className="text-nowrap">{row.getValue("propertyService")}</p>,
     },
     {
         accessorKey: "price",
@@ -48,7 +52,7 @@ export const columns: ColumnDef<LocationColumnType>[] = [
     {
         accessorKey: "transactionDate",
         header: "Date",
-        cell: ({ row }: CellColumn) => datetimeFormatFr(row.getValue("transactionDate")),
+        cell: ({ row }: CellColumn) => <p className="text-nowrap">{datetimeFormatFr(row.getValue("transactionDate"))}</p>,
     },
     {
         accessorKey: "status",

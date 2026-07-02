@@ -5,12 +5,13 @@ type BodyType = {
     isAvailable: boolean;
 };
 type Params = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
-export const PUT = async (req: Request, { params: { id } }: Params) => {
+export const PUT = async (req: Request, { params }: Params) => {
     try {
+        const { id } = await params;
         const body: Partial<BodyType> = await req.json();
         const idProperty = Number(id);
         const value = body.isAvailable as boolean;

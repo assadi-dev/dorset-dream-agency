@@ -1,0 +1,28 @@
+import { setTitlePage } from "@/lib/utils";
+
+import EditorPanel from "../_components/EditorPanel";
+import CanvasContainer from "../_components/CanvasContainer";
+import ModalProvider from "@/components/Modals/ModalProvider";
+import ElementsPanel from "../_components/ElementsPanel";
+import FabricProvider from "../_components/fabric/FabricProvider";
+import { adminAccess } from "@/lib/security";
+import PageTemplate from "../../../_components/PageTemplate";
+
+export const metadata = setTitlePage("Éditeur d' annonce");
+const CreateAnnouncementPage = async () => {
+    return (
+        <ModalProvider>
+            <FabricProvider>
+                <PageTemplate title="Création de l'annonce">
+                    <div className="grid grid-cols-[auto,1fr,auto] pt-6 h-[78vh] w-full gap-3">
+                        <ElementsPanel />
+                        <CanvasContainer />
+                        <EditorPanel />
+                    </div>
+                </PageTemplate>
+            </FabricProvider>
+        </ModalProvider>
+    );
+};
+
+export default CreateAnnouncementPage;

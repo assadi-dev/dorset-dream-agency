@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const authRedirect = async (request: NextRequest) => {
-    const cookie = cookies();
+    const cookie = await cookies();
 
     const session_token = cookie.get("authjs.session-token")?.value;
     const LOGIN_PAGE = ENV.NEXT_AUTH_SIGN_IN_PAGE;

@@ -8,13 +8,12 @@ import { extractKey } from "@/database/drizzle/repositories/announcementsFiles";
 export const dynamic = "force-dynamic";
 
 type Params = {
-    params: {
-        key: string;
-    };
+    params: Promise<{ key: string }>;
 };
 
-export async function GET(req: NextRequest, { params: { key } }: Params) {
+export async function GET(req: NextRequest, { params }: Params) {
     try {
+        const { key } = await params;
         if (!key) throw new Error("Key undefined");
 
         const filePath = path.join(UPLOAD_ANNOUNCEMENT_DIR_SAVES, key);

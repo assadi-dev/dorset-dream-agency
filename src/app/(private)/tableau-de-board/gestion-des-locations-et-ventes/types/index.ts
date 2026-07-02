@@ -15,3 +15,11 @@ export type LocationColumnType = {
 };
 
 export type LocationStatus = keyof typeof STATUS_STYLES;
+
+
+export type TaxOptionType = {
+    id: string;
+    label: string;
+    value: string;
+    rate: number;
+};
