@@ -385,10 +385,12 @@ export const statGlobalSecteurTransactionInterval = async (startDate: string, en
     const SaleCondition = and(
         inArray(transactions.propertyService, SALES_FILTER_ARRAY),
         between(transactions.createdAt, new Date(startDate), new Date(endDate)),
+        softDeleteCondition,
     );
     const RentalCondition = and(
         inArray(transactions.propertyService, RENTAL_FILTER_ARRAY),
         between(transactions.createdAt, new Date(startDate), new Date(endDate)),
+        softDeleteCondition,
     );
     const total = await rowCount(transactions, totalCondition);
     const rental = await rowCount(transactions, RentalCondition);
@@ -406,7 +408,7 @@ export const statTransactionPerSecteurChart = async ({ startDate, endDate }: Sta
         .select({ service: transactions.propertyService, total: sum(transactions.sellingPrice) })
         .from(transactions)
         .groupBy(transactions.propertyService)
-        .where(between(transactions.createdAt, new Date(startDate), new Date(endDate)));
+        .where(and(softDeleteCondition, between(transactions.createdAt, new Date(startDate), new Date(endDate))));
 
     return request.map((value) => {
         return { ...value, total: Number(value.total) };
@@ -424,7 +426,7 @@ export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartD
         .from(transactions)
         .groupBy(sql<string>`day`)
         .orderBy(asc(sql<string>`day`))
-        .where(and(rentalCondition, intervalCondition));
+        .where(and(rentalCondition, intervalCondition,softDeleteCondition));
 
     const salesData = await db
         .select({
@@ -434,7 +436,7 @@ export const statTransactionPerWeekChart = async ({ startDate, endDate }: StartD
         .from(transactions)
         .groupBy(sql<string>`day`)
         .orderBy(asc(sql<string>`day`))
-        .where(and(salesCondition, intervalCondition));
+        .where(and(salesCondition, intervalCondition,softDeleteCondition));
 
     const transactionCount = await statGlobalSecteurTransactionInterval(startDate, endDate);
 
@@ -485,12 +487,12 @@ export const employeesContribution = async ({
 
     const query = db
         .select({
-            seller: sql<string>`CONCAT(${employees.lastName}, " ",${employees.firstName})`.as("seller"),
-            totalPrice: sum(transactions.sellingPrice).as("totalSales"),
-            totalSalesPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" OR ${transactions.propertyService} = "Ventes Blaine County" THEN ${transactions.sellingPrice}  END )`,
-            totalRentPrice: sql<number>`SUM(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" OR ${transactions.propertyService} = "Location Blaine County" THEN ${transactions.sellingPrice}  END )`,
-            totalSales: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" OR ${transactions.propertyService} = "Ventes Blaine County" THEN ${transactions.propertyService}  END )`,
-            totalRent: sql<number>`COUNT(CASE WHEN ${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" OR ${transactions.propertyService} = "Location Blaine County" THEN ${transactions.propertyService}  END )`,
+            seller: sql<string>`CONCAT(${employees.firstName}, " ",${employees.lastName})`.as("seller"),
+            totalPrice: sql<number>`SUM(CASE WHEN ${transactions.deletedAt} IS NULL THEN ${transactions.sellingPrice}  END )`.as("totalSales"),
+            totalSalesPrice: sql<number>`SUM(CASE WHEN (${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" OR ${transactions.propertyService} = "Ventes Blaine County") AND ${transactions.deletedAt} IS NULL THEN ${transactions.sellingPrice}  END )`,
+            totalRentPrice: sql<number>`SUM(CASE WHEN (${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" OR ${transactions.propertyService} = "Location Blaine County") AND ${transactions.deletedAt} IS NULL THEN ${transactions.sellingPrice}  END )`,
+            totalSales: sql<number>`COUNT(CASE WHEN (${transactions.propertyService} = "Ventes LS" OR ${transactions.propertyService} = "Ventes Favelas" OR ${transactions.propertyService} = "Ventes Blaine County") AND ${transactions.deletedAt} IS NULL THEN ${transactions.propertyService}  END )`,
+            totalRent: sql<number>`COUNT(CASE WHEN (${transactions.propertyService} = "Location LS" OR ${transactions.propertyService} = "Location Favelas" OR ${transactions.propertyService} = "Location Blaine County") AND ${transactions.deletedAt} IS NULL THEN ${transactions.propertyService}  END )`,
         })
         .from(transactions)
         .leftJoin(employees, eq(employees.id, transactions.employeeID))
