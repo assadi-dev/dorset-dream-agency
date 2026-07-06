@@ -75,20 +75,22 @@ const ListProperties = () => {
                     </AlertDescription>
                 </Alert>
             )} */}
-            <div className="my-5  flex flex-col lg:flex-row items-center justify-between w-full gap-3">
-                <div className="flex items-center gap-2  min-w-[25vw] w-full lg:w-fit">
+            <div className="my-5  flex flex-col sm:flex-row items-center justify-between w-full gap-3">
+                <div className="flex items-center gap-2  min-w-[25vw] w-full sm:w-fit">
                     <SearchInputDataTable />
                 </div>
-                <div className="flex flex-col-reverse lg:flex-row items-center gap-2 w-full justify-end">
-                    {itemChecked.length > 0 && (
+                <div className="flex flex-col-reverse sm:flex-row items-center gap-2 w-full justify-end">
+                    {itemChecked.length > 0 ? (
                         <div className="flex gap-3 items-center w-full justify-end">
                             <p className="px-2 py-0.5 text-muted-foreground text-xs lg:text-sm">{selectedLabel(itemChecked.length)}</p>
                             <SelectionActions selectedItems={itemChecked} resetSelected={reset} />
                         </div>
+                    ) : (
+                        <div className="w-full sm:w-fit">
+                            <FilterByCategories />
+                        </div>
                     )}
-                    <div className="w-full lg:w-fit">
-                        <FilterByCategories />
-                    </div>
+
                 </div>
             </div>
             {!error && (

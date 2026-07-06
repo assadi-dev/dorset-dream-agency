@@ -23,9 +23,9 @@ const FilterCategories = () => {
     }
 
     return (
-        <div className='px-3'>
+        <div className='w-full sm:w-fit'>
             <Select defaultValue={defaultValue} onValueChange={handleSelectCategory}>
-                <SelectTrigger className='min-w-[200px]'>
+                <SelectTrigger className='min-w-[200px] w-full'>
                     <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>

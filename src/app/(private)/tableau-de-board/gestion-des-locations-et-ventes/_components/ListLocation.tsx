@@ -46,7 +46,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
     const transactionsColumn = (IS_ADMIN && [SelectColumns, ...columns, actions]) || [...columns, actions];
 
     return (
-        <Card className="px-2 bg-dynasty-card">
+        <Card className="px-2 bg-dynasty-card w-full">
             <div className="my-5 flex flex-col md:flex-row justify-between items-center gap-3">
                 <div className="flex items-center gap-2  w-full md:max-w-[35vw] xl:max-w-[25vw] ">
                     <SearchInputDataTable />
@@ -60,7 +60,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                         <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
                     </div>
                 ) : (
-                    <div className="flex gap-3 items-center justify-end">
+                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-end w-full">
                         <FilterCategories />
                         <FilterSection />
                     </div>
