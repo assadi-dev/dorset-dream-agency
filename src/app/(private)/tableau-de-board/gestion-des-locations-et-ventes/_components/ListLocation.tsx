@@ -15,6 +15,7 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import FilterSection from "./FilterSection";
+import FilterCategories from "./FilterCategories";
 
 type ListLocationProps = {
     transactions: any[];
@@ -45,7 +46,7 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
     const transactionsColumn = (IS_ADMIN && [SelectColumns, ...columns, actions]) || [...columns, actions];
 
     return (
-        <Card className="px-2 bg-dynasty-card">
+        <Card className="px-2 bg-dynasty-card w-full">
             <div className="my-5 flex flex-col md:flex-row justify-between items-center gap-3">
                 <div className="flex items-center gap-2  w-full md:max-w-[35vw] xl:max-w-[25vw] ">
                     <SearchInputDataTable />
@@ -59,7 +60,10 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                         <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
                     </div>
                 ) : (
-                    <FilterSection />
+                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-end w-full">
+                        <FilterCategories />
+                        <FilterSection />
+                    </div>
                 )}
             </div>
             <DataTable columns={transactionsColumn} data={transactions} />

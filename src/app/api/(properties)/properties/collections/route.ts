@@ -10,7 +10,8 @@ export async function GET(request: NextRequest) {
         } = request;
 
         const filter = ExtractFilterParams(searchParams);
-        const properties = await getPropertiesCollections(filter);
+        const category = searchParams.get("category") && searchParams.get("category") !== "all" ? Number(searchParams.get("category")) : undefined;
+        const properties = await getPropertiesCollections({ ...filter, category });
 
         const response = properties;
         return NextResponse.json(response);

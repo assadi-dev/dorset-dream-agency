@@ -19,6 +19,7 @@ import {
 } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM, RENTAL_FILTER_ARRAY, SALES_FILTER_ARRAY } from "../utils";
 import {
+    ALL_CATEGORIES,
     ALL_STATUS,
     STATUS_DISPLAY_NAME,
 } from "@/app/(private)/tableau-de-board/gestion-des-locations-et-ventes/helpers";
@@ -54,9 +55,9 @@ export const insertTransaction = async (values: unknown) => {
     }
 };
 
-export const getTransactionCollection = async (filter: FilterPaginationType & { status?: string[] }) => {
+export const getTransactionCollection = async (filter: FilterPaginationType & { status?: string[], category?: number[] }) => {
     try {
-        const { page, limit, order, search, status } = filter;
+        const { page, limit, order, search, status, category } = filter;
 
         const searchCondition = search
             ? or(
@@ -75,8 +76,10 @@ export const getTransactionCollection = async (filter: FilterPaginationType & { 
             : undefined;
 
         const statusFilter = status && !status?.includes("all") ? (status as LocationStatusType[]) : ALL_STATUS;
+        const categoryFilter = category && category.length > 0 ? category : undefined;
 
         const statusFilterCondition = inArray(transactions.status, statusFilter);
+        const categoryFilterCondition = categoryFilter ? inArray(categoryProperties.id, categoryFilter) : undefined;
 
         const query = db
             .select({
@@ -105,10 +108,11 @@ export const getTransactionCollection = async (filter: FilterPaginationType & { 
             .leftJoin(variants, eq(variants.id, transactions.variantID))
             .leftJoin(properties, eq(properties.id, variants.propertyID))
             .leftJoin(categoryProperties, eq(categoryProperties.id, properties.categoryID))
-            .where(and(softDeleteCondition, statusFilterCondition, searchCondition));
+            .where(and(softDeleteCondition, statusFilterCondition, searchCondition, categoryFilterCondition));
         const parameters: BindParameters = {
             search: `%${search}%`,
             status,
+            category: categoryFilter,
         };
 
         const rowsCount = await query.execute({
