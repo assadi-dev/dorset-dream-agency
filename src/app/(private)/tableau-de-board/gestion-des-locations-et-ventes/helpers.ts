@@ -46,6 +46,7 @@ export const STATUS_OPTIONS = [
 
 export const ALL_STATUS = Object.keys(STATUS_DISPLAY_NAME).map((it) => it) as LocationStatusType[];
 
+export const ALL_CATEGORIES = "all";
 
 export const parseTaxesForm = (taxes: any[]) => {
     if (!taxes) return [];

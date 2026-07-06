@@ -15,6 +15,7 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import FilterSection from "./FilterSection";
+import FilterCategories from "./FilterCategories";
 
 type ListLocationProps = {
     transactions: any[];
@@ -59,7 +60,10 @@ const ListLocation = ({ transactions, limit, totalItems }: ListLocationProps) =>
                         <SelectionActionButton selectedItems={itemChecked} resetSelected={reset} />
                     </div>
                 ) : (
-                    <FilterSection />
+                    <div className="flex gap-3 items-center justify-end">
+                        <FilterCategories />
+                        <FilterSection />
+                    </div>
                 )}
             </div>
             <DataTable columns={transactionsColumn} data={transactions} />

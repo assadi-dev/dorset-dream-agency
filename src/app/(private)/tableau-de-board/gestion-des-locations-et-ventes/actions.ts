@@ -59,7 +59,7 @@ export const createTransaction = async (formData: FormData) => {
     await insertTransaction(cleanValues);
 };
 
-export const getTransactions = async (filter: FilterPaginationType & { status?: string[] }) => {
+export const getTransactions = async (filter: FilterPaginationType & { status?: string[], category?: number[] }) => {
     const transactions = await getTransactionCollection(filter);
     return transactions;
 };
