@@ -1,4 +1,4 @@
-import { deleteManyCategory, insertCategory, updateCategory } from "@/database/drizzle/repositories/categories";
+import { deleteManyCategory, insertCategory, toggleVisibilityCategory, updateCategory } from "@/database/drizzle/repositories/categories";
 import { categoriesValidator } from "@/database/drizzle/repositories/dto/categoriesDTO";
 
 
@@ -29,5 +29,14 @@ export const categoryPropertyWriteService = {
         const { ids } = validate.data;
         const result = await deleteManyCategory(ids);
         return result;
+    },
+
+    toggleVisibility: async (body: unknown) => {
+        const validate = categoriesValidator.toggleVisibility(body);
+        if (!validate.success) {
+            return validate.error
+        }
+        const { ids, isVisible } = validate.data;
+        await toggleVisibilityCategory(ids, isVisible);
     },
 }

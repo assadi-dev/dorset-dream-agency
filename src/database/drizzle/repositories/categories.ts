@@ -20,6 +20,7 @@ export const getCategoriesForOptions = async () => {
             value: sql`lower(${categoryProperties.id})`,
         })
         .from(categoryProperties)
+        .where(eq(categoryProperties.isVisible, true))
         .orderBy(desc(categoryProperties.createdAt));
     return result;
 };
@@ -40,6 +41,7 @@ export const getCategoriesPaginate = async (filter: FilterPaginationType) => {
         id: categoryProperties.id,
         name: categoryProperties.name,
         count: sql<number>`count(${properties.id})`.mapWith(Number),
+        isVisible: categoryProperties.isVisible,
         createdAt: categoryProperties.createdAt,
 
     })
@@ -77,7 +79,7 @@ export const getCategoryByName = async (name: string) => {
     const prepare = db
         .select()
         .from(categoryProperties)
-        .where(eq(categoryProperties.name, sql.placeholder("name")))
+        .where(and(eq(categoryProperties.name, sql.placeholder("name")), eq(categoryProperties.isVisible, true)))
         .prepare();
     const result = await prepare.execute({
         name,
@@ -88,6 +90,19 @@ export const getCategoryByName = async (name: string) => {
 
 
 export const getCategoryByID = async (id: string) => {
+    const prepare = db
+        .select()
+        .from(categoryProperties)
+        .where(and(eq(categoryProperties.id, sql.placeholder("id")), eq(categoryProperties.isVisible, true)))
+        .prepare();
+    const result = await prepare.execute({
+        id,
+    });
+    if (result.length > 0) return result[0];
+    throw new Error(`Category ${id} is not found in database`);
+};
+
+export const isCategoryExist = async (id: string) => {
     const prepare = db
         .select()
         .from(categoryProperties)
@@ -169,3 +184,31 @@ export const insertCategory = async (inputs: CategoryPropertyInputsType) => {
     throw new Error(`Category ${inputs.name} is not found in database`);
 };
 
+
+export const toggleVisibilityCategory = async (ids: number[], isVisible: boolean) => {
+
+
+    const query = db
+        .update(categoryProperties)
+        .set({
+            isVisible,
+        })
+        .where(inArray(categoryProperties.id, ids))
+
+    await query
+  
+    for (const id of ids) {
+        const category = await isCategoryExist(String(id));
+        if (!category) throw new Error(`this category is not found in database`);
+        const message = `Modification de la visibilité de la catégorie ${category.name}`;
+        sendToUserActions({
+            message,
+            action: "update",
+            entity: ENTITIES_ENUM.CATEGORY_PROPERTIES,
+            actionName: ACTION_NAMES.categoryProperties.create,
+        });
+    }
+ 
+
+  
+};

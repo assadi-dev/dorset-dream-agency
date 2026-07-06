@@ -22,4 +22,10 @@ export const categoriesValidator  = {
             ids: idsSchema,
         }).safeParse(data);
     },
+    toggleVisibility: (data: unknown) => {
+        return z.object({
+            ids: idsSchema,
+            isVisible: z.boolean(),
+        }).safeParse(data);
+    },
 }

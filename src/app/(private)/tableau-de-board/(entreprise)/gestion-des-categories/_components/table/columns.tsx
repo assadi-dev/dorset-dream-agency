@@ -1,11 +1,13 @@
 "use client";
 import { datetimeFormatFr3 } from "@/lib/date";
 import { ColumnDef } from "@tanstack/react-table";
+import { VisibilitySwitch } from "./VisibilitySwitch";
 
 export type Category = {
     id: string;
     name: string;
     count: number;
+    isVisible: boolean;
     createdAt: Date;
 
 
@@ -45,4 +47,17 @@ export const columns: ColumnDef<Category>[] = [
             <p className="text-nowrap">{datetimeFormatFr3(row.getValue("createdAt") as string)}</p>,
     },
 
+
 ];
+
+
+export const toggleVisibilityColumn: ColumnDef<Category> = {
+    accessorKey: "isVisible",
+    header: () => (
+        <p className="text-center text-nowrap">Afficher/masquer</p>
+    ),
+    cell: ({ row }) =>
+        <div className="flex justify-center">
+            <VisibilitySwitch key={row.original.id} category={row.original} />
+        </div>
+}
