@@ -23,16 +23,19 @@ import { selectedLabel } from "@/lib/text";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
+import FilterByCategories from "./FilterByCategories";
 
 const ListProperties = () => {
     const searchParams = useSearchParams();
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 5;
     const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") && searchParams.get("category") !== "all" ? searchParams.get("category") : undefined;
+
 
     const { data, isFetching, error } = useQuery({
-        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION, page, limit, search],
-        queryFn: () => fetchPropertiesCollections({ page, limit, search }),
+        queryKey: [PROPERTY_QUERY_KEY.LIST_IMMOBILIER_GESTION, page, limit, search, category],
+        queryFn: () => fetchPropertiesCollections({ page, limit, search, category }),
         refetchOnMount: true,
         placeholderData: keepPreviousData,
     });
@@ -72,17 +75,20 @@ const ListProperties = () => {
                     </AlertDescription>
                 </Alert>
             )} */}
-            <div className="my-5  flex items-center justify-between">
-                <div className="flex items-center gap-2  min-w-[25vw]">
+            <div className="my-5  flex flex-col lg:flex-row items-center justify-between w-full gap-3">
+                <div className="flex items-center gap-2  min-w-[25vw] w-full lg:w-fit">
                     <SearchInputDataTable />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col-reverse lg:flex-row items-center gap-2 w-full justify-end">
                     {itemChecked.length > 0 && (
-                        <div className="flex gap-3 items-center ">
-                            <p className="px-2 py-0.5 text-muted-foreground">{selectedLabel(itemChecked.length)}</p>
+                        <div className="flex gap-3 items-center w-full justify-end">
+                            <p className="px-2 py-0.5 text-muted-foreground text-xs lg:text-sm">{selectedLabel(itemChecked.length)}</p>
                             <SelectionActions selectedItems={itemChecked} resetSelected={reset} />
                         </div>
                     )}
+                    <div className="w-full lg:w-fit">
+                        <FilterByCategories />
+                    </div>
                 </div>
             </div>
             {!error && (

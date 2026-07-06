@@ -2,7 +2,7 @@ import { TiptapContent } from "@/components/Text/RichTextEditor/type";
 import { FilterPaginationType } from "@/database/types";
 import { API_INSTANCE } from "@/lib/api";
 
-export const fetchPropertiesCollections = async (filter: FilterPaginationType) => {
+export const fetchPropertiesCollections = async (filter: FilterPaginationType & { category?: string |null}) => {
     try {
         const result = (
             await API_INSTANCE.get("/properties/collections", {

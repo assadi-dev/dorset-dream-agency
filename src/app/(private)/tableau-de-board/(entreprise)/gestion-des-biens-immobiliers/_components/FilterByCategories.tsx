@@ -1,11 +1,13 @@
 "use client";
+
+"use client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import useRouteRefresh from '@/hooks/useRouteRefresh';
 import { useSearchParams } from 'next/navigation';
-import { useLoadCategories } from '../../(entreprise)/gestion-des-biens-immobiliers/_hooks/useLoadCategories';
+import { useLoadCategories } from '../_hooks/useLoadCategories';
 
 
-const FilterCategories = () => {
+const FilterByCategories = () => {
     const { CATEGORIES_OPTIONS } = useLoadCategories();
 
     const searchParams = useSearchParams();
@@ -16,16 +18,16 @@ const FilterCategories = () => {
     const handleSelectCategory = (value: string) => {
         const category = CATEGORIES_OPTIONS.find((category) => category.value === value);
         if (category) {
-            router.push(`/tableau-de-board/gestion-des-locations-et-ventes?category=${category.value}`);
+            router.push(`/tableau-de-board/gestion-des-biens-immobiliers?category=${category.value}`);
         } else {
-            router.push(`/tableau-de-board/gestion-des-locations-et-ventes?category=all`);
+            router.push(`/tableau-de-board/gestion-des-biens-immobiliers?category=all`);
         }
     }
 
     return (
-        <div className='px-3'>
+        <div className='w-full'>
             <Select defaultValue={defaultValue} onValueChange={handleSelectCategory}>
-                <SelectTrigger className='min-w-[200px]'>
+                <SelectTrigger className='min-w-[200px] w-full'>
                     <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -43,4 +45,4 @@ const FilterCategories = () => {
     )
 }
 
-export default FilterCategories
+export default FilterByCategories
