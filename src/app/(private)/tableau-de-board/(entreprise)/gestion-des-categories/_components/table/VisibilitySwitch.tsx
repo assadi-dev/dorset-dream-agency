@@ -13,7 +13,7 @@ export const VisibilitySwitch = ({ category }: Props) => {
     const { toggleVisibility } = useCategoriesMutation();
 
     const handleToggleVisibility = async () => {
-        console.log(category.isVisible);
+
         try {
             await toggleVisibility({ ids: [category.id], isVisible: !category.isVisible });
             const successMessage = !category.isVisible ? `La categorie ${category.name} est maintenant visible` : `La categorie ${category.name} est maintenant masquée`;
