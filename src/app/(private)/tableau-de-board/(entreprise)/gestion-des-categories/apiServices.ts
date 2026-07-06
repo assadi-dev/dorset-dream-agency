@@ -42,3 +42,12 @@ export const deleteCategoryApi = async (ids: number[]) => {
         throw error;
     }
 };
+
+export const toggleVisibilityCategoryApi = async (ids: number[], isVisible: boolean) => {
+    try {
+        const response = await API_INSTANCE.put(`/category/update/visibility`, {ids,isVisible});
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

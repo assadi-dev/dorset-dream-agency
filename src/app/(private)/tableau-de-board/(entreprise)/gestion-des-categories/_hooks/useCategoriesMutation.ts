@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CATEGORIES_QUERIES } from "@/config/queries/categories";
 import { CategoryPropertyInputsType } from "../type";
-import { createCategoryApi, deleteCategoryApi, updateCategoryApi } from "../apiServices";
+import { createCategoryApi, deleteCategoryApi, toggleVisibilityCategoryApi, updateCategoryApi } from "../apiServices";
 
 
 export const useCategoriesMutation = () => {
@@ -40,9 +40,20 @@ export const useCategoriesMutation = () => {
 
     });
 
+    const toggleVisibilityMutation = useMutation({
+        mutationFn: async ({ids,isVisible}: {ids: number[], isVisible: boolean}) => {
+            return await toggleVisibilityCategoryApi(ids,isVisible);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERIES.GET_CATEGORIES_COLLECTIONS] });
+        },
+
+    });
+
     return {
         create:createMutation.mutateAsync,
         update:updateMutation.mutateAsync,
-        remove:deleteMutation.mutateAsync
+        remove:deleteMutation.mutateAsync,
+        toggleVisibility:toggleVisibilityMutation.mutateAsync
     };
 };

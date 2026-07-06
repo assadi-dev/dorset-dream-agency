@@ -102,6 +102,19 @@ export const getCategoryByID = async (id: string) => {
     throw new Error(`Category ${id} is not found in database`);
 };
 
+export const isCategoryExist = async (id: string) => {
+    const prepare = db
+        .select()
+        .from(categoryProperties)
+        .where(eq(categoryProperties.id, sql.placeholder("id")))
+        .prepare();
+    const result = await prepare.execute({
+        id,
+    });
+    if (result.length > 0) return result[0];
+    throw new Error(`Category ${id} is not found in database`);
+};
+
 export const updateCategory = async (id: number, inputs: Partial<CategoryPropertyInputsType>) => {
     const prepare = db
         .update(categoryProperties)
@@ -185,7 +198,7 @@ export const toggleVisibilityCategory = async (ids: number[], isVisible: boolean
     await query
   
     for (const id of ids) {
-        const category = await getCategoryByID(String(id));
+        const category = await isCategoryExist(String(id));
         if (!category) throw new Error(`this category is not found in database`);
         const message = `Modification de la visibilité de la catégorie ${category.name}`;
         sendToUserActions({
