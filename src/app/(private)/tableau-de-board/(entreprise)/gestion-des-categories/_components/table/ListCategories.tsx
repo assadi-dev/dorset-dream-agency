@@ -13,7 +13,7 @@ import useSelectTableRow from "@/hooks/useSelectTableRow";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
-import { columns, toggleVisibilityColumn } from "./columns";
+import { columns, dragHandleColumn, toggleVisibilityColumn } from "./columns";
 import CategoriesActions from "./CategoriesActions";
 import CategoriesSelectedActions from "./CategoriesSelectedActions";
 
@@ -48,7 +48,7 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
-    const CategoriesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, toggleVisibilityColumn, actions] : columns;
+    const CategoriesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [dragHandleColumn, SelectColumns, ...columns, toggleVisibilityColumn, actions] : columns;
 
     return (
         <Card className="  px-2 bg-dynasty-card">
