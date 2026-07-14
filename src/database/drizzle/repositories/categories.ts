@@ -171,11 +171,19 @@ export const deleteManyCategory = async (ids: Array<number>) => {
 };
 
 export const insertCategory = async (inputs: CategoryPropertyInputsType) => {
-    const prepare = db
-        .insert(categoryProperties)
-        .values(inputs)
-        .prepare();
-    const result = await prepare.execute();
+    const result = await db.transaction(async (tx) => {
+        const [{ maxOrderPosition }] = await tx
+            .select({
+                maxOrderPosition: sql<number>`COALESCE(MAX(${categoryProperties.orderPosition}), -1)`.mapWith(
+                    Number,
+                ),
+            })
+            .from(categoryProperties);
+        return tx.insert(categoryProperties).values({
+            ...inputs,
+            orderPosition: maxOrderPosition + 1,
+        });
+    });
     const message = `Ajout du catégorie ${inputs.name}`;
     await sendToUserActions({
         message,
