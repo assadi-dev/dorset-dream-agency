@@ -67,7 +67,13 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
                 </div>
             </div>
 
-            <DataTable columns={CategoriesColumn} data={categories} isReorder={true} onDragEnd={saveReorderCategories} />
+            <DataTable
+                columns={CategoriesColumn}
+                data={categories}
+                isReorder={true}
+                onDragEnd={saveReorderCategories}
+                getRowId={(row) => String(row.id)}
+            />
 
             <Separator className="my-2" />
             <CardFooter>
