@@ -1,6 +1,6 @@
 import { db } from "@/database";
 import { categoryProperties } from "../schema/categoryProperties";
-import { and, desc, eq, inArray, isNull, like, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, like, or, sql } from "drizzle-orm";
 import { FilterPaginationType } from "@/database/types";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
@@ -21,12 +21,12 @@ export const getCategoriesForOptions = async () => {
         })
         .from(categoryProperties)
         .where(eq(categoryProperties.isVisible, true))
-        .orderBy(desc(categoryProperties.orderPosition));
+        .orderBy(asc(categoryProperties.orderPosition));
     return result;
 };
 
 export const getCategoriesCollections = async () => {
-    const result = await db.select().from(categoryProperties).orderBy(desc(categoryProperties.createdAt));
+    const result = await db.select().from(categoryProperties).orderBy(asc(categoryProperties.orderPosition));
     return result;
 };
 
@@ -51,7 +51,7 @@ export const getCategoriesPaginate = async (filter: FilterPaginationType) => {
         .where(and(searchCondition))
         .groupBy(categoryProperties.id)
 
-    const order = desc(categoryProperties.createdAt);
+    const order = asc(categoryProperties.orderPosition);
 
      const parameters = search
             ? {
@@ -81,7 +81,7 @@ export const getCategoryByName = async (name: string) => {
         .select()
         .from(categoryProperties)
         .where(and(eq(categoryProperties.name, sql.placeholder("name")), eq(categoryProperties.isVisible, true)))
-        .orderBy(desc(categoryProperties.orderPosition))
+        .orderBy(asc(categoryProperties.orderPosition))
         .prepare();
     const result = await prepare.execute({
         name,
@@ -96,7 +96,7 @@ export const getCategoryByID = async (id: string) => {
         .select()
         .from(categoryProperties)
         .where(and(eq(categoryProperties.id, sql.placeholder("id")), eq(categoryProperties.isVisible, true)))
-        .orderBy(desc(categoryProperties.orderPosition))
+        .orderBy(asc(categoryProperties.orderPosition))
         .prepare();
     const result = await prepare.execute({
         id,
