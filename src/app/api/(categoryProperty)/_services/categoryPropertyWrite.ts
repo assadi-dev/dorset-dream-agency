@@ -1,4 +1,4 @@
-import { deleteManyCategory, insertCategory, toggleVisibilityCategory, updateCategory } from "@/database/drizzle/repositories/categories";
+import { deleteManyCategory, insertCategory, toggleVisibilityCategory, updateCategory, updateOrderPositionCategory } from "@/database/drizzle/repositories/categories";
 import { categoriesValidator } from "@/database/drizzle/repositories/dto/categoriesDTO";
 
 
@@ -38,5 +38,14 @@ export const categoryPropertyWriteService = {
         }
         const { ids, isVisible } = validate.data;
         await toggleVisibilityCategory(ids, isVisible);
+    },
+
+    reorder: async (body: unknown) => {
+        const validate = categoriesValidator.reorder(body);
+        if (!validate.success) {
+            return validate.error
+        }
+        const { id, oldPosition, newPosition } = validate.data;
+        await updateOrderPositionCategory(id, oldPosition, newPosition);
     },
 }

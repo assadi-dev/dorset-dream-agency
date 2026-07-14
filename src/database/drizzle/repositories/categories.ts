@@ -1,6 +1,6 @@
 import { db } from "@/database";
 import { categoryProperties } from "../schema/categoryProperties";
-import { and, asc, desc, eq, inArray, isNull, like, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, like, ne, or, sql } from "drizzle-orm";
 import { FilterPaginationType } from "@/database/types";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
@@ -225,12 +225,31 @@ export const toggleVisibilityCategory = async (ids: number[], isVisible: boolean
 };
 
 
-export const updateOrderPositionCategory = async ({from,to}: {from: {id: number,orderPosition: number},to: {id: number,orderPosition: number}}) => {
+export const updateOrderPositionCategory = async (id: number, oldPosition: number, newPosition: number) => {
 
+    const categoryExist = await isCategoryExist(String(id));
+    if (!categoryExist) throw new Error(`this category is not found in database`);
 
+    if (oldPosition !== newPosition) {
+        await db.transaction(async (tx) => {
+            // La catégorie qui occupe la position cible récupère l'ancienne position
+            await tx
+                .update(categoryProperties)
+                .set({ orderPosition: oldPosition })
+                .where(
+                    and(eq(categoryProperties.orderPosition, newPosition), ne(categoryProperties.id, id)),
+                );
+
+            // La catégorie déplacée prend la nouvelle position
+            await tx
+                .update(categoryProperties)
+                .set({ orderPosition: newPosition })
+                .where(eq(categoryProperties.id, id));
+        });
+    }
 
     const message = `Modification de la position d'une catégorie`;
-    const extras = { from,to };
+    const extras = { id,name: categoryExist.name, oldPosition,newPosition };
     await sendToUserActions({
         message,
         action: "update",

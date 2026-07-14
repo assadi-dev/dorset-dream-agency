@@ -3,11 +3,13 @@
 import { ToastErrorSonner, ToastSuccessSonner } from "@/components/notify/Sonner"
 import { DragEndEvent } from "@dnd-kit/react"
 import { Category } from "../_components/table/columns";
+import { useCategoriesMutation } from "./useCategoriesMutation";
 
 
 export default function useReorderCategories() {
+    const { reorder } = useCategoriesMutation();
 
-    const saveReorderCategories = (event: DragEndEvent) => {
+    const saveReorderCategories = async (event: DragEndEvent) => {
         try {
             if (event.canceled) return;
 
@@ -22,15 +24,12 @@ export default function useReorderCategories() {
             const targetIndex = index as number;
 
             const payload = {
-                id: data.id,
-                name: data.name,
+                id: Number(data.id),
                 oldPosition: initialIndex,
                 newPosition: targetIndex,
             }
 
-            console.log(payload);
-
-
+            await reorder(payload);
 
             ToastSuccessSonner(`La nouvelle position de la catégorie ${data.name} a été enregistrée avec succès`)
 
