@@ -85,6 +85,8 @@ const SortableRow = ({ row, index, disabled = true }: { row: Row<any>, index: nu
 
     const STYLES_DRAGGING = isDragging ? "bg-background z-10" : ""
 
+
+
     return (
 
         <TableRow data-state={row.getIsSelected() && "selected"} ref={ref} >

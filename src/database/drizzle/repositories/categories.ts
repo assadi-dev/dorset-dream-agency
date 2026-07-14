@@ -1,6 +1,6 @@
 import { db } from "@/database";
 import { categoryProperties } from "../schema/categoryProperties";
-import { and, asc, desc, eq, inArray, isNull, like, ne, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, gte, inArray, isNull, like, lt, lte, or, sql } from "drizzle-orm";
 import { FilterPaginationType } from "@/database/types";
 import { sendToUserActions, withPagination } from "./utils/entity";
 import { ACTION_NAMES, ENTITIES_ENUM } from "../utils";
@@ -232,15 +232,32 @@ export const updateOrderPositionCategory = async (id: number, oldPosition: numbe
 
     if (oldPosition !== newPosition) {
         await db.transaction(async (tx) => {
-            // La catégorie qui occupe la position cible récupère l'ancienne position
-            await tx
-                .update(categoryProperties)
-                .set({ orderPosition: oldPosition })
-                .where(
-                    and(eq(categoryProperties.orderPosition, newPosition), ne(categoryProperties.id, id)),
-                );
+            if (newPosition > oldPosition) {
+                // Déplacement vers le bas : on décale d'un cran vers le haut
+                // les catégories situées entre l'ancienne et la nouvelle position
+                await tx
+                    .update(categoryProperties)
+                    .set({ orderPosition: sql`${categoryProperties.orderPosition} - 1` })
+                    .where(
+                        and(
+                            gt(categoryProperties.orderPosition, oldPosition),
+                            lte(categoryProperties.orderPosition, newPosition),
+                        ),
+                    );
+            } else {
+                // Déplacement vers le haut : on décale d'un cran vers le bas
+                // les catégories situées entre la nouvelle et l'ancienne position
+                await tx
+                    .update(categoryProperties)
+                    .set({ orderPosition: sql`${categoryProperties.orderPosition} + 1` })
+                    .where(
+                        and(
+                            gte(categoryProperties.orderPosition, newPosition),
+                            lt(categoryProperties.orderPosition, oldPosition),
+                        ),
+                    );
+            }
 
-            // La catégorie déplacée prend la nouvelle position
             await tx
                 .update(categoryProperties)
                 .set({ orderPosition: newPosition })
