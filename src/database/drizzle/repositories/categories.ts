@@ -21,7 +21,7 @@ export const getCategoriesForOptions = async () => {
         })
         .from(categoryProperties)
         .where(eq(categoryProperties.isVisible, true))
-        .orderBy(desc(categoryProperties.createdAt));
+        .orderBy(desc(categoryProperties.orderPosition));
     return result;
 };
 
@@ -42,6 +42,7 @@ export const getCategoriesPaginate = async (filter: FilterPaginationType) => {
         name: categoryProperties.name,
         count: sql<number>`count(${properties.id})`.mapWith(Number),
         isVisible: categoryProperties.isVisible,
+        orderPosition: categoryProperties.orderPosition,
         createdAt: categoryProperties.createdAt,
 
     })
@@ -80,6 +81,7 @@ export const getCategoryByName = async (name: string) => {
         .select()
         .from(categoryProperties)
         .where(and(eq(categoryProperties.name, sql.placeholder("name")), eq(categoryProperties.isVisible, true)))
+        .orderBy(desc(categoryProperties.orderPosition))
         .prepare();
     const result = await prepare.execute({
         name,
@@ -94,6 +96,7 @@ export const getCategoryByID = async (id: string) => {
         .select()
         .from(categoryProperties)
         .where(and(eq(categoryProperties.id, sql.placeholder("id")), eq(categoryProperties.isVisible, true)))
+        .orderBy(desc(categoryProperties.orderPosition))
         .prepare();
     const result = await prepare.execute({
         id,
@@ -211,4 +214,22 @@ export const toggleVisibilityCategory = async (ids: number[], isVisible: boolean
  
 
   
+};
+
+
+export const updateOrderPositionCategory = async ({from,to}: {from: {id: number,orderPosition: number},to: {id: number,orderPosition: number}}) => {
+
+
+
+    const message = `Modification de la position d'une catégorie`;
+    const extras = { from,to };
+    await sendToUserActions({
+        message,
+        action: "update",
+        entity: ENTITIES_ENUM.CATEGORY_PROPERTIES,
+        actionName: ACTION_NAMES.categoryProperties.create,
+        extras,
+    });
+    
+ 
 };
