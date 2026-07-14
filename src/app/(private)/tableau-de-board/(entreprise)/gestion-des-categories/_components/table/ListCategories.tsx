@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useRef } from "react";
 
 import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
@@ -16,6 +16,8 @@ import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
 import { columns, dragHandleColumn, toggleVisibilityColumn } from "./columns";
 import CategoriesActions from "./CategoriesActions";
 import CategoriesSelectedActions from "./CategoriesSelectedActions";
+import useReorderCategories from "../../_hooks/useReorderCategories";
+
 
 
 type ListCategoriesProps = {
@@ -26,6 +28,7 @@ type ListCategoriesProps = {
 const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) => {
     const role = useGetRoleUser();
     const { itemChecked, handleSelectedAllRow, handleSelectedRow, reset } = useSelectTableRow();
+    const { saveReorderCategories } = useReorderCategories();
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -49,9 +52,9 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
         selected: itemChecked,
     });
     const CategoriesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [dragHandleColumn, SelectColumns, ...columns, toggleVisibilityColumn, actions] : columns;
-
+    const restrictElement = useRef<HTMLDivElement>(null);
     return (
-        <Card className="  px-2 bg-dynasty-card">
+        <Card className="  px-2 bg-dynasty-card" ref={restrictElement} >
             <div className="my-5 flex justify-between items-center">
                 <div className="min-w-[25vw]">
                     {" "}
@@ -63,7 +66,9 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
                     )}
                 </div>
             </div>
-            <DataTable columns={CategoriesColumn} data={categories} />
+
+            <DataTable columns={CategoriesColumn} data={categories} isReorder={true} onDragEnd={saveReorderCategories} />
+
             <Separator className="my-2" />
             <CardFooter>
                 <div className="flex justify-between items-center w-full">

@@ -2,7 +2,7 @@
 import { datetimeFormatFr3 } from "@/lib/date";
 import { ColumnDef } from "@tanstack/react-table";
 import { VisibilitySwitch } from "./VisibilitySwitch";
-import DragHandleRows from "./DragHandleRows";
+import RowDragHandleCell from "./RowDragHandleCell";
 
 export type Category = {
     id: string;
@@ -69,6 +69,6 @@ export const dragHandleColumn: ColumnDef<Category> = {
     id: "orderPosition",
     cell: ({ row }) =>
         <div className="flex justify-center">
-            <DragHandleRows key={row.original.id} category={row.original} />
+            <RowDragHandleCell key={row.original.id} category={row.original} />
         </div>
 }
