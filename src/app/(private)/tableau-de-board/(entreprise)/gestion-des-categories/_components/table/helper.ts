@@ -14,7 +14,7 @@ export const createPayloadReorder = (event: DragEndEvent) => {
             // les index de la page, qui divergent dès qu'il y a pagination
             const targetData = target?.data as Category | undefined;
             const oldPosition = data.orderPosition ?? initialIndex;
-            const newPosition = targetData?.orderPosition ?? index;
+            const newPosition = index;
 
             if (oldPosition === newPosition) return;
 

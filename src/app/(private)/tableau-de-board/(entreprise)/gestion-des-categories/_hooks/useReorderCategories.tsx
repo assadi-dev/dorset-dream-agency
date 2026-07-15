@@ -16,7 +16,7 @@ export default function useReorderCategories() {
 
             const payload = createPayloadReorder(event)
             if (!payload) return;
-            reorder(payload);
+            await reorder(payload);
 
             ToastSuccessSonner(`La nouvelle position de la catégorie ${payload.name} a été enregistrée avec succès`)
 
