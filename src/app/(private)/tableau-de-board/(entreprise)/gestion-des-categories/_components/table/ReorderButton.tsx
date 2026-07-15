@@ -6,8 +6,8 @@ import { ListChecks } from "lucide-react";
 
 export default function ReorderButton({ isReordering, onClick }: { isReordering: boolean, onClick: () => void }) {
 
-    const variant = isReordering ? "destructive" : "outline";
-    const text = isReordering ? "Annuler" : "Réordonner";
+    const variant = isReordering ? "default" : "outline";
+    const text = isReordering ? "Terminer" : "Réordonner";
 
 
     return (
