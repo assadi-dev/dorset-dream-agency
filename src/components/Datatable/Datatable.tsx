@@ -15,15 +15,13 @@ type DataTableProps<TData, TValue> = {
     isLoading?: boolean;
     isReorder?: boolean;
     onDragEnd?: (event: DragEndEvent) => void;
-    getRowId?: (originalRow: TData, index: number) => string;
 };
 
-function DataTable<TData, TValue>({ columns, data, isLoading, isReorder = false, onDragEnd, getRowId }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({ columns, data, isLoading, isReorder = false, onDragEnd }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getRowId,
     });
 
     const restrictElement = useRef<HTMLDivElement>(null);
@@ -70,6 +68,17 @@ export default DataTable;
 
 
 
+const SimpleRow = ({ row }: { row: Row<any> }) => {
+    return (
+        <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+            {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+            ))}
+        </TableRow>
+    );
+}
 
 const SortableRow = ({ row, index, disabled = true }: { row: Row<any>, index: number, disabled: boolean }) => {
     const { ref, isDragging } = useSortable({ id: `table-sortable-${row.id}`, index, data: row.original, disabled })
