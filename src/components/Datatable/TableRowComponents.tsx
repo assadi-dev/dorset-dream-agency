@@ -26,16 +26,16 @@ export const RowDraggable = ({ row, disabled, index, getRowId }: { row: Row<any>
     const STYLES_DRAGGING = isDragging ? "bg-background z-10" : ""
 
     return (
-        <RowDragHandleContext.Provider value={handleRef}>
-            <TableRow key={getRowId ? getRowId(row, index) : row.id} data-state={row.getIsSelected() && "selected"} ref={ref} >
-                {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className={` ${STYLES_DRAGGING}`}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                ))}
 
-            </TableRow>
-        </RowDragHandleContext.Provider>
+        <TableRow key={getRowId ? getRowId(row, index) : row.id} data-state={row.getIsSelected() && "selected"} ref={ref} >
+            {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id} className={` ${STYLES_DRAGGING}`}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+            ))}
+
+        </TableRow>
+
     )
 }
 
