@@ -72,7 +72,7 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
                 data={categories}
                 isReorder={true}
                 onDragEnd={saveReorderCategories}
-                getRowId={(row) => String(row.id)}
+                getRowId={(row) => String(row.original.orderPosition)}
             />
 
             <Separator className="my-2" />
