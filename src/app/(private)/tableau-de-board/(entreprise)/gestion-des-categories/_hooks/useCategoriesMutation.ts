@@ -4,10 +4,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CATEGORIES_QUERIES } from "@/config/queries/categories";
 import { CategoryPropertyInputsType, ReorderCategoryType } from "../type";
 import { createCategoryApi, deleteCategoryApi, reorderCategoryApi, toggleVisibilityCategoryApi, updateCategoryApi } from "../apiServices";
+import { useCategoriesParams } from "./useCategoriesParams";
 
 
 export const useCategoriesMutation = () => {
     const queryClient = useQueryClient();
+      const {params} = useCategoriesParams();
 
     const createMutation = useMutation({
         mutationFn: async (data: CategoryPropertyInputsType) => {
@@ -55,7 +57,7 @@ export const useCategoriesMutation = () => {
             return await reorderCategoryApi(data);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERIES.GET_CATEGORIES_COLLECTIONS] });
+            queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERIES.GET_CATEGORIES_COLLECTIONS,params] });
         },
 
     });
