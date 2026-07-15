@@ -2,7 +2,8 @@
 
 import { GripVertical } from "lucide-react";
 import { Category } from "./columns";
-import { useRowDragHandle } from "@/components/Datatable/Datatable";
+import { useRowDragHandle } from "@/components/Datatable/TableRowComponents";
+
 
 type Props = {
     category: Category;
