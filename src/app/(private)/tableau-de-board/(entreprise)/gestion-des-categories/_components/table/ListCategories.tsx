@@ -17,6 +17,7 @@ import { columns, dragHandleColumn, toggleVisibilityColumn } from "./columns";
 import CategoriesActions from "./CategoriesActions";
 import CategoriesSelectedActions from "./CategoriesSelectedActions";
 import useReorderCategories from "../../_hooks/useReorderCategories";
+import ReorderButton from "./ReorderButton";
 
 
 
@@ -51,8 +52,16 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
-    const CategoriesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [dragHandleColumn, SelectColumns, ...columns, toggleVisibilityColumn, actions] : columns;
+
+    const [isReordering, setIsReordering] = React.useState(false);
+    const CategoriesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, toggleVisibilityColumn, actions] : columns;
     const restrictElement = useRef<HTMLDivElement>(null);
+
+    if (isReordering) {
+        CategoriesColumn.shift();
+        CategoriesColumn.unshift(dragHandleColumn);
+    }
+
     return (
         <Card className="  px-2 bg-dynasty-card" ref={restrictElement} >
             <div className="my-5 flex justify-between items-center">
@@ -60,7 +69,8 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
                     {" "}
                     <SearchInputDataTable />
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
+                    {itemChecked.length === 0 && <ReorderButton isReordering={isReordering} onClick={() => setIsReordering(!isReordering)} />}
                     {itemChecked.length > 0 && (
                         <CategoriesSelectedActions itemSelected={itemChecked} resetSelectedRow={reset} />
                     )}
@@ -70,7 +80,7 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
             <DataTable
                 columns={CategoriesColumn}
                 data={categories}
-                isReorder={true}
+                isSortable={isReordering}
                 onDragEnd={saveReorderCategories}
 
             />

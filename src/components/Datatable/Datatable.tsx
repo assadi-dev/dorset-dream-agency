@@ -12,12 +12,12 @@ type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     isLoading?: boolean;
-    isReorder?: boolean;
+    isSortable?: boolean;
     onDragEnd?: (event: DragEndEvent) => void;
     getRowId?: (row: Row<TData>) => string;
 };
 
-function DataTable<TData, TValue>({ columns, data, isLoading, isReorder = false, onDragEnd, getRowId }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({ columns, data, isLoading, isSortable = false, onDragEnd, getRowId }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
@@ -51,7 +51,7 @@ function DataTable<TData, TValue>({ columns, data, isLoading, isReorder = false,
                             <LoadingRow columns={columns} />
                         ) : table.getRowModel().rows?.length ? (
 
-                            isReorder ? (
+                            isSortable ? (
                                 <SortableRow table={table} getRowId={getRowId} />
 
                             ) : (
