@@ -2,13 +2,16 @@
 
 import { GripVertical } from "lucide-react";
 import { Category } from "./columns";
+import { useRowDragHandle } from "@/components/Datatable/Datatable";
 
 type Props = {
     category: Category;
 }
 export default function RowDragHandleCell({ category }: Props) {
+    const handleRef = useRowDragHandle();
+
     return (
-        <div className="flex items-center justify-center size-5 cursor-grab">
+        <div ref={handleRef ?? undefined} className="flex items-center justify-center size-5 cursor-grab">
             <GripVertical className="size-4" />
         </div>
     );

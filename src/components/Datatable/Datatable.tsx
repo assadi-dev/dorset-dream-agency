@@ -70,22 +70,30 @@ export default DataTable;
 
 
 
+// Permet à une cellule (ex: poignée de drag) de s'enregistrer comme handle
+// du useSortable de sa ligne : le drag ne démarre alors que depuis la poignée,
+// et les éléments interactifs (checkbox, switch...) restent cliquables
+const RowDragHandleContext = React.createContext<((element: Element | null) => void) | null>(null);
+
+export const useRowDragHandle = () => React.useContext(RowDragHandleContext);
+
 const SortableRow = ({ row, index, disabled = true }: { row: Row<any>, index: number, disabled: boolean }) => {
-    const { ref, isDragging } = useSortable({ id: `table-sortable-${row.id}`, index, data: row.original, disabled })
+    const { ref, handleRef, isDragging } = useSortable({ id: `table-sortable-${row.id}`, index, data: row.original, disabled })
 
     const STYLES_DRAGGING = isDragging ? "bg-background z-10" : ""
 
 
 
     return (
+        <RowDragHandleContext.Provider value={handleRef}>
+            <TableRow data-state={row.getIsSelected() && "selected"} ref={ref} >
+                {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className={` ${STYLES_DRAGGING}`}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                ))}
 
-        <TableRow data-state={row.getIsSelected() && "selected"} ref={ref} >
-            {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className={` ${STYLES_DRAGGING}`}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-            ))}
-
-        </TableRow>
+            </TableRow>
+        </RowDragHandleContext.Provider>
     );
 }
