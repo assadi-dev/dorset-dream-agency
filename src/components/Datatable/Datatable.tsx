@@ -70,17 +70,6 @@ export default DataTable;
 
 
 
-const SimpleRow = ({ row }: { row: Row<any> }) => {
-    return (
-        <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-            {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-            ))}
-        </TableRow>
-    );
-}
 
 const SortableRow = ({ row, index, disabled = true }: { row: Row<any>, index: number, disabled: boolean }) => {
     const { ref, isDragging } = useSortable({ id: `table-sortable-${row.id}`, index, data: row.original, disabled })
