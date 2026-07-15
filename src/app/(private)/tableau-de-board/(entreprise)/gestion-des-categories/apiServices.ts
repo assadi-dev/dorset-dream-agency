@@ -1,5 +1,5 @@
 import { API_INSTANCE } from "@/lib/api";
-import { CategoryPropertyInputsType } from "./type";
+import { CategoryPropertyInputsType, ReorderCategoryType } from "./type";
 
 export const fetchCategoriesCollections = async ({page,limit,search}: {page: number,limit: number,search?: string|null}) => {
    try {
@@ -46,6 +46,15 @@ export const deleteCategoryApi = async (ids: number[]) => {
 export const toggleVisibilityCategoryApi = async (ids: number[], isVisible: boolean) => {
     try {
         const response = await API_INSTANCE.put(`/category/update/visibility`, {ids,isVisible});
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const reorderCategoryApi = async ({id,oldPosition,newPosition}: ReorderCategoryType) => {
+    try {
+        const response = await API_INSTANCE.put(`/category/update/reorder`, {id,oldPosition,newPosition});
         return response.data;
     } catch (error) {
         throw error;

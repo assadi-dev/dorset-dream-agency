@@ -10,6 +10,12 @@ export type CategoryInputsType = z.infer<typeof categoriesSchema>;
 
 const idsSchema = z.array(z.number()).min(1, { message: REQUIRE_MESSAGE_ERROR });
 
+const reorderCategorySchema = z.object({
+    id: z.coerce.number(),
+    oldPosition: z.coerce.number(),
+    newPosition: z.coerce.number(),
+});
+
 export const categoriesValidator  = {
     create: (data: unknown) => {
         return categoriesSchema.safeParse(data);
@@ -28,4 +34,5 @@ export const categoriesValidator  = {
             isVisible: z.boolean(),
         }).safeParse(data);
     },
+    reorder: (data: unknown) => reorderCategorySchema.safeParse(data),
 }

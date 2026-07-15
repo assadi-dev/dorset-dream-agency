@@ -7,6 +7,7 @@ export const categoryProperties = mysqlTable("category_properties", {
     id: int("id").autoincrement().primaryKey(),
     name: varchar("name", { length: 100 }),
     isVisible: boolean("is_visible").default(true),
+    orderPosition: int("order_position").default(0),
     ...updatedAndCreatedAt,
 });
 

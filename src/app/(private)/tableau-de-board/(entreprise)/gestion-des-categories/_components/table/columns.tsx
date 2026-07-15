@@ -2,6 +2,7 @@
 import { datetimeFormatFr3 } from "@/lib/date";
 import { ColumnDef } from "@tanstack/react-table";
 import { VisibilitySwitch } from "./VisibilitySwitch";
+import RowDragHandleCell from "./RowDragHandleCell";
 
 export type Category = {
     id: string;
@@ -9,6 +10,7 @@ export type Category = {
     count: number;
     isVisible: boolean;
     createdAt: Date;
+    orderPosition: number;
 
 
 };
@@ -59,5 +61,14 @@ export const toggleVisibilityColumn: ColumnDef<Category> = {
     cell: ({ row }) =>
         <div className="flex justify-center">
             <VisibilitySwitch key={row.original.id} category={row.original} />
+        </div>
+}
+
+
+export const dragHandleColumn: ColumnDef<Category> = {
+    id: "orderPosition",
+    cell: ({ row }) =>
+        <div className="flex justify-center">
+            <RowDragHandleCell key={row.original.id} category={row.original} />
         </div>
 }

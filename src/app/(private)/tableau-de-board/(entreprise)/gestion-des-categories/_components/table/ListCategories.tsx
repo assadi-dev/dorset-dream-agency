@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useRef } from "react";
 
 import DataTable from "@/components/Datatable/Datatable";
 import DropdownActions from "@/components/Datatable/DropdownActions";
@@ -13,9 +13,12 @@ import useSelectTableRow from "@/hooks/useSelectTableRow";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
-import { columns, toggleVisibilityColumn } from "./columns";
+import { columns, dragHandleColumn, toggleVisibilityColumn } from "./columns";
 import CategoriesActions from "./CategoriesActions";
 import CategoriesSelectedActions from "./CategoriesSelectedActions";
+import useReorderCategories from "../../_hooks/useReorderCategories";
+import ReorderButton from "./ReorderButton";
+
 
 
 type ListCategoriesProps = {
@@ -26,6 +29,7 @@ type ListCategoriesProps = {
 const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) => {
     const role = useGetRoleUser();
     const { itemChecked, handleSelectedAllRow, handleSelectedRow, reset } = useSelectTableRow();
+    const { saveReorderCategories } = useReorderCategories();
     const actions = {
         id: "actions",
         enableHiding: false,
@@ -48,22 +52,39 @@ const ListCategories = ({ categories, totalItems, limit }: ListCategoriesProps) 
         onCheckedAllChange: handleSelectedAllRow,
         selected: itemChecked,
     });
+
+    const [isReordering, setIsReordering] = React.useState(false);
     const CategoriesColumn = ACTIONS_CONTROL_PERMISSION.canAction(role) ? [SelectColumns, ...columns, toggleVisibilityColumn, actions] : columns;
+    const restrictElement = useRef<HTMLDivElement>(null);
+
+    if (isReordering) {
+        CategoriesColumn.shift();
+        CategoriesColumn.unshift(dragHandleColumn);
+    }
 
     return (
-        <Card className="  px-2 bg-dynasty-card">
+        <Card className="  px-2 bg-dynasty-card" ref={restrictElement} >
             <div className="my-5 flex justify-between items-center">
                 <div className="min-w-[25vw]">
                     {" "}
                     <SearchInputDataTable />
                 </div>
-                <div>
+                <div className="flex items-center gap-2">
+                    {itemChecked.length === 0 && <ReorderButton isReordering={isReordering} onClick={() => setIsReordering(!isReordering)} />}
                     {itemChecked.length > 0 && (
                         <CategoriesSelectedActions itemSelected={itemChecked} resetSelectedRow={reset} />
                     )}
                 </div>
             </div>
-            <DataTable columns={CategoriesColumn} data={categories} />
+
+            <DataTable
+                columns={CategoriesColumn}
+                data={categories}
+                isSortable={isReordering}
+                onDragEnd={saveReorderCategories}
+
+            />
+
             <Separator className="my-2" />
             <CardFooter>
                 <div className="flex justify-between items-center w-full">
