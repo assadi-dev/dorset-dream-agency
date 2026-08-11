@@ -1,7 +1,7 @@
 export const APPLY_PRICE_OPTIONS = {
     "blaine_county": {
         name:"Blaine County",
-        percentage: -50
+        percentage: -20
     }
 }
 
