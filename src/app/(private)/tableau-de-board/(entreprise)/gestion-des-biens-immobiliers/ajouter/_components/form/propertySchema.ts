@@ -34,7 +34,7 @@ export const VariantFileSchema = z.object({
     size: z.number().optional(),
     type: z.string().optional(),
     url: z.string().optional(),
-    file: z.any(),
+    file: z.any().optional(),
     order: z.number().optional(),
     isCover: z.boolean(),
 });

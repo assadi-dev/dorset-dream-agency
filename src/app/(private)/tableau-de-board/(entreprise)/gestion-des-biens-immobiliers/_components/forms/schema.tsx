@@ -7,7 +7,7 @@ export const fileObjSchema = z.object({
     size: z.number(),
     type: z.string(),
     url: z.string().optional(),
-    file: z.instanceof(File),
+    file: z.instanceof(File).optional(),
 });
 
 /**
@@ -16,7 +16,7 @@ export const fileObjSchema = z.object({
 export const AddVariantSchema = z.object({
     propertyID: z.number().or(z.string()).nullable(),
     name: z.string({ message: REQUIRE_MESSAGE_ERROR }).min(1, { message: REQUIRE_MESSAGE_ERROR }),
-    files: z.array(fileObjSchema).min(1, { message: REQUIRE_MESSAGE_ERROR }),
+    files: z.array(fileObjSchema).optional().default([]),
 });
 
 export type AddVariantSchemaType = z.infer<typeof AddVariantSchema>;
