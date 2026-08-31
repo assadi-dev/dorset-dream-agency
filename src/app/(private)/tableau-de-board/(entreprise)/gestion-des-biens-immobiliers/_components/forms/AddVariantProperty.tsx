@@ -75,7 +75,8 @@ const AddVariantProperty = () => {
         onDrop,
         accept: {
             "image/jpeg": [".jpeg", ".jpg"],
-            "image/webp": [],
+            "image/webp": [".webp"],
+            "image/png": [".png"],
         },
         validator: sizeValidator,
     });
@@ -91,7 +92,9 @@ const AddVariantProperty = () => {
 
             if (values.files.length > 0) {
                 for (const file of values.files) {
-                    formData.append("files", file.file);
+                    if (file.file) {
+                        formData.append("files", file.file);
+                    }
                 }
             }
 
