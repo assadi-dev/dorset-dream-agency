@@ -101,6 +101,9 @@ export const dashboardNavigation: DashboardNavigationType[] = [
 export const dashboardNavigationUser = dashboardNavigation.filter((page) => {
     return !["Gestion de l'entreprise", "Prestiges", "Administration"].includes(page.title);
 });
+export const dashboardNavigationManager = dashboardNavigation.filter((page) => {
+    return !["Gestion de l'entreprise", "Administration"].includes(page.title);
+});
 export const dashboardNavigationPatron = dashboardNavigation.filter((page) => {
     return !["Administration"].includes(page.title);
 });

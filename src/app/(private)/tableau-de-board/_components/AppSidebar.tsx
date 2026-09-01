@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { dashboardNavigation, dashboardNavigationPatron, dashboardNavigationUser } from "./dashboardRoutes";
+import { dashboardNavigation, dashboardNavigationManager, dashboardNavigationPatron, dashboardNavigationUser } from "./dashboardRoutes";
 import NavigationItems from "./NavigationItems";
 import DashboardLogo from "./DasboardLogo";
 
@@ -25,7 +25,7 @@ const getSideBar = (role: Role) => {
         case RoleEnum.patron:
             return dashboardNavigationPatron;
         case RoleEnum.manager:
-            return dashboardNavigationPatron;
+            return dashboardNavigationManager;
         default:
             return dashboardNavigationUser;
     }
