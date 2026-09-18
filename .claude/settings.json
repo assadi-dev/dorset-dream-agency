@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:dynasty8.mdt-flashbackwl.fr)",
+      "Bash(ls /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory/ 2>/dev/null && echo \"---\" && cat /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory/MEMORY.md 2>/dev/null)",
+      "Read(//Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory/**)"
+    ]
+  }
+}
