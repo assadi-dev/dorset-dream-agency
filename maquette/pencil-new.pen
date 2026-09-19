@@ -16769,7 +16769,7 @@
       "name": "Spec Fiche Bien V4",
       "width": 460,
       "height": 0,
-      "content": "FICHE BIEN (/property) — SPEC MAQUETTE\n\nÉcran retenu : frame \"Dynasty 8 - Property Detail V4\".\nDisposition calée sur une référence fournie par le client\n(portail immobilier type \"Estate\" : galerie mosaïque + corps\n2 colonnes + cartes latérales).\n\nHistorique (frames supprimées le 19/09 à la demande du\nclient) : 2 variantes \"cinéma immersif\" et \"split-screen\"\nrejetées car elles inventaient du contenu absent de\nl'ancienne page (décorateur assigné, équipements,\ndescription éditoriale, CTA de visite, breadcrumb\ncatégorie/ville), puis une version sobre intermédiaire\nremplacée par celle-ci. Règle qui en découle : sur cet écran,\non ne dessine QUE des champs présents dans les données.\n\n━━ DISPOSITION ━━\n1. Nav standard du site + lien \"Retour au catalogue\".\n2. Ligne de titre : nom + badge de statut inline, adresse\n   avec pictogramme en dessous ; à droite \"Partager\" /\n   \"Sauvegarder\" (boutons filaires).\n3. GALERIE MOSAÏQUE : image principale 16:9 (1104x621) +\n   rail de 4 miniatures 4:3 (192x144, gap 15) à droite.\n   Flèches rondes verre sur l'image + compteur \"1 / 5\" en\n   bas à gauche + voile \"+N\" sur la dernière miniature\n   quand il reste des photos.\n   ⚠ RATIOS IMPOSÉS PAR LE CLIENT : les photos seront\n   principalement en 16:9 et 4:3. Tout nouvel emplacement\n   image doit se conformer à l'un des deux ; ne plus dessiner\n   de cadrage 4:5 ou portrait pour les biens (les cartes du\n   catalogue en 313x400 sont l'exception héritée, à revoir).\n4. Corps 2 colonnes (gauche fluide / droite 400, gap 32) :\n   • Gauche : bloc prix (repère doré + \"Prix de vente\" +\n     montant 38px + ligne location), puces de spécifications,\n     \"Description\", carte \"Aperçu des caractéristiques\"\n     (grille 3 colonnes). (La section \"Localisation\" de la\n     référence a été retirée le 19/09 : pas d'adresse dans\n     les données, et remplacée par \"Biens similaires\".)\n   • Droite : carte \"Résumé du bien\" (4 lignes de données +\n     CTA plein doré) et carte \"Agence\" (téléphone + horaires\n     + CTA filaire).\n5. BIENS SIMILAIRES : une seule ligne SWIPEABLE, pleine\n   largeur sous les 2 colonnes (pas dans la colonne gauche :\n   la carte réutilisable fait 313px, 4 cartes = 1312 exact).\n   Même pattern que la piste Décorateurs de la homepage :\n   en-tête (titre + flèches rondes 46px, précédent grisé /\n   suivant or — pas de lien \"Tout le catalogue\", retiré le\n   19/09), piste clip sans\n   marge droite, 5e carte qui dépasse de 44px du bord pour\n   signaler le défilement. Cartes = copie exacte du composant\n   du catalogue (nom + statut + bouton rond, rien d'autre).\n   À l'intégration : scroll-snap horizontal + flèches qui\n   défilent d'une carte (333px), même durée que la piste\n   Décorateurs (400ms ease-out), neutralisé sous\n   prefers-reduced-motion.\n6. Footer standard.\n\n━━ DONNÉES : UNIQUEMENT CELLES DE L'ANCIENNE PAGE ━━\nNom \"Bunker Classic\" · Adresse \"non renseignée\" ·\nPrix de vente 4 000 000$ · Prix de location 1 000$ ·\nTaille de stockage \"Pas de coffre\" · Disponibilité NON\n(badge rouge \"NON DISPONIBLE\") · Meublé OUI.\nDescription : vide sur l'ancienne page. Texte FICTIF ajouté\nle 19/09 à la demande du client pour le rendu (3 lignes +\nlien \"Lire la suite\") — placeholder à remplacer par la vraie\ndescription ; cohérent avec les données (meublé, pas de\ncoffre, aucune mention de disponibilité). Si le champ est\nvide en prod : afficher \"Non renseignée\" en italique discret.\nAgence : téléphone et horaires repris de la Utility Line du\nHero et du Footer (données réelles du projet), pas d'agent\nindividuel inventé.\n\n━━ AJOUTS ISSUS DE LA RÉFÉRENCE, À VALIDER ━━\n• Boutons \"Partager\" / \"Sauvegarder\".\n• CTA \"Contacter l'agence\" / \"Appeler l'agence\" — l'ancienne\n  page n'a AUCUN bouton d'action. La référence en a\n  (Schedule a Tour / Request Info). À confirmer : on garde\n  un CTA de contact, ou la fiche reste purement\n  informationnelle ?\n• Les 2 photos réelles de l'ancienne page ne suffisent pas à\n  remplir le rail de 4 miniatures : ici visuels placeholder\n  du pool de travail. Le rail doit s'adapter au nombre réel\n  de photos (2 photos = 2 miniatures, pas de voile \"+N\")."
+      "content": "FICHE BIEN (/property) — SPEC MAQUETTE\n\nÉcran retenu : frame \"Dynasty 8 - Property Detail V4\".\nDisposition calée sur une référence fournie par le client\n(portail immobilier type \"Estate\" : galerie mosaïque + corps\n2 colonnes + cartes latérales).\n\nHistorique (frames supprimées le 19/09 à la demande du\nclient) : 2 variantes \"cinéma immersif\" et \"split-screen\"\nrejetées car elles inventaient du contenu absent de\nl'ancienne page (décorateur assigné, équipements,\ndescription éditoriale, CTA de visite, breadcrumb\ncatégorie/ville), puis une version sobre intermédiaire\nremplacée par celle-ci. Règle qui en découle : sur cet écran,\non ne dessine QUE des champs présents dans les données.\n\n━━ DISPOSITION ━━\n1. Nav standard du site + lien \"Retour au catalogue\".\n2. Ligne de titre : nom + badge de statut inline, adresse\n   avec pictogramme en dessous ; à droite \"Partager\" /\n   \"Sauvegarder\" (boutons filaires).\n3. GALERIE MOSAÏQUE : image principale 16:9 (1104x621) +\n   rail de 4 miniatures 4:3 (192x144, gap 15) à droite.\n   Flèches rondes verre sur l'image + compteur \"1 / 5\" en\n   bas à gauche + voile \"+N\" sur la dernière miniature\n   quand il reste des photos.\n   ⚠ RATIOS IMPOSÉS PAR LE CLIENT : les photos seront\n   principalement en 16:9 et 4:3. Tout nouvel emplacement\n   image doit se conformer à l'un des deux ; ne plus dessiner\n   de cadrage 4:5 ou portrait pour les biens (les cartes du\n   catalogue en 313x400 sont l'exception héritée, à revoir).\n4. Corps 2 colonnes (gauche fluide / droite 400, gap 32) :\n   • Gauche : bloc prix (repère doré + \"Prix de vente\" +\n     montant 38px + ligne location), puces de spécifications,\n     \"Description\", carte \"Aperçu des caractéristiques\"\n     (grille 3 colonnes). (La section \"Localisation\" de la\n     référence a été retirée le 19/09 : pas d'adresse dans\n     les données, et remplacée par \"Biens similaires\".)\n   • Droite : carte \"Résumé du bien\" (4 lignes de données +\n     CTA plein doré) et carte \"Agence\" (téléphone + horaires\n     + CTA filaire).\n5. BIENS SIMILAIRES : une seule ligne SWIPEABLE, pleine\n   largeur sous les 2 colonnes (pas dans la colonne gauche :\n   la carte réutilisable fait 313px, 4 cartes = 1312 exact).\n   Même pattern que la piste Décorateurs de la homepage :\n   en-tête (titre + flèches rondes 46px, précédent grisé /\n   suivant or — pas de lien \"Tout le catalogue\", retiré le\n   19/09), piste clip sans\n   marge droite, 5e carte qui dépasse de 44px du bord pour\n   signaler le défilement. Cartes = copie exacte du composant\n   du catalogue (nom + statut + bouton rond, rien d'autre).\n   À l'intégration : scroll-snap horizontal + flèches qui\n   défilent d'une carte (333px), même durée que la piste\n   Décorateurs (400ms ease-out), neutralisé sous\n   prefers-reduced-motion.\n6. Footer standard.\n\n━━ DONNÉES : UNIQUEMENT CELLES DE L'ANCIENNE PAGE ━━\nNom \"Bunker Classic\" · Adresse \"non renseignée\" ·\nPrix de vente 4 000 000$ · Prix de location 1 000$ ·\nTaille de stockage \"Pas de coffre\" · Disponibilité NON\n(badge rouge \"NON DISPONIBLE\") · Meublé OUI.\nDescription : vide sur l'ancienne page. Texte FICTIF ajouté\nle 19/09 à la demande du client pour le rendu (3 lignes +\nlien \"Lire la suite\") — placeholder à remplacer par la vraie\ndescription ; cohérent avec les données (meublé, pas de\ncoffre, aucune mention de disponibilité). Si le champ est\nvide en prod : afficher \"Non renseignée\" en italique discret.\nAgence : téléphone et horaires repris de la Utility Line du\nHero et du Footer (données réelles du projet), pas d'agent\nindividuel inventé.\n\n━━ AJOUTS ISSUS DE LA RÉFÉRENCE, À VALIDER ━━\n• Boutons \"Partager\" / \"Sauvegarder\".\n• CTA \"Contacter l'agence\" / \"Appeler l'agence\" — l'ancienne\n  page n'a AUCUN bouton d'action. La référence en a\n  (Schedule a Tour / Request Info). À confirmer : on garde\n  un CTA de contact, ou la fiche reste purement\n  informationnelle ?\n• Les 2 photos réelles de l'ancienne page ne suffisent pas à\n  remplir le rail de 4 miniatures : ici visuels placeholder\n  du pool de travail. Le rail doit s'adapter au nombre réel\n  de photos (2 photos = 2 miniatures, pas de voile \"+N\").\n\n━━ LOCALISATION — CARTE (ajout 2026-09-19) ━━\nSection « Localisation » dans la colonne principale, placée\nAPRÈS Description et AVANT « Aperçu des caractéristiques »\n(demande utilisateur). Même motif que les autres sections :\ntitre Cormorant 24 + contenu. Le titre est dans une ligne\nd'en-tête : « Localisation » à gauche, bouton « Agrandir la\ncarte » aligné dessus et calé tout à droite — bouton classique\nde la page (copie de « Partager » : rayon 22, contour\n#F2ECE12E, padding 11/18, icône 14 à GAUCHE du libellé, Jost\n12.5) et non le lien doré « Lire la suite ».\n\nPourquoi un aperçu visible et pas un simple bouton : l'adresse\nde la fiche affiche « Adresse non renseignée » — la carte est\nla SEULE information de localisation de la page. La cacher\nderrière un bouton coûte un clic sur la seule réponse au\n« c'est où ? ».\nPourquoi l'interaction en modale : à 880 ou 400 px de large une\ncarte interactive est trop petite pour naviguer, elle se charge\nau chargement de page et capture la molette pendant le scroll.\nL'aperçu est donc une image fixe, l'interaction se fait en grand.\n\nFORMATS (l'aperçu alterne selon le viewport) :\n• Desktop : bandeau 880 × 366 (≈2.4:1), cohérent avec le rythme\n  16:9 / 4:3 de la page, contrôles de zoom en surimpression.\n• Mobile 390 : carré 350 × 350 — frame « Fiche bien —\n  Localisation (mobile 390) ». Pas de boutons de zoom : le\n  pincement remplace les contrôles.\nLe repère reste centré dans les deux cadrages : c'est la même\ncarte, recadrée, pas deux images différentes.\n\nMODALE : frame « Dynasty 8 - Property Detail V4 · Modale carte »\n(viewport 1440 × 900, page assombrie). Carte 992 × 560,\nzoom +/−, bouton « Recentrer sur le bien », fermeture en croix.\n\nRENDU : carte ATLAS (plan), jamais satellite — règle posée par\nl'utilisateur. Depuis le 20/09 la carte est la VRAIE carte du\nserveur fournie par l'utilisateur (capture Leaflet du plan de\nLos Santos : terres sable, mer bleue, voies blanches, noms de\nrues, repère rouge, rose des vents, attribution Leaflet),\nstockée en maquette/images/map-atlas.png (2156 × 1238).\nComposant réutilisable « Atlas Map — Composant » (s3L8K,\n1600 × 919, fill image) : chaque emplacement est une instance\nrecadrée par sa fenêtre, décalée pour centrer le repère —\nun seul nœud à remplacer quand la vraie tuile arrivera.\nConséquence assumée : c'est un bloc clair dans une page sombre.\nC'est la carte réelle du serveur, pas un habillage à repeindre.\n\nÀ CONFIRMER : la ligne d'adresse doit-elle être remplie en plus\nde la carte, ou la carte porte-t-elle seule la localisation ?\n\n━━ PICTOGRAMMES DE SECTION (2026-09-20) ━━\nChaque titre de section porte une icône lucide 17 px en\n$lux-gold-soft, à GAUCHE du titre, dans une ligne « Title »\n(gap 10, alignItems center) :\n• Description → file-text\n• Aperçu des caractéristiques → layout-grid\n• Localisation → map-pin\n• Biens similaires → house\nAttention : « home » n'existe pas dans le jeu lucide de ce\ndocument (rejeté par le moteur) — c'est « house ». Vérifier\ntout nouveau nom d'icône de la même façon."
     },
     {
       "type": "frame",
@@ -17688,14 +17688,33 @@
                   "gap": 12,
                   "children": [
                     {
-                      "type": "text",
-                      "id": "l8GXp8",
-                      "name": "Heading",
-                      "fill": "$lux-cream",
-                      "content": "Description",
-                      "fontFamily": "$font-lux",
-                      "fontSize": 24,
-                      "fontWeight": "500"
+                      "type": "frame",
+                      "id": "BjdbJ",
+                      "name": "Title",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "dgog1",
+                          "name": "Icon",
+                          "width": 17,
+                          "height": 17,
+                          "icon": "file-text",
+                          "library": "lucide",
+                          "fill": "$lux-gold-soft"
+                        },
+                        {
+                          "type": "text",
+                          "id": "l8GXp8",
+                          "name": "Heading",
+                          "fill": "$lux-cream",
+                          "content": "Description",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 24,
+                          "fontWeight": "500"
+                        }
+                      ]
                     },
                     {
                       "type": "text",
@@ -17743,6 +17762,174 @@
                 },
                 {
                   "type": "frame",
+                  "id": "tc0Q4",
+                  "name": "Localisation",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "F2Kja",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "dYp25",
+                          "name": "Title",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "a6n0Fh",
+                              "name": "Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "map-pin",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rySwk",
+                              "name": "Heading",
+                              "fill": "$lux-cream",
+                              "content": "Localisation",
+                              "fontFamily": "$font-lux",
+                              "fontSize": 24,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UzOQe",
+                          "name": "Agrandir la carte",
+                          "cornerRadius": 22,
+                          "stroke": "#F2ECE12E",
+                          "strokeWidth": 1,
+                          "gap": 8,
+                          "padding": [
+                            11,
+                            18
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "DioOp",
+                              "name": "Icon",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "maximize-2",
+                              "library": "lucide",
+                              "fill": "$text-nav"
+                            },
+                            {
+                              "type": "text",
+                              "id": "EU9sT",
+                              "name": "Label",
+                              "fill": "$text-nav",
+                              "content": "Agrandir la carte",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bHaWp",
+                      "name": "Map Band",
+                      "clip": true,
+                      "width": "fill_container",
+                      "height": 366,
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "id": "h5vUI",
+                          "type": "ref",
+                          "ref": "s3L8K",
+                          "name": "Atlas",
+                          "x": -310,
+                          "y": -489
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UPdKL",
+                          "x": 790,
+                          "y": 20,
+                          "name": "Zoom Hint",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "i8g2xG",
+                              "name": "Zoom plus",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "#0B0908CC",
+                              "cornerRadius": 6,
+                              "stroke": "#F2ECE11F",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "wcijg",
+                                  "name": "Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "plus",
+                                  "library": "lucide",
+                                  "fill": "$lux-cream"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "d5Kgn",
+                              "name": "Zoom minus",
+                              "width": 34,
+                              "height": 34,
+                              "fill": "#0B0908CC",
+                              "cornerRadius": 6,
+                              "stroke": "#F2ECE11F",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "CUWfR",
+                                  "name": "Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "minus",
+                                  "library": "lucide",
+                                  "fill": "$lux-cream"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
                   "id": "p3xPPk",
                   "name": "Caractéristiques",
                   "width": "fill_container",
@@ -17750,14 +17937,33 @@
                   "gap": 16,
                   "children": [
                     {
-                      "type": "text",
-                      "id": "C9bSk9",
-                      "name": "Heading",
-                      "fill": "$lux-cream",
-                      "content": "Aperçu des caractéristiques",
-                      "fontFamily": "$font-lux",
-                      "fontSize": 24,
-                      "fontWeight": "500"
+                      "type": "frame",
+                      "id": "SiuMJ",
+                      "name": "Title",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "WqKXm",
+                          "name": "Icon",
+                          "width": 17,
+                          "height": 17,
+                          "icon": "layout-grid",
+                          "library": "lucide",
+                          "fill": "$lux-gold-soft"
+                        },
+                        {
+                          "type": "text",
+                          "id": "C9bSk9",
+                          "name": "Heading",
+                          "fill": "$lux-cream",
+                          "content": "Aperçu des caractéristiques",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 24,
+                          "fontWeight": "500"
+                        }
+                      ]
                     },
                     {
                       "type": "frame",
@@ -18410,14 +18616,33 @@
               "alignItems": "end",
               "children": [
                 {
-                  "type": "text",
-                  "id": "yJZDg",
-                  "name": "Heading",
-                  "fill": "$lux-cream",
-                  "content": "Biens similaires",
-                  "fontFamily": "$font-lux",
-                  "fontSize": 24,
-                  "fontWeight": "500"
+                  "type": "frame",
+                  "id": "yw02w",
+                  "name": "Title",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "N72zZy",
+                      "name": "Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "house",
+                      "library": "lucide",
+                      "fill": "$lux-gold-soft"
+                    },
+                    {
+                      "type": "text",
+                      "id": "yJZDg",
+                      "name": "Heading",
+                      "fill": "$lux-cream",
+                      "content": "Biens similaires",
+                      "fontFamily": "$font-lux",
+                      "fontSize": 24,
+                      "fontWeight": "500"
+                    }
+                  ]
                 },
                 {
                   "type": "frame",
@@ -19676,8 +19901,8 @@
     {
       "type": "frame",
       "id": "KNKBq",
-      "x": 7840,
-      "y": 5265,
+      "x": 7819,
+      "y": 5609,
       "name": "BO Dashboard V1 - Clair analytique",
       "clip": true,
       "width": 1440,
@@ -30033,8 +30258,8 @@
     {
       "type": "frame",
       "id": "dlBCR",
-      "x": 7840,
-      "y": 6471,
+      "x": 7819,
+      "y": 6895,
       "name": "V1 — Topbar page interne (fil d'Ariane)",
       "width": 1184,
       "fill": "$bo-bg",
@@ -30227,7 +30452,7 @@
       "type": "frame",
       "id": "ZOtlU",
       "x": 9400,
-      "y": 6553,
+      "y": 6650,
       "name": "V2 — Topbar page interne (fil d'Ariane)",
       "width": 1128,
       "fill": "$bo-bg-warm",
@@ -30756,11 +30981,11 @@
     {
       "type": "note",
       "id": "Vg2Gu",
-      "x": 7840,
-      "y": 6615,
+      "x": 7819,
+      "y": 7038,
       "name": "Spec Back-office — Dashboard (3 versions)",
       "width": 460,
-      "height": 0,
+      "height": 3066,
       "content": "BACK-OFFICE — TABLEAU DE BORD — 3 VERSIONS À TRANCHER\n\nContexte : refonte visuelle du back-office existant (shadcn,\nsombre/vert). Consigne : ne PAS reprendre l'ancien visuel,\nseulement les données affichées ; s'inspirer du dossier\nmaquette/inspirations/dashboard (3 refs, toutes en mode clair).\nChaque version dérive d'une des trois références.\n\n━━ RÈGLES COMMUNES (demandées) ━━\n• Sidebar + bouton de repli (SidebarTrigger shadcn) :\n  V1/V2 dans l'en-tête de la sidebar, V3 dans la barre du haut.\n• Fil d'Ariane sur toutes les pages SAUF le dashboard :\n  états \"page interne\" dessinés sous chaque version.\n• Bouton changement de thème (icône lune/soleil) dans la\n  barre du haut. Mode SOMBRE V4 dessiné (décision du 19/09,\n  voir Tokens) ; le mode clair reste à décliner sur la\n  version retenue.\n• Barre de recherche globale (⌘K) dans la barre du haut.\n• Données = exactement celles de l'ancien dashboard :\n  KPI (Revenu Total 1 125 257$ · Locations-Ventes 1589 =\n  1577+12 · Total Clients 667 · date/heure/semaine),\n  contributions employés (6 lignes, Septembre), CA par zone\n  (Location LS / Location Blaine County), Ventes & Locations\n  par jour (234 / 0), dernières opérations (3 lignes), nav\n  (7 entrées + sous-menu Agence), utilisateur Admin Admin /\n  Patron / badge Admin, © 2026.\n  Retiré : le grand visuel bannière (décoratif, pas une donnée).\n  Corrigé : \"Tableau de board\" → \"Tableau de bord\".\n  Ajouté pour lisibilité : en-têtes de colonnes du tableau\n  \"Dernières Locations et Ventes\" (Bien/Zone/Type/Montant/Date),\n  absents de l'ancienne version.\n\n━━ TOKENS BACK-OFFICE (préfixe bo-) — PALETTE V4 ━━\nDécision client du 19/09 : le back-office reprend les\ncouleurs de la V4 Premium (d'abord dessiné en clair vert,\npuis basculé). Les bo-* pointent désormais sur la palette\nlux :\nbo-bg / bo-bg-warm = lux-ink #0B0908 · bo-card / bo-card-warm\n= surface-1 #17130F · bo-border cream/12 #F2ECE11F ·\nbo-border-warm gold/16 #C9A24B29 · bo-text lux-cream #F2ECE1 ·\nbo-muted lux-muted #B4A891 · bo-accent lux-gold #C9A24B ·\nbo-accent-soft gold/14 #C9A24B24 · bo-danger lux-alert\n#FF6A4D · font-bo Inter (la typo reste shadcn, seules les\ncouleurs changent).\nRègles dérivées : texte/icône posés sur un fond or = encre\n(#0B0908), jamais blanc ; cartes \"inversées\" (date V1/V2, KPI\nvedette V3) = fond or + texte encre ; barres secondaires des\ngraphiques = or/30–50, pistes = crème/8.\n→ En code : mapper les variables shadcn du back-office\n  (--background, --card, --primary, --muted…) sur ces valeurs.\n  Ceci REMPLACE la consigne de la note Système (\"préfixer\n  lux-, ne pas écraser le back-office\") — le client veut une\n  seule identité couleur site + back-office.\n\n━━ V1 — CLAIR ANALYTIQUE (réf. FlowMail) ━━\nFond gris froid, sidebar blanche collée, item actif = teinte\nverte + texte vert. Barre du haut = nom de page + recherche +\nthème + avatar. Rangée de 4 KPI (dont carte date sombre),\npuis graphiques 2/3–1/3, puis tableaux 2/3–1/3. Rayon 12.\nLe plus classique/neutre.\n\n━━ V2 — BENTO CHALEUREUX (réf. Noventra) ━━\nFond crème, sidebar et barre du haut en panneaux flottants,\nsections \"Menu principal / Gestion\", item actif = pilule\nverte pleine. Accueil \"Bon retour, Admin\". KPI en grille 2x2\nà côté d'un grand graphique CA ; carte date verte ; tableau\npleine largeur avec avatars et lignes zébrées. Rayon 16.\nLe plus \"premium\"/accueillant, moins dense.\n\n━━ V3 — OPÉRATIONNEL (réf. ShipNow) ━━\nFond neutre, utilisateur en haut de la sidebar, \"Site du\ncatalogue\" épinglé en bas avec icône lien externe, repli dans\nla barre du haut. KPI vedette sombre (Revenu Total) + 4 mini\nKPI + CA en barres horizontales avec %. Classement des\ncontributions avec barres de progression, pic de la semaine\nen barre sombre, tableau à onglets Tout/Locations/Ventes,\nzones en puces. Pied de page ©. Le plus dense/scannable.\n\nÀ trancher : une version, ou mix (ex. structure V1 + sidebar\nV3 + classement V3). Ensuite : décliner le mode sombre, l'état\nsidebar repliée (icônes seules), puis les pages internes\n(Clients, Locations/Ventes, Disponibilités, Trombinoscope…)."
     },
     {
@@ -61004,7 +61229,7 @@
       "name": "Spec Ajout d'un bien — Formulaire 3 étapes (V1)",
       "width": 460,
       "height": 0,
-      "content": "AJOUTER UN BIEN — FORMULAIRE EN 4 ÉTAPES (V1, non définitive)\n\n5 frames : Étape 1 Le bien (hGZ7c) · Étape 2 Adresse et\nlocalisation (v1Nxv) + sa modale Coordonnées GPS (orKZW) ·\nÉtape 3 Commercialisation (gnets) · Étape 4 Photos (ldTRd).\nShell repris de BO Clients V4 (sidebar + topbar + fil d'Ariane).\nRemplace l'écran unique /gestion-des-biens-immobiliers/ajouter.\n\n━━ POURQUOI DÉCOUPER ━━\nLe découpage ne sert pas à alléger la densité (le formulaire est\ncourt) mais à :\n1. sortir les photos de la modale ;\n2. valider au bon moment — aujourd'hui « minimum 1 variante »\n   est un throw au submit (AddProperty.tsx), découvert après\n   avoir tout rempli ;\n3. lever l'ambiguïté Location / Vente (les 2 prix requis à 0).\nÉtapes courtes, retour libre en arrière via les pastilles :\nun agent qui saisit 20 biens ne doit pas subir 6 écrans.\n\n━━ STRUCTURE COMMUNE ━━\n• Stepper 4 pastilles : fait (check or) / en cours (or plein) /\n  à venir (contour). Cliquables en arrière.\n• Colonne droite persistante (376) = aperçu de la carte\n  catalogue + checklist « Avant publication » (4 lignes, une par\n  étape, avec le numéro d'étape restant en repère).\n  Carte d'aperçu volontairement minimale (pas de prix/surface),\n  cohérente avec la règle des cartes du catalogue.\n• Barre d'action en bas : rappel de règle à gauche,\n  Précédent / Continuer à droite ; Publier le bien à l'étape 4.\n\n━━ ÉTAPE 1 — LE BIEN ━━\nIDENTITÉ : name* · categoryProperty* (select) · accroche*\n  « Accroche » = phrase courte obligatoire, 50 caractères max,\n  compteur 39/50 aligné à droite du label. Label retenu parmi\n  Résumé / Description courte / Accroche : c'est le terme métier\n  des annonces et il dit que le texte est court par nature.\n  Côté données : la colonne resume existe (text, zod max 250) —\n  la réutiliser en durcissant la règle à 50, pas de migration.\nCARACTÉRISTIQUES : isFurnish → ligne à interrupteur ;\n  typeStock/stock → 3 cartes-choix (Pas de coffre / Sur demande /\n  Avec coffre), le champ kg n'apparaît qu'en bande dorée sous la\n  sélection, au lieu du bloc vide de 16 px réservé en permanence.\nDESCRIPTION : description → rédaction en ligne (plus de modale\n  plein écran).\n\n━━ ÉTAPE 2 — ADRESSE ET LOCALISATION ━━\nÉtape à part entière (décision utilisateur) : address + les\ncoordonnées sur une ligne, puis un aperçu satellite du repère.\nLes X/Y ne se saisissent PAS en ligne : le champ affiche\n« X … · Y … » en lecture, et l'édition se fait dans la modale\n(frame orKZW), ouverte par « Ouvrir la carte » sur l'aperçu.\nModale 680 px : carte satellite 300 px avec repère déplaçable,\nzoom +/−, relevé des coordonnées en surimpression, puis les 2\nchamps numériques X et Y, Annuler / Valider la position.\nCôté données : aucune colonne de coordonnées aujourd'hui sur\nproperties — 2 colonnes numériques à ajouter.\n\n━━ ÉTAPE 3 — COMMERCIALISATION ━━\nMode : Location / Vente / Location et vente → n'affiche que les\nprix concernés. Supprime l'ambiguïté « 0 = gratuit ou non\nconcerné ? » de rentalPrice/sellingPrice.\nisAvailable → interrupteur « Bien disponible » (déplacé ici :\nc'est une décision commerciale, pas une caractéristique).\n\n━━ ÉTAPE 4 — PHOTOS (décision utilisateur) ━━\nLes VARIANTES DISPARAISSENT. Les photos sont attachées\ndirectement au bien, plus à une déclinaison d'intérieur.\n• Dropzone pleine largeur : clic ou glisser-déposer, collage\n  accepté, contrainte « JPG · PNG · 500 Ko max » écrite AVANT\n  l'upload (aujourd'hui découverte via un toast d'erreur).\n• Galerie 3 colonnes, ratio 16:9 : chaque photo porte une\n  croix de retrait ; la 1re porte le badge Couverture (elle\n  alimente l'aperçu de la carte catalogue). Réordonnancement\n  par glisser-déposer.\n• Règle « au moins une photo » affichée dans la barre d'action\n  ET dans la checklist, avant le clic sur Publier.\n\nCONSÉQUENCE CÔTÉ DONNÉES (à arbitrer avec le dev) :\naujourd'hui les photos passent par variants + gallery_variants\n(isCover, order) et l'upload boucle variante par variante\n(createVariantGalleryApi). Sans variante, il faut rattacher la\ngalerie au bien (photos ↔ properties) et décider du sort des\nvariantes existantes en base : suppression ou reprise à plat.\n\n━━ À TRANCHER → V2 ━━\n1. Location/Vente/Les deux : vrai choix métier ou les 2 prix\n   toujours saisis ? (structure de l'étape 3)\n2. factoryPrice (requis côté DTO, envoyé à 0) et isPrestige :\n   en base, absents de l'UI. À exposer ou non — factoryPrice\n   étape 3, isPrestige étape 3 (badge catalogue).\n   resume est désormais traité (accroche, étape 1).\n3. Brouillon : pas de statut en base aujourd'hui. Si retenu →\n   bouton « Enregistrer en brouillon » dans la barre d'action.\n4. Migration des variantes existantes (voir ci-dessus).\n5. Source de la carte satellite (fond de carte du serveur /\n   image statique) — l'aperçu est ici illustratif.\n\n━━ NON TRAITÉ ━━\n• État d'enregistrement : la création boucle sur les uploads\n  sans retour visuel. Prévoir une progression d'upload.\n• Écran « Modifier un bien » : même structure attendue, à\n  décliner une fois la V2 validée."
+      "content": "AJOUTER UN BIEN — FORMULAIRE EN 4 ÉTAPES (V1, non définitive)\n\n5 frames : Étape 1 Le bien (hGZ7c) · Étape 2 Adresse et\nlocalisation (v1Nxv) + sa modale Coordonnées GPS (orKZW) ·\nÉtape 3 Commercialisation (gnets) · Étape 4 Photos (ldTRd).\nShell repris de BO Clients V4 (sidebar + topbar + fil d'Ariane).\nRemplace l'écran unique /gestion-des-biens-immobiliers/ajouter.\n\n━━ POURQUOI DÉCOUPER ━━\nLe découpage ne sert pas à alléger la densité (le formulaire est\ncourt) mais à :\n1. sortir les photos de la modale ;\n2. valider au bon moment — aujourd'hui « minimum 1 variante »\n   est un throw au submit (AddProperty.tsx), découvert après\n   avoir tout rempli ;\n3. lever l'ambiguïté Location / Vente (les 2 prix requis à 0).\nÉtapes courtes, retour libre en arrière via les pastilles :\nun agent qui saisit 20 biens ne doit pas subir 6 écrans.\n\n━━ STRUCTURE COMMUNE ━━\n• Stepper 4 pastilles : fait (check or) / en cours (or plein) /\n  à venir (contour). Cliquables en arrière.\n• Colonne droite persistante (376) = aperçu de la carte\n  catalogue + checklist « Avant publication » (4 lignes, une par\n  étape, avec le numéro d'étape restant en repère).\n  Carte d'aperçu volontairement minimale (pas de prix/surface),\n  cohérente avec la règle des cartes du catalogue.\n• Barre d'action en bas : rappel de règle à gauche,\n  Précédent / Continuer à droite ; Publier le bien à l'étape 4.\n\n━━ ÉTAPE 1 — LE BIEN ━━\nIDENTITÉ : name* · categoryProperty* (select) · accroche*\n  « Accroche » = phrase courte obligatoire, 50 caractères max,\n  compteur 39/50 aligné à droite du label. Label retenu parmi\n  Résumé / Description courte / Accroche : c'est le terme métier\n  des annonces et il dit que le texte est court par nature.\n  Côté données : la colonne resume existe (text, zod max 250) —\n  la réutiliser en durcissant la règle à 50, pas de migration.\nCARACTÉRISTIQUES : isFurnish → ligne à interrupteur ;\n  typeStock/stock → 3 cartes-choix (Pas de coffre / Sur demande /\n  Avec coffre), le champ kg n'apparaît qu'en bande dorée sous la\n  sélection, au lieu du bloc vide de 16 px réservé en permanence.\nDESCRIPTION : description → rédaction en ligne (plus de modale\n  plein écran).\n\n━━ ÉTAPE 2 — ADRESSE ET LOCALISATION ━━\nÉtape à part entière (décision utilisateur) : address + les\ncoordonnées sur une ligne, puis un aperçu satellite du repère.\nLes X/Y ne se saisissent PAS en ligne : le champ affiche\n« X … · Y … » en lecture, et l'édition se fait dans la modale\n(frame orKZW), ouverte par « Ouvrir la carte » sur l'aperçu.\nModale 680 px : carte satellite 300 px avec repère déplaçable,\nzoom +/−, relevé des coordonnées en surimpression, puis les 2\nchamps numériques X et Y, Annuler / Valider la position.\nCôté données : aucune colonne de coordonnées aujourd'hui sur\nproperties — 2 colonnes numériques à ajouter.\n\n━━ ÉTAPE 3 — COMMERCIALISATION ━━\nMode : Location / Vente / Location et vente → n'affiche que les\nprix concernés. Supprime l'ambiguïté « 0 = gratuit ou non\nconcerné ? » de rentalPrice/sellingPrice.\nisAvailable → interrupteur « Bien disponible » (déplacé ici :\nc'est une décision commerciale, pas une caractéristique).\n\n━━ ÉTAPE 4 — PHOTOS (décision utilisateur) ━━\nLes VARIANTES DISPARAISSENT. Les photos sont attachées\ndirectement au bien, plus à une déclinaison d'intérieur.\n• Dropzone pleine largeur : clic ou glisser-déposer, collage\n  accepté, contrainte « JPG · PNG · 500 Ko max » écrite AVANT\n  l'upload (aujourd'hui découverte via un toast d'erreur).\n• Galerie 3 colonnes, ratio 16:9 : chaque photo porte une\n  croix de retrait ; la 1re porte le badge Couverture (elle\n  alimente l'aperçu de la carte catalogue). Réordonnancement\n  par glisser-déposer.\n• Règle « au moins une photo » affichée dans la barre d'action\n  ET dans la checklist, avant le clic sur Publier.\n\nCONSÉQUENCE CÔTÉ DONNÉES (à arbitrer avec le dev) :\naujourd'hui les photos passent par variants + gallery_variants\n(isCover, order) et l'upload boucle variante par variante\n(createVariantGalleryApi). Sans variante, il faut rattacher la\ngalerie au bien (photos ↔ properties) et décider du sort des\nvariantes existantes en base : suppression ou reprise à plat.\n\n━━ À TRANCHER → V2 ━━\n1. Location/Vente/Les deux : vrai choix métier ou les 2 prix\n   toujours saisis ? (structure de l'étape 3)\n2. factoryPrice (requis côté DTO, envoyé à 0) et isPrestige :\n   en base, absents de l'UI. À exposer ou non — factoryPrice\n   étape 3, isPrestige étape 3 (badge catalogue).\n   resume est désormais traité (accroche, étape 1).\n3. Brouillon : pas de statut en base aujourd'hui. Si retenu →\n   bouton « Enregistrer en brouillon » dans la barre d'action.\n4. Migration des variantes existantes (voir ci-dessus).\n5. Source de la carte satellite (fond de carte du serveur /\n   image statique) — l'aperçu est ici illustratif.\n\n━━ NON TRAITÉ ━━\n• État d'enregistrement : la création boucle sur les uploads\n  sans retour visuel. Prévoir une progression d'upload.\n• Écran « Modifier un bien » : même structure attendue, à\n  décliner une fois la V2 validée.\n\n━━ MISE À JOUR — RENDU DE LA CARTE ━━\nL'aperçu de l'étape 2 et la modale GPS utilisent le composant\n« Atlas Map — Composant » (s3L8K) : règle utilisateur\n« toujours en atlas, pas de satellite ». Depuis le 20/09 ce\ncomposant porte la vraie carte du serveur (capture Leaflet,\nmaquette/images/map-atlas.png) — même composant que la section\nLocalisation de la fiche bien, recadré par chaque fenêtre."
     },
     {
       "type": "frame",
@@ -62108,54 +62333,12 @@
                       "layout": "none",
                       "children": [
                         {
-                          "type": "frame",
-                          "id": "lkxA1",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Satellite",
-                          "width": 688,
-                          "height": 260,
-                          "fill": {
-                            "type": "image",
-                            "enabled": true,
-                            "url": "https://images.unsplash.com/photo-1753618282471-374a9618c1bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODk4NTEwMjB8&ixlib=rb-4.1.0&q=80&w=1080",
-                            "mode": "fill"
-                          }
-                        },
-                        {
-                          "type": "frame",
-                          "id": "nt2Al",
-                          "x": 326,
-                          "y": 104,
-                          "name": "Marker",
-                          "width": 36,
-                          "height": 36,
-                          "fill": "$bo-accent",
-                          "cornerRadius": 999,
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "color": "#00000099",
-                            "offset": {
-                              "x": 0,
-                              "y": 4
-                            },
-                            "blur": 14
-                          },
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "BGNru",
-                              "name": "Icon",
-                              "width": 19,
-                              "height": 19,
-                              "icon": "map-pin",
-                              "library": "lucide",
-                              "fill": "$lux-ink"
-                            }
-                          ]
+                          "id": "Z0Ivcc",
+                          "type": "ref",
+                          "ref": "s3L8K",
+                          "name": "Atlas",
+                          "x": -406,
+                          "y": -542
                         },
                         {
                           "type": "frame",
@@ -63804,54 +63987,12 @@
                       "layout": "none",
                       "children": [
                         {
-                          "type": "frame",
-                          "id": "C5XCn",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Satellite",
-                          "width": 688,
-                          "height": 260,
-                          "fill": {
-                            "type": "image",
-                            "enabled": true,
-                            "url": "https://images.unsplash.com/photo-1753618282471-374a9618c1bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODk4NTEwMjB8&ixlib=rb-4.1.0&q=80&w=1080",
-                            "mode": "fill"
-                          }
-                        },
-                        {
-                          "type": "frame",
-                          "id": "FNyHX",
-                          "x": 326,
-                          "y": 104,
-                          "name": "Marker",
-                          "width": 36,
-                          "height": 36,
-                          "fill": "$bo-accent",
-                          "cornerRadius": 999,
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "color": "#00000099",
-                            "offset": {
-                              "x": 0,
-                              "y": 4
-                            },
-                            "blur": 14
-                          },
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "w6u7f",
-                              "name": "Icon",
-                              "width": 19,
-                              "height": 19,
-                              "icon": "map-pin",
-                              "library": "lucide",
-                              "fill": "$lux-ink"
-                            }
-                          ]
+                          "id": "SRKhh",
+                          "type": "ref",
+                          "ref": "s3L8K",
+                          "name": "Atlas",
+                          "x": -406,
+                          "y": -542
                         },
                         {
                           "type": "frame",
@@ -64528,60 +64669,12 @@
                       "layout": "none",
                       "children": [
                         {
-                          "type": "frame",
-                          "id": "XYm1k",
-                          "x": 0,
-                          "y": 0,
-                          "name": "Satellite",
-                          "metadata": {
-                            "type": "unsplash",
-                            "username": "sergei_gussev",
-                            "link": "https://unsplash.com/@sergei_gussev",
-                            "author": "Sergei Gussev"
-                          },
-                          "width": 636,
-                          "height": 300,
-                          "fill": {
-                            "type": "image",
-                            "enabled": true,
-                            "url": "https://images.unsplash.com/photo-1753618282471-374a9618c1bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3ODk4NTEwMjB8&ixlib=rb-4.1.0&q=80&w=1080",
-                            "mode": "fill"
-                          }
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Y5Z0k",
-                          "x": 300,
-                          "y": 120,
-                          "name": "Marker",
-                          "width": 36,
-                          "height": 36,
-                          "fill": "$bo-accent",
-                          "cornerRadius": 999,
-                          "effect": {
-                            "type": "shadow",
-                            "shadowType": "outer",
-                            "color": "#00000099",
-                            "offset": {
-                              "x": 0,
-                              "y": 4
-                            },
-                            "blur": 14
-                          },
-                          "justifyContent": "center",
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "icon",
-                              "id": "rgW9L",
-                              "name": "Icon",
-                              "width": 19,
-                              "height": 19,
-                              "icon": "map-pin",
-                              "library": "lucide",
-                              "fill": "$lux-ink"
-                            }
-                          ]
+                          "id": "HwTmA",
+                          "type": "ref",
+                          "ref": "s3L8K",
+                          "name": "Atlas",
+                          "x": -432,
+                          "y": -522
                         },
                         {
                           "type": "frame",
@@ -64961,6 +65054,3501 @@
                       ]
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "s3L8K",
+      "x": 7930,
+      "y": -1409,
+      "name": "Atlas Map — Composant",
+      "reusable": true,
+      "clip": true,
+      "width": 1600,
+      "height": 919,
+      "fill": {
+        "type": "image",
+        "enabled": true,
+        "url": "images/map-atlas.png",
+        "mode": "fill"
+      },
+      "layout": "none"
+    },
+    {
+      "type": "group",
+      "id": "QHwLJ",
+      "x": 9372,
+      "y": 3514,
+      "children": [
+        {
+          "type": "frame",
+          "id": "KVCjP",
+          "x": 0,
+          "y": 10,
+          "name": "Dynasty 8 - Property Detail V4 · Modale carte",
+          "clip": true,
+          "width": 1440,
+          "height": 900,
+          "fill": "$lux-ink",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Y3QDC",
+              "name": "Nav Band",
+              "width": "fill_container",
+              "height": 180,
+              "fill": "$lux-ink",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "qJZwa",
+                  "x": 48,
+                  "y": 52,
+                  "name": "Glass Nav Bar",
+                  "width": 1344,
+                  "height": 88,
+                  "fill": "#0B0908A6",
+                  "cornerRadius": 44,
+                  "stroke": "#C9A24B33",
+                  "strokeWidth": 1,
+                  "effect": [
+                    {
+                      "type": "background_blur",
+                      "radius": 18
+                    },
+                    {
+                      "type": "shadow",
+                      "shadowType": "outer",
+                      "color": "#00000066",
+                      "offset": {
+                        "x": 0,
+                        "y": 14
+                      },
+                      "blur": 40,
+                      "spread": -10
+                    }
+                  ],
+                  "padding": [
+                    0,
+                    14,
+                    0,
+                    26
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "y7djTr",
+                      "name": "Logo Wrap",
+                      "width": "fill_container",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bTEEn",
+                          "name": "Logo",
+                          "width": 88,
+                          "height": 42,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "../public/logo.png",
+                            "mode": "fit"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ykoiM",
+                      "name": "Links",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XLizS",
+                          "name": "Accueil",
+                          "fill": "#00000000",
+                          "cornerRadius": 22,
+                          "stroke": "#00000000",
+                          "strokeWidth": 1,
+                          "padding": [
+                            10,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "W8SIPX",
+                              "name": "Label",
+                              "fill": "$text-nav",
+                              "content": "Accueil",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.6
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ETco8",
+                          "name": "Biens",
+                          "fill": "#00000000",
+                          "cornerRadius": 22,
+                          "padding": [
+                            10,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "y9ifJ",
+                              "name": "Label",
+                              "fill": "#C3B9A6",
+                              "content": "Biens",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.6
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "U6mVzs",
+                          "name": "Décorateurs",
+                          "fill": "#00000000",
+                          "cornerRadius": 22,
+                          "padding": [
+                            10,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "DBkIS",
+                              "name": "Label",
+                              "fill": "#C3B9A6",
+                              "content": "Décorateurs",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.6
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "GTDvF",
+                          "name": "Services",
+                          "fill": "#00000000",
+                          "cornerRadius": 22,
+                          "padding": [
+                            10,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "OubuM",
+                              "name": "Label",
+                              "fill": "#C3B9A6",
+                              "content": "Services",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.6
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "e5ahc",
+                          "name": "Journal",
+                          "fill": "#00000000",
+                          "cornerRadius": 22,
+                          "padding": [
+                            10,
+                            18
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "K0Zxj",
+                              "name": "Label",
+                              "fill": "#C3B9A6",
+                              "content": "Journal",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.6
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ObWfb",
+                      "name": "Actions",
+                      "width": "fill_container",
+                      "gap": 18,
+                      "justifyContent": "end",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "GO4zy",
+                          "name": "Member",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "Br9ix",
+                              "name": "Icon",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "user-round",
+                              "library": "lucide",
+                              "fill": "#C3B9A6"
+                            },
+                            {
+                              "type": "text",
+                              "id": "NUYXp",
+                              "name": "Label",
+                              "fill": "#C3B9A6",
+                              "content": "Espace membre",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jl97M",
+                          "name": "CTA",
+                          "fill": "$lux-gold",
+                          "cornerRadius": 30,
+                          "gap": 9,
+                          "padding": [
+                            15,
+                            26
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hNIOI",
+                              "name": "Label",
+                              "fill": "$lux-ink",
+                              "content": "PRENDRE RENDEZ-VOUS",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 10.5,
+                              "fontWeight": "600",
+                              "letterSpacing": 1.6
+                            },
+                            {
+                              "type": "icon",
+                              "id": "DlSmS",
+                              "name": "Arrow",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "arrow-right",
+                              "library": "lucide",
+                              "fill": "$lux-ink"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ef3Qq",
+                  "x": 64,
+                  "y": 152,
+                  "name": "Back Link",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "LsWhw",
+                      "name": "Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "chevron-left",
+                      "library": "lucide",
+                      "fill": "$text-nav"
+                    },
+                    {
+                      "type": "text",
+                      "id": "BMJAH",
+                      "name": "Label",
+                      "fill": "$text-nav",
+                      "content": "Retour au catalogue",
+                      "fontFamily": "$font-lux-body",
+                      "fontSize": 12.5,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f50I9K",
+              "name": "Title Row",
+              "width": "fill_container",
+              "padding": [
+                16,
+                64,
+                28,
+                64
+              ],
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "KsTgn",
+                  "name": "Text",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "oSrqF",
+                      "name": "Name Line",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "X1SrM",
+                          "name": "Name",
+                          "fill": "$lux-cream",
+                          "content": "Bunker Classic",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 40,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "k23p25",
+                          "name": "Statut",
+                          "fill": "#C2200E29",
+                          "cornerRadius": 13,
+                          "stroke": "#FF8A703D",
+                          "strokeWidth": 1,
+                          "padding": [
+                            5,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "G2Gx9",
+                              "name": "Label",
+                              "fill": "#FF9A80",
+                              "content": "NON DISPONIBLE",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 9.5,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VUjpQ",
+                      "name": "Address",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "WaneT",
+                          "name": "Icon",
+                          "width": 13,
+                          "height": 13,
+                          "icon": "map-pin",
+                          "library": "lucide",
+                          "fill": "$text-dim"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BTU60",
+                          "name": "Value",
+                          "fill": "$text-dim",
+                          "content": "Adresse non renseignée",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 12.5,
+                          "fontWeight": "normal",
+                          "fontStyle": "italic"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "hAcU7",
+                  "name": "Actions",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "aq0xR",
+                      "name": "Partager",
+                      "cornerRadius": 22,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        11,
+                        18
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "QrKjd",
+                          "name": "Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "share-2",
+                          "library": "lucide",
+                          "fill": "$text-nav"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IJm2H",
+                          "name": "Label",
+                          "fill": "$text-nav",
+                          "content": "Partager",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 12.5,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "c22rX9",
+                      "name": "Sauvegarder",
+                      "cornerRadius": 22,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        11,
+                        18
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "izuwa",
+                          "name": "Icon",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "bookmark",
+                          "library": "lucide",
+                          "fill": "$text-nav"
+                        },
+                        {
+                          "type": "text",
+                          "id": "h6vAXW",
+                          "name": "Label",
+                          "fill": "$text-nav",
+                          "content": "Sauvegarder",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 12.5,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gmGtu",
+              "name": "Gallery",
+              "width": "fill_container",
+              "gap": 16,
+              "padding": [
+                0,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FfITi",
+                  "name": "Main Image 16:9",
+                  "clip": true,
+                  "width": 1104,
+                  "height": 621,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "images/generated-1788254404123.png",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": 8,
+                  "stroke": "#F2ECE11F",
+                  "strokeWidth": 1,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "QTfzd",
+                      "x": 24,
+                      "y": 284,
+                      "name": "Prev",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#0B0908A6",
+                      "cornerRadius": 26,
+                      "stroke": "#C9A24B66",
+                      "strokeWidth": 1,
+                      "effect": {
+                        "type": "background_blur",
+                        "radius": 14
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "eda0Z",
+                          "name": "Icon",
+                          "width": 17,
+                          "height": 17,
+                          "icon": "chevron-left",
+                          "library": "lucide",
+                          "fill": "$lux-gold-soft"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "l13K1",
+                      "x": 1028,
+                      "y": 284,
+                      "name": "Next",
+                      "width": 52,
+                      "height": 52,
+                      "fill": "#0B0908A6",
+                      "cornerRadius": 26,
+                      "stroke": "#C9A24B66",
+                      "strokeWidth": 1,
+                      "effect": {
+                        "type": "background_blur",
+                        "radius": 14
+                      },
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "kh4VL",
+                          "name": "Icon",
+                          "width": 17,
+                          "height": 17,
+                          "icon": "chevron-right",
+                          "library": "lucide",
+                          "fill": "$lux-gold-soft"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BxKTc",
+                      "x": 24,
+                      "y": 564,
+                      "name": "Counter",
+                      "fill": "#0B0908A6",
+                      "cornerRadius": 16,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "effect": {
+                        "type": "background_blur",
+                        "radius": 12
+                      },
+                      "padding": [
+                        8,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "hatSh",
+                          "name": "Label",
+                          "fill": "$lux-cream",
+                          "content": "1 / 5",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 12,
+                          "fontWeight": "normal",
+                          "letterSpacing": 0.4
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rpQV5",
+                  "name": "Thumb Rail 4:3",
+                  "width": 192,
+                  "layout": "vertical",
+                  "gap": 15,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "pLYgC",
+                      "name": "Thumb",
+                      "clip": true,
+                      "width": 192,
+                      "height": 144,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788253531079.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 6,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OBzXb",
+                      "name": "Thumb",
+                      "clip": true,
+                      "width": 192,
+                      "height": 144,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788253581375.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 6,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tT8g1",
+                      "name": "Thumb",
+                      "clip": true,
+                      "width": 192,
+                      "height": 144,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788253582232.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 6,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "none"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "uhS2r",
+                      "name": "Thumb",
+                      "clip": true,
+                      "width": 192,
+                      "height": 144,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788253582247.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 6,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "jbfOY",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Veil",
+                          "fill": "#0B0908A6",
+                          "width": 192,
+                          "height": 144
+                        },
+                        {
+                          "type": "frame",
+                          "id": "F9sev",
+                          "x": 0,
+                          "y": 0,
+                          "name": "More",
+                          "width": 192,
+                          "height": 144,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IDeSu",
+                              "name": "Label",
+                              "fill": "$lux-cream",
+                              "content": "+3",
+                              "fontFamily": "$font-lux",
+                              "fontSize": 26,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tanWD",
+              "name": "Body",
+              "width": "fill_container",
+              "gap": 32,
+              "padding": [
+                48,
+                64,
+                0,
+                64
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FCktA",
+                  "name": "Main Column",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 40,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "gct3y",
+                      "name": "Price Block",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Ny2Nr",
+                          "name": "Label Line",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "WVUuf",
+                              "name": "Marker",
+                              "fill": "$lux-gold",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "text",
+                              "id": "UlImf",
+                              "name": "Label",
+                              "fill": "$text-nav",
+                              "content": "Prix de vente",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "normal",
+                              "letterSpacing": 0.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "E6PbMg",
+                          "name": "Sale Price",
+                          "fill": "$lux-cream",
+                          "content": "4 000 000$",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 38,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vMYvK",
+                          "name": "Rent",
+                          "fill": "$text-dim",
+                          "content": "Prix de location  ·  1 000$",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "epMAm",
+                      "name": "Chips",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XQ6KF",
+                          "name": "Meublé",
+                          "cornerRadius": 8,
+                          "stroke": "#F2ECE12E",
+                          "strokeWidth": 1,
+                          "gap": 9,
+                          "padding": [
+                            11,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "RvIk8",
+                              "name": "Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "sofa",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            },
+                            {
+                              "type": "text",
+                              "id": "jCHXh",
+                              "name": "Label",
+                              "fill": "$lux-cream",
+                              "content": "Meublé",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "sLwxh",
+                          "name": "Pas de coffre",
+                          "cornerRadius": 8,
+                          "stroke": "#F2ECE12E",
+                          "strokeWidth": 1,
+                          "gap": 9,
+                          "padding": [
+                            11,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "QYnlM",
+                              "name": "Icon",
+                              "width": 15,
+                              "height": 15,
+                              "icon": "package",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            },
+                            {
+                              "type": "text",
+                              "id": "NByAx",
+                              "name": "Label",
+                              "fill": "$lux-cream",
+                              "content": "Pas de coffre",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yM8AI",
+                      "name": "Description",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "okHzI",
+                          "name": "Title",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "i2y2aZ",
+                              "name": "Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "file-text",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            },
+                            {
+                              "type": "text",
+                              "id": "jpmKA",
+                              "name": "Heading",
+                              "fill": "$lux-cream",
+                              "content": "Description",
+                              "fontFamily": "$font-lux",
+                              "fontSize": 24,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "UDwGj",
+                          "name": "Body",
+                          "fill": "$text-soft",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Dissimulé sous les collines, le Bunker Classic conjugue discrétion absolue et confort contemporain. Ses volumes en béton brut, adoucis par un éclairage indirect et un mobilier sur mesure, composent un refuge à la fois sûr et accueillant. Livré meublé, l'ensemble se prête aussi bien à une résidence confidentielle qu'à un espace de travail à l'abri des regards.",
+                          "lineHeight": 1.75,
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "HhYPQ",
+                          "name": "Read More",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "WCDMQ",
+                              "name": "Label",
+                              "fill": "$lux-gold-soft",
+                              "content": "Lire la suite",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "V5iNEP",
+                              "name": "Chevron",
+                              "width": 12,
+                              "height": 12,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UBDPg",
+                      "name": "Localisation",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 14,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bba0e",
+                          "name": "Header",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "B82Bm",
+                              "name": "Title",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "kL6bq",
+                                  "name": "Icon",
+                                  "width": 17,
+                                  "height": 17,
+                                  "icon": "map-pin",
+                                  "library": "lucide",
+                                  "fill": "$lux-gold-soft"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "o5ZaB",
+                                  "name": "Heading",
+                                  "fill": "$lux-cream",
+                                  "content": "Localisation",
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 24,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "W65L3",
+                              "name": "Agrandir la carte",
+                              "cornerRadius": 22,
+                              "stroke": "#F2ECE12E",
+                              "strokeWidth": 1,
+                              "gap": 8,
+                              "padding": [
+                                11,
+                                18
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "CftMJ",
+                                  "name": "Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "maximize-2",
+                                  "library": "lucide",
+                                  "fill": "$text-nav"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "zACNt",
+                                  "name": "Label",
+                                  "fill": "$text-nav",
+                                  "content": "Agrandir la carte",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12.5,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KWDyx",
+                          "name": "Map Band",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 366,
+                          "cornerRadius": 8,
+                          "stroke": "#F2ECE11F",
+                          "strokeWidth": 1,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "id": "w4OvMV",
+                              "type": "ref",
+                              "ref": "s3L8K",
+                              "name": "Atlas",
+                              "x": -160,
+                              "y": -197
+                            },
+                            {
+                              "type": "frame",
+                              "id": "TwqmF",
+                              "x": 790,
+                              "y": 20,
+                              "name": "Zoom Hint",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Ex8BL",
+                                  "name": "Zoom plus",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "#0B0908CC",
+                                  "cornerRadius": 6,
+                                  "stroke": "#F2ECE11F",
+                                  "strokeWidth": 1,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "M3WwV",
+                                      "name": "Icon",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "plus",
+                                      "library": "lucide",
+                                      "fill": "$lux-cream"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "DrZCV",
+                                  "name": "Zoom minus",
+                                  "width": 34,
+                                  "height": 34,
+                                  "fill": "#0B0908CC",
+                                  "cornerRadius": 6,
+                                  "stroke": "#F2ECE11F",
+                                  "strokeWidth": 1,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "E1jEU",
+                                      "name": "Icon",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "minus",
+                                      "library": "lucide",
+                                      "fill": "$lux-cream"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fGD2z",
+                      "name": "Caractéristiques",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "H69MT",
+                          "name": "Title",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "usX7n",
+                              "name": "Icon",
+                              "width": 17,
+                              "height": 17,
+                              "icon": "layout-grid",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            },
+                            {
+                              "type": "text",
+                              "id": "y3jPv",
+                              "name": "Heading",
+                              "fill": "$lux-cream",
+                              "content": "Aperçu des caractéristiques",
+                              "fontFamily": "$font-lux",
+                              "fontSize": 24,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "niBbf",
+                          "name": "Card",
+                          "width": "fill_container",
+                          "fill": "$surface-1",
+                          "cornerRadius": 8,
+                          "stroke": "#F2ECE11A",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 26,
+                          "padding": 26,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "pQlw3",
+                              "name": "Row",
+                              "width": "fill_container",
+                              "gap": 24,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "tsRz8",
+                                  "name": "Prix de vente",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "lqxO3",
+                                      "name": "Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "tag",
+                                      "library": "lucide",
+                                      "fill": "$lux-gold-soft"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "JV9Lh",
+                                      "name": "Text",
+                                      "layout": "vertical",
+                                      "gap": 3,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "bmrZJ",
+                                          "name": "Label",
+                                          "fill": "$text-dim",
+                                          "content": "Prix de vente",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "I6cHu1",
+                                          "name": "Value",
+                                          "fill": "$lux-cream",
+                                          "content": "4 000 000$",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "ehJq1",
+                                  "name": "Prix de location",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "x18dR",
+                                      "name": "Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "key",
+                                      "library": "lucide",
+                                      "fill": "$lux-gold-soft"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "swXWO",
+                                      "name": "Text",
+                                      "layout": "vertical",
+                                      "gap": 3,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "aef52",
+                                          "name": "Label",
+                                          "fill": "$text-dim",
+                                          "content": "Prix de location",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "u8HSW",
+                                          "name": "Value",
+                                          "fill": "$lux-cream",
+                                          "content": "1 000$",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "c8Z0xU",
+                                  "name": "Taille de stockage",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "F2BSu",
+                                      "name": "Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "package",
+                                      "library": "lucide",
+                                      "fill": "$lux-gold-soft"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "lYmj4",
+                                      "name": "Text",
+                                      "layout": "vertical",
+                                      "gap": 3,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "R1MJS",
+                                          "name": "Label",
+                                          "fill": "$text-dim",
+                                          "content": "Taille de stockage",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "Jkcjq",
+                                          "name": "Value",
+                                          "fill": "$lux-cream",
+                                          "content": "Pas de coffre",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "g8QUD",
+                              "name": "Row",
+                              "width": "fill_container",
+                              "gap": 24,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Rhrcq",
+                                  "name": "Disponibilité",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "F0Ev4n",
+                                      "name": "Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "info",
+                                      "library": "lucide",
+                                      "fill": "$lux-gold-soft"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "R1cg5m",
+                                      "name": "Text",
+                                      "layout": "vertical",
+                                      "gap": 3,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "s35Db",
+                                          "name": "Label",
+                                          "fill": "$text-dim",
+                                          "content": "Disponibilité",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "J73Ir",
+                                          "name": "Value",
+                                          "fill": "$lux-cream",
+                                          "content": "NON",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "DiI0Z",
+                                  "name": "Meublé",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "IEjye",
+                                      "name": "Icon",
+                                      "width": 18,
+                                      "height": 18,
+                                      "icon": "sofa",
+                                      "library": "lucide",
+                                      "fill": "$lux-gold-soft"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "O2Htz",
+                                      "name": "Text",
+                                      "layout": "vertical",
+                                      "gap": 3,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "zcobs",
+                                          "name": "Label",
+                                          "fill": "$text-dim",
+                                          "content": "Meublé",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "TbM4Y",
+                                          "name": "Value",
+                                          "fill": "$lux-cream",
+                                          "content": "OUI",
+                                          "fontFamily": "$font-lux-body",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "T91Vt",
+                                  "name": "Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "rdxNk",
+                  "name": "Sidebar",
+                  "width": 400,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "rSqhv",
+                      "name": "Summary Card",
+                      "width": "fill_container",
+                      "fill": "$surface-1",
+                      "cornerRadius": 8,
+                      "stroke": "#C9A24B33",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 20,
+                      "padding": 26,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "q2wTOz",
+                          "name": "Heading",
+                          "fill": "$lux-cream",
+                          "content": "Résumé du bien",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 21,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "T3ikjc",
+                          "name": "Rows",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "JtHQn",
+                              "name": "Disponibilité",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "eehn1",
+                                  "name": "Label",
+                                  "fill": "$text-dim",
+                                  "content": "Disponibilité",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "jmn2U",
+                                  "name": "Value",
+                                  "fill": "$lux-cream",
+                                  "content": "NON",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "eaY5Y",
+                              "name": "Prix de vente",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "NVsNg",
+                                  "name": "Label",
+                                  "fill": "$text-dim",
+                                  "content": "Prix de vente",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "UkO8t",
+                                  "name": "Value",
+                                  "fill": "$lux-cream",
+                                  "content": "4 000 000$",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "wBmHF",
+                              "name": "Prix de location",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "I3cGxg",
+                                  "name": "Label",
+                                  "fill": "$text-dim",
+                                  "content": "Prix de location",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "i0BOKq",
+                                  "name": "Value",
+                                  "fill": "$lux-cream",
+                                  "content": "1 000$",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "MqJO1",
+                              "name": "Taille de stockage",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "mmycj",
+                                  "name": "Label",
+                                  "fill": "$text-dim",
+                                  "content": "Taille de stockage",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "b9JpQp",
+                                  "name": "Value",
+                                  "fill": "$lux-cream",
+                                  "content": "Pas de coffre",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 13,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rHGpM",
+                          "name": "Primary CTA",
+                          "width": "fill_container",
+                          "fill": "$lux-gold",
+                          "cornerRadius": 30,
+                          "gap": 10,
+                          "padding": [
+                            15,
+                            24
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "P3jXrD",
+                              "name": "Label",
+                              "fill": "$lux-ink",
+                              "content": "Contacter l'agence",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "D6VA8",
+                              "name": "Arrow",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "arrow-right",
+                              "library": "lucide",
+                              "fill": "$lux-ink"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YBxl3",
+                      "name": "Agency Card",
+                      "width": "fill_container",
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 18,
+                      "padding": 26,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XnLIH",
+                          "name": "Eyebrow",
+                          "fill": "$text-dim",
+                          "content": "AGENCE",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 10.5,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.6
+                        },
+                        {
+                          "type": "text",
+                          "id": "man0q",
+                          "name": "Name",
+                          "fill": "$lux-cream",
+                          "content": "Dynasty 8",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 21,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Z0USq3",
+                          "name": "Info",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 11,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "nQQfY",
+                              "name": "+33 4 93 00 08 08",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "yZx5U",
+                                  "name": "Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "phone",
+                                  "library": "lucide",
+                                  "fill": "$lux-gold-soft"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "T1vZl",
+                                  "name": "Value",
+                                  "fill": "$text-nav",
+                                  "content": "+33 4 93 00 08 08",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12.5,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Qaifr",
+                              "name": "Tous les jours · 21h30 — 00h00",
+                              "gap": 10,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "O7S7Q3",
+                                  "name": "Icon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "timer",
+                                  "library": "lucide",
+                                  "fill": "$lux-gold-soft"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "JvMSG",
+                                  "name": "Value",
+                                  "fill": "$text-nav",
+                                  "content": "Tous les jours · 21h30 — 00h00",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 12.5,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hDZzu",
+                          "name": "Secondary CTA",
+                          "width": "fill_container",
+                          "cornerRadius": 30,
+                          "stroke": "#C9A24B66",
+                          "strokeWidth": 1,
+                          "gap": 10,
+                          "padding": [
+                            15,
+                            24
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "a1fR5X",
+                              "name": "Label",
+                              "fill": "$lux-gold-soft",
+                              "content": "Appeler l'agence",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aGgLy",
+              "name": "Biens similaires",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "padding": [
+                64,
+                0,
+                88,
+                0
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yKM7J",
+                  "name": "Header",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    64
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "end",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "rFaa0",
+                      "name": "Title",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "r1IUxN",
+                          "name": "Icon",
+                          "width": 17,
+                          "height": 17,
+                          "icon": "house",
+                          "library": "lucide",
+                          "fill": "$lux-gold-soft"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mEz9g",
+                          "name": "Heading",
+                          "fill": "$lux-cream",
+                          "content": "Biens similaires",
+                          "fontFamily": "$font-lux",
+                          "fontSize": 24,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GjL64",
+                      "name": "Controls",
+                      "gap": 20,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Hlx2i",
+                          "name": "Arrows",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "sXu8Y",
+                              "name": "arrow-left",
+                              "width": 46,
+                              "height": 46,
+                              "cornerRadius": 23,
+                              "stroke": "#F2ECE11F",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "cGL2c",
+                                  "name": "Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "arrow-left",
+                                  "library": "lucide",
+                                  "fill": "#6E6555"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "RCHlR",
+                              "name": "arrow-right",
+                              "width": 46,
+                              "height": 46,
+                              "cornerRadius": 23,
+                              "stroke": "#C9A24B66",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "O3ZgFb",
+                                  "name": "Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "arrow-right",
+                                  "library": "lucide",
+                                  "fill": "$lux-gold-soft"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "umg2j",
+                  "name": "Track",
+                  "clip": true,
+                  "width": "fill_container",
+                  "gap": 20,
+                  "padding": [
+                    0,
+                    0,
+                    0,
+                    64
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OF4fY",
+                      "name": "Villa Aurore",
+                      "clip": true,
+                      "width": 313,
+                      "height": 400,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788254404123.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "padding": 10,
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "R69DxD",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Scrim",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#0B090800",
+                                "position": 0.2
+                              },
+                              {
+                                "color": "#0B090873",
+                                "position": 0.6
+                              },
+                              {
+                                "color": "#0B0908E6",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 313,
+                          "height": 400
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LVXUR",
+                          "layoutPosition": "absolute",
+                          "x": 12,
+                          "y": 12,
+                          "name": "Status",
+                          "fill": "#0B0908A6",
+                          "cornerRadius": 20,
+                          "stroke": "#C9A24B80",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 12
+                          },
+                          "gap": 7,
+                          "padding": [
+                            7,
+                            13
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "JFBfI",
+                              "name": "Dot",
+                              "fill": "$lux-gold",
+                              "width": 5,
+                              "height": 5
+                            },
+                            {
+                              "type": "text",
+                              "id": "Q4hwVl",
+                              "name": "Label",
+                              "fill": "#F4EFE6",
+                              "content": "DISPONIBLE",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 9,
+                              "fontWeight": "500",
+                              "letterSpacing": 1.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "piqST",
+                          "name": "Glass Panel",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 74,
+                          "fill": "#1C140AD9",
+                          "cornerRadius": 37,
+                          "stroke": "#C9A24B4D",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 20
+                          },
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            10,
+                            0,
+                            24
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "IyCJf",
+                              "name": "Name Wrap",
+                              "clip": true,
+                              "width": "fill_container",
+                              "height": 28,
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "j7ycV",
+                                  "name": "Name",
+                                  "fill": "$lux-cream",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Villa Aurore",
+                                  "lineHeight": 1.2,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 23,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "meqNx",
+                              "name": "Action",
+                              "width": 54,
+                              "height": 54,
+                              "fill": "#C9A24B29",
+                              "cornerRadius": 27,
+                              "stroke": "#C9A24B66",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "r1Wg2",
+                                  "name": "Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-up-right",
+                                  "library": "lucide",
+                                  "fill": "#E3C88E"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pbrEx",
+                      "name": "Villa Céleste",
+                      "clip": true,
+                      "width": 313,
+                      "height": 400,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788254062283.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "padding": 10,
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "k2PmEm",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Scrim",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#0B090800",
+                                "position": 0.2
+                              },
+                              {
+                                "color": "#0B090873",
+                                "position": 0.6
+                              },
+                              {
+                                "color": "#0B0908E6",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 313,
+                          "height": 400
+                        },
+                        {
+                          "type": "frame",
+                          "id": "q4vxXQ",
+                          "layoutPosition": "absolute",
+                          "x": 12,
+                          "y": 12,
+                          "name": "Status",
+                          "fill": "#0B0908A6",
+                          "cornerRadius": 20,
+                          "stroke": "#C9A24B80",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 12
+                          },
+                          "gap": 7,
+                          "padding": [
+                            7,
+                            13
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "NKsBa",
+                              "name": "Dot",
+                              "fill": "$lux-gold",
+                              "width": 5,
+                              "height": 5
+                            },
+                            {
+                              "type": "text",
+                              "id": "hw0ne",
+                              "name": "Label",
+                              "fill": "#F4EFE6",
+                              "content": "DISPONIBLE",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 9,
+                              "fontWeight": "500",
+                              "letterSpacing": 1.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "x03SYN",
+                          "name": "Glass Panel",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 74,
+                          "fill": "#1C140AD9",
+                          "cornerRadius": 37,
+                          "stroke": "#C9A24B4D",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 20
+                          },
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            10,
+                            0,
+                            24
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FPasj",
+                              "name": "Name Wrap",
+                              "clip": true,
+                              "width": "fill_container",
+                              "height": 28,
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Ai94G",
+                                  "name": "Name",
+                                  "fill": "$lux-cream",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Villa Céleste",
+                                  "lineHeight": 1.2,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 23,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "RpmaL",
+                              "name": "Action",
+                              "width": 54,
+                              "height": 54,
+                              "fill": "#C9A24B29",
+                              "cornerRadius": 27,
+                              "stroke": "#C9A24B66",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "BxQvq",
+                                  "name": "Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-up-right",
+                                  "library": "lucide",
+                                  "fill": "#E3C88E"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KsH1V",
+                      "name": "Villa Solaria",
+                      "clip": true,
+                      "width": 313,
+                      "height": 400,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788254062618.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "padding": 10,
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "Qmc5q",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Scrim",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#0B090800",
+                                "position": 0.2
+                              },
+                              {
+                                "color": "#0B090873",
+                                "position": 0.6
+                              },
+                              {
+                                "color": "#0B0908E6",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 313,
+                          "height": 400
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uRHdM",
+                          "layoutPosition": "absolute",
+                          "x": 12,
+                          "y": 12,
+                          "name": "Status",
+                          "fill": "#0B0908A6",
+                          "cornerRadius": 20,
+                          "stroke": "#C9A24B80",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 12
+                          },
+                          "gap": 7,
+                          "padding": [
+                            7,
+                            13
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "E2ppxS",
+                              "name": "Dot",
+                              "fill": "$lux-gold",
+                              "width": 5,
+                              "height": 5
+                            },
+                            {
+                              "type": "text",
+                              "id": "rB1EK",
+                              "name": "Label",
+                              "fill": "#F4EFE6",
+                              "content": "DISPONIBLE",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 9,
+                              "fontWeight": "500",
+                              "letterSpacing": 1.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "CCO48",
+                          "name": "Glass Panel",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 74,
+                          "fill": "#1C140AD9",
+                          "cornerRadius": 37,
+                          "stroke": "#C9A24B4D",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 20
+                          },
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            10,
+                            0,
+                            24
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "JZhz8",
+                              "name": "Name Wrap",
+                              "clip": true,
+                              "width": "fill_container",
+                              "height": 28,
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "i1TyQ",
+                                  "name": "Name",
+                                  "fill": "$lux-cream",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Villa Solaria",
+                                  "lineHeight": 1.2,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 23,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "w14Hv7",
+                              "name": "Action",
+                              "width": 54,
+                              "height": 54,
+                              "fill": "#C9A24B29",
+                              "cornerRadius": 27,
+                              "stroke": "#C9A24B66",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "s0sKK",
+                                  "name": "Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-up-right",
+                                  "library": "lucide",
+                                  "fill": "#E3C88E"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mcyBv",
+                      "name": "Penthouse Belvédère",
+                      "clip": true,
+                      "width": 313,
+                      "height": 400,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788254404719.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "padding": 10,
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "k2KpKj",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Scrim",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#0B090800",
+                                "position": 0.2
+                              },
+                              {
+                                "color": "#0B090873",
+                                "position": 0.6
+                              },
+                              {
+                                "color": "#0B0908E6",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 313,
+                          "height": 400
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mqTpj",
+                          "layoutPosition": "absolute",
+                          "x": 12,
+                          "y": 12,
+                          "name": "Status",
+                          "fill": "#0B0908A6",
+                          "cornerRadius": 20,
+                          "stroke": "#C9A24B80",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 12
+                          },
+                          "gap": 7,
+                          "padding": [
+                            7,
+                            13
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "ZTgZG",
+                              "name": "Dot",
+                              "fill": "$lux-gold",
+                              "width": 5,
+                              "height": 5
+                            },
+                            {
+                              "type": "text",
+                              "id": "O5OaIK",
+                              "name": "Label",
+                              "fill": "#F4EFE6",
+                              "content": "DISPONIBLE",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 9,
+                              "fontWeight": "500",
+                              "letterSpacing": 1.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "U6llUG",
+                          "name": "Glass Panel",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 74,
+                          "fill": "#1C140AD9",
+                          "cornerRadius": 37,
+                          "stroke": "#C9A24B4D",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 20
+                          },
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            10,
+                            0,
+                            24
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "qGzbK",
+                              "name": "Name Wrap",
+                              "clip": true,
+                              "width": "fill_container",
+                              "height": 28,
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "v5IX1d",
+                                  "name": "Name",
+                                  "fill": "$lux-cream",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Penthouse Belvédère",
+                                  "lineHeight": 1.2,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 23,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "kJJJs",
+                              "name": "Action",
+                              "width": 54,
+                              "height": 54,
+                              "fill": "#C9A24B29",
+                              "cornerRadius": 27,
+                              "stroke": "#C9A24B66",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "nzHss",
+                                  "name": "Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-up-right",
+                                  "library": "lucide",
+                                  "fill": "#E3C88E"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "DYzBq",
+                      "name": "Penthouse Odéon",
+                      "clip": true,
+                      "width": 313,
+                      "height": 400,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/generated-1788265779848.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE12E",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "padding": 10,
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "rectangle",
+                          "id": "EbJc2",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "name": "Scrim",
+                          "fill": {
+                            "type": "gradient",
+                            "gradientType": "linear",
+                            "enabled": true,
+                            "rotation": 180,
+                            "size": {
+                              "height": 1
+                            },
+                            "colors": [
+                              {
+                                "color": "#0B090800",
+                                "position": 0.2
+                              },
+                              {
+                                "color": "#0B090873",
+                                "position": 0.6
+                              },
+                              {
+                                "color": "#0B0908E6",
+                                "position": 1
+                              }
+                            ]
+                          },
+                          "width": 313,
+                          "height": 400
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kilMW",
+                          "layoutPosition": "absolute",
+                          "x": 12,
+                          "y": 12,
+                          "name": "Status",
+                          "fill": "#0B0908A6",
+                          "cornerRadius": 20,
+                          "stroke": "#C9A24B80",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 12
+                          },
+                          "gap": 7,
+                          "padding": [
+                            7,
+                            13
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "INg5f",
+                              "name": "Dot",
+                              "fill": "$lux-gold",
+                              "width": 5,
+                              "height": 5
+                            },
+                            {
+                              "type": "text",
+                              "id": "V3jI1",
+                              "name": "Label",
+                              "fill": "#F4EFE6",
+                              "content": "DISPONIBLE",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 9,
+                              "fontWeight": "500",
+                              "letterSpacing": 1.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ZFGGy",
+                          "name": "Glass Panel",
+                          "clip": true,
+                          "width": "fill_container",
+                          "height": 74,
+                          "fill": "#1C140AD9",
+                          "cornerRadius": 37,
+                          "stroke": "#C9A24B4D",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "background_blur",
+                            "radius": 20
+                          },
+                          "gap": 10,
+                          "padding": [
+                            0,
+                            10,
+                            0,
+                            24
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "rDSOd",
+                              "name": "Name Wrap",
+                              "clip": true,
+                              "width": "fill_container",
+                              "height": 28,
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "P6nHbd",
+                                  "name": "Name",
+                                  "fill": "$lux-cream",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Penthouse Odéon",
+                                  "lineHeight": 1.2,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 23,
+                                  "fontWeight": "500"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "v7Pyt7",
+                              "name": "Action",
+                              "width": 54,
+                              "height": 54,
+                              "fill": "#C9A24B29",
+                              "cornerRadius": 27,
+                              "stroke": "#C9A24B66",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "x7vUNi",
+                                  "name": "Icon",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "arrow-up-right",
+                                  "library": "lucide",
+                                  "fill": "#E3C88E"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aexRM",
+              "name": "Footer",
+              "clip": true,
+              "width": "fill_container",
+              "fill": "#0E0C0B",
+              "stroke": "#C9A24B33",
+              "strokeWidth": {
+                "top": 1
+              },
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Y6SR8",
+                  "name": "Footer Inner",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 44,
+                  "padding": [
+                    92,
+                    64,
+                    76,
+                    64
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "UM6MY",
+                      "name": "Hours Block",
+                      "width": "fill_container",
+                      "gap": 40,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "uJne4",
+                          "name": "Hours Text",
+                          "layout": "vertical",
+                          "gap": 18,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "DKjZW",
+                              "name": "Eyebrow",
+                              "gap": 16,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "rectangle",
+                                  "id": "s6QVdB",
+                                  "name": "Rule",
+                                  "fill": "#C9A24B80",
+                                  "width": 44,
+                                  "height": 1
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "A3JPNi",
+                                  "name": "Label",
+                                  "fill": "$lux-gold-soft",
+                                  "content": "HORAIRES",
+                                  "fontFamily": "$font-lux-body",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 3.2
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "E9U9S",
+                                  "name": "Rule R",
+                                  "fill": "#C9A24B80",
+                                  "width": 44,
+                                  "height": 1
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "K2QBb7",
+                              "name": "Title",
+                              "gap": 14,
+                              "justifyContent": "center",
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "B1FJn",
+                                  "name": "T1",
+                                  "fill": "$lux-cream",
+                                  "content": "Tous les jours",
+                                  "lineHeight": 1.1,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 42,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Va5od",
+                                  "name": "T2",
+                                  "fill": "$lux-gold",
+                                  "content": "21h30 — 00h00",
+                                  "lineHeight": 1.1,
+                                  "fontFamily": "$font-lux",
+                                  "fontSize": 44,
+                                  "fontWeight": "500",
+                                  "fontStyle": "italic"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "IZytB",
+                      "name": "Rule",
+                      "fill": "#F2ECE114",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fyZeN",
+                      "name": "Columns",
+                      "width": "fill_container",
+                      "gap": 28,
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vrFuw",
+                          "name": "Brand",
+                          "width": 380,
+                          "layout": "vertical",
+                          "gap": 20,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "pXiXa",
+                              "name": "Logo",
+                              "width": 150,
+                              "height": 76,
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "../public/logo.png",
+                                "mode": "fit"
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "id": "KqBDa",
+                              "name": "Baseline",
+                              "fill": "$lux-muted",
+                              "textGrowth": "fixed-width",
+                              "width": 520,
+                              "content": "Agence de location d'adresses d'exception sur la Côte d'Azur. Chaque bien visité, vérifié et mis en scène.",
+                              "lineHeight": 1.7,
+                              "textAlign": "center",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "o3Zgco",
+                  "name": "Footer Bottom",
+                  "width": "fill_container",
+                  "stroke": "#F2ECE114",
+                  "strokeWidth": {
+                    "top": 1
+                  },
+                  "padding": [
+                    22,
+                    64
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IktvK",
+                      "name": "Copyright",
+                      "fill": "#8E8471",
+                      "content": "© 2026 Dynasty 8 — Tous droits réservés",
+                      "fontFamily": "$font-lux-body",
+                      "fontSize": 11.5,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QYrkx",
+                      "name": "Legal",
+                      "gap": 26,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tZi8a",
+                          "name": "Mentions légales",
+                          "fill": "#8E8471",
+                          "content": "Mentions légales",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 11.5,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yMLAf",
+                          "name": "Confidentialité",
+                          "fill": "#8E8471",
+                          "content": "Confidentialité",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 11.5,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "WhAfP",
+                          "name": "CGU",
+                          "fill": "#8E8471",
+                          "content": "CGU",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 11.5,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "H39guq",
+                          "name": "Cookies",
+                          "fill": "#8E8471",
+                          "content": "Cookies",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 11.5,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GlXl2",
+                      "name": "Back To Top",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "J3DPgT",
+                          "name": "Label",
+                          "fill": "#C3B9A6",
+                          "content": "HAUT DE PAGE",
+                          "fontFamily": "$font-lux-body",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1.8
+                        },
+                        {
+                          "type": "frame",
+                          "id": "T4lxp",
+                          "name": "Arrow Button",
+                          "width": 34,
+                          "height": 34,
+                          "fill": "#C9A24B14",
+                          "cornerRadius": 17,
+                          "stroke": "#C9A24B66",
+                          "strokeWidth": 1,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "nM3dM",
+                              "name": "Icon",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "arrow-up",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ilNs5",
+              "layoutPosition": "absolute",
+              "x": 0,
+              "y": 0,
+              "name": "Modal Overlay",
+              "width": 1440,
+              "height": 900,
+              "fill": "#0B0908E0",
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "anBYO",
+                  "name": "Modal Carte",
+                  "width": 1040,
+                  "fill": "$surface-1",
+                  "cornerRadius": 10,
+                  "stroke": "#C9A24B33",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#000000B3",
+                    "offset": {
+                      "x": 0,
+                      "y": 28
+                    },
+                    "blur": 70
+                  },
+                  "layout": "vertical",
+                  "gap": 18,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OJkuI",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "xsyMJ",
+                          "name": "Text",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "BHJMA",
+                              "name": "Title",
+                              "fill": "$lux-cream",
+                              "content": "Localisation",
+                              "fontFamily": "$font-lux",
+                              "fontSize": 24,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "itvXR",
+                              "name": "Subtitle",
+                              "fill": "$text-dim",
+                              "content": "Déplacez la carte pour explorer le quartier",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jNh1p",
+                          "name": "Close",
+                          "width": 36,
+                          "height": 36,
+                          "cornerRadius": 999,
+                          "stroke": "#F2ECE11F",
+                          "strokeWidth": 1,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "uHX1i",
+                              "name": "Icon",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "x",
+                              "library": "lucide",
+                              "fill": "$lux-cream"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lPMCd",
+                      "name": "Map",
+                      "clip": true,
+                      "width": "fill_container",
+                      "height": 560,
+                      "cornerRadius": 8,
+                      "stroke": "#F2ECE11F",
+                      "strokeWidth": 1,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "id": "bwHme",
+                          "type": "ref",
+                          "ref": "s3L8K",
+                          "name": "Atlas",
+                          "x": -254,
+                          "y": -359
+                        },
+                        {
+                          "type": "frame",
+                          "id": "O4cPT",
+                          "x": 930,
+                          "y": 20,
+                          "name": "Zoom",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "q1HWd3",
+                              "name": "Zoom plus",
+                              "width": 38,
+                              "height": 38,
+                              "fill": "#0B0908CC",
+                              "cornerRadius": 6,
+                              "stroke": "#F2ECE11F",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "TyZPO",
+                                  "name": "Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "plus",
+                                  "library": "lucide",
+                                  "fill": "$lux-cream"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "kNVL8",
+                              "name": "Zoom minus",
+                              "width": 38,
+                              "height": 38,
+                              "fill": "#0B0908CC",
+                              "cornerRadius": 6,
+                              "stroke": "#F2ECE11F",
+                              "strokeWidth": 1,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Yxv2u",
+                                  "name": "Icon",
+                                  "width": 15,
+                                  "height": 15,
+                                  "icon": "minus",
+                                  "library": "lucide",
+                                  "fill": "$lux-cream"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hpz2N",
+                          "x": 20,
+                          "y": 502,
+                          "name": "Recentrer",
+                          "fill": "#0B0908CC",
+                          "cornerRadius": 30,
+                          "stroke": "#C9A24B4D",
+                          "strokeWidth": 1,
+                          "gap": 8,
+                          "padding": [
+                            9,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "XGXBC",
+                              "name": "Icon",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "locate-fixed",
+                              "library": "lucide",
+                              "fill": "$lux-gold-soft"
+                            },
+                            {
+                              "type": "text",
+                              "id": "lLwgf",
+                              "name": "Label",
+                              "fill": "$lux-gold-soft",
+                              "content": "Recentrer sur le bien",
+                              "fontFamily": "$font-lux-body",
+                              "fontSize": 12.5,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gpCRG",
+          "x": 1507,
+          "y": 0,
+          "name": "Fiche bien — Localisation (mobile 390)",
+          "clip": true,
+          "width": 390,
+          "fill": "$lux-ink",
+          "layout": "vertical",
+          "gap": 14,
+          "padding": [
+            28,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ty5wS",
+              "name": "Header",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ffzJW",
+                  "name": "Title",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "bAFjB",
+                      "name": "Icon",
+                      "width": 17,
+                      "height": 17,
+                      "icon": "map-pin",
+                      "library": "lucide",
+                      "fill": "$lux-gold-soft"
+                    },
+                    {
+                      "type": "text",
+                      "id": "XyoNz",
+                      "name": "Heading",
+                      "fill": "$lux-cream",
+                      "content": "Localisation",
+                      "fontFamily": "$font-lux",
+                      "fontSize": 21,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ad966",
+                  "name": "Agrandir la carte",
+                  "cornerRadius": 22,
+                  "stroke": "#F2ECE12E",
+                  "strokeWidth": 1,
+                  "gap": 8,
+                  "padding": [
+                    11,
+                    18
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Y7h6w",
+                      "name": "Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "maximize-2",
+                      "library": "lucide",
+                      "fill": "$text-nav"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ltfuG",
+                      "name": "Label",
+                      "fill": "$text-nav",
+                      "content": "Agrandir la carte",
+                      "fontFamily": "$font-lux-body",
+                      "fontSize": 12.5,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CFoIi",
+              "name": "Map Square",
+              "clip": true,
+              "width": "fill_container",
+              "height": 350,
+              "cornerRadius": 8,
+              "stroke": "#F2ECE11F",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "id": "ZEQbM",
+                  "type": "ref",
+                  "ref": "s3L8K",
+                  "name": "Atlas",
+                  "x": -575,
+                  "y": -497
                 }
               ]
             }

@@ -8,7 +8,11 @@
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py 'real estate finance light green trust' --domain color -n 4)",
       "Bash(node /private/tmp/claude-501/-Users-assadi-Projects-Next-dorset-dream-agency/027f1f52-fe3b-4200-a622-ec3732fb827c/scratchpad/hsl.mjs)",
       "Bash(rm /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory/feedback_clients_table_not_cards.md)",
-      "Bash(cd /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory && cat project_design_system_v4_premium.md project_backoffice_redesign.md 2>/dev/null)"
+      "Bash(cd /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory && cat project_design_system_v4_premium.md project_backoffice_redesign.md 2>/dev/null)",
+      "Bash(cd /Users/assadi/Projects/Next/dorset-dream-agency/maquette && ls images | head -3 && cp /private/tmp/claude-501/-Users-assadi-Projects-Next-dorset-dream-agency/9e77c025-35d8-4c1a-9480-fa81e479b584/images/5.png images/map-atlas.png && ls -la images/map-atlas.png && file images/map-atlas.png)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp/claude-501/-Users-assadi-Projects-Next-dorset-dream-agency/9e77c025-35d8-4c1a-9480-fa81e479b584/images"
     ]
   }
 }
