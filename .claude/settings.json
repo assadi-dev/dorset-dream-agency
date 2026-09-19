@@ -7,7 +7,8 @@
       "Bash(python3 \".claude/skills/ui-ux-pro-max/scripts/search.py\" \"real estate agency admin dashboard analytics\" --design-system --density 8 --variance 5 -p \"Dynasty 8 Back-office\")",
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py 'real estate finance light green trust' --domain color -n 4)",
       "Bash(node /private/tmp/claude-501/-Users-assadi-Projects-Next-dorset-dream-agency/027f1f52-fe3b-4200-a622-ec3732fb827c/scratchpad/hsl.mjs)",
-      "Bash(rm /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory/feedback_clients_table_not_cards.md)"
+      "Bash(rm /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory/feedback_clients_table_not_cards.md)",
+      "Bash(cd /Users/assadi/.claude/projects/-Users-assadi-Projects-Next-dorset-dream-agency/memory && cat project_design_system_v4_premium.md project_backoffice_redesign.md 2>/dev/null)"
     ]
   }
 }
