@@ -35,6 +35,7 @@ const EditModal = () => {
         propertyService: payload.propertyService,
         status: payload.status,
         taxes: taxes as any,
+        invoice: payload.invoice,
     } satisfies LocationVentesFormType;
 
     const saveUpdateLocationVente = async (values: LocationVentesFormType) => {
