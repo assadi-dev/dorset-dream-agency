@@ -14,7 +14,7 @@ const DecoratorsSection = () => {
     return (
         <section className='main my-8' >
             <div className='flex flex-col gap-2'>
-                <h3 className='text-4xl font-bold text-center'>Nos Decorateurs</h3>
+                <h3 className='text-2xl md:text-4xl font-bold text-center'>Nos Decorateurs</h3>
                 <p className='text-muted-foreground text-center'>Decouvrez nos decorateurs</p>
             </div>
             <div className="my-8 grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(22rem,1fr))] gap-4 justify-center items-center" >

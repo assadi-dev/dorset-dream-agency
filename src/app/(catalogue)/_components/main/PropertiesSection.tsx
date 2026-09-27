@@ -25,7 +25,7 @@ const GoToListPropertiesByCategories = ({ label }: GoToListPropertiesByCategorie
     };
 
     return (
-        <h2 className="font-bold  text-4xl lg:text-5xl px-5 py-2 rounded-xl  transition-colors duration-200 hover:text-black/60 w-fit ">
+        <h2 className="font-bold  text-2xl lg:text-5xl px-5 py-2 rounded-xl  transition-colors duration-200 hover:text-black/60 w-fit truncate">
             <Link className="flex items-center gap-3" href={`/properties?category=${label}&order=desc&limit=25`}>
                 <RenderIcon label={label} />
                 {label}
