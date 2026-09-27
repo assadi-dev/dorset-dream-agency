@@ -117,8 +117,8 @@ const SimplePagination = ({
 
     return (
         <div className="flex items-center  px-2 my-3">
-            <div className="flex items-center space-x-6 lg:space-x-8">
-                <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-6 lg:gap-8 justify-between w-full">
+                <div className="flex items-center gap-2">
                     <p className="hidden xl:block text-xs xl:text-sm font-medium text-nowrap">{rowLabel}</p>
                     <Select value={String(paginationState.limit)} onValueChange={handleSelectLimit}>
                         <SelectTrigger className="h-8 w-[70px] dark:bg-secondary bg-white text-xs xl:text-sm">
@@ -133,10 +133,10 @@ const SimplePagination = ({
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="flex w-[100px] items-center justify-center text-xs xl:text-sm font-medium">
+                <div className="flex  items-center justify-center text-xs xl:text-sm font-medium text-nowrap">
                     Page {page} sur {TOTAL_PAGE}
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <TooltipProvider>
                         <FirstPageButtonPagination onClick={goFirstPage} disabled={!paginationState.canPreviousPage} />
                         <PrevButtonPagination onClick={goPreviousPage} disabled={!paginationState.canPreviousPage} />

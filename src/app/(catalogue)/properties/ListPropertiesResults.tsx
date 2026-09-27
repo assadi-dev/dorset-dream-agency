@@ -25,7 +25,7 @@ type ListPropertiesResultsSectionProps = {
 const ListPropertiesResultsSection = ({ propertiesCollections, totalItems, limit }: ListPropertiesResultsSectionProps) => {
     return (
         <section className="py-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center">
                 <p className="text-muted-foreground">Nombre de proprietes : {totalItems}</p>
                 <div>
                     <SimplePagination totalItems={totalItems} limit={limit} />
