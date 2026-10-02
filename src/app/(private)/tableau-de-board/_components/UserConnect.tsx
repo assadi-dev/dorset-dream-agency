@@ -79,7 +79,8 @@ const AvatarDropdown = ({ user }: AvatarDropdownProps) => {
 //bg-[#0f172a]
 
 const UserConnect = () => {
-    const { isMobile } = useSidebar();
+    const { isMobile, setOpenMobile } = useSidebar();
+    const closeMenus = () => setOpenMobile(false);
     const session = useSession();
     const user = session ? (session?.data?.user as User) : null;
 
@@ -109,18 +110,14 @@ const UserConnect = () => {
                         </DropdownMenuLabel>
 
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <Link href={"/tableau-de-board/account"} className=" w-full">
-                                <DropdownMenuItem className="justify-start gap-3 w-full">
-                                    <User className="h-4 w-4" /> <span>Mon Compte</span>
-                                </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="justify-start gap-3 w-full" onSelect={closeMenus}>
+                            <Link href={"/tableau-de-board/account"}>
+                                <User className="h-4 w-4" /> <span>Mon Compte</span>
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href={"https://formad8polo.lovable.app"} target="_blank" className=" w-full">
-                                <DropdownMenuItem className="justify-start gap-3 w-full">
-                                    <BookOpen className="h-4 w-4" /> <span>Mes Formations</span>
-                                </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="justify-start gap-3 w-full" onSelect={closeMenus}>
+                            <Link href={"https://formad8polo.lovable.app"} target="_blank">
+                                <BookOpen className="h-4 w-4" /> <span>Mes Formations</span>
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
