@@ -13,9 +13,11 @@ const PageTemplate = ({ title, description, showPrevButton = true, children }: P
             <section>
                 <div className="flex items-center gap-5 my-3 sm:my-1">
                     {showPrevButton && <GoBackButton />}
-                    {title && <h1 className="text-3xl font-bold tracking-tight">{title}</h1>}
+                    {title && (
+                        <h1 className="text-xl font-bold tracking-tight sm:text-2xl md:text-3xl">{title}</h1>
+                    )}
                 </div>
-                {description && <p className="text-sm text-muted-foreground">{description}</p>}
+                {description && <p className="text-xs text-muted-foreground sm:text-sm">{description}</p>}
             </section>
             {children}
         </>

@@ -85,7 +85,7 @@ const PropertiesCountBar = () => {
                                 onClick={() => setActiveChart(chart)}
                             >
                                 <span className="text-xs text-muted-foreground">{chartConfig[chart].label}</span>
-                                <span className="text-2xl font-bold leading-none xl:text-3xl text-center">
+                                <span className="text-xl font-bold leading-none sm:text-2xl xl:text-3xl text-center">
                                     {TOTAL[key as keyof typeof TOTAL].toLocaleString()}
                                 </span>
                             </button>

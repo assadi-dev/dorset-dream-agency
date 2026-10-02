@@ -45,7 +45,7 @@ const AvatarClient = ({ variant, client }: AvatarProps) => {
             <figcaption className="mt-3 lg:mt-6 p-3">
                 <div className="w-full mx-auto overflow-x-hidden">
                     {ItemsKeyValue.map((item) => (
-                        <div key={item.key} className=" flex justify-between items-center mb-1">
+                        <div key={item.key} className=" flex justify-between items-center mb-1 dark:text-primary-accent">
                             <span className="text-sm flex items-center gap-3">
                                 {" "}
                                 {item.icon && <item.icon className="w-4 h-4" />} {item.key}{" "}

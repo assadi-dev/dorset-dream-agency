@@ -8,6 +8,7 @@ import DashboardNavbar from "./_components/DashboardNavbar";
 import { AuthSessionProvider } from "@/components/providers/AuthSessionProvider";
 import AppSidebar from "./_components/AppSidebar";
 import { Session } from "./account/type";
+import { cn } from "@/lib/utils";
 
 type AdminLayoutType = {
     children: React.ReactNode;
@@ -23,9 +24,9 @@ const AdminLayout = async ({ children }: AdminLayoutType) => {
         <AuthSessionProvider session={session}>
             <SidebarProvider>
                 <AppSidebar role={session?.user?.role} />
-                <main className="w-full p-1">
+                <main className="w-full sm:p-1">
                     <DashboardNavbar />
-                    <div className={styles.dashboardMain}>{children}</div>
+                    <div className={cn(styles.dashboardMain, "px-5 sm:px-1")}>{children}</div>
                 </main>
 
                 {/*

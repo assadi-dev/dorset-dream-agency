@@ -33,7 +33,7 @@ const Announcement = () => {
                 />
             ) : (
                 <div className="h-full flex flex-col justify-center items-center gap-3 w-full">
-                    <p className="text-white text-xl font-bold">Pas d'annonce</p>
+                    <p className="text-white text-base sm:text-xl font-bold">Pas d'annonce</p>
                 </div>
             )}
         </Card>
