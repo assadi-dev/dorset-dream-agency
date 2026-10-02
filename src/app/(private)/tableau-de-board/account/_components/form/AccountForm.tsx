@@ -74,7 +74,7 @@ const AccountForm = () => {
                 <CardTitle>Information de connexion</CardTitle>
                 <CardDescription>Mettre à jours votre mot de passe ou votre email de connexion.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2 min-h-[58vh] flex flex-col justify-between">
+            <CardContent className="min-h-[58vh] flex flex-col justify-between">
                 <FormProvider {...formUsername}>
                     <form className="flex flex-col gap-8" onSubmit={formUsername.handleSubmit(saveUsername)}>
                         <div className="space-y-1">
