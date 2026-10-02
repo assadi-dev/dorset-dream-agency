@@ -36,7 +36,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 Non achetable
             </span>
         );
-    const CONTAINER_IMAGE_CLASS = "overflow-hidden rounded-lg relative h-[250px] lg:h-[30vh]";
+    const CONTAINER_IMAGE_CLASS = "overflow-hidden rounded-lg relative h-[200px] sm:h-[250px] lg:h-[30vh]";
     const IMAGE_CLASS =
         "h-full w-full object-cover object-center rounded-lg transition-all duration-700 ease-in-out transform group-hover:scale-[1.2] group-hover:brightness-75";
 
@@ -55,14 +55,14 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                     })}
                 />
                 {!property.isAvailable && (
-                    <p className="absolute z-10 top-[50%] translate-[-50%] font-bold lg:text-lg text-white left-[50%] translate-x-[-50%] bg-destructive p-3 rounded-lg">
+                    <p className="absolute z-10 top-[50%] translate-[-50%] font-bold text-sm lg:text-lg text-white left-[50%] translate-x-[-50%] bg-destructive p-2 sm:p-3 rounded-lg">
                         Indisponible
                     </p>
                 )}
             </div>
 
             <div className="p-2 flex flex-col justify-between gap-3 relative">
-                <p className="font-bold sm:text-sm lg:text-lg text-nowrap text-ellipsis max-w-[80%] overflow-hidden">
+                <p className="font-bold text-sm lg:text-lg text-nowrap text-ellipsis max-w-[80%] overflow-hidden">
                     {property.name}
                 </p>
                 <PropertyBadges
@@ -72,14 +72,14 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 />
                 <div className="flex flex-col lg:flex-row items-center justify-between  p-2 rounded-sm backdrop-blur-md w-full gap-3">
                     <div className="flex flex-col gap-1 w-full">
-                        <p className="text-sm text-slate-600 dark:text-slate-300 flex justify-between items-center w-full">
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 flex justify-between items-center w-full">
                             <span>
                                 {" "}
                                 <HandCoins className="w-4 h-4 inline-block mr-1" /> Location:{" "}
                             </span>
                             <span className="font-semibold dark:text-white">{addSpaceThousandsFormat(property.rentalPrice)}$</span>
                         </p>
-                        <p className="text-sm text-slate-600 dark:text-slate-300 flex justify-between items-center w-full">
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 flex justify-between items-center w-full">
                             <span>
                                 {" "}
                                 <Handshake className="w-4 h-4 inline-block mr-1" /> Vente:{" "}

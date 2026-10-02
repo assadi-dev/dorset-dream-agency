@@ -43,7 +43,7 @@ const PropertiesSearchPage = async ({ searchParams }: SearchParams) => {
     return (
         <div className="min-h-screen w-full">
             {filter.search && (
-                <p className="font-semibold text-2xl mb-1">Recherche de : {filter.search} </p>
+                <p className="font-semibold text-lg sm:text-2xl mb-1">Recherche de : {filter.search} </p>
             )}
 
             <React.Suspense>

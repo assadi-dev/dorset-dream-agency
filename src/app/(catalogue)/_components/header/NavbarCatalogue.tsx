@@ -12,7 +12,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 
 const NavbarCatalogue = async () => {
     const session = await auth();
-    const classButton = `bg-primary dark:bg-card dark:text-white dark:border text-xs  rounded-full flex gap-2`;
+    const classButton = `bg-primary dark:bg-card dark:text-white dark:border text-[11px] sm:text-xs px-3 sm:px-4 rounded-full flex gap-1.5 sm:gap-2`;
 
     const ConnectButton = () => {
         if (session)
@@ -34,16 +34,16 @@ const NavbarCatalogue = async () => {
     /*sm:px-8 2xl:max-w-[1800px] mx-auto pt-3 px-3 sm:pt-5 */
     return (
         <nav className="w-full  min-h-10 ">
-            <div className=" backdrop-blur-lg transition-all grid grid-cols-[.5fr,1fr,.5fr] p-5 items-center">
+            <div className=" backdrop-blur-lg transition-all grid grid-cols-[.5fr,1fr,.5fr] p-3 sm:p-5 items-center">
                 <div className="h-[50px] flex items-center">
-                    <Link href="/" className="px-5 bg-primary  py-3 rounded-md">
+                    <Link href="/" className="px-3 sm:px-5 bg-primary py-2 sm:py-3 rounded-md">
                         {/*  <strong>DORSET DREAM</strong> */}
                         <Image
                             src={logo}
                             alt="logo du site catalogue Dorset dream agency"
                             height={1200}
                             width={800}
-                            className="h-auto  w-[4rem] lg:w-[5rem] "
+                            className="h-auto  w-[3rem] sm:w-[4rem] lg:w-[5rem] "
                         />
                     </Link>
                 </div>

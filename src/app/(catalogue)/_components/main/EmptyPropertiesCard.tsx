@@ -5,7 +5,7 @@ import { Home } from "lucide-react";
 
 const EmptyPropertiesCard = () => {
     return (
-        <div className="w-full py-12 px-6">
+        <div className="w-full py-6 sm:py-12 px-0 sm:px-6">
             <Card>
                 <CardContent>
                     {/* Icon */}
@@ -16,9 +16,9 @@ const EmptyPropertiesCard = () => {
                     </div>
 
                     <div className="flex flex-col justify-center items-center gap-2">
-                        <p className="text-xl font-semibold text-slate-800 mb-2">Aucune Propriété Disponible</p>
+                        <p className="text-base sm:text-xl font-semibold text-slate-800 mb-2 text-center">Aucune Propriété Disponible</p>
 
-                        <p className="text-slate-600 mb-6">
+                        <p className="text-sm sm:text-base text-slate-600 mb-6 text-center">
                             Il n'y a actuellement aucune propriété dans cette catégorie. Revenez bientôt pour de
                             nouvelles annonces !
                         </p>

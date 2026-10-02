@@ -48,7 +48,7 @@ const HeroSearchFilter = () => {
         >
             <div className="w-full">
                 <label htmlFor="search">
-                    <p className="font-bold mb-2 text-slate-500"> Rechercher une propriété</p>
+                    <p className="font-bold text-sm sm:text-base mb-1.5 sm:mb-2 text-slate-500"> Rechercher une propriété</p>
                 </label>
                 <SearchInput
                     name="search"
@@ -59,13 +59,13 @@ const HeroSearchFilter = () => {
             <div className="flex flex-col sm:flex-row w-full gap-3">
                 <div className="w-full">
                     <label htmlFor="category">
-                        <p className="font-bold mb-2 text-slate-500"> Catégorie</p>
+                        <p className="font-bold text-sm sm:text-base mb-1.5 sm:mb-2 text-slate-500"> Catégorie</p>
                     </label>
                     <HeroSelectCategories dispatch={dispatch} />
                 </div>
                 <div className="w-full lg:w-2/3">
                     <label htmlFor="search-input">
-                        <p className="font-bold mb-2 text-slate-500"> Disponibilité</p>
+                        <p className="font-bold text-sm sm:text-base mb-1.5 sm:mb-2 text-slate-500"> Disponibilité</p>
                     </label>
                     <HeroSelectTransaction dispatch={dispatch} />
                 </div>

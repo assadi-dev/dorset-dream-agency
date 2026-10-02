@@ -45,7 +45,7 @@ const ShowTransaction = ({ label, price, Icon }: { label: string; price: number;
         );
     };
     return (
-        <p className="flex flex-col sm:flex-row w-full justify-center items-center gap-1 drop-shadow-xl text-xs sm:text-sm lg:text-2xl  text-shadow">
+        <p className="flex flex-col sm:flex-row w-full justify-center items-center gap-1 drop-shadow-xl text-[11px] sm:text-sm lg:text-2xl  text-shadow">
             <span className="flex items-center  gap-3 font-bold ">
                 <IconRender />
                 {label}:
@@ -78,7 +78,7 @@ const SliderItem = ({ property }: SliderItemProps) => {
                     "absolute  absolute-center-y text-white  p-3 slide-in-text mx-auto text-center w-full z-10",
                 )}
             >
-                <p className="text-lg sm:text-2xl lg:text-5xl 2xl:text-[3.5rem] font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow mb-5">
+                <p className="text-base sm:text-2xl lg:text-5xl 2xl:text-[3.5rem] font-bold text-white  sm:p-8 tracking-[0.08rem] text-shadow mb-3 sm:mb-5">
                     {property.name.toUpperCase()}
                 </p>
 
@@ -98,7 +98,7 @@ const SliderItem = ({ property }: SliderItemProps) => {
 
 const BlurWrapper = ({ children }: { children: React.ReactElement }) => {
     return (
-        <div className="flex items-center w-full sm:w-fit px-5 drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
+        <div className="flex items-center w-full sm:w-fit px-5 drop-shadow-xl  slide-in-text-y  lg:text-2xl  text-shadow  p-2 sm:p-3  bg-slate-50/25 rounded-lg shadow-xl backdrop-blur-sm gap-2 sm:gap-5">
             {children}
         </div>
     );

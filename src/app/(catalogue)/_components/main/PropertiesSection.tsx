@@ -18,15 +18,15 @@ const GoToListPropertiesByCategories = ({ label }: GoToListPropertiesByCategorie
     const RenderIcon = ({ label }: { label: string }) => {
         const Icon = IconForLabelCategorySection({ value: label }) ?? Home;
         return (
-            <span className="p-2.5 rounded-full bg-primary">
-                <Icon className="text-body w-6 h-6" />
+            <span className="p-1.5 sm:p-2.5 rounded-full bg-primary">
+                <Icon className="text-body w-4 h-4 sm:w-6 sm:h-6" />
             </span>
         );
     };
 
     return (
-        <h2 className="font-bold  text-2xl lg:text-5xl px-5 py-2 rounded-xl  transition-colors duration-200 hover:text-black/60 w-fit truncate">
-            <Link className="flex items-center gap-3" href={`/properties?category=${label}&order=desc&limit=25`}>
+        <h2 className="font-bold text-lg sm:text-2xl lg:text-5xl px-2 sm:px-5 py-2 rounded-xl  transition-colors duration-200 hover:text-black/60 w-fit truncate">
+            <Link className="flex items-center gap-2 sm:gap-3" href={`/properties?category=${label}&order=desc&limit=25`}>
                 <RenderIcon label={label} />
                 {label}
             </Link>

@@ -83,7 +83,7 @@ const HeaderPhotoSlides = ({ propertyName, gallery }: HeaderPhotoSlidesProps) =>
     return (
         <Card className="bg-card shadow-xl group">
             <CardContent className="p-3 ">
-                <div className="relative rounded-lg h-[280px] lg:h-[430px] xl:h-[480px]   overflow-hidden">
+                <div className="relative rounded-lg h-[220px] sm:h-[280px] lg:h-[430px] xl:h-[480px]   overflow-hidden">
                     <Swiper
                         onInit={(swiper) => setSwiperState(swiper)}
                         loop={true}
