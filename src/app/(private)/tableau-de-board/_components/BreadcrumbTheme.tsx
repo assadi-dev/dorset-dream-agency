@@ -39,7 +39,7 @@ const BreadcrumbTheme = () => {
     };
 
     return (
-        <Breadcrumb className="hidden md:block rounded w-fit py-1  ">
+        <Breadcrumb className="hidden md:block rounded w-1/2 py-1  ">
             <BreadcrumbList>
                 {breadcrumbItems?.map((breadcrumb, index) => {
                     const { item, href } = breadcrumb;
