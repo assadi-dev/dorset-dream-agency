@@ -18,26 +18,32 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
     {
         accessorKey: "property",
         header: "Biens",
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{getValue()}</div>,
     },
     {
         accessorKey: "seller",
         header: "Vendeur",
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{getValue()}</div>,
     },
     {
         accessorKey: "propertyService",
         header: "Service",
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{getValue()}</div>,
     },
     {
         accessorKey: "category",
         header: "Catégorie",
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{getValue()}</div>,
     },
     {
         accessorKey: "keyNumber",
         header: "N° de clé",
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{getValue()}</div>,
     },
     {
         accessorKey: "price",
         header: "Prix",
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{getValue()}</div>,
     },
     {
         accessorKey: "invoice",
@@ -51,7 +57,7 @@ export const LOCATION_COLUMNS: ColumnDef<LocationType>[] = [
     {
         accessorKey: "transactionDate",
         header: "Date et heure",
-        cell: ({ getValue }: CellColumn) => datetimeFormatFr(getValue()),
+        cell: ({ getValue }: CellColumn) => <div className="text-nowrap">{datetimeFormatFr(getValue())}</div>,
     },
 ];
 

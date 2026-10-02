@@ -37,7 +37,7 @@ export const BadgeRender = ({
         <DropdownMenu>
             <DropdownMenuTrigger asChild disabled={item < 1} className="cursor-pointer">
                 <div className="flex flex-col relative gap-1">
-                    {property.name}
+                    <p className="text-nowrap">{property.name}</p>
                     <div className="rounded-full text-xs  text-slate-400 cursor-pointer">
                         {item} variante{item > 1 ? "s" : null}
                     </div>

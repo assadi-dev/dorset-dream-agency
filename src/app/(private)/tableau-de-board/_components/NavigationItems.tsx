@@ -8,6 +8,7 @@ import {
     SidebarMenuSub,
     SidebarMenuSubButton,
     SidebarMenuSubItem,
+    useSidebar,
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
@@ -21,6 +22,7 @@ const SIDEBAR_STORAGE = "sidebar_toggle";
 const NavigationItems = ({ route }: NavigationProps) => {
     const pathname = usePathname();
     const searchParam = useSearchParams();
+    const { isMobile, setOpenMobile } = useSidebar();
 
     const [state, setState] = useState<{ isOpen: boolean; group: string }>({
         isOpen: false,
@@ -100,7 +102,7 @@ const NavigationItems = ({ route }: NavigationProps) => {
             ) : route.path ? (
                 <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={isActive(route.path)} className={CLASS_ITEM}>
-                        <Link href={route.path}>
+                        <Link href={route.path} onClick={() => isMobile && setOpenMobile(false)}>
                             {route.icon && <route.icon />}
                             <span>{route.title}</span>
                         </Link>

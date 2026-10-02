@@ -25,8 +25,8 @@ const SearchSection = () => {
         }
     };
     return (
-        <section className="my-4">
-            <div className=" bg-background p-5 flex flex-col gap-3 lg:flex-row items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
+        <section className="my-4 w-full">
+            <div className=" bg-background sm:p-5 flex flex-col gap-3 lg:flex-row items-center rounded-lg shadow-lg min-h-[3rem] justify-between">
                 <form onSubmit={submitSearch} className="w-full flex flex-col lg:flex-row gap-3">
                     <div className="flex gap-3 w-full flex-col sm:flex-row">
                         <div className="w-full">

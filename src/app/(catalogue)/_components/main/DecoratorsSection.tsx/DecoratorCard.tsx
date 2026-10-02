@@ -24,7 +24,7 @@ const DecoratorCard = ({ decorator }: DecoratorCardProps) => {
                 </div>
                 <figcaption className='absolute bottom-0 left-0 right-0   w-full mx-auto px-4 flex flex-col gap-3 justify-between'>
                     <div>
-                        <h3 className='text-lg font-semibold'>{decorator.name}</h3>
+                        <h3 className='text-base sm:text-lg font-semibold'>{decorator.name}</h3>
                         <p className='text-xs text-muted-foreground '>{decorator.speciality}</p>
                     </div>
                     <div className='flex items-center justify-evenly bg-secondary p-2 rounded-lg shadow my-3'>
@@ -41,8 +41,8 @@ const DecoratorCard = ({ decorator }: DecoratorCardProps) => {
 
                     <div className='py-3 flex items-center gap-2 justify-between'>
 
-                        <p className='text-sm text-muted-foreground flex gap-2 items-center'><Phone className='w-3 h-3' />{decorator.phone}</p>
-                        <p className='text-sm text-muted-foreground flex gap-2 items-center'><Mail className='w-3 h-3' />{decorator.email}</p>
+                        <p className='text-xs sm:text-sm text-muted-foreground flex gap-2 items-center'><Phone className='w-3 h-3' />{decorator.phone}</p>
+                        <p className='text-xs sm:text-sm text-muted-foreground flex gap-2 items-center truncate'><Mail className='w-3 h-3' />{decorator.email}</p>
                     </div>
 
                 </figcaption>

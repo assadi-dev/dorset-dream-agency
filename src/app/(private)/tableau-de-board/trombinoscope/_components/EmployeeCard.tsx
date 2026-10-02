@@ -25,7 +25,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
 
     return (
         <figure className={`grid grid-rows-[1fr,auto] gap-3 p-2 w-full h-full ${CONTAINER_STYLE.dark} ${CONTAINER_STYLE.light}`}>
-            <div className=" dark:bg-background bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden  h-[285px]">
+            <div className=" dark:bg-background bg-green-950 backdrop-blur-lg rounded-lg shadow-inner shadow-white/50 relative overflow-hidden h-[150px] sm:h-[285px]">
                 <Image
                     src={photo}
                     height={400}

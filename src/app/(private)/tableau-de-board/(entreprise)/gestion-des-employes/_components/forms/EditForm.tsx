@@ -81,7 +81,7 @@ const EditForm = () => {
                 <GestionEmployeeForm
                     defaultFormValues={defaultFormValues}
                     save={handleSaveUpdateEmployee}
-                    className=" w-[95vw] sm:w-[25vw]"
+                    className="w-full lg:w-[95vw] sm:w-[25vw]"
                 />
             )}
         </div>

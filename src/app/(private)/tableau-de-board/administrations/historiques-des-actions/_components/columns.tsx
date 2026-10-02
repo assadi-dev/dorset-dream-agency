@@ -9,6 +9,7 @@ export const columns: ColumnDef<UserActionColumnType>[] = [
     {
         accessorKey: "user",
         header: "Utilisateur",
+        cell: ({ cell }) => <p className="text-nowrap">{cell.getValue() as string}</p>,
     },
     {
         accessorKey: "grade",
@@ -22,10 +23,11 @@ export const columns: ColumnDef<UserActionColumnType>[] = [
     {
         accessorKey: "name",
         header: "Context",
+        cell: ({ cell }) => <p className="text-nowrap">{cell.getValue() as string}</p>,
     },
     {
         accessorKey: "timestamp",
         header: "Date",
-        cell: ({ cell }) => datetimeFormatFr(cell.getValue() as string),
+        cell: ({ cell }) => <p className="text-nowrap">{datetimeFormatFr(cell.getValue() as string)}</p>,
     },
 ];

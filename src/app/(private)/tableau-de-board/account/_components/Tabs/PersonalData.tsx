@@ -12,7 +12,7 @@ type ProfilTabsProps = {
 };
 const ProfilTabs = ({ userData }: ProfilTabsProps) => {
     return (
-        <Tabs defaultValue={TAB_ARRAY_ELEMENT[0].id} className="w-[50vw] mx-auto  ">
+        <Tabs defaultValue={TAB_ARRAY_ELEMENT[0].id} className="w-full sm:w-[50vw] mx-auto  ">
             <TabsList className="grid w-full grid-cols-2 bg-white dark:bg-card shadow border">
                 {TAB_ARRAY_ELEMENT.map((item) => (
                     <TabsTrigger

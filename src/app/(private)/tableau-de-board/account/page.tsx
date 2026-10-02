@@ -24,7 +24,7 @@ const AccountPage = async () => {
         <ModalProvider>
             <PageTemplate title={session?.user?.name || ""}>
                 <div className="grid sm:grid-cols-[auto,1fr] gap-3 p-3 mt-8">
-                    <UploadAccountPhoto className="w-[20rem] h-[20rem]" photo={photo} />
+                    <UploadAccountPhoto className="w-[20rem] h-[20rem] mx-auto sm:mx-0" photo={photo} />
                     <React.Suspense fallback={<LoadingTabs />}>
                         <ProfilAsync />
                     </React.Suspense>

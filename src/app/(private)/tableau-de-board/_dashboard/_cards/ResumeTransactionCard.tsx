@@ -13,11 +13,11 @@ const ResumeTransactionCard = () => {
 
     return (
         <DashboardCard title="Locations - Ventes" icon={Hotel} className="bg-primary text-secondary dark:bg-card">
-            <div className="text-3xl xl:text-4xl font-bold text-center my-1 drop-shadow-lg text-primary-accent">
+            <div className="text-xl sm:text-2xl xl:text-4xl font-bold text-center my-1 drop-shadow-lg text-primary-accent">
                 {data?.total}
             </div>
-            <p className="text-xs text-primary-accent drop-shadow-lg"> {data?.rental} Locations</p>
-            <p className="text-xs text-primary-accent drop-shadow-lg"> {data?.sales} Ventes</p>
+            <p className="text-[0.65rem] sm:text-xs text-primary-accent drop-shadow-lg"> {data?.rental} Locations</p>
+            <p className="text-[0.65rem] sm:text-xs text-primary-accent drop-shadow-lg"> {data?.sales} Ventes</p>
         </DashboardCard>
     );
 };

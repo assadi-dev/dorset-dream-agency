@@ -11,6 +11,7 @@ import {
     Shield,
     SquareUser,
     Calendar,
+    FileText,
 } from "lucide-react";
 
 export const dashboardNavigation: DashboardNavigationType[] = [
@@ -18,6 +19,11 @@ export const dashboardNavigation: DashboardNavigationType[] = [
         title: "Tableau de board",
         path: "/tableau-de-board",
         icon: LayoutDashboard,
+    },
+    {
+        title: "Procédures",
+        path: "/tableau-de-board/procedures",
+        icon: FileText,
     },
     {
         title: "Agence Immobilière",

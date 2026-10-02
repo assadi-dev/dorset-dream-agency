@@ -15,12 +15,12 @@ const CardDetail = ({ icon, title, children, actions }: CardRightDetailProps) =>
     return (
         <div>
             <div className="grid grid-cols-2 items-center gap-2">
-                <p className="text-lg lg:text-xl font-semibold p-3 text-muted-foreground flex items-center gap-2">
+                <p className="text-base sm:text-lg lg:text-xl font-semibold p-2 sm:p-3 text-muted-foreground flex items-center gap-2">
                     {icon && icon} {title}
                 </p>
                 {actions && actions}
             </div>
-            <div className="text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent dark:from-secondary dark:to-secondary">
+            <div className="text-xs sm:text-[0.87rem] xl:text-[1rem] flex flex-col gap-3 rounded-lg p-3 shadow-lg bg-gradient-to-br from-primary-accent dark:from-secondary dark:to-secondary">
                 {children}
             </div>
         </div>
@@ -46,7 +46,7 @@ const HeaderRightDetails = ({ propertyInfo }: HeaderRightDetails) => {
     return (
         <Card className="w-full  p-1 xl:flex xl:flex-col xl:justify-between  shadow-lg bg-card">
             <CardHeader className="pb-0">
-                <h2 className="text-2xl font-semibold text-center text-muted-foreground">
+                <h2 className="text-lg sm:text-2xl font-semibold text-center text-muted-foreground">
                     Aperçu des Caractéristiques
                 </h2>
             </CardHeader>
