@@ -37,7 +37,7 @@ const NavbarContents = ({ session }: { session: Session | null }) => {
         >
             <div ref={navbarContentRef} className={cn("bg-dynasty-card shadow flex justify-between items-center z-[10] rounded-full border  p-1 px-5 transition-all duration-300")}>
                 <BreadcrumbTheme />
-                <div className="flex items-center  gap-1 xl:gap-3 justify-end px-1 xl:px-5">
+                <div className="flex items-center  gap-1 xl:gap-3 justify-end px-1 xl:px-5 w-full">
                     <ModeToggle variant="ghost" />
                     <SidebarTrigger />
                 </div>
