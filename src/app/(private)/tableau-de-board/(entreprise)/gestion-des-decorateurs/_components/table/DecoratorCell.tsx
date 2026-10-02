@@ -14,8 +14,8 @@ const DecoratorCell = ({ decorator }: DecoratorCellProps) => {
     const photoUrl = safeLoadAvatar({ path: decorator.photoUrl, gender: "Male" }) ?? UNKNOWN_IMAGE;
     //const CLEAN_DATE = datetimeFormatFr(client.createdAt);
     return (
-        <div className='flex items-center gap-3 py-3'>
-            <div className='relative h-10 w-10 rounded-full overflow-hidden border'>
+        <div className='flex items-center gap-3 py-3 min-w-[200px]'>
+            <div className='relative size-10 rounded-full overflow-hidden border'>
                 <Image src={photoUrl} alt={decorator.name ?? "Decorateur photo"} width={40} height={40} className='w-full h-full object-cover object-center rounded-full' />
             </div>
             <p className='text-sm font-semibold'>{decorator.name}</p>

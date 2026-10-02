@@ -17,7 +17,7 @@ const DecoratorProfilItemCard = ({ decorator }: DecoratorProfilItemCardProps) =>
     return (
         <Card className='p-0 bg-primary w-[18rem] mx-auto gap-2'>
             <figure>
-                <div className='relative h-[18rem] w-[18rem] p-3 rounded-lg overflow-hidden mx-auto'>
+                <div className='relative size-[20px] sm:h-[18rem] sm:w-[18rem] p-3 rounded-lg overflow-hidden mx-auto'>
                     <Image src={photoUrl} alt={decorator.name} width={300} height={300} className='w-full h-full object-cover object-center rounded-lg' />
                 </div>
                 <figcaption className='px-2 pb-2'>
