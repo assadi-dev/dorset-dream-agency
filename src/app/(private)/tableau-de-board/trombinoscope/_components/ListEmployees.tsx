@@ -4,8 +4,7 @@ import EmployeeCard from "./EmployeeCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { EmployeeBasic } from "@/app/types/employee";
 import EmptyEmployee from "./EmptyEmployee";
-import SimplePagination from "@/components/Paginations/SimplePagination";
-import SearchInputDataTable from "@/components/Datatable/SearchInputDataTable";
+import { EmployeeSearchFilterBar } from "./EmployeeSearchFilterBar";
 
 type ListEmployeesProps = {
     employees?: EmployeeBasic[];
@@ -20,12 +19,8 @@ const ListEmployees = ({ employees, totalItems, limit }: ListEmployeesProps) => 
 
     return (
         <>
-            <div className="sm:flex sm:justify-between sticky top-[0] sm:top-[60px] z-[5] bg-dynasty-card shadow rounded-full border px-5 py-2 mt-5">
-                <div className="sm:flex justify-between items-center px-3 w-full sm:w-[25vw]">
-                    <SearchInputDataTable />
-                </div>
-                <SimplePagination limit={limit} totalItems={totalItems} />
-            </div>
+
+            <EmployeeSearchFilterBar limit={limit} totalItems={totalItems} />
             <ScrollArea className="py-3 px-3">
                 {EMPLOYEES_LIST.length > 0 ? (
                     <div className="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] sm:grid-rows-[repeat(auto-fill,380px)] gap-3 w-full h-full">

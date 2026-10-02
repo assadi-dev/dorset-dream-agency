@@ -19,7 +19,7 @@ const AddForm = () => {
         router.refresh();
     };
 
-    return <GestionAccountEmployeeForm className="w-full lg:w-[32vw] min-h-[420px]" save={submitCreateAccount} />;
+    return <GestionAccountEmployeeForm className="w-full lg:w-[32vw] sm:min-h-[420px]" save={submitCreateAccount} />;
 };
 
 export default AddForm;

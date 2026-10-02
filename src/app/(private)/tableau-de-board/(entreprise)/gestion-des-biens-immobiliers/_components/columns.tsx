@@ -7,16 +7,16 @@ import RenderPropertyCell from "./RenderPropertyCell";
 export const columns: ColumnDef<PropertiesColumn>[] = [
     {
         accessorKey: "name",
-        header: "Nom du bien",
+        header: () => <div className="text-nowrap">Nom du bien</div>,
         cell: ({ row: { original } }) => <RenderPropertyCell property={original} />,
     },
     {
         accessorKey: "rentalPrice",
-        header: "Prix location",
+        header: () => <div className="text-nowrap">Prix location</div>,
     },
     {
         accessorKey: "sellingPrice",
-        header: "Prix de vente",
+        header: () => <div className="text-nowrap">Prix de vente</div>,
     },
     {
         accessorKey: "isFurnish",

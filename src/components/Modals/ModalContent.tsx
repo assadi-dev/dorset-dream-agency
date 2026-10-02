@@ -1,5 +1,6 @@
 import React from "react";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import { ScrollArea } from "../ui/scroll-area";
 
 type ModalContentProps = {
     title?: string;
@@ -13,7 +14,9 @@ const ModalContent = ({ title, description, children }: ModalContentProps) => {
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
+
             {children}
+
         </>
     );
 };
