@@ -16,7 +16,7 @@ type PreviewDropzoneProps = {
 };
 const PreviewDropzone = ({ src, alt, onEditFile }: PreviewDropzoneProps) => {
     const cropperRef = React.useRef<CropperRef>(null);
-    const fadeIn = !src ? "h-0 opacity-0 " : "lg:h-[48vh]  opacity-1";
+    const fadeIn = !src ? "h-0 opacity-0 " : "aspect-square w-full lg:aspect-auto h-[300px] lg:h-[48vh] opacity-1";
     return (
         <div className={cn("relative overflow-hidden bg-black rounded shadow p-2 transition-all duration-500", fadeIn)}>
             {
@@ -28,8 +28,6 @@ const PreviewDropzone = ({ src, alt, onEditFile }: PreviewDropzoneProps) => {
                         }}
                         src={src}
                         className={"cropper lg:p-3"}
-                        minHeight={500}
-                        minWidth={500}
                     />
                 )
                 /*      <Image
