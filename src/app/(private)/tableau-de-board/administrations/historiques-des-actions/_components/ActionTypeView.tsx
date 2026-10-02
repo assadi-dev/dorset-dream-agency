@@ -7,28 +7,28 @@ type ActionTypeColumnViewProps = {
 const ActionTypeColumnView = ({ action }: ActionTypeColumnViewProps) => {
     if (action === "create") {
         return (
-            <p className="text-xs py-1 px-2 ring-1 ring-green-700 font-semibold w-[100px] text-center rounded-lg bg-green-100 text-green-800">
+            <p className="text-xs py-1 px-2 ring-1 ring-green-700 font-semibold w-[100px] text-center rounded-lg bg-green-100 text-green-800 text-nowrap">
                 {UserActionEnum["create"]}
             </p>
         );
     }
     if (action === "update") {
         return (
-            <p className="text-xs py-1 px-2 ring-1 font-semibold w-[100px] text-center rounded-lg bg-cyan-100 text-cyan-700 ">
+            <p className="text-xs py-1 px-2 ring-1 font-semibold w-[100px] text-center rounded-lg bg-cyan-100 text-cyan-700 text-nowrap">
                 {UserActionEnum["update"]}
             </p>
         );
     }
     if (action === "delete") {
         return (
-            <p className="text-xs py-1 px-2 ring-1 ring-red-700 font-semibold w-[100px] text-center rounded-lg bg-red-100 text-red-700">
+            <p className="text-xs py-1 px-2 ring-1 ring-red-700 font-semibold w-[100px] text-center rounded-lg bg-red-100 text-red-700 text-nowrap">
                 {UserActionEnum["delete"]}
             </p>
         );
     }
     if (action === "restore") {
         return (
-            <p className="text-xs py-1 px-2 ring-1 ring-slate-700 font-semibold w-[100px] text-center rounded-lg bg-slate-200 text-slate-700">
+            <p className="text-xs py-1 px-2 ring-1 ring-slate-700 font-semibold w-[100px] text-center rounded-lg bg-slate-200 text-slate-700 text-nowrap">
                 {UserActionEnum["restore"]}
             </p>
         );

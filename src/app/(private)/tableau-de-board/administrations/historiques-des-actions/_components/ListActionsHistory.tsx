@@ -65,8 +65,8 @@ const ListActionsHistory = () => {
                 <div></div>
             </div>
             <Card className="px-2 bg-dynasty-card">
-                <div className="my-5 flex justify-between items-center">
-                    <div className="min-w-[25vw]">
+                <div className="my-5 flex flex-col sm:flex-row sm:gap-2 justify-between items-center">
+                    <div className="w-full sm:min-w-[25vw]">
                         <SearchInputDataTable />
                     </div>
                     <RightFilterActions totalItem={data?.totalItems || 0} />

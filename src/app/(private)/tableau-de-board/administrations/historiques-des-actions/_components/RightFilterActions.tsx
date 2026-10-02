@@ -9,11 +9,13 @@ type RightActionsProps = {
 };
 const RightFilterActions = ({ totalItem }: RightActionsProps) => {
     return (
-        <div className="flex justify-between items-center w-full ">
+        <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-3">
             <div></div>
-            <div className="flex gap-3 items-center">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 items-center">
                 <SelectDateRange />
-                <ActionSelector />
+                <div className="w-full flex justify-end">
+                    <ActionSelector />
+                </div>
             </div>
         </div>
     );
